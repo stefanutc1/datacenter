@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  openid-mitm-phishing-forensics-web:
+    build:
+      context: ..
+      dockerfile: web/Dockerfile
+    image: ghcr.io/stefannut/openid-mitm-phishing-forensics-web:latest
+    container_name: openid-mitm-phishing-forensics-web-hub
+    restart: unless-stopped
+    ports:
+      - "8087:80"
+    environment:
+      - NODE_ENV=production
