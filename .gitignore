@@ -1,0 +1,37 @@
+# Secret & Sensitive Data
+*.env
+.env.*
+secrets.*
+*.pem
+*.key
+id_rsa*
+*.pfx
+
+# Node / Web App
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs & Temporary files
+*.log
+logs/
+tmp/
+temp/
+*.cache
+
+# Build outputs or local binaries
+bin/
+build/
+*.tar.gz
+*.zip
