@@ -1,0 +1,42 @@
+---
+- name: Deploy Homelab Services
+  hosts: all
+  become: true
+  vars:
+    base_path: /opt/homelab
+    homelab_services:
+      - crowdsec
+      - homepage
+      - immich
+      - nginx
+      - uptime-kuma
+      - vaultwarden
+
+  tasks:
+    - name: Create service directories
+      ansible.builtin.file:
+        path: "{{ base_path }}/{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      loop: "{{ homelab_services }}"
+
+    - name: Copy docker-compose files
+      ansible.builtin.copy:
+        src: "../services/{{ item }}/docker-compose.yml"
+        dest: "{{ base_path }}/{{ item }}/docker-compose.yml"
+        mode: '0644'
+      loop: "{{ homelab_services }}"
+
+    - name: Start services using Docker Compose V2
+      community.docker.docker_compose_v2:
+        project_src: "{{ base_path }}/{{ item }}"
+        state: present
+      loop: "{{ homelab_services }}"
+
+- name: Configure Home Assistant LXC
+  hosts: ha_lxc
+  become: true
+  roles:
+    - home_assistant
