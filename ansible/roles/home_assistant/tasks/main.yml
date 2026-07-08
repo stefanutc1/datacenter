@@ -1,0 +1,23 @@
+---
+- name: Ensure Python and dependencies are installed
+  ansible.builtin.apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+      - curl
+      - wget
+    state: present
+    update_cache: true
+
+- name: Create Home Assistant configuration directory
+  ansible.builtin.file:
+    path: /etc/homeassistant
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure Home Assistant environment prepared message
+  ansible.builtin.debug:
+    msg: "Home Assistant role environment successfully prepared on LXC."
