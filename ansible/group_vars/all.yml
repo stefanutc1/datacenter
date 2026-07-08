@@ -1,0 +1,17 @@
+services_base_path: "/opt"
+
+docker_compose_version: "v2"
+docker_network_name: "pve1.stefanut"
+
+default_timezone: "Europe/Bucharest"
+manage_python: true
+
+homelab_services:
+  - crowdsec
+  - homepage
+  - immich
+  - nginx
+  - uptime-kuma
+  - vaultwarden
+
+deploy_user: "root"
