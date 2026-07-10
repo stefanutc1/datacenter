@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  homelab:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    image: ghcr.io/stefannut/homelab-web:latest
+    container_name: homelab-web-service
+    restart: unless-stopped
+    ports:
+      - "8085:80"
