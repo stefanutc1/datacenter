@@ -1,0 +1,25 @@
+name: Homelab CD
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify Environment & Docker
+        run: |
+          echo "Starting CD process on the attic node..."
+          docker --version
+          docker compose version
+
+      - name: Deploy or Sync Services
+        run: |
+          echo "Run your stack update commands here."
+          # cd /path/to/services && docker compose pull && docker compose up -d
+          echo "Deployment completed successfully!"
