@@ -1,0 +1,27 @@
+name: Homelab CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check system info & environment
+        run: |
+          echo "run on the k0s node."
+          uname -a
+          free -h
+          df -h
+
+      - name: Run a quick build or validation task
+        run: |
+          echo "here can i rule some scripts, ansible automations or docker containers."
+          echo "the task has been completed!"
