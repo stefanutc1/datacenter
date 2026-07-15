@@ -1,0 +1,12 @@
+services:
+  actual-budget:
+    image: docker.io/actualbudget/actual-server:latest
+    container_name: actual-budget
+    restart: unless-stopped
+    ports:
+      - "5006:5006"
+    volumes:
+      - actual-data:/data
+
+volumes:
+  actual-data:
