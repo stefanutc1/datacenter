@@ -1,0 +1,15 @@
+---
+services:
+  authelia:
+    image: authelia/authelia:4.38.10
+    container_name: authelia
+    restart: unless-stopped
+    volumes:
+      - ./configuration.yml:/config/configuration.yml:ro
+    ports:
+      - "9091:9091"
+    environment:
+      - TZ=Europe/Bucharest
+      - AUTHELIA_JWT_SECRET_FILE=/config/jwt_secret
+      - AUTHELIA_SESSION_SECRET_FILE=/config/session_secret
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/config/storage_key
