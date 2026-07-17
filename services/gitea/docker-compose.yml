@@ -1,0 +1,13 @@
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    volumes:
+      - ./data:/data
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    restart: unless-stopped
