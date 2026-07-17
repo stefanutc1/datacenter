@@ -1,0 +1,17 @@
+mqtt:
+  enabled: false
+
+cameras:
+  cam_1:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: rtsp://username:password@ip.cam/stream1
+          roles:
+            - detect
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+    record:
+      enabled: false
