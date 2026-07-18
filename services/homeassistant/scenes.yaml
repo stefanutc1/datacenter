@@ -1,0 +1,7 @@
+- name: "night"
+  entities:
+    light.living:
+      state: "on"
+      brightness: 50
+    media_player.samsung_tv:
+      state: "off"
