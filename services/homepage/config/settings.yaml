@@ -1,0 +1,17 @@
+---
+title: "Homelab Operations Hub"
+background:
+  opacity: 85
+  blur: "sm"
+theme: "dark"
+color: "slate"
+layout:
+  Core Infrastructure:
+    style: "row"
+    columns: 3
+  Security & Access:
+    style: "row"
+    columns: 3
+  Monitoring:
+    style: "row"
+    columns: 2

@@ -1,0 +1,38 @@
+---
+- Core Infrastructure:
+    - Proxmox VE:
+        icon: proxmox.png
+        href: https://pve.homelab.lan:8006
+        description: Virtualization & LXC Hypervisor
+    - OPNsense:
+        icon: opnsense.png
+        href: https://router.homelab.lan
+        description: Firewall & Core Routing Gateway
+    - Pi-hole:
+        icon: pi-hole.png
+        href: http://pihole.homelab.lan/admin
+        description: Local DNS & Network Ad Blocker
+
+- Security & Access:
+    - Authelia:
+        icon: authelia.png
+        href: https://auth.homelab.lan
+        description: SSO & Multi-Factor Authentication
+    - Vaultwarden:
+        icon: vaultwarden.png
+        href: https://vault.homelab.lan
+        description: Self-Hosted Password Manager
+    - Nginx Proxy Manager:
+        icon: nginx-proxy-manager.png
+        href: http://npm.homelab.lan:81
+        description: SSL Termination & Reverse Proxy
+
+- Monitoring:
+    - Grafana:
+        icon: grafana.png
+        href: http://grafana.homelab.lan:3000
+        description: Metrics Dashboards & Telemetry
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: http://uptime.homelab.lan:3001
+        description: Real-time Service Health Monitor
