@@ -1,0 +1,10 @@
+backend {{ backend_name }}_backends
+    mode http
+    balance {{ balance_algorithm | default('roundrobin') }}
+    option forwardfor
+    http-request set-header X-Forwarded-Port %[dst_port]
+    http-request set-header X-Forwarded-Proto https
+    
+    {% for server in servers %}
+    server {{ server.name }} {{ server.ip }}:{{ server.port }} check inter 5s
+    {% endfor %}
