@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mariadb:10.6
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=nextcloud
+  app:
+    image: nextcloud:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - ./html:/var/www/html
+    restart: always
