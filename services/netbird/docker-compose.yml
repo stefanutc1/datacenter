@@ -1,0 +1,15 @@
+---
+services:
+  netbird-client:
+    image: netbirdio/netbird:0.28.8
+    container_name: netbird-client
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    environment:
+      - NB_SETUP_KEY=${NB_SETUP_KEY:-}
+      - NB_MANAGEMENT_URL=https://netbird.homelab.lan:33073
+    volumes:
+      - ./config:/etc/netbird
+      - /dev/net/tun:/dev/net/tun
