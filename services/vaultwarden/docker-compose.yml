@@ -1,0 +1,15 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      - SIGNUPS_ALLOWED=true
+      - DOMAIN=
+    volumes:
+      - ./vw-data:/data
+    ports:
+      - "8080:80"
+
+volumes:
+  vw-data:
