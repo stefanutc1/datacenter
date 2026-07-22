@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  homelab-web:
+    build:
+      context: ..
+      dockerfile: web/Dockerfile
+    image: ghcr.io/stefannut/homelab-web:latest
+    container_name: homelab-web-wiki
+    restart: unless-stopped
+    ports:
+      - "8085:80"
+    environment:
+      - NODE_ENV=production
