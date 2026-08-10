@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  revolut-vishing-forensics-web:
+    build:
+      context: ..
+      dockerfile: web/Dockerfile
+    image: ghcr.io/stefannut/revolut-vishing-forensics-web:latest
+    container_name: revolut-vishing-forensics-web-hub
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    environment:
+      - NODE_ENV=production
