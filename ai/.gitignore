@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+*.log
+.cache/
+
+.env
+.env.local
+*.pem
+*.key
+
+mcp_local.json
+local_settings.json
+
+.vscode/
+.idea/
+.antigravity/local/
