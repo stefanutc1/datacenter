@@ -39,6 +39,7 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        continue-on-error: true
 
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
@@ -78,7 +79,7 @@ jobs:
         with:
           context: .
           file: web/Dockerfile
-          push: true
+          push: false
           tags: |
             ghcr.io/${{ steps.repo_owner.outputs.owner }}/homelab-web:latest
             ghcr.io/${{ steps.repo_owner.outputs.owner }}/homelab-web:${{ github.sha }}
