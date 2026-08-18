@@ -4,7 +4,7 @@
     <header class="top-nav glass-panel">
       <div class="nav-container">
         <div class="brand-section">
-          <div class="brand-logo">
+          <div class="brand-logo anim-glow">
             <svg class="svg-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
@@ -17,7 +17,7 @@
                 ALL SYSTEMS OPERATIONAL
               </span>
             </div>
-            <p class="brand-subtitle">Cluster Dashboard &bull; Service Catalog &bull; Architecture Wiki</p>
+            <p class="brand-subtitle">Proxmox VE &bull; OpenMediaVault &bull; Apple M1 ARM64 &bull; Service Catalog</p>
           </div>
         </div>
 
@@ -43,6 +43,14 @@
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
               Services
+            </button>
+            <button 
+              class="view-tab-btn" 
+              :class="{ active: currentView === 'hardware' }" 
+              @click="currentView = 'hardware'"
+            >
+              <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+              Hardware Nodes
             </button>
             <button 
               class="view-tab-btn" 
@@ -88,15 +96,15 @@
 
     <!-- Main Container -->
     <main class="main-content">
-      <!-- Quick Status Overview Banner -->
-      <section class="stats-banner glass-panel">
+      <!-- Quick Status Overview Banner (Accurate Hardware Specs) -->
+      <section class="stats-banner glass-panel fade-in">
         <div class="stat-card">
           <div class="stat-icon-wrapper text-indigo">
             <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
           </div>
           <div>
-            <div class="stat-number">{{ servicesList.length }}</div>
-            <div class="stat-label">Active Microservices</div>
+            <div class="stat-number">3 Nodes</div>
+            <div class="stat-label">Physical Hosts (i3 · Celeron · M1)</div>
           </div>
         </div>
 
@@ -105,28 +113,28 @@
             <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
           </div>
           <div>
-            <div class="stat-number">{{ uniquePortsCount }}</div>
-            <div class="stat-label">Allocated Host Ports</div>
+            <div class="stat-number">{{ uniquePortsCount }} Ports</div>
+            <div class="stat-label">{{ servicesList.length }} Microservices Online</div>
           </div>
         </div>
 
         <div class="stat-card">
           <div class="stat-icon-wrapper text-emerald">
-            <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
           </div>
           <div>
-            <div class="stat-number">100%</div>
-            <div class="stat-label">Cluster Health Index</div>
+            <div class="stat-number">GTX 1050 Ti</div>
+            <div class="stat-label">4GB VRAM · PyTorch / Frigate</div>
           </div>
         </div>
 
         <div class="stat-card">
           <div class="stat-icon-wrapper text-purple">
-            <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/></svg>
+            <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           </div>
           <div>
-            <div class="stat-number">4 VLANs</div>
-            <div class="stat-label">Segmented Subnets</div>
+            <div class="stat-number">512G + 500G</div>
+            <div class="stat-label">SSD Tier + OMV Storage</div>
           </div>
         </div>
       </section>
@@ -201,7 +209,10 @@
         </section>
       </div>
 
-      <!-- View 2: Wiki Catalog -->
+      <!-- View 2: Hardware Nodes View -->
+      <HardwareView v-else-if="currentView === 'hardware'" />
+
+      <!-- View 3: Wiki Catalog -->
       <div v-else-if="currentView === 'wiki'" class="wiki-catalog-view fade-in">
         <div class="wiki-layout">
           <aside class="wiki-sidebar glass-panel">
@@ -257,10 +268,10 @@
         </div>
       </div>
 
-      <!-- View 3: Network Topology -->
+      <!-- View 4: Network Topology -->
       <TopologyView v-else-if="currentView === 'topology'" />
 
-      <!-- View 4: Port Matrix -->
+      <!-- View 5: Port Matrix -->
       <PortMatrix 
         v-else-if="currentView === 'ports'" 
         :services="servicesList" 
@@ -268,19 +279,19 @@
       />
     </main>
 
-    <!-- Footer -->
+    <!-- Footer with Real Hardware Specs from hardware.md -->
     <footer class="app-footer glass-panel">
       <div class="footer-content">
         <div>
           <span class="footer-brand">Homelab Operations</span> &bull; 
-          <span class="footer-info">Self-Hosted Infrastructure Portal &amp; Documentation Engine</span>
+          <span class="footer-info">Proxmox VE 9.2 (i3-10100F / GTX 1050 Ti) &bull; OMV (Celeron N2830) &bull; Proxmox2 (Apple M1)</span>
         </div>
         <div class="footer-links">
-          <span>Storage: ZFS Mirror 40TB</span>
+          <span>Storage: 512GB SSD + 500GB HDD</span>
           <span>&bull;</span>
-          <span>DNS: Pi-hole + Unbound</span>
+          <span>Mesh: Tailscale WireGuard</span>
           <span>&bull;</span>
-          <span>Proxy: NPM &amp; Traefik</span>
+          <span>DNS: Pi-hole</span>
         </div>
       </div>
     </footer>
@@ -299,6 +310,7 @@ import { ref, computed, onMounted } from 'vue';
 import { services as servicesList, categories as categoriesList } from './data/services.js';
 import ServiceCard from './components/ServiceCard.vue';
 import ServiceModal from './components/ServiceModal.vue';
+import HardwareView from './components/HardwareView.vue';
 import TopologyView from './components/TopologyView.vue';
 import PortMatrix from './components/PortMatrix.vue';
 
@@ -308,7 +320,7 @@ const searchQuery = ref('');
 const activeModalService = ref(null);
 const selectedWikiService = ref(servicesList[0]);
 const currentTheme = ref('dark');
-const favorites = ref(['homeassistant', 'immich', 'vaultwarden', 'grafana']);
+const favorites = ref(['homeassistant', 'immich', 'vaultwarden', 'grafana', 'frigate']);
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('homelab-theme');
@@ -431,7 +443,12 @@ const resetFilters = () => {
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.45);
+  transition: transform 0.25s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.08) rotate(2deg);
 }
 
 .svg-logo {
@@ -446,9 +463,8 @@ const resetFilters = () => {
 }
 
 .brand-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: var(--text-primary);
 }
 
@@ -472,6 +488,7 @@ const resetFilters = () => {
   border-radius: 50%;
   background: var(--accent-success);
   box-shadow: 0 0 6px var(--accent-success);
+  animation: pulseGlow 2s infinite ease-in-out;
 }
 
 .brand-subtitle {
@@ -505,12 +522,13 @@ const resetFilters = () => {
   color: var(--text-primary);
   font-size: 0.85rem;
   outline: none;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .search-input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+  transform: scale(1.01);
 }
 
 .search-clear {
@@ -545,11 +563,13 @@ const resetFilters = () => {
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-secondary);
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
+  text-decoration: none;
 }
 
 .view-tab-btn:hover {
   color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .view-tab-btn.active {
@@ -568,12 +588,13 @@ const resetFilters = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .theme-toggle:hover {
   border-color: var(--border-color-hover);
   background: var(--bg-card-hover);
+  transform: rotate(15deg);
 }
 
 /* Main Content */
@@ -599,6 +620,11 @@ const resetFilters = () => {
   align-items: center;
   gap: 1rem;
   padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
 }
 
 .stat-icon-wrapper {
@@ -610,6 +636,11 @@ const resetFilters = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.stat-card:hover .stat-icon-wrapper {
+  transform: scale(1.1);
 }
 
 .stat-number {
@@ -650,20 +681,22 @@ const resetFilters = () => {
   font-size: 0.825rem;
   font-weight: 500;
   white-space: nowrap;
-  transition: all 0.15s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cat-pill-btn:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-color-hover);
   color: var(--text-primary);
+  transform: translateY(-1px);
 }
 
 .cat-pill-btn.active {
   background: var(--accent-primary);
   border-color: var(--accent-primary);
   color: white;
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.35);
+  transform: translateY(-1px);
 }
 
 .cat-count {
@@ -681,7 +714,8 @@ const resetFilters = () => {
 }
 
 .sub-heading {
-  font-size: 1.2rem;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-primary);
   display: flex;
@@ -813,7 +847,7 @@ const resetFilters = () => {
 }
 
 .wiki-article-title {
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -829,7 +863,8 @@ const resetFilters = () => {
 }
 
 .wiki-section h3 {
-  font-size: 1.05rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.65rem;
@@ -876,7 +911,9 @@ const resetFilters = () => {
 }
 
 .footer-brand {
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 0.95rem;
   color: var(--text-primary);
 }
 
@@ -884,6 +921,7 @@ const resetFilters = () => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .svg-icon-md { width: 22px; height: 22px; }

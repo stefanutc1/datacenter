@@ -2,64 +2,70 @@ export const networkTopology = {
   vlans: [
     {
       id: 10,
-      name: 'VLAN 10 - Management & Hypervisors',
+      name: 'Management & Primary Hypervisor',
       subnet: '10.0.10.0/24',
       gateway: '10.0.10.1',
-      description: 'Proxmox VE hypervisors, IPMI management, managed switch control planes, and PDU controllers.',
-      color: '#3498db',
+      description: 'Proxmox primary hypervisor host, ARM64 hypervisor, OPNsense gateway, and Pi-hole DNS resolver.',
+      color: '#e67e22',
       devices: [
-        { name: 'PVE-01 (Proxmox Primary)', ip: '10.0.10.10', role: 'Compute Node & NVMe Pool' },
-        { name: 'PVE-02 (Proxmox Secondary)', ip: '10.0.10.11', role: 'Compute Node & High Availability' },
-        { name: 'OPNsense Firewall (LAN)', ip: '10.0.10.1', role: 'Gateway & DNS' },
-        { name: 'Pi-hole Primary DNS', ip: '10.0.10.5', role: 'Ad-blocking & Local DNS' }
+        { name: 'proxmox (Node 1)', ip: '10.0.10.10', role: 'Intel i3-10100F · GTX 1050 Ti · 8GB RAM · 512GB SSD' },
+        { name: 'proxmox2 (Node 3 - ARM64)', ip: '10.0.10.12', role: 'Apple M1 (8-Core) · 4GB Allocated VM · APFS NVMe' },
+        { name: 'openmediavault (Node 2 - NAS)', ip: '10.0.10.15', role: 'Intel Celeron N2830 · 2GB RAM · 500GB HDD (SMB/NFS)' },
+        { name: 'OPNsense Firewall & Gateway', ip: '10.0.10.1', role: 'Core Routing & Security Engine' },
+        { name: 'Pi-hole DNS Sinkhole', ip: '10.0.10.5', role: 'Primary DNS & Ad-blocker' }
       ]
     },
     {
       id: 20,
-      name: 'VLAN 20 - Smart Home & IoT',
+      name: 'Smart Home, IoT & Surveillance',
       subnet: '10.0.20.0/24',
       gateway: '10.0.20.1',
-      description: 'Isolated subnet for ESP32 edge sensors, Zigbee gateways, Shelly relays, and IP security cameras.',
+      description: 'Isolated subnet for ESP32 edge sensor nodes, Zigbee coordinators, Home Assistant, and Frigate NVR.',
       color: '#2ecc71',
       devices: [
-        { name: 'Home Assistant Core', ip: '10.0.20.10', role: 'IoT Automation Hub' },
-        { name: 'Frigate NVR (Cameras)', ip: '10.0.20.15', role: 'AI Video Analysis' },
-        { name: 'Zigbee2MQTT Gateway', ip: '10.0.20.20', role: 'Zigbee Coordinator' },
-        { name: 'ESP32 Room Nodes (x8)', ip: '10.0.20.50-58', role: 'Climate & Presence Sensing' }
+        { name: 'Home Assistant Core', ip: '10.0.20.10', role: 'Home Automation & IoT Engine' },
+        { name: 'Frigate NVR (GTX 1050 Ti NVENC)', ip: '10.0.20.14', role: 'GPU-Accelerated Object Detection' },
+        { name: 'ESP32 Edge Microcontrollers', ip: '10.0.20.50-58', role: 'Environmental & Presence Sensors' },
+        { name: 'Zigbee2MQTT Gateway', ip: '10.0.20.20', role: 'Coordinator for Wireless Sensors' }
       ]
     },
     {
       id: 30,
-      name: 'VLAN 30 - Application Compute & Storage',
+      name: 'Application Workloads & Storage',
       subnet: '10.0.30.0/24',
       gateway: '10.0.30.1',
-      description: 'Dedicated Docker hosts, K3s Kubernetes cluster nodes, TrueNAS / ZFS storage pools, and databases.',
+      description: 'Docker container workloads, media streaming stack, OpenMediaVault SMB/NFS storage shares, and monitoring.',
       color: '#9b59b6',
       devices: [
-        { name: 'Docker Host 01 (Services)', ip: '10.0.30.20', role: 'Docker Compose Workloads' },
-        { name: 'Docker Host 02 (Media)', ip: '10.0.30.21', role: 'Jellyfin & Servarr Suite' },
-        { name: 'ZFS Storage Pool (NFS/SMB)', ip: '10.0.30.30', role: 'Primary 40TB Storage Pool' },
-        { name: 'Prometheus & Grafana Stack', ip: '10.0.30.40', role: 'Telemetry Aggregation' }
+        { name: 'Docker Services Engine', ip: '10.0.30.20', role: 'FastAPI, n8n, Gitea, Woodpecker CI' },
+        { name: 'Media Automation Stack', ip: '10.0.30.21', role: 'Jellyfin, Sonarr, Radarr, Prowlarr' },
+        { name: 'OMV Network Storage Pool', ip: '10.0.30.30', role: '500GB HDD Local Network Share' },
+        { name: 'Prometheus & Grafana Hub', ip: '10.0.30.40', role: 'Metrics Scraping & Log Aggregation' }
       ]
     },
     {
       id: 40,
-      name: 'VLAN 40 - Ingress & DMZ',
+      name: 'Ingress & Zero-Trust Perimeter',
       subnet: '10.0.40.0/24',
       gateway: '10.0.40.1',
-      description: 'Public-facing reverse proxies, Cloudflare Zero-Trust connectors, and Web Application Firewalls (CrowdSec).',
+      description: 'Reverse proxies terminating SSL certificates, Authelia 2FA gatekeeper, and Cloudflare/Tailscale tunnels.',
       color: '#e74c3c',
       devices: [
-        { name: 'Nginx Proxy Manager', ip: '10.0.40.10', role: 'Ingress SSL Termination' },
-        { name: 'Authelia SSO Gateway', ip: '10.0.40.12', role: '2FA Forward Authentication' },
-        { name: 'Cloudflare Tunnel Daemon', ip: '10.0.40.15', role: 'Encrypted Zero-Trust Ingress' }
+        { name: 'Nginx Proxy Manager', ip: '10.0.40.10', role: 'Let\'s Encrypt SSL & Reverse Proxy' },
+        { name: 'Authelia Forward Auth Gateway', ip: '10.0.40.12', role: 'FIDO2 / TOTP 2FA Authentication' },
+        { name: 'Tailscale / Cloudflare Tunnel', ip: '10.0.40.15', role: 'Encrypted Peer-to-Peer Mesh Ingress' }
       ]
     }
   ],
   overlayMesh: {
-    name: 'NetBird Zero-Trust Mesh',
+    name: 'Tailscale & NetBird Mesh Network',
     range: '100.64.0.0/10',
     protocol: 'WireGuard Kernel Module',
-    features: ['Peer-to-peer routing', 'Split DNS', 'MFA endpoint posture check', 'Remote LAN routing']
+    features: [
+      'Multi-node point-to-point WireGuard mesh',
+      'Encrypted inter-hypervisor replication',
+      'Zero-configuration NAT traversal',
+      'Unified subnet routing to Proxmox and OMV'
+    ]
   }
 };

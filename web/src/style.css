@@ -12,6 +12,7 @@
   --accent-green: #34d399;
   --accent-orange: #fb923c;
   --accent-purple: #c084fc;
+  --font-serif: 'Newsreader', 'Lora', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -28,6 +29,11 @@ body {
   font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .brand h1 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.015em;
 }
 
 code, pre {
