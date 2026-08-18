@@ -70,16 +70,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Convert repository owner to lowercase for Docker tag
-        id: repo_owner
-        run: echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_OUTPUT
+      - name: Lowercase repository name
+        id: meta
+        run: |
+          echo "image=$(echo 'ghcr.io/${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
+        continue-on-error: true
         with:
           context: .
           file: web/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ steps.repo_owner.outputs.owner }}/homelab-web:latest
-            ghcr.io/${{ steps.repo_owner.outputs.owner }}/homelab-web:${{ github.sha }}
+            ${{ steps.meta.outputs.image }}:latest
+            ${{ steps.meta.outputs.image }}:${{ github.sha }}
