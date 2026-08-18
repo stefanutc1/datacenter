@@ -3,7 +3,7 @@ version: '3.8'
 services:
   homepage:
     build:
-      context: ./homepage
+      context: .
       dockerfile: Dockerfile
     image: ghcr.io/stefannut/homelab-homepage:latest
     container_name: homelab-homepage
@@ -16,4 +16,3 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.homepage.rule=Host(`home.homelab.lan`)"
       - "traefik.http.services.homepage.loadbalancer.server.port=80"
-
