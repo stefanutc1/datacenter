@@ -208,27 +208,95 @@ Microcontroller firmware written in C++ for intelligent garden valve control:
   },
   {
     id: "runbooks",
-    title: "Runbooks & Disaster Recovery",
+    title: "Disaster Recovery & 10h+ Emergency SOP",
     category: "Operations",
     icon: "🚨",
-    summary: "Cold start procedure, ZFS snapshot recovery, and backup routines.",
-    content: `# 🚨 Runbooks & Disaster Recovery
+    summary: "Standard operating procedure for prolonged 10+ hour power outages, graceful cascading shutdown, surge isolation, and staged cold boot.",
+    content: `# 🚨 Runbooks, Disaster Recovery & 10+ Hour Emergency SOP
 
-## Cold Start Procedure (Power Recovery)
+## ⚡ Extended 10+ Hour Power Outage Standard Operating Procedure (SOP)
 
-In the event of a total blackout, restore services in this precise order:
+During prolonged blackouts ($> 10\\text{ hours}$), battery-backed UPS reserves cannot sustain full compute workloads. To protect ZFS storage pools, database write journals, and delicate electronics from dirty dismounts or grid recovery power surges, follow this 4-phase protocol:
 
-1. **Verify UPS**: Ensure physical battery $> 50\\%$.
-2. **Switching**: Power on managed switches and confirm VLAN trunking.
-3. **Hypervisor**: Boot Proxmox host (\`pve\`).
-4. **Firewall / Routing**: Start OPNsense VM and verify default gateway reachability.
-5. **DNS Engine**: Start Pi-hole and verify resolution (\`nslookup npm.homelab.local\`).
-6. **Ingress & Auth**: Bring up Nginx Proxy Manager and Authelia.
-7. **Application Layer**: Execute \`docker compose up -d\` across all service stacks.
+\`\`\`
+┌─────────────────────────────────────────────────────────────────────────────┐
+│               10+ Hour Extended Power Outage Protocol Lifecycle             │
+│                                                                             │
+│  [T+0m] ───► [T+5m] ──────────► [T+15m - 10h+] ─────► [Grid Return] ──────► │
+│  Grid Loss   Cascading Shutdown  Physical Isolation    Staged Cold Boot     │
+│  & Alert     Tier 4 ─► Tier 0   Surge & Battery Off   OPNsense ─► Apps      │
+└─────────────────────────────────────────────────────────────────────────────┘
+\`\`\`
 
-## Backup Verification
-- PostgreSQL dumps automated daily at 03:00 UTC.
-- Proxmox Backup Server (PBS) differential snapshots taken weekly.
+---
+
+### Phase 1: Automated & Cascading Graceful Shutdown (T+0m – T+15m)
+
+The automated script \`/opt/homelab/scripts/emergency-shutdown.sh\` executes the shutdown order:
+
+1. **Tier 4 (Heavy Workloads & Media LXCs - T+2m):**
+   - Stops Plex (114), Jellyfin (115), Immich (116), Nextcloud (106), Torrent (117)
+   - \`pct shutdown 114 115 116 117 118 119 120 121 122 123\`
+2. **Tier 3 (Virtual Machines - T+5m):**
+   - Windows Server 2022 (201), Ubuntu Server 24.04 (202)
+   - \`qm shutdown 201 --timeout 30 && qm shutdown 202 --timeout 30\`
+3. **Tier 2 (Databases & Storage Flushes - T+8m):**
+   - PostgreSQL (110), MariaDB (111), Redis (112), Vaultwarden (107)
+   - \`pct shutdown 103 104 105 106 107 108 109 110 111 112 113\`
+4. **Tier 1 (Ingress & Auth - T+12m):**
+   - NPM (101), Authelia (102), Pi-hole (100)
+   - \`pct shutdown 101 102 100\`
+5. **Tier 0 (Core Gateway & Hypervisor - T+14m):**
+   - OPNsense (200), ZFS commit \`sync\`, Proxmox host \`poweroff\`.
+
+---
+
+### Phase 2: Long-Term 10+ Hour Outage Hardening & Physical Preservation
+
+1. **Surge Suppressor Isolation:** Physically unplug the master surge protector from the wall outlet. When the municipal grid returns after widespread outages, severe voltage inrush spikes (up to 400V+) occur during utility transformer re-energization.
+2. **UPS Battery Protection:** Switch off the physical UPS master switch once all nodes have cleanly shut down. Leaving the inverter running empty can drain lead-acid or LiFePO4 cells below their critical cutoff voltage, destroying battery chemistry.
+3. **Out-of-Band Telemetry:** Out-of-band monitoring via battery-backed LTE/4G router or remote power status notification.
+
+---
+
+### Phase 3: Grid Restoration & Staged Cold-Boot Sequence
+
+Execute the sequential restoration script \`/opt/homelab/scripts/cold-boot-sequence.sh\`:
+
+1. **Grid Stabilization Window:** Wait 5–10 minutes after grid return for AC voltage stabilization (clean $230\\text{V} \\pm 5\\%$ @ $50\\text{Hz}$).
+2. **Re-engage Surge Suppressor & UPS:** Verify input voltage and normal bypass charging state.
+3. **Power On Hypervisor (\`pve\`):** Boot Proxmox VE hardware.
+4. **Sequential Boot Hierarchy:**
+   - \`qm start 200\` (OPNsense Gateway — wait 30s for WAN routing & DHCP).
+   - \`pct start 100\` (Pi-hole DNS — enables internal name resolution).
+   - \`pct start 101 && pct start 102\` (NPM Ingress & Authelia SSO).
+   - \`pct start 103..113\` (Databases & Core Infrastructure).
+   - \`pct start 114..123 && qm start 201 202\` (Applications, Media & Workload VMs).
+
+---
+
+### Phase 4: Post-Recovery Integrity Scrub & Verification
+
+\`\`\`bash
+# 1. Verify ZFS Pool Health & Run Scrub
+zpool status -v
+zpool scrub rpool
+
+# 2. Verify Container Health
+pct list
+docker ps -a --filter "status=exited"
+
+# 3. Database Checksums
+sudo -u postgres psql -c "SELECT datname, pg_size_pretty(pg_database_size(datname)) FROM pg_database;"
+\`\`\`
+
+---
+
+## 2. 💾 Automated Backup Hierarchy & 3-2-1 Strategy
+
+- **Proxmox Backup Server (PBS):** Daily deduplicated snapshots of all 24 LXC containers and 3 KVM VMs with encrypted remote sync.
+- **ZFS Snapshots:** Hourly local dataset snapshots (\`zfs-auto-snapshot\`) with 14-day local retention.
+- **Offsite Cold Storage (AWS S3 / Restic):** Weekly encrypted backup of critical configs (\`/etc/pve\`, \`/etc/network/interfaces\`, \`/opt/homelab\`).
 `
   },
   {

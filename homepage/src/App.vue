@@ -76,6 +76,14 @@
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
               Port Matrix
             </button>
+            <button 
+              class="view-tab-btn emergency-tab-btn" 
+              :class="{ active: currentView === 'emergency' }" 
+              @click="currentView = 'emergency'"
+            >
+              <svg class="svg-icon-xs text-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              10h+ Emergency SOP
+            </button>
             <a 
               href="./wiki/" 
               class="view-tab-btn nav-link-external" 
@@ -277,6 +285,9 @@
         :services="servicesList" 
         @select="openServiceModal"
       />
+
+      <!-- View 6: 10h+ Emergency SOP -->
+      <EmergencyView v-else-if="currentView === 'emergency'" />
     </main>
 
     <!-- Footer with Real Hardware Specs from hardware.md -->
@@ -313,6 +324,7 @@ import ServiceModal from './components/ServiceModal.vue';
 import HardwareView from './components/HardwareView.vue';
 import TopologyView from './components/TopologyView.vue';
 import PortMatrix from './components/PortMatrix.vue';
+import EmergencyView from './components/EmergencyView.vue';
 
 const currentView = ref('dashboard');
 const selectedCategory = ref('all');
@@ -583,6 +595,21 @@ const resetFilters = () => {
   background: var(--accent-primary);
   color: white;
   box-shadow: var(--shadow-sm);
+}
+
+.emergency-tab-btn:hover {
+  color: #fca5a5 !important;
+}
+
+.emergency-tab-btn.active {
+  background: rgba(239, 68, 68, 0.18) !important;
+  border: 1px solid rgba(239, 68, 68, 0.5) !important;
+  color: #fca5a5 !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.35) !important;
+}
+
+.text-danger {
+  color: var(--accent-danger);
 }
 
 .theme-toggle {
