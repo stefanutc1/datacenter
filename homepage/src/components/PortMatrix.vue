@@ -22,11 +22,11 @@
         <thead>
           <tr>
             <th>PORT</th>
+            <th>LOCAL DOMAIN (.LAN)</th>
+            <th>DIRECT IP ENDPOINT</th>
             <th>SERVICE NAME</th>
             <th>CATEGORY</th>
-            <th>CONTAINER NAME</th>
-            <th>INTERNAL ENDPOINT</th>
-            <th>PROTOCOL</th>
+            <th>CONTAINER</th>
             <th class="text-right">ACTIONS</th>
           </tr>
         </thead>
@@ -34,6 +34,18 @@
           <tr v-for="svc in filteredServices" :key="svc.id" class="port-row">
             <td>
               <span class="port-tag code-font">:{{ svc.port }}</span>
+            </td>
+            <td>
+              <a v-if="svc.domain" :href="svc.domainUrl || svc.internalUrl" target="_blank" rel="noopener noreferrer" class="domain-tag code-font">
+                {{ svc.domain }} ↗
+              </a>
+              <span v-else class="text-muted">-</span>
+            </td>
+            <td>
+              <a v-if="svc.ip" :href="svc.ipUrl" target="_blank" rel="noopener noreferrer" class="ip-tag code-font">
+                {{ svc.ip }}:{{ svc.port }} ↗
+              </a>
+              <span v-else class="text-muted">-</span>
             </td>
             <td>
               <div class="svc-name-cell">
@@ -46,12 +58,6 @@
             </td>
             <td>
               <code class="container-tag">{{ svc.containerName }}</code>
-            </td>
-            <td>
-              <span class="endpoint-text code-font text-ellipsis">{{ svc.internalUrl }}</span>
-            </td>
-            <td>
-              <span class="proto-tag">TCP / HTTP</span>
             </td>
             <td class="text-right">
               <button class="btn-inspect" @click="$emit('select', svc)">
@@ -207,6 +213,46 @@ const filteredServices = computed(() => {
   padding: 0.2rem 0.55rem;
   border-radius: 12px;
   color: var(--text-muted);
+}
+
+.domain-tag {
+  color: #818cf8;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-decoration: none;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.15s ease;
+}
+
+.domain-tag:hover {
+  background: rgba(99, 102, 241, 0.25);
+  color: #c7d2fe;
+}
+
+.ip-tag {
+  color: #34d399;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-decoration: none;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.15s ease;
+}
+
+.ip-tag:hover {
+  background: rgba(16, 185, 129, 0.25);
+  color: #a7f3d0;
 }
 
 .container-tag {

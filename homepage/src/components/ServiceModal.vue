@@ -36,20 +36,24 @@
       <!-- Quick Metrics Bar -->
       <div class="metrics-grid">
         <div class="metric-item">
-          <span class="metric-label">HOST PORT</span>
-          <span class="metric-value code-font">:{{ service.port }}</span>
+          <span class="metric-label">LOCAL DOMAIN (.LAN)</span>
+          <a :href="service.domainUrl || service.internalUrl" target="_blank" rel="noopener noreferrer" class="metric-link code-font text-ellipsis">
+            {{ service.domain || service.internalUrl }} ↗
+          </a>
         </div>
         <div class="metric-item">
-          <span class="metric-label">INTERNAL ENDPOINT</span>
-          <span class="metric-value code-font text-ellipsis">{{ service.internalUrl }}</span>
+          <span class="metric-label">DIRECT IP &amp; PORT</span>
+          <a :href="service.ipUrl" target="_blank" rel="noopener noreferrer" class="metric-link code-font text-ellipsis">
+            {{ service.ip }}:{{ service.port }} ↗
+          </a>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">CONTAINER</span>
+          <span class="metric-value code-font">{{ service.containerName }}</span>
         </div>
         <div class="metric-item">
           <span class="metric-label">CATEGORY</span>
           <span class="metric-value capitalize">{{ service.category }}</span>
-        </div>
-        <div class="metric-item">
-          <span class="metric-label">RESTART POLICY</span>
-          <span class="metric-value">unless-stopped</span>
         </div>
       </div>
 
@@ -355,6 +359,19 @@ const copyCode = (code) => {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-primary);
+}
+
+.metric-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-indigo, #818cf8);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.metric-link:hover {
+  color: #a5b4fc;
+  text-decoration: underline;
 }
 
 .code-font {

@@ -117,12 +117,16 @@
               <p class="svc-cat">{{ svc.category }}</p>
               <div class="svc-details">
                 <div class="detail-row">
-                  <span>Port:</span>
-                  <code>:{{ svc.port }}</code>
+                  <span>Domain (.lan):</span>
+                  <a v-if="svc.domain" :href="svc.domainUrl" target="_blank" rel="noopener noreferrer" class="endpoint-link">
+                    <code>{{ svc.domain }} ↗</code>
+                  </a>
                 </div>
                 <div class="detail-row">
-                  <span>Domain:</span>
-                  <code>{{ svc.domain }}</code>
+                  <span>Direct IP:</span>
+                  <a v-if="svc.ip" :href="svc.ipUrl" target="_blank" rel="noopener noreferrer" class="endpoint-link">
+                    <code>{{ svc.ip }}:{{ svc.port }} ↗</code>
+                  </a>
                 </div>
               </div>
             </div>
@@ -605,7 +609,29 @@ function selectArticle(article) {
 .detail-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 4px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.endpoint-link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.endpoint-link code {
+  color: var(--accent-blue);
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+
+.endpoint-link:hover code {
+  background: rgba(99, 102, 241, 0.25);
+  color: #fff;
 }
 
 /* Topology View */

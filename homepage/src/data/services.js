@@ -13,33 +13,112 @@ export const categories = [
 
 export const services = [
   {
+    id: 'nginx-proxy-manager',
+    name: 'Nginx Proxy Manager',
+    category: 'networking',
+    ip: '192.168.1.3',
+    port: 81,
+    ipUrl: 'http://192.168.1.3:81',
+    domain: 'nginx.lan',
+    domainUrl: 'http://nginx.lan',
+    internalUrl: 'http://nginx.lan',
+    icon: 'globe',
+    color: '#009688',
+    image: 'jc21/nginx-proxy-manager:latest',
+    containerName: 'npm',
+    status: 'online',
+    tags: ['Reverse Proxy', 'SSL / TLS', 'Let\'s Encrypt', 'Ingress', 'Port Forwarding'],
+    description: 'Reverse proxy management dashboard providing automated SSL provisioning, WebSocket proxying, and local domain routing for all homelab services.',
+    features: [
+      'Automated Let\'s Encrypt SSL/TLS certificates and renewal loops',
+      'Wildcard *.lan domain routing through Pi-hole DNS sinkhole',
+      'WebSocket upgrade passthrough and HTTP/2 acceleration',
+      'Granular Access Lists and Basic Authentication gatekeeper'
+    ],
+    volumes: ['/data:/data', '/etc/letsencrypt:/etc/letsencrypt'],
+    envVars: ['TZ=Europe/Bucharest'],
+    composeCode: `services:
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: npm
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt`,
+    wikiMarkdown: `### Nginx Proxy Manager Architecture
+NPM operates in LXC 100 as the edge reverse proxy for the entire 192.168.1.0/24 subnet. All \`*.lan\` domains resolve to NPM (\`192.168.1.3\`) via Pi-hole DNS.`
+  },
+  {
+    id: 'pi-hole',
+    name: 'Pi-hole DNS Sinkhole & Adblock',
+    category: 'networking',
+    ip: '192.168.1.4',
+    port: 8080,
+    ipUrl: 'http://192.168.1.4:8080/admin/',
+    domain: 'pihole.lan',
+    domainUrl: 'http://pihole.lan/admin/',
+    internalUrl: 'http://pihole.lan/admin/',
+    icon: 'shield',
+    color: '#e74c3c',
+    image: 'pihole/pihole:latest',
+    containerName: 'pihole',
+    status: 'online',
+    tags: ['DNS', 'Adblock', 'FTL Engine', 'Local DNS', 'Wildcards'],
+    description: 'Network-wide DNS sinkhole, tracker blocker, and local authoritative DNS server resolving *.lan domains to Nginx Proxy Manager.',
+    features: [
+      'Authoritative local DNS records for *.lan homelab microservices',
+      'Gravity blocklists for tracker, telemetry, and malware mitigation',
+      'FTL DNS caching engine with sub-millisecond query latency',
+      'Web administrative console with query inspection and audit logs'
+    ],
+    volumes: ['/etc/pihole:/etc/pihole', '/etc/dnsmasq.d:/etc/dnsmasq.d'],
+    envVars: ['TZ=Europe/Bucharest', 'FTLCONF_LOCAL_IPV4=192.168.1.4'],
+    composeCode: `services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8080:80/tcp"
+    environment:
+      TZ: 'Europe/Bucharest'
+    volumes:
+      - ./etc-pihole:/etc/pihole
+      - ./etc-dnsmasq.d:/etc/dnsmasq.d
+    restart: unless-stopped`,
+    wikiMarkdown: `### Pi-hole Local DNS Integration
+Pi-hole runs inside LXC 101 on IP \`192.168.1.4\`. Its \`pihole.toml\` and dnsmasq config contain authoritative entries and wildcards resolving all \`*.lan\` requests to Nginx Proxy Manager (\`192.168.1.3\`).`
+  },
+  {
     id: 'homeassistant',
     name: 'Home Assistant Core',
     category: 'iot',
+    ip: '192.168.1.10',
     port: 8123,
-    internalUrl: 'http://homeassistant.homelab.lan:8123',
+    ipUrl: 'http://192.168.1.10:8123',
+    domain: 'ha.lan',
+    domainUrl: 'http://ha.lan',
+    internalUrl: 'http://ha.lan',
     icon: 'home',
     color: '#03a9f4',
     image: 'homeassistant/home-assistant:latest',
     containerName: 'homeassistant',
     status: 'online',
-    tags: ['Zigbee', 'Matter', 'Automations', 'IoT', 'MQTT'],
-    description: 'Central open-source home automation hub integrating ESP32 nodes, Zigbee sensors, Shelly relays, and custom security scripts.',
+    tags: ['Smart Home', 'Automations', 'IoT', 'Zigbee', 'MQTT'],
+    description: 'Central open-source home automation platform integrating ESP32 nodes, Zigbee sensors, Shelly relays, and custom security scripts.',
     features: [
       'Local-first privacy and telemetry-free automation engine',
       'Integration with ESP32 edge sensors, Frigate NVR, and Zigbee2MQTT',
       'Custom Lovelace dashboards and mobile push notifications via Webhook',
       'Automated night modes, presence detection, and HVAC management'
     ],
-    volumes: [
-      './configurations.yaml:/config/configuration.yaml',
-      './automations.yaml:/config/automations.yaml',
-      './scenes.yaml:/config/scenes.yaml',
-      './scripts.yaml:/config/scripts.yaml'
-    ],
-    envVars: [
-      'TZ=Europe/Bucharest'
-    ],
+    volumes: ['./config:/config'],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   homeassistant:
     container_name: homeassistant
@@ -50,1028 +129,961 @@ export const services = [
     environment:
       - TZ=Europe/Bucharest
     volumes:
-      - ./config:/config
-      - /run/dbus:/run/dbus:ro`,
+      - ./config:/config`,
     wikiMarkdown: `### Home Assistant Overview
-Home Assistant acts as the main nervous system for the homelab physical environment. It receives sensor telemetry from ESP32 nodes across VLAN 20 (IoT) and coordinates heating, lighting, and security alarms.
-
-#### Network & Security
-- Isolated on **VLAN 20 (IoT)** with strict mDNS reflection into **VLAN 10 (Trusted)**.
-- Traefik/Nginx Proxy Manager terminates SSL on \`https://hass.homelab.lan\`.
-- Authentik SSO proxy protection enabled for external access.`
+Home Assistant acts as the main nervous system for the homelab physical environment. It runs on LXC 107 and is reverse-proxied via \`ha.lan\` and \`homeassistant.lan\`.`
   },
   {
     id: 'immich',
     name: 'Immich Photos & Video',
     category: 'cloud',
+    ip: '192.168.1.15',
     port: 2283,
-    internalUrl: 'http://immich.homelab.lan:2283',
+    ipUrl: 'http://192.168.1.15:2283',
+    domain: 'immich.lan',
+    domainUrl: 'http://immich.lan',
+    internalUrl: 'http://immich.lan',
     icon: 'image',
-    color: '#4255ff',
+    color: '#4285f4',
     image: 'ghcr.io/immich-app/immich-server:release',
     containerName: 'immich_server',
     status: 'online',
-    tags: ['Machine Learning', 'Photo Backup', 'Facial Recognition', 'Clip Search', 'Mobile Sync'],
-    description: 'High-performance self-hosted backup solution for photos and videos with on-device machine learning, facial recognition, and CLIP search.',
+    tags: ['Photos', 'Backup', 'AI Facial Recognition', 'Mobile Sync', 'RAW Support'],
+    description: 'High-performance self-hosted backup and gallery solution for photos and videos featuring AI facial clustering and CLIP search.',
     features: [
-      'Automatic background camera roll backup from iOS & Android devices',
-      'Hardware-accelerated transcoding with Intel QuickSync / NVIDIA NVENC',
-      'Local facial recognition, semantic CLIP search, and reverse geocoding',
-      'Multi-user isolation with shared partner libraries and public albums'
+      'Automated background backup from iOS and Android devices',
+      'On-device AI facial recognition and semantic CLIP search',
+      'Hardware-accelerated video transcoding and thumbnail generation',
+      'Multi-user shared partner libraries and album collaboration'
     ],
-    volumes: [
-      './upload:/usr/src/app/upload',
-      '/etc/localtime:/etc/localtime:ro'
-    ],
-    envVars: [
-      'DB_DATABASE_NAME=immich',
-      'DB_USERNAME=postgres',
-      'REDIS_HOSTNAME=immich_redis'
-    ],
+    volumes: ['/mnt/storage/photos:/usr/src/app/upload', './pgdata:/var/lib/postgresql/data'],
+    envVars: ['DB_DATABASE_NAME=immich', 'DB_USERNAME=postgres', 'TZ=Europe/Bucharest'],
     composeCode: `services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:release
-    volumes:
-      - /mnt/storage/photos:/usr/src/app/upload
-    environment:
-      - DB_HOSTNAME=immich_postgres
-      - DB_USERNAME=postgres
-      - DB_DATABASE_NAME=immich
-      - REDIS_HOSTNAME=immich_redis
     ports:
       - "2283:2283"
     restart: unless-stopped`,
     wikiMarkdown: `### Immich Architecture
-Immich replaces proprietary cloud storage with self-hosted high-speed backups. It operates a Microservices topology comprising \`immich-server\`, \`immich-machine-learning\`, \`immich_redis\`, and a PostgreSQL database with \`pgvector\` extension for semantic image searches.`
+Immich runs in LXC 103 with dedicated PostgreSQL 16 vector store and Redis caching instance.`
   },
   {
     id: 'vaultwarden',
     name: 'Vaultwarden Password Vault',
     category: 'security',
+    ip: '192.168.1.16',
     port: 8080,
-    internalUrl: 'http://vaultwarden.homelab.lan:8080',
+    ipUrl: 'http://192.168.1.16:8080',
+    domain: 'vaultwarden.lan',
+    domainUrl: 'http://vaultwarden.lan',
+    internalUrl: 'http://vaultwarden.lan',
     icon: 'lock',
     color: '#175ddc',
     image: 'vaultwarden/server:latest',
     containerName: 'vaultwarden',
     status: 'online',
-    tags: ['Bitwarden API', 'Zero-Knowledge', '2FA', 'Passkeys', 'Rust'],
-    description: 'Lightweight Bitwarden-compatible password and secret manager written in Rust. Provides end-to-end encrypted storage for passwords, 2FA tokens, and passkeys.',
+    tags: ['Bitwarden', 'Passwords', '2FA / TOTP', 'Secrets', 'Zero-Knowledge'],
+    description: 'Lightweight Rust implementation of Bitwarden backend providing zero-knowledge encrypted credential storage and TOTP authenticator.',
     features: [
-      'Zero-knowledge encryption for secrets, cards, notes, and 2FA seeds',
-      'Compatible with official Bitwarden extensions, mobile apps, and CLI',
-      'Emergency access, organization vaults, and secure item send',
-      'Automated encrypted backups to S3/MinIO via SQLite snapshot hooks'
+      'Full compatibility with official Bitwarden desktop and mobile clients',
+      'Zero-knowledge end-to-end AES-256 encrypted vault replication',
+      'Built-in TOTP two-factor authenticator generation and vault sharing',
+      'Encrypted backup export and emergency access delegation'
     ],
-    volumes: [
-      './vw-data:/data'
-    ],
-    envVars: [
-      'SIGNUPS_ALLOWED=false',
-      'WEBSOCKET_ENABLED=true',
-      'DOMAIN=https://vault.homelab.lan'
-    ],
+    volumes: ['./vw-data:/data'],
+    envVars: ['SIGNUPS_ALLOWED=true', 'WEBSOCKET_ENABLED=true'],
     composeCode: `services:
   vaultwarden:
     image: vaultwarden/server:latest
     container_name: vaultwarden
     restart: unless-stopped
-    environment:
-      - SIGNUPS_ALLOWED=false
-      - WEBSOCKET_ENABLED=true
-      - DOMAIN=https://vault.homelab.lan
-    volumes:
-      - ./vw-data:/data
     ports:
-      - "8080:80"`,
-    wikiMarkdown: `### Vaultwarden Security Policy
-Vaultwarden is locked down behind Authelia / Cloudflare Tunnel zero-trust authentication. Signups are disabled (\`SIGNUPS_ALLOWED=false\`) post-initialization. Automated backup cron scripts execute daily SQLite VACUUM snapshots replicated to remote storage.`
+      - "8080:80"
+    volumes:
+      - ./vw-data:/data`,
+    wikiMarkdown: `### Vaultwarden Overview
+Vaultwarden is deployed in LXC 112 on port 8080 and routed via \`vaultwarden.lan\`.`
   },
   {
     id: 'nextcloud',
     name: 'Nextcloud Hub',
     category: 'cloud',
-    port: 8081,
-    internalUrl: 'http://nextcloud.homelab.lan:8081',
-    icon: 'server',
+    ip: '192.168.1.8',
+    port: 80,
+    ipUrl: 'http://192.168.1.8',
+    domain: 'nextcloud.lan',
+    domainUrl: 'http://nextcloud.lan',
+    internalUrl: 'http://nextcloud.lan',
+    icon: 'cloud',
     color: '#0082c9',
     image: 'nextcloud:latest',
-    containerName: 'nextcloud-app',
+    containerName: 'nextcloud',
     status: 'online',
-    tags: ['Cloud Storage', 'WebDAV', 'Office Docs', 'Contacts', 'Calendar'],
-    description: 'Self-hosted productivity platform offering file synchronization, WebDAV endpoints, collaborative online document editing, and calendar/contacts sync.',
+    tags: ['Storage', 'WebDAV', 'Office', 'Sync', 'Calendars'],
+    description: 'Enterprise-grade private cloud platform featuring file sync, calendar/contacts sharing, collaborative document editing, and WebDAV endpoints.',
     features: [
-      'End-to-end synchronized file explorer with desktop and mobile clients',
-      'Integrated Nextcloud Office / Collabora Online document editing',
-      'CalDAV & CardDAV sync for personal calendar and contact management',
-      'High-throughput Redis file locking and MariaDB transactional storage'
+      'Client file synchronization across Linux, macOS, Windows, iOS, and Android',
+      'Integrated Nextcloud Office / Collaboratory real-time editing',
+      'CalDAV/CardDAV protocol support for seamless device sync',
+      'Server-side encryption and granular file access auditing'
     ],
-    volumes: [
-      './html:/var/www/html',
-      './db:/var/lib/mysql'
-    ],
-    envVars: [
-      'MYSQL_DATABASE=nextcloud',
-      'REDIS_HOST=nextcloud-redis'
-    ],
+    volumes: ['./html:/var/www/html'],
+    envVars: ['POSTGRES_DB=nextcloud', 'POSTGRES_USER=nextcloud', 'TZ=Europe/Bucharest'],
     composeCode: `services:
-  db:
-    image: mariadb:10.6
-    volumes:
-      - ./db:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=nextcloud
-    restart: always
-  app:
+  nextcloud:
     image: nextcloud:latest
+    container_name: nextcloud
+    restart: unless-stopped
     ports:
-      - "8081:80"
+      - "80:80"
     volumes:
-      - ./html:/var/www/html
-    restart: always`,
-    wikiMarkdown: `### Storage Layout
-Nextcloud stores user files on a ZFS mirrored storage pool mounted at \`/mnt/storage/nextcloud\`. External WebDAV shares allow seamless integration into mobile operating systems.`
+      - ./html:/var/www/html`,
+    wikiMarkdown: `### Nextcloud Hub
+Nextcloud is deployed on LXC 105 and accessible via \`nextcloud.lan\`.`
   },
   {
     id: 'grafana',
     name: 'Grafana Telemetry & Dashboards',
     category: 'monitoring',
+    ip: '192.168.1.11',
     port: 3000,
-    internalUrl: 'http://grafana.homelab.lan:3000',
+    ipUrl: 'http://192.168.1.11:3000',
+    domain: 'grafana.lan',
+    domainUrl: 'http://grafana.lan',
+    internalUrl: 'http://grafana.lan',
     icon: 'bar-chart-2',
     color: '#f46800',
-    image: 'grafana/grafana-oss:latest',
+    image: 'grafana/grafana:latest',
     containerName: 'grafana',
     status: 'online',
-    tags: ['Prometheus', 'Loki', 'Node Exporter', 'InfluxDB', 'Dashboards'],
-    description: 'Industry-standard analytics and interactive visualization platform aggregating metrics from Prometheus, Telegraf, Proxmox, and Docker daemon exporters.',
+    tags: ['Metrics', 'Dashboards', 'Prometheus', 'Loki', 'Visualizations'],
+    description: 'Central visualization and analytics platform aggregating Prometheus hardware metrics, Loki logs, and Proxmox node health.',
     features: [
-      'Real-time dashboards for CPU, RAM, NVMe ZFS pools, and 10GbE network throughput',
-      'Preconfigured alerting rules routing alerts to Discord and Home Assistant mobile app',
-      'Logs aggregation and correlation with Grafana Loki',
-      'Authentik / Authelia OAuth2 Single Sign-On integration'
+      'Real-time dashboards for CPU, RAM, disk I/O, and network bandwidth',
+      'Unified search across structured logs powered by Grafana Loki',
+      'Custom alert rules routed to Discord and email Webhooks',
+      'Interactive drilldown into containerized workloads and host temperatures'
     ],
-    volumes: [
-      'grafana_data:/var/lib/grafana'
-    ],
-    envVars: [
-      'GF_SECURITY_ADMIN_USER=admin',
-      'GF_USERS_ALLOW_SIGN_UP=false'
-    ],
+    volumes: ['./grafana_data:/var/lib/grafana'],
+    envVars: ['GF_SECURITY_ADMIN_USER=admin', 'GF_USERS_ALLOW_SIGN_UP=false'],
     composeCode: `services:
   grafana:
-    image: grafana/grafana-oss:latest
+    image: grafana/grafana:latest
     container_name: grafana
-    restart: unless-stopped
     ports:
       - "3000:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana`,
-    wikiMarkdown: `### Key Dashboards
-1. **Node Exporter Full**: Proxmox host metrics (iowait, temperature, RAM).
-2. **OPNsense Firewall Overview**: WAN throughput, states table, and gateway latencies.
-3. **ZFS Storage Pool Health**: Pool capacity, scrub progress, and disk IOPS.`
+    restart: unless-stopped`,
+    wikiMarkdown: `### Grafana Observability
+Grafana runs in LXC 108 alongside Prometheus and Loki, routed via \`grafana.lan\`.`
   },
   {
     id: 'prometheus',
-    name: 'Prometheus & Alertmanager',
+    name: 'Prometheus TSDB Engine',
     category: 'monitoring',
+    ip: '192.168.1.11',
     port: 9090,
-    internalUrl: 'http://prometheus.homelab.lan:9090',
+    ipUrl: 'http://192.168.1.11:9090',
+    domain: 'prometheus.lan',
+    domainUrl: 'http://prometheus.lan',
+    internalUrl: 'http://prometheus.lan',
     icon: 'activity',
     color: '#e6522c',
     image: 'prom/prometheus:latest',
     containerName: 'prometheus',
     status: 'online',
-    tags: ['Time Series', 'Metrics Scraping', 'Alertmanager', 'PromQL', 'SNMP'],
-    description: 'Time-series monitoring database scraping endpoints across all containers, Proxmox hypervisors, and OPNsense routers on a 15-second polling interval.',
+    tags: ['Time Series', 'Metrics', 'Scraping', 'Alerting', 'Exporters'],
+    description: 'High-efficiency time-series metric collector scraping node-exporter, Proxmox hypervisor telemetry, and container runtime statistics.',
     features: [
-      'Service discovery for dynamic Docker and Kubernetes targets',
-      'PromQL query engine for real-time alerting and capacity planning',
-      'Alertmanager clustering with Discord/Telegram webhook dispatching',
-      'Low memory footprint with 30-day WAL retention on NVMe storage'
+      'Multi-dimensional data model with PromQL query language',
+      'Automated scrape target discovery across 192.168.1.0/24',
+      'Efficient local TSDB storage with configurable retention policies',
+      'Alert rule evaluation and dispatch to Alertmanager'
     ],
-    volumes: [
-      './prometheus.yml:/etc/prometheus/prometheus.yml',
-      './rules:/etc/prometheus/rules',
-      'prometheus_data:/prometheus'
-    ],
-    envVars: [],
+    volumes: ['./prometheus.yml:/etc/prometheus/prometheus.yml', './prom_data:/prometheus'],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    restart: unless-stopped
     ports:
       - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.retention.time=30d'`,
-    wikiMarkdown: `### Scraping Targets
-- **Node Exporter**: Proxmox VE 01 & 02 (\`:9100\`)
-- **cAdvisor**: Docker container CPU/Memory/Network stats (\`:8080\`)
-- **OPNsense Telegraf**: Firewall & interface metrics (\`:9273\`)
-- **Pi-hole Exporter**: DNS queries & blocked domain stats (\`:9617\`)`
+    restart: unless-stopped`,
+    wikiMarkdown: `### Prometheus Metrics Engine
+Prometheus scrapes Node-Exporter on port 9100 across Proxmox nodes and LXC containers.`
+  },
+  {
+    id: 'loki',
+    name: 'Grafana Loki Log Engine',
+    category: 'monitoring',
+    ip: '192.168.1.11',
+    port: 3100,
+    ipUrl: 'http://192.168.1.11:3100',
+    domain: 'loki.lan',
+    domainUrl: 'http://loki.lan',
+    internalUrl: 'http://loki.lan',
+    icon: 'file-text',
+    color: '#e17055',
+    image: 'grafana/loki:latest',
+    containerName: 'loki',
+    status: 'online',
+    tags: ['Logs', 'Promtail', 'LogQL', 'Audit', 'Aggregator'],
+    description: 'Horizontally-scalable log aggregation system indexing metadata labels to ingest syslog and Docker container logs with minimal overhead.',
+    features: [
+      'LogQL querying integrated natively inside Grafana dashboards',
+      'Promtail log shipping from Proxmox host and LXC container runtimes',
+      'Ultra-efficient label indexing without storing raw text index trees'
+    ],
+    volumes: ['./loki-config.yml:/etc/loki/local-config.yaml'],
+    envVars: ['TZ=Europe/Bucharest'],
+    composeCode: `services:
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    restart: unless-stopped`,
+    wikiMarkdown: `### Loki Log Aggregator
+Loki is deployed in LXC 108 and accessible via \`loki.lan\`.`
   },
   {
     id: 'uptime-kuma',
     name: 'Uptime Kuma Status Monitor',
     category: 'monitoring',
+    ip: '192.168.1.7',
     port: 3001,
-    internalUrl: 'http://uptime.homelab.lan:3001',
+    ipUrl: 'http://192.168.1.7:3001',
+    domain: 'uptime.lan',
+    domainUrl: 'http://uptime.lan',
+    internalUrl: 'http://uptime.lan',
     icon: 'check-circle',
-    color: '#5cdd8b',
-    image: 'louislam/uptime-kuma:latest',
+    color: '#5cd85a',
+    image: 'louislam/uptime-kuma:1',
     containerName: 'uptime-kuma',
     status: 'online',
-    tags: ['Ping', 'HTTP Check', 'TCP Port', 'Status Page', 'Alerts'],
-    description: 'Self-hosted uptime monitoring tool tracking HTTP/HTTPS status, TCP ports, DNS resolution, and SSL certificate expiration across all homelab nodes.',
+    tags: ['Uptime', 'Ping', 'Status Page', 'Alerts', 'Health Check'],
+    description: 'Self-hosted monitoring tool tracking HTTP status, TCP ports, DNS latency, and SSL certificate validity with public status badges.',
     features: [
-      'Sub-minute health pings for internal services and public endpoints',
-      'SSL certificate expiry monitoring with 14-day early warning alerts',
-      'Public & internal status pages with incident history and maintenance schedules',
-      'Immediate alert delivery to Discord, Pushover, and Telegram channels'
+      'Real-time ping, HTTP 200, TCP port, and certificate expiration checks',
+      'Customizable status page for internal users and guest networks',
+      'Notification triggers across Discord, Telegram, and Email',
+      'Response time historical graphs and SLA availability tracking'
     ],
-    volumes: [
-      './uptime-kuma-data:/app/data'
-    ],
-    envVars: [],
+    volumes: ['./data:/app/data'],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   uptime-kuma:
-    image: louislam/uptime-kuma:latest
+    image: louislam/uptime-kuma:1
     container_name: uptime-kuma
-    volumes:
-      - ./uptime-kuma-data:/app/data
     ports:
       - "3001:3001"
     restart: unless-stopped`,
-    wikiMarkdown: `### Monitored Endpoints
-Uptime Kuma monitors over 35 healthcheck endpoints including WAN gateway latency, Proxmox cluster quorum, DNS resolution response time, and reverse proxy availability.`
+    wikiMarkdown: `### Uptime Kuma Monitor
+Uptime Kuma runs on LXC 104 and verifies endpoints every 20 seconds.`
   },
   {
     id: 'n8n',
     name: 'n8n Workflow Automation',
     category: 'automation',
+    ip: '192.168.1.13',
     port: 5678,
-    internalUrl: 'http://n8n.homelab.lan:5678',
+    ipUrl: 'http://192.168.1.13:5678',
+    domain: 'n8n.lan',
+    domainUrl: 'http://n8n.lan',
+    internalUrl: 'http://n8n.lan',
     icon: 'shuffle',
     color: '#ff6d5a',
     image: 'n8nio/n8n:latest',
     containerName: 'n8n',
     status: 'online',
-    tags: ['Webhooks', 'ETL', 'API Integrations', 'AI Agents', 'Automation'],
-    description: 'Fair-code workflow automation tool connecting self-hosted APIs, webhooks, databases, and LLMs into automated event-driven pipelines.',
+    tags: ['No-Code', 'Automation', 'Webhooks', 'Pipelines', 'API Integrations'],
+    description: 'Fair-code workflow automation platform connecting 400+ third-party APIs, local scripts, MQTT brokers, and webhooks with low-code visual nodes.',
     features: [
-      'Visual node-based canvas for orchestrating complex multi-step workflows',
-      'Native integrations with Home Assistant, Gitea, Nextcloud, and Postgres',
-      'Automated daily backup verification and off-site replication alerts',
-      'AI Agent nodes capable of calling internal MCP tools and database queries'
+      'Automated homelab backup verification and Telegram notifications',
+      'Smart home event transformations between ESP32 and Home Assistant',
+      'Scheduled cron routines for database dumps and GitHub sync',
+      'Custom JavaScript/Python code execution nodes for complex payload parsing'
     ],
-    volumes: [
-      'n8n_data:/home/node/.n8n'
-    ],
-    envVars: [
-      'N8N_ENCRYPTION_KEY=***',
-      'N8N_HOST=n8n.homelab.lan',
-      'N8N_PORT=5678',
-      'N8N_PROTOCOL=https'
-    ],
+    volumes: ['./data:/home/node/.n8n'],
+    envVars: ['N8N_HOST=n8n.lan', 'GENERIC_TIMEZONE=Europe/Bucharest'],
     composeCode: `services:
   n8n:
     image: n8nio/n8n:latest
     container_name: n8n
-    restart: unless-stopped
     ports:
       - "5678:5678"
-    environment:
-      - N8N_ENCRYPTION_KEY=your_key_here
-    volumes:
-      - n8n_data:/home/node/.n8n`,
-    wikiMarkdown: `### Active Automations
-1. **GitHub/Gitea Release Watcher**: Triggers Docker Compose pull and rollout upon new releases.
-2. **Weekly ZFS Scrub Report**: Parses \`zpool status\` and sends summary cards to Discord.
-3. **ISP Speedtest & Outage Logger**: Runs hourly speedtests and stores results in InfluxDB.`
+    restart: unless-stopped`,
+    wikiMarkdown: `### n8n Automation Engine
+n8n is deployed on LXC 110 and accessible via \`n8n.lan\`.`
   },
   {
     id: 'gitea',
     name: 'Gitea Git Forge & Actions',
     category: 'devops',
+    ip: '192.168.1.17',
     port: 3000,
-    internalUrl: 'http://git.homelab.lan:3000',
-    icon: 'git-commit',
+    ipUrl: 'http://192.168.1.17:3000',
+    domain: 'gitea.lan',
+    domainUrl: 'http://gitea.lan',
+    internalUrl: 'http://gitea.lan',
+    icon: 'git-pull-request',
     color: '#609926',
     image: 'gitea/gitea:latest',
     containerName: 'gitea',
     status: 'online',
-    tags: ['Git', 'CI/CD Actions', 'Code Review', 'Container Registry', 'GitOps'],
-    description: 'Painless self-hosted Git service providing repository hosting, pull requests, issue tracking, and Gitea Actions CI/CD workflows.',
+    tags: ['Git', 'Repositories', 'Code Review', 'CI/CD', 'GitOps'],
+    description: 'Lightweight self-hosted Git version control forge supporting pull requests, issue tracking, and mirror synchronization with GitHub.',
     features: [
-      'Ultra-fast Git operations with low memory footprint (<100MB RAM)',
-      'Built-in Gitea Actions compatible with GitHub Actions workflow syntax',
-      'Integrated OCI Container Registry for homelab Docker images',
-      'SSH key authentication and Webhook integration with Woodpecker CI / n8n'
+      'Ultra-fast Git operations with SQLite/PostgreSQL storage',
+      'Two-way repository mirror replication with upstream GitHub repos',
+      'Built-in Webhooks triggering Woodpecker CI and FluxCD GitOps pipelines',
+      'SSH key authentication and GPG commit verification'
     ],
-    volumes: [
-      './data:/data',
-      '/etc/timezone:/etc/timezone:ro',
-      '/etc/localtime:/etc/localtime:ro'
-    ],
-    envVars: [
-      'GITEA__database__DB_TYPE=sqlite3'
-    ],
+    volumes: ['./data:/data', '/etc/timezone:/etc/timezone:ro'],
+    envVars: ['USER_UID=1000', 'USER_GID=1000', 'TZ=Europe/Bucharest'],
     composeCode: `services:
   gitea:
     image: gitea/gitea:latest
     container_name: gitea
-    restart: unless-stopped
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-    volumes:
-      - ./data:/data
     ports:
       - "3000:3000"
-      - "222:22"`,
-    wikiMarkdown: `### GitOps & Repository Setup
-Gitea hosts the source-of-truth repositories for Ansible playbooks, Terraform infrastructure definitions, and Kubernetes K3s Helm charts.`
+      - "2222:22"
+    restart: unless-stopped`,
+    wikiMarkdown: `### Gitea Git Forge
+Gitea runs on LXC 113 and hosts internal Git repositories and configuration manifests.`
   },
   {
     id: 'woodpecker-ci',
     name: 'Woodpecker CI/CD Engine',
     category: 'devops',
+    ip: '192.168.1.14',
     port: 8000,
-    internalUrl: 'http://ci.homelab.lan:8000',
-    icon: 'play-circle',
-    color: '#2185d0',
+    ipUrl: 'http://192.168.1.14:8000',
+    domain: 'woodpecker.lan',
+    domainUrl: 'http://woodpecker.lan',
+    internalUrl: 'http://woodpecker.lan',
+    icon: 'cpu',
+    color: '#2ecc71',
     image: 'woodpeckerci/woodpecker-server:latest',
     containerName: 'woodpecker-server',
     status: 'online',
-    tags: ['Continuous Integration', 'Pipelines', 'Docker in Docker', 'Builds'],
-    description: 'Lightweight community-driven continuous integration server. Executes automated pipeline steps inside isolated Docker containers.',
+    tags: ['CI/CD', 'Pipelines', 'Docker in Docker', 'Linting', 'Continuous Testing'],
+    description: 'Community-driven container-native continuous integration engine executing automated test suites, linting, and Docker container builds.',
     features: [
-      'Declarative pipeline syntax (\`.woodpecker.yaml\`) with containerized steps',
-      'Automated linting, unit testing, and multi-arch Docker image builds',
-      'Secret management with repository and organization level access control',
-      'Direct deployment webhooks into Proxmox and Kubernetes clusters'
+      'YAML pipeline definitions declared directly in repository root (.woodpecker.yml)',
+      'Isolated Docker agent execution runners with ephemeral container lifetimes',
+      'Automated Ansible playbook linting and unit test execution on Git push',
+      'Webhook triggers from Gitea and GitHub webhooks'
     ],
-    volumes: [
-      'woodpecker-server-data:/var/lib/woodpecker'
-    ],
-    envVars: [
-      'WOODPECKER_OPEN=true',
-      'WOODPECKER_HOST=http://ci.homelab.lan:8000'
-    ],
+    volumes: ['./woodpecker_data:/var/lib/woodpecker'],
+    envVars: ['WOODPECKER_GITEA=true', 'WOODPECKER_SERVER_URL=http://woodpecker.lan'],
     composeCode: `services:
   woodpecker-server:
     image: woodpeckerci/woodpecker-server:latest
     container_name: woodpecker-server
-    restart: unless-stopped
     ports:
       - "8000:8000"
-      - "9000:9000"
-    environment:
-      - WOODPECKER_OPEN=true
-      - WOODPECKER_HOST=http://ci.homelab.lan:8000
-    volumes:
-      - woodpecker-server-data:/var/lib/woodpecker
-  woodpecker-agent:
-    image: woodpeckerci/woodpecker-agent:latest
-    container_name: woodpecker-agent
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock`,
-    wikiMarkdown: `### Pipelines
-Woodpecker builds and publishes Docker containers for internal tools, runs Ansible syntax linters, and validates Terraform infrastructure manifests automatically on commit.`
-  },
-  {
-    id: 'nginx-proxy-manager',
-    name: 'Nginx Proxy Manager',
-    category: 'networking',
-    port: 81,
-    internalUrl: 'http://npm.homelab.lan:81',
-    icon: 'globe',
-    color: '#009688',
-    image: 'jc21/nginx-proxy-manager:2.11.3',
-    containerName: 'nginx-proxy-manager',
-    status: 'online',
-    tags: ["Reverse Proxy", "Let's Encrypt SSL", "Wildcard Certs", "Access Lists"],
-    description: "Intuitive web management UI for forward and reverse proxy routing, automated Let's Encrypt SSL certificate provisioning, and HTTP security policies.",
-    features: [
-      'Automated DNS-01 challenge SSL certificate renewal with Cloudflare API',
-      'Fine-grained IP Access Lists and HTTP Basic Authentication overlays',
-      'Custom Nginx location blocks, WebSocket proxying, and HTTP/2 support',
-      'Stream routing for TCP/UDP database and game server ports'
-    ],
-    volumes: [
-      './data:/data',
-      './letsencrypt:/etc/letsencrypt'
-    ],
-    envVars: [
-      'DISABLE_IPV6=true'
-    ],
-    composeCode: `services:
-  npm:
-    image: jc21/nginx-proxy-manager:2.11.3
-    container_name: nginx-proxy-manager
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "81:81"
-    environment:
-      - DISABLE_IPV6=true
-    volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt`,
-    wikiMarkdown: `### Proxy Routing Overview
-NPM routes all incoming traffic from \`*.homelab.lan\` domains directly to the corresponding container ports with HTTP Strict Transport Security (HSTS) headers.`
-  },
-  {
-    id: 'pi-hole',
-    name: 'Pi-hole DNS Sinkhole & Adblock',
-    category: 'networking',
-    port: 8082,
-    internalUrl: 'http://pihole.homelab.lan:8082/admin',
-    icon: 'shield',
-    color: '#f03a17',
-    image: 'pihole/pihole:latest',
-    containerName: 'pihole',
-    status: 'online',
-    tags: ['DNS Sinkhole', 'Ad Blocking', 'Local DNS Records', 'DHCP', 'DoH'],
-    description: 'Network-wide advertisement blocking and DNS sinkhole protecting all homelab and home network devices without client-side software.',
-    features: [
-      'Blocks tracking domains, telemetry, and malware at the DNS level',
-      'Authoritative local DNS resolver mapping \`*.homelab.lan\` hostnames',
-      'High-speed in-memory caching reducing DNS lookup latency to <1ms',
-      'Upstream DNS-over-HTTPS (DoH) forwarding through Cloudflare & Quad9'
-    ],
-    volumes: [
-      './etc-pihole:/etc/pihole',
-      './etc-dnsmasq.d:/etc/dnsmasq.d'
-    ],
-    envVars: [
-      'TZ=Europe/Bucharest',
-      'WEBPASSWORD=***'
-    ],
-    composeCode: `services:
-  pihole:
-    image: pihole/pihole:latest
-    container_name: pihole
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "8082:80"
-    environment:
-      - TZ=Europe/Bucharest
-    volumes:
-      - ./etc-pihole:/etc/pihole
-      - ./etc-dnsmasq.d:/etc/dnsmasq.d
     restart: unless-stopped`,
-    wikiMarkdown: `### DNS Configuration
-Primary DNS server is configured via OPNsense DHCP server to broadcast Pi-hole IP \`10.0.10.5\` across all client subnets.`
-  },
-  {
-    id: 'netbird',
-    name: 'NetBird Zero-Trust Mesh VPN',
-    category: 'networking',
-    port: 33073,
-    internalUrl: 'https://netbird.homelab.lan:33073',
-    icon: 'radio',
-    color: '#ff6600',
-    image: 'netbirdio/netbird:0.28.8',
-    containerName: 'netbird-client',
-    status: 'online',
-    tags: ['WireGuard', 'Zero-Trust', 'Peer-to-Peer', 'Mesh VPN', 'MFA'],
-    description: 'Zero-configuration WireGuard-based overlay network connecting remote laptops, mobile devices, and off-site servers directly into the homelab private mesh.',
-    features: [
-      'High-speed peer-to-peer WireGuard connections bypassing NAT and CGNAT',
-      'Identity-aware access control routing specific services to authorized users',
-      'Encrypted mesh tunnels with kernel-level performance on Linux nodes',
-      'DNS routing over mesh with internal domain split-tunneling'
-    ],
-    volumes: [],
-    envVars: [
-      'NB_MANAGEMENT_URL=https://netbird.homelab.lan:33073'
-    ],
-    composeCode: `services:
-  netbird-client:
-    image: netbirdio/netbird:0.28.8
-    container_name: netbird-client
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - SYS_ADMIN
-    environment:
-      - NB_MANAGEMENT_URL=https://netbird.homelab.lan:33073`,
-    wikiMarkdown: `### Mesh Network
-NetBird assigns each node an immutable IP address in the \`100.64.0.0/10\` CGNAT range, allowing direct SSH, Proxmox web access, and NFS shares from anywhere securely.`
+    wikiMarkdown: `### Woodpecker CI
+Woodpecker CI is deployed on LXC 111 and automates build verification.`
   },
   {
     id: 'authelia',
     name: 'Authelia 2FA & SSO Portal',
     category: 'security',
+    ip: '192.168.1.20',
     port: 9091,
-    internalUrl: 'http://authelia.homelab.lan:9091',
+    ipUrl: 'http://192.168.1.20:9091',
+    domain: 'authelia.lan',
+    domainUrl: 'http://authelia.lan',
+    internalUrl: 'http://authelia.lan',
     icon: 'key',
-    color: '#0055ff',
+    color: '#0984e3',
     image: 'authelia/authelia:latest',
     containerName: 'authelia',
     status: 'online',
-    tags: ['Single Sign-On', 'FIDO2 / WebAuthn', 'TOTP 2FA', 'OpenID Connect'],
-    description: 'Open-source authentication and authorization server providing two-factor authentication and single sign-on (SSO) protection for reverse-proxied homelab web apps.',
+    tags: ['SSO', '2FA', 'OpenID Connect', 'Forward Auth', 'Identity'],
+    description: 'Open-source authentication server providing Single Sign-On (SSO) and multi-factor authentication (TOTP, WebAuthn/FIDO2) for reverse proxy ingress.',
     features: [
-      'Multi-factor authentication supporting hardware security keys (FIDO2/WebAuthn) and TOTP',
-      'Forward auth integration with Nginx Proxy Manager and Traefik',
-      'OpenID Connect (OIDC) identity provider for Grafana, Gitea, and Nextcloud',
-      'Brute-force protection and IP-based rate limiting'
+      'Two-factor authentication via TOTP authenticator apps and FIDO2/WebAuthn keys',
+      'Seamless Nginx Proxy Manager forward-auth middleware integration',
+      'Granular rule policies per subdomain, user group, and source subnet',
+      'Argon2id password hashing and brute-force protection'
     ],
-    volumes: [
-      './config:/config'
-    ],
-    envVars: [],
+    volumes: ['./config:/config'],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   authelia:
     image: authelia/authelia:latest
     container_name: authelia
-    restart: unless-stopped
     ports:
       - "9091:9091"
-    volumes:
-      - ./config:/config`,
-    wikiMarkdown: `### Protection Policy
-Critical services without native multi-user security (e.g. Scrutiny, IT-Tools, ChangeDetection) are guarded behind Authelia 2FA forward auth gateways.`
-  },
-  {
-    id: 'authentik',
-    name: 'Authentik Identity Provider',
-    category: 'security',
-    port: 9000,
-    internalUrl: 'http://authentik.homelab.lan:9000',
-    icon: 'user-check',
-    color: '#e84393',
-    image: 'ghcr.io/goauthentik/server:latest',
-    containerName: 'authentik_server',
-    status: 'online',
-    tags: ['OAuth2', 'SAML', 'LDAP Outpost', 'Enterprise SSO', 'Identity'],
-    description: 'Comprehensive identity management platform with built-in OAuth2/OIDC, SAML, and LDAP outpost proxies for directory synchronization across all services.',
-    features: [
-      'Enterprise-grade OAuth2 and OpenID Connect provider',
-      'Embedded LDAP outpost allowing legacy appliances to authenticate against single database',
-      'Custom user enrollment, password self-service, and Passkey passcodes',
-      'Detailed audit logs and session management with instantaneous revocation'
-    ],
-    volumes: [
-      './media:/media',
-      './custom-templates:/templates'
-    ],
-    envVars: [
-      'AUTHENTIK_SECRET_KEY=***',
-      'AUTHENTIK_REDIS__HOST=redis'
-    ],
-    composeCode: `services:
-  server:
-    image: ghcr.io/goauthentik/server:latest
-    container_name: authentik_server
-    restart: unless-stopped
-    ports:
-      - "9000:9000"
-      - "9443:9443"
-    environment:
-      - AUTHENTIK_REDIS__HOST=redis
-      - AUTHENTIK_POSTGRESQL__HOST=postgresql`,
-    wikiMarkdown: `### Enterprise Identity
-Authentik centralizes all homelab accounts into a single directory, providing SSO across Gitea, Grafana, Nextcloud, and Proxmox VE.`
+    restart: unless-stopped`,
+    wikiMarkdown: `### Authelia SSO
+Authelia runs in LXC 116 and acts as the gatekeeper for local domain access.`
   },
   {
     id: 'crowdsec',
     name: 'CrowdSec Cyber Defense & LAPI',
     category: 'security',
+    ip: '192.168.1.9',
     port: 8080,
-    internalUrl: 'http://crowdsec.homelab.lan:8080',
-    icon: 'shield-alert',
-    color: '#0984e3',
+    ipUrl: 'http://192.168.1.9:8080',
+    domain: 'crowdsec.lan',
+    domainUrl: 'http://crowdsec.lan',
+    internalUrl: 'http://crowdsec.lan',
+    icon: 'shield',
+    color: '#e84393',
     image: 'crowdsecurity/crowdsec:latest',
     containerName: 'crowdsec',
     status: 'online',
-    tags: ['Intrusion Prevention', 'Log Parsing', 'Crowdsourced CTI', 'Bouncer', 'Firewall'],
-    description: 'Collaborative, open-source security engine analyzing logs from Nginx, OPNsense, and SSH daemons to detect brute-force attacks and apply instant IP bans.',
+    tags: ['IPS / IDS', 'Firewall', 'Threat Intelligence', 'Log Analysis', 'Banning'],
+    description: 'Crowd-sourced behavioral intrusion prevention system parsing reverse proxy and SSH logs to detect and neutralize brute-force attacks.',
     features: [
-      'Real-time behavioral log analysis for SSH, HTTP 4xx scanners, and API abusers',
-      'Crowdsourced reputation database sharing malicious IP blocklists globally',
-      'Remediation bouncers installed on OPNsense firewall and Nginx reverse proxies',
-      'Prometheus metric export for Grafana intrusion monitoring'
+      'Real-time behavioral analysis of Nginx, SSH, and HTTP request logs',
+      'Community consensus threat intelligence blocklists covering 100k+ malicious IPs',
+      'OPNsense and nftables remediation bouncers blocking bad actors at layer 3',
+      'Local API (LAPI) daemon managing alert decisions and bouncer subscriptions'
     ],
-    volumes: [
-      '/var/log:/var/log:ro',
-      './config:/etc/crowdsec',
-      './data:/var/lib/crowdsec/data'
-    ],
-    envVars: [],
+    volumes: ['./config:/etc/crowdsec', './data:/var/lib/crowdsec/data'],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
-    restart: unless-stopped
-    environment:
-      - COLLECTIONS=crowdsecurity/nginx crowdsecurity/sshd
-    volumes:
-      - /var/log:/var/log:ro
-      - ./config:/etc/crowdsec`,
-    wikiMarkdown: `### Collaborative Security
-When CrowdSec detects port scanning or dictionary attacks on public services, it pushes the offending IP to OPNsense pf tables and reports the signature to the global threat mesh.`
-  },
-  {
-    id: 'frigate',
-    name: 'Frigate NVR & AI Vision',
-    category: 'iot',
-    port: 5000,
-    internalUrl: 'http://frigate.homelab.lan:5000',
-    icon: 'video',
-    color: '#00cec9',
-    image: 'ghcr.io/blakeblackshear/frigate:stable',
-    containerName: 'frigate',
-    status: 'online',
-    tags: ['NVR', 'Google Coral TPU', 'Object Detection', 'RTSP', 'Home Assistant'],
-    description: 'Complete network video recorder (NVR) with real-time AI object detection powered by Google Coral TPU and hardware-accelerated video decoding.',
-    features: [
-      'Sub-10ms object detection for persons, vehicles, and pets using Coral Edge TPU',
-      'RTSP/WebRTC low-latency camera stream restreaming with go2rtc',
-      'Rich event clips and snapshot publishing to Home Assistant via MQTT',
-      'Continuous 24/7 recording with retention tiering based on motion triggers'
-    ],
-    volumes: [
-      '/etc/localtime:/etc/localtime:ro',
-      './config.yml:/config/config.yml:ro',
-      '/mnt/storage/nvr:/media/frigate'
-    ],
-    envVars: [
-      'FRIGATE_RTSP_PASSWORD=***'
-    ],
-    composeCode: `services:
-  frigate:
-    container_name: frigate
-    privileged: true
-    restart: unless-stopped
-    image: ghcr.io/blakeblackshear/frigate:stable
-    shm_size: "128mb"
-    devices:
-      - /dev/bus/usb:/dev/bus/usb
-    volumes:
-      - ./config.yml:/config/config.yml
-      - /mnt/storage/nvr:/media/frigate
     ports:
-      - "5000:5000"
-      - "8554:8554"
-      - "8555:8555/tcp"
-      - "8555:8555/udp"`,
-    wikiMarkdown: `### Hardware Acceleration
-Frigate leverages an M.2 Google Coral Edge TPU and Intel QuickSync / iGPU VA-API for decoding 4K H.265 camera feeds at minimal CPU utilization.`
+      - "8080:8080"
+    restart: unless-stopped`,
+    wikiMarkdown: `### CrowdSec IDS/IPS
+CrowdSec protects the homelab against automated scanning, brute-force, and exploit attempts.`
   },
   {
-    id: 'arr-suite',
-    name: 'Servarr Media Automation Suite',
+    id: 'jellyfin',
+    name: 'Jellyfin Media Server',
     category: 'media',
+    ip: '192.168.1.21',
     port: 8096,
-    internalUrl: 'http://jellyfin.homelab.lan:8096',
+    ipUrl: 'http://192.168.1.21:8096',
+    domain: 'jellyfin.lan',
+    domainUrl: 'http://jellyfin.lan',
+    internalUrl: 'http://jellyfin.lan',
     icon: 'tv',
     color: '#a29bfe',
     image: 'jellyfin/jellyfin:latest',
     containerName: 'jellyfin',
     status: 'online',
-    tags: ['Jellyfin', 'Sonarr', 'Radarr', 'Prowlarr', 'Bazarr', 'Transmission'],
-    description: 'Integrated media center and automated collection pipeline featuring Jellyfin streaming server, Sonarr/Radarr indexers, Prowlarr proxies, and Transmission.',
+    tags: ['Media Server', 'Streaming', 'Movies', 'TV Shows', 'DLNA'],
+    description: 'Free and open-source media streaming server with multi-user profiles, metadata scraping, and hardware transcoding.',
     features: [
-      'Jellyfin Media Server with 4K HDR transcoding and multi-device streaming',
-      'Sonarr (TV:8989) and Radarr (Movies:7878) automated quality management',
-      'Prowlarr (9696) centralized Torrent/Usenet tracker management',
-      'Bazarr (6767) subtitle synchronization in multiple languages'
+      'High-definition video streaming across Smart TVs, Android, iOS, and Web',
+      'Automated subtitle retrieval and rich artwork/metadata scraping',
+      'Granular parental controls and individual user watch progress sync',
+      'Integrated DLNA broadcasting for local network media players'
     ],
-    volumes: [
-      '/mnt/storage/media:/media',
-      './config:/config'
-    ],
-    envVars: [
-      'PUID=1000',
-      'PGID=1000',
-      'TZ=Europe/Bucharest'
-    ],
+    volumes: ['./jellyfin_config:/config', '/mnt/storage/media:/media'],
+    envVars: ['PUID=1000', 'PGID=1000', 'TZ=Europe/Bucharest'],
     composeCode: `services:
   jellyfin:
     image: jellyfin/jellyfin:latest
     container_name: jellyfin
     ports:
       - "8096:8096"
-    volumes:
-      - ./jellyfin/config:/config
-      - /mnt/storage/media:/media
     restart: unless-stopped`,
-    wikiMarkdown: `### Port Map for Media Suite
-- **Jellyfin**: \`8096\`
-- **Sonarr**: \`8989\`
-- **Radarr**: \`7878\`
-- **Prowlarr**: \`9696\`
-- **Bazarr**: \`6767\`
-- **Transmission**: \`9091\``
+    wikiMarkdown: `### Jellyfin Media Server
+Jellyfin runs on LXC 117 alongside the Servarr suite on IP \`192.168.1.21\`.`
+  },
+  {
+    id: 'radarr',
+    name: 'Radarr Movie Automation',
+    category: 'media',
+    ip: '192.168.1.21',
+    port: 7878,
+    ipUrl: 'http://192.168.1.21:7878',
+    domain: 'radarr.lan',
+    domainUrl: 'http://radarr.lan',
+    internalUrl: 'http://radarr.lan',
+    icon: 'film',
+    color: '#f39c12',
+    image: 'lscr.io/linuxserver/radarr:latest',
+    containerName: 'radarr',
+    status: 'online',
+    tags: ['Movies', 'Servarr', 'Automated Downloads', 'Indexers', 'qBit'],
+    description: 'Automated movie collection manager that monitors RSS feeds for new films, upgrades quality, and integrates with download clients.',
+    features: [
+      'Automated movie release tracking and calendar scheduling',
+      'Custom quality profiles (4K HDR, 1080p Remux, 720p)',
+      'Seamless integration with Prowlarr indexers and qBittorrent',
+      'Automatic file renaming, folder organization, and Jellyfin notification'
+    ],
+    volumes: ['./radarr_config:/config', '/mnt/storage/media/movies:/movies'],
+    envVars: ['PUID=1000', 'PGID=1000', 'TZ=Europe/Bucharest'],
+    composeCode: `services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    ports:
+      - "7878:7878"
+    restart: unless-stopped`,
+    wikiMarkdown: `### Radarr Movie Manager
+Radarr is deployed in LXC 117 and managed via \`radarr.lan\`.`
+  },
+  {
+    id: 'sonarr',
+    name: 'Sonarr TV Series Automation',
+    category: 'media',
+    ip: '192.168.1.21',
+    port: 8989,
+    ipUrl: 'http://192.168.1.21:8989',
+    domain: 'sonarr.lan',
+    domainUrl: 'http://sonarr.lan',
+    internalUrl: 'http://sonarr.lan',
+    icon: 'tv',
+    color: '#00cec9',
+    image: 'lscr.io/linuxserver/sonarr:latest',
+    containerName: 'sonarr',
+    status: 'online',
+    tags: ['TV Shows', 'Servarr', 'Episodes', 'Indexers', 'Quality Upgrades'],
+    description: 'Smart PVR for TV series newsgroup and BitTorrent users, automating episode tracking, downloading, and library renaming.',
+    features: [
+      'Automated episode monitoring, downloading, and season packing',
+      'Intelligent quality upgrading based on custom score thresholds',
+      'Calendar view of upcoming television premieres and season finales',
+      'Auto-tagging and hardlink integration into Jellyfin TV libraries'
+    ],
+    volumes: ['./sonarr_config:/config', '/mnt/storage/media/tv:/tv'],
+    envVars: ['PUID=1000', 'PGID=1000', 'TZ=Europe/Bucharest'],
+    composeCode: `services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    ports:
+      - "8989:8989"
+    restart: unless-stopped`,
+    wikiMarkdown: `### Sonarr TV Series Manager
+Sonarr runs on LXC 117 and is accessible via \`sonarr.lan\`.`
+  },
+  {
+    id: 'prowlarr',
+    name: 'Prowlarr Indexer Proxy',
+    category: 'media',
+    ip: '192.168.1.21',
+    port: 9696,
+    ipUrl: 'http://192.168.1.21:9696',
+    domain: 'prowlarr.lan',
+    domainUrl: 'http://prowlarr.lan',
+    internalUrl: 'http://prowlarr.lan',
+    icon: 'search',
+    color: '#ff7675',
+    image: 'lscr.io/linuxserver/prowlarr:latest',
+    containerName: 'prowlarr',
+    status: 'online',
+    tags: ['Indexers', 'Torrents', 'Usenet', 'Proxy', 'Servarr'],
+    description: 'Centralized indexer manager that integrates directly with Radarr and Sonarr to sync 500+ Torrent and Usenet indexers seamlessly.',
+    features: [
+      'Centralized configuration of public, semi-private, and private trackers',
+      'One-click synchronization of indexers to Radarr, Sonarr, and Lidarr',
+      'Indexer health monitoring, response latency graphs, and query logging',
+      'FlareSolverr and proxy integration for anti-bot bypass'
+    ],
+    volumes: ['./prowlarr_config:/config'],
+    envVars: ['PUID=1000', 'PGID=1000', 'TZ=Europe/Bucharest'],
+    composeCode: `services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    ports:
+      - "9696:9696"
+    restart: unless-stopped`,
+    wikiMarkdown: `### Prowlarr Indexer Manager
+Prowlarr is deployed in LXC 117 and accessible via \`prowlarr.lan\`.`
+  },
+  {
+    id: 'bazarr',
+    name: 'Bazarr Subtitle Synchronizer',
+    category: 'media',
+    ip: '192.168.1.21',
+    port: 6767,
+    ipUrl: 'http://192.168.1.21:6767',
+    domain: 'bazarr.lan',
+    domainUrl: 'http://bazarr.lan',
+    internalUrl: 'http://bazarr.lan',
+    icon: 'message-square',
+    color: '#6c5ce7',
+    image: 'lscr.io/linuxserver/bazarr:latest',
+    containerName: 'bazarr',
+    status: 'online',
+    tags: ['Subtitles', 'Sync', 'Multilingual', 'Servarr', 'OpenSubtitles'],
+    description: 'Companion application to Sonarr and Radarr that automates the search, download, and audio-synchronization of subtitles in multiple languages.',
+    features: [
+      'Automatic subtitle fetching across OpenSubtitles, Subscene, and Podnapisi',
+      'Audio sync alignment using FFmpeg to prevent subtitle drift',
+      'Multi-language profiles with fallback language chains',
+      'Automatic embedded subtitle extraction and clean naming conventions'
+    ],
+    volumes: ['./bazarr_config:/config', '/mnt/storage/media:/media'],
+    envVars: ['PUID=1000', 'PGID=1000', 'TZ=Europe/Bucharest'],
+    composeCode: `services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    ports:
+      - "6767:6767"
+    restart: unless-stopped`,
+    wikiMarkdown: `### Bazarr Subtitle Downloader
+Bazarr is deployed in LXC 117 and accessible via \`bazarr.lan\`.`
+  },
+  {
+    id: 'qbittorrent',
+    name: 'qBittorrent Web Client',
+    category: 'media',
+    ip: '192.168.1.21',
+    port: 8080,
+    ipUrl: 'http://192.168.1.21:8080',
+    domain: 'qbittorrent.lan',
+    domainUrl: 'http://qbittorrent.lan',
+    internalUrl: 'http://qbittorrent.lan',
+    icon: 'download-cloud',
+    color: '#2980b9',
+    image: 'lscr.io/linuxserver/qbittorrent:latest',
+    containerName: 'qbittorrent',
+    status: 'online',
+    tags: ['Torrents', 'Downloads', 'P2P', 'Bandwidth Management', 'Servarr'],
+    description: 'Lightweight, high-performance BitTorrent client with feature-rich WebUI, speed scheduling, and granular category tagging.',
+    features: [
+      'Category-based download path management for Radarr and Sonarr',
+      'Bandwidth throttling, scheduling, and sequential downloading',
+      'Built-in search plugins and WebUI authentication security',
+      'Direct storage bindings to ZFS media dataset'
+    ],
+    volumes: ['./qbit_config:/config', '/mnt/storage/downloads:/downloads'],
+    envVars: ['PUID=1000', 'PGID=1000', 'TZ=Europe/Bucharest'],
+    composeCode: `services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    ports:
+      - "8080:8080"
+    restart: unless-stopped`,
+    wikiMarkdown: `### qBittorrent Downloader
+qBittorrent runs in LXC 117 and handles all automated Servarr downloads.`
   },
   {
     id: 'actualbudget',
     name: 'Actual Budget',
     category: 'productivity',
+    ip: '192.168.1.22',
     port: 5006,
-    internalUrl: 'http://budget.homelab.lan:5006',
+    ipUrl: 'http://192.168.1.22:5006',
+    domain: 'actualbudget.lan',
+    domainUrl: 'http://actualbudget.lan',
+    internalUrl: 'http://actualbudget.lan',
     icon: 'dollar-sign',
-    color: '#00b894',
+    color: '#27ae60',
     image: 'actualbudget/actual-server:latest',
     containerName: 'actualbudget',
     status: 'online',
-    tags: ['Personal Finance', 'Zero-Based Budget', 'Bank Sync', 'Privacy', 'SQLite'],
-    description: 'Privacy-focused zero-based envelope personal budgeting application with multi-device synchronization, bank syncing, and end-to-end encryption.',
+    tags: ['Finance', 'Budgeting', 'Zero-Based', 'Privacy', 'Encrypted Sync'],
+    description: 'Privacy-focused zero-based envelope budgeting application with encrypted client-side synchronization and automated bank statement parsing.',
     features: [
-      'Zero-based envelope budgeting method keeping finances intentional',
-      'End-to-end client encryption with offline-first desktop & mobile apps',
-      'Automated bank account transaction imports through GoCardless / SimpleFIN',
-      'Fast and reliable SQLite database backend with automated file backups'
+      'Zero-based envelope budgeting methodology with monthly roll-over',
+      'End-to-end client-side encryption across desktop, mobile, and web',
+      'OFX, QFX, and CSV transaction imports with automated category matching',
+      'Custom budget rules, recurring transactions, and net worth reports'
     ],
-    volumes: [
-      './actual-data:/data'
-    ],
-    envVars: [],
+    volumes: ['./data:/data'],
+    envVars: ['PORT=5006'],
     composeCode: `services:
   actualbudget:
     image: actualbudget/actual-server:latest
     container_name: actualbudget
-    restart: unless-stopped
     ports:
       - "5006:5006"
-    volumes:
-      - ./actual-data:/data`,
-    wikiMarkdown: `### Financial Privacy
-Actual Budget keeps all bank accounts, transaction histories, and budgets private on the homelab NVMe storage without third-party cloud data harvesting.`
-  },
-  {
-    id: 'alist',
-    name: 'AList Unified Storage Aggregator',
-    category: 'cloud',
-    port: 5244,
-    internalUrl: 'http://alist.homelab.lan:5244',
-    icon: 'hard-drive',
-    color: '#0984e3',
-    image: 'xhofe/alist:latest',
-    containerName: 'alist',
-    status: 'online',
-    tags: ['WebDAV', 'Cloud Aggregator', 'S3', 'Google Drive', 'OneDrive'],
-    description: 'File list program supporting multiple storage backends, mounting local disks, S3 buckets, Google Drive, and OneDrive into a single unified WebDAV gateway.',
-    features: [
-      'Aggregates local ZFS storage, remote S3 buckets, and cloud drives into one portal',
-      'WebDAV protocol server allowing desktop file manager mounts',
-      'Online preview for videos, audio, PDF, office documents, and code files',
-      'Multi-threaded download acceleration and batch offline download engine'
-    ],
-    volumes: [
-      './data:/opt/alist/data',
-      '/mnt/storage:/mnt/storage'
-    ],
-    envVars: [],
-    composeCode: `services:
-  alist:
-    image: xhofe/alist:latest
-    container_name: alist
-    restart: unless-stopped
-    volumes:
-      - ./data:/opt/alist/data
-      - /mnt/storage:/mnt/storage
-    ports:
-      - "5244:5244"
-    environment:
-      - PUID=0
-      - PGID=0
-      - UMASK=022`,
-    wikiMarkdown: `### Storage Gateway
-AList acts as a file gateway across physical servers and cloud buckets, providing uniform WebDAV endpoints for Kodi and mobile media players.`
+    restart: unless-stopped`,
+    wikiMarkdown: `### Actual Budget Overview
+Actual Budget runs on LXC 118 and is accessible via \`actualbudget.lan\`.`
   },
   {
     id: 'filebrowser',
     name: 'FileBrowser Web Manager',
     category: 'cloud',
-    port: 8080,
-    internalUrl: 'http://files.homelab.lan:8080',
+    ip: '192.168.1.23',
+    port: 8082,
+    ipUrl: 'http://192.168.1.23:8082',
+    domain: 'filebrowser.lan',
+    domainUrl: 'http://filebrowser.lan',
+    internalUrl: 'http://filebrowser.lan',
     icon: 'folder',
-    color: '#6c5ce7',
+    color: '#3498db',
     image: 'filebrowser/filebrowser:latest',
     containerName: 'filebrowser',
     status: 'online',
-    tags: ['File Manager', 'Web Interface', 'Upload/Download', 'User Permissions'],
-    description: 'Clean and lightweight web-based file manager for uploading, managing, editing, and sharing files directly from homelab storage directories.',
+    tags: ['File Manager', 'Uploads', 'Previews', 'WebUI', 'Quick Share'],
+    description: 'Lightweight web-based file management interface with direct filesystem access, drag-and-drop uploads, media previews, and temporary share links.',
     features: [
-      'Modern web UI for browsing ZFS datasets and Docker volume directories',
-      'In-browser text and code editor with syntax highlighting',
-      'Public sharing links with custom expiration dates and passwords',
-      'Granular user permissions and path restrictions'
+      'Instant browsing of ZFS pools and local backup volumes',
+      'In-browser video, image, PDF, and syntax-highlighted code previewing',
+      'User permissions with customizable base directories and quotas',
+      'Direct command execution and file archive creation/extraction'
     ],
-    volumes: [
-      '/mnt/storage:/srv',
-      './filebrowser.db:/database/filebrowser.db',
-      './settings.json:/config/settings.json'
-    ],
-    envVars: [],
+    volumes: ['./data:/data', '/srv:/srv'],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   filebrowser:
     image: filebrowser/filebrowser:latest
     container_name: filebrowser
-    restart: unless-stopped
     ports:
-      - "8080:80"
-    volumes:
-      - /mnt/storage:/srv
-      - ./filebrowser.db:/database/filebrowser.db
-      - ./settings.json:/config/settings.json`,
-    wikiMarkdown: `### Administration
-FileBrowser provides emergency web-based access to configuration files, ISO installers, and container volumes when SSH is not convenient.`
+      - "8082:80"
+    restart: unless-stopped`,
+    wikiMarkdown: `### FileBrowser Storage Manager
+FileBrowser is deployed on LXC 119 and accessible via \`filebrowser.lan\`.`
+  },
+  {
+    id: 'changedetection',
+    name: 'ChangeDetection.io Monitor',
+    category: 'automation',
+    ip: '192.168.1.24',
+    port: 5000,
+    ipUrl: 'http://192.168.1.24:5000',
+    domain: 'changedetection.lan',
+    domainUrl: 'http://changedetection.lan',
+    internalUrl: 'http://changedetection.lan',
+    icon: 'eye',
+    color: '#d63031',
+    image: 'dgtlmoon/changedetection.io:latest',
+    containerName: 'changedetection',
+    status: 'online',
+    tags: ['Web Monitor', 'Diff Tracker', 'Restock Alerts', 'Scraping', 'Webhooks'],
+    description: 'Automated website change detection and notification tool monitoring price updates, restock alerts, API changes, and DOM element mutations.',
+    features: [
+      'Visual CSS and XPath selector filtering to monitor specific page regions',
+      'Side-by-side visual and text diffs highlighting exact additions/deletions',
+      'Playwright / Chromium rendering support for JavaScript-heavy dynamic websites',
+      'Instant notification triggers via Discord, Telegram, Webhook, and Email'
+    ],
+    volumes: ['./datastore:/datastore'],
+    envVars: ['TZ=Europe/Bucharest'],
+    composeCode: `services:
+  changedetection:
+    image: dgtlmoon/changedetection.io:latest
+    container_name: changedetection
+    ports:
+      - "5000:5000"
+    restart: unless-stopped`,
+    wikiMarkdown: `### ChangeDetection.io
+ChangeDetection runs on LXC 120 and monitors web page changes automatically.`
+  },
+  {
+    id: 'alist',
+    name: 'AList Unified Storage Aggregator',
+    category: 'cloud',
+    ip: '192.168.1.25',
+    port: 5244,
+    ipUrl: 'http://192.168.1.25:5244',
+    domain: 'alist.lan',
+    domainUrl: 'http://alist.lan',
+    internalUrl: 'http://alist.lan',
+    icon: 'hard-drive',
+    color: '#16a085',
+    image: 'xhofe/alist:latest',
+    containerName: 'alist',
+    status: 'online',
+    tags: ['Storage', 'Cloud Drives', 'WebDAV', 'Aggregation', 'Direct Link'],
+    description: 'File list program aggregating local ZFS storage, Google Drive, OneDrive, S3 buckets, and WebDAV providers into a single unified directory.',
+    features: [
+      'Aggregation of 30+ cloud storage backends into a single mount tree',
+      'WebDAV server endpoints enabling native OS mounting of all cloud drives',
+      'Direct link generation and video preview transcoding without downloading',
+      'Offline file download forwarding to Aria2 and qBittorrent engines'
+    ],
+    volumes: ['./data:/opt/alist/data'],
+    envVars: ['TZ=Europe/Bucharest'],
+    composeCode: `services:
+  alist:
+    image: xhofe/alist:latest
+    container_name: alist
+    ports:
+      - "5244:5244"
+    restart: unless-stopped`,
+    wikiMarkdown: `### AList Storage Gateway
+AList is deployed in LXC 121 and accessible via \`alist.lan\`.`
   },
   {
     id: 'trillium-notes',
     name: 'Trilium Personal Knowledge Base',
     category: 'productivity',
+    ip: '192.168.1.19',
     port: 8080,
-    internalUrl: 'http://notes.homelab.lan:8080',
+    ipUrl: 'http://192.168.1.19:8080',
+    domain: 'trilium.lan',
+    domainUrl: 'http://trilium.lan',
+    internalUrl: 'http://trilium.lan',
     icon: 'book-open',
-    color: '#6c5ce7',
-    image: 'zedrr/trilium:latest',
-    containerName: 'trilium-notes',
+    color: '#8e44ad',
+    image: 'zadam/trilium:latest',
+    containerName: 'trilium',
     status: 'online',
-    tags: ['Knowledge Base', 'Hierarchical Notes', 'Markdown', 'Code Snippets', 'Diagrams'],
-    description: 'Hierarchical note-taking application designed for building large personal knowledge bases, system runbooks, and technical documentation.',
+    tags: ['Notes', 'Knowledge Base', 'Markdown', 'Mind Maps', 'Encryption'],
+    description: 'Hierarchical note-taking application designed for building extensive personal knowledge bases with rich text, code snippets, and mind maps.',
     features: [
-      'Tree structure with infinite note hierarchy and note cloning attributes',
-      'Rich Markdown editor, code execution sandbox, and embedded Excalidraw diagrams',
-      'End-to-end synchronization with desktop desktop clients',
-      'Full-text search, note encryption, and version history snapshots'
+      'Infinite tree hierarchy and clone notes with multi-parent placement',
+      'Rich text editing with MathJax formulas, code highlighting, and diagrams',
+      'Full-text search with attribute filtering and relation link graphs',
+      'Per-note encryption and automated periodic database snapshot backups'
     ],
-    volumes: [
-      'trilium-data:/home/node/trilium-data'
-    ],
-    envVars: [],
+    volumes: ['./trilium-data:/home/node/trilium-data'],
+    envVars: ['TRILIUM_DATA_DIR=/home/node/trilium-data'],
     composeCode: `services:
   trilium:
-    image: zedrr/trilium:latest
-    container_name: trilium-notes
-    restart: unless-stopped
+    image: zadam/trilium:latest
+    container_name: trilium
     ports:
       - "8080:8080"
-    volumes:
-      - trilium-data:/home/node/trilium-data`,
-    wikiMarkdown: `### Homelab Runbooks
-Trilium stores all disaster recovery procedures, hardware serial numbers, network IP allocations, and step-by-step service onboarding runbooks.`
+    restart: unless-stopped`,
+    wikiMarkdown: `### Trilium Notes
+Trilium Notes runs in LXC 115 and is accessible via \`trilium.lan\`.`
   },
   {
     id: 'scrutiny',
     name: 'Scrutiny S.M.A.R.T. Drive Health',
     category: 'monitoring',
+    ip: '192.168.1.18',
     port: 8080,
-    internalUrl: 'http://scrutiny.homelab.lan:8080',
+    ipUrl: 'http://192.168.1.18:8080',
+    domain: 'scrutiny.lan',
+    domainUrl: 'http://scrutiny.lan',
+    internalUrl: 'http://scrutiny.lan',
     icon: 'disc',
-    color: '#e17055',
+    color: '#e67e22',
     image: 'ghcr.io/analogj/scrutiny:master-omnibus',
     containerName: 'scrutiny',
     status: 'online',
-    tags: ['Hard Drives', 'NVMe', 'S.M.A.R.T. Health', 'Temperature', 'Failure Prediction'],
-    description: 'Hard drive S.M.A.R.T. health monitoring and dashboard service tracking drive temperatures, bad sectors, power-on hours, and failure probability.',
+    tags: ['S.M.A.R.T.', 'Storage Health', 'SSD Wear', 'Drive Telemetry', 'Alerts'],
+    description: 'Hard drive health dashboard tracking S.M.A.R.T. metrics, temperature trends, and failure probabilities across SSD and HDD storage devices.',
     features: [
-      'Automatic S.M.A.R.T. attribute scraping across SATA SSDs, HDDs, and NVMe drives',
-      'Historical temperature tracking and degradation curve forecasting',
-      'Failure prediction thresholds based on Backblaze disk statistics',
-      'Discord and email notifications on drive health threshold breaches'
+      'Automated smartctl daemon inspection across all hypervisor storage disks',
+      'SSD endurance calculation and wear percentage remaining estimation',
+      'Historical temperature tracking graphs with critical threshold warnings',
+      'Webhook alerting before catastrophic drive sector degradation occurs'
     ],
-    volumes: [
-      '/run/udev:/run/udev:ro',
-      'scrutiny_data:/opt/scrutiny/config',
-      'scrutiny_db:/opt/scrutiny/influxdb'
-    ],
-    envVars: [],
+    volumes: ['./config:/opt/scrutiny/config', '/run/udev:/run/udev:ro'],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   scrutiny:
     image: ghcr.io/analogj/scrutiny:master-omnibus
     container_name: scrutiny
-    restart: unless-stopped
     ports:
       - "8080:8080"
-      - "8086:8086"
-    cap_add:
-      - SYS_RAWIO
-      - SYS_ADMIN
-    volumes:
-      - /run/udev:/run/udev:ro
-      - scrutiny_data:/opt/scrutiny/config
-      - scrutiny_db:/opt/scrutiny/influxdb
-    devices:
-      - /dev/sda
-      - /dev/sdb
-      - /dev/nvme0n1`,
-    wikiMarkdown: `### Storage Array Health
-Scrutiny monitors all 8 SAS/SATA drives in the main ZFS array and the NVMe cache drives on Proxmox nodes to detect failing disks before data loss occurs.`
+    restart: unless-stopped`,
+    wikiMarkdown: `### Scrutiny Disk Health
+Scrutiny is deployed in LXC 114 and monitors drive telemetry via \`scrutiny.lan\`.`
   },
   {
     id: 'it-tools',
     name: 'IT-Tools Handy Utilities',
     category: 'productivity',
-    port: 8080,
-    internalUrl: 'http://tools.homelab.lan:8080',
+    ip: '192.168.1.12',
+    port: 80,
+    ipUrl: 'http://192.168.1.12',
+    domain: 'it-tools.lan',
+    domainUrl: 'http://it-tools.lan',
+    internalUrl: 'http://it-tools.lan',
     icon: 'tool',
-    color: '#00cec9',
+    color: '#00b894',
     image: 'corentinth/it-tools:latest',
     containerName: 'it-tools',
     status: 'online',
-    tags: ['Developer Tools', 'JWT', 'Base64', 'Subnet Calc', 'Cert Inspector', 'Regex'],
-    description: 'Collection of handy online tools for developers, sysadmins, and engineers: JWT decoders, Subnet calculators, Docker run converters, and Hash generators.',
+    tags: ['Dev Tools', 'Cheatsheets', 'Converters', 'Generators', 'Network Tools'],
+    description: 'Collection of handy online tools for developers and system administrators including JWT decoders, UUID generators, subnet calculators, and hashers.',
     features: [
-      'Over 70+ built-in developer tools running entirely client-side in browser',
-      'Network subnet calculators, CIDR lookups, and MAC address parsers',
-      'Cryptography tools: HMAC, RSA key generator, Bcrypt hasher, and UUID generator',
-      'Formatters and converters for JSON, YAML, TOML, XML, and SQL'
+      'Client-side execution with zero telemetry or data retention',
+      '70+ utilities covering crypto, network calculations, formatting, and conversion',
+      'Offline PWA support for air-gapped system maintenance sessions',
+      'Instant JSON formatting, Regex testing, and base64 encoders'
     ],
     volumes: [],
-    envVars: [],
+    envVars: ['TZ=Europe/Bucharest'],
     composeCode: `services:
   it-tools:
     image: corentinth/it-tools:latest
     container_name: it-tools
-    restart: unless-stopped
     ports:
-      - "8080:80"`,
-    wikiMarkdown: `### Offline Utility Suite
-IT-Tools is deployed locally to ensure all token parsing, base64 decoding, and certificate inspection happens securely without leaking secrets to third-party web tools.`
-  },
-  {
-    id: 'changedetection',
-    name: 'ChangeDetection.io Website Monitor',
-    category: 'automation',
-    port: 5000,
-    internalUrl: 'http://changedetection.homelab.lan:5000',
-    icon: 'eye',
-    color: '#fdcb6e',
-    image: 'ghcr.io/dgtlmoon/changedetection.io:latest',
-    containerName: 'changedetection',
-    status: 'online',
-    tags: ['Web Scraping', 'Change Monitoring', 'Restock Alert', 'Price Tracker', 'Diff Viewer'],
-    description: 'Automated website change detection, price monitoring, and restock notification engine with visual browser-based diff inspection.',
-    features: [
-      'Monitors web pages, API endpoints, and PDF documents for content changes',
-      'Visual CSS selector filtering and JavaScript rendering with Playwright',
-      'Visual interactive diff viewer highlighting added and removed text',
-      'Webhook notifications dispatched to Discord, Home Assistant, and Matrix'
-    ],
-    volumes: [
-      './datastore:/datastore'
-    ],
-    envVars: [],
-    composeCode: `services:
-  changedetection:
-    image: ghcr.io/dgtlmoon/changedetection.io:latest
-    container_name: changedetection
-    hostname: changedetection
-    volumes:
-      - ./datastore:/datastore
-    ports:
-      - "5000:5000"
+      - "80:80"
     restart: unless-stopped`,
-    wikiMarkdown: `### Change Alerts
-Tracks firmware release pages, security advisory CVE feeds, and hardware restock availability automatically.`
+    wikiMarkdown: `### IT-Tools Utility Suite
+IT-Tools runs in LXC 109 and is accessible via \`it-tools.lan\`.`
   },
   {
-    id: 'opnsense',
-    name: 'OPNsense Core Firewall & HAProxy',
-    category: 'networking',
-    port: 443,
-    internalUrl: 'https://opnsense.homelab.lan',
-    icon: 'shield',
-    color: '#d63031',
-    image: 'Bare-Metal Appliance / FreeBSDBase',
-    containerName: 'opnsense-core-firewall',
+    id: 'homelab-homepage',
+    name: 'Homelab Unified Dashboard',
+    category: 'productivity',
+    ip: '192.168.1.26',
+    port: 8085,
+    ipUrl: 'http://192.168.1.26:8085',
+    domain: 'homepage.lan',
+    domainUrl: 'http://homepage.lan',
+    internalUrl: 'http://homepage.lan',
+    icon: 'grid',
+    color: '#6366f1',
+    image: 'nginx:alpine',
+    containerName: 'homelab-homepage',
     status: 'online',
-    tags: ['Firewall', 'VLANs', 'HAProxy', 'WireGuard', 'Unbound DNS', 'Suricata IDS'],
-    description: 'Dedicated enterprise router and firewall gateway managing multi-gigabit WAN connectivity, inter-VLAN routing, and stateful packet inspection.',
+    tags: ['Dashboard', 'Vue.js', 'Service Portal', 'Live Health', 'Hardware Matrix'],
+    description: 'High-performance interactive portal and service directory presenting real-time system health, IP and domain endpoints, and Docker compose specs.',
     features: [
-      'Stateful packet inspection with Suricata IDS/IPS intrusion prevention',
-      'Inter-VLAN firewall rules isolating Management, Trusted, IoT, and DMZ tiers',
-      'Dual-WAN failover with automatic latency and packet loss tracking',
-      'Embedded HAProxy reverse proxy load balancing internal ingress traffic'
+      'Real-time endpoint cards showing direct IP (:port) and local domain (*.lan)',
+      'Port allocation matrix and hardware resource telemetry breakdown',
+      'Interactive Docker Compose and configuration inspector modals',
+      'Instant full-text search with category filtering and favorite pinning'
     ],
-    volumes: [
-      './topology.md',
-      './telegraf.conf',
-      './backup.py'
+    volumes: ['./dist:/usr/share/nginx/html:ro'],
+    envVars: ['TZ=Europe/Bucharest'],
+    composeCode: `services:
+  homepage:
+    image: nginx:alpine
+    container_name: homelab-homepage
+    ports:
+      - "8085:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+    restart: unless-stopped`,
+    wikiMarkdown: `### Homelab Dashboard
+The central dashboard is deployed on LXC 122 and routed via \`homepage.lan\` and \`homelab.lan\`.`
+  },
+  {
+    id: 'web-wiki',
+    name: 'Homelab Architecture Wiki',
+    category: 'devops',
+    ip: '192.168.1.27',
+    port: 80,
+    ipUrl: 'http://192.168.1.27',
+    domain: 'wiki.lan',
+    domainUrl: 'http://wiki.lan',
+    internalUrl: 'http://wiki.lan',
+    icon: 'book',
+    color: '#0984e3',
+    image: 'nginx:alpine',
+    containerName: 'web-wiki',
+    status: 'online',
+    tags: ['Wiki', 'Documentation', 'Architecture', 'Topology', 'Runbooks'],
+    description: 'Comprehensive engineering documentation and architectural reference detailing VLAN layouts, disaster recovery runbooks, and automation scripts.',
+    features: [
+      'Interactive Markdown documentation reader with deep link navigation',
+      'Network segmentation diagrams and VLAN isolation security rules',
+      'ESP32 embedded automation source walkthroughs and wiring guides',
+      'Full disaster recovery cold-start runbooks and backup procedures'
     ],
-    envVars: [],
-    composeCode: `# OPNsense runs on dedicated appliance hardware or Proxmox VM with PCI-e NIC passthrough.
-# Config files in services/opnsense contain Telegraf exporters and backup scripts.`,
-    wikiMarkdown: `### Network Subnets (VLAN Topology)
-- **VLAN 10 (Management)**: \`10.0.10.0/24\` (Proxmox nodes, IPMI, Switches, PDUs)
-- **VLAN 20 (IoT)**: \`10.0.20.0/24\` (Home Assistant, ESP32 sensors, Zigbee gateways, IP cameras)
-- **VLAN 30 (Services / Compute)**: \`10.0.30.0/24\` (Docker nodes, Kubernetes K3s, Storage)
-- **VLAN 40 (DMZ / Ingress)**: \`10.0.40.0/24\` (Reverse proxies, public facing services)`
+    volumes: ['./dist:/usr/share/nginx/html:ro'],
+    envVars: ['TZ=Europe/Bucharest'],
+    composeCode: `services:
+  wiki:
+    image: nginx:alpine
+    container_name: web-wiki
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+    restart: unless-stopped`,
+    wikiMarkdown: `### Homelab Architecture Wiki
+The documentation wiki is deployed on LXC 123 and accessible via \`wiki.lan\`.`
   }
 ];
