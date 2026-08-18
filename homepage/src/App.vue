@@ -68,6 +68,14 @@
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
               Port Matrix
             </button>
+            <a 
+              href="./wiki/" 
+              class="view-tab-btn nav-link-external" 
+              title="Open Markdown Knowledge Base & Runbooks"
+            >
+              <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              Full Docs Wiki ↗
+            </a>
           </nav>
 
           <button class="theme-toggle" @click="toggleTheme" title="Toggle Theme">

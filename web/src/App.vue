@@ -19,6 +19,9 @@
           />
           <button v-if="searchQuery" @click="searchQuery = ''" class="clear-btn">✕</button>
         </div>
+        <a href="../" class="github-link" style="background: rgba(99, 102, 241, 0.2); border-color: rgba(99, 102, 241, 0.4); color: #818cf8;">
+          🏠 Services Dashboard
+        </a>
         <a href="https://github.com/stefannut/homelab" target="_blank" class="github-link">
           GitHub Repo ↗
         </a>
