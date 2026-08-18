@@ -1,4 +1,6 @@
 :root {
+  --font-serif: 'Newsreader', Georgia, serif;
+
   --bg-primary: #080b11;
   --bg-secondary: #0e141f;
   --bg-card: #141d2d;
@@ -21,3 +23,9 @@ body { background: var(--bg-primary); color: var(--text-primary); font-family: v
 code, pre { font-family: var(--font-mono); }
 a { color: var(--accent-cyan); text-decoration: none; }
 a:hover { text-decoration: underline; }
+
+
+h1, h2, h3, h4 { font-family: var(--font-serif); letter-spacing: -0.02em; }
+
+button, a { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+button:active { transform: scale(0.97); }
