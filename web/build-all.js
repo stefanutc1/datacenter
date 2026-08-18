@@ -23,8 +23,16 @@ execSync('npx vite build --base=/homelab/wiki/ --outDir=dist/wiki', {
   env: { ...process.env, GITHUB_PAGES: 'true', DEPLOY_TARGET: 'gh-pages' }
 });
 
-// Step 2: Build Homepage (outDir: homepage/dist with base /homelab/)
+// Step 2: Ensure homepage dependencies and build Homepage (outDir: homepage/dist with base /homelab/)
 console.log('🏠 [2/3] Building Homepage & Services Dashboard...');
+if (!fs.existsSync(path.join(homepageDir, 'node_modules'))) {
+  console.log('📦 Installing homepage dependencies...');
+  execSync('npm install', {
+    cwd: homepageDir,
+    stdio: 'inherit'
+  });
+}
+
 execSync('npm run build', {
   cwd: homepageDir,
   stdio: 'inherit',
