@@ -283,3 +283,9 @@ pre {
   font-size: 0.85rem;
   line-height: 1.5;
 }
+
+
+h1, h2, h3, h4 { font-family: var(--font-serif); letter-spacing: -0.02em; }
+
+button, a { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+button:active { transform: scale(0.97); }
