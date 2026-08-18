@@ -5,7 +5,8 @@
       <div class="modal-header">
         <div class="header-left">
           <div class="service-icon-box" :style="{ backgroundColor: iconBgColor, color: service.color }">
-            <svg class="svg-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <img v-if="service.logo" :src="getLogoUrl(service.logo)" :alt="service.name" class="modal-logo-img" />
+            <svg v-else class="svg-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect width="20" height="15" x="2" y="7" rx="2" ry="2"/>
               <polyline points="17 2 12 7 7 2"/>
             </svg>
@@ -196,6 +197,13 @@ const copyCode = (code) => {
     }, 2000);
   }
 };
+
+function getLogoUrl(logo) {
+  if (!logo) return '';
+  if (logo.startsWith('http')) return logo;
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+  return `${base}/${logo.replace(/^\//, '')}`;
+}
 </script>
 
 <style scoped>
@@ -251,6 +259,15 @@ const copyCode = (code) => {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.modal-logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.35));
 }
 
 .svg-icon-lg {

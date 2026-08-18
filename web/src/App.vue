@@ -110,7 +110,10 @@
               class="service-card"
             >
               <div class="service-card-header">
-                <span class="svc-icon">{{ svc.icon }}</span>
+                <div class="svc-logo-box">
+                  <img v-if="svc.logo" :src="getLogoUrl(svc.logo)" :alt="svc.name" class="svc-logo-img" />
+                  <span v-else class="svc-icon">{{ svc.icon }}</span>
+                </div>
                 <span class="svc-status" :class="svc.status.toLowerCase()">{{ svc.status }}</span>
               </div>
               <h4>{{ svc.name }}</h4>
@@ -251,6 +254,13 @@ const renderedMarkdown = computed(() => {
 function selectArticle(article) {
   selectedArticle.value = article;
   activeTab.value = 'docs';
+}
+
+function getLogoUrl(logo) {
+  if (!logo) return '';
+  if (logo.startsWith('http')) return logo;
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+  return `${base}/${logo.replace(/^\//, '')}`;
 }
 </script>
 
@@ -571,8 +581,26 @@ function selectArticle(article) {
   margin-bottom: 8px;
 }
 
+.svc-logo-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svc-logo-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
 .svc-icon {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .svc-status {

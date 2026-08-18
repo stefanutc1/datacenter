@@ -49,7 +49,8 @@
             </td>
             <td>
               <div class="svc-name-cell">
-                <span class="svc-name-dot" :style="{ backgroundColor: svc.color }"></span>
+                <img v-if="svc.logo" :src="getLogoUrl(svc.logo)" :alt="svc.name" class="matrix-logo-img" />
+                <span v-else class="svc-name-dot" :style="{ backgroundColor: svc.color }"></span>
                 <span class="svc-name-text">{{ svc.name }}</span>
               </div>
             </td>
@@ -99,6 +100,13 @@ const filteredServices = computed(() => {
     s.category.toLowerCase().includes(q)
   );
 });
+
+function getLogoUrl(logo) {
+  if (!logo) return '';
+  if (logo.startsWith('http')) return logo;
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+  return `${base}/${logo.replace(/^\//, '')}`;
+}
 </script>
 
 <style scoped>
@@ -193,6 +201,13 @@ const filteredServices = computed(() => {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+}
+
+.matrix-logo-img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 .svc-name-dot {

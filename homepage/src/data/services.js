@@ -15,6 +15,7 @@ export const categories = [
 export const services = [
   {
     id: 'nginx-proxy-manager',
+    logo: 'icons/nginx-proxy-manager.svg',
     name: 'Nginx Proxy Manager',
     category: 'networking',
     ip: '192.168.1.3',
@@ -97,6 +98,7 @@ Pi-hole runs inside LXC 101 on IP \`192.168.1.4\`. Its \`pihole.toml\` and dnsma
   },
   {
     id: 'homeassistant',
+    logo: 'icons/homeassistant.svg',
     name: 'Home Assistant Core',
     category: 'iot',
     ip: '192.168.1.10',
@@ -136,6 +138,7 @@ Home Assistant acts as the main nervous system for the homelab physical environm
   },
   {
     id: 'immich',
+    logo: 'icons/immich.svg',
     name: 'Immich Photos & Video',
     category: 'cloud',
     ip: '192.168.1.15',
@@ -171,6 +174,7 @@ Immich runs in LXC 103 with dedicated PostgreSQL 16 vector store and Redis cachi
   },
   {
     id: 'vaultwarden',
+    logo: 'icons/vaultwarden.svg',
     name: 'Vaultwarden Password Vault',
     category: 'security',
     ip: '192.168.1.16',
@@ -208,6 +212,7 @@ Vaultwarden is deployed in LXC 112 on port 8080 and routed via \`vaultwarden.lan
   },
   {
     id: 'nextcloud',
+    logo: 'icons/nextcloud.svg',
     name: 'Nextcloud Hub',
     category: 'cloud',
     ip: '192.168.1.8',
@@ -245,6 +250,7 @@ Nextcloud is deployed on LXC 105 and accessible via \`nextcloud.lan\`.`
   },
   {
     id: 'grafana',
+    logo: 'icons/grafana.svg',
     name: 'Grafana Telemetry & Dashboards',
     category: 'monitoring',
     ip: '192.168.1.11',
@@ -280,6 +286,7 @@ Grafana runs in LXC 108 alongside Prometheus and Loki, routed via \`grafana.lan\
   },
   {
     id: 'prometheus',
+    logo: 'icons/prometheus.svg',
     name: 'Prometheus TSDB Engine',
     category: 'monitoring',
     ip: '192.168.1.11',
@@ -315,6 +322,7 @@ Prometheus scrapes Node-Exporter on port 9100 across Proxmox nodes and LXC conta
   },
   {
     id: 'loki',
+    logo: 'icons/loki.svg',
     name: 'Grafana Loki Log Engine',
     category: 'monitoring',
     ip: '192.168.1.11',
@@ -349,6 +357,7 @@ Loki is deployed in LXC 108 and accessible via \`loki.lan\`.`
   },
   {
     id: 'uptime-kuma',
+    logo: 'icons/uptime-kuma.svg',
     name: 'Uptime Kuma Status Monitor',
     category: 'monitoring',
     ip: '192.168.1.7',
@@ -384,6 +393,7 @@ Uptime Kuma runs on LXC 104 and verifies endpoints every 20 seconds.`
   },
   {
     id: 'n8n',
+    logo: 'icons/n8n.svg',
     name: 'n8n Workflow Automation',
     category: 'automation',
     ip: '192.168.1.13',
@@ -419,6 +429,7 @@ n8n is deployed on LXC 110 and accessible via \`n8n.lan\`.`
   },
   {
     id: 'gitea',
+    logo: 'icons/gitea.svg',
     name: 'Gitea Git Forge & Actions',
     category: 'devops',
     ip: '192.168.1.17',
@@ -455,6 +466,7 @@ Gitea runs on LXC 113 and hosts internal Git repositories and configuration mani
   },
   {
     id: 'woodpecker-ci',
+    logo: 'icons/woodpecker.svg',
     name: 'Woodpecker CI/CD Engine',
     category: 'devops',
     ip: '192.168.1.14',
@@ -490,6 +502,7 @@ Woodpecker CI is deployed on LXC 111 and automates build verification.`
   },
   {
     id: 'authelia',
+    logo: 'icons/authelia.svg',
     name: 'Authelia 2FA & SSO Portal',
     category: 'security',
     ip: '192.168.1.20',
@@ -525,6 +538,7 @@ Authelia runs in LXC 116 and acts as the gatekeeper for local domain access.`
   },
   {
     id: 'crowdsec',
+    logo: 'icons/crowdsec.svg',
     name: 'CrowdSec Cyber Defense & LAPI',
     category: 'security',
     ip: '192.168.1.9',
@@ -560,6 +574,7 @@ CrowdSec protects the homelab against automated scanning, brute-force, and explo
   },
   {
     id: 'jellyfin',
+    logo: 'icons/jellyfin.svg',
     name: 'Jellyfin Media Server',
     category: 'media',
     ip: '192.168.1.21',
@@ -595,6 +610,7 @@ Jellyfin runs on LXC 117 alongside the Servarr suite on IP \`192.168.1.21\`.`
   },
   {
     id: 'radarr',
+    logo: 'icons/radarr.svg',
     name: 'Radarr Movie Automation',
     category: 'media',
     ip: '192.168.1.21',
@@ -630,6 +646,7 @@ Radarr is deployed in LXC 117 and managed via \`radarr.lan\`.`
   },
   {
     id: 'sonarr',
+    logo: 'icons/sonarr.svg',
     name: 'Sonarr TV Series Automation',
     category: 'media',
     ip: '192.168.1.21',
@@ -665,6 +682,7 @@ Sonarr runs on LXC 117 and is accessible via \`sonarr.lan\`.`
   },
   {
     id: 'prowlarr',
+    logo: 'icons/prowlarr.svg',
     name: 'Prowlarr Indexer Proxy',
     category: 'media',
     ip: '192.168.1.21',
@@ -700,6 +718,7 @@ Prowlarr is deployed in LXC 117 and accessible via \`prowlarr.lan\`.`
   },
   {
     id: 'bazarr',
+    logo: 'icons/bazarr.svg',
     name: 'Bazarr Subtitle Synchronizer',
     category: 'media',
     ip: '192.168.1.21',
@@ -735,6 +754,7 @@ Bazarr is deployed in LXC 117 and accessible via \`bazarr.lan\`.`
   },
   {
     id: 'qbittorrent',
+    logo: 'icons/qbittorrent.svg',
     name: 'qBittorrent Web Client',
     category: 'media',
     ip: '192.168.1.21',
@@ -770,6 +790,7 @@ qBittorrent runs in LXC 117 and handles all automated Servarr downloads.`
   },
   {
     id: 'actualbudget',
+    logo: 'icons/actualbudget.svg',
     name: 'Actual Budget',
     category: 'productivity',
     ip: '192.168.1.22',
@@ -805,6 +826,7 @@ Actual Budget runs on LXC 118 and is accessible via \`actualbudget.lan\`.`
   },
   {
     id: 'filebrowser',
+    logo: 'icons/filebrowser.svg',
     name: 'FileBrowser Web Manager',
     category: 'cloud',
     ip: '192.168.1.23',
@@ -840,6 +862,7 @@ FileBrowser is deployed on LXC 119 and accessible via \`filebrowser.lan\`.`
   },
   {
     id: 'changedetection',
+    logo: 'icons/changedetection.svg',
     name: 'ChangeDetection.io Monitor',
     category: 'automation',
     ip: '192.168.1.24',
@@ -875,6 +898,7 @@ ChangeDetection runs on LXC 120 and monitors web page changes automatically.`
   },
   {
     id: 'alist',
+    logo: 'icons/alist.svg',
     name: 'AList Unified Storage Aggregator',
     category: 'cloud',
     ip: '192.168.1.25',
@@ -945,6 +969,7 @@ Trilium Notes runs in LXC 115 and is accessible via \`trilium.lan\`.`
   },
   {
     id: 'scrutiny',
+    logo: 'icons/scrutiny.svg',
     name: 'Scrutiny S.M.A.R.T. Drive Health',
     category: 'monitoring',
     ip: '192.168.1.18',
@@ -980,6 +1005,7 @@ Scrutiny is deployed in LXC 114 and monitors drive telemetry via \`scrutiny.lan\
   },
   {
     id: 'it-tools',
+    logo: 'icons/it-tools.svg',
     name: 'IT-Tools Handy Utilities',
     category: 'productivity',
     ip: '192.168.1.12',
@@ -1015,6 +1041,7 @@ IT-Tools runs in LXC 109 and is accessible via \`it-tools.lan\`.`
   },
   {
     id: 'homelab-homepage',
+    logo: 'icons/homepage.svg',
     name: 'Homelab Unified Dashboard',
     category: 'productivity',
     ip: '192.168.1.26',
@@ -1052,6 +1079,7 @@ The central dashboard is deployed on LXC 122 and routed via \`homepage.lan\` and
   },
   {
     id: 'web-wiki',
+    logo: 'icons/wiki.svg',
     name: 'Homelab Architecture Wiki',
     category: 'devops',
     ip: '192.168.1.27',
@@ -1089,6 +1117,7 @@ The documentation wiki is deployed on LXC 123 and accessible via \`wiki.lan\`.`
   },
   {
     id: 'opnsense-vm',
+    logo: 'icons/opnsense.svg',
     name: 'OPNsense Core Gateway & Firewall',
     category: 'vms',
     ip: '192.168.1.132',
@@ -1118,6 +1147,7 @@ OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtua
   },
   {
     id: 'windows-server',
+    logo: 'icons/windows.svg',
     name: 'Windows Server 2022 / 2025',
     category: 'vms',
     ip: '192.168.1.201',
@@ -1147,6 +1177,7 @@ Windows Server is provisioned as KVM guest VM 201 with 40 GB NVMe disk and VirtI
   },
   {
     id: 'ubuntu-server',
+    logo: 'icons/ubuntu.svg',
     name: 'Ubuntu Server 24.04 LTS',
     category: 'vms',
     ip: '192.168.1.202',
