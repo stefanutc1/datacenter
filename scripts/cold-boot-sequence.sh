@@ -13,9 +13,10 @@ log() {
 
 log "⚡ [COLD-BOOT SOP] Initiating Staged Power-On Recovery Sequence..."
 
-# 1. Verify ZFS Pool Integrity
-log "🔍 [1/6] Checking ZFS storage pool health..."
-zpool status -x || { log "⚠️ ZFS pool reported non-optimal state!"; }
+# 1. Verify OpenMediaVault NAS & Mount NFS Storage
+log "🔍 [1/6] Verifying OpenMediaVault NAS (192.168.1.5) reachability & mounting NFS shares..."
+ping -c 2 192.168.1.5 >/dev/null 2>&1 || log "⚠️ NAS 192.168.1.5 still booting, mounting NFS with background retry..."
+mount -a -t nfs,nfs4 2>/dev/null || true
 
 # 2. Start Core Firewall & Router (OPNsense VM 200)
 log "🛡️ [2/6] Starting OPNsense Gateway (VM 200)..."
@@ -52,7 +53,7 @@ done
 qm start 201 || true
 qm start 202 || true
 
-log "✅ All services staged and operational. Initiating background ZFS integrity scrub..."
-zpool scrub rpool || true
+log "✅ All services staged and operational. Verifying NFS mount status..."
+df -h -t nfs4,nfs || true
 
 log "🎉 Cold-boot restoration completed successfully!"

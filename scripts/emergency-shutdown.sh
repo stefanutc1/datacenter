@@ -65,8 +65,9 @@ if qm status 200 2>/dev/null | grep -q "status: running"; then
     qm shutdown 200 --timeout 20 || qm stop 200
 fi
 
-# 6. Phase 5: Flush ZFS & Sync Filesystems
-log "🔒 [6/6] Syncing ZFS pools and committing disk journals..."
+# 6. Phase 5: Unmount Network NFS Shares & Flush Filesystems
+log "🔒 [6/6] Unmounting OpenMediaVault NAS NFS shares and syncing filesystems..."
+umount -a -t nfs,nfs4 -f -l 2>/dev/null || true
 sync
 sleep 2
 

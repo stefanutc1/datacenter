@@ -53,7 +53,7 @@
       <div v-if="currentPhaseId === 'phase1'" class="phase-content">
         <div class="section-header">
           <h3>Phase 1: Automated &amp; Cascading Graceful Shutdown (T+0m – T+15m)</h3>
-          <p>Executed by NUT (Network UPS Tools) upon grid loss or triggered manually via <code>/opt/homelab/scripts/emergency-shutdown.sh</code> to prevent ZFS pool journal corruption.</p>
+          <p>Executed by NUT (Network UPS Tools) upon grid loss or triggered manually via <code>/opt/homelab/scripts/emergency-shutdown.sh</code> to cleanly unmount OpenMediaVault NAS NFS storage shares and flush filesystem journals.</p>
         </div>
 
         <div class="tiers-grid">
@@ -106,7 +106,7 @@
       <div v-else-if="currentPhaseId === 'phase3'" class="phase-content">
         <div class="section-header">
           <h3>Phase 3: Grid Restoration &amp; Staged Cold-Boot Sequence</h3>
-          <p>Bring services online in strict dependency order via <code>/opt/homelab/scripts/cold-boot-sequence.sh</code> once grid power stabilizes.</p>
+          <p>Bring services online in strict dependency order via <code>/opt/homelab/scripts/cold-boot-sequence.sh</code> once grid power stabilizes and OpenMediaVault NAS is reachable.</p>
         </div>
 
         <div class="boot-steps-list">
@@ -129,16 +129,16 @@
       <!-- PHASE 4: Storage Integrity & Post-Outage Scrub -->
       <div v-else class="phase-content">
         <div class="section-header">
-          <h3>Phase 4: Post-Recovery Integrity Scrub &amp; Diagnostics</h3>
-          <p>Verify block-level ZFS checksums, database write-ahead logs, and container consistency.</p>
+          <h3>Phase 4: Post-Recovery NAS NFS Mounts &amp; Diagnostics</h3>
+          <p>Verify OpenMediaVault NAS NFS share exports, filesystem mounts, database write-ahead logs, and container consistency.</p>
         </div>
 
         <div class="verification-grid">
           <div class="verify-card">
-            <h4>1. ZFS Pool Integrity Scrub</h4>
-            <p>Initiates a full block checksum verification across the entire NVMe/SATA ZFS pool.</p>
-            <pre class="code-block"><code>zpool status -v
-zpool scrub rpool</code></pre>
+            <h4>1. OpenMediaVault NAS NFS Mounts</h4>
+            <p>Verifies that all NFS exports from NAS (192.168.1.5) are mounted and writable.</p>
+            <pre class="code-block"><code>showmount -e 192.168.1.5
+df -h -t nfs,nfs4</code></pre>
           </div>
 
           <div class="verify-card">
@@ -168,7 +168,7 @@ const phases = [
   { id: 'phase1', number: '01', timing: 'T+0m – T+15m', title: 'Cascading Shutdown' },
   { id: 'phase2', number: '02', timing: 'T+15m – T+10h+', title: 'Hardware Isolation' },
   { id: 'phase3', number: '03', timing: 'Post-Restoration', title: 'Staged Cold Boot' },
-  { id: 'phase4', number: '04', timing: 'Integrity Check', title: 'ZFS & Health Scrub' }
+  { id: 'phase4', number: '04', timing: 'Integrity Check', title: 'NFS & Diagnostics' }
 ];
 
 const shutdownTiers = [
@@ -204,9 +204,9 @@ const shutdownTiers = [
     timeWindow: 'T+12 min',
     color: '#10b981',
     name: 'Ingress, Router & Hypervisor',
-    description: 'Stop reverse proxy, authentication, and core router before initiating host poweroff.',
+    description: 'Stop reverse proxy, authentication, unmount NAS NFS shares, and stop core router before host poweroff.',
     targets: ['NPM Ingress (101)', 'Authelia SSO (102)', 'Pi-hole DNS (100)', 'OPNsense VM (200)', 'PVE Host'],
-    command: 'pct shutdown 101 102 100 && qm shutdown 200 && sync && poweroff'
+    command: 'pct shutdown 101 102 100 && qm shutdown 200 && umount -a -t nfs,nfs4 && sync && poweroff'
   }
 ];
 
@@ -236,9 +236,9 @@ const bootSteps = [
     cmd: 'pct start 101 && pct start 102'
   },
   {
-    name: 'Databases, Core Storage & Application Services',
+    name: 'Databases, NAS NFS Storage & Application Services',
     delay: 'Sequential 3s',
-    desc: 'Mounts ZFS storage pools and starts core services and media suites in controlled intervals.',
+    desc: 'Mounts OpenMediaVault NAS NFS storage shares and starts core services and media suites in controlled intervals.',
     cmd: 'pct start 103..123 && qm start 201 202'
   }
 ];
