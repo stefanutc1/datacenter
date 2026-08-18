@@ -215,7 +215,7 @@ const selectedArticle = ref(homelabArticles[0]);
 const searchQuery = ref('');
 const selectedCategory = ref('All');
 
-const serviceCategories = ['All', 'Ingress', 'Networking', 'Observability', 'Storage & Media', 'Automation', 'DevOps', 'Productivity', 'Utilities'];
+const serviceCategories = ['All', 'Virtual Machines', 'Ingress', 'Networking', 'Observability', 'Storage & Media', 'Automation', 'DevOps', 'Productivity', 'Utilities'];
 
 const filteredArticles = computed(() => {
   if (!searchQuery.value) return articles.value;

@@ -156,6 +156,11 @@ homelab/
 │   ├── hyperv/                      # Hyper-V Terraform module
 │   └── bhyve/                       # FreeBSD bhyve Terraform module
 │
+├── vms/
+│   ├── windows-server/              # Windows Server 2022/2025 KVM (VM 201) unattended setup
+│   ├── ubuntu-server/               # Ubuntu Server 24.04 LTS Noble (VM 202) cloud-init manifests
+│   └── opnsense/                    # OPNsense Core Firewall (VM 200) gateway configuration
+│
 ├── services/
 │   ├── homepage/                    # Dashboard — YAML service widgets, layout config
 │   ├── authelia/                    # SSO + 2FA (configuration.yml + docker-compose)

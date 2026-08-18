@@ -230,6 +230,57 @@ In the event of a total blackout, restore services in this precise order:
 - PostgreSQL dumps automated daily at 03:00 UTC.
 - Proxmox Backup Server (PBS) differential snapshots taken weekly.
 `
+  },
+  {
+    id: "virtual-machines",
+    title: "Virtual Machines (KVM)",
+    category: "Hypervisors",
+    icon: "🖥️",
+    summary: "Declarative specifications, Cloud-Init automation, and VirtIO hardware acceleration for VM 200, 201, and 202.",
+    content: `# 🖥️ Proxmox VE KVM Virtual Machines Architecture
+
+In addition to lightweight LXC containers, the homelab platform runs dedicated **KVM Virtual Machines** for workloads requiring kernel isolation, paravirtualized network appliances, and full guest operating systems.
+
+---
+
+## 📋 Virtual Machine Inventory Matrix
+
+| VMID | Name | Operating System | vCPUs | RAM | Storage Disk | Network Bridge | Primary Protocol | Role / Function |
+| :---: | :--- | :--- | :---: | :---: | :--- | :--- | :--- | :--- |
+| **200** | \`opnsense\` | FreeBSD 14.x / OPNsense | 2 | 2048 MB | 16 GB SSD (\`local-lvm\`) | \`vmbr0\` (WAN) + \`vmbr1\` (LAN) | WebGUI (\`:8443\`) | Core Firewall, NAT Gateway, WireGuard |
+| **201** | \`windows-server\` | Windows Server 2022 / 2025 | 2 | 3072 MB | 40 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | RDP (\`:3389\`), WinRM (\`:5985\`) | Active Directory Domain Services, DNS |
+| **202** | \`ubuntu-server\` | Ubuntu Server 24.04 LTS | 2 | 2048 MB | 25 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | SSH (\`:22\`), QEMU Guest Agent | Cloud-Init Microservices, Automation |
+
+---
+
+## 🔐 Uniform Credentials & Access Standards
+
+All virtual machines are pre-configured with standardized administrative credentials:
+- **Primary Administrator:** \`Stefanut\`
+- **Default Password:** \`Stefanut005\`
+- **SSH Key Authentication:** Hypervisor \`id_ed25519.pub\` injected via Cloud-Init
+
+---
+
+## 1. OPNsense Virtual Router (VM 200)
+
+- **Architecture**: Dual-interface virtual appliance connecting physical uplink to virtual internal LAN.
+- **Routing**: Inter-VLAN routing, stateful inspection, and CrowdSec IPS/IDS remediation bouncer.
+- **Access**: WebGUI at \`https://192.168.1.132:8443\` or \`https://opnsense.lan\`.
+
+## 2. Windows Server 2022 / 2025 (VM 201)
+
+- **Configuration**: \`q35\` chipset with \`OVMF (UEFI)\` 4M firmware and TPM 2.0 emulation.
+- **Storage**: \`virtio-scsi-single\` controller with SSD discard enabled on \`local-lvm\`.
+- **Automation**: Unattended answer file (\`vms/windows-server/autounattend.xml\`) injects drivers and creates user \`Stefanut\`.
+- **Access**: RDP on port \`3389\` (\`winserver.lan:3389\`).
+
+## 3. Ubuntu Server 24.04 LTS Noble Numbat (VM 202)
+
+- **Cloud-Init Engine**: Automated fast-clone provisioning from \`noble-server-cloudimg-amd64.img\`.
+- **Telemetry**: QEMU Guest Agent communicates live IP addresses and memory usage to Proxmox.
+- **Network**: Static IP \`192.168.1.202/24\`, Gateway \`192.168.1.1\`, DNS \`192.168.1.4\` (\`ubuntu.lan\`).
+`
   }
 ];
 
@@ -262,6 +313,7 @@ export const homelabServices = [
   { name: "Trilium Notes", category: "Productivity", ip: "192.168.1.19", port: 8080, ipUrl: "http://192.168.1.19:8080", domain: "trilium.lan", domainUrl: "http://trilium.lan", status: "Active", icon: "📝" },
   { name: "Actual Budget", category: "Productivity", ip: "192.168.1.22", port: 5006, ipUrl: "http://192.168.1.22:5006", domain: "actualbudget.lan", domainUrl: "http://actualbudget.lan", status: "Active", icon: "💰" },
   { name: "IT-Tools", category: "Utilities", ip: "192.168.1.12", port: 80, ipUrl: "http://192.168.1.12", domain: "it-tools.lan", domainUrl: "http://it-tools.lan", status: "Active", icon: "🧰" },
-  { name: "Homelab Portal", category: "Utilities", ip: "192.168.1.26", port: 8085, ipUrl: "http://192.168.1.26:8085", domain: "homepage.lan", domainUrl: "http://homepage.lan", status: "Active", icon: "🏠" },
-  { name: "Architecture Wiki", category: "DevOps", ip: "192.168.1.27", port: 80, ipUrl: "http://192.168.1.27", domain: "wiki.lan", domainUrl: "http://wiki.lan", status: "Active", icon: "📖" }
+  { name: "OPNsense Gateway", category: "Virtual Machines", ip: "192.168.1.132", port: 8443, ipUrl: "https://192.168.1.132:8443", domain: "opnsense.lan", domainUrl: "https://opnsense.lan", status: "Active", icon: "🛡️" },
+  { name: "Windows Server 2022", category: "Virtual Machines", ip: "192.168.1.201", port: 3389, ipUrl: "http://192.168.1.201:3389", domain: "winserver.lan", domainUrl: "http://winserver.lan", status: "Active", icon: "🪟" },
+  { name: "Ubuntu Server 24.04", category: "Virtual Machines", ip: "192.168.1.202", port: 22, ipUrl: "http://192.168.1.202:22", domain: "ubuntu.lan", domainUrl: "http://ubuntu.lan", status: "Active", icon: "🐧" }
 ];

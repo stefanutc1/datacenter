@@ -8,7 +8,8 @@ export const categories = [
   { id: 'automation', name: 'Automation & Workflow', icon: 'git-branch' },
   { id: 'devops', name: 'CI/CD & Git', icon: 'terminal' },
   { id: 'networking', name: 'Networking & DNS', icon: 'globe' },
-  { id: 'productivity', name: 'Productivity & Notes', icon: 'file-text' }
+  { id: 'productivity', name: 'Productivity & Notes', icon: 'file-text' },
+  { id: 'vms', name: 'Virtual Machines (VMs)', icon: 'cpu' }
 ];
 
 export const services = [
@@ -1085,5 +1086,92 @@ The central dashboard is deployed on LXC 122 and routed via \`homepage.lan\` and
     restart: unless-stopped`,
     wikiMarkdown: `### Homelab Architecture Wiki
 The documentation wiki is deployed on LXC 123 and accessible via \`wiki.lan\`.`
+  },
+  {
+    id: 'opnsense-vm',
+    name: 'OPNsense Core Gateway & Firewall',
+    category: 'vms',
+    ip: '192.168.1.132',
+    port: 8443,
+    ipUrl: 'https://192.168.1.132:8443',
+    domain: 'opnsense.lan',
+    domainUrl: 'https://opnsense.lan',
+    internalUrl: 'https://192.168.1.132:8443',
+    icon: 'shield',
+    color: '#e74c3c',
+    image: 'OPNsense 24.x (FreeBSD KVM)',
+    containerName: 'VM 200',
+    status: 'online',
+    tags: ['OPNsense', 'VM 200', 'Firewall', 'Gateway', 'HAProxy', 'WireGuard'],
+    description: 'Enterprise virtual router and stateful firewall appliance providing layer-3 routing, inter-VLAN isolation, HAProxy reverse proxy, and WireGuard VPN.',
+    features: [
+      'Dual-interface architecture: vmbr0 (WAN) and vmbr1 (LAN)',
+      'Stateful firewall rules and CrowdSec IPS/IDS remediation bouncer',
+      'High-performance WireGuard and OpenVPN site-to-site tunnels',
+      'WebGUI management on port 8443 with user Stefanut / root'
+    ],
+    volumes: ['local-lvm:vm-200-disk-0 (16 GB)'],
+    envVars: ['ADMIN_USER=root', 'WEBGUI_PORT=8443'],
+    composeCode: `qm create 200 --name opnsense --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1`,
+    wikiMarkdown: `### OPNsense Core Gateway (VM 200)
+OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtual bridges.`
+  },
+  {
+    id: 'windows-server',
+    name: 'Windows Server 2022 / 2025',
+    category: 'vms',
+    ip: '192.168.1.201',
+    port: 3389,
+    ipUrl: 'http://192.168.1.201:3389',
+    domain: 'winserver.lan',
+    domainUrl: 'http://winserver.lan',
+    internalUrl: 'http://winserver.lan',
+    icon: 'server',
+    color: '#00a8ff',
+    image: 'Windows Server (OVMF UEFI)',
+    containerName: 'VM 201',
+    status: 'online',
+    tags: ['Windows Server', 'VM 201', 'Active Directory', 'RDP', 'WinRM', 'KVM'],
+    description: 'Enterprise Windows Server KVM guest virtual machine running on Proxmox VE with Active Directory, RDP remote desktop, and VirtIO acceleration.',
+    features: [
+      'Windows Server Standard edition with UEFI/OVMF 4M firmware',
+      'Remote Desktop Protocol (RDP) enabled on port 3389',
+      'Primary administrator account Stefanut with password Stefanut005',
+      'VirtIO SCSI single disk controller with SSD TRIM/discard on local-lvm'
+    ],
+    volumes: ['local-lvm:vm-201-disk-1 (40 GB NVMe)', 'local:iso/virtio-win.iso'],
+    envVars: ['ADMIN_USER=Stefanut', 'RDP_PORT=3389', 'WINRM_PORT=5985'],
+    composeCode: `qm create 201 --name windows-server-2022 --memory 3072 --balloon 2048 --cores 2 --cpu host --machine q35 --bios ovmf --scsi0 local-lvm:40,discard=on,ssd=1 --net0 virtio,bridge=vmbr0`,
+    wikiMarkdown: `### Windows Server (VM 201)
+Windows Server is provisioned as KVM guest VM 201 with 40 GB NVMe disk and VirtIO drivers.`
+  },
+  {
+    id: 'ubuntu-server',
+    name: 'Ubuntu Server 24.04 LTS',
+    category: 'vms',
+    ip: '192.168.1.202',
+    port: 22,
+    ipUrl: 'http://192.168.1.202:22',
+    domain: 'ubuntu.lan',
+    domainUrl: 'http://ubuntu.lan',
+    internalUrl: 'http://ubuntu.lan',
+    icon: 'terminal',
+    color: '#e67e22',
+    image: 'Ubuntu 24.04 Noble (Cloud-Init)',
+    containerName: 'VM 202',
+    status: 'online',
+    tags: ['Ubuntu 24.04', 'VM 202', 'Cloud-Init', 'SSH', 'Docker', 'KVM'],
+    description: 'Ubuntu Server 24.04 LTS Noble Numbat cloud-init virtual machine configured with user Stefanut, SSH key authorization, and QEMU guest agent.',
+    features: [
+      'Automated Cloud-Init provisioning with user Stefanut (password: Stefanut005)',
+      'QEMU Guest Agent enabled for seamless hypervisor metrics and shutdown sync',
+      'Static IP configuration (192.168.1.202/24) with Pi-hole DNS (192.168.1.4)',
+      '25 GB NVMe paravirtualized disk with VirtIO SCSI single controller'
+    ],
+    volumes: ['local-lvm:vm-202-disk-0 (25 GB)', 'local-lvm:vm-202-cloudinit'],
+    envVars: ['CI_USER=Stefanut', 'SSH_PORT=22', 'IP=192.168.1.202/24'],
+    composeCode: `qm create 202 --name ubuntu-server-2404 --memory 2048 --balloon 1024 --cores 2 --cpu host --scsi0 local-lvm:vm-202-disk-0,discard=on,ssd=1 --ide2 local-lvm:cloudinit --net0 virtio,bridge=vmbr0`,
+    wikiMarkdown: `### Ubuntu Server (VM 202)
+Ubuntu Server 24.04 LTS runs as VM 202 with cloud-init automation and SSH authentication.`
   }
 ];
