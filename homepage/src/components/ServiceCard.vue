@@ -118,19 +118,26 @@ function getLogoUrl(logo) {
 
 <style scoped>
 .service-card {
-  padding: 1.25rem;
+  padding: 1.35rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
   position: relative;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
-  min-height: 250px;
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 255px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  box-shadow: inset 0 1px 0 var(--border-specular), var(--shadow-sm);
 }
 
 .service-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg), 0 0 20px rgba(99, 102, 241, 0.15);
+  transform: translateY(-8px) scale(1.018);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--border-color-hover);
 }
 
 .card-header {
@@ -142,27 +149,34 @@ function getLogoUrl(logo) {
 }
 
 .service-icon-box {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-card:hover .service-icon-box {
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 0 16px var(--accent-primary);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .service-logo-img {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
 }
 
 .svg-icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
 }
 
 .header-details {
@@ -177,21 +191,24 @@ function getLogoUrl(logo) {
 }
 
 .service-title {
-  font-size: 1.05rem;
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.015em;
 }
 
 .category-tag {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
+  letter-spacing: 0.08em;
+  font-weight: 600;
 }
 
 .status-indicator {
