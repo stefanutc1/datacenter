@@ -1,19 +1,16 @@
-- name: if configuration file exists
-  file:
-    path: /opt/homeassistant/config
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
+---
+- name: Configure Homelab Infrastructure & Roles
+  hosts: all
+  become: true
+  roles:
+    - home_assistant
+    - system_hardening
 
-- name: copy docker-compose.yml
-  template:
-    src: docker-compose.yml.j2
-    dest: /opt/homeassistant/docker-compose.yml
-    mode: '0644'
-
-- name: turn on HA
-  community.docker.docker_compose_v2:
-    project_src: /opt/homeassistant
-    state: present
-    pull: always
+  tasks:
+    - name: Ensure Home Assistant configuration directory exists
+      ansible.builtin.file:
+        path: /opt/homeassistant/config
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'

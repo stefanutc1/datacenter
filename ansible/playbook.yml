@@ -5,12 +5,26 @@
   vars:
     base_path: /opt/homelab
     homelab_services:
+      - actualbudget
+      - alist
+      - changedetection.io
       - crowdsec
-      - homepage
+      - filebrowser
+      - gitea
+      - grafana
+      - homeassistant
       - immich
+      - it-tools
+      - n8n
+      - nextcloud
       - nginx
+      - pi-hole
+      - prometheus
+      - scrutiny
+      - trillium-notes
       - uptime-kuma
       - vaultwarden
+      - woodpecker-ci
 
   tasks:
     - name: Create service directories
@@ -36,7 +50,7 @@
       loop: "{{ homelab_services }}"
 
 - name: Configure Home Assistant LXC
-  hosts: ha_lxc
+  hosts: all
   become: true
   roles:
     - home_assistant
