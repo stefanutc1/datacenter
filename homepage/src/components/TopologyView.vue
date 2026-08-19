@@ -1,5 +1,8 @@
 <template>
   <div class="topology-view fade-in">
+    <!-- Interactive Force-Directed Schematics Graph -->
+    <SchematicGraph />
+
     <div class="topology-header">
       <div>
         <h2 class="section-title">network architecture &amp; subnet topology</h2>
@@ -65,6 +68,7 @@
 
 <script setup>
 import { networkTopology as topology } from '../data/topology.js';
+import SchematicGraph from './SchematicGraph.vue';
 </script>
 
 <style scoped>
