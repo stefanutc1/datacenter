@@ -48,15 +48,15 @@ done
 log "📦 [4/5] Applying ultra-lean container RAM limits..."
 declare -A MEM_MAP=(
     [100]="112:64"   # Nginx Proxy Manager
-    [101]="64:32"    # Pi-hole DNS
-    [102]="64:32"    # Tailscale VPN
+    [101]="96:64"    # Pi-hole DNS
+    [102]="96:64"    # Tailscale VPN
     [103]="896:256"  # Immich Photos + ML
     [104]="80:32"    # Uptime Kuma
     [105]="96:64"    # Nextcloud
     [106]="128:64"   # CrowdSec IPS
     [107]="384:128"  # Home Assistant Core
     [108]="448:128"  # Prometheus + Grafana + Loki
-    [109]="48:32"    # IT-Tools
+    [109]="64:64"    # IT-Tools
     [110]="384:128"  # n8n Automations
     [111]="192:64"   # Woodpecker CI
     [112]="96:32"    # Vaultwarden
@@ -66,11 +66,11 @@ declare -A MEM_MAP=(
     [116]="96:32"    # Authelia SSO
     [117]="896:256"  # Media Suite (Jellyfin, Radarr, Sonarr, qBittorrent)
     [118]="160:64"   # Actual Budget
-    [119]="48:32"    # Filebrowser
+    [119]="64:64"    # Filebrowser
     [120]="160:64"   # ChangeDetection
-    [121]="80:32"    # Alist
-    [122]="48:32"    # Homelab Homepage
-    [123]="48:32"    # Web Wiki
+    [121]="96:64"    # Alist
+    [122]="64:64"    # Homelab Homepage
+    [123]="64:64"    # Web Wiki
 )
 
 for ctid in "${!MEM_MAP[@]}"; do
