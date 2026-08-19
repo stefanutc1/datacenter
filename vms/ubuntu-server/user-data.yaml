@@ -13,9 +13,8 @@ users:
     groups: [sudo, adm, cdrom, dip, plugdev, lxd]
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
-    lock_passwd: false
-    # Password: Stefanut005 (SHA-512 crypt hash)
-    passwd: "$6$rounds=4096$homelab$3t3p70gE38O.l2aR6iA093p0M/zE4Eflz5n9sD7s2m7u2l/c3G6n5r4f8r9s0m1u2v3w4x5y6z7a8b9c0"
+    lock_passwd: true
+    # Secret Management: Enforce SSH key-only authentication (no plaintext password)
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPqgqf4V3j2kL4m5n6p7q8r9s0t1u2v3w4x5y6z7a8b9 root@pve
 

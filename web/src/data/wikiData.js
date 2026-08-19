@@ -321,11 +321,11 @@ In addition to lightweight LXC containers, the homelab platform runs dedicated *
 
 ---
 
-## 🔐 Uniform Credentials & Access Standards
+## 🔐 Access Standards & Secret Management
 
-All virtual machines are pre-configured with standardized administrative credentials:
-- **Primary Administrator:** \`Stefanut\`
-- **Default Password:** \`Stefanut005\`
+All virtual machines and container services adhere to zero-plaintext secrets policy:
+- **Primary Administrator:** `<admin_user>` (Configured via SOPS / Cloud-Init)
+- **Secret Storage:** Vaultwarden & Encrypted Secrets Repository
 - **SSH Key Authentication:** Hypervisor \`id_ed25519.pub\` injected via Cloud-Init
 
 ---

@@ -1166,7 +1166,7 @@ OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtua
     features: [
       'Windows Server Standard edition with UEFI/OVMF 4M firmware',
       'Remote Desktop Protocol (RDP) enabled on port 3389',
-      'Primary administrator account Stefanut with password Stefanut005',
+      'Primary administrator account with Vaultwarden managed credentials',
       'VirtIO SCSI single disk controller with SSD TRIM/discard on local-lvm'
     ],
     volumes: ['local-lvm:vm-201-disk-1 (40 GB NVMe)', 'local:iso/virtio-win.iso'],
@@ -1194,7 +1194,7 @@ Windows Server is provisioned as KVM guest VM 201 with 40 GB NVMe disk and VirtI
     tags: ['Ubuntu 24.04', 'VM 202', 'Cloud-Init', 'SSH', 'Docker', 'KVM'],
     description: 'Ubuntu Server 24.04 LTS Noble Numbat cloud-init virtual machine configured with user Stefanut, SSH key authorization, and QEMU guest agent.',
     features: [
-      'Automated Cloud-Init provisioning with user Stefanut (password: Stefanut005)',
+      'Automated Cloud-Init provisioning with SSH key authorization and injected secrets',
       'QEMU Guest Agent enabled for seamless hypervisor metrics and shutdown sync',
       'Static IP configuration (192.168.1.202/24) with Pi-hole DNS (192.168.1.4)',
       '25 GB NVMe paravirtualized disk with VirtIO SCSI single controller'

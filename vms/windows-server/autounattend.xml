@@ -73,7 +73,7 @@
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <AutoLogon>
                 <Password>
-                    <Value>Stefanut005</Value>
+                    <Value>CHANGEME_SECURE_PASSWORD</Value>
                     <PlainText>true</PlainText>
                 </Password>
                 <Enabled>true</Enabled>
@@ -81,13 +81,13 @@
             </AutoLogon>
             <UserAccounts>
                 <AdministratorPassword>
-                    <Value>Stefanut005</Value>
+                    <Value>CHANGEME_SECURE_PASSWORD</Value>
                     <PlainText>true</PlainText>
                 </AdministratorPassword>
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
                         <Password>
-                            <Value>Stefanut005</Value>
+                            <Value>CHANGEME_SECURE_PASSWORD</Value>
                             <PlainText>true</PlainText>
                         </Password>
                         <Description>Primary Homelab Administrator</Description>

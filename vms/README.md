@@ -14,13 +14,13 @@ This directory contains declarative specifications, automated provisioning scrip
 
 ---
 
-## 🔐 Uniform Access & Credentials Policy
+## 🔐 Access Standards & Secrets Policy
 
-All virtual machine templates and automated cloud-init provisioning scripts are pre-configured to enforce homelab uniform credentials:
+All virtual machine templates and automated provisioning scripts enforce zero-plaintext credential standards:
 
-- **Primary Administrator User:** `Stefanut`
-- **Default Secret / Password:** `Stefanut005`
-- **Authorized SSH Keys:** `~/.ssh/id_ed25519.pub` (pre-injected via Cloud-Init metadata)
+- **Primary Administrator User:** `<admin_user>` (Configured via SOPS / Cloud-Init)
+- **Secret Management:** Vaultwarden & Encrypted Secrets Repository
+- **Authorized SSH Keys:** `~/.ssh/id_ed25519.pub` (injected via Cloud-Init metadata)
 
 ---
 

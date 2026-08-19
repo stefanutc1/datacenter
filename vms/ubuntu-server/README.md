@@ -18,11 +18,10 @@ Declarative hardware specification and cloud-init automated provisioning for Ubu
 
 ---
 
-## 🔑 Default Credentials & Access
+## 🔑 Access & Authentication
 
-- **Primary User:** `Stefanut`
-- **Password:** `Stefanut005`
-- **SSH Authorized Keys:** Injected automatically from hypervisor
+- **Primary User:** `<admin_user>`
+- **Authentication:** SSH Key-Based (`~/.ssh/id_ed25519.pub`) & Vaultwarden Secrets
 - **Static IP:** `192.168.1.202/24` (Gateway: `192.168.1.1`, DNS: `192.168.1.4`)
 - **Local Domain:** `ubuntu.lan` / `ubuntuserver.lan`
 - **SSH Port:** `22`

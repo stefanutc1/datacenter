@@ -1,17 +1,28 @@
-# Security Policy
+# 🛡️ Security Policy & Zero-Plaintext Standard
 
-## Supported Versions
+## 🔐 Zero-Plaintext Credential Standards
 
-| Version | Supported          |
-| ------- | ------------------ |
-| latest  | :white_check_mark: |
+This repository adheres strictly to **Zero-Plaintext Secret Management**:
+- **No Hardcoded Passwords:** All services consume secrets through runtime environment variables (`.env`), HashiCorp Vault, or Vaultwarden bitwarden instances.
+- **SSH Key Authentication:** Password authentication is disabled across all virtual machines and LXC containers in favor of `ed25519` cryptographic keys.
+- **Automated Secret Scanning:** Pre-commit hooks and CI pipelines enforce Gitleaks and TruffleHog checks against every push.
 
-## Reporting a Vulnerability
+---
 
-Because this repository contains homelab and enterprise infrastructure configurations, security is taken seriously. If you discover a security vulnerability, misconfiguration pattern exposure, or leaked secret within this repository, please **do not open a public issue**.
+## 🔒 Secret Management Architecture
 
-Instead, please report it privately:
-- Open a security advisory directly on GitHub if available, or
-- Contact the repository owner via direct message / secure channel.
+| Component | Secret Provider | Injection Mechanism |
+| :--- | :--- | :--- |
+| **LXC Containers** | Environment Variables (`.env`) | Docker Compose runtime variables |
+| **KVM Virtual Machines** | Cloud-Init Metadata | Encrypted Vault / CI Metadata |
+| **SSO & Identity** | Authentik / Authelia | Encrypted PostgreSQL backend |
+| **Backups & NAS** | OpenMediaVault NFS | Restricted subnet & MAC binding |
 
-All legitimate security vulnerabilities will be promptly addressed.
+---
+
+## 🚨 Reporting a Vulnerability
+
+If you discover a security vulnerability or accidental secret exposure:
+1. Do **NOT** open a public issue.
+2. Submit a confidential report or contact the administrator directly.
+3. In case of credential rotation, immediately run the credential revocation pipeline in Vaultwarden.

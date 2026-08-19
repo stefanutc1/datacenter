@@ -54,8 +54,8 @@ fi
 # 3. Configure Cloud-Init Parameters
 echo "[+] Configuring Cloud-Init user credentials and networking..."
 qm set "$VMID" \
-    --ciuser "Stefanut" \
-    --cipassword "Stefanut005" \
+    --ciuser "${CI_USER:-admin}" \
+    --cipassword "${CI_PASSWORD:-$(openssl rand -base64 16)}" \
     --ipconfig0 "ip=192.168.1.202/24,gw=192.168.1.1" \
     --nameserver "192.168.1.4" \
     --searchdomain "homelab.lan"

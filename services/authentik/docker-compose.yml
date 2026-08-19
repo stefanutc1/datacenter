@@ -5,12 +5,12 @@ services:
     restart: unless-stopped
     command: server
     environment:
-      AUTHENTIK_SECRET_KEY: "genereaza_o_cheie_secreta_lunga"
+      AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
       AUTHENTIK_REDIS__HOST: "authentik-redis"
       AUTHENTIK_POSTGRESQL__HOST: "authentik-db"
       AUTHENTIK_POSTGRESQL__NAME: "authentik"
       AUTHENTIK_POSTGRESQL__USER: "authentik"
-      AUTHENTIK_POSTGRESQL__PASSWORD: "parola_db"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "${AUTHENTIK_POSTGRES_PASSWORD}"
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
@@ -27,12 +27,12 @@ services:
     restart: unless-stopped
     command: worker
     environment:
-      AUTHENTIK_SECRET_KEY: ""
+      AUTHENTIK_SECRET_KEY: "${AUTHENTIK_SECRET_KEY}"
       AUTHENTIK_REDIS__HOST: "authentik-redis"
       AUTHENTIK_POSTGRESQL__HOST: "authentik-db"
       AUTHENTIK_POSTGRESQL__NAME: "authentik"
       AUTHENTIK_POSTGRESQL__USER: "authentik"
-      AUTHENTIK_POSTGRESQL__PASSWORD: ""
+      AUTHENTIK_POSTGRESQL__PASSWORD: "${AUTHENTIK_POSTGRES_PASSWORD}"
     volumes:
       - ./media:/media
       - ./custom-templates:/templates
@@ -46,7 +46,7 @@ services:
     container_name: authentik-db
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: ""
+      POSTGRES_PASSWORD: "${AUTHENTIK_POSTGRES_PASSWORD}"
       POSTGRES_USER: "authentik"
       POSTGRES_DB: "authentik"
     volumes:

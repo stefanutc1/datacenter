@@ -19,10 +19,10 @@ Declarative hardware specification and unattended installation configuration for
 
 ---
 
-## 🔑 Default Credentials
+## 🔑 Access & Authentication
 
-- **Administrator:** `Administrator` / `Stefanut005`
-- **Primary User:** `Stefanut` / `Stefanut005`
+- **Administrator:** `Administrator` (Password managed via Vaultwarden / LAPS)
+- **Primary User:** `<admin_user>` (Provisioned via `autounattend.xml`)
 - **RDP Port:** `3389`
 - **WinRM Port:** `5985` (HTTP) / `5986` (HTTPS)
 - **Local Domain:** `winserver.lan` / `windows.lan` (`192.168.1.201`)
