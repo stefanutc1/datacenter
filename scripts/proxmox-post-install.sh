@@ -19,10 +19,29 @@ log() {
 
 log "🚀 [PROXMOX POST-INSTALL] Executing Enterprise Hardening & Performance Tuning..."
 
-# 1. Clean APT Repositories & Remove Duplicates
-log "📦 [1/7] Cleaning APT repositories and removing duplicate sources..."
+# 1. Clean APT Repositories & Configure No-Subscription Repos (PVE + Ceph Squid)
+log "📦 [1/7] Configuring Proxmox No-Subscription & Ceph No-Subscription repositories..."
 rm -f /etc/apt/sources.list.d/pve-no-subscription.list
 rm -f /etc/apt/sources.list.d/pve-enterprise.list
+rm -f /etc/apt/sources.list.d/*.bak
+
+cat << 'PVE_SRC' > /etc/apt/sources.list.d/proxmox.sources
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+PVE_SRC
+
+cat << 'CEPH_SRC' > /etc/apt/sources.list.d/ceph.sources
+Types: deb
+URIs: http://download.proxmox.com/debian/ceph-squid
+Suites: trixie
+Components: no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+CEPH_SRC
+
+chmod 644 /etc/apt/sources.list.d/*
 apt-get update -qq
 
 # 2. Install Essential Hardware Tools (lm-sensors, htop, iotop, ethtool)
@@ -31,19 +50,21 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -qq lm-sensors htop iotop etht
 
 # 3. Patch Subscription Nag Pop-up & Add APT Post-Update Hook
 log "🚫 [3/7] Patching WebGUI subscription popup nag & creating APT auto-patch hook..."
+cat << 'NAG_SCRIPT' > /usr/local/bin/pve-remove-nag.sh
+#!/bin/bash
 PVE_JS="/usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js"
 if [ -f "$PVE_JS" ]; then
-    if [ ! -f "${PVE_JS}.bak" ]; then
-        cp "$PVE_JS" "${PVE_JS}.bak"
+    if grep -q "No valid sub" "$PVE_JS"; then
+        sed -Ezi.bak "s/(Ext.Msg.show\(\{\s+title: gettext\('No valid sub)/void\(\{ \/\/\1/g" "$PVE_JS"
+        systemctl restart pveproxy.service >/dev/null 2>&1 || true
     fi
-    sed -Ezi.bak "s/(Ext.Msg.show\(\{\s+title: gettext\('No valid sub)/void\(\{ \/\/\1/g" "$PVE_JS"
-    systemctl restart pveproxy.service || true
-    log "   ✅ Subscription nag popup patched successfully!"
 fi
+NAG_SCRIPT
+chmod +x /usr/local/bin/pve-remove-nag.sh
+/usr/local/bin/pve-remove-nag.sh
 
-cat << 'HOOK' > /etc/apt/apt.conf.d/99-pve-remove-nag
-DPkg::Post-Invoke { "dpkg -V proxmox-widget-toolkit | grep -q proxmoxlib.js && sed -Ezi.bak \"s/(Ext.Msg.show\\(\\{\\s+title: gettext\\('No valid sub)/void\\(\\{ \\/\\/\\1/g\" /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js && systemctl restart pveproxy.service || true"; };
-HOOK
+echo 'DPkg::Post-Invoke { "/usr/local/bin/pve-remove-nag.sh || true"; };' > /etc/apt/apt.conf.d/99-pve-remove-nag
+log "   ✅ Subscription nag popup patched and DPkg hook configured!"
 
 # 4. Enable TCP BBR Congestion Control & High-Performance Sysctl
 log "⚡ [4/7] Enabling TCP BBR Congestion Control & Network Optimization..."
