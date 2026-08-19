@@ -157,8 +157,7 @@ homelab/
 │   └── bhyve/                       # FreeBSD bhyve Terraform module
 │
 ├── vms/
-│   ├── windows-server/              # Windows Server 2022/2025 KVM (VM 201) unattended setup
-│   ├── ubuntu-server/               # Ubuntu Server 24.04 LTS Noble (VM 202) cloud-init manifests
+│   ├── alpine-server/               # Alpine Linux v3.21 Virt KVM (VM 201) microservices setup
 │   └── opnsense/                    # OPNsense Core Firewall (VM 200) gateway configuration
 │
 ├── services/
@@ -175,8 +174,6 @@ homelab/
 │   ├── vaultwarden/                 # Self-hosted Bitwarden password vault
 │   ├── immich/                      # Photo/video backup (Google Photos alternative)
 │   ├── nextcloud/                   # File sync and collaboration
-│   ├── alist/                       # Unified cloud + local file storage manager
-│   ├── filebrowser/                 # Lightweight web file manager
 │   ├── homeassistant/               # Home automation (automations, scenes, scripts, MQTT)
 │   ├── frigate/                     # NVR with ML object detection
 │   ├── n8n/                         # Workflow automation engine
@@ -241,8 +238,6 @@ homelab/
 | **CrowdSec** | — | Collaborative intrusion prevention |
 | **Immich** | — | Self-hosted photo backup |
 | **Nextcloud** | — | File sync and collaboration platform |
-| **AList** | 5244 | Unified local + cloud file manager |
-| **FileBrowser** | 8082 | Lightweight web file manager |
 | **Home Assistant** | — | Home automation hub with MQTT |
 | **Frigate** | — | NVR with ML object detection |
 | **n8n** | — | Workflow automation |
