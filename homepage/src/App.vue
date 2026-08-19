@@ -17,7 +17,7 @@
                 ALL SYSTEMS OPERATIONAL
               </span>
             </div>
-            <p class="brand-subtitle">Proxmox VE &bull; OpenMediaVault &bull; Apple M1 ARM64 &bull; Service Catalog</p>
+            <p class="brand-subtitle">Proxmox VE &bull; OpenMediaVault &bull; Apple M1 ARM64 &bull; K8s Worker &bull; Service Catalog</p>
           </div>
         </div>
 
@@ -111,8 +111,8 @@
             <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
           </div>
           <div>
-            <div class="stat-number">3 Nodes</div>
-            <div class="stat-label">Physical Hosts (i3 · Celeron · M1)</div>
+            <div class="stat-number">4 Nodes</div>
+            <div class="stat-label">Physical Hosts (i3 · Celeron · M1 · Athlon II)</div>
           </div>
         </div>
 
@@ -295,10 +295,10 @@
       <div class="footer-content">
         <div>
           <span class="footer-brand">Homelab Operations</span> &bull; 
-          <span class="footer-info">Proxmox VE 9.2 (i3-10100F / GTX 1050 Ti) &bull; OMV (Celeron N2830) &bull; Proxmox2 (Apple M1)</span>
+          <span class="footer-info">Proxmox VE 9.2 (i3-10100F / GTX 1050 Ti) &bull; OMV (Celeron N2830) &bull; Proxmox2 (Apple M1) &bull; K8s-04 (Athlon II X2)</span>
         </div>
         <div class="footer-links">
-          <span>Storage: 512GB SSD + 500GB HDD</span>
+          <span>Storage: 512GB SSD + 500GB HDD + 80GB HDD</span>
           <span>&bull;</span>
           <span>Mesh: Tailscale WireGuard</span>
           <span>&bull;</span>
