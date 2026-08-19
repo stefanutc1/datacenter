@@ -69,6 +69,14 @@
               ai memory &amp; mcp
             </button>
             <button 
+              class="view-tab-btn" 
+              :class="{ active: currentView === 'esp32' }" 
+              @click="currentView = 'esp32'"
+            >
+              <svg class="svg-icon-xs text-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+              esp32 embedded
+            </button>
+            <button 
               class="view-tab-btn emergency-tab-btn" 
               :class="{ active: currentView === 'emergency' }" 
               @click="currentView = 'emergency'"
@@ -302,6 +310,9 @@
 
       <!-- View 7: AI Memory Room & MCP Workspace -->
       <AiView v-else-if="currentView === 'ai'" />
+
+      <!-- View 8: ESP32 & Embedded IoT Workspace -->
+      <Esp32View v-else-if="currentView === 'esp32'" />
     </main>
 
     <!-- Footer with Real Hardware Specs from hardware.md -->
@@ -340,6 +351,7 @@ import PortMatrix from './components/PortMatrix.vue';
 import EmergencyView from './components/EmergencyView.vue';
 import HardwareView from './components/HardwareView.vue';
 import AiView from './components/AiView.vue';
+import Esp32View from './components/Esp32View.vue';
 
 const currentView = ref('dashboard');
 const selectedCategory = ref('all');
