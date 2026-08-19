@@ -113,7 +113,43 @@ This host serves as the dedicated ARM64 compute and secondary hypervisor node:
 
 1. **ARM64 Workload Validation & Multi-Arch Builds** — Testing and building native ARM64 Docker images, Go/Rust binaries, and embedded firmware.
 2. **Secondary High-Efficiency Hypervisor** — Hosting secondary redundant services (Pi-hole secondary DNS, healthcheck pingers, IoT webhooks) that stay online with minimal power draw.
-3. **Cluster Staging & Development** — Serving as a non-disruptive sandbox for testing Proxmox VE updates, automation playbooks, and multi-node cluster topologies.
+## Host: `k8s-node-04` (Node 4 — Kubernetes Worker Node)
+
+### Hardware
+
+| Component | Spec |
+| --- | --- |
+| Physical Machine | Custom ATX Compute Chassis |
+| Architecture | x86_64 (`amd64`) |
+| CPU | AMD Athlon II X2 220 — 2 Cores / 2 Threads @ 2.80 GHz (Regor / AM3) |
+| GPU | NVIDIA GeForce GTS 250 — 1 GB GDDR3 (55nm / 256-bit bus) |
+| RAM | 4 GB DDR3 |
+| Storage | 80 GB HDD (SATA II / 7200 RPM) |
+| PSU | ATX Power Supply Unit |
+
+**Capacity notes:**
+
+* **Memory Ceiling**: 4 GB DDR3 RAM is tuned strictly for lightweight container runtime execution (`containerd`) and `k3s-agent` background processing. Memory limits are enforced per-pod using resource requests and limits in Kubernetes manifests.
+* **Compute Allocation**: The dual-core AMD Athlon II X2 220 processor handles asynchronous batch processing, CI/CD runner jobs, and stateless microservices without choking the primary hypervisor.
+* **Storage Footprint**: The 80 GB SATA HDD serves as the local OS root partition and ephemeral container image cache, with persistent state stored remotely over NFS on OpenMediaVault NAS (Node 2).
+
+### Software & Infrastructure
+
+| Layer | Detail |
+| --- | --- |
+| Operating System | Alpine Linux / Debian Base |
+| Kubernetes Distribution | k3s (Lightweight Kubernetes Worker Agent) |
+| Container Runtime | containerd (CRI) |
+| Networking | Flannel CNI / Kube-VIP / Tailscale mesh VPN node |
+| Node Role | Kubernetes Worker / General Compute Node |
+
+### Usage Profile
+
+This host serves as the dedicated bare-metal Kubernetes worker node:
+
+1. **Kubernetes Cluster Worker (`k3s-agent`)** — Scheduling lightweight containerized microservices, scheduled batch jobs, and background workers.
+2. **Stateless Compute Offloading** — Offloading non-critical application workloads and worker queues from the primary Proxmox hypervisor.
+3. **Multi-Node Cluster Resilience** — Providing physical node diversity across the homelab cluster topology.
 
 ---
 

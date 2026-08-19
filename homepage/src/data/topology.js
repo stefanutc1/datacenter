@@ -11,6 +11,7 @@ export const networkTopology = {
         { name: 'proxmox (Node 1)', ip: '10.0.10.10', role: 'Intel i3-10100F · GTX 1050 Ti · 8GB RAM · 512GB SSD' },
         { name: 'proxmox2 (Node 3 - ARM64)', ip: '10.0.10.12', role: 'Apple M1 (8-Core) · 4GB Allocated VM · APFS NVMe' },
         { name: 'openmediavault (Node 2 - NAS)', ip: '10.0.10.15', role: 'Intel Celeron N2830 · 2GB RAM · 500GB HDD (SMB/NFS)' },
+        { name: 'k8s-node-04 (Node 4 - K8s Worker)', ip: '10.0.10.18', role: 'AMD Athlon II X2 220 · GTS 250 · 4GB RAM · 80GB HDD' },
         { name: 'OPNsense Firewall & Gateway', ip: '10.0.10.1', role: 'Core Routing & Security Engine' },
         { name: 'Pi-hole DNS Sinkhole', ip: '10.0.10.5', role: 'Primary DNS & Ad-blocker' }
       ]

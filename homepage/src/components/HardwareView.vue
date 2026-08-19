@@ -7,7 +7,7 @@
       </div>
       <div class="cluster-summary-badge">
         <span class="pulse-indicator"></span>
-        <span>3 Physical Nodes &bull; 14 CPU Cores &bull; 18 GB RAM &bull; ~1.5 TB Total Storage</span>
+        <span>4 Physical Nodes &bull; 16 CPU Cores &bull; 22 GB RAM &bull; ~1.6 TB Total Storage</span>
       </div>
     </div>
 

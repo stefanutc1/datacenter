@@ -80,5 +80,34 @@ export const hardwareNodes = [
       'Secondary Redundant Hypervisor (Pi-hole DNS, IoT webhooks, Health pingers)',
       'Cluster Staging & Automation Playbook Sandbox'
     ]
+  },
+  {
+    id: 'k8s-node-04',
+    name: 'k8s-node-04',
+    displayName: 'Node 4 — Kubernetes Worker',
+    role: 'Kubernetes Compute & Container Worker Node',
+    os: 'Alpine Linux / Debian Base',
+    virtualization: 'k3s Worker (containerd CRI)',
+    mesh: 'Tailscale Mesh Node',
+    badgeColor: '#3498db',
+    specs: {
+      machine: 'Custom ATX Compute Chassis',
+      cpu: 'AMD Athlon II X2 220 (2C / 2T @ 2.80 GHz)',
+      gpu: 'NVIDIA GeForce GTS 250 (1 GB GDDR3)',
+      ram: '4 GB DDR3',
+      storage: '80 GB HDD (SATA II)',
+      psu: 'ATX Power Supply Unit'
+    },
+    capacityNotes: [
+      '4 GB DDR3 RAM is tuned for lightweight containerd runtime and k3s-agent pod execution.',
+      'AMD Athlon II X2 220 dual-core handles asynchronous microservices and batch queues.',
+      '80 GB SATA HDD provides local OS root and ephemeral image cache with NFS persistent storage.'
+    ],
+    workloads: [
+      'Kubernetes Worker Node (k3s-agent)',
+      'Stateless Pod & Microservices Compute',
+      'Asynchronous Worker Queues & CI Jobs',
+      'Multi-Node Cluster Fault Tolerance'
+    ]
   }
 ];
