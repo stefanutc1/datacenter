@@ -3,27 +3,29 @@
     <!-- Header -->
     <header class="wiki-header">
       <div class="header-left">
-        <span class="logo-icon">🏠</span>
         <div class="brand">
-          <h1>Homelab Wiki</h1>
-          <span class="version-tag">v2.4.0 · IaC & Self-Hosted</span>
+          <h1>homelab wiki</h1>
+          <span class="version-tag">iac &amp; self-hosted architecture</span>
         </div>
       </div>
       <div class="header-right">
         <div class="search-box">
-          <span class="search-icon">🔍</span>
+          <svg class="search-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.3-4.3"/>
+          </svg>
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Search articles, services, VLANs..."
+            placeholder="search articles, services, vlans..."
           />
           <button v-if="searchQuery" @click="searchQuery = ''" class="clear-btn">✕</button>
         </div>
-        <a href="../" class="github-link" style="background: rgba(99, 102, 241, 0.2); border-color: rgba(99, 102, 241, 0.4); color: #818cf8;">
-          🏠 Services Dashboard
+        <a href="../" class="github-link dashboard-link">
+          services dashboard
         </a>
         <a href="https://github.com/stefannut/homelab" target="_blank" class="github-link">
-          GitHub Repo ↗
+          github repo ↗
         </a>
       </div>
     </header>
@@ -34,7 +36,7 @@
       <aside class="wiki-sidebar">
         <!-- Navigation Categories -->
         <div class="sidebar-section">
-          <h3>Documentation</h3>
+          <h3>documentation</h3>
           <ul class="nav-list">
             <li
               v-for="article in filteredArticles"
@@ -42,7 +44,7 @@
               :class="{ active: selectedArticle && selectedArticle.id === article.id && activeTab === 'docs' }"
               @click="selectArticle(article)"
             >
-              <span class="nav-icon">{{ article.icon }}</span>
+              <span class="nav-dot"></span>
               <span class="nav-title">{{ article.title }}</span>
             </li>
           </ul>
@@ -50,28 +52,28 @@
 
         <!-- Services Explorer Tab Button -->
         <div class="sidebar-section">
-          <h3>Interactive Tools</h3>
+          <h3>interactive tools</h3>
           <ul class="nav-list">
             <li
               :class="{ active: activeTab === 'services' }"
               @click="activeTab = 'services'"
             >
-              <span class="nav-icon">📦</span>
-              <span class="nav-title">Services Catalog ({{ services.length }})</span>
+              <span class="nav-dot"></span>
+              <span class="nav-title">services catalog ({{ services.length }})</span>
             </li>
             <li
               :class="{ active: activeTab === 'topology' }"
               @click="activeTab = 'topology'"
             >
-              <span class="nav-icon">🗺️</span>
-              <span class="nav-title">VLAN & Network Matrix</span>
+              <span class="nav-dot"></span>
+              <span class="nav-title">vlan &amp; network matrix</span>
             </li>
           </ul>
         </div>
 
         <div class="sidebar-footer">
-          <p>Author: <strong>@stefannut</strong></p>
-          <p>Proxmox VE · k3s · Ansible</p>
+          <p>author: <strong>@stefannut</strong></p>
+          <p>proxmox ve &bull; k3s &bull; ansible</p>
         </div>
       </aside>
 
@@ -89,8 +91,8 @@
         <!-- TAB 2: Interactive Services Catalog -->
         <div v-else-if="activeTab === 'services'" class="services-view">
           <div class="view-header">
-            <h2>📦 Containerized Services Directory</h2>
-            <p>Real-time inventory of all 30+ Docker Compose services running on the homelab platform.</p>
+            <h2>containerized services directory</h2>
+            <p>real-time inventory of all docker compose services running on the homelab platform.</p>
             <div class="category-filters">
               <button
                 v-for="cat in serviceCategories"
@@ -112,21 +114,20 @@
               <div class="service-card-header">
                 <div class="svc-logo-box">
                   <img v-if="svc.logo" :src="getLogoUrl(svc.logo)" :alt="svc.name" class="svc-logo-img" />
-                  <span v-else class="svc-icon">{{ svc.icon }}</span>
+                  <span v-else class="svc-dot"></span>
                 </div>
-                <span class="svc-status" :class="svc.status.toLowerCase()">{{ svc.status }}</span>
               </div>
               <h4>{{ svc.name }}</h4>
               <p class="svc-cat">{{ svc.category }}</p>
               <div class="svc-details">
                 <div class="detail-row">
-                  <span>Domain (.lan):</span>
+                  <span>domain (.lan):</span>
                   <a v-if="svc.domain" :href="svc.domainUrl" target="_blank" rel="noopener noreferrer" class="endpoint-link">
                     <code>{{ svc.domain }} ↗</code>
                   </a>
                 </div>
                 <div class="detail-row">
-                  <span>Direct IP:</span>
+                  <span>direct ip:</span>
                   <a v-if="svc.ip" :href="svc.ipUrl" target="_blank" rel="noopener noreferrer" class="endpoint-link">
                     <code>{{ svc.ip }}:{{ svc.port }} ↗</code>
                   </a>
@@ -139,64 +140,64 @@
         <!-- TAB 3: Network Topology & VLAN Matrix -->
         <div v-else-if="activeTab === 'topology'" class="topology-view">
           <div class="view-header">
-            <h2>🗺️ VLAN & Network Isolation Matrix</h2>
-            <p>Granular layer-2 and layer-3 microsegmentation enforced via OPNsense and Proxmox virtual bridges.</p>
+            <h2>vlan &amp; network isolation matrix</h2>
+            <p>granular layer-2 and layer-3 microsegmentation enforced via opnsense and proxmox virtual bridges.</p>
           </div>
 
           <div class="topology-grid">
             <div class="vlan-card vlan-1">
-              <div class="vlan-tag">VLAN 1</div>
-              <h3>Management Zone</h3>
-              <p><code>192.168.1.0/24</code> · Physical Hypervisor & IPMI</p>
+              <div class="vlan-tag">vlan 1</div>
+              <h3>management zone</h3>
+              <p><code>192.168.1.0/24</code> &bull; physical hypervisor &amp; ipmi</p>
               <ul>
-                <li>Proxmox VE Host (pve.homelab.local)</li>
-                <li>Managed L2/L3 Network Switches</li>
-                <li>Restricted to Administrator MAC Address</li>
+                <li>proxmox ve host (pve.lan)</li>
+                <li>managed l2/l3 network switches</li>
+                <li>restricted to administrator mac address</li>
               </ul>
             </div>
 
             <div class="vlan-card vlan-10">
-              <div class="vlan-tag">VLAN 10</div>
-              <h3>Core Infrastructure</h3>
-              <p><code>192.168.10.0/24</code> · Ingress, DNS, Mesh VPN</p>
+              <div class="vlan-tag">vlan 10</div>
+              <h3>core infrastructure</h3>
+              <p><code>192.168.10.0/24</code> &bull; ingress, dns, mesh vpn</p>
               <ul>
-                <li>OPNsense Virtual Router & Firewall</li>
-                <li>Nginx Proxy Manager (:80/:443/:81)</li>
-                <li>Authelia SSO Provider (:9091)</li>
-                <li>Pi-hole DNS Sinkhole (:53)</li>
+                <li>opnsense virtual router &amp; firewall</li>
+                <li>nginx proxy manager (:80/:443/:81)</li>
+                <li>authelia sso provider (:9091)</li>
+                <li>pi-hole dns sinkhole (:53)</li>
               </ul>
             </div>
 
             <div class="vlan-card vlan-20">
-              <div class="vlan-tag">VLAN 20</div>
-              <h3>Application Workloads</h3>
-              <p><code>192.168.20.0/24</code> · Persistent Application Stacks</p>
+              <div class="vlan-tag">vlan 20</div>
+              <h3>application workloads</h3>
+              <p><code>192.168.20.0/24</code> &bull; persistent application stacks</p>
               <ul>
-                <li>Immich, Nextcloud, AList, FileBrowser</li>
-                <li>Prometheus, Grafana, Alertmanager</li>
-                <li>Gitea, Woodpecker CI, Vaultwarden</li>
+                <li>immich, nextcloud, jellyfin</li>
+                <li>prometheus, grafana, loki</li>
+                <li>gitea, woodpecker ci, vaultwarden</li>
               </ul>
             </div>
 
             <div class="vlan-card vlan-30">
-              <div class="vlan-tag">VLAN 30</div>
-              <h3>Kubernetes Cluster</h3>
-              <p><code>192.168.30.0/24</code> · k3s Control Plane & Workers</p>
+              <div class="vlan-tag">vlan 30</div>
+              <h3>kubernetes cluster</h3>
+              <p><code>192.168.30.0/24</code> &bull; k3s control plane &amp; workers</p>
               <ul>
-                <li>k3s Master & Worker Nodes</li>
-                <li>FluxCD GitOps Continuous Engine</li>
-                <li>Pod Overlay: <code>10.42.0.0/16</code></li>
+                <li>k3s master &amp; worker nodes</li>
+                <li>fluxcd gitops continuous engine</li>
+                <li>pod overlay: <code>10.42.0.0/16</code></li>
               </ul>
             </div>
 
             <div class="vlan-card vlan-40">
-              <div class="vlan-tag">VLAN 40</div>
-              <h3>IoT & Edge Nodes</h3>
-              <p><code>192.168.40.0/24</code> · ESP32 & Home Automation</p>
+              <div class="vlan-tag">vlan 40</div>
+              <h3>iot &amp; edge nodes</h3>
+              <p><code>192.168.40.0/24</code> &bull; esp32 &amp; home automation</p>
               <ul>
-                <li>Automated Garden Irrigation Controller</li>
-                <li>Footprint Occupancy Sensor Node</li>
-                <li>Home Assistant MQTT Gateway</li>
+                <li>automated garden irrigation controller</li>
+                <li>footprint occupancy sensor node</li>
+                <li>home assistant mqtt gateway</li>
               </ul>
             </div>
           </div>
@@ -207,7 +208,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { marked } from 'marked';
 import { homelabArticles, homelabServices } from './data/wikiData.js';
 
@@ -218,29 +219,40 @@ const selectedArticle = ref(homelabArticles[0]);
 const searchQuery = ref('');
 const selectedCategory = ref('All');
 
-const serviceCategories = ['All', 'Virtual Machines', 'Ingress', 'Networking', 'Observability', 'Storage & Media', 'Automation', 'DevOps', 'Productivity', 'Utilities'];
+const selectArticle = (article) => {
+  selectedArticle.value = article;
+  activeTab.value = 'docs';
+};
 
 const filteredArticles = computed(() => {
   if (!searchQuery.value) return articles.value;
   const q = searchQuery.value.toLowerCase();
-  return articles.value.filter(a =>
-    a.title.toLowerCase().includes(q) ||
-    a.summary.toLowerCase().includes(q) ||
-    a.content.toLowerCase().includes(q)
+  return articles.value.filter(
+    (a) =>
+      a.title.toLowerCase().includes(q) ||
+      a.summary.toLowerCase().includes(q) ||
+      a.category.toLowerCase().includes(q)
   );
+});
+
+const serviceCategories = computed(() => {
+  const cats = new Set(services.value.map((s) => s.category));
+  return ['All', ...Array.from(cats)];
 });
 
 const filteredServices = computed(() => {
   let list = services.value;
   if (selectedCategory.value !== 'All') {
-    list = list.filter(s => s.category === selectedCategory.value);
+    list = list.filter((s) => s.category === selectedCategory.value);
   }
   if (searchQuery.value) {
     const q = searchQuery.value.toLowerCase();
-    list = list.filter(s =>
-      s.name.toLowerCase().includes(q) ||
-      s.domain.toLowerCase().includes(q) ||
-      s.category.toLowerCase().includes(q)
+    list = list.filter(
+      (s) =>
+        s.name.toLowerCase().includes(q) ||
+        s.category.toLowerCase().includes(q) ||
+        (s.domain && s.domain.toLowerCase().includes(q)) ||
+        (s.ip && s.ip.includes(q))
     );
   }
   return list;
@@ -248,13 +260,8 @@ const filteredServices = computed(() => {
 
 const renderedMarkdown = computed(() => {
   if (!selectedArticle.value) return '';
-  return marked.parse(selectedArticle.value.content);
+  return marked.parse(selectedArticle.value.content || '');
 });
-
-function selectArticle(article) {
-  selectedArticle.value = article;
-  activeTab.value = 'docs';
-}
 
 function getLogoUrl(logo) {
   if (!logo) return '';
@@ -268,134 +275,163 @@ function getLogoUrl(logo) {
 .wiki-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 .wiki-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 24px;
-  background: var(--bg-secondary);
+  height: 64px;
+  background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.logo-icon {
-  font-size: 28px;
+  gap: 0.75rem;
 }
 
 .brand h1 {
-  font-size: 18px;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-primary);
+  margin: 0;
+  text-transform: lowercase;
 }
 
 .version-tag {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--accent-blue);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .search-box {
+  position: relative;
   display: flex;
   align-items: center;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 6px 12px;
-  gap: 8px;
+}
+
+.search-svg {
+  position: absolute;
+  left: 0.75rem;
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
 }
 
 .search-box input {
-  background: transparent;
-  border: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 0.4rem 1.75rem 0.4rem 2.2rem;
   color: var(--text-primary);
+  font-size: 0.8rem;
+  width: 260px;
   outline: none;
-  font-size: 13px;
-  width: 240px;
+  transition: all 0.2s ease;
+}
+
+.search-box input:focus {
+  border-color: #8e5e63;
+  box-shadow: 0 0 10px rgba(142, 94, 99, 0.35);
 }
 
 .clear-btn {
-  background: none;
-  border: none;
+  position: absolute;
+  right: 0.6rem;
   color: var(--text-muted);
-  cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .github-link {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--text-secondary);
-  background: var(--bg-card);
-  padding: 6px 12px;
-  border-radius: 6px;
   border: 1px solid var(--border-color);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  background: var(--bg-surface);
+  text-transform: lowercase;
 }
 
 .github-link:hover {
   color: var(--text-primary);
-  border-color: var(--accent-blue);
-  text-decoration: none;
+  background: var(--bg-hover);
+}
+
+.dashboard-link {
+  background: #3e2a2c;
+  color: #f5ecec;
+  border-color: rgba(214, 182, 186, 0.25);
 }
 
 .wiki-body {
   display: flex;
   flex: 1;
-  overflow: hidden;
 }
 
 .wiki-sidebar {
-  width: 280px;
+  width: 270px;
   background: var(--bg-secondary);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  padding: 1.25rem;
+  gap: 1.5rem;
+  height: calc(100vh - 64px);
+  position: sticky;
+  top: 64px;
   overflow-y: auto;
-  padding: 16px 0;
-}
-
-.sidebar-section {
-  padding: 0 16px;
-  margin-bottom: 24px;
 }
 
 .sidebar-section h3 {
-  font-size: 11px;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 0.6rem;
+  text-transform: lowercase;
 }
 
 .nav-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .nav-list li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 0.6rem;
+  padding: 0.45rem 0.65rem;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 13px;
   color: var(--text-secondary);
-  margin-bottom: 4px;
+  font-size: 0.825rem;
   transition: all 0.15s ease;
+  text-transform: lowercase;
+}
+
+.nav-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  flex-shrink: 0;
 }
 
 .nav-list li:hover {
@@ -404,309 +440,323 @@ function getLogoUrl(logo) {
 }
 
 .nav-list li.active {
-  background: var(--bg-card);
-  color: var(--accent-blue);
-  font-weight: 600;
-  border-left: 3px solid var(--accent-blue);
+  background: #3e2a2c;
+  color: #f5ecec;
+  font-weight: 500;
+  border: 1px solid rgba(214, 182, 186, 0.2);
+}
+
+.nav-list li.active .nav-dot {
+  background: #c89b9e;
 }
 
 .sidebar-footer {
-  padding: 16px;
+  margin-top: auto;
   border-top: 1px solid var(--border-color);
-  font-size: 11px;
+  padding-top: 1rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .wiki-content {
   flex: 1;
-  overflow-y: auto;
-  padding: 32px 48px;
-  background: var(--bg-primary);
+  padding: 2.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .article-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .badge {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  background: rgba(56, 189, 248, 0.1);
-  color: var(--accent-blue);
-  padding: 4px 8px;
+  background: #3e2a2c;
+  color: #f5ecec;
+  border: 1px solid rgba(214, 182, 186, 0.2);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  text-transform: lowercase;
 }
 
 .summary-text {
-  font-size: 13px;
+  font-size: 0.85rem;
   color: var(--text-muted);
+  text-transform: lowercase;
 }
 
-/* Markdown Rendering */
-.markdown-body :deep(h1) {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 16px;
+:deep(.markdown-body) {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+:deep(.markdown-body h1) {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  text-transform: lowercase;
+}
+
+:deep(.markdown-body h2) {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin: 1.75rem 0 0.75rem 0;
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 8px;
+  padding-bottom: 0.35rem;
+  text-transform: lowercase;
 }
 
-.markdown-body :deep(h2) {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 24px 0 12px;
+:deep(.markdown-body h3) {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin: 1.25rem 0 0.5rem 0;
+  text-transform: lowercase;
 }
 
-.markdown-body :deep(h3) {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 16px 0 8px;
+:deep(.markdown-body p) {
+  margin-bottom: 1rem;
+  text-transform: lowercase;
 }
 
-.markdown-body :deep(p) {
-  margin-bottom: 14px;
-  color: var(--text-secondary);
+:deep(.markdown-body ul), :deep(.markdown-body ol) {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  text-transform: lowercase;
 }
 
-.markdown-body :deep(ul), .markdown-body :deep(ol) {
-  margin: 0 0 16px 24px;
-  color: var(--text-secondary);
+:deep(.markdown-body li) {
+  margin-bottom: 0.35rem;
 }
 
-.markdown-body :deep(li) {
-  margin-bottom: 4px;
-}
-
-.markdown-body :deep(pre) {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 16px;
-  overflow-x: auto;
-  margin: 16px 0;
-  color: #e2e8f0;
-}
-
-.markdown-body :deep(code) {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 12px;
-  color: var(--accent-blue);
-}
-
-.markdown-body :deep(table) {
+:deep(.markdown-body table) {
   width: 100%;
   border-collapse: collapse;
-  margin: 16px 0;
+  margin: 1.25rem 0;
+  font-size: 0.85rem;
 }
 
-.markdown-body :deep(th), .markdown-body :deep(td) {
+:deep(.markdown-body th), :deep(.markdown-body td) {
   border: 1px solid var(--border-color);
-  padding: 8px 12px;
+  padding: 0.6rem 0.85rem;
   text-align: left;
-  font-size: 13px;
+  text-transform: lowercase;
 }
 
-.markdown-body :deep(th) {
-  background: var(--bg-secondary);
+:deep(.markdown-body th) {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+:deep(.markdown-body pre) {
+  background: #0e0a0b;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+
+:deep(.markdown-body code) {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: rgba(62, 42, 44, 0.4);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  color: var(--accent-cyan);
+}
+
+:deep(.markdown-body pre code) {
+  background: transparent;
+  padding: 0;
+  color: var(--text-primary);
 }
 
 /* Services View */
 .view-header {
-  margin-bottom: 24px;
+  margin-bottom: 2rem;
 }
 
 .view-header h2 {
-  font-size: 24px;
-  margin-bottom: 6px;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+  text-transform: lowercase;
 }
 
 .view-header p {
+  font-size: 0.875rem;
   color: var(--text-muted);
-  font-size: 14px;
+  text-transform: lowercase;
 }
 
 .category-filters {
   display: flex;
-  gap: 8px;
+  gap: 0.4rem;
+  margin-top: 1rem;
   flex-wrap: wrap;
-  margin-top: 16px;
 }
 
 .category-filters button {
-  background: var(--bg-secondary);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  background: var(--bg-surface);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.15s;
+  text-transform: lowercase;
 }
 
-.category-filters button.active, .category-filters button:hover {
-  background: var(--accent-blue);
-  color: #000;
-  font-weight: 600;
+.category-filters button.active {
+  background: #3e2a2c;
+  color: #f5ecec;
+  border-color: rgba(214, 182, 186, 0.3);
 }
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
 }
 
 .service-card {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 16px;
-  transition: transform 0.15s, border-color 0.15s;
-}
-
-.service-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-blue);
+  border-radius: 10px;
+  padding: 1.15rem;
 }
 
 .service-card-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .svc-logo-box {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(62, 42, 44, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .svc-logo-img {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-.svc-icon {
-  font-size: 20px;
-}
-
-.svc-status {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.svc-status.active {
-  background: rgba(52, 211, 153, 0.1);
-  color: var(--accent-green);
-  border: 1px solid rgba(52, 211, 153, 0.3);
+.svc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
 }
 
 .service-card h4 {
-  font-size: 15px;
-  margin-bottom: 2px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+  text-transform: lowercase;
 }
 
 .svc-cat {
-  font-size: 11px;
+  font-size: 0.725rem;
   color: var(--text-muted);
-  margin-bottom: 12px;
+  margin-bottom: 0.85rem;
+  text-transform: lowercase;
 }
 
 .svc-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
   border-top: 1px solid var(--border-color);
-  padding-top: 8px;
-  font-size: 12px;
+  padding-top: 0.75rem;
 }
 
 .detail-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .endpoint-link {
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-.endpoint-link code {
-  color: var(--accent-blue);
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-  transition: all 0.15s ease;
-}
-
-.endpoint-link:hover code {
-  background: rgba(99, 102, 241, 0.25);
-  color: #fff;
+  color: var(--accent-cyan);
+  text-transform: lowercase;
 }
 
 /* Topology View */
 .topology-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  gap: 1.25rem;
 }
 
 .vlan-card {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 10px;
+  padding: 1.25rem;
 }
 
 .vlan-tag {
-  display: inline-block;
-  font-size: 11px;
   font-family: var(--font-mono);
+  font-size: 0.7rem;
   font-weight: 700;
-  background: rgba(56, 189, 248, 0.1);
-  color: var(--accent-blue);
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  color: var(--accent-cyan);
+  margin-bottom: 0.5rem;
+  text-transform: lowercase;
 }
 
 .vlan-card h3 {
-  font-size: 16px;
-  margin-bottom: 4px;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  text-transform: lowercase;
 }
 
 .vlan-card p {
-  font-size: 12px;
+  font-size: 0.8rem;
   color: var(--text-muted);
-  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
+  text-transform: lowercase;
 }
 
 .vlan-card ul {
-  list-style: disc;
-  margin-left: 20px;
-  font-size: 12px;
+  padding-left: 1.2rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
+  text-transform: lowercase;
 }
 
 .vlan-card li {
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .wiki-body {
+    flex-direction: column;
+  }
+  .wiki-sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+  }
 }
 </style>

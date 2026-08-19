@@ -11,13 +11,9 @@
           </div>
           <div>
             <div class="brand-title-row">
-              <h1 class="brand-title">HOMELAB PORTAL</h1>
-              <span class="cluster-status-pill">
-                <span class="status-dot"></span>
-                ALL SYSTEMS OPERATIONAL
-              </span>
+              <h1 class="brand-title">homelab portal</h1>
             </div>
-            <p class="brand-subtitle">Proxmox VE &bull; OpenMediaVault &bull; Apple M1 ARM64 &bull; K8s Worker &bull; Service Catalog</p>
+            <p class="brand-subtitle">proxmox ve &bull; openmediavault &bull; apple m1 arm64 &bull; k8s worker &bull; service catalog</p>
           </div>
         </div>
 
@@ -27,7 +23,7 @@
           <input 
             v-model="searchQuery" 
             type="text" 
-            placeholder="Search services, ports (:8080), tags, containers..." 
+            placeholder="search services, ports (:8080), tags, containers..." 
             class="search-input"
           />
           <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''">&times;</button>
@@ -42,7 +38,7 @@
               @click="currentView = 'dashboard'"
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-              Services
+              services
             </button>
             <button 
               class="view-tab-btn" 
@@ -50,7 +46,7 @@
               @click="currentView = 'hardware'"
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
-              Hardware Nodes
+              hardware nodes
             </button>
             <button 
               class="view-tab-btn" 
@@ -58,7 +54,7 @@
               @click="currentView = 'wiki'"
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-              Wiki Catalog
+              wiki catalog
             </button>
             <button 
               class="view-tab-btn" 
@@ -66,7 +62,7 @@
               @click="currentView = 'topology'"
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
-              Topology
+              topology
             </button>
             <button 
               class="view-tab-btn" 
@@ -74,7 +70,7 @@
               @click="currentView = 'ports'"
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-              Port Matrix
+              port matrix
             </button>
             <button 
               class="view-tab-btn emergency-tab-btn" 
@@ -82,19 +78,19 @@
               @click="currentView = 'emergency'"
             >
               <svg class="svg-icon-xs text-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              10h+ Emergency SOP
+              10h+ emergency sop
             </button>
             <a 
               href="./wiki/" 
               class="view-tab-btn nav-link-external" 
-              title="Open Markdown Knowledge Base & Runbooks"
+              title="open markdown knowledge base & runbooks"
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-              Full Docs Wiki ↗
+              full docs wiki ↗
             </a>
           </nav>
 
-          <button class="theme-toggle" @click="toggleTheme" title="Toggle Theme">
+          <button class="theme-toggle" @click="toggleTheme" title="toggle theme">
             <svg v-if="currentTheme === 'dark'" class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
             <svg v-else class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
           </button>
@@ -111,8 +107,8 @@
             <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
           </div>
           <div>
-            <div class="stat-number">4 Nodes</div>
-            <div class="stat-label">Physical Hosts (i3 · Celeron · M1 · Athlon II)</div>
+            <div class="stat-number">4 nodes</div>
+            <div class="stat-label">physical hosts (i3 · celeron · m1 · athlon ii)</div>
           </div>
         </div>
 
@@ -121,8 +117,8 @@
             <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
           </div>
           <div>
-            <div class="stat-number">{{ uniquePortsCount }} Ports</div>
-            <div class="stat-label">{{ servicesList.length }} Microservices Online</div>
+            <div class="stat-number">{{ uniquePortsCount }} ports</div>
+            <div class="stat-label">{{ servicesList.length }} microservices online</div>
           </div>
         </div>
 
@@ -131,8 +127,8 @@
             <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
           </div>
           <div>
-            <div class="stat-number">GTX 1050 Ti</div>
-            <div class="stat-label">4GB VRAM · PyTorch / Frigate</div>
+            <div class="stat-number">gtx 1050 ti</div>
+            <div class="stat-label">4gb vram · pytorch / frigate</div>
           </div>
         </div>
 
@@ -141,8 +137,8 @@
             <svg class="svg-icon-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           </div>
           <div>
-            <div class="stat-number">512G + 500G</div>
-            <div class="stat-label">SSD Tier + OMV Storage</div>
+            <div class="stat-number">512g + 500g + 80g</div>
+            <div class="stat-label">ssd tier + omv + k8s worker</div>
           </div>
         </div>
       </section>
@@ -168,7 +164,7 @@
           <div class="section-title-row">
             <h2 class="sub-heading">
               <svg class="svg-icon-xs text-warning" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              Pinned Favorites
+              pinned favorites
             </h2>
             <span class="sub-desc">{{ favoriteServices.length }} pinned services</span>
           </div>
@@ -186,13 +182,13 @@
           </div>
         </section>
 
-        <!-- All Services Grid -->
+        <!-- All Services Section -->
         <section class="all-services-section">
           <div class="section-title-row">
             <h2 class="sub-heading">
-              <span>{{ currentCategoryName }}</span>
+              <span>{{ activeCategoryName }}</span>
             </h2>
-            <span class="sub-desc">Showing {{ filteredServices.length }} service(s)</span>
+            <span class="sub-desc">showing {{ filteredServices.length }} service(s)</span>
           </div>
 
           <div v-if="filteredServices.length > 0" class="services-grid">
@@ -210,28 +206,29 @@
           <!-- Empty Search State -->
           <div v-else class="empty-search-state glass-panel">
             <svg class="svg-icon-lg text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <h3>No matching homelab services found</h3>
-            <p>Try searching for a different keyword, port number, or clear your category filter.</p>
-            <button class="btn-primary" @click="resetFilters">Reset Filters</button>
+            <h3>no matching homelab services found</h3>
+            <p>try searching for a different keyword, port number, or clear your category filter.</p>
+            <button class="btn-primary" @click="resetFilters">reset filters</button>
           </div>
         </section>
       </div>
 
-      <!-- View 2: Hardware Nodes View -->
+      <!-- View 2: Real Hardware Specifications View -->
       <HardwareView v-else-if="currentView === 'hardware'" />
 
-      <!-- View 3: Wiki Catalog -->
+      <!-- View 3: Embedded Wiki & Docs Catalog -->
       <div v-else-if="currentView === 'wiki'" class="wiki-catalog-view fade-in">
         <div class="wiki-layout">
+          <!-- Left Service Selector -->
           <aside class="wiki-sidebar glass-panel">
-            <h3 class="wiki-sidebar-title">Service Documentation</h3>
+            <h3 class="wiki-sidebar-title">service documentation</h3>
             <div class="wiki-sidebar-list">
               <button 
                 v-for="svc in servicesList" 
                 :key="'wiki-side-' + svc.id"
                 class="wiki-side-item"
-                :class="{ active: selectedWikiService?.id === svc.id }"
-                @click="selectedWikiService = svc"
+                :class="{ active: activeWikiService?.id === svc.id }"
+                @click="activeWikiService = svc"
               >
                 <span class="wiki-dot" :style="{ backgroundColor: svc.color }"></span>
                 <span class="wiki-name text-ellipsis">{{ svc.name }}</span>
@@ -240,53 +237,57 @@
             </div>
           </aside>
 
-          <article class="wiki-article glass-panel" v-if="selectedWikiService">
+          <!-- Right Article View -->
+          <article v-if="activeWikiService" class="wiki-article glass-panel">
             <div class="wiki-article-header">
               <div>
-                <h2 class="wiki-article-title">{{ selectedWikiService.name }}</h2>
-                <p class="wiki-article-meta">Category: <span class="capitalize">{{ selectedWikiService.category }}</span> &bull; Container: <code>{{ selectedWikiService.containerName }}</code></p>
+                <h2 class="wiki-article-title">{{ activeWikiService.name }}</h2>
+                <p class="wiki-article-meta">
+                  category: <span class="capitalize">{{ activeWikiService.category }}</span> &bull; 
+                  container: <code>{{ activeWikiService.containerName }}</code>
+                </p>
               </div>
-              <a :href="selectedWikiService.internalUrl" target="_blank" rel="noopener noreferrer" class="btn-primary">
-                Launch UI
+              <a :href="activeWikiService.internalUrl" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                launch ui
               </a>
             </div>
 
             <div class="wiki-section">
-              <h3>Overview</h3>
-              <p>{{ selectedWikiService.description }}</p>
+              <h3>overview</h3>
+              <p>{{ activeWikiService.description }}</p>
             </div>
 
             <div class="wiki-section">
-              <h3>Features &amp; Capabilities</h3>
+              <h3>features & capabilities</h3>
               <ul class="wiki-bullet-list">
-                <li v-for="(feat, idx) in selectedWikiService.features" :key="idx">{{ feat }}</li>
+                <li v-for="(feat, idx) in activeWikiService.features" :key="idx">{{ feat }}</li>
               </ul>
             </div>
 
             <div class="wiki-section">
-              <h3>Docker Compose Manifest</h3>
-              <pre><code>{{ selectedWikiService.composeCode }}</code></pre>
+              <h3>docker compose manifest</h3>
+              <pre><code>{{ activeWikiService.composeCode }}</code></pre>
             </div>
 
             <div class="wiki-section">
-              <h3>Architecture &amp; Security Runbook</h3>
-              <pre class="wiki-text">{{ selectedWikiService.wikiMarkdown }}</pre>
+              <h3>architecture & runbook</h3>
+              <pre class="wiki-text">{{ activeWikiService.wikiMarkdown }}</pre>
             </div>
           </article>
         </div>
       </div>
 
-      <!-- View 4: Network Topology -->
+      <!-- View 4: Visual VLAN & Mesh Topology -->
       <TopologyView v-else-if="currentView === 'topology'" />
 
-      <!-- View 5: Port Matrix -->
+      <!-- View 5: Port Allocation Matrix -->
       <PortMatrix 
         v-else-if="currentView === 'ports'" 
-        :services="servicesList" 
+        :services="servicesList"
         @select="openServiceModal"
       />
 
-      <!-- View 6: 10h+ Emergency SOP -->
+      <!-- View 6: 10h+ Emergency Blackout Standard Operating Procedure -->
       <EmergencyView v-else-if="currentView === 'emergency'" />
     </main>
 
@@ -294,15 +295,15 @@
     <footer class="app-footer glass-panel">
       <div class="footer-content">
         <div>
-          <span class="footer-brand">Homelab Operations</span> &bull; 
-          <span class="footer-info">Proxmox VE 9.2 (i3-10100F / GTX 1050 Ti) &bull; OMV (Celeron N2830) &bull; Proxmox2 (Apple M1) &bull; K8s-04 (Athlon II X2)</span>
+          <span class="footer-brand">homelab operations</span> &bull; 
+          <span class="footer-info">proxmox ve 9.2 (i3-10100f / gtx 1050 ti) &bull; omv (celeron n2830) &bull; proxmox2 (apple m1) &bull; k8s-04 (athlon ii x2)</span>
         </div>
         <div class="footer-links">
-          <span>Storage: 512GB SSD + 500GB HDD + 80GB HDD</span>
+          <span>storage: 512gb ssd + 500gb hdd + 80gb hdd</span>
           <span>&bull;</span>
-          <span>Mesh: Tailscale WireGuard</span>
+          <span>mesh: tailscale wireguard</span>
           <span>&bull;</span>
-          <span>DNS: Pi-hole</span>
+          <span>dns: pi-hole</span>
         </div>
       </div>
     </footer>
@@ -311,26 +312,26 @@
     <ServiceModal 
       v-if="activeModalService" 
       :service="activeModalService" 
-      @close="activeModalService = null"
+      @close="activeModalService = null" 
     />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { services as servicesList, categories as categoriesList } from './data/services.js';
+import { categories as categoriesList, services as servicesList } from './data/services.js';
 import ServiceCard from './components/ServiceCard.vue';
 import ServiceModal from './components/ServiceModal.vue';
-import HardwareView from './components/HardwareView.vue';
 import TopologyView from './components/TopologyView.vue';
 import PortMatrix from './components/PortMatrix.vue';
 import EmergencyView from './components/EmergencyView.vue';
+import HardwareView from './components/HardwareView.vue';
 
 const currentView = ref('dashboard');
 const selectedCategory = ref('all');
 const searchQuery = ref('');
 const activeModalService = ref(null);
-const selectedWikiService = ref(servicesList[0]);
+const activeWikiService = ref(servicesList[0]);
 const currentTheme = ref('dark');
 const favorites = ref(['homeassistant', 'immich', 'vaultwarden', 'grafana', 'frigate']);
 
@@ -372,10 +373,10 @@ const getCategoryCount = (catId) => {
   return servicesList.filter(s => s.category === catId).length;
 };
 
-const currentCategoryName = computed(() => {
-  if (selectedCategory.value === 'all') return 'All Services Catalog';
-  const match = categoriesList.find(c => c.id === selectedCategory.value);
-  return match ? `${match.name} Services` : 'Services';
+const activeCategoryName = computed(() => {
+  if (selectedCategory.value === 'all') return 'all services catalog';
+  const cat = categoriesList.find(c => c.id === selectedCategory.value);
+  return cat ? `${cat.name} services` : 'services';
 });
 
 const uniquePortsCount = computed(() => {
@@ -447,25 +448,26 @@ const resetFilters = () => {
 }
 
 .brand-logo {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(135deg, #3e2a2c, #5e3f42);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  box-shadow: 0 0 16px rgba(99, 102, 241, 0.45);
+  color: #f5ecec;
+  border: 1px solid rgba(214, 182, 186, 0.2);
+  box-shadow: 0 0 16px rgba(62, 42, 44, 0.6);
   transition: transform 0.25s ease;
 }
 
 .brand-logo:hover {
-  transform: scale(1.08) rotate(2deg);
+  transform: scale(1.05);
 }
 
 .svg-logo {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
 }
 
 .brand-title-row {
@@ -480,39 +482,13 @@ const resetFilters = () => {
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #ffffff, #cbd5e1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.cluster-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--accent-emerald);
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
-}
-
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-emerald);
-  box-shadow: 0 0 8px var(--accent-emerald);
-  animation: pulseGlow 2s infinite ease-in-out;
+  text-transform: lowercase;
 }
 
 .brand-subtitle {
   font-size: 0.78rem;
   color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 /* Search Bar */
@@ -545,9 +521,8 @@ const resetFilters = () => {
 }
 
 .search-input:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
-  transform: scale(1.01);
+  border-color: var(--accent-primary-light);
+  box-shadow: 0 0 14px rgba(142, 94, 99, 0.35);
 }
 
 .search-clear {
@@ -584,6 +559,7 @@ const resetFilters = () => {
   color: var(--text-secondary);
   transition: all 0.18s ease;
   text-decoration: none;
+  text-transform: lowercase;
 }
 
 .view-tab-btn:hover {
@@ -592,8 +568,9 @@ const resetFilters = () => {
 }
 
 .view-tab-btn.active {
-  background: var(--accent-primary);
-  color: white;
+  background: #3e2a2c;
+  color: #f5ecec;
+  border: 1px solid rgba(214, 182, 186, 0.25);
   box-shadow: var(--shadow-sm);
 }
 
@@ -602,10 +579,10 @@ const resetFilters = () => {
 }
 
 .emergency-tab-btn.active {
-  background: rgba(239, 68, 68, 0.18) !important;
-  border: 1px solid rgba(239, 68, 68, 0.5) !important;
+  background: rgba(184, 85, 90, 0.25) !important;
+  border: 1px solid rgba(184, 85, 90, 0.6) !important;
   color: #fca5a5 !important;
-  box-shadow: 0 0 16px rgba(239, 68, 68, 0.35) !important;
+  box-shadow: 0 0 16px rgba(184, 85, 90, 0.35) !important;
 }
 
 .text-danger {
@@ -665,7 +642,7 @@ const resetFilters = () => {
   width: 46px;
   height: 46px;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(62, 42, 44, 0.35);
   border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
@@ -674,25 +651,27 @@ const resetFilters = () => {
 }
 
 .stat-card:hover .stat-icon-wrapper {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
 .stat-number {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .stat-label {
   font-size: 0.775rem;
   color: var(--text-muted);
+  text-transform: lowercase;
 }
 
-.text-indigo { color: #818cf8; }
-.text-cyan { color: #22d3ee; }
-.text-emerald { color: #34d399; }
-.text-purple { color: #c084fc; }
-.text-warning { color: #fbbf24; }
+.text-indigo { color: #baa6a8; }
+.text-cyan { color: #c89b9e; }
+.text-emerald { color: #6b9e78; }
+.text-purple { color: #d6b2b5; }
+.text-warning { color: #cfa16a; }
 
 /* Categories */
 .category-filters {
@@ -715,8 +694,8 @@ const resetFilters = () => {
   font-size: 0.78rem;
   font-family: var(--font-mono);
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
   white-space: nowrap;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: inset 0 1px 0 var(--border-specular), var(--shadow-sm);
@@ -727,14 +706,13 @@ const resetFilters = () => {
   border-color: var(--border-color-hover);
   color: var(--text-primary);
   transform: translateY(-2px);
-  box-shadow: inset 0 1px 0 var(--border-specular), 0 8px 16px -4px rgba(0, 0, 0, 0.4), var(--shadow-glow);
 }
 
 .cat-pill-btn.active {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-hover));
-  border-color: rgba(255, 255, 255, 0.3);
-  color: white;
-  box-shadow: 0 0 18px rgba(99, 102, 241, 0.45);
+  background: #3e2a2c;
+  border-color: rgba(214, 182, 186, 0.3);
+  color: #f5ecec;
+  box-shadow: 0 0 16px rgba(62, 42, 44, 0.5);
   transform: translateY(-2px);
 }
 
@@ -762,11 +740,13 @@ const resetFilters = () => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-transform: lowercase;
 }
 
 .sub-desc {
   font-size: 0.8rem;
   color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .favorites-section {
@@ -796,12 +776,14 @@ const resetFilters = () => {
 .empty-search-state h3 {
   font-size: 1.15rem;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .empty-search-state p {
   color: var(--text-muted);
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
+  text-transform: lowercase;
 }
 
 /* Wiki Catalog View */
@@ -821,7 +803,7 @@ const resetFilters = () => {
 .wiki-sidebar-title {
   font-size: 0.85rem;
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
   margin-bottom: 1rem;
@@ -843,6 +825,7 @@ const resetFilters = () => {
   font-size: 0.825rem;
   text-align: left;
   transition: all 0.15s ease;
+  text-transform: lowercase;
 }
 
 .wiki-side-item:hover {
@@ -851,8 +834,9 @@ const resetFilters = () => {
 }
 
 .wiki-side-item.active {
-  background: var(--accent-primary);
-  color: white;
+  background: #3e2a2c;
+  color: #f5ecec;
+  border: 1px solid rgba(214, 182, 186, 0.2);
 }
 
 .wiki-dot {
@@ -865,6 +849,7 @@ const resetFilters = () => {
 .wiki-name {
   flex: 1;
   font-weight: 500;
+  text-transform: lowercase;
 }
 
 .wiki-port {
@@ -891,12 +876,14 @@ const resetFilters = () => {
   font-size: 1.7rem;
   font-weight: 700;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .wiki-article-meta {
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-top: 0.35rem;
+  text-transform: lowercase;
 }
 
 .wiki-section {
@@ -909,6 +896,7 @@ const resetFilters = () => {
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.65rem;
+  text-transform: lowercase;
 }
 
 .wiki-bullet-list {
@@ -927,6 +915,27 @@ const resetFilters = () => {
   background: var(--bg-surface) !important;
   padding: 1.25rem !important;
   color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  background: #3e2a2c;
+  color: #f5ecec;
+  border: 1px solid rgba(214, 182, 186, 0.25);
+  border-radius: var(--radius-sm);
+  font-size: 0.825rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: #54393c;
+  border-color: rgba(214, 182, 186, 0.4);
 }
 
 /* Footer */
@@ -949,6 +958,7 @@ const resetFilters = () => {
   color: var(--text-muted);
   flex-wrap: wrap;
   gap: 1rem;
+  text-transform: lowercase;
 }
 
 .footer-brand {
@@ -956,6 +966,7 @@ const resetFilters = () => {
   font-weight: 700;
   font-size: 0.95rem;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .footer-links {
@@ -963,6 +974,7 @@ const resetFilters = () => {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+  text-transform: lowercase;
 }
 
 .svg-icon-md { width: 22px; height: 22px; }

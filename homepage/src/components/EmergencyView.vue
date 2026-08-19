@@ -12,20 +12,20 @@
         </div>
         <div>
           <div class="badge-row">
-            <span class="emergency-badge">SOP-PWR-10H</span>
-            <span class="severity-badge">CRITICAL PROTOCOL</span>
+            <span class="emergency-badge">sop-pwr-10h</span>
+            <span class="severity-badge">critical protocol</span>
           </div>
-          <h2 class="emergency-title">Extended 10+ Hour Power Outage Standard Operating Procedure</h2>
-          <p class="emergency-subtitle">Cascading graceful shutdown, physical battery/surge isolation, and staged cold-boot recovery hierarchy.</p>
+          <h2 class="emergency-title">extended 10+ hour power outage standard operating procedure</h2>
+          <p class="emergency-subtitle">cascading graceful shutdown, physical battery/surge isolation, and staged cold-boot recovery hierarchy.</p>
         </div>
       </div>
 
       <div class="quick-actions">
-        <button class="btn-emergency-action" @click="activePhase = 'shutdown'">
-          <span>⚡ Cascading Shutdown</span>
+        <button class="btn-emergency-action" @click="currentPhaseId = 'phase1'">
+          <span>cascading shutdown</span>
         </button>
-        <button class="btn-emergency-action" @click="activePhase = 'boot'">
-          <span>🔌 Cold-Boot Sequence</span>
+        <button class="btn-emergency-action" @click="currentPhaseId = 'phase3'">
+          <span>cold-boot sequence</span>
         </button>
       </div>
     </div>
@@ -52,8 +52,8 @@
       <!-- PHASE 1: Cascading Graceful Shutdown -->
       <div v-if="currentPhaseId === 'phase1'" class="phase-content">
         <div class="section-header">
-          <h3>Phase 1: Automated &amp; Cascading Graceful Shutdown (T+0m – T+15m)</h3>
-          <p>Executed by NUT (Network UPS Tools) upon grid loss or triggered manually via <code>/opt/homelab/scripts/emergency-shutdown.sh</code> to cleanly unmount OpenMediaVault NAS NFS storage shares and flush filesystem journals.</p>
+          <h3>phase 1: automated &amp; cascading graceful shutdown (t+0m – t+15m)</h3>
+          <p>executed upon grid loss or triggered manually via <code>/opt/homelab/scripts/emergency-shutdown.sh</code> to cleanly unmount openmediavault nas nfs storage shares and flush filesystem journals.</p>
         </div>
 
         <div class="tiers-grid">
@@ -77,27 +77,27 @@
       <!-- PHASE 2: Extended 10+ Hour Outage Hardening -->
       <div v-else-if="currentPhaseId === 'phase2'" class="phase-content">
         <div class="section-header">
-          <h3>Phase 2: Long-Term 10+ Hour Outage Hardening (T+15m – T+10h+)</h3>
-          <p>Protecting hardware electronics from deep-discharge battery degradation and municipal grid restoration inrush surges.</p>
+          <h3>phase 2: long-term 10+ hour outage hardening (t+15m – t+10h+)</h3>
+          <p>protecting hardware electronics from deep-discharge battery degradation and municipal grid restoration inrush surges.</p>
         </div>
 
         <div class="guidelines-grid">
           <div class="guideline-box danger-border">
-            <div class="box-icon">🔌</div>
-            <h4>Physical Surge Suppressor Isolation</h4>
-            <p>Unplug the master PDU / surge protector from the wall outlet. When the utility grid returns after major blackouts, large voltage spikes (up to 400V+) occur during initial transformer re-energization.</p>
+            <div class="box-icon-tag">isolation</div>
+            <h4>physical surge suppressor isolation</h4>
+            <p>unplug the master pdu / surge protector from the wall outlet. when the utility grid returns after major blackouts, large voltage spikes occur during initial transformer re-energization.</p>
           </div>
 
           <div class="guideline-box warning-border">
-            <div class="box-icon">🔋</div>
-            <h4>UPS Battery Deep-Discharge Cutoff</h4>
-            <p>Power off the physical UPS master switch once all nodes have cleanly shut down. Leaving the inverter running empty can drain lead-acid or LiFePO4 cells below their critical cutoff voltage, destroying battery chemistry.</p>
+            <div class="box-icon-tag">battery</div>
+            <h4>ups battery deep-discharge cutoff</h4>
+            <p>power off the physical ups master switch once all nodes have cleanly shut down. leaving the inverter running empty can drain battery cells below their critical cutoff voltage.</p>
           </div>
 
           <div class="guideline-box info-border">
-            <div class="box-icon">📡</div>
-            <h4>Out-of-Band Telemetry &amp; Alerts</h4>
-            <p>Emergency status alerts are dispatched over the secondary LTE/4G cellular gateway. An autonomous ESP32 battery sensor monitors line voltage and ambient server cabinet temperature.</p>
+            <div class="box-icon-tag">telemetry</div>
+            <h4>out-of-band telemetry &amp; alerts</h4>
+            <p>emergency status alerts are dispatched over the secondary cellular gateway. an autonomous esp32 sensor monitors line voltage and server cabinet temperature.</p>
           </div>
         </div>
       </div>
@@ -105,8 +105,8 @@
       <!-- PHASE 3: Staged Cold-Boot Sequence -->
       <div v-else-if="currentPhaseId === 'phase3'" class="phase-content">
         <div class="section-header">
-          <h3>Phase 3: Grid Restoration &amp; Staged Cold-Boot Sequence</h3>
-          <p>Bring services online in strict dependency order via <code>/opt/homelab/scripts/cold-boot-sequence.sh</code> once grid power stabilizes and OpenMediaVault NAS is reachable.</p>
+          <h3>phase 3: grid restoration &amp; staged cold-boot sequence</h3>
+          <p>bring services online in strict dependency order via <code>/opt/homelab/scripts/cold-boot-sequence.sh</code> once grid power stabilizes and openmediavault nas is reachable.</p>
         </div>
 
         <div class="boot-steps-list">
@@ -129,28 +129,28 @@
       <!-- PHASE 4: Storage Integrity & Post-Outage Scrub -->
       <div v-else class="phase-content">
         <div class="section-header">
-          <h3>Phase 4: Post-Recovery NAS NFS Mounts &amp; Diagnostics</h3>
-          <p>Verify OpenMediaVault NAS NFS share exports, filesystem mounts, database write-ahead logs, and container consistency.</p>
+          <h3>phase 4: post-recovery nas nfs mounts &amp; diagnostics</h3>
+          <p>verify openmediavault nas nfs share exports, filesystem mounts, database write-ahead logs, and container consistency.</p>
         </div>
 
         <div class="verification-grid">
           <div class="verify-card">
-            <h4>1. OpenMediaVault NAS NFS Mounts</h4>
-            <p>Verifies that all NFS exports from NAS (192.168.1.5) are mounted and writable.</p>
+            <h4>1. openmediavault nas nfs mounts</h4>
+            <p>verifies that all nfs exports from nas (192.168.1.5) are mounted and writable.</p>
             <pre class="code-block"><code>showmount -e 192.168.1.5
 df -h -t nfs,nfs4</code></pre>
           </div>
 
           <div class="verify-card">
-            <h4>2. Container Health &amp; Exited Processes</h4>
-            <p>Identify any containers that failed automated restart or encountered volume lockups.</p>
+            <h4>2. container health &amp; exited processes</h4>
+            <p>identify any containers that failed automated restart or encountered volume lockups.</p>
             <pre class="code-block"><code>pct list
 docker ps -a --filter "status=exited"</code></pre>
           </div>
 
           <div class="verify-card">
-            <h4>3. PostgreSQL &amp; SQLite Consistency</h4>
-            <p>Verify that write-ahead logs replayed cleanly and no tables were corrupted.</p>
+            <h4>3. database &amp; data consistency</h4>
+            <p>verify that write-ahead logs replayed cleanly and no tables were corrupted.</p>
             <pre class="code-block"><code>sudo -u postgres psql -c "SELECT datname, pg_size_pretty(pg_database_size(datname)) FROM pg_database;"</code></pre>
           </div>
         </div>
@@ -165,81 +165,81 @@ import { ref } from 'vue';
 const currentPhaseId = ref('phase1');
 
 const phases = [
-  { id: 'phase1', number: '01', timing: 'T+0m – T+15m', title: 'Cascading Shutdown' },
-  { id: 'phase2', number: '02', timing: 'T+15m – T+10h+', title: 'Hardware Isolation' },
-  { id: 'phase3', number: '03', timing: 'Post-Restoration', title: 'Staged Cold Boot' },
-  { id: 'phase4', number: '04', timing: 'Integrity Check', title: 'NFS & Diagnostics' }
+  { id: 'phase1', number: '01', timing: 't+0m – t+15m', title: 'cascading shutdown' },
+  { id: 'phase2', number: '02', timing: 't+15m – t+10h+', title: 'hardware isolation' },
+  { id: 'phase3', number: '03', timing: 'post-restoration', title: 'staged cold boot' },
+  { id: 'phase4', number: '04', timing: 'integrity check', title: 'nfs & diagnostics' }
 ];
 
 const shutdownTiers = [
   {
-    tier: 'Tier 4',
-    timeWindow: 'T+2 min',
-    color: '#ef4444',
-    name: 'Heavy Workloads & Media Suites',
-    description: 'Stop resource-intensive encoding, transcode caches, and heavy container suites first to conserve battery.',
-    targets: ['Plex (114)', 'Jellyfin (115)', 'Immich (116)', 'Torrent (117)', 'Media Stack (118-123)'],
-    command: 'pct shutdown 114 115 116 117 118 119 120 121 122 123'
+    tier: 'tier 4',
+    timeWindow: 't+2 min',
+    color: '#b8555a',
+    name: 'heavy workloads & media suites',
+    description: 'stop resource-intensive encoding, transcode caches, and heavy container suites first to conserve battery.',
+    targets: ['jellyfin', 'immich', 'torrent', 'media stack'],
+    command: 'docker compose -f /opt/homelab/media/docker-compose.yml stop'
   },
   {
-    tier: 'Tier 3',
-    timeWindow: 'T+5 min',
-    color: '#f59e0b',
-    name: 'Workstations & Secondary VMs',
-    description: 'Gracefully shutdown KVM guest OSes with disk sync before database teardown.',
-    targets: ['Windows Server 2022 (201)', 'Ubuntu Server (202)'],
-    command: 'qm shutdown 201 --timeout 30 && qm shutdown 202 --timeout 30'
+    tier: 'tier 3',
+    timeWindow: 't+5 min',
+    color: '#cfa16a',
+    name: 'workstations & secondary vms',
+    description: 'gracefully shutdown kvm guest oses with disk sync before database teardown.',
+    targets: ['alpine server (202)'],
+    command: 'qm shutdown 202 --timeout 30'
   },
   {
-    tier: 'Tier 2',
-    timeWindow: 'T+8 min',
-    color: '#3b82f6',
-    name: 'Databases & Storage Flushes',
-    description: 'Commit all active write transactions, flush write-ahead logs, and unmount network NFS shares.',
-    targets: ['PostgreSQL (110)', 'MariaDB (111)', 'Redis (112)', 'Vaultwarden (107)', 'Nextcloud (106)'],
-    command: 'pct shutdown 103 104 105 106 107 108 109 110 111 112 113'
+    tier: 'tier 2',
+    timeWindow: 't+8 min',
+    color: '#baa6a8',
+    name: 'databases & storage flushes',
+    description: 'commit all active write transactions, flush write-ahead logs, and unmount network nfs shares.',
+    targets: ['vaultwarden', 'nextcloud', 'gitea'],
+    command: 'sync && docker compose -f /opt/homelab/core/docker-compose.yml stop'
   },
   {
-    tier: 'Tier 1 & 0',
-    timeWindow: 'T+12 min',
-    color: '#10b981',
-    name: 'Ingress, Router & Hypervisor',
-    description: 'Stop reverse proxy, authentication, unmount NAS NFS shares, and stop core router before host poweroff.',
-    targets: ['NPM Ingress (101)', 'Authelia SSO (102)', 'Pi-hole DNS (100)', 'OPNsense VM (200)', 'PVE Host'],
-    command: 'pct shutdown 101 102 100 && qm shutdown 200 && umount -a -t nfs,nfs4 && sync && poweroff'
+    tier: 'tier 1 & 0',
+    timeWindow: 't+12 min',
+    color: '#6b9e78',
+    name: 'ingress, router & hypervisor',
+    description: 'stop reverse proxy, authentication, unmount nas nfs shares, and stop core router before host poweroff.',
+    targets: ['npm ingress (101)', 'authelia sso (102)', 'pi-hole dns (100)', 'opnsense vm (200)', 'pve host'],
+    command: 'umount -a -t nfs,nfs4 && sync && poweroff'
   }
 ];
 
 const bootSteps = [
   {
-    name: 'Grid Stabilization Window',
-    delay: 'Wait 5-10 min',
-    desc: 'Verify grid voltage is clean 230V @ 50Hz. Re-engage master surge protector and power on UPS in bypass charging mode.',
+    name: 'grid stabilization window',
+    delay: 'wait 5-10 min',
+    desc: 'verify grid voltage is clean 230v @ 50hz. re-engage master surge protector and power on ups in bypass charging mode.',
     cmd: 'pve-hardware-poweron'
   },
   {
-    name: 'Core Firewall & Gateway (OPNsense)',
-    delay: 'Wait 30 sec',
-    desc: 'Brings up WAN PPPoE/DHCP interface, VLAN routing, and internal DHCP lease daemon.',
+    name: 'core firewall & gateway (opnsense)',
+    delay: 'wait 30 sec',
+    desc: 'brings up wan interface, vlan routing, and internal dhcp lease daemon.',
     cmd: 'qm start 200'
   },
   {
-    name: 'Internal DNS Resolution (Pi-hole)',
-    delay: 'Wait 10 sec',
-    desc: 'Resolves all local .lan domains and enables outbound upstream DNS forwarding.',
+    name: 'internal dns resolution (pi-hole)',
+    delay: 'wait 10 sec',
+    desc: 'resolves all local .lan domains and enables outbound upstream dns forwarding.',
     cmd: 'pct start 100'
   },
   {
-    name: 'Ingress Proxy & Identity Provider (NPM & Authelia)',
-    delay: 'Wait 10 sec',
-    desc: 'Establishes SSL termination and single-sign-on access control for all internal dashboards.',
+    name: 'ingress proxy & identity provider (npm & authelia)',
+    delay: 'wait 10 sec',
+    desc: 'establishes ssl termination and single-sign-on access control for all internal dashboards.',
     cmd: 'pct start 101 && pct start 102'
   },
   {
-    name: 'Databases, NAS NFS Storage & Application Services',
-    delay: 'Sequential 3s',
-    desc: 'Mounts OpenMediaVault NAS NFS storage shares and starts core services and media suites in controlled intervals.',
-    cmd: 'pct start 103..123 && qm start 201 202'
+    name: 'databases, nas nfs storage & application services',
+    delay: 'sequential 3s',
+    desc: 'mounts openmediavault nas nfs storage shares and starts core services and media suites in controlled intervals.',
+    cmd: 'docker compose -f /opt/homelab/core/docker-compose.yml up -d'
   }
 ];
 </script>
@@ -270,8 +270,8 @@ const bootSteps = [
   width: 52px;
   height: 52px;
   border-radius: var(--radius-md);
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(184, 85, 90, 0.15);
+  border: 1px solid rgba(184, 85, 90, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -296,98 +296,97 @@ const bootSteps = [
   font-family: var(--font-mono);
   font-weight: 700;
   color: var(--accent-danger);
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(184, 85, 90, 0.15);
+  border: 1px solid rgba(184, 85, 90, 0.3);
   padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
+  text-transform: lowercase;
 }
 
 .severity-badge {
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-family: var(--font-mono);
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: #fca5a5;
-  background: rgba(239, 68, 68, 0.2);
-  padding: 0.15rem 0.45rem;
-  border-radius: var(--radius-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  text-transform: lowercase;
 }
 
 .emergency-title {
+  font-family: var(--font-serif);
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
 }
 
 .emergency-subtitle {
   font-size: 0.85rem;
   color: var(--text-secondary);
+  margin-top: 0.2rem;
+  text-transform: lowercase;
 }
 
 .quick-actions {
   display: flex;
   gap: 0.75rem;
-  flex-shrink: 0;
 }
 
 .btn-emergency-action {
-  padding: 0.6rem 1.1rem;
-  font-size: 0.82rem;
-  font-weight: 600;
+  padding: 0.6rem 1rem;
   border-radius: var(--radius-md);
-  background: var(--bg-surface);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  box-shadow: inset 0 1px 0 var(--border-specular), var(--shadow-sm);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-transform: lowercase;
 }
 
 .btn-emergency-action:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-color-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+  background: #3e2a2c;
+  border-color: rgba(214, 182, 186, 0.3);
 }
 
-/* Phases Navigator */
 .phases-navigator {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
 
 .phase-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.25rem;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
   text-align: left;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: inset 0 1px 0 var(--border-specular), var(--shadow-sm);
+  transition: all 0.25s ease;
 }
 
 .phase-nav-btn:hover {
+  background: var(--bg-card-hover);
   border-color: var(--border-color-hover);
-  transform: translateY(-3px);
-  box-shadow: inset 0 1px 0 var(--border-specular), 0 12px 24px -6px rgba(0, 0, 0, 0.6), var(--shadow-glow);
 }
 
 .phase-nav-btn.active {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(6, 182, 212, 0.12));
-  border-color: var(--accent-primary);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(99, 102, 241, 0.35);
-  transform: translateY(-3px);
+  background: #3e2a2c;
+  border-color: rgba(214, 182, 186, 0.3);
+  box-shadow: 0 0 16px rgba(62, 42, 44, 0.5);
 }
 
 .phase-number {
   font-family: var(--font-mono);
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--accent-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
 }
 
 .phase-meta {
@@ -396,41 +395,41 @@ const bootSteps = [
 }
 
 .phase-timing {
-  font-size: 0.68rem;
-  font-family: var(--font-mono);
+  font-size: 0.7rem;
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  text-transform: lowercase;
 }
 
 .phase-name {
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
-/* Phase Content Card */
 .phase-card-wrapper {
   padding: 2rem;
 }
 
 .section-header {
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .section-header h3 {
+  font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 0.35rem;
+  text-transform: lowercase;
 }
 
 .section-header p {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
+  text-transform: lowercase;
 }
 
-/* Tiers Grid */
 .tiers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -444,72 +443,76 @@ const bootSteps = [
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .tier-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .tier-pill {
-  font-size: 0.7rem;
   font-family: var(--font-mono);
+  font-size: 0.7rem;
   font-weight: 700;
   padding: 0.15rem 0.5rem;
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
+  text-transform: lowercase;
 }
 
 .tier-time {
   font-size: 0.75rem;
-  font-family: var(--font-mono);
   color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .tier-name {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .tier-desc {
   font-size: 0.8rem;
   color: var(--text-secondary);
-  line-height: 1.4;
+  line-height: 1.45;
+  text-transform: lowercase;
 }
 
 .tier-targets {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
+  margin-top: 0.25rem;
 }
 
 .target-tag {
   font-size: 0.68rem;
-  font-family: var(--font-mono);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.1rem 0.4rem;
-  border-radius: var(--radius-sm);
-  color: var(--text-secondary);
+  background: rgba(214, 182, 186, 0.08);
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .cmd-box {
-  background: #04060a;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
   margin-top: auto;
+  padding-top: 0.5rem;
 }
 
 .cmd-box code {
-  font-size: 0.72rem;
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--radius-sm);
   color: var(--accent-cyan);
+  overflow-x: auto;
 }
 
-/* Guidelines Grid */
 .guidelines-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -523,30 +526,35 @@ const bootSteps = [
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
 .guideline-box.danger-border { border-top: 3px solid var(--accent-danger); }
 .guideline-box.warning-border { border-top: 3px solid var(--accent-amber); }
-.guideline-box.info-border { border-top: 3px solid var(--accent-secondary); }
+.guideline-box.info-border { border-top: 3px solid var(--accent-cyan); }
 
-.box-icon {
-  font-size: 1.5rem;
+.box-icon-tag {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: lowercase;
+  color: var(--text-muted);
 }
 
 .guideline-box h4 {
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .guideline-box p {
   font-size: 0.85rem;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.55;
+  text-transform: lowercase;
 }
 
-/* Boot Steps */
 .boot-steps-list {
   display: flex;
   flex-direction: column;
@@ -554,64 +562,67 @@ const bootSteps = [
 }
 
 .boot-step-item {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.25rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
-  display: flex;
-  gap: 1.25rem;
-  align-items: flex-start;
 }
 
 .step-badge {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: var(--accent-primary);
-  color: white;
+  background: #3e2a2c;
+  color: #f5ecec;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
+  font-weight: 700;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   flex-shrink: 0;
+  border: 1px solid rgba(214, 182, 186, 0.2);
 }
 
 .step-body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .step-title-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .step-name {
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .step-delay {
-  font-size: 0.72rem;
+  font-size: 0.725rem;
   font-family: var(--font-mono);
-  color: var(--accent-cyan);
+  color: var(--text-muted);
+  text-transform: lowercase;
 }
 
 .step-desc {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
+  line-height: 1.5;
+  text-transform: lowercase;
 }
 
-/* Verification Grid */
 .verification-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.25rem;
 }
 
@@ -627,30 +638,30 @@ const bootSteps = [
 
 .verify-card h4 {
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .verify-card p {
   font-size: 0.8rem;
   color: var(--text-secondary);
+  text-transform: lowercase;
 }
 
 .code-block {
-  background: #04060a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.3);
   padding: 0.75rem;
   border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--accent-cyan);
   overflow-x: auto;
-  margin-top: auto;
 }
 
-@media (max-width: 1024px) {
-  .emergency-banner {
-    flex-direction: column;
-    align-items: flex-start;
+@media (max-width: 900px) {
+  .phases-navigator {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

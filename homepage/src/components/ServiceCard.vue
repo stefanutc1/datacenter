@@ -9,12 +9,12 @@
       <div class="header-details">
         <div class="title-row">
           <h3 class="service-title">{{ service.name }}</h3>
-          <span class="status-indicator online" title="Status: Online"></span>
+          <span class="status-indicator online"></span>
         </div>
         <span class="category-tag">{{ categoryLabel }}</span>
       </div>
 
-      <button class="fav-btn" :class="{ active: isFavorite }" @click.stop="$emit('toggle-fav', service.id)" title="Toggle Favorite">
+      <button class="fav-btn" :class="{ active: isFavorite }" @click.stop="$emit('toggle-fav', service.id)" title="toggle favorite">
         <svg class="svg-icon-sm" viewBox="0 0 24 24" :fill="isFavorite ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       </button>
     </div>
@@ -31,9 +31,9 @@
         rel="noopener noreferrer"
         class="endpoint-chip domain-chip" 
         @click.stop
-        :title="'Open local domain: ' + service.domain"
+        :title="'open domain: ' + service.domain"
       >
-        <span class="chip-badge lan-badge">LAN</span>
+        <span class="chip-badge lan-badge">lan</span>
         <span class="chip-text">{{ service.domain }}</span>
         <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
       </a>
@@ -46,9 +46,9 @@
         rel="noopener noreferrer"
         class="endpoint-chip ip-chip" 
         @click.stop
-        :title="'Open direct IP: ' + service.ip + ':' + service.port"
+        :title="'open direct ip: ' + service.ip + ':' + service.port"
       >
-        <span class="chip-badge ip-badge">IP</span>
+        <span class="chip-badge ip-badge">ip</span>
         <span class="chip-text">{{ service.ip }}:{{ service.port }}</span>
         <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
       </a>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="card-footer">
-      <div class="port-badge" :title="'Host Port: ' + service.port">
+      <div class="port-badge" :title="'host port: ' + service.port">
         <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
         <span>:{{ service.port }}</span>
       </div>
@@ -68,10 +68,10 @@
       <div class="action-buttons">
         <button class="btn-wiki" @click.stop="$emit('select', service)">
           <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          Wiki &amp; Docs
+          wiki &amp; docs
         </button>
         
-        <a :href="service.domainUrl || service.internalUrl" target="_blank" rel="noopener noreferrer" class="btn-open" @click.stop title="Open Service Web UI">
+        <a :href="service.domainUrl || service.internalUrl" target="_blank" rel="noopener noreferrer" class="btn-open" @click.stop title="open service web ui">
           <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
         </a>
       </div>
@@ -135,8 +135,8 @@ function getLogoUrl(logo) {
 }
 
 .service-card:hover {
-  transform: translateY(-8px) scale(1.018);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), var(--shadow-lg), var(--shadow-glow);
+  transform: translateY(-6px);
+  box-shadow: inset 0 1px 0 rgba(255, 235, 238, 0.25), var(--shadow-lg), var(--shadow-glow);
   border-color: var(--border-color-hover);
 }
 
@@ -156,15 +156,15 @@ function getLogoUrl(logo) {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(214, 182, 186, 0.15);
+  background: rgba(62, 42, 44, 0.3);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card:hover .service-icon-box {
-  transform: translateY(-2px) scale(1.08);
-  box-shadow: 0 0 16px var(--accent-primary);
-  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 0 16px rgba(62, 42, 44, 0.6);
+  border-color: rgba(214, 182, 186, 0.3);
 }
 
 .service-logo-img {
@@ -200,27 +200,28 @@ function getLogoUrl(logo) {
   overflow: hidden;
   text-overflow: ellipsis;
   letter-spacing: -0.015em;
+  text-transform: lowercase;
 }
 
 .category-tag {
   font-size: 0.7rem;
   font-family: var(--font-mono);
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
   font-weight: 600;
 }
 
 .status-indicator {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
 .status-indicator.online {
   background-color: var(--accent-emerald);
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 8px rgba(107, 158, 120, 0.6);
 }
 
 .fav-btn {
@@ -237,12 +238,12 @@ function getLogoUrl(logo) {
 }
 
 .fav-btn:hover {
-  color: #f1c40f;
-  background: rgba(241, 196, 15, 0.1);
+  color: #cfa16a;
+  background: rgba(207, 161, 106, 0.12);
 }
 
 .fav-btn.active {
-  color: #f1c40f;
+  color: #cfa16a;
 }
 
 .service-desc {
@@ -254,6 +255,7 @@ function getLogoUrl(logo) {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-transform: lowercase;
 }
 
 /* Endpoints Container */
@@ -262,10 +264,10 @@ function getLogoUrl(logo) {
   flex-direction: column;
   gap: 0.4rem;
   margin-bottom: 0.85rem;
-  background: rgba(15, 23, 42, 0.4);
+  background: rgba(32, 23, 25, 0.6);
   padding: 0.5rem 0.65rem;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(214, 182, 186, 0.08);
 }
 
 .endpoint-chip {
@@ -281,7 +283,7 @@ function getLogoUrl(logo) {
 }
 
 .endpoint-chip:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(214, 182, 186, 0.08);
 }
 
 .chip-badge {
@@ -289,19 +291,19 @@ function getLogoUrl(logo) {
   font-weight: 700;
   padding: 1px 5px;
   border-radius: 3px;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 
 .lan-badge {
-  background: rgba(99, 102, 241, 0.2);
-  color: #a5b4fc;
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(62, 42, 44, 0.5);
+  color: #e8d5d7;
+  border: 1px solid rgba(214, 182, 186, 0.25);
 }
 
 .ip-badge {
-  background: rgba(16, 185, 129, 0.2);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(107, 158, 120, 0.18);
+  color: #a8d5b4;
+  border: 1px solid rgba(107, 158, 120, 0.3);
 }
 
 .chip-text {
@@ -311,6 +313,7 @@ function getLogoUrl(logo) {
   overflow: hidden;
   text-overflow: ellipsis;
   flex: 1;
+  text-transform: lowercase;
 }
 
 .chip-icon {
@@ -322,7 +325,7 @@ function getLogoUrl(logo) {
 }
 
 .endpoint-chip:hover .chip-icon {
-  color: #818cf8;
+  color: var(--accent-cyan);
   opacity: 1;
 }
 
@@ -337,9 +340,10 @@ function getLogoUrl(logo) {
   font-size: 0.7rem;
   padding: 0.15rem 0.45rem;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(214, 182, 186, 0.06);
   color: var(--text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(214, 182, 186, 0.08);
+  text-transform: lowercase;
 }
 
 .tag-more {
@@ -353,7 +357,7 @@ function getLogoUrl(logo) {
   align-items: center;
   justify-content: space-between;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--glass-border);
+  border-top: 1px solid var(--border-color);
   gap: 0.5rem;
 }
 
@@ -363,11 +367,11 @@ function getLogoUrl(logo) {
   gap: 0.3rem;
   font-size: 0.75rem;
   font-family: var(--font-mono, monospace);
-  color: var(--accent-indigo);
-  background: rgba(99, 102, 241, 0.1);
+  color: #c89b9e;
+  background: rgba(62, 42, 44, 0.45);
   padding: 0.2rem 0.5rem;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(214, 182, 186, 0.18);
 }
 
 .action-buttons {
@@ -380,8 +384,8 @@ function getLogoUrl(logo) {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
+  background: rgba(214, 182, 186, 0.06);
+  border: 1px solid var(--border-color);
   color: var(--text-secondary);
   font-size: 0.75rem;
   font-weight: 500;
@@ -389,12 +393,13 @@ function getLogoUrl(logo) {
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.15s ease;
+  text-transform: lowercase;
 }
 
 .btn-wiki:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(62, 42, 44, 0.4);
   color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(214, 182, 186, 0.3);
 }
 
 .btn-open {
@@ -404,16 +409,16 @@ function getLogoUrl(logo) {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  background: var(--accent-indigo);
-  color: #fff;
-  border: none;
+  background: #3e2a2c;
+  color: #f5ecec;
+  border: 1px solid rgba(214, 182, 186, 0.2);
   cursor: pointer;
   transition: all 0.15s ease;
   text-decoration: none;
 }
 
 .btn-open:hover {
-  background: var(--accent-indigo-hover, #4f46e5);
+  background: #54393c;
   transform: scale(1.05);
 }
 

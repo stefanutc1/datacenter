@@ -2,8 +2,8 @@
   <div class="port-matrix-view fade-in">
     <div class="matrix-header">
       <div>
-        <h2 class="section-title">Port Allocation Directory &amp; Matrix</h2>
-        <p class="section-desc">Host port mapping, container bindings, and protocol definitions across all homelab microservices.</p>
+        <h2 class="section-title">port allocation directory &amp; matrix</h2>
+        <p class="section-desc">host port mapping, container bindings, and protocol definitions across all homelab microservices.</p>
       </div>
 
       <div class="matrix-search-box">
@@ -11,7 +11,7 @@
         <input 
           v-model="searchQuery" 
           type="text" 
-          placeholder="Filter by port, service name, or container..." 
+          placeholder="filter by port, service name, or container..." 
           class="matrix-search-input"
         />
       </div>
@@ -21,13 +21,13 @@
       <table class="port-table">
         <thead>
           <tr>
-            <th>PORT</th>
-            <th>LOCAL DOMAIN (.LAN)</th>
-            <th>DIRECT IP ENDPOINT</th>
-            <th>SERVICE NAME</th>
-            <th>CATEGORY</th>
-            <th>CONTAINER</th>
-            <th class="text-right">ACTIONS</th>
+            <th>port</th>
+            <th>local domain (.lan)</th>
+            <th>direct ip endpoint</th>
+            <th>service name</th>
+            <th>category</th>
+            <th>container</th>
+            <th class="text-right">actions</th>
           </tr>
         </thead>
         <tbody>
@@ -55,14 +55,14 @@
               </div>
             </td>
             <td>
-              <span class="cat-pill capitalize">{{ svc.category }}</span>
+              <span class="cat-pill">{{ svc.category }}</span>
             </td>
             <td>
               <code class="container-tag">{{ svc.containerName }}</code>
             </td>
             <td class="text-right">
               <button class="btn-inspect" @click="$emit('select', svc)">
-                View Wiki
+                view wiki
               </button>
             </td>
           </tr>
@@ -116,7 +116,7 @@ function getLogoUrl(logo) {
 
 .matrix-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
@@ -124,41 +124,52 @@ function getLogoUrl(logo) {
 }
 
 .section-title {
+  font-family: var(--font-serif);
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .section-desc {
   font-size: 0.875rem;
   color: var(--text-secondary);
   margin-top: 0.25rem;
+  text-transform: lowercase;
 }
 
 .matrix-search-box {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  padding: 0.5rem 0.875rem;
-  border-radius: var(--radius-md);
   width: 320px;
 }
 
 .matrix-search-input {
-  background: transparent;
-  border: none;
-  color: var(--text-primary);
-  font-size: 0.85rem;
-  font-family: inherit;
-  outline: none;
   width: 100%;
+  padding: 0.5rem 1rem 0.5rem 2.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 0.825rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.matrix-search-input:focus {
+  border-color: var(--accent-primary-light);
+  box-shadow: 0 0 12px rgba(142, 94, 99, 0.35);
+}
+
+.matrix-search-box .svg-icon-xs {
+  position: absolute;
+  left: 0.75rem;
 }
 
 .table-container {
   overflow-x: auto;
-  border-radius: var(--radius-lg);
+  padding: 0.5rem;
 }
 
 .port-table {
@@ -169,32 +180,47 @@ function getLogoUrl(logo) {
 }
 
 .port-table th {
-  padding: 0.875rem 1.25rem;
-  background: rgba(0, 0, 0, 0.25);
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.725rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
   letter-spacing: 0.05em;
+  color: var(--text-muted);
   border-bottom: 1px solid var(--border-color);
+  text-transform: lowercase;
 }
 
 .port-table td {
-  padding: 0.875rem 1.25rem;
-  border-bottom: 1px solid var(--border-color);
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(214, 182, 186, 0.06);
   color: var(--text-secondary);
+  vertical-align: middle;
 }
 
 .port-row:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(62, 42, 44, 0.25);
 }
 
 .port-tag {
-  color: var(--accent-secondary);
-  font-weight: 600;
-  background: rgba(6, 182, 212, 0.1);
+  font-weight: 700;
+  color: var(--accent-cyan);
+  background: rgba(62, 42, 44, 0.5);
   padding: 0.2rem 0.5rem;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(6, 182, 212, 0.2);
+  border: 1px solid rgba(214, 182, 186, 0.15);
+  display: inline-block;
+}
+
+.domain-tag, .ip-tag {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.15s ease;
+  text-transform: lowercase;
+}
+
+.domain-tag:hover, .ip-tag:hover {
+  color: var(--accent-cyan);
+  text-decoration: underline;
 }
 
 .svc-name-cell {
@@ -204,10 +230,10 @@ function getLogoUrl(logo) {
 }
 
 .matrix-logo-img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
 }
 
 .svc-name-dot {
@@ -219,95 +245,48 @@ function getLogoUrl(logo) {
 .svc-name-text {
   font-weight: 600;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .cat-pill {
-  font-size: 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.725rem;
+  background: var(--bg-surface);
   border: 1px solid var(--border-color);
-  padding: 0.2rem 0.55rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 12px;
   color: var(--text-muted);
-}
-
-.domain-tag {
-  color: #818cf8;
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-decoration: none;
-  background: rgba(99, 102, 241, 0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  transition: all 0.15s ease;
-}
-
-.domain-tag:hover {
-  background: rgba(99, 102, 241, 0.25);
-  color: #c7d2fe;
-}
-
-.ip-tag {
-  color: #34d399;
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-decoration: none;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  transition: all 0.15s ease;
-}
-
-.ip-tag:hover {
-  background: rgba(16, 185, 129, 0.25);
-  color: #a7f3d0;
+  text-transform: lowercase;
 }
 
 .container-tag {
-  font-size: 0.8rem;
-  color: #a855f7;
-}
-
-.endpoint-text {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.proto-tag {
-  font-size: 0.725rem;
   font-family: var(--font-mono);
-  color: var(--accent-success);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  text-transform: lowercase;
 }
 
 .btn-inspect {
-  font-size: 0.775rem;
-  padding: 0.3rem 0.65rem;
+  padding: 0.35rem 0.75rem;
   border-radius: var(--radius-sm);
   background: var(--bg-surface);
-  color: var(--text-primary);
   border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 500;
   transition: all 0.15s ease;
+  text-transform: lowercase;
 }
 
 .btn-inspect:hover {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-  color: white;
+  background: #3e2a2c;
+  color: #f5ecec;
+  border-color: rgba(214, 182, 186, 0.3);
 }
 
-.text-right {
-  text-align: right;
-}
-
-.svg-icon-xs {
-  width: 14px;
-  height: 14px;
-}
+.text-right { text-align: right; }
+.code-font { font-family: var(--font-mono); }
+.svg-icon-xs { width: 14px; height: 14px; }
 </style>

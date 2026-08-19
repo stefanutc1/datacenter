@@ -1,21 +1,24 @@
 :root {
-  --bg-primary: #05070d;
-  --bg-secondary: #0a0e17;
-  --bg-card: rgba(16, 23, 37, 0.85);
-  --bg-hover: rgba(26, 36, 56, 0.95);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-active: #6366f1;
-  --border-specular: rgba(255, 255, 255, 0.15);
+  --bg-primary: #120e0f;
+  --bg-secondary: #181214;
+  --bg-card: rgba(36, 26, 28, 0.78);
+  --bg-hover: rgba(52, 38, 40, 0.92);
+  --bg-surface: #201719;
+  --border-color: rgba(214, 182, 186, 0.12);
+  --border-active: #3e2a2c;
+  --border-specular: rgba(255, 235, 238, 0.15);
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #f5ecec;
+  --text-secondary: #baa6a8;
+  --text-muted: #827072;
   
-  --accent-blue: #38bdf8;
-  --accent-green: #34d399;
-  --accent-orange: #fb923c;
-  --accent-purple: #c084fc;
-  --accent-cyan: #22d3ee;
+  --accent-primary: #3e2a2c;
+  --accent-primary-light: #8e5e63;
+  --accent-blue: #c89b9e;
+  --accent-green: #6b9e78;
+  --accent-orange: #cfa16a;
+  --accent-purple: #d6b2b5;
+  --accent-cyan: #c89b9e;
   
   --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -34,12 +37,18 @@ body {
   font-family: var(--font-sans);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(ellipse at 50% -10%, rgba(62, 42, 44, 0.5) 0%, transparent 65%),
+    radial-gradient(circle at 90% 80%, rgba(84, 57, 60, 0.22) 0%, transparent 50%),
+    radial-gradient(circle at 10% 40%, rgba(62, 42, 44, 0.25) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
 h1, h2, h3, h4, .brand h1, .article-title {
   font-family: var(--font-serif);
   letter-spacing: -0.02em;
   font-optical-sizing: auto;
+  text-transform: lowercase;
 }
 
 code, pre {
@@ -52,6 +61,7 @@ button {
   border: none;
   background: none;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: lowercase;
 }
 
 button:active {
@@ -59,13 +69,13 @@ button:active {
 }
 
 a {
-  color: var(--accent-blue);
+  color: var(--accent-cyan);
   text-decoration: none;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 a:hover {
-  color: var(--accent-cyan);
+  color: #f5ecec;
 }
 
 .service-card, .doc-card, .menu-item {
@@ -74,8 +84,8 @@ a:hover {
 
 .service-card:hover, .doc-card:hover {
   transform: translateY(-4px) scale(1.01) !important;
-  box-shadow: inset 0 1px 0 var(--border-specular), 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(99, 102, 241, 0.3) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: inset 0 1px 0 var(--border-specular), 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(62, 42, 44, 0.5) !important;
+  border-color: rgba(214, 182, 186, 0.3) !important;
 }
 
 /* Custom scrollbars */
@@ -89,10 +99,10 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(214, 182, 186, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(214, 182, 186, 0.3);
 }

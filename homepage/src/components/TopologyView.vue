@@ -2,12 +2,12 @@
   <div class="topology-view fade-in">
     <div class="topology-header">
       <div>
-        <h2 class="section-title">Network Architecture &amp; Subnet Topology</h2>
-        <p class="section-desc">Visual segmentation of homelab VLANs, hypervisor hosts, compute clusters, and Zero-Trust mesh overlay.</p>
+        <h2 class="section-title">network architecture &amp; subnet topology</h2>
+        <p class="section-desc">visual segmentation of homelab vlans, hypervisor hosts, compute clusters, and zero-trust mesh overlay.</p>
       </div>
       <div class="overlay-badge">
         <span class="pulse-dot"></span>
-        <span>Mesh: NetBird WireGuard (100.64.0.0/10)</span>
+        <span>mesh: tailscale wireguard (100.64.0.0/10)</span>
       </div>
     </div>
 
@@ -18,14 +18,14 @@
             <h3 class="vlan-name">{{ vlan.name }}</h3>
             <div class="vlan-pills">
               <span class="vlan-pill subnet">{{ vlan.subnet }}</span>
-              <span class="vlan-pill gw">GW: {{ vlan.gateway }}</span>
+              <span class="vlan-pill gw">gw: {{ vlan.gateway }}</span>
             </div>
           </div>
           <p class="vlan-desc">{{ vlan.description }}</p>
         </div>
 
         <div class="devices-box">
-          <h4 class="devices-title">Connected Nodes &amp; Workloads</h4>
+          <h4 class="devices-title">connected nodes &amp; workloads</h4>
           <div class="devices-list">
             <div v-for="dev in vlan.devices" :key="dev.ip" class="device-row">
               <div class="device-main">
@@ -47,17 +47,17 @@
       <div class="arch-col">
         <h3 class="arch-heading">
           <svg class="svg-icon-sm text-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-          Ingress &amp; Security Layer
+          ingress &amp; security layer
         </h3>
-        <p>Traffic arrives via Cloudflare Zero-Trust Tunnels and local OPNsense NAT. Nginx Proxy Manager / Traefik inspects SSL certificates and enforces forward-authentication via Authelia before routing packets to internal Docker bridges.</p>
+        <p>traffic arrives via local opnsense nat and tailscale subnet router. nginx proxy manager inspects ssl certificates and enforces forward-authentication via authelia before routing packets to internal docker bridges.</p>
       </div>
 
       <div class="arch-col">
         <h3 class="arch-heading">
           <svg class="svg-icon-sm text-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          ZFS Storage &amp; Backups
+          nfs storage &amp; backup pipelines
         </h3>
-        <p>Storage is centralized on a TrueNAS ZFS mirrored pool. Automated nightly snapshots are sent over encrypted SSH pipelines to off-site MinIO S3 buckets with disaster recovery runbooks managed in Trilium Notes.</p>
+        <p>storage is centralized on openmediavault via nfs exports (500gb hdd). automated proxmox backup server and restic pipelines backup containers and vms with runbooks documented in trilium notes.</p>
       </div>
     </div>
   </div>
@@ -85,12 +85,14 @@ import { networkTopology as topology } from '../data/topology.js';
   font-size: 1.4rem;
   font-weight: 700;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .section-desc {
   font-size: 0.875rem;
   color: var(--text-secondary);
   margin-top: 0.25rem;
+  text-transform: lowercase;
 }
 
 .overlay-badge {
@@ -99,18 +101,19 @@ import { networkTopology as topology } from '../data/topology.js';
   gap: 0.5rem;
   padding: 0.4rem 0.85rem;
   border-radius: 20px;
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(62, 42, 44, 0.45);
+  border: 1px solid rgba(214, 182, 186, 0.2);
   color: var(--text-primary);
   font-size: 0.8rem;
   font-weight: 500;
+  text-transform: lowercase;
 }
 
 .pulse-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--accent-primary);
+  background: var(--accent-emerald);
   animation: pulseGlow 2s infinite;
 }
 
@@ -128,7 +131,7 @@ import { networkTopology as topology } from '../data/topology.js';
 }
 
 .vlan-top {
-  border-left: 3px solid #3498db;
+  border-left: 3px solid #3e2a2c;
   padding-left: 0.875rem;
   margin-bottom: 1rem;
 }
@@ -145,6 +148,7 @@ import { networkTopology as topology } from '../data/topology.js';
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .vlan-pills {
@@ -160,6 +164,7 @@ import { networkTopology as topology } from '../data/topology.js';
   background: var(--bg-surface);
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
+  text-transform: lowercase;
 }
 
 .vlan-desc {
@@ -167,6 +172,7 @@ import { networkTopology as topology } from '../data/topology.js';
   color: var(--text-muted);
   margin-top: 0.4rem;
   line-height: 1.4;
+  text-transform: lowercase;
 }
 
 .devices-box {
@@ -179,7 +185,7 @@ import { networkTopology as topology } from '../data/topology.js';
 .devices-title {
   font-size: 0.75rem;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
@@ -220,6 +226,7 @@ import { networkTopology as topology } from '../data/topology.js';
 .device-name {
   font-weight: 500;
   color: var(--text-primary);
+  text-transform: lowercase;
 }
 
 .device-meta {
@@ -231,10 +238,11 @@ import { networkTopology as topology } from '../data/topology.js';
 .device-role {
   color: var(--text-muted);
   font-size: 0.75rem;
+  text-transform: lowercase;
 }
 
 .device-ip {
-  color: var(--accent-secondary);
+  color: var(--accent-cyan);
   font-size: 0.75rem;
 }
 
@@ -253,12 +261,14 @@ import { networkTopology as topology } from '../data/topology.js';
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
+  text-transform: lowercase;
 }
 
 .arch-col p {
   font-size: 0.85rem;
   color: var(--text-secondary);
   line-height: 1.55;
+  text-transform: lowercase;
 }
 
 .svg-icon-sm {
@@ -267,11 +277,11 @@ import { networkTopology as topology } from '../data/topology.js';
 }
 
 .text-cyan {
-  color: var(--accent-secondary);
+  color: var(--accent-cyan);
 }
 
 .text-purple {
-  color: #a855f7;
+  color: #baa6a8;
 }
 
 .mt-6 {
