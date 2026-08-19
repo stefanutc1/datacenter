@@ -9,7 +9,7 @@
               <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
           </div>
-          <div>
+          <div class="brand-text-block">
             <div class="brand-title-row">
               <h1 class="brand-title">homelab portal</h1>
             </div>
@@ -17,20 +17,8 @@
           </div>
         </div>
 
-        <!-- Global Search Bar -->
-        <div class="search-container">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input 
-            v-model="searchQuery" 
-            type="text" 
-            placeholder="search services, ports (:8080), tags, containers..." 
-            class="search-input"
-          />
-          <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''">&times;</button>
-        </div>
-
-        <!-- Navigation Tabs & Theme Toggle -->
-        <div class="nav-right">
+        <!-- Centered Navigation Tabs, Search & Theme Toggle -->
+        <div class="nav-center-row">
           <nav class="view-tabs">
             <button 
               class="view-tab-btn" 
@@ -90,10 +78,24 @@
             </a>
           </nav>
 
-          <button class="theme-toggle" @click="toggleTheme" title="toggle theme">
-            <svg v-if="currentTheme === 'dark'" class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg v-else class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-          </button>
+          <div class="search-and-theme">
+            <!-- Global Search Bar -->
+            <div class="search-container">
+              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input 
+                v-model="searchQuery" 
+                type="text" 
+                placeholder="search services, ports (:8080), tags..." 
+                class="search-input"
+              />
+              <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''">&times;</button>
+            </div>
+
+            <button class="theme-toggle" @click="toggleTheme" title="toggle theme">
+              <svg v-if="currentTheme === 'dark'" class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              <svg v-else class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -428,28 +430,40 @@ const resetFilters = () => {
   border-left: none;
   border-right: none;
   border-top: none;
-  padding: 0.75rem 2rem;
+  padding: 1.25rem 2rem 1rem;
 }
 
 .nav-container {
   max-width: 1440px;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.15rem;
+  text-align: center;
 }
 
 .brand-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.875rem;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .brand-logo {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   background: linear-gradient(135deg, #3e2a2c, #5e3f42);
   display: flex;
@@ -466,35 +480,66 @@ const resetFilters = () => {
 }
 
 .svg-logo {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
 }
 
 .brand-title-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
 }
 
 .brand-title {
   font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
   text-transform: lowercase;
+  text-align: center;
 }
 
 .brand-subtitle {
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   text-transform: lowercase;
+  text-align: center;
+  margin-top: 0.2rem;
+}
+
+.nav-center-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.view-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.25rem;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.search-and-theme {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
 }
 
 /* Search Bar */
 .search-container {
-  flex: 1;
-  max-width: 440px;
+  width: 280px;
   position: relative;
   display: flex;
   align-items: center;
@@ -510,14 +555,15 @@ const resetFilters = () => {
 
 .search-input {
   width: 100%;
-  padding: 0.55rem 2.2rem 0.55rem 2.5rem;
+  padding: 0.5rem 2rem 0.5rem 2.4rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   outline: none;
   transition: all 0.2s ease;
+  text-transform: lowercase;
 }
 
 .search-input:focus {
@@ -531,21 +577,6 @@ const resetFilters = () => {
   color: var(--text-muted);
   font-size: 1.2rem;
   line-height: 1;
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-}
-
-.view-tabs {
-  display: flex;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 0.25rem;
-  gap: 0.25rem;
 }
 
 .view-tab-btn {
