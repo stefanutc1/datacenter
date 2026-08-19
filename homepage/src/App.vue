@@ -11,7 +11,7 @@
           </div>
           <div class="brand-text-block">
             <div class="brand-title-row">
-              <h1 class="brand-title">homelab portal</h1>
+              <h1 class="brand-title">homelab</h1>
             </div>
             <p class="brand-subtitle">proxmox ve &bull; openmediavault &bull; apple m1 arm64 &bull; k8s worker &bull; service catalog</p>
           </div>
