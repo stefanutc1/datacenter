@@ -61,6 +61,14 @@
               port matrix
             </button>
             <button 
+              class="view-tab-btn" 
+              :class="{ active: currentView === 'ai' }" 
+              @click="currentView = 'ai'"
+            >
+              <svg class="svg-icon-xs text-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 3.3 2 6.2 5 7.4V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.6c3-1.2 5-4.1 5-7.4a8 8 0 0 0-8-8z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+              ai memory &amp; mcp
+            </button>
+            <button 
               class="view-tab-btn emergency-tab-btn" 
               :class="{ active: currentView === 'emergency' }" 
               @click="currentView = 'emergency'"
@@ -291,6 +299,9 @@
 
       <!-- View 6: 10h+ Emergency Blackout Standard Operating Procedure -->
       <EmergencyView v-else-if="currentView === 'emergency'" />
+
+      <!-- View 7: AI Memory Room & MCP Workspace -->
+      <AiView v-else-if="currentView === 'ai'" />
     </main>
 
     <!-- Footer with Real Hardware Specs from hardware.md -->
@@ -328,6 +339,7 @@ import TopologyView from './components/TopologyView.vue';
 import PortMatrix from './components/PortMatrix.vue';
 import EmergencyView from './components/EmergencyView.vue';
 import HardwareView from './components/HardwareView.vue';
+import AiView from './components/AiView.vue';
 
 const currentView = ref('dashboard');
 const selectedCategory = ref('all');
