@@ -72,9 +72,9 @@ foreach ($ctid in $tier2Ctids) {
     Start-Sleep -Seconds 3
 }
 
-# 6. Start Applications, Media Suites & Secondary VMs (LXC 114 - 123, VM 201, 202)
+# 6. Start Applications, Media Suites & Secondary VMs (LXC 114 - 119, VM 201)
 Write-Log "🚀 [6/6] Starting Applications, Web Portals & Workload VMs..."
-$tier3Ctids = @(114, 115, 117, 118, 119, 120, 121, 122, 123)
+$tier3Ctids = @(114, 115, 117, 118, 119)
 foreach ($ctid in $tier3Ctids) {
     if (Get-Command pct -ErrorAction SilentlyContinue) {
         pct start $ctid 2>$null
@@ -86,9 +86,8 @@ foreach ($ctid in $tier3Ctids) {
 
 if (Get-Command qm -ErrorAction SilentlyContinue) {
     qm start 201 2>$null
-    qm start 202 2>$null
 } else {
-    ssh -o BatchMode=yes root@$PveHost "qm start 201; qm start 202" 2>$null
+    ssh -o BatchMode=yes root@$PveHost "qm start 201" 2>$null
 }
 
 Write-Log "🎉 [COMPLETE] Cold-boot restoration completed successfully!"

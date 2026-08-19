@@ -26,16 +26,16 @@ fi
 
 # 2. Phase 1: Shutdown Heavy Applications & Non-Essential Workloads (Tier 4)
 log "📦 [2/6] Stopping Tier 4 Heavy Applications & Media LXCs..."
-for ctid in 114 115 116 117 118 119 120 121 122 123; do
+for ctid in 114 115 116 117 118 119; do
     if pct status "$ctid" 2>/dev/null | grep -q "status: running"; then
         log "   Stopping LXC $ctid..."
         pct shutdown "$ctid" --timeout 15 || pct stop "$ctid"
     fi
 done
 
-# 3. Phase 2: Shutdown Secondary VMs & Workstations (Tier 3)
-log "🖥️ [3/6] Stopping Tier 3 KVM Virtual Machines (Windows / Ubuntu)..."
-for vmid in 201 202; do
+# 3. Phase 2: Shutdown Secondary VMs (Tier 3)
+log "🖥️ [3/6] Stopping Tier 3 KVM Virtual Machines (Alpine 201)..."
+for vmid in 201; do
     if qm status "$vmid" 2>/dev/null | grep -q "status: running"; then
         log "   Stopping VM $vmid..."
         qm shutdown "$vmid" --timeout 30 || qm stop "$vmid"

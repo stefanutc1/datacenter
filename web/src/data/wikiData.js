@@ -271,16 +271,15 @@ Execute the sequential restoration script \`/opt/homelab/scripts/cold-boot-seque
    - \`pct start 100\` (Pi-hole DNS — enables internal name resolution).
    - \`pct start 101 && pct start 102\` (NPM Ingress & Authelia SSO).
    - \`pct start 103..113\` (Databases & Core Infrastructure).
-   - \`pct start 114..123 && qm start 201 202\` (Applications, Media & Workload VMs).
+   - \`pct start 114..119 && qm start 201\` (Applications, Media & Workload VMs).
 
 ---
 
 ### Phase 4: Post-Recovery Integrity Scrub & Verification
 
 \`\`\`bash
-# 1. Verify ZFS Pool Health & Run Scrub
-zpool status -v
-zpool scrub rpool
+# 1. Verify Storage Health
+df -h -t nfs4,nfs
 
 # 2. Verify Container Health
 pct list
@@ -294,9 +293,8 @@ sudo -u postgres psql -c "SELECT datname, pg_size_pretty(pg_database_size(datnam
 
 ## 2. 💾 Automated Backup Hierarchy & 3-2-1 Strategy
 
-- **Proxmox Backup Server (PBS):** Daily deduplicated snapshots of all 24 LXC containers and 3 KVM VMs with encrypted remote sync.
-- **ZFS Snapshots:** Hourly local dataset snapshots (\`zfs-auto-snapshot\`) with 14-day local retention.
-- **Offsite Cold Storage (AWS S3 / Restic):** Weekly encrypted backup of critical configs (\`/etc/pve\`, \`/etc/network/interfaces\`, \`/opt/homelab\`).
+- **Proxmox Backup Server (PBS):** Daily deduplicated snapshots of all 20 LXC containers and 2 KVM VMs with encrypted remote sync.
+- **Offsite Cold Storage:** Weekly encrypted backup of critical configs (\`/etc/pve\`, \`/etc/network/interfaces\`, \`/opt/homelab\`).
 `
   },
   {
@@ -304,7 +302,7 @@ sudo -u postgres psql -c "SELECT datname, pg_size_pretty(pg_database_size(datnam
     title: "Virtual Machines (KVM)",
     category: "Hypervisors",
     icon: "🖥️",
-    summary: "Declarative specifications, Cloud-Init automation, and VirtIO hardware acceleration for VM 200, 201, and 202.",
+    summary: "Declarative specifications, Cloud-Init automation, and VirtIO hardware acceleration for VM 200 and VM 201.",
     content: `# 🖥️ Proxmox VE KVM Virtual Machines Architecture
 
 In addition to lightweight LXC containers, the homelab platform runs dedicated **KVM Virtual Machines** for workloads requiring kernel isolation, paravirtualized network appliances, and full guest operating systems.
@@ -316,15 +314,14 @@ In addition to lightweight LXC containers, the homelab platform runs dedicated *
 | VMID | Name | Operating System | vCPUs | RAM | Storage Disk | Network Bridge | Primary Protocol | Role / Function |
 | :---: | :--- | :--- | :---: | :---: | :--- | :--- | :--- | :--- |
 | **200** | \`opnsense\` | FreeBSD 14.x / OPNsense | 2 | 1024 MB | 16 GB SSD (\`local-lvm\`) | \`vmbr0\` (WAN) + \`vmbr1\` (LAN) | WebGUI (\`:8443\`) | Core Firewall, NAT Gateway, WireGuard |
-| **201** | \`windows-server\` | Windows Server 2022 / 2025 | 2 | 3072 MB | 40 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | RDP (\`:3389\`), WinRM (\`:5985\`) | Active Directory Domain Services, DNS |
-| **202** | \`alpine-server\` | Alpine Linux v3.21 Virt | 2 | 256 MB | 25 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | SSH (\`:22\`), OpenRC | Ultra-Lean Alpine Microservices |
+| **201** | \`alpine-server\` | Alpine Linux v3.21 Virt | 2 | 256 MB | 25 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | SSH (\`:22\`), OpenRC | Ultra-Lean Alpine Microservices |
 
 ---
 
 ## 🔐 Access Standards & Secret Management
 
 All virtual machines and container services adhere to zero-plaintext secrets policy:
-- **Primary Administrator:** `<admin_user>` (Configured via SOPS / Cloud-Init)
+- **Primary Administrator:** \`Stefanut\` / \`root\` (Configured via SOPS / Cloud-Init)
 - **Secret Storage:** Vaultwarden & Encrypted Secrets Repository
 - **SSH Key Authentication:** Hypervisor \`id_ed25519.pub\` injected via Cloud-Init
 
@@ -337,17 +334,10 @@ All virtual machines and container services adhere to zero-plaintext secrets pol
 - **Routing**: Inter-VLAN routing, stateful inspection, and CrowdSec IPS/IDS remediation bouncer.
 - **Access**: WebGUI at \`https://192.168.1.132:8443\` or \`https://opnsense.lan\`.
 
-## 2. Windows Server 2022 / 2025 (VM 201)
-
-- **Configuration**: \`q35\` chipset with \`OVMF (UEFI)\` 4M firmware and TPM 2.0 emulation.
-- **Storage**: \`virtio-scsi-single\` controller with SSD discard enabled on \`local-lvm\`.
-- **Automation**: Unattended answer file (\`vms/windows-server/autounattend.xml\`) injects drivers and creates user \`Stefanut\`.
-- **Access**: RDP on port \`3389\` (\`winserver.lan:3389\`).
-
-## 3. Alpine Linux Server (VM 202)
+## 2. Alpine Linux Server (VM 201)
 
 - **Base Platform**: Ultra-lean **Alpine Linux v3.21 Virt** kernel with OpenRC init system and \`musl\` libc.
-- **Micro Footprint**: Allocated only **256 MB RAM** (ballooning to 128 MB), consuming $< 60\text{ MB}$ idle RAM.
+- **Micro Footprint**: Allocated only **256 MB RAM** (ballooning to 128 MB), consuming $< 60\\text{ MB}$ idle RAM.
 - **Network**: Static IP \`192.168.1.202/24\`, Gateway \`192.168.1.1\`, DNS \`192.168.1.4\` (\`alpine.lan\`).
 `
   }
@@ -371,8 +361,6 @@ export const homelabServices = [
   { name: "Prowlarr Indexers", logo: "icons/prowlarr.svg", category: "Storage & Media", ip: "192.168.1.21", port: 9696, ipUrl: "http://192.168.1.21:9696", domain: "prowlarr.lan", domainUrl: "http://prowlarr.lan", status: "Active", icon: "🔍" },
   { name: "Bazarr Subtitles", logo: "icons/bazarr.svg", category: "Storage & Media", ip: "192.168.1.21", port: 6767, ipUrl: "http://192.168.1.21:6767", domain: "bazarr.lan", domainUrl: "http://bazarr.lan", status: "Active", icon: "💬" },
   { name: "qBittorrent", logo: "icons/qbittorrent.svg", category: "Storage & Media", ip: "192.168.1.21", port: 8080, ipUrl: "http://192.168.1.21:8080", domain: "qbittorrent.lan", domainUrl: "http://qbittorrent.lan", status: "Active", icon: "📥" },
-  { name: "AList Storage", logo: "icons/alist.svg", category: "Storage & Media", ip: "192.168.1.25", port: 5244, ipUrl: "http://192.168.1.25:5244", domain: "alist.lan", domainUrl: "http://alist.lan", status: "Active", icon: "📁" },
-  { name: "FileBrowser", logo: "icons/filebrowser.svg", category: "Storage & Media", ip: "192.168.1.23", port: 8082, ipUrl: "http://192.168.1.23:8082", domain: "filebrowser.lan", domainUrl: "http://filebrowser.lan", status: "Active", icon: "📂" },
   { name: "Home Assistant", logo: "icons/homeassistant.svg", category: "Automation", ip: "192.168.1.10", port: 8123, ipUrl: "http://192.168.1.10:8123", domain: "ha.lan", domainUrl: "http://ha.lan", status: "Active", icon: "💡" },
   { name: "n8n Automation", logo: "icons/n8n.svg", category: "Automation", ip: "192.168.1.13", port: 5678, ipUrl: "http://192.168.1.13:5678", domain: "n8n.lan", domainUrl: "http://n8n.lan", status: "Active", icon: "⚡" },
   { name: "ChangeDetection", logo: "icons/changedetection.svg", category: "Automation", ip: "192.168.1.24", port: 5000, ipUrl: "http://192.168.1.24:5000", domain: "changedetection.lan", domainUrl: "http://changedetection.lan", status: "Active", icon: "👁️" },
@@ -383,6 +371,5 @@ export const homelabServices = [
   { name: "Actual Budget", logo: "icons/actualbudget.svg", category: "Productivity", ip: "192.168.1.22", port: 5006, ipUrl: "http://192.168.1.22:5006", domain: "actualbudget.lan", domainUrl: "http://actualbudget.lan", status: "Active", icon: "💰" },
   { name: "IT-Tools", logo: "icons/it-tools.svg", category: "Utilities", ip: "192.168.1.12", port: 80, ipUrl: "http://192.168.1.12", domain: "it-tools.lan", domainUrl: "http://it-tools.lan", status: "Active", icon: "🧰" },
   { name: "OPNsense Gateway", logo: "icons/opnsense.svg", category: "Virtual Machines", ip: "192.168.1.132", port: 8443, ipUrl: "https://192.168.1.132:8443", domain: "opnsense.lan", domainUrl: "https://opnsense.lan", status: "Active", icon: "🛡️" },
-  { name: "Windows Server 2022", logo: "icons/windows.svg", category: "Virtual Machines", ip: "192.168.1.201", port: 3389, ipUrl: "http://192.168.1.201:3389", domain: "winserver.lan", domainUrl: "http://winserver.lan", status: "Active", icon: "🪟" },
-  { name: "Ubuntu Server 24.04", logo: "icons/ubuntu.svg", category: "Virtual Machines", ip: "192.168.1.202", port: 22, ipUrl: "http://192.168.1.202:22", domain: "ubuntu.lan", domainUrl: "http://ubuntu.lan", status: "Active", icon: "🐧" }
+  { name: "Alpine Server", logo: "icons/alpine.svg", category: "Virtual Machines", ip: "192.168.1.202", port: 22, ipUrl: "http://192.168.1.202:22", domain: "alpine.lan", domainUrl: "http://alpine.lan", status: "Active", icon: "🐧" }
 ];

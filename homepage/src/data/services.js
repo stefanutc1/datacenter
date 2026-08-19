@@ -825,42 +825,6 @@ qBittorrent runs in LXC 117 and handles all automated Servarr downloads.`
 Actual Budget runs on LXC 118 and is accessible via \`actualbudget.lan\`.`
   },
   {
-    id: 'filebrowser',
-    logo: 'icons/filebrowser.svg',
-    name: 'FileBrowser Web Manager',
-    category: 'cloud',
-    ip: '192.168.1.23',
-    port: 8082,
-    ipUrl: 'http://192.168.1.23:8082',
-    domain: 'filebrowser.lan',
-    domainUrl: 'http://filebrowser.lan',
-    internalUrl: 'http://filebrowser.lan',
-    icon: 'folder',
-    color: '#3498db',
-    image: 'filebrowser/filebrowser:latest',
-    containerName: 'filebrowser',
-    status: 'online',
-    tags: ['File Manager', 'Uploads', 'Previews', 'WebUI', 'Quick Share'],
-    description: 'Lightweight web-based file management interface with direct filesystem access, drag-and-drop uploads, media previews, and temporary share links.',
-    features: [
-      'Instant browsing of ZFS pools and local backup volumes',
-      'In-browser video, image, PDF, and syntax-highlighted code previewing',
-      'User permissions with customizable base directories and quotas',
-      'Direct command execution and file archive creation/extraction'
-    ],
-    volumes: ['./data:/data', '/srv:/srv'],
-    envVars: ['TZ=Europe/Bucharest'],
-    composeCode: `services:
-  filebrowser:
-    image: filebrowser/filebrowser:latest
-    container_name: filebrowser
-    ports:
-      - "8082:80"
-    restart: unless-stopped`,
-    wikiMarkdown: `### FileBrowser Storage Manager
-FileBrowser is deployed on LXC 119 and accessible via \`filebrowser.lan\`.`
-  },
-  {
     id: 'changedetection',
     logo: 'icons/changedetection.svg',
     name: 'ChangeDetection.io Monitor',
@@ -894,43 +858,7 @@ FileBrowser is deployed on LXC 119 and accessible via \`filebrowser.lan\`.`
       - "5000:5000"
     restart: unless-stopped`,
     wikiMarkdown: `### ChangeDetection.io
-ChangeDetection runs on LXC 120 and monitors web page changes automatically.`
-  },
-  {
-    id: 'alist',
-    logo: 'icons/alist.svg',
-    name: 'AList Unified Storage Aggregator',
-    category: 'cloud',
-    ip: '192.168.1.25',
-    port: 5244,
-    ipUrl: 'http://192.168.1.25:5244',
-    domain: 'alist.lan',
-    domainUrl: 'http://alist.lan',
-    internalUrl: 'http://alist.lan',
-    icon: 'hard-drive',
-    color: '#16a085',
-    image: 'xhofe/alist:latest',
-    containerName: 'alist',
-    status: 'online',
-    tags: ['Storage', 'Cloud Drives', 'WebDAV', 'Aggregation', 'Direct Link'],
-    description: 'File list program aggregating local ZFS storage, Google Drive, OneDrive, S3 buckets, and WebDAV providers into a single unified directory.',
-    features: [
-      'Aggregation of 30+ cloud storage backends into a single mount tree',
-      'WebDAV server endpoints enabling native OS mounting of all cloud drives',
-      'Direct link generation and video preview transcoding without downloading',
-      'Offline file download forwarding to Aria2 and qBittorrent engines'
-    ],
-    volumes: ['./data:/opt/alist/data'],
-    envVars: ['TZ=Europe/Bucharest'],
-    composeCode: `services:
-  alist:
-    image: xhofe/alist:latest
-    container_name: alist
-    ports:
-      - "5244:5244"
-    restart: unless-stopped`,
-    wikiMarkdown: `### AList Storage Gateway
-AList is deployed in LXC 121 and accessible via \`alist.lan\`.`
+ChangeDetection runs on LXC 119 and monitors web page changes automatically.`
   },
   {
     id: 'trillium-notes',
@@ -1040,82 +968,6 @@ Scrutiny is deployed in LXC 114 and monitors drive telemetry via \`scrutiny.lan\
 IT-Tools runs in LXC 109 and is accessible via \`it-tools.lan\`.`
   },
   {
-    id: 'homelab-homepage',
-    logo: 'icons/homepage.svg',
-    name: 'Homelab Unified Dashboard',
-    category: 'productivity',
-    ip: '192.168.1.26',
-    port: 8085,
-    ipUrl: 'http://192.168.1.26:8085',
-    domain: 'homepage.lan',
-    domainUrl: 'http://homepage.lan',
-    internalUrl: 'http://homepage.lan',
-    icon: 'grid',
-    color: '#6366f1',
-    image: 'nginx:alpine',
-    containerName: 'homelab-homepage',
-    status: 'online',
-    tags: ['Dashboard', 'Vue.js', 'Service Portal', 'Live Health', 'Hardware Matrix'],
-    description: 'High-performance interactive portal and service directory presenting real-time system health, IP and domain endpoints, and Docker compose specs.',
-    features: [
-      'Real-time endpoint cards showing direct IP (:port) and local domain (*.lan)',
-      'Port allocation matrix and hardware resource telemetry breakdown',
-      'Interactive Docker Compose and configuration inspector modals',
-      'Instant full-text search with category filtering and favorite pinning'
-    ],
-    volumes: ['./dist:/usr/share/nginx/html:ro'],
-    envVars: ['TZ=Europe/Bucharest'],
-    composeCode: `services:
-  homepage:
-    image: nginx:alpine
-    container_name: homelab-homepage
-    ports:
-      - "8085:80"
-    volumes:
-      - ./dist:/usr/share/nginx/html:ro
-    restart: unless-stopped`,
-    wikiMarkdown: `### Homelab Dashboard
-The central dashboard is deployed on LXC 122 and routed via \`homepage.lan\` and \`homelab.lan\`.`
-  },
-  {
-    id: 'web-wiki',
-    logo: 'icons/wiki.svg',
-    name: 'Homelab Architecture Wiki',
-    category: 'devops',
-    ip: '192.168.1.27',
-    port: 80,
-    ipUrl: 'http://192.168.1.27',
-    domain: 'wiki.lan',
-    domainUrl: 'http://wiki.lan',
-    internalUrl: 'http://wiki.lan',
-    icon: 'book',
-    color: '#0984e3',
-    image: 'nginx:alpine',
-    containerName: 'web-wiki',
-    status: 'online',
-    tags: ['Wiki', 'Documentation', 'Architecture', 'Topology', 'Runbooks'],
-    description: 'Comprehensive engineering documentation and architectural reference detailing VLAN layouts, disaster recovery runbooks, and automation scripts.',
-    features: [
-      'Interactive Markdown documentation reader with deep link navigation',
-      'Network segmentation diagrams and VLAN isolation security rules',
-      'ESP32 embedded automation source walkthroughs and wiring guides',
-      'Full disaster recovery cold-start runbooks and backup procedures'
-    ],
-    volumes: ['./dist:/usr/share/nginx/html:ro'],
-    envVars: ['TZ=Europe/Bucharest'],
-    composeCode: `services:
-  wiki:
-    image: nginx:alpine
-    container_name: web-wiki
-    ports:
-      - "80:80"
-    volumes:
-      - ./dist:/usr/share/nginx/html:ro
-    restart: unless-stopped`,
-    wikiMarkdown: `### Homelab Architecture Wiki
-The documentation wiki is deployed on LXC 123 and accessible via \`wiki.lan\`.`
-  },
-  {
     id: 'opnsense-vm',
     logo: 'icons/opnsense.svg',
     name: 'OPNsense Core Gateway & Firewall',
@@ -1141,68 +993,38 @@ The documentation wiki is deployed on LXC 123 and accessible via \`wiki.lan\`.`
     ],
     volumes: ['local-lvm:vm-200-disk-0 (16 GB)'],
     envVars: ['ADMIN_USER=root', 'WEBGUI_PORT=8443'],
-    composeCode: `qm create 200 --name opnsense --memory 2048 --cores 2 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1`,
+    composeCode: `qm create 200 --name opnsense --memory 1024 --cores 2 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1`,
     wikiMarkdown: `### OPNsense Core Gateway (VM 200)
 OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtual bridges.`
   },
   {
-    id: 'windows-server',
-    logo: 'icons/windows.svg',
-    name: 'Windows Server 2022 / 2025',
-    category: 'vms',
-    ip: '192.168.1.201',
-    port: 3389,
-    ipUrl: 'http://192.168.1.201:3389',
-    domain: 'winserver.lan',
-    domainUrl: 'http://winserver.lan',
-    internalUrl: 'http://winserver.lan',
-    icon: 'server',
-    color: '#00a8ff',
-    image: 'Windows Server (OVMF UEFI)',
-    containerName: 'VM 201',
-    status: 'online',
-    tags: ['Windows Server', 'VM 201', 'Active Directory', 'RDP', 'WinRM', 'KVM'],
-    description: 'Enterprise Windows Server KVM guest virtual machine running on Proxmox VE with Active Directory, RDP remote desktop, and VirtIO acceleration.',
-    features: [
-      'Windows Server Standard edition with UEFI/OVMF 4M firmware',
-      'Remote Desktop Protocol (RDP) enabled on port 3389',
-      'Primary administrator account with Vaultwarden managed credentials',
-      'VirtIO SCSI single disk controller with SSD TRIM/discard on local-lvm'
-    ],
-    volumes: ['local-lvm:vm-201-disk-1 (40 GB NVMe)', 'local:iso/virtio-win.iso'],
-    envVars: ['ADMIN_USER=Stefanut', 'RDP_PORT=3389', 'WINRM_PORT=5985'],
-    composeCode: `qm create 201 --name windows-server-2022 --memory 3072 --balloon 2048 --cores 2 --cpu host --machine q35 --bios ovmf --scsi0 local-lvm:40,discard=on,ssd=1 --net0 virtio,bridge=vmbr0`,
-    wikiMarkdown: `### Windows Server (VM 201)
-Windows Server is provisioned as KVM guest VM 201 with 40 GB NVMe disk and VirtIO drivers.`
-  },
-  {
-    id: 'ubuntu-server',
-    logo: 'icons/ubuntu.svg',
-    name: 'Ubuntu Server 24.04 LTS',
+    id: 'alpine-server',
+    logo: 'icons/alpine.svg',
+    name: 'Alpine Linux Microservices Server',
     category: 'vms',
     ip: '192.168.1.202',
     port: 22,
     ipUrl: 'http://192.168.1.202:22',
-    domain: 'ubuntu.lan',
-    domainUrl: 'http://ubuntu.lan',
-    internalUrl: 'http://ubuntu.lan',
+    domain: 'alpine.lan',
+    domainUrl: 'http://alpine.lan',
+    internalUrl: 'http://alpine.lan',
     icon: 'terminal',
-    color: '#e67e22',
-    image: 'Ubuntu 24.04 Noble (Cloud-Init)',
-    containerName: 'VM 202',
+    color: '#0d597f',
+    image: 'Alpine Linux 3.21 Virt (KVM)',
+    containerName: 'VM 201',
     status: 'online',
-    tags: ['Ubuntu 24.04', 'VM 202', 'Cloud-Init', 'SSH', 'Docker', 'KVM'],
-    description: 'Ubuntu Server 24.04 LTS Noble Numbat cloud-init virtual machine configured with user Stefanut, SSH key authorization, and QEMU guest agent.',
+    tags: ['Alpine 3.21', 'VM 201', 'Cloud-Init', 'SSH', 'Microservices', 'KVM'],
+    description: 'Ultra-lean Alpine Linux v3.21 cloud-init virtual machine configured with user Stefanut, SSH key authorization, and QEMU guest agent consuming < 60 MB RAM.',
     features: [
       'Automated Cloud-Init provisioning with SSH key authorization and injected secrets',
       'QEMU Guest Agent enabled for seamless hypervisor metrics and shutdown sync',
       'Static IP configuration (192.168.1.202/24) with Pi-hole DNS (192.168.1.4)',
       '25 GB NVMe paravirtualized disk with VirtIO SCSI single controller'
     ],
-    volumes: ['local-lvm:vm-202-disk-0 (25 GB)', 'local-lvm:vm-202-cloudinit'],
+    volumes: ['local-lvm:vm-201-disk-0 (25 GB)', 'local:iso/alpine-virt-3.21.3-x86_64.iso'],
     envVars: ['CI_USER=Stefanut', 'SSH_PORT=22', 'IP=192.168.1.202/24'],
-    composeCode: `qm create 202 --name ubuntu-server-2404 --memory 2048 --balloon 1024 --cores 2 --cpu host --scsi0 local-lvm:vm-202-disk-0,discard=on,ssd=1 --ide2 local-lvm:cloudinit --net0 virtio,bridge=vmbr0`,
-    wikiMarkdown: `### Ubuntu Server (VM 202)
-Ubuntu Server 24.04 LTS runs as VM 202 with cloud-init automation and SSH authentication.`
+    composeCode: `qm create 201 --name alpine-server --memory 256 --balloon 128 --cores 2 --cpu host --scsi0 local-lvm:vm-201-disk-0,discard=on,ssd=1 --net0 virtio,bridge=vmbr0`,
+    wikiMarkdown: `### Alpine Server (VM 201)
+Alpine Linux v3.21 runs as VM 201 with cloud-init automation and SSH key authentication.`
   }
 ];

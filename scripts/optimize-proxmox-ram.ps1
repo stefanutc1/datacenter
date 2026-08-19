@@ -39,11 +39,7 @@ $memMap = @{
     "116" = @{ Memory = 96;  Swap = 32; Name = "Authelia SSO" }
     "117" = @{ Memory = 896; Swap = 256; Name = "Media Suite" }
     "118" = @{ Memory = 160; Swap = 64; Name = "Actual Budget" }
-    "119" = @{ Memory = 64;  Swap = 64; Name = "Filebrowser" }
-    "120" = @{ Memory = 160; Swap = 64; Name = "ChangeDetection" }
-    "121" = @{ Memory = 96;  Swap = 64; Name = "Alist" }
-    "122" = @{ Memory = 64;  Swap = 64; Name = "Homelab Homepage" }
-    "123" = @{ Memory = 64;  Swap = 64; Name = "Web Wiki" }
+    "119" = @{ Memory = 160; Swap = 64; Name = "ChangeDetection" }
 }
 
 Write-Log "📦 Applying container memory allocations..."

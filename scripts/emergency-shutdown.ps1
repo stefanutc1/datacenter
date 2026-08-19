@@ -22,7 +22,7 @@ Write-Log "🚨 [EMERGENCY SOP] Initiating 10+ Hour Power Outage Graceful Shutdo
 
 # 1. Phase 1: Shutdown Heavy Applications & Media LXCs (Tier 4)
 Write-Log "📦 [1/5] Stopping Tier 4 Heavy Applications & Media LXCs..."
-$tier4Ctids = @(114, 115, 117, 118, 119, 120, 121, 122, 123)
+$tier4Ctids = @(114, 115, 116, 117, 118, 119)
 foreach ($ctid in $tier4Ctids) {
     Write-Log "   Stopping LXC $ctid..."
     if (Get-Command pct -ErrorAction SilentlyContinue) {
@@ -33,8 +33,8 @@ foreach ($ctid in $tier4Ctids) {
 }
 
 # 2. Phase 2: Shutdown Secondary VMs (Tier 3)
-Write-Log "🖥️ [2/5] Stopping Tier 3 KVM Virtual Machines (Windows 201 / Alpine 202)..."
-$vms = @(201, 202)
+Write-Log "🖥️ [2/5] Stopping Tier 3 KVM Virtual Machines (Alpine 201)..."
+$vms = @(201)
 foreach ($vmid in $vms) {
     Write-Log "   Stopping VM $vmid..."
     if (Get-Command qm -ErrorAction SilentlyContinue) {

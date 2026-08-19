@@ -66,11 +66,7 @@ declare -A MEM_MAP=(
     [116]="96:32"    # Authelia SSO
     [117]="896:256"  # Media Suite (Jellyfin, Radarr, Sonarr, qBittorrent)
     [118]="160:64"   # Actual Budget
-    [119]="64:64"    # Filebrowser
-    [120]="160:64"   # ChangeDetection
-    [121]="96:64"    # Alist
-    [122]="64:64"    # Homelab Homepage
-    [123]="64:64"    # Web Wiki
+    [119]="160:64"   # ChangeDetection
 )
 
 for ctid in "${!MEM_MAP[@]}"; do

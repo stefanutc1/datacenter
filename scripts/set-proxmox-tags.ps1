@@ -2,7 +2,7 @@
 .SYNOPSIS
     Proxmox VE Fleet Tags Automation in PowerShell
 .DESCRIPTION
-    Applies structured, consistent tags across all 24 LXC containers and 3 VMs in Proxmox VE.
+    Applies structured, consistent tags across all 20 LXC containers (100-119) and 2 VMs (200-201).
 #>
 
 [CmdletBinding()]
@@ -30,17 +30,12 @@ $lxcTags = @{
     "116" = "alpine;security;sso;community-script"
     "117" = "alpine;media;jellyfin;arr-stack;community-script"
     "118" = "alpine;productivity;finance;community-script"
-    "119" = "alpine;storage;files;community-script"
-    "120" = "alpine;automation;monitoring;community-script"
-    "121" = "alpine;storage;cloud-drive;community-script"
-    "122" = "alpine;dashboard;web;iac"
-    "123" = "alpine;wiki;documentation;iac"
+    "119" = "alpine;automation;monitoring;community-script"
 }
 
 $vmTags = @{
     "200" = "freebsd;firewall;router;kvm"
-    "201" = "windows;active-directory;rdp;kvm"
-    "202" = "alpine;microservices;cloud-init;kvm"
+    "201" = "alpine;microservices;cloud-init;kvm"
 }
 
 Write-Host "🏷️ Applying Proxmox VE tags..." -ForegroundColor Cyan

@@ -13,7 +13,7 @@ log() {
 
 log "🏷️ [PROXMOX TAGS] Applying standardized tags across all LXC containers and VMs..."
 
-# LXC Containers Tags Map
+# LXC Containers Tags Map (100 to 119)
 declare -A LXC_TAGS=(
     [100]="alpine;ingress;proxy;community-script"
     [101]="alpine;networking;dns;community-script"
@@ -34,11 +34,7 @@ declare -A LXC_TAGS=(
     [116]="alpine;security;sso;community-script"
     [117]="alpine;media;jellyfin;arr-stack;community-script"
     [118]="alpine;productivity;finance;community-script"
-    [119]="alpine;storage;files;community-script"
-    [120]="alpine;automation;monitoring;community-script"
-    [121]="alpine;storage;cloud-drive;community-script"
-    [122]="alpine;dashboard;web;iac"
-    [123]="alpine;wiki;documentation;iac"
+    [119]="alpine;automation;monitoring;community-script"
 )
 
 for ctid in "${!LXC_TAGS[@]}"; do
@@ -51,11 +47,10 @@ for ctid in "${!LXC_TAGS[@]}"; do
     fi
 done
 
-# KVM Virtual Machines Tags Map
+# KVM Virtual Machines Tags Map (200, 201)
 declare -A VM_TAGS=(
     [200]="freebsd;firewall;router;kvm"
-    [201]="windows;active-directory;rdp;kvm"
-    [202]="alpine;microservices;cloud-init;kvm"
+    [201]="alpine;microservices;cloud-init;kvm"
 )
 
 for vmid in "${!VM_TAGS[@]}"; do
