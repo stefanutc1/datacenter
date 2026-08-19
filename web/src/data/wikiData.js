@@ -315,9 +315,9 @@ In addition to lightweight LXC containers, the homelab platform runs dedicated *
 
 | VMID | Name | Operating System | vCPUs | RAM | Storage Disk | Network Bridge | Primary Protocol | Role / Function |
 | :---: | :--- | :--- | :---: | :---: | :--- | :--- | :--- | :--- |
-| **200** | \`opnsense\` | FreeBSD 14.x / OPNsense | 2 | 2048 MB | 16 GB SSD (\`local-lvm\`) | \`vmbr0\` (WAN) + \`vmbr1\` (LAN) | WebGUI (\`:8443\`) | Core Firewall, NAT Gateway, WireGuard |
+| **200** | \`opnsense\` | FreeBSD 14.x / OPNsense | 2 | 1024 MB | 16 GB SSD (\`local-lvm\`) | \`vmbr0\` (WAN) + \`vmbr1\` (LAN) | WebGUI (\`:8443\`) | Core Firewall, NAT Gateway, WireGuard |
 | **201** | \`windows-server\` | Windows Server 2022 / 2025 | 2 | 3072 MB | 40 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | RDP (\`:3389\`), WinRM (\`:5985\`) | Active Directory Domain Services, DNS |
-| **202** | \`ubuntu-server\` | Ubuntu Server 24.04 LTS | 2 | 2048 MB | 25 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | SSH (\`:22\`), QEMU Guest Agent | Cloud-Init Microservices, Automation |
+| **202** | \`alpine-server\` | Alpine Linux v3.21 Virt | 2 | 256 MB | 25 GB NVMe (\`local-lvm\`) | \`vmbr0\` (Management) | SSH (\`:22\`), OpenRC | Ultra-Lean Alpine Microservices |
 
 ---
 
@@ -333,6 +333,7 @@ All virtual machines are pre-configured with standardized administrative credent
 ## 1. OPNsense Virtual Router (VM 200)
 
 - **Architecture**: Dual-interface virtual appliance connecting physical uplink to virtual internal LAN.
+- **Memory Footprint**: Tuned to **1024 MB RAM** with memory ballooning.
 - **Routing**: Inter-VLAN routing, stateful inspection, and CrowdSec IPS/IDS remediation bouncer.
 - **Access**: WebGUI at \`https://192.168.1.132:8443\` or \`https://opnsense.lan\`.
 
@@ -343,11 +344,11 @@ All virtual machines are pre-configured with standardized administrative credent
 - **Automation**: Unattended answer file (\`vms/windows-server/autounattend.xml\`) injects drivers and creates user \`Stefanut\`.
 - **Access**: RDP on port \`3389\` (\`winserver.lan:3389\`).
 
-## 3. Ubuntu Server 24.04 LTS Noble Numbat (VM 202)
+## 3. Alpine Linux Server (VM 202)
 
-- **Cloud-Init Engine**: Automated fast-clone provisioning from \`noble-server-cloudimg-amd64.img\`.
-- **Telemetry**: QEMU Guest Agent communicates live IP addresses and memory usage to Proxmox.
-- **Network**: Static IP \`192.168.1.202/24\`, Gateway \`192.168.1.1\`, DNS \`192.168.1.4\` (\`ubuntu.lan\`).
+- **Base Platform**: Ultra-lean **Alpine Linux v3.21 Virt** kernel with OpenRC init system and \`musl\` libc.
+- **Micro Footprint**: Allocated only **256 MB RAM** (ballooning to 128 MB), consuming $< 60\text{ MB}$ idle RAM.
+- **Network**: Static IP \`192.168.1.202/24\`, Gateway \`192.168.1.1\`, DNS \`192.168.1.4\` (\`alpine.lan\`).
 `
   }
 ];
