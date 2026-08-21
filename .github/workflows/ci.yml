@@ -1,4 +1,4 @@
-name: CI Validation
+name: CI Validation Pipeline
 
 on:
   push:
@@ -12,35 +12,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint Ansible & YAML
+  lint-yaml:
+    name: Lint YAML & Inventory
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
+          cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install Linting Tools
         run: |
           python -m pip install --upgrade pip
-          pip install ansible-lint yamllint ansible
-
-      - name: Install Ansible collections
-        run: |
-          ansible-galaxy collection install community.general
+          pip install yamllint ansible-lint ansible
 
       - name: Run YAML Lint
         run: yamllint -c .yamllint . || true
 
       - name: Run Ansible Lint
-        run: ansible-lint ansible/ || true
+        run: |
+          ansible-galaxy collection install community.general || true
+          ansible-lint ansible/ || true
 
-  build-web:
-    name: Build & Verify Web Wiki (Vue 3)
+  build-frontend:
+    name: Build & Test Frontend (Vue.js & Wiki)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -50,15 +49,35 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: |
+            web/package-lock.json
+            homepage/package-lock.json
 
-      - name: Install and Build Web Wiki
+      - name: Install Web Dependencies
         run: |
           cd web
           npm install
-          npm run build
+
+      - name: Install Homepage Dependencies
+        if: hashFiles('homepage/package.json') != ''
+        run: |
+          cd homepage
+          npm install
+
+      - name: Build Unified Web Wiki & Homepage
+        run: |
+          cd web
+          GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/homelab/ npm run build
+
+      - name: Verify Distribution Artifacts
+        run: |
+          test -f web/dist/index.html || { echo "Missing index.html"; exit 1; }
+          test -f web/dist/.nojekyll || { echo "Missing .nojekyll"; exit 1; }
+          echo "✅ Frontend build validation succeeded!"
 
   terraform-validate:
-    name: Validate Terraform IaC
+    name: Validate Terraform Infrastructure
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -67,8 +86,9 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Init & Validate
+      - name: Terraform Format & Validate
         run: |
           cd terraform
+          terraform fmt -check || true
           terraform init -backend=false
           terraform validate
