@@ -77,6 +77,14 @@
               esp32 embedded
             </button>
             <button 
+              class="view-tab-btn saas-tab-btn" 
+              :class="{ active: currentView === 'saas' }" 
+              @click="currentView = 'saas'"
+            >
+              <svg class="svg-icon-xs text-amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              custom saas suite
+            </button>
+            <button 
               class="view-tab-btn emergency-tab-btn" 
               :class="{ active: currentView === 'emergency' }" 
               @click="currentView = 'emergency'"
@@ -313,6 +321,9 @@
 
       <!-- View 8: ESP32 & Embedded IoT Workspace -->
       <Esp32View v-else-if="currentView === 'esp32'" />
+
+      <!-- View 9: Custom SaaS Suite & In-House Services -->
+      <CustomSaasSuite v-else-if="currentView === 'saas'" />
     </main>
 
     <!-- Footer with Real Hardware Specs from hardware.md -->
@@ -352,6 +363,7 @@ import EmergencyView from './components/EmergencyView.vue';
 import HardwareView from './components/HardwareView.vue';
 import AiView from './components/AiView.vue';
 import Esp32View from './components/Esp32View.vue';
+import CustomSaasSuite from './components/CustomSaasSuite.vue';
 
 const currentView = ref('dashboard');
 const selectedCategory = ref('all');
