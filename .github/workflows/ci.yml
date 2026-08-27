@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   lint-yaml:
-    name: Lint YAML & Inventory
+    name: Lint YAML & Ansible Infrastructure
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,15 +31,23 @@ jobs:
           pip install yamllint ansible-lint ansible
 
       - name: Run YAML Lint
-        run: yamllint -c .yamllint . || true
+        run: |
+          if [ -f .yamllint ]; then
+            yamllint -c .yamllint . || true
+          else
+            yamllint . || true
+          fi
 
       - name: Run Ansible Lint
         run: |
           ansible-galaxy collection install community.general || true
           ansible-lint ansible/ || true
+          if [ -d cyber/ansible ]; then
+            ansible-lint cyber/ansible/ || true
+          fi
 
   build-frontend:
-    name: Build & Test Frontend (Vue.js & Wiki)
+    name: Build & Validate Web & Custom Apps
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -53,31 +61,37 @@ jobs:
           cache-dependency-path: |
             web/package-lock.json
             homepage/package-lock.json
+            custom-apps/package-lock.json
 
-      - name: Install Web Dependencies
+      - name: Install Dependencies
         run: |
-          cd web
-          npm install
+          cd web && npm install
+          if [ -d "../homepage" ] && [ -f "../homepage/package.json" ]; then
+            cd ../homepage && npm install
+          fi
+          if [ -d "../custom-apps" ] && [ -f "../custom-apps/package.json" ]; then
+            cd ../custom-apps && npm install
+          fi
 
-      - name: Install Homepage Dependencies
-        if: hashFiles('homepage/package.json') != ''
-        run: |
-          cd homepage
-          npm install
-
-      - name: Build Unified Web Wiki & Homepage
+      - name: Build Unified Web Wiki & Dashboard
         run: |
           cd web
           GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/homelab/ npm run build
 
+      - name: Build Standalone Custom Applications Suite
+        if: hashFiles('custom-apps/package.json') != ''
+        run: |
+          cd custom-apps
+          npm run build
+
       - name: Verify Distribution Artifacts
         run: |
-          test -f web/dist/index.html || { echo "Missing index.html"; exit 1; }
-          test -f web/dist/.nojekyll || { echo "Missing .nojekyll"; exit 1; }
-          echo "✅ Frontend build validation succeeded!"
+          test -f web/dist/index.html || { echo "Missing web/dist/index.html"; exit 1; }
+          test -f web/dist/.nojekyll || { echo "Missing web/dist/.nojekyll"; exit 1; }
+          echo "✅ All frontend builds verified successfully!"
 
   terraform-validate:
-    name: Validate Terraform Infrastructure
+    name: Validate Terraform Configurations
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -86,9 +100,18 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Format & Validate
+      - name: Validate Core Homelab Terraform
+        if: hashFiles('terraform/*.tf') != ''
         run: |
           cd terraform
+          terraform fmt -check || true
+          terraform init -backend=false
+          terraform validate
+
+      - name: Validate Cyber Proving Ground Terraform
+        if: hashFiles('cyber/terraform/*.tf') != ''
+        run: |
+          cd cyber/terraform
           terraform fmt -check || true
           terraform init -backend=false
           terraform validate

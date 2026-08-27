@@ -24,6 +24,14 @@ updates:
       prefix: "chore(deps)"
     open-pull-requests-limit: 5
 
+  - package-ecosystem: "npm"
+    directory: "/custom-apps"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+    open-pull-requests-limit: 5
+
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
@@ -248,8 +256,40 @@ updates:
       prefix: "chore(docker-deps)"
     open-pull-requests-limit: 5
 
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/wazuh"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/suricata"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/loki-grafana"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/cyberchef"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
   - package-ecosystem: "terraform"
-    directory: "/aws/ modules/ec2"
+    directory: "/aws/modules/ec2"
     schedule:
       interval: "weekly"
     commit-message:
@@ -257,7 +297,7 @@ updates:
     open-pull-requests-limit: 5
 
   - package-ecosystem: "terraform"
-    directory: "/aws/ modules/vpc"
+    directory: "/aws/modules/vpc"
     schedule:
       interval: "weekly"
     commit-message:
@@ -321,7 +361,7 @@ updates:
     open-pull-requests-limit: 5
 
   - package-ecosystem: "terraform"
-    directory: "/terraform/modules/proxmox_vm"
+    directory: "/cyber/terraform"
     schedule:
       interval: "weekly"
     commit-message:

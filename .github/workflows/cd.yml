@@ -34,17 +34,17 @@ jobs:
           cache-dependency-path: |
             web/package-lock.json
             homepage/package-lock.json
+            custom-apps/package-lock.json
 
       - name: Install Web Dependencies
         run: |
-          cd web
-          npm install
-
-      - name: Install Homepage Dependencies
-        if: hashFiles('homepage/package.json') != ''
-        run: |
-          cd homepage
-          npm install
+          cd web && npm install
+          if [ -d "../homepage" ] && [ -f "../homepage/package.json" ]; then
+            cd ../homepage && npm install
+          fi
+          if [ -d "../custom-apps" ] && [ -f "../custom-apps/package.json" ]; then
+            cd ../custom-apps && npm install
+          fi
 
       - name: Build Unified Distribution Bundle
         run: |
@@ -101,8 +101,9 @@ jobs:
       - name: Extract Image Metadata
         id: meta
         run: |
-          IMAGE_NAME="ghcr.io/${{ github.repository_owner }}/homelab-web"
-          echo "image=${IMAGE_NAME,,}" >> "$GITHUB_OUTPUT"
+          REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME="ghcr.io/${REPO_OWNER}/homelab-web"
+          echo "image=${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5

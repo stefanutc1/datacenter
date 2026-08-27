@@ -35,3 +35,7 @@ bin/
 build/
 *.tar.gz
 *.zip
+
+.terraform/
+*.tfstate
+*.tfstate.*
