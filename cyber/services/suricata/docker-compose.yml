@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: cyberlab-suricata
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+    volumes:
+      - ./suricata.yaml:/etc/suricata/suricata.yaml:ro
+      - suricata-logs:/var/log/suricata
+    command: -i eth0
+
+volumes:
+  suricata-logs:

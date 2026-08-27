@@ -4,8 +4,8 @@
     <header class="wiki-header">
       <div class="header-left">
         <div class="brand">
-          <h1>homelab wiki</h1>
-          <span class="version-tag">iac &amp; self-hosted architecture</span>
+          <h1>homelab &amp; cyber wiki</h1>
+          <span class="version-tag">iac &bull; self-hosted &bull; soc &amp; security ops</span>
         </div>
       </div>
       <div class="header-right">
@@ -17,14 +17,14 @@
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="search articles, services, vlans..."
+            placeholder="search articles, services, vlans, tools..."
           />
           <button v-if="searchQuery" @click="searchQuery = ''" class="clear-btn">✕</button>
         </div>
         <a href="../" class="github-link dashboard-link">
           services dashboard
         </a>
-        <a href="https://github.com/stefannut/homelab" target="_blank" class="github-link">
+        <a href="https://github.com/stefanutc1/homelab" target="_blank" class="github-link">
           github repo ↗
         </a>
       </div>
@@ -34,12 +34,12 @@
     <div class="wiki-body">
       <!-- Sidebar -->
       <aside class="wiki-sidebar">
-        <!-- Navigation Categories -->
+        <!-- Section 1: Homelab Infrastructure -->
         <div class="sidebar-section">
-          <h3>documentation</h3>
+          <h3>homelab infrastructure</h3>
           <ul class="nav-list">
             <li
-              v-for="article in filteredArticles"
+              v-for="article in filteredHomelabArticles"
               :key="article.id"
               :class="{ active: selectedArticle && selectedArticle.id === article.id && activeTab === 'docs' }"
               @click="selectArticle(article)"
@@ -50,7 +50,23 @@
           </ul>
         </div>
 
-        <!-- Services Explorer Tab Button -->
+        <!-- Section 2: Cyber Security Operations (NEW CATEGORY) -->
+        <div class="sidebar-section">
+          <h3>cyber security &amp; ops</h3>
+          <ul class="nav-list">
+            <li
+              v-for="article in filteredCyberArticles"
+              :key="article.id"
+              :class="{ active: selectedArticle && selectedArticle.id === article.id && activeTab === 'docs' }"
+              @click="selectArticle(article)"
+            >
+              <span class="nav-dot cyber-dot"></span>
+              <span class="nav-title">{{ article.title }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Section 3: Interactive Explorers -->
         <div class="sidebar-section">
           <h3>interactive tools</h3>
           <ul class="nav-list">
@@ -60,6 +76,13 @@
             >
               <span class="nav-dot"></span>
               <span class="nav-title">services catalog ({{ services.length }})</span>
+            </li>
+            <li
+              :class="{ active: activeTab === 'cybertools' }"
+              @click="activeTab = 'cybertools'"
+            >
+              <span class="nav-dot cyber-dot"></span>
+              <span class="nav-title">cyber security tools ({{ cyberTools.length }})</span>
             </li>
             <li
               :class="{ active: activeTab === 'topology' }"
@@ -72,8 +95,8 @@
         </div>
 
         <div class="sidebar-footer">
-          <p>author: <strong>@stefannut</strong></p>
-          <p>proxmox ve &bull; k3s &bull; ansible</p>
+          <p>author: <strong>@stefanutc1</strong></p>
+          <p>proxmox ve &bull; k3s &bull; soc / siem</p>
         </div>
       </aside>
 
@@ -82,13 +105,13 @@
         <!-- TAB 1: Markdown Documentation Reader -->
         <div v-if="activeTab === 'docs' && selectedArticle" class="article-view">
           <div class="article-meta">
-            <span class="badge">{{ selectedArticle.category }}</span>
+            <span class="badge" :class="{ 'cyber-badge': selectedArticle.section === 'cyber' }">{{ selectedArticle.category }}</span>
             <span class="summary-text">{{ selectedArticle.summary }}</span>
           </div>
           <article class="markdown-body" v-html="renderedMarkdown"></article>
         </div>
 
-        <!-- TAB 2: Interactive Services Catalog -->
+        <!-- TAB 2: Interactive Homelab Services Catalog -->
         <div v-else-if="activeTab === 'services'" class="services-view">
           <div class="view-header">
             <h2>containerized services directory</h2>
@@ -137,7 +160,53 @@
           </div>
         </div>
 
-        <!-- TAB 3: Network Topology & VLAN Matrix -->
+        <!-- TAB 3: Interactive Cyber Security Tools Matrix -->
+        <div v-else-if="activeTab === 'cybertools'" class="services-view">
+          <div class="view-header">
+            <h2>cyber security &amp; soc arsenal</h2>
+            <p>defensive siem/xdr stacks, network ids, offensive ctf tools, forensic collectors, and automated sast scanners.</p>
+            <div class="category-filters">
+              <button
+                v-for="cat in cyberCategories"
+                :key="cat"
+                :class="{ active: selectedCyberCategory === cat }"
+                @click="selectedCyberCategory = cat"
+              >
+                {{ cat }}
+              </button>
+            </div>
+          </div>
+
+          <div class="services-grid">
+            <div
+              v-for="tool in filteredCyberTools"
+              :key="tool.name"
+              class="service-card cyber-tool-card"
+            >
+              <div class="service-card-header">
+                <div class="svc-logo-box">
+                  <img v-if="tool.logo" :src="getLogoUrl(tool.logo)" :alt="tool.name" class="svc-logo-img" />
+                  <span v-else class="svc-dot cyber-dot"></span>
+                </div>
+                <span class="status-pill" :class="tool.status">{{ tool.status }}</span>
+              </div>
+              <h4>{{ tool.name }}</h4>
+              <p class="svc-cat">{{ tool.category }} &bull; {{ tool.type }}</p>
+              <div class="svc-details">
+                <div class="detail-row" v-if="tool.port > 0">
+                  <span>port / protocol:</span>
+                  <code>:{{ tool.port }}</code>
+                </div>
+                <div class="detail-row" v-else>
+                  <span>execution mode:</span>
+                  <code>cli / script harness</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: Network Topology & VLAN Matrix -->
         <div v-else-if="activeTab === 'topology'" class="topology-view">
           <div class="view-header">
             <h2>vlan &amp; network isolation matrix</h2>
@@ -200,6 +269,17 @@
                 <li>home assistant mqtt gateway</li>
               </ul>
             </div>
+
+            <div class="vlan-card vlan-cyber">
+              <div class="vlan-tag cyber-tag">vlan 50 / cyberlab</div>
+              <h3>soc &amp; offensive testbed</h3>
+              <p><code>192.168.64.0/24</code> &bull; isolated security research</p>
+              <ul>
+                <li>wazuh xdr indexer &amp; dashboard (:1514/:443)</li>
+                <li>suricata nids mirrored dmz inspection</li>
+                <li>kali offensive &amp; windows 10 victim sandbox</li>
+              </ul>
+            </div>
           </div>
         </div>
       </main>
@@ -210,33 +290,44 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { marked } from 'marked';
-import { homelabArticles, homelabServices } from './data/wikiData.js';
+import { homelabArticles, cyberArticles, homelabServices, cyberlabTools } from './data/wikiData.js';
 
 const activeTab = ref('docs');
-const articles = ref(homelabArticles);
+const homelabDocs = ref(homelabArticles);
+const cyberDocs = ref(cyberArticles);
 const services = ref(homelabServices);
+const cyberTools = ref(cyberlabTools);
 const selectedArticle = ref(homelabArticles[0]);
 const searchQuery = ref('');
 const selectedCategory = ref('All');
+const selectedCyberCategory = ref('All');
 
 const selectArticle = (article) => {
   selectedArticle.value = article;
   activeTab.value = 'docs';
 };
 
-const filteredArticles = computed(() => {
-  if (!searchQuery.value) return articles.value;
+const filterList = (list) => {
+  if (!searchQuery.value) return list;
   const q = searchQuery.value.toLowerCase();
-  return articles.value.filter(
+  return list.filter(
     (a) =>
       a.title.toLowerCase().includes(q) ||
       a.summary.toLowerCase().includes(q) ||
       a.category.toLowerCase().includes(q)
   );
-});
+};
+
+const filteredHomelabArticles = computed(() => filterList(homelabDocs.value));
+const filteredCyberArticles = computed(() => filterList(cyberDocs.value));
 
 const serviceCategories = computed(() => {
   const cats = new Set(services.value.map((s) => s.category));
+  return ['All', ...Array.from(cats)];
+});
+
+const cyberCategories = computed(() => {
+  const cats = new Set(cyberTools.value.map((s) => s.category));
   return ['All', ...Array.from(cats)];
 });
 
@@ -251,71 +342,89 @@ const filteredServices = computed(() => {
       (s) =>
         s.name.toLowerCase().includes(q) ||
         s.category.toLowerCase().includes(q) ||
-        (s.domain && s.domain.toLowerCase().includes(q)) ||
-        (s.ip && s.ip.includes(q))
+        (s.domain && s.domain.toLowerCase().includes(q))
+    );
+  }
+  return list;
+});
+
+const filteredCyberTools = computed(() => {
+  let list = cyberTools.value;
+  if (selectedCyberCategory.value !== 'All') {
+    list = list.filter((t) => t.category === selectedCyberCategory.value);
+  }
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase();
+    list = list.filter(
+      (t) =>
+        t.name.toLowerCase().includes(q) ||
+        t.category.toLowerCase().includes(q) ||
+        t.type.toLowerCase().includes(q)
     );
   }
   return list;
 });
 
 const renderedMarkdown = computed(() => {
-  if (!selectedArticle.value) return '';
-  return marked.parse(selectedArticle.value.content || '');
+  if (!selectedArticle.value || !selectedArticle.value.content) return '';
+  return marked.parse(selectedArticle.value.content);
 });
 
-function getLogoUrl(logo) {
-  if (!logo) return '';
-  if (logo.startsWith('http')) return logo;
-  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-  return `${base}/${logo.replace(/^\//, '')}`;
-}
+const getLogoUrl = (path) => {
+  return `${import.meta.env.BASE_URL}${path}`;
+};
 </script>
 
-<style scoped>
+<style>
+/* Modern Minimalist Terminal Aesthetic */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #0d1117;
+  color: #c9d1d9;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 .wiki-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
+/* Header */
 .wiki-header {
-  height: 64px;
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border-color);
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  backdrop-filter: blur(12px);
-}
-
-.header-left {
-  display: flex;
   align-items: center;
-  gap: 0.75rem;
+  padding: 12px 24px;
+  background-color: #161b22;
+  border-bottom: 1px solid #30363d;
 }
 
-.brand h1 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  text-transform: lowercase;
+.header-left .brand h1 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f0f6fc;
+  letter-spacing: -0.2px;
 }
 
 .version-tag {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  text-transform: lowercase;
+  font-size: 11px;
+  color: #8b949e;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .search-box {
@@ -326,330 +435,358 @@ function getLogoUrl(logo) {
 
 .search-svg {
   position: absolute;
-  left: 0.75rem;
+  left: 10px;
   width: 14px;
   height: 14px;
-  color: var(--text-muted);
+  color: #8b949e;
 }
 
 .search-box input {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 0.4rem 1.75rem 0.4rem 2.2rem;
-  color: var(--text-primary);
-  font-size: 0.8rem;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 6px 28px 6px 32px;
+  font-size: 13px;
+  color: #c9d1d9;
   width: 260px;
-  outline: none;
   transition: all 0.2s ease;
 }
 
 .search-box input:focus {
-  border-color: #8e5e63;
-  box-shadow: 0 0 10px rgba(142, 94, 99, 0.35);
+  outline: none;
+  border-color: #58a6ff;
+  width: 320px;
 }
 
 .clear-btn {
   position: absolute;
-  right: 0.6rem;
-  color: var(--text-muted);
-  font-size: 0.8rem;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #8b949e;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 .github-link {
-  font-size: 0.8rem;
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 13px;
   font-weight: 500;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-  padding: 0.35rem 0.75rem;
+  padding: 4px 10px;
+  border: 1px solid #30363d;
   border-radius: 6px;
-  background: var(--bg-surface);
-  text-transform: lowercase;
+  background-color: #21262d;
+  transition: background-color 0.2s;
 }
 
 .github-link:hover {
-  color: var(--text-primary);
-  background: var(--bg-hover);
+  background-color: #30363d;
 }
 
 .dashboard-link {
-  background: #3e2a2c;
-  color: #f5ecec;
-  border-color: rgba(214, 182, 186, 0.25);
+  color: #2ea043;
+  border-color: #238636;
 }
 
+/* Body Workspace */
 .wiki-body {
   display: flex;
   flex: 1;
+  overflow: hidden;
 }
 
+/* Sidebar */
 .wiki-sidebar {
-  width: 270px;
-  background: var(--bg-secondary);
-  border-right: 1px solid var(--border-color);
+  width: 280px;
+  background-color: #0d1117;
+  border-right: 1px solid #30363d;
   display: flex;
   flex-direction: column;
-  padding: 1.25rem;
-  gap: 1.5rem;
-  height: calc(100vh - 64px);
-  position: sticky;
-  top: 64px;
   overflow-y: auto;
+  padding: 16px 0;
+}
+
+.sidebar-section {
+  padding: 0 16px;
+  margin-bottom: 20px;
 }
 
 .sidebar-section h3 {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-  margin-bottom: 0.6rem;
-  text-transform: lowercase;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b949e;
+  margin-bottom: 8px;
+  padding-left: 8px;
 }
 
 .nav-list {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
 }
 
 .nav-list li {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.45rem 0.65rem;
+  gap: 10px;
+  padding: 8px 10px;
   border-radius: 6px;
   cursor: pointer;
-  color: var(--text-secondary);
-  font-size: 0.825rem;
+  color: #c9d1d9;
+  font-size: 13px;
   transition: all 0.15s ease;
-  text-transform: lowercase;
-}
-
-.nav-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--text-muted);
-  flex-shrink: 0;
+  user-select: none;
 }
 
 .nav-list li:hover {
-  background: var(--bg-hover);
-  color: var(--text-primary);
+  background-color: #161b22;
+  color: #f0f6fc;
 }
 
 .nav-list li.active {
-  background: #3e2a2c;
-  color: #f5ecec;
+  background-color: #1f6feb22;
+  color: #58a6ff;
   font-weight: 500;
-  border: 1px solid rgba(214, 182, 186, 0.2);
+}
+
+.nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #30363d;
+  transition: background-color 0.2s;
+}
+
+.nav-dot.cyber-dot {
+  background-color: #f78166;
 }
 
 .nav-list li.active .nav-dot {
-  background: #c89b9e;
+  background-color: #58a6ff;
+}
+
+.nav-list li.active .nav-dot.cyber-dot {
+  background-color: #ff7b72;
 }
 
 .sidebar-footer {
   margin-top: auto;
-  border-top: 1px solid var(--border-color);
-  padding-top: 1rem;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-transform: lowercase;
+  padding: 16px;
+  border-top: 1px solid #21262d;
+  font-size: 11px;
+  color: #8b949e;
 }
 
+/* Content Area */
 .wiki-content {
   flex: 1;
-  padding: 2.5rem;
-  max-width: 960px;
-  margin: 0 auto;
-  width: 100%;
+  overflow-y: auto;
+  padding: 32px 48px;
+  background-color: #0d1117;
 }
 
+/* Article View */
 .article-meta {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #21262d;
 }
 
 .badge {
-  background: #3e2a2c;
-  color: #f5ecec;
-  border: 1px solid rgba(214, 182, 186, 0.2);
-  font-size: 0.7rem;
+  font-size: 11px;
+  text-transform: uppercase;
   font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  text-transform: lowercase;
+  padding: 2px 8px;
+  background-color: #1f6feb22;
+  color: #58a6ff;
+  border: 1px solid #1f6feb44;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+}
+
+.badge.cyber-badge {
+  background-color: #da363322;
+  color: #f78166;
+  border-color: #da363344;
 }
 
 .summary-text {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  text-transform: lowercase;
+  font-size: 13px;
+  color: #8b949e;
 }
 
-:deep(.markdown-body) {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
+/* Markdown Styling */
+.markdown-body {
+  color: #c9d1d9;
   line-height: 1.7;
 }
 
-:deep(.markdown-body h1) {
-  font-size: 1.8rem;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  text-transform: lowercase;
+.markdown-body h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin-bottom: 16px;
 }
 
-:deep(.markdown-body h2) {
-  font-size: 1.3rem;
-  color: var(--text-primary);
-  margin: 1.75rem 0 0.75rem 0;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 0.35rem;
-  text-transform: lowercase;
+.markdown-body h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #21262d;
+  padding-bottom: 6px;
 }
 
-:deep(.markdown-body h3) {
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  margin: 1.25rem 0 0.5rem 0;
-  text-transform: lowercase;
+.markdown-body h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #f0f6fc;
+  margin-top: 18px;
+  margin-bottom: 8px;
 }
 
-:deep(.markdown-body p) {
-  margin-bottom: 1rem;
-  text-transform: lowercase;
+.markdown-body p {
+  margin-bottom: 14px;
 }
 
-:deep(.markdown-body ul), :deep(.markdown-body ol) {
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
-  text-transform: lowercase;
+.markdown-body ul, .markdown-body ol {
+  margin-left: 20px;
+  margin-bottom: 16px;
 }
 
-:deep(.markdown-body li) {
-  margin-bottom: 0.35rem;
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #79c0ff;
 }
 
-:deep(.markdown-body table) {
+.markdown-body pre {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.markdown-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e6edf3;
+}
+
+.markdown-body table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.25rem 0;
-  font-size: 0.85rem;
+  margin-bottom: 20px;
 }
 
-:deep(.markdown-body th), :deep(.markdown-body td) {
-  border: 1px solid var(--border-color);
-  padding: 0.6rem 0.85rem;
+.markdown-body th, .markdown-body td {
+  border: 1px solid #30363d;
+  padding: 8px 12px;
   text-align: left;
-  text-transform: lowercase;
 }
 
-:deep(.markdown-body th) {
-  background: var(--bg-surface);
-  color: var(--text-primary);
+.markdown-body th {
+  background-color: #161b22;
+  color: #f0f6fc;
   font-weight: 600;
-}
-
-:deep(.markdown-body pre) {
-  background: #0e0a0b;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1rem;
-  overflow-x: auto;
-  margin: 1.25rem 0;
-}
-
-:deep(.markdown-body code) {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-  background: rgba(62, 42, 44, 0.4);
-  padding: 0.15rem 0.35rem;
-  border-radius: 4px;
-  color: var(--accent-cyan);
-}
-
-:deep(.markdown-body pre code) {
-  background: transparent;
-  padding: 0;
-  color: var(--text-primary);
 }
 
 /* Services View */
 .view-header {
-  margin-bottom: 2rem;
+  margin-bottom: 24px;
 }
 
 .view-header h2 {
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  margin-bottom: 0.35rem;
-  text-transform: lowercase;
+  font-size: 20px;
+  font-weight: 600;
+  color: #f0f6fc;
 }
 
 .view-header p {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  text-transform: lowercase;
+  font-size: 13px;
+  color: #8b949e;
+  margin-top: 4px;
 }
 
 .category-filters {
   display: flex;
-  gap: 0.4rem;
-  margin-top: 1rem;
   flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .category-filters button {
-  font-size: 0.75rem;
-  padding: 0.3rem 0.75rem;
-  border-radius: 20px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  text-transform: lowercase;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.category-filters button:hover {
+  background-color: #21262d;
+  border-color: #8b949e;
 }
 
 .category-filters button.active {
-  background: #3e2a2c;
-  color: #f5ecec;
-  border-color: rgba(214, 182, 186, 0.3);
+  background-color: #1f6feb;
+  border-color: #1f6feb;
+  color: #ffffff;
 }
 
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
+  gap: 16px;
 }
 
 .service-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 1.15rem;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.service-card:hover {
+  border-color: #58a6ff;
+  transform: translateY(-2px);
+}
+
+.cyber-tool-card:hover {
+  border-color: #f78166;
 }
 
 .service-card-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .svc-logo-box {
   width: 32px;
   height: 32px;
-  border-radius: 6px;
-  background: rgba(62, 42, 44, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
 }
 
 .svc-logo-img {
@@ -661,102 +798,132 @@ function getLogoUrl(logo) {
 .svc-dot {
   width: 8px;
   height: 8px;
+  background-color: #2ea043;
   border-radius: 50%;
-  background: var(--accent-cyan);
+}
+
+.status-pill {
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.status-pill.active {
+  background-color: #2ea04322;
+  color: #3fb950;
+  border: 1px solid #2ea04344;
+}
+
+.status-pill.ready {
+  background-color: #388bfd22;
+  color: #58a6ff;
+  border: 1px solid #388bfd44;
 }
 
 .service-card h4 {
-  font-size: 1rem;
-  color: var(--text-primary);
-  margin-bottom: 0.15rem;
-  text-transform: lowercase;
+  font-size: 14px;
+  color: #f0f6fc;
+  margin-bottom: 4px;
 }
 
 .svc-cat {
-  font-size: 0.725rem;
-  color: var(--text-muted);
-  margin-bottom: 0.85rem;
-  text-transform: lowercase;
+  font-size: 11px;
+  color: #8b949e;
+  margin-bottom: 12px;
+  text-transform: capitalize;
 }
 
 .svc-details {
+  border-top: 1px solid #21262d;
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  border-top: 1px solid var(--border-color);
-  padding-top: 0.75rem;
+  gap: 6px;
 }
 
 .detail-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-transform: lowercase;
+  align-items: center;
+  font-size: 12px;
+}
+
+.detail-row span {
+  color: #8b949e;
 }
 
 .endpoint-link {
-  color: var(--accent-cyan);
-  text-transform: lowercase;
+  text-decoration: none;
 }
 
 /* Topology View */
 .topology-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
 }
 
 .vlan-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 1.25rem;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
 }
 
 .vlan-tag {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  display: inline-block;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--accent-cyan);
-  margin-bottom: 0.5rem;
-  text-transform: lowercase;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #30363d;
+  color: #f0f6fc;
+  margin-bottom: 10px;
+}
+
+.vlan-tag.cyber-tag {
+  background-color: #da363344;
+  color: #f78166;
+  border: 1px solid #da363366;
 }
 
 .vlan-card h3 {
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-  text-transform: lowercase;
+  font-size: 15px;
+  color: #f0f6fc;
+  margin-bottom: 4px;
 }
 
 .vlan-card p {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-bottom: 0.75rem;
-  text-transform: lowercase;
+  font-size: 12px;
+  color: #8b949e;
+  margin-bottom: 14px;
 }
 
 .vlan-card ul {
-  padding-left: 1.2rem;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  text-transform: lowercase;
+  list-style: none;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.vlan-card li {
-  margin-bottom: 0.25rem;
+.vlan-card ul li {
+  color: #c9d1d9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-@media (max-width: 768px) {
-  .wiki-body {
-    flex-direction: column;
-  }
-  .wiki-sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-  }
+.vlan-card ul li::before {
+  content: "•";
+  color: #58a6ff;
+}
+
+.vlan-cyber ul li::before {
+  color: #f78166;
 }
 </style>

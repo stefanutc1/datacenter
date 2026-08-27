@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  gitea:
+    image: gitea/gitea:1.21.11
+    container_name: cyberlab-gitea
+    restart: unless-stopped
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=sqlite3
+    ports:
+      - "3001:3000"
+      - "2223:22"
+    volumes:
+      - gitea-data:/data
+    networks:
+      - soc-net
+
+volumes:
+  gitea-data:
+
+networks:
+  soc-net:
+    name: cyberlab-soc-net

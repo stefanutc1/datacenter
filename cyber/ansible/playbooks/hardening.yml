@@ -1,0 +1,8 @@
+---
+# Standalone Security Hardening Playbook
+- name: Apply Enterprise Hardening and FIM
+  hosts: hardened_nodes
+  become: true
+  roles:
+    - role: hardening
+    - role: auditd_fim

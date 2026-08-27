@@ -1,0 +1,3 @@
+---
+common_manage_ntp: true
+common_manage_sysctl: true

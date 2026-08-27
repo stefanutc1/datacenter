@@ -1,0 +1,44 @@
+---
+# ==============================================================================
+# Hardened Nodes Variables (CIS Benchmark & Defense-in-Depth)
+# ==============================================================================
+
+# SSH Hardening Configuration
+ssh_port: 2222
+ssh_permit_root_login: "no"
+ssh_password_authentication: "no"
+ssh_max_auth_tries: 3
+ssh_ciphers: "chacha20-poly1305@openssh.com,aes256-gcm@openssh.com"
+ssh_macs: "hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com"
+ssh_kex_algorithms: "curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512"
+
+# Firewall (UFW) Policy
+ufw_default_input_policy: "deny"
+ufw_default_output_policy: "allow"
+ufw_allowed_ports:
+  - { port: 2222, proto: "tcp", comment: "Hardened SSH" }
+  - { port: 80, proto: "tcp", comment: "HTTP DMZ Test" }
+  - { port: 443, proto: "tcp", comment: "HTTPS DMZ Test" }
+
+# Fail2ban Parameters
+fail2ban_bantime: 3600
+fail2ban_findtime: 600
+fail2ban_maxretry: 3
+
+# Sysctl Kernel Hardening
+sysctl_settings:
+  net.ipv4.conf.all.rp_filter: 1
+  net.ipv4.conf.default.rp_filter: 1
+  net.ipv4.icmp_echo_ignore_broadcasts: 1
+  net.ipv4.conf.all.accept_source_route: 0
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.all.send_redirects: 0
+  net.ipv4.tcp_syncookies: 1
+  net.ipv4.tcp_max_syn_backlog: 2048
+  net.ipv4.tcp_synack_retries: 2
+  kernel.randomize_va_space: 2
+  kernel.kptr_restrict: 2
+  kernel.dmesg_restrict: 1
+  fs.protected_hardlinks: 1
+  fs.protected_symlinks: 1
+  fs.suid_dumpable: 0

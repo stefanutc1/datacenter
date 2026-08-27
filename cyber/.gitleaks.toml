@@ -1,0 +1,16 @@
+# ==============================================================================
+# Gitleaks Configuration — CyberLab Zero-Secret Commits
+# ==============================================================================
+
+title = "CyberLab Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowed placeholders and test fixtures"
+regexes = [
+  '''CHANGEME_.*''',
+  '''generate_with_openssl_.*''',
+  '''••••••••.*'''
+]

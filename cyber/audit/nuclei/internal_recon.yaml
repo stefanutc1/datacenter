@@ -1,0 +1,19 @@
+---
+id: internal-admin-panel-detect
+info:
+  name: Internal Infrastructure Admin Panel Detection
+  author: stefannut
+  severity: low
+  description: Detects active administrative endpoints exposed on internal homelab services
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/admin"
+      - "{{BaseURL}}/login"
+      - "{{BaseURL}}/api/v1/health"
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 302

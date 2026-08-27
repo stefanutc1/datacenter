@@ -1,0 +1,6 @@
+# CyberLab CIS Base Auditd Config
+-D
+-b 8192
+-f 1
+-r 500
+--backlog_wait_time 60000

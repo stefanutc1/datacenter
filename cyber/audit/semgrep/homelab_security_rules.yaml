@@ -1,0 +1,17 @@
+---
+rules:
+  - id: hardcoded-container-root-user
+    languages:
+      - dockerfile
+    message: "Container runs as root user without specifying non-root USER instruction"
+    severity: WARNING
+    patterns:
+      - pattern-not: "USER $USER"
+
+  - id: insecure-chmod-777
+    languages:
+      - bash
+    message: "Avoid permissive chmod 777 or 666 in production deployment scripts"
+    severity: ERROR
+    patterns:
+      - pattern-regex: "chmod\s+(777|666)"

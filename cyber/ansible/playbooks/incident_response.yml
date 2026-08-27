@@ -1,0 +1,9 @@
+---
+# Emergency Incident Response and Host Quarantine Playbook
+- name: Contain Compromised Host
+  hosts: "{{ target_host | default('hardened_nodes') }}"
+  become: true
+  vars:
+    ir_containment_active: true
+  roles:
+    - role: incident_response

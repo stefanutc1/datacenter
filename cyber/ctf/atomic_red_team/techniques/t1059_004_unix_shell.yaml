@@ -1,0 +1,16 @@
+---
+attack_technique: T1059.004
+display_name: "Command and Scripting Interpreter: Unix Shell"
+atomic_tests:
+  - name: "Suspicious Reverse Shell Simulation"
+    auto_generated_guid: "a7b3c29e-1059-4004-9182-728192a0e981"
+    description: "Simulates execution of a Unix shell background job communicating with local mock listener"
+    supported_platforms:
+      - linux
+      - macos
+    executor:
+      name: sh
+      command: |
+        sh -c "echo 'Atomic red team T1059.004 execution test' > /tmp/atomic_t1059_004.log"
+      cleanup_command: |
+        rm -f /tmp/atomic_t1059_004.log

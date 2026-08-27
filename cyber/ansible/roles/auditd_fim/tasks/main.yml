@@ -1,0 +1,22 @@
+---
+# Tasks for Auditd & File Integrity Monitoring (FIM)
+
+- name: Install auditd and audisp plugins
+  ansible.builtin.apt:
+    name:
+      - auditd
+      - audispd-plugins
+    state: present
+
+- name: Deploy CIS-aligned auditd rules
+  ansible.builtin.template:
+    src: audit.rules.j2
+    dest: /etc/audit/rules.d/audit.rules
+    mode: '0600'
+  notify: Restart auditd
+
+- name: Ensure auditd service is enabled and started
+  ansible.builtin.service:
+    name: auditd
+    enabled: true
+    state: started

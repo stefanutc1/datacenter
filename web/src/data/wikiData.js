@@ -1,6 +1,7 @@
 export const homelabArticles = [
   {
     id: "overview",
+    section: "homelab",
     title: "system overview",
     category: "architecture",
     icon: "sys",
@@ -55,248 +56,145 @@ the homelab is a fully declarative, self-hosted infrastructure platform engineer
   },
   {
     id: "networking",
+    section: "homelab",
     title: "vlans & networking",
     category: "architecture",
     icon: "net",
-    summary: "subnet planning, 802.1q vlan tags, and opnsense routing rules.",
-    content: `# network topology & vlan planning
+    summary: "opnsense layer-3 routing, vlan segmentation, wireguard mesh, and pi-hole adblocking.",
+    content: `# vlan architecture & network segmentation
 
-the homelab relies on strict l2/l3 segmentation orchestrated via an opnsense virtual appliance.
+network isolation is managed through **opnsense** virtual firewall and physical managed layer-2 switches.
 
-## subnet allocations
+## vlan matrix
 
-| vlan id | subnet cidr | interface | purpose | ingress policy |
-| :--- | :--- | :--- | :--- | :--- |
-| **vlan 1** | \`192.168.1.0/24\` | \`vmbr0\` | hypervisor management | admin workstation only |
-| **vlan 10** | \`192.168.10.0/24\` | \`vmbr0.10\` | core infrastructure | npm, authelia, pi-hole, tailscale |
-| **vlan 20** | \`192.168.20.0/24\` | \`vmbr0.20\` | application stacks | docker hosts and persistent storage |
-| **vlan 30** | \`192.168.30.0/24\` | \`vmbr0.30\` | kubernetes cluster | k3s nodes, cilium / flannel overlay |
-| **vlan 40** | \`192.168.40.0/24\` | \`vmbr0.40\` | iot & embedded devices | esp32 nodes, home assistant sensors |
-
----
-
-## ingress & sso routing flow
-
-all incoming http/https requests follow a strict forward-authentication sequence:
-
-1. client resolves \`*.lan\` to nginx proxy manager (\`192.168.1.3\`) via pi-hole.
-2. npm terminates ssl and triggers a sub-request to authelia (\`http://192.168.1.20:9091/api/verify\`).
-3. authelia validates the session cookie and evaluates 2fa totp policy.
-4. on http 200 response, npm forwards the request to the upstream container.
-`
-  },
-  {
-    id: "services",
-    title: "services catalog",
-    category: "services",
-    icon: "svc",
-    summary: "detailed reference for containerized applications.",
-    content: `# containerized services catalog
-
-all application services run as modular docker compose stacks managed under the \`services/\` directory.
-
-## core infrastructure & ingress
-- **nginx proxy manager** (\`:80\`, \`:443\`, \`:81\`): ssl termination and automated certificate renewal.
-- **authelia** (\`:9091\`): single sign-on and multi-factor authentication forward proxy.
-- **pi-hole** (\`:53\`, \`:8080\`): network-wide dns sinkhole and local hostname resolution.
-- **tailscale**: wireguard-based zero-trust overlay mesh vpn.
-
-## observability & monitoring
-- **prometheus** (\`:9090\`): time-series metrics engine scraping hosts and containers.
-- **grafana** (\`:3000\`): telemetry visualization and dashboard analytics.
-- **loki** (\`:3100\`): high-efficiency log aggregation engine.
-- **uptime kuma** (\`:3001\`): real-time http, tcp, and dns service uptime monitor.
-- **scrutiny** (\`:8080\`): s.m.a.r.t. storage drive health monitoring daemon.
-
-## data & productivity
-- **immich** (\`:2283\`): self-hosted high-performance photo and video backup.
-- **nextcloud** (\`:80\`): enterprise file synchronization and team collaboration.
-- **vaultwarden** (\`:8080\`): bitwarden-compatible lightweight password vault.
-- **n8n** (\`:5678\`): node-based workflow automation and webhook orchestration.
-- **gitea** (\`:3000\`): self-hosted git source control management.
-- **woodpecker ci** (\`:8000\`): container-native ci/cd automation engine.
+| vlan id | subnet | name | access rules |
+| :---: | :--- | :--- | :--- |
+| **1** | \`192.168.1.0/24\` | management | physical hypervisor, ipmi, switches. admin-only mac whitelist. |
+| **10** | \`192.168.10.0/24\` | core & ingress | reverse proxy, opnsense, authelia sso, pi-hole dns. |
+| **20** | \`192.168.20.0/24\` | apps & storage | media, nextcloud, immich, vaultwarden. no direct wan exposure. |
+| **30** | \`192.168.30.0/24\` | kubernetes (k3s) | worker and control plane nodes. overlay pod network: \`10.42.0.0/16\`. |
+| **40** | \`192.168.40.0/24\` | iot & esp32 | isolated edge devices, mqtt traffic to home assistant only. |
 `
   },
   {
     id: "iac",
-    title: "terraform & multi-hypervisor",
-    category: "iac",
+    section: "homelab",
+    title: "iac & automation",
+    category: "automation",
     icon: "iac",
-    summary: "terraform modules, cloud-init templates, and hypervisor drivers.",
-    content: `# infrastructure as code (terraform)
+    summary: "ansible playbooks, cis system hardening, and terraform proxmox vm modules.",
+    content: `# infrastructure as code & system hardening
 
-the homelab leverages terraform to maintain immutable infrastructure across hypervisors.
+all nodes are provisioned and configured automatically without manual interventions.
 
-## proxmox vm module (\`terraform/modules/proxmox_vm/\`)
+## 1. terraform proxmox vm module (\`terraform/modules/proxmox_vm/\`)
+provisions cloud-init enabled ubuntu 24.04 lts virtual machines:
+- dynamic cpu and memory allocation
+- virtio disk bus with ssd emulation and \`discard=on\`
+- automated ssh ed25519 key injection
 
-\`\`\`hcl
-module "k3s_worker_01" {
-  source         = "./modules/proxmox_vm"
-  vm_name        = "k3s-worker-01"
-  target_node    = "pve"
-  vm_cores       = 4
-  vm_memory      = 8192
-  vm_disk_size   = "64G"
-  network_bridge = "vmbr0"
-  vlan_tag       = 30
-}
-\`\`\`
-
-## supported hypervisors
-- **proxmox ve** (\`hypervisors/proxmox/\`): primary production platform for qemu vms and lxc containers.
-- **xen** (\`hypervisors/xen/\`): xen hypervisor domain definitions.
-- **vmware esxi** (\`hypervisors/esxi/\`): vsphere terraform provider configurations.
-- **hyper-v** (\`hypervisors/hyperv/\`): windows server generation 2 virtual machines.
-- **freebsd bhyve** (\`hypervisors/bhyve/\`): lightweight bsd hypervisor provisioning.
+## 2. ansible system hardening (\`ansible/roles/system_hardening/\`)
+enforces cis level 1 benchmark baselines:
+- kernel sysctl hardening (\`net.ipv4.tcp_syncookies = 1\`, \`fs.protected_hardlinks = 1\`)
+- restrictive default umask (\`027\`)
+- passwordless sudo disabled for standard accounts
 `
   },
   {
-    id: "kubernetes",
-    title: "kubernetes & fluxcd gitops",
+    id: "services",
+    section: "homelab",
+    title: "services catalog",
+    category: "catalog",
+    icon: "svc",
+    summary: "comprehensive catalog of 28 self-hosted docker compose services and web endpoints.",
+    content: `# self-hosted application catalog
+
+the platform operates 28 containerized microservices managed via \`docker-compose.yml\` configurations located in \`services/\`.
+
+### key service groups:
+- **ingress & sso**: nginx proxy manager, authelia, authentik
+- **media & cloud**: immich, nextcloud, jellyfin, radarr, sonarr, prowlarr, bazarr, qbittorrent
+- **automation**: home assistant, n8n, changedetection.io
+- **developer tools**: gitea, woodpecker ci, it-tools, trilium notes
+- **observability**: prometheus, alertmanager, grafana, loki, uptime kuma, scrutiny
+`
+  },
+  {
+    id: "k8s",
+    section: "homelab",
+    title: "kubernetes & gitops",
     category: "kubernetes",
     icon: "k8s",
-    summary: "k3s cluster bootstrapping, kustomization manifests, and gitops sync.",
-    content: `# kubernetes & gitops engine
+    summary: "k3s lightweight cluster architecture and fluxcd git repository reconciliation.",
+    content: `# kubernetes (k3s) & fluxcd gitops
 
-the container orchestration tier is powered by **k3s** and reconciled continuously via **fluxcd**.
+workloads requiring high availability and automatic horizontal scaling run on a multi-node **k3s** cluster.
 
-## gitops sync architecture
+## fluxcd continuous delivery
+manifests under \`kubernetes/gitops/clusters/homelab/\` are continuously tracked by fluxcd:
+- **polling interval**: 5 minutes
+- **pruning**: enabled (orphaned resources automatically garbage collected)
+- **kustomization**: modular overlay structures for dev and production
+`
+  },
+  {
+    id: "monitoring",
+    section: "homelab",
+    title: "monitoring & alerting",
+    category: "observability",
+    icon: "mon",
+    summary: "prometheus metrics scraping, discord webhook alert routing, and grafana dashboards.",
+    content: `# observability & alerting stack
 
-fluxcd continuously reconciles the cluster state against \`kubernetes/gitops/\`:
+## 1. prometheus metrics collection
+scrapes metrics from \`node_exporter\`, \`cadvisor\`, and native application metrics endpoints every 15s.
 
-\`\`\`yaml
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: GitRepository
-metadata:
-  name: homelab-repo
-  namespace: flux-system
-spec:
-  interval: 5m0s
-  url: https://github.com/stefannut/homelab
-  ref:
-    branch: main
-\`\`\`
+## 2. alertmanager rules (\`services/prometheus/rules/\`)
+- **HostHighCpuLoad**: warning when CPU idle $< 15\\%$ for 5m.
+- **HostOutOfMemory**: critical alert when available RAM $< 10\\%$ for 3m.
+- **DiskSpaceFillingUp**: warning when disk usage $> 85\\%$.
 
-## key highlights
-- **automated pruning**: deleted manifests in git are immediately removed from the cluster.
-- **zero drift**: any manual cluster modifications are automatically reverted to match the git state.
-- **resource optimization**: traefik and servicelb are disabled in favor of external npm routing.
+alerts are routed in real-time to discord channels via the \`alertmanager-discord\` webhook relay.
+`
+  },
+  {
+    id: "recovery",
+    section: "homelab",
+    title: "disaster recovery",
+    category: "operations",
+    icon: "rec",
+    summary: "backup schedules, proxmox backup server, rsync storage, and emergency runbooks.",
+    content: `# disaster recovery & runbooks
+
+## 3-2-1 backup strategy
+1. **nightly snapshots**: proxmox backup server (pbs) deduplicated block-level backups.
+2. **database dumps**: automated daily sql dumps of vaultwarden, gitea, and authelia databases.
+3. **offsite cold storage**: encrypted rclone synchronization to secondary offsite object storage.
 `
   },
   {
     id: "esp32",
-    title: "esp32 embedded systems",
-    category: "edge / iot",
+    section: "homelab",
+    title: "esp32 edge systems",
+    category: "edge iot",
     icon: "iot",
-    summary: "garden irrigation scheduling and physical occupancy sensors.",
-    content: `# esp32 embedded edge projects
+    summary: "arduino c++ firmware, automated solenoid irrigation, and footprint presence sensors.",
+    content: `# esp32 embedded edge systems
 
-## 1. automated irrigation controller (\`esp32/irrigation/\`)
+located in \`esp32/\`, edge microcontrollers extend homelab automation into the physical world.
 
-microcontroller firmware written in c++ for intelligent garden valve control:
-- **\`ore.cpp\`**: rtc scheduling engine managing multi-zone timing.
-- **\`vreme.cpp\`**: weather and soil moisture telemetry integration.
-- **\`control.cpp\`**: digital relay actuation with watchdog safety shutoff timers.
+## 1. irrigation controller (\`esp32/irrigation/\`)
+- **weather integration**: checks temperature and rain predictions before actuation.
+- **zone control**: multi-channel relay board controlling 12V solenoid water valves.
 
-## 2. footprint occupancy sensor (\`esp32/footprint/\`)
-
-- dual pir and ultrasonic sensor sampling with signal de-bouncing.
-- publishes mqtt occupancy events to home assistant on topic \`homelab/sensors/footprint/state\`.
+## 2. footprint presence sensor (\`esp32/footprint/\`)
+- pir and ultrasonic sensors detecting physical room presence.
+- publishes instant mqtt state updates to home assistant for lighting automation.
 `
   },
   {
-    id: "runbooks",
-    title: "disaster recovery & 10h+ emergency sop",
-    category: "operations",
-    icon: "sop",
-    summary: "standard operating procedure for prolonged 10+ hour power outages, graceful cascading shutdown, surge isolation, and staged cold boot.",
-    content: `# runbooks, disaster recovery & 10+ hour emergency sop
-
-## extended 10+ hour power outage standard operating procedure (sop)
-
-during prolonged blackouts ($> 10\\text{ hours}$), battery-backed ups reserves cannot sustain full compute workloads. to protect storage pools, database write journals, and delicate electronics from dirty dismounts or grid recovery power surges, follow this 4-phase protocol:
-
-\`\`\`
-┌─────────────────────────────────────────────────────────────────────────────┐
-│               10+ hour extended power outage protocol lifecycle             │
-│                                                                             │
-│  [t+0m] ───► [t+5m] ──────────► [t+15m - 10h+] ─────► [grid return] ──────► │
-│  grid loss   cascading shutdown  physical isolation    staged cold boot     │
-│  & alert     tier 4 ─► tier 0   surge & battery off   opnsense ─► apps      │
-└─────────────────────────────────────────────────────────────────────────────┘
-\`\`\`
-
----
-
-### phase 1: automated & cascading graceful shutdown (t+0m – t+15m)
-
-the automated script \`/opt/homelab/scripts/emergency-shutdown.sh\` executes the shutdown order:
-
-1. **tier 4 (heavy workloads & media lxcs - t+2m):**
-   - stops jellyfin, immich, nextcloud, torrent
-   - \`docker compose -f /opt/homelab/media/docker-compose.yml stop\`
-2. **tier 3 (virtual machines - t+5m):**
-   - alpine server (202)
-   - \`qm shutdown 202 --timeout 30\`
-3. **tier 2 (databases & storage flushes - t+8m):**
-   - postgresql, mariadb, redis, vaultwarden
-   - \`sync && docker compose -f /opt/homelab/core/docker-compose.yml stop\`
-4. **tier 1 (ingress & auth - t+12m):**
-   - npm, authelia, pi-hole
-   - \`pct shutdown 101 102 100\`
-5. **tier 0 (core gateway & hypervisor - t+14m):**
-   - opnsense (200), commit \`sync\`, proxmox host \`poweroff\`.
-
----
-
-### phase 2: long-term 10+ hour outage hardening & physical preservation
-
-1. **surge suppressor isolation:** physically unplug the master surge protector from the wall outlet. when the municipal grid returns after widespread outages, severe voltage inrush spikes occur during utility transformer re-energization.
-2. **ups battery protection:** switch off the physical ups master switch once all nodes have cleanly shut down. leaving the inverter running empty can drain battery cells below their critical cutoff voltage.
-3. **out-of-band telemetry:** out-of-band monitoring via battery-backed cellular gateway or remote status notification.
-
----
-
-### phase 3: grid restoration & staged cold-boot sequence
-
-execute the sequential restoration script \`/opt/homelab/scripts/cold-boot-sequence.sh\`:
-
-1. **grid stabilization window:** wait 5–10 minutes after grid return for ac voltage stabilization (clean $230\\text{v} \\pm 5\\%$ @ $50\\text{hz}$).
-2. **re-engage surge suppressor & ups:** verify input voltage and normal bypass charging state.
-3. **power on hypervisor (\`pve\`):** boot proxmox ve hardware.
-4. **sequential boot hierarchy:**
-   - \`qm start 200\` (opnsense gateway — wait 30s for wan routing & dhcp).
-   - \`pct start 100\` (pi-hole dns — enables internal name resolution).
-   - \`pct start 101 && pct start 102\` (npm ingress & authelia sso).
-   - \`pct start 103..113\` (databases & core infrastructure).
-   - \`pct start 114..119 && qm start 202\` (applications, media & workload vms).
-
----
-
-### phase 4: post-recovery integrity scrub & verification
-
-\`\`\`bash
-# 1. verify storage health
-df -h -t nfs4,nfs
-
-# 2. verify container health
-pct list
-docker ps -a --filter "status=exited"
-
-# 3. database checksums
-sudo -u postgres psql -c "SELECT datname, pg_size_pretty(pg_database_size(datname)) FROM pg_database;"
-\`\`\`
-
----
-
-## 2. automated backup hierarchy & 3-2-1 strategy
-
-- **proxmox backup server (pbs):** daily deduplicated snapshots of containers and kvm vms with encrypted remote sync.
-- **offsite cold storage:** weekly encrypted backup of critical configs (\`/etc/pve\`, \`/etc/network/interfaces\`, \`/opt/homelab\`).
-`
-  },
-  {
-    id: "virtual-machines",
+    id: "vms",
+    section: "homelab",
     title: "virtual machines (kvm)",
     category: "hypervisors",
     icon: "kvm",
@@ -316,30 +214,237 @@ in addition to lightweight lxc containers, the homelab platform runs dedicated *
 
 ---
 
-## access standards & secret management
-
-all virtual machines and container services adhere to zero-plaintext secrets policy:
-- **primary administrator:** \`Stefanut\` / \`root\` (configured via sops / cloud-init)
-- **secret storage:** vaultwarden & encrypted secrets repository
-- **ssh key authentication:** hypervisor \`id_ed25519.pub\` injected via cloud-init
-
----
-
 ## 1. opnsense virtual router (vm 200)
-
 - **architecture**: dual-interface virtual appliance connecting physical uplink to virtual internal lan.
 - **memory footprint**: tuned to **1024 mb ram** with memory ballooning.
 - **routing**: inter-vlan routing, stateful inspection, and crowdsec ips/ids remediation bouncer.
 - **access**: webgui at \`https://192.168.1.132:8443\` or \`https://opnsense.lan\`.
 
 ## 2. alpine linux server (vm 202)
-
 - **base platform**: ultra-lean **alpine linux v3.21 virt** kernel with openrc init system and \`musl\` libc.
 - **micro footprint**: allocated only **256 mb ram** (ballooning to 128 mb), consuming $< 60\\text{ mb}$ idle ram.
 - **network**: static ip \`192.168.1.202/24\`, gateway \`192.168.1.1\`, dns \`192.168.1.4\` (\`alpine.lan\`).
 `
   }
 ];
+
+export const cyberArticles = [
+  {
+    id: "cyber-overview",
+    section: "cyber",
+    title: "soc & security overview",
+    category: "cyber architecture",
+    icon: "soc",
+    summary: "high-level cyber proving ground architecture, xdr telemetry, and offensive/defensive tracks.",
+    content: `# cyberlab security architecture overview
+
+cyberlab is an enterprise-grade defensive proving ground and offensive security laboratory built on **utm / qemu**, **proxmox ve**, **ansible**, **wazuh xdr 4.8**, and **grafana loki**.
+
+## core engineering tracks
+
+1. **host hardening**: immutable baselines enforcing cis ubuntu 24.04 benchmarks, ssh ed25519 cryptography, and ufw default drop policies.
+2. **centralized telemetry**: scalable log streaming from auditd (fim), auth.log, and suricata nids into wazuh siem and grafana loki.
+3. **offensive security emulation**: atomic red team test suites, bloodhound active directory attack paths, and linpeas privilege escalation analysis.
+4. **dfir & incident response**: automated volatile artifact collection, memory dumping, chainsaw event log triage, and emergency host quarantine.
+5. **ai threat intelligence**: native python agents parsing iocs and mapping alerts to the mitre att&ck matrix.
+
+---
+
+## lab segmentation
+
+\`\`\`
+┌─────────────────────────────────────────────────────────┐
+│              host hypervisor (utm / proxmox ve)         │
+│                                                         │
+│  cyber-ctrl (192.168.64.2) ── ssh :2222 ─────────────┐  │
+│  ansible + terraform controller                       │  │
+│                                                       ▼  │
+│  vlan 10 — hardened production                           │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │  cyber-node01 (192.168.64.10)                    │    │
+│  │  auditd fim · ssh:2222 · fail2ban · promtail     │    │
+│  └──────────────────────────────────────────────────┘    │
+│                                                          │
+│  vlan 20 — dmz & honey services                          │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │  cyber-node02 (192.168.64.20)                    │    │
+│  │  exposed web target · suricata mirror            │    │
+│  └──────────────────────────────────────────────────┘    │
+│                                                          │
+│  vlan 30 — soc analytics layer                           │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │  wazuh manager (:1514/:55000) · loki (:3100)     │    │
+│  │  grafana (:3000) · suricata nids · ai agent      │    │
+│  └──────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘
+\`\`\`
+`
+  },
+  {
+    id: "cyber-siem",
+    section: "cyber",
+    title: "siem & soc operations",
+    category: "blue team",
+    icon: "siem",
+    summary: "wazuh xdr, grafana loki log aggregation, promtail rules, and cyberchef workbench.",
+    content: `# siem & telemetry operations
+
+## 1. wazuh xdr 4.8 (\`cyber/services/wazuh/\`)
+- **wazuh manager**: central engine collecting security events, triggering active responses, and calculating cis compliance scores.
+- **wazuh dashboard**: security dashboard on \`https://localhost:443\`.
+
+## 2. grafana loki logging pipeline (\`cyber/services/loki-grafana/\`)
+promtail agents stream real-time logs to loki:
+- \`/var/log/audit/audit.log\` $\to$ cis file integrity monitoring (fim).
+- \`/var/log/auth.log\` $\to$ ssh connections, failed logins, and \`sudo\` actions.
+- \`/var/log/suricata/eve.json\` $\to$ nids network security alerts.
+
+## 3. cyberchef (\`cyber/services/cyberchef/\`)
+self-hosted forensic data deobfuscation and decoding utility running on port \`8088\`.
+`
+  },
+  {
+    id: "cyber-hardening",
+    section: "cyber",
+    title: "cis baseline & hardening",
+    category: "defense",
+    icon: "cis",
+    summary: "ansible host hardening, ssh port 2222, fail2ban ips, and auditd fim rules.",
+    content: `# host hardening & cis benchmarks
+
+hardening is fully automated via ansible roles in \`cyber/ansible/roles/\`:
+
+## ssh security baseline
+- port moved to non-standard \`2222\`.
+- \`PasswordAuthentication no\` (strictly ed25519 / rsa 4096 keys).
+- ciphers restricted to \`chacha20-poly1305@openssh.com,aes256-gcm@openssh.com\`.
+
+## kernel sysctl parameters (\`roles/common\`)
+\`\`\`ini
+fs.protected_hardlinks = 1
+fs.protected_symlinks = 1
+kernel.randomize_va_space = 2
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.tcp_syncookies = 1
+\`\`\`
+
+## auditd file integrity monitoring (\`roles/auditd_fim\`)
+monitors sensitive paths: \`/etc/passwd\`, \`/etc/shadow\`, \`/etc/sudoers\`, \`/bin\`, \`/sbin\`, and logs privilege escalation attempts.
+`
+  },
+  {
+    id: "cyber-offensive",
+    section: "cyber",
+    title: "offensive research & emulation",
+    category: "red team",
+    icon: "off",
+    summary: "atomic red team execution harness, bloodhound ad analysis, and linpeas triage.",
+    content: `# offensive security & threat emulation
+
+## 1. atomic red team harness (\`cyber/ctf/atomic_red_team/\`)
+automated runner executing mitre att&ck techniques:
+- **T1059.004**: shell execution and obfuscation.
+- **T1053.003**: cron-based persistence.
+- **T1548.001**: suid binary privilege escalation.
+
+## 2. bloodhound ad attack paths (\`cyber/ctf/bloodhound/\`)
+cypher query analyzer finding critical active directory privilege escalation paths:
+- shortest path to domain admin.
+- over-permissioned user accounts and dcsync rights.
+
+## 3. linpeas output classifier (\`cyber/ctf/peass/\`)
+categorizes raw linpeas output into high, medium, and low security risk findings.
+`
+  },
+  {
+    id: "cyber-dfir",
+    section: "cyber",
+    title: "dfir & incident response",
+    category: "forensics",
+    icon: "dfir",
+    summary: "live triage acquisition, volatile ram dumps, chainsaw event log analysis, and host quarantine.",
+    content: `# dfir & incident response playbook
+
+## 1. live triage artifact collector (\`cyber/forensics/triage_collector.sh\`)
+collects volatile triage artifacts into a timestamped sha-256 archive:
+- active processes, open sockets (\`ss -tulpn\`), logged-in users, crontabs, and suid binaries.
+
+## 2. emergency host quarantine
+when compromise is detected on \`cyber-node01\`, execute instant firewall isolation:
+
+\`\`\`bash
+ansible-playbook -i inventory/hosts.yml ansible/playbooks/incident_response.yml -e target_host=cyber-node01
+\`\`\`
+`
+  },
+  {
+    id: "cyber-devsecops",
+    section: "cyber",
+    title: "devsecops & static analysis",
+    category: "devsecops",
+    icon: "sast",
+    summary: "semgrep sast rules, trivy container scans, and trufflehog secrets detection.",
+    content: `# devsecops & security scanning
+
+automated scanning pipelines in \`cyber/scripts/\`:
+
+- **semgrep sast** (\`scripts/run_semgrep_sast.sh\`): custom rules for iac templates and python scripts.
+- **trivy vulnerability scanner** (\`scripts/trivy_security_scan.sh\`): scans filesystem and container images.
+- **trufflehog** (\`scripts/trufflehog_scan.sh\`): scans git commit histories for exposed secrets and tokens.
+`
+  },
+  {
+    id: "cyber-ai",
+    section: "cyber",
+    title: "ai threat hunting agent",
+    category: "ai ops",
+    icon: "ai",
+    summary: "python log correlation, regex ioc parser, and mitre classification.",
+    content: `# ai threat hunting & correlation agent
+
+native python intelligence tools under \`cyber/ai/\`:
+
+## \`cyber/ai/agent.py\`
+- ingests raw auth and syslog streams.
+- identifies brute-force authentication attempts and anomalous privilege escalations.
+- classifies findings against the mitre att&ck matrix and outputs markdown incident reports.
+
+## \`cyber/ai/ioc_extractor.py\`
+- extracts ipv4, ipv6, fqdns, emails, and sha-256 hashes in structured json.
+`
+  },
+  {
+    id: "cyber-vms-utm",
+    section: "cyber",
+    title: "utm virtual machines (macos)",
+    category: "cyber architecture",
+    icon: "utm",
+    summary: "windows 10 enterprise victim endpoint & kali linux offensive penetration testing sandbox.",
+    content: `# cyberlab utm virtual machines (macos / apple silicon)
+
+declarative virtualization packages configured via apple hypervisor.framework and qemu:
+
+---
+
+## local utm vm matrix
+
+| vm name | target os | vcpus | ram | network forwarding | role / function |
+| :--- | :--- | :---: | :---: | :--- | :--- |
+| **windows 10 enterprise** | windows 10 x64 / arm64 | 2 | 4096 mb | \`13389:3389\` (rdp) | victim endpoint, sysmon edr telemetry, malware sandbox |
+| **kali linux offensive** | kali rolling 2024.x | 2 | 4096 mb | \`2222:22\` (ssh) | attack emulator, metasploit, burp suite, nmap |
+
+---
+
+## access standards & secret management
+- **windows 10 enterprise:** \`administrator\` (configured via local security policy / vault)
+- **kali linux offensive:** \`kali\` (ssh key authorization)
+- **wazuh dashboard:** \`admin\` (managed via \`.env\` & sops)
+- **grafana loki:** \`admin\` (injected via docker secrets)
+`
+  }
+];
+
+export const allArticles = [...homelabArticles, ...cyberArticles];
 
 export const homelabServices = [
   { name: "nginx proxy manager", logo: "icons/nginx-proxy-manager.svg", category: "ingress", ip: "192.168.1.3", port: 81, ipUrl: "http://192.168.1.3:81", domain: "nginx.lan", domainUrl: "http://nginx.lan", status: "active" },
@@ -370,4 +475,24 @@ export const homelabServices = [
   { name: "it-tools", logo: "icons/it-tools.svg", category: "utilities", ip: "192.168.1.12", port: 80, ipUrl: "http://192.168.1.12", domain: "it-tools.lan", domainUrl: "http://it-tools.lan", status: "active" },
   { name: "opnsense gateway", logo: "icons/opnsense.svg", category: "virtual machines", ip: "192.168.1.132", port: 8443, ipUrl: "https://192.168.1.132:8443", domain: "opnsense.lan", domainUrl: "https://opnsense.lan", status: "active" },
   { name: "alpine server", logo: "icons/alpine.svg", category: "virtual machines", ip: "192.168.1.202", port: 22, ipUrl: "http://192.168.1.202:22", domain: "alpine.lan", domainUrl: "http://alpine.lan", status: "active" }
+];
+
+export const cyberlabTools = [
+  { name: "wazuh manager / xdr", category: "siem", port: 1514, status: "active", type: "xdr / siem", logo: "icons/wazuh.svg" },
+  { name: "grafana loki", category: "siem", port: 3100, status: "active", type: "log aggregator", logo: "icons/loki.svg" },
+  { name: "suricata nids", category: "detection", port: 0, status: "active", type: "packet inspection", logo: "icons/suricata.svg" },
+  { name: "cyberchef", category: "forensics", port: 8088, status: "active", type: "data decoder", logo: "icons/cyberchef.svg" },
+  { name: "atomic red team", category: "red team", port: 0, status: "ready", type: "mitre att&ck emulation", logo: "icons/atomicredteam.svg" },
+  { name: "bloodhound", category: "red team", port: 0, status: "ready", type: "ad path graph", logo: "icons/bloodhound.svg" },
+  { name: "linpeas parser", category: "red team", port: 0, status: "ready", type: "privesc triage", logo: "icons/linux.svg" },
+  { name: "chainsaw", category: "forensics", port: 0, status: "ready", type: "evtx log triage", logo: "icons/chainsaw.svg" },
+  { name: "semgrep sast", category: "devsecops", port: 0, status: "ready", type: "code & iac scanner", logo: "icons/semgrep.svg" },
+  { name: "trivy scanner", category: "devsecops", port: 0, status: "ready", type: "vulnerability auditor", logo: "icons/trivy.svg" },
+  { name: "trufflehog", category: "devsecops", port: 0, status: "ready", type: "secrets scanner", logo: "icons/trufflehog.svg" },
+  { name: "wireshark packet analysis", category: "forensics", port: 0, status: "ready", type: "pcap deep inspection", logo: "icons/wireshark.svg" },
+  { name: "metasploit framework", category: "red team", port: 0, status: "ready", type: "exploitation platform", logo: "icons/metasploit.svg" },
+  { name: "burp suite community", category: "red team", port: 8080, status: "ready", type: "web security testing", logo: "icons/burpsuite.svg" },
+  { name: "kali linux (utm vm)", category: "red team", port: 2222, status: "active", type: "offensive security vm", logo: "icons/kali.svg" },
+  { name: "windows 10 (utm vm)", category: "defense", port: 13389, status: "active", type: "victim endpoint vm", logo: "icons/windows.svg" },
+  { name: "ai correlation agent", category: "ai ops", port: 0, status: "active", type: "mitre att&ck classifier", logo: "icons/python.svg" }
 ];

@@ -1,0 +1,8 @@
+---
+rules:
+  - name: generic-api-key
+    regex: "(?i)(api[_-]?key|secret[_-]?token|auth[_-]?token)[\s:=]+['\"][0-9a-zA-Z]{16,64}['\"]"
+    severity: HIGH
+  - name: private-ssh-key
+    regex: "-----BEGIN (RSA|OPENSSH|DSA|EC) PRIVATE KEY-----"
+    severity: CRITICAL

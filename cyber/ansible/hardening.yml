@@ -1,0 +1,8 @@
+---
+- name: Linux Hardening & Security Baseline
+  hosts: all
+  become: true
+  roles:
+    - role: common
+    - role: hardening
+    - role: auditd_fim

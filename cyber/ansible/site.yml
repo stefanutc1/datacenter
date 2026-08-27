@@ -1,0 +1,18 @@
+---
+# ==============================================================================
+# Master Site Convergence Playbook — Enterprise CyberLab
+# ==============================================================================
+
+- name: Apply Common Baseline to All Nodes
+  hosts: all
+  become: true
+  roles:
+    - common
+
+- name: Apply Security Hardening to Hardened Nodes
+  hosts: hardened_nodes
+  become: true
+  roles:
+    - hardening
+    - auditd_fim
+    - siem_agents

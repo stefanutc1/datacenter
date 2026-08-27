@@ -1,0 +1,31 @@
+---
+# Emergency Network Quarantine (Incident Response Containment)
+
+- name: Emergency Notice - Isolating Host Network
+  ansible.builtin.debug:
+    msg: "HOST ISOLATION IN PROGRESS: Dropping all external network traffic on {{ inventory_hostname }} except management controller."
+
+- name: Flush existing UFW rules
+  community.general.ufw:
+    state: reset
+
+- name: Set emergency default policies to deny
+  community.general.ufw:
+    direction: "{{ item }}"
+    default: deny
+  loop:
+    - incoming
+    - outgoing
+    - routed
+
+- name: Allow ONLY management controller SSH access (for forensics investigation)
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    from_ip: 192.168.64.2
+    port: "{{ ssh_port | default(22) | string }}"
+    comment: "EMERGENCY IR MANAGEMENT ACCESS ONLY"
+
+- name: Enable emergency firewall quarantine
+  community.general.ufw:
+    state: enabled

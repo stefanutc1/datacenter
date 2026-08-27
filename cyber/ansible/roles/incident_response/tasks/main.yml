@@ -1,0 +1,6 @@
+---
+# Master Incident Response Handler
+
+- name: Include network quarantine if containment flag is set
+  ansible.builtin.include_tasks: quarantine.yml
+  when: ir_containment_active | default(false) | bool

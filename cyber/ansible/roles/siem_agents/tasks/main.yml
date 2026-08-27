@@ -1,0 +1,33 @@
+---
+# Tasks for SIEM Telemetry Agents (Promtail)
+
+- name: Create Promtail configuration directory
+  ansible.builtin.file:
+    path: /etc/promtail
+    state: directory
+    mode: '0755'
+
+- name: Deploy Promtail configuration template
+  ansible.builtin.template:
+    src: promtail.yml.j2
+    dest: /etc/promtail/config.yml
+    mode: '0644'
+
+- name: Ensure Promtail systemd unit file exists
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/promtail.service
+    content: |
+      [Unit]
+      Description=Promtail Log Shipper Agent
+      After=network.target
+
+      [Service]
+      Type=simple
+      ExecStart=/usr/local/bin/promtail -config.file=/etc/promtail/config.yml
+      Restart=always
+      RestartSec=10
+      User=root
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: '0644'

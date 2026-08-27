@@ -1,0 +1,7 @@
+# CyberLab OS Hardening & Kernel Module Monitoring
+-a always,exit -F arch=b64 -S init_module,finit_module,delete_module -k kernel_modules
+-a always,exit -F arch=b32 -S init_module,finit_module,delete_module -k kernel_modules
+-w /etc/modprobe.conf -p wa -k modprobe_changes
+-w /etc/modprobe.d/ -p wa -k modprobe_changes
+-w /etc/sysctl.conf -p wa -k sysctl_changes
+-w /etc/sysctl.d/ -p wa -k sysctl_changes

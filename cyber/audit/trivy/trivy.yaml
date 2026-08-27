@@ -1,0 +1,13 @@
+---
+severity:
+  - HIGH
+  - CRITICAL
+vuln-type:
+  - os
+  - library
+format: table
+exit-code: 0
+scanners:
+  - vuln
+  - config
+  - secret
