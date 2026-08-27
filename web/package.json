@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "vue": "^3.4.21",
-    "marked": "^12.0.1"
+    "marked": "^18.0.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
