@@ -225,4 +225,4 @@ cd terraform && terraform init -backend=false && terraform validate
 
 ## License
 
-MIT — Copyright (c) 2026 stefannut (`@stefannut`).
+MIT — Copyright (c) 2026 (`@stefanutc1`).
