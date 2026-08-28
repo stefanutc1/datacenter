@@ -116,14 +116,6 @@ def update_engine_llm(
         config.openrouter_api_key = openrouter_key
     if openrouter_mdl:
         config.openrouter_model = openrouter_mdl
-    if openai_key is not None:
-        config.openai_api_key = openai_key
-    if openai_mdl:
-        config.openai_model = openai_mdl
-    if claude_key is not None:
-        config.anthropic_api_key = claude_key
-    if claude_mdl:
-        config.anthropic_model = claude_mdl
     if ollama_url:
         config.local_llm_base_url = ollama_url
     if ollama_mdl:
@@ -135,12 +127,10 @@ def update_engine_llm(
         primary_prov=primary_prov,
         gemini_key=gemini_key,
         gemini_mdl=gemini_mdl,
+        groq_key=groq_key,
+        groq_mdl=groq_mdl,
         openrouter_key=openrouter_key,
         openrouter_mdl=openrouter_mdl,
-        openai_key=openai_key,
-        openai_mdl=openai_mdl,
-        claude_key=claude_key,
-        claude_mdl=claude_mdl,
         ollama_url=ollama_url,
         ollama_mdl=ollama_mdl,
     )
@@ -213,15 +203,13 @@ async def health():
 
 
 class LLMConfigRequest(BaseModel):
-    provider: Optional[str] = Field(None, description="cascade, cloud_gemini, openrouter, local_ollama, mock")
+    provider: Optional[str] = Field(None, description="cascade, cloud_gemini, groq, openrouter, local_ollama, mock")
     gemini_api_key: Optional[str] = None
     gemini_model: Optional[str] = None
+    groq_api_key: Optional[str] = None
+    groq_model: Optional[str] = None
     openrouter_api_key: Optional[str] = None
     openrouter_model: Optional[str] = None
-    openai_api_key: Optional[str] = None
-    openai_model: Optional[str] = None
-    anthropic_api_key: Optional[str] = None
-    anthropic_model: Optional[str] = None
     local_llm_base_url: Optional[str] = None
     local_llm_model: Optional[str] = None
 
@@ -234,12 +222,10 @@ async def get_llm_status():
     configured_cascade = []
     if config.gemini_api_key:
         configured_cascade.append(f"Gemini ({config.gemini_model})")
+    if config.groq_api_key:
+        configured_cascade.append(f"Groq ({config.groq_model})")
     if config.openrouter_api_key:
         configured_cascade.append(f"OpenRouter ({config.openrouter_model})")
-    if config.openai_api_key:
-        configured_cascade.append(f"ChatGPT ({config.openai_model})")
-    if config.anthropic_api_key:
-        configured_cascade.append(f"Claude ({config.anthropic_model})")
     if config.local_llm_base_url and config.primary_provider == "local_ollama":
         configured_cascade.append(f"Ollama ({config.local_llm_model})")
     configured_cascade.append("Mock (Failsafe)")
@@ -247,15 +233,13 @@ async def get_llm_status():
     return {
         "active_provider": config.primary_provider,
         "is_healthy": is_healthy,
-        "cascade_chain": "  ".join(configured_cascade),
+        "cascade_chain": " -> ".join(configured_cascade),
         "gemini_configured": bool(config.gemini_api_key),
         "gemini_model": config.gemini_model,
+        "groq_configured": bool(config.groq_api_key),
+        "groq_model": config.groq_model,
         "openrouter_configured": bool(config.openrouter_api_key),
         "openrouter_model": config.openrouter_model,
-        "openai_configured": bool(config.openai_api_key),
-        "openai_model": config.openai_model,
-        "anthropic_configured": bool(config.anthropic_api_key),
-        "anthropic_model": config.anthropic_model,
         "local_ollama_url": config.local_llm_base_url,
         "local_ollama_model": config.local_llm_model,
     }
@@ -267,12 +251,10 @@ async def set_llm_config(req: LLMConfigRequest):
         primary_prov=req.provider,
         gemini_key=req.gemini_api_key,
         gemini_mdl=req.gemini_model,
+        groq_key=req.groq_api_key,
+        groq_mdl=req.groq_model,
         openrouter_key=req.openrouter_api_key,
         openrouter_mdl=req.openrouter_model,
-        openai_key=req.openai_api_key,
-        openai_mdl=req.openai_model,
-        claude_key=req.anthropic_api_key,
-        claude_mdl=req.anthropic_model,
         ollama_url=req.local_llm_base_url,
         ollama_mdl=req.local_llm_model,
     )
@@ -282,9 +264,8 @@ async def set_llm_config(req: LLMConfigRequest):
         "provider": config.primary_provider,
         "is_healthy": is_healthy,
         "gemini_configured": bool(config.gemini_api_key),
+        "groq_configured": bool(config.groq_api_key),
         "openrouter_configured": bool(config.openrouter_api_key),
-        "openai_configured": bool(config.openai_api_key),
-        "anthropic_configured": bool(config.anthropic_api_key),
     }
 
 

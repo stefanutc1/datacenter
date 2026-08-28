@@ -67,7 +67,8 @@ class LocalOllamaClient(BaseLLMClient):
             ]
 
         endpoint = f"{self.base_url}/v1/chat/completions"
-        async with httpx.AsyncClient(timeout=self.timeout) as client:
+        timeout_cfg = httpx.Timeout(self.timeout, connect=1.0)
+        async with httpx.AsyncClient(timeout=timeout_cfg) as client:
             resp = await client.post(endpoint, json=payload)
             resp.raise_for_status()
             data = resp.json()
@@ -101,12 +102,15 @@ class LocalOllamaClient(BaseLLMClient):
             provider="local_ollama",
             prompt_tokens=usage.get("prompt_tokens", 0),
             completion_tokens=usage.get("completion_tokens", 0),
-            latency_ms=(time.perf_counter() - start_time) * 1000,
+            usage=usage,
+            latency_ms=round((time.perf_counter() - start_time) * 1000, 2),
+            finish_reason=choice.get("finish_reason", "stop"),
         )
 
     async def health_check(self) -> bool:
         try:
-            async with httpx.AsyncClient(timeout=5.0) as client:
+            timeout_cfg = httpx.Timeout(2.0, connect=0.5)
+            async with httpx.AsyncClient(timeout=timeout_cfg) as client:
                 resp = await client.get(f"{self.base_url}/api/tags")
                 return resp.status_code == 200
         except Exception:

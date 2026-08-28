@@ -62,6 +62,6 @@ pip install -e elo/apps/elo-core
 
 echo "Executing automated test suite on $DISTRO_NAME..."
 cd elo
-PYTHONPATH=. python3 -m pytest -v -o asyncio_mode=auto
+PYTHONPATH="apps/elo-core/src:packages/elo-contracts/src:packages/elo-security/src:packages/elo-ai-client/src" python3 -m pytest -v -o asyncio_mode=auto
 
 echo " Distribution $DISTRO_NAME is 100% verified and compatible!"

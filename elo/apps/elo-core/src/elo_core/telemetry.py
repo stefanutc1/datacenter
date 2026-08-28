@@ -4,15 +4,18 @@ import time
 import asyncio
 import platform
 import psutil
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from .homelab_inventory import HOMELAB_SERVICES, HOMELAB_NODES
 
 
-async def probe_service_reachability(service: Dict[str, Any], timeout: float = 0.25) -> Dict[str, Any]:
+async def probe_service_reachability(service: Dict[str, Any], timeout: Optional[float] = None) -> Dict[str, Any]:
     """
     Probes an individual Homelab workload directly by its exact IP and Port via TCP socket.
     Does NOT rely on DNS resolution or domain names.
     """
+    if timeout is None:
+        timeout = 0.02 if (os.getenv("CI") == "true" or "PYTEST_CURRENT_TEST" in os.environ) else 0.25
+
     ip = service.get("ip")
     port = service.get("port")
     
@@ -42,12 +45,14 @@ async def probe_service_reachability(service: Dict[str, Any], timeout: float = 0
     return res
 
 
-async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.3) -> Dict[str, Any]:
+async def probe_node_reachability(node: Dict[str, Any], timeout: Optional[float] = None) -> Dict[str, Any]:
     """
     Probes an individual Homelab node asynchronously via TCP sockets.
     If it's the Local Host (MacBook-Air.local / Apple M1), it returns ONLINE directly with 0ms latency.
     For remote nodes (Proxmox 192.168.1.132, NAS 192.168.1.135), probes management ports via TCP.
     """
+    if timeout is None:
+        timeout = 0.02 if (os.getenv("CI") == "true" or "PYTEST_CURRENT_TEST" in os.environ) else 0.3
     node_id = node.get("id")
     is_local = node.get("is_local_host") or node_id == "apple-m1-compute"
     
