@@ -33,6 +33,11 @@ mkdir -p "$APP_BUNDLE/Contents/Resources"
 cp -R "$BUILD_DIR/publish/"* "$APP_BUNDLE/Contents/MacOS/"
 chmod +x "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
 
+# Copy AppIcon.icns into Resources
+if [ -f "$SCRIPT_DIR/AppIcon.icns" ]; then
+    cp "$SCRIPT_DIR/AppIcon.icns" "$APP_BUNDLE/Contents/Resources/AppIcon.icns"
+fi
+
 # Create Info.plist
 cat << 'EOF' > "$APP_BUNDLE/Contents/Info.plist"
 <?xml version="1.0" encoding="UTF-8"?>
@@ -55,6 +60,8 @@ cat << 'EOF' > "$APP_BUNDLE/Contents/Info.plist"
     <string>????</string>
     <key>CFBundleExecutable</key>
     <string>ELO</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>LSMinimumSystemVersion</key>
     <string>11.0</string>
     <key>NSHighResolutionCapable</key>
