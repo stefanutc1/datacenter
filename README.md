@@ -133,7 +133,7 @@ graph TD
 
 The cluster orchestrates **28 production services** distributed across dual Proxmox VE hypervisors (x86_64 and ARM64). All reachability checks are performed by direct raw TCP socket verification (`IP:PORT`) in parallel via `asyncio.gather`.
 
-### 🖥️ Primary Hypervisor Workloads (Node 1 — x86_64 · `192.168.1.132`)
+### Primary Hypervisor Workloads (Node 1 — x86_64 · `192.168.1.132`)
 
 | VMID / ID | Service Name | Category | Direct Address | Domain | Purpose & Functionality |
 |:---|:---|:---|:---|:---|:---|
@@ -151,7 +151,7 @@ The cluster orchestrates **28 production services** distributed across dual Prox
 
 ---
 
-### 🍏 Utility Hypervisor Workloads (Node 3 — ARM64 · `https://192.168.64.14:8006`)
+### Utility Hypervisor Workloads (Node 3 — ARM64 · `https://192.168.64.14:8006`)
 
 | VMID / ID | Service Name | Category | Direct Address | Domain | Purpose & Functionality |
 |:---|:---|:---|:---|:---|:---|
