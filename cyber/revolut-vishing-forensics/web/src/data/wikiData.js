@@ -1,15 +1,15 @@
 export const articles = [
-  {
-    id: "case-study-en",
-    title: "Executive Case Study (EN)",
-    category: "Forensic Report",
-    icon: "📄",
-    summary: "Full forensic case study in English covering SIP VoIP spoofing, real-time OTP relays, and MITRE mapping.",
-    content: `# 🛡️ Case Study: Advanced Voice Phishing (Vishing) & Real-Time Credential Relay Targeting FinTech Users (Revolut)
+ {
+ id: "case-study-en",
+ title: "Executive Case Study (EN)",
+ category: "Forensic Report",
+ icon: "",
+ summary: "Full forensic case study in English covering SIP VoIP spoofing, real-time OTP relays, and MITRE mapping.",
+ content: `# Case Study: Advanced Voice Phishing (Vishing) & Real-Time Credential Relay Targeting FinTech Users (Revolut)
 
-**Author:** \`stefannut\`  
-**Date:** August 2026  
-**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence  
+**Author:** \`stefannut\` 
+**Date:** August 2026 
+**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Active social engineering, SIP telephony spoofing, and real-time reverse proxy infrastructure targeting Revolut banking accounts.
 
 ---
@@ -26,46 +26,46 @@ Victims were guided to dynamically cloned banking verification portals that harv
 
 \`\`\`mermaid
 flowchart TD
-    Attacker(["👤 Threat Actor / Fraud Ring"])
+ Attacker([" Threat Actor / Fraud Ring"])
 
-    subgraph TELEPHONY["Stage 1: Telephony & Social Engineering"]
-        VOIP["SIP VoIP Trunk Gateway
+ subgraph TELEPHONY["Stage 1: Telephony & Social Engineering"]
+ VOIP["SIP VoIP Trunk Gateway
 Caller ID Spoofing (0749-XXX-XXX)"]
-        PRETEXT["Urgent Security Pretext:
+ PRETEXT["Urgent Security Pretext:
 'Unauthorized Transaction / Negative Balance'"]
-    end
+ end
 
-    subgraph DELIVERY["Stage 2: Smishing & Evasion Funnel"]
-        SMS["Spoofed SMS Delivery
+ subgraph DELIVERY["Stage 2: Smishing & Evasion Funnel"]
+ SMS["Spoofed SMS Delivery
 URL Shortener (bit.ly / t.co)"]
-        CLONE["FinTech Cloned Landing Portal
+ CLONE["FinTech Cloned Landing Portal
 (Let's Encrypt SSL · TLD: .tk / .xyz)"]
-    end
+ end
 
-    subgraph INTERCEPTION["Stage 3: Real-Time Proxy & Harvesting"]
-        PORTAL["Fake Revolut Card Portal
+ subgraph INTERCEPTION["Stage 3: Real-Time Proxy & Harvesting"]
+ PORTAL["Fake Revolut Card Portal
 Harvests PAN, CVV, Expiry"]
-        RELAY["Real-Time C2 Relay Engine
+ RELAY["Real-Time C2 Relay Engine
 Immediate API Injection into Bank"]
-    end
+ end
 
-    subgraph FRAUD["Stage 4: 3DS Bypass & Fund Exfiltration"]
-        OTP["Victim submits 3DS / SMS OTP code"]
-        APP_AUTH["Victim approves In-App Biometric Push"]
-        CASHOUT["Unauthorized Cashout Completed
+ subgraph FRAUD["Stage 4: 3DS Bypass & Fund Exfiltration"]
+ OTP["Victim submits 3DS / SMS OTP code"]
+ APP_AUTH["Victim approves In-App Biometric Push"]
+ CASHOUT["Unauthorized Cashout Completed
 (SEPA Instant / Crypto Rail)"]
-    end
+ end
 
-    Attacker --> VOIP
-    VOIP -->|Voice Call via Spoofed CLI| PRETEXT
-    PRETEXT -->|Directs Victim to SMS Link| SMS
-    SMS --> CLONE
-    CLONE --> PORTAL
-    PORTAL -->|Live Card Data| RELAY
-    RELAY -->|Triggers Real Bank Transaction| OTP
-    OTP --> APP_AUTH
-    APP_AUTH --> CASHOUT
-    CASHOUT -->|Laundered Capital| Attacker
+ Attacker --> VOIP
+ VOIP -->|Voice Call via Spoofed CLI| PRETEXT
+ PRETEXT -->|Directs Victim to SMS Link| SMS
+ SMS --> CLONE
+ CLONE --> PORTAL
+ PORTAL -->|Live Card Data| RELAY
+ RELAY -->|Triggers Real Bank Transaction| OTP
+ OTP --> APP_AUTH
+ APP_AUTH --> CASHOUT
+ CASHOUT -->|Laundered Capital| Attacker
 \`\`\`
 
 ---
@@ -113,18 +113,18 @@ Immediate API Injection into Bank"]
 2. **In-App Verification**: Users must verify all fraud inquiries exclusively through the authenticated in-app chat channel.
 3. **Telephony Hardening**: Telecommunications carriers must enforce STIR/SHAKEN protocol standards to invalidate unauthenticated international SIP Caller ID spoofing.
 `
-  },
-  {
-    id: "case-study-ro",
-    title: "Studiu de Caz (RO)",
-    category: "Forensic Report",
-    icon: "🇷🇴",
-    summary: "Studiu de caz tehnic complet în limba română.",
-    content: `# 🛡️ Studiu de Caz: Inginerie Socială & Voice Phishing (Vishing) Avansat Țintit Asupra Utilizatorilor FinTech (Revolut)
+ },
+ {
+ id: "case-study-ro",
+ title: "Studiu de Caz (RO)",
+ category: "Forensic Report",
+ icon: "",
+ summary: "Studiu de caz tehnic complet în limba română.",
+ content: `# Studiu de Caz: Inginerie Socială & Voice Phishing (Vishing) Avansat Țintit Asupra Utilizatorilor FinTech (Revolut)
 
-**Autor:** \`stefannut\`  
-**Dată:** August 2026  
-**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică  
+**Autor:** \`stefannut\` 
+**Dată:** August 2026 
+**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Vector Analizat:** Campanie activă de inginerie socială, Voice Phishing (Vishing), Caller ID Spoofing și clonare dinamică a portalului bancar Revolut.
 
 ---
@@ -141,39 +141,39 @@ Campania a urmărit furtul datelor complete ale cardului bancar (PAN, CVV, Dată
 
 \`\`\`mermaid
 flowchart TD
-    Attacker(["👤 Atacator / Grup Infracțional"])
+ Attacker([" Atacator / Grup Infracțional"])
 
-    subgraph TELEPHONY["Faza 1: Inginerie Socială & Telephonie"]
-        VOIP["Gateway SIP VoIP\\nCaller ID Spoofing (ex: 0749-XXX-XXX)"]
-        PRETEXT["Pretext Urgență:\\n'Tranzacție suspectă / Sold negativ'"]
-    end
+ subgraph TELEPHONY["Faza 1: Inginerie Socială & Telephonie"]
+ VOIP["Gateway SIP VoIP\\nCaller ID Spoofing (ex: 0749-XXX-XXX)"]
+ PRETEXT["Pretext Urgență:\\n'Tranzacție suspectă / Sold negativ'"]
+ end
 
-    subgraph DELIVERY["Faza 2: Transmitere Vector Phishing"]
-        SMS["SMS Spoofat cu Link Malițios\\nShortener URL (bit.ly / t.co)"]
-        CLONE["Domeniu Phishing Clasă FinTech\\n(Let's Encrypt SSL · TLD: .tk / .xyz)"]
-    end
+ subgraph DELIVERY["Faza 2: Transmitere Vector Phishing"]
+ SMS["SMS Spoofat cu Link Malițios\\nShortener URL (bit.ly / t.co)"]
+ CLONE["Domeniu Phishing Clasă FinTech\\n(Let's Encrypt SSL · TLD: .tk / .xyz)"]
+ end
 
-    subgraph INTERCEPTION["Faza 3: Recoltare & Proxy în Timp Real"]
-        PORTAL["Portal Web Clonat Revolut\\nCaptură PAN, CVV, Expirare"]
-        RELAY["Releu Automatizat C2\\nTransmitere în Timp Real către Atacator"]
-    end
+ subgraph INTERCEPTION["Faza 3: Recoltare & Proxy în Timp Real"]
+ PORTAL["Portal Web Clonat Revolut\\nCaptură PAN, CVV, Expirare"]
+ RELAY["Releu Automatizat C2\\nTransmitere în Timp Real către Atacator"]
+ end
 
-    subgraph FRAUD["Faza 4: Autorizare & Exfiltrare Fonduri"]
-        OTP["Victima introduce codul 3DS / OTP"]
-        APP_AUTH["Victima aprobă notificarea Push în Aplicație"]
-        CASHOUT["Tranzacție Neautorizată Finalizată\\n(SEPA Instant / Crypto Gateway)"]
-    end
+ subgraph FRAUD["Faza 4: Autorizare & Exfiltrare Fonduri"]
+ OTP["Victima introduce codul 3DS / OTP"]
+ APP_AUTH["Victima aprobă notificarea Push în Aplicație"]
+ CASHOUT["Tranzacție Neautorizată Finalizată\\n(SEPA Instant / Crypto Gateway)"]
+ end
 
-    Attacker --> VOIP
-    VOIP -->|Apel Voce sub pretext Antifraudă| PRETEXT
-    PRETEXT -->|Instrucțiuni trimise prin SMS| SMS
-    SMS --> CLONE
-    CLONE --> PORTAL
-    PORTAL -->|Date card capturate| RELAY
-    RELAY -->|Inițiere tranzacție frauduloasă| OTP
-    OTP --> APP_AUTH
-    APP_AUTH --> CASHOUT
-    CASHOUT -->|Fonduri exfiltrate| Attacker
+ Attacker --> VOIP
+ VOIP -->|Apel Voce sub pretext Antifraudă| PRETEXT
+ PRETEXT -->|Instrucțiuni trimise prin SMS| SMS
+ SMS --> CLONE
+ CLONE --> PORTAL
+ PORTAL -->|Date card capturate| RELAY
+ RELAY -->|Inițiere tranzacție frauduloasă| OTP
+ OTP --> APP_AUTH
+ APP_AUTH --> CASHOUT
+ CASHOUT -->|Fonduri exfiltrate| Attacker
 \`\`\`
 
 ---
@@ -219,20 +219,20 @@ flowchart TD
 ## 6. Procedura de Takedown și Recomandări Defensive
 
 1. **Răspunsul Echipei de Securitate**:
-   - Raportarea infrastructurii malițioase către registratorii de domenii (Namecheap / Cloudflare / Netcraft).
-   - Transmiterea logurilor și dovezilor tehnice către CERT-RO / Directoratul Național de Securitate Cibernetică (DNSC).
+ - Raportarea infrastructurii malițioase către registratorii de domenii (Namecheap / Cloudflare / Netcraft).
+ - Transmiterea logurilor și dovezilor tehnice către CERT-RO / Directoratul Național de Securitate Cibernetică (DNSC).
 2. **Recomandări pentru Utilizatori**:
-   - Nicio instituție bancară legitimă nu va apela niciodată un client pentru a-i cere codurile SMS de autorizare sau datele de pe spatele cardului (CVV).
-   - Dacă primiți un astfel de apel, închideți imediat și contactați banca exclusiv prin chat-ul securizat din interiorul aplicației oficiale.
+ - Nicio instituție bancară legitimă nu va apela niciodată un client pentru a-i cere codurile SMS de autorizare sau datele de pe spatele cardului (CVV).
+ - Dacă primiți un astfel de apel, închideți imediat și contactați banca exclusiv prin chat-ul securizat din interiorul aplicației oficiale.
 `
-  },
-  {
-    id: "tech-analysis",
-    title: "Telephony & Traffic Analysis",
-    category: "Technical Deep Dive",
-    icon: "🔬",
-    summary: "SIP trunk header manipulation, HTTP 302 evasion funnels, and User-Agent gating.",
-    content: `# Technical Analysis: Revolut Vishing Infrastructure
+ },
+ {
+ id: "tech-analysis",
+ title: "Telephony & Traffic Analysis",
+ category: "Technical Deep Dive",
+ icon: "",
+ summary: "SIP trunk header manipulation, HTTP 302 evasion funnels, and User-Agent gating.",
+ content: `# Technical Analysis: Revolut Vishing Infrastructure
 
 ## 1. Attack Lifecycle
 
@@ -248,13 +248,13 @@ The attack methodology relies on a multi-stage social engineering pipeline desig
 
 * **Link Delivery:** Victims are coerced into following an external URL provided via SMS or during the call.
 * **Malicious Infrastructure:**
-  * **TLD Selection:** Utilization of cheap/free Top-Level Domains (\`.tk\`, \`.ml\`, \`.gq\`) to bypass automated brand-protection filters.
-  * **Obfuscation:** Frequent use of URL shorteners (bit.ly, t.co, etc.) to hide the actual landing page destination until the final request.
+ * **TLD Selection:** Utilization of cheap/free Top-Level Domains (\`.tk\`, \`.ml\`, \`.gq\`) to bypass automated brand-protection filters.
+ * **Obfuscation:** Frequent use of URL shorteners (bit.ly, t.co, etc.) to hide the actual landing page destination until the final request.
 * **Interception Mechanism:** The landing page mimics the Revolut login or card-payment interface, utilizing CSS/HTML cloning to capture:
-  * Card PAN (Primary Account Number)
-  * Expiry Date
-  * CVV/CVC
-  * 3D Secure / OTP codes (requested in real-time if the transaction requires it)
+ * Card PAN (Primary Account Number)
+ * Expiry Date
+ * CVV/CVC
+ * 3D Secure / OTP codes (requested in real-time if the transaction requires it)
 
 ## 2. Traffic Analysis
 
@@ -269,14 +269,14 @@ The attack methodology relies on a multi-stage social engineering pipeline desig
 | **TLDs** | \`.tk\`, \`.ml\`, \`.gq\`, \`.xyz\` |
 | **Methods** | Social Engineering, SMS-to-Phishing, Web-Cloning |
 `
-  },
-  {
-    id: "revolut-report",
-    title: "Revolut Security Submission",
-    category: "Threat Intelligence",
-    icon: "🏦",
-    summary: "Incident telemetry and forensic evidence submitted to Revolut Financial Crime team.",
-    content: `# Revolut Specifics Report
+ },
+ {
+ id: "revolut-report",
+ title: "Revolut Security Submission",
+ category: "Threat Intelligence",
+ icon: "",
+ summary: "Incident telemetry and forensic evidence submitted to Revolut Financial Crime team.",
+ content: `# Revolut Specifics Report
 
 ## 1. Exploitation of the Banking Trust Model
 
@@ -299,21 +299,21 @@ To further reduce successful phishing, the following UI/UX security controls are
 ### Persistent Security Banner (UX Control)
 
 * **Implementation:** A non-intrusive, yet persistent header alert in the main dashboard:
-  * *“Revolut never calls you to ask for PINs, card details, or fee payments via external links.”*
+ * *“Revolut never calls you to ask for PINs, card details, or fee payments via external links.”*
 * **Impact:** This serves as a "first line of defense" that primes the user's mindset against vishing before they receive a fraudulent call.
 
 ### Proactive Fraud Alerts
 
 * **Mechanism:** Triggering a mobile push notification when a high volume of reporting activity is detected from specific geographic regions (e.g., Romania) or when specific burner-range patterns emerge.
 `
-  },
-  {
-    id: "takedown",
-    title: "Takedown Records & DNS",
-    category: "Operations",
-    icon: "🚨",
-    summary: "Registrar abuse reports and hosting provider takedown telemetry.",
-    content: `# Takedown Report: Phishing Infrastructure
+ },
+ {
+ id: "takedown",
+ title: "Takedown Records & DNS",
+ category: "Operations",
+ icon: "",
+ summary: "Registrar abuse reports and hosting provider takedown telemetry.",
+ content: `# Takedown Report: Phishing Infrastructure
 
 ## Overview
 
@@ -336,13 +336,13 @@ This document tracks the status of the malicious infrastructure identified durin
 * Rapid detection and reporting significantly decrease the "window of opportunity" for threat actors.
 * Consistent monitoring of burner phone patterns allows for early warning before infrastructure is fully deployed.
 `
-  }
+ }
 ];
 
 export const iocList = [
-  { type: "CLI Prefix", indicator: "0749-XXX-XXX", threat: "Spoofed Romanian National Mobile", status: "Flagged" },
-  { type: "Domain", indicator: "revolut-security-verification[.]xyz", threat: "Cloned Payment Gateway", status: "Takedown Completed" },
-  { type: "Domain", indicator: "secure-revolut-app[.]top", threat: "Mobile Smishing Target", status: "Takedown Completed" },
-  { type: "Protocol", indicator: "SIP P-Asserted-Identity Injection", threat: "VoIP Gateway Abuse", status: "Mitigated" },
-  { type: "Vector", indicator: "Real-Time 3DS OTP Harvesting", threat: "2FA Interception Proxy", status: "Blocked" }
+ { type: "CLI Prefix", indicator: "0749-XXX-XXX", threat: "Spoofed Romanian National Mobile", status: "Flagged" },
+ { type: "Domain", indicator: "revolut-security-verification[.]xyz", threat: "Cloned Payment Gateway", status: "Takedown Completed" },
+ { type: "Domain", indicator: "secure-revolut-app[.]top", threat: "Mobile Smishing Target", status: "Takedown Completed" },
+ { type: "Protocol", indicator: "SIP P-Asserted-Identity Injection", threat: "VoIP Gateway Abuse", status: "Mitigated" },
+ { type: "Vector", indicator: "Real-Time 3DS OTP Harvesting", threat: "2FA Interception Proxy", status: "Blocked" }
 ];

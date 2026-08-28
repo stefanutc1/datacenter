@@ -17,7 +17,7 @@ A forensic analysis, threat intelligence breakdown, and takedown case study of a
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 This repository contains the full forensic investigation of an organized multi-stage financial cybercrime campaign. Threat actors weaponized **SIP VoIP Caller ID Spoofing** to impersonate Revolut's anti-fraud department, establishing psychological authority and urgency before delivering SMS-based phishing links.
 
@@ -25,58 +25,58 @@ The backend infrastructure utilized dynamically cloned payment interfaces to har
 
 ---
 
-## 🏗️ Attack Lifecycle & Infrastructure
+## Attack Lifecycle & Infrastructure
 
 ```mermaid
 flowchart TD
-    Attacker(["👤 Threat Actor"])
+ Attacker([" Threat Actor"])
 
-    subgraph TELEPHONY["Stage 1: Telephony & Social Engineering"]
-        VOIP["SIP VoIP Gateway\nCaller ID Spoofing (0749-XXX-XXX)"]
-        PRETEXT["Authoritative Pretext:\n'Fraudulent transaction detected'"]
-    end
+ subgraph TELEPHONY["Stage 1: Telephony & Social Engineering"]
+ VOIP["SIP VoIP Gateway\nCaller ID Spoofing (0749-XXX-XXX)"]
+ PRETEXT["Authoritative Pretext:\n'Fraudulent transaction detected'"]
+ end
 
-    subgraph DELIVERY["Stage 2: Smishing & Link Obfuscation"]
-        SMS["Spoofed SMS Delivery\nURL Shortener (bit.ly / t.co)"]
-        CLONE["Cloned FinTech Gateway\n(Let's Encrypt SSL · TLD: .tk / .xyz)"]
-    end
+ subgraph DELIVERY["Stage 2: Smishing & Link Obfuscation"]
+ SMS["Spoofed SMS Delivery\nURL Shortener (bit.ly / t.co)"]
+ CLONE["Cloned FinTech Gateway\n(Let's Encrypt SSL · TLD: .tk / .xyz)"]
+ end
 
-    subgraph INTERCEPTION["Stage 3: Real-Time Harvesting & Proxy"]
-        PORTAL["Fake Revolut Card Portal\nHarvests PAN, CVV, Expiry"]
-        RELAY["Automated C2 Relay\nImmediate API Injection to Bank"]
-    end
+ subgraph INTERCEPTION["Stage 3: Real-Time Harvesting & Proxy"]
+ PORTAL["Fake Revolut Card Portal\nHarvests PAN, CVV, Expiry"]
+ RELAY["Automated C2 Relay\nImmediate API Injection to Bank"]
+ end
 
-    subgraph FRAUD["Stage 4: 3DS Bypass & Exfiltration"]
-        OTP["Victim submits 3DS / SMS OTP"]
-        APP_AUTH["Victim approves In-App Push Prompt"]
-        CASHOUT["Unauthorized Transfer Completed\n(SEPA Instant / Crypto Rail)"]
-    end
+ subgraph FRAUD["Stage 4: 3DS Bypass & Exfiltration"]
+ OTP["Victim submits 3DS / SMS OTP"]
+ APP_AUTH["Victim approves In-App Push Prompt"]
+ CASHOUT["Unauthorized Transfer Completed\n(SEPA Instant / Crypto Rail)"]
+ end
 
-    Attacker --> VOIP
-    VOIP --> PRETEXT
-    PRETEXT --> SMS
-    SMS --> CLONE
-    CLONE --> PORTAL
-    PORTAL --> RELAY
-    RELAY --> OTP
-    OTP --> APP_AUTH
-    APP_AUTH --> CASHOUT
-    CASHOUT --> Attacker
+ Attacker --> VOIP
+ VOIP --> PRETEXT
+ PRETEXT --> SMS
+ SMS --> CLONE
+ CLONE --> PORTAL
+ PORTAL --> RELAY
+ RELAY --> OTP
+ OTP --> APP_AUTH
+ APP_AUTH --> CASHOUT
+ CASHOUT --> Attacker
 ```
 
 ---
 
-## 📑 Repository Structure & Documentation
+## Repository Structure & Documentation
 
-- **📄 [`studiu_de_caz.md`](studiu_de_caz.md)** — Exhaustive technical case study in Romanian analyzing the telephony spoofing mechanics, real-time OTP proxy relay, full IOC matrix, and MITRE ATT&CK mapping.
-- **📄 [`technical-analysis.md`](technical-analysis.md)** — Network protocol analysis, HTTP 302 redirection chains, and User-Agent fingerprinting mechanisms.
-- **📄 [`revolut-report.md`](revolut-report.md)** — Incident report and forensic telemetry submitted to Revolut Financial Security.
-- **📄 [`revolut-response.md`](revolut-response.md)** — Formal acknowledgment and technical responses from the banking security team.
-- **📄 [`takedown.md`](takedown.md)** — Domain registrar and host abuse reporting records for infrastructure dismantling.
+- ** [`studiu_de_caz.md`](studiu_de_caz.md)** — Exhaustive technical case study in Romanian analyzing the telephony spoofing mechanics, real-time OTP proxy relay, full IOC matrix, and MITRE ATT&CK mapping.
+- ** [`technical-analysis.md`](technical-analysis.md)** — Network protocol analysis, HTTP 302 redirection chains, and User-Agent fingerprinting mechanisms.
+- ** [`revolut-report.md`](revolut-report.md)** — Incident report and forensic telemetry submitted to Revolut Financial Security.
+- ** [`revolut-response.md`](revolut-response.md)** — Formal acknowledgment and technical responses from the banking security team.
+- ** [`takedown.md`](takedown.md)** — Domain registrar and host abuse reporting records for infrastructure dismantling.
 
 ---
 
-## 🔬 Key Forensic Findings
+## Key Forensic Findings
 
 1. **SIP Trunking Abuse**: Threat actors utilized unauthenticated foreign SIP providers permitting custom `P-Asserted-Identity` headers to impersonate Romanian national mobile prefixes (`0749-XXX-XXX`).
 2. **Reverse Proxy Credential Forwarding**: Harvested card telemetry was forwarded to live banking sessions within $<5$ seconds to intercept short-lived SMS OTP codes.
@@ -84,6 +84,6 @@ flowchart TD
 
 ---
 
-## ⚖️ License & Attribution
+## License & Attribution
 
 Maintained by [`@stefannut`](https://github.com/stefannut). Distributed under the [MIT License](LICENSE).

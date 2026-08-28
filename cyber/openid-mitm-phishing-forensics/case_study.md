@@ -1,8 +1,8 @@
-# 🛡️ Case Study: Forensic Analysis of an Adversary-in-the-Middle (AiTM) Attack on Steam OpenID Authentication
+# Case Study: Forensic Analysis of an Adversary-in-the-Middle (AiTM) Attack on Steam OpenID Authentication
 
-**Author:** `stefannut`  
-**Date:** August 2026  
-**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence  
+**Author:** `stefannut` 
+**Date:** August 2026 
+**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Active phishing and account takeover campaign leveraging Browser-in-the-Middle (BitM) fake popups and real-time OpenID session relay.
 
 ---
@@ -19,23 +19,23 @@ The malicious infrastructure weaponized a high-fidelity **Browser-in-the-Middle 
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    actor Victim as Victim User
-    participant FakeSite as Phishing Landing Page (Fake Tournament)
-    participant AttackerProxy as AiTM Reverse Proxy C2
-    participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
-    actor AttackerBot as Automated Trade Hijack Bot
+ autonumber
+ actor Victim as Victim User
+ participant FakeSite as Phishing Landing Page (Fake Tournament)
+ participant AttackerProxy as AiTM Reverse Proxy C2
+ participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
+ actor AttackerBot as Automated Trade Hijack Bot
 
-    Victim->>FakeSite: 1. Clicks tournament link & selects "Vote via Steam"
-    FakeSite->>Victim: 2. Renders fake popup window with simulated SSL address bar
-    Victim->>FakeSite: 3. Inputs Steam username, password & Steam Guard TOTP
-    FakeSite->>AttackerProxy: 4. Transmits credentials via JSON POST in real-time
-    AttackerProxy->>SteamAuth: 5. Executes legitimate OpenID login handshake
-    SteamAuth-->>AttackerProxy: 6. Issues authenticated session cookies (steamLoginSecure)
-    AttackerProxy->>AttackerBot: 7. Transfers session context to trading bot
-    AttackerBot->>SteamAuth: 8. Configures Family View PIN (locks victim settings)
-    AttackerBot->>SteamAuth: 9. Generates Web API Key & intercepts trade offers
-    AttackerProxy-->>FakeSite: 10. Displays error message ("Vote recorded / Server busy")
+ Victim->>FakeSite: 1. Clicks tournament link & selects "Vote via Steam"
+ FakeSite->>Victim: 2. Renders fake popup window with simulated SSL address bar
+ Victim->>FakeSite: 3. Inputs Steam username, password & Steam Guard TOTP
+ FakeSite->>AttackerProxy: 4. Transmits credentials via JSON POST in real-time
+ AttackerProxy->>SteamAuth: 5. Executes legitimate OpenID login handshake
+ SteamAuth-->>AttackerProxy: 6. Issues authenticated session cookies (steamLoginSecure)
+ AttackerProxy->>AttackerBot: 7. Transfers session context to trading bot
+ AttackerBot->>SteamAuth: 8. Configures Family View PIN (locks victim settings)
+ AttackerBot->>SteamAuth: 9. Generates Web API Key & intercepts trade offers
+ AttackerProxy-->>FakeSite: 10. Displays error message ("Vote recorded / Server busy")
 ```
 
 ### 2.1 Browser-in-the-Middle (BitM) Mechanics

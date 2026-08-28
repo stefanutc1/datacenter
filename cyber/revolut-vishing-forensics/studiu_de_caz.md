@@ -1,8 +1,8 @@
-# 🛡️ Studiu de Caz: Inginerie Socială & Voice Phishing (Vishing) Avansat Țintit Asupra Utilizatorilor FinTech (Revolut)
+# Studiu de Caz: Inginerie Socială & Voice Phishing (Vishing) Avansat Țintit Asupra Utilizatorilor FinTech (Revolut)
 
-**Autor:** `stefannut`  
-**Dată:** August 2026  
-**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică  
+**Autor:** `stefannut` 
+**Dată:** August 2026 
+**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Vector Analizat:** Campanie activă de inginerie socială, Voice Phishing (Vishing), Caller ID Spoofing și clonare dinamică a portalului bancar Revolut.
 
 ---
@@ -19,39 +19,39 @@ Campania a urmărit furtul datelor complete ale cardului bancar (PAN, CVV, Dată
 
 ```mermaid
 flowchart TD
-    Attacker(["👤 Atacator / Grup Infracțional"])
+ Attacker([" Atacator / Grup Infracțional"])
 
-    subgraph TELEPHONY["Faza 1: Inginerie Socială & Telephonie"]
-        VOIP["Gateway SIP VoIP\nCaller ID Spoofing (ex: 0749-XXX-XXX)"]
-        PRETEXT["Pretext Urgență:\n'Tranzacție suspectă / Sold negativ'"]
-    end
+ subgraph TELEPHONY["Faza 1: Inginerie Socială & Telephonie"]
+ VOIP["Gateway SIP VoIP\nCaller ID Spoofing (ex: 0749-XXX-XXX)"]
+ PRETEXT["Pretext Urgență:\n'Tranzacție suspectă / Sold negativ'"]
+ end
 
-    subgraph DELIVERY["Faza 2: Transmitere Vector Phishing"]
-        SMS["SMS Spoofat cu Link Malițios\nShortener URL (bit.ly / t.co)"]
-        CLONE["Domeniu Phishing Clasă FinTech\n(Let's Encrypt SSL · TLD: .tk / .xyz)"]
-    end
+ subgraph DELIVERY["Faza 2: Transmitere Vector Phishing"]
+ SMS["SMS Spoofat cu Link Malițios\nShortener URL (bit.ly / t.co)"]
+ CLONE["Domeniu Phishing Clasă FinTech\n(Let's Encrypt SSL · TLD: .tk / .xyz)"]
+ end
 
-    subgraph INTERCEPTION["Faza 3: Recoltare & Proxy în Timp Real"]
-        PORTAL["Portal Web Clonat Revolut\nCaptură PAN, CVV, Expirare"]
-        RELAY["Releu Automatizat C2\nTransmitere în Timp Real către Atacator"]
-    end
+ subgraph INTERCEPTION["Faza 3: Recoltare & Proxy în Timp Real"]
+ PORTAL["Portal Web Clonat Revolut\nCaptură PAN, CVV, Expirare"]
+ RELAY["Releu Automatizat C2\nTransmitere în Timp Real către Atacator"]
+ end
 
-    subgraph FRAUD["Faza 4: Autorizare & Exfiltrare Fonduri"]
-        OTP["Victima introduce codul 3DS / OTP"]
-        APP_AUTH["Victima aprobă notificarea Push în Aplicație"]
-        CASHOUT["Tranzacție Neautorizată Finalizată\n(SEPA Instant / Crypto Gateway)"]
-    end
+ subgraph FRAUD["Faza 4: Autorizare & Exfiltrare Fonduri"]
+ OTP["Victima introduce codul 3DS / OTP"]
+ APP_AUTH["Victima aprobă notificarea Push în Aplicație"]
+ CASHOUT["Tranzacție Neautorizată Finalizată\n(SEPA Instant / Crypto Gateway)"]
+ end
 
-    Attacker --> VOIP
-    VOIP -->|Apel Voce sub pretext Antifraudă| PRETEXT
-    PRETEXT -->|Instrucțiuni trimise prin SMS| SMS
-    SMS --> CLONE
-    CLONE --> PORTAL
-    PORTAL -->|Date card capturate| RELAY
-    RELAY -->|Inițiere tranzacție frauduloasă| OTP
-    OTP --> APP_AUTH
-    APP_AUTH --> CASHOUT
-    CASHOUT -->|Fonduri exfiltrate| Attacker
+ Attacker --> VOIP
+ VOIP -->|Apel Voce sub pretext Antifraudă| PRETEXT
+ PRETEXT -->|Instrucțiuni trimise prin SMS| SMS
+ SMS --> CLONE
+ CLONE --> PORTAL
+ PORTAL -->|Date card capturate| RELAY
+ RELAY -->|Inițiere tranzacție frauduloasă| OTP
+ OTP --> APP_AUTH
+ APP_AUTH --> CASHOUT
+ CASHOUT -->|Fonduri exfiltrate| Attacker
 ```
 
 ---
@@ -97,8 +97,8 @@ flowchart TD
 ## 6. Procedura de Takedown și Recomandări Defensive
 
 1. **Răspunsul Echipei de Securitate**:
-   - Raportarea infrastructurii malițioase către registratorii de domenii (Namecheap / Cloudflare / Netcraft).
-   - Transmiterea logurilor și dovezilor tehnice către CERT-RO / Directoratul Național de Securitate Cibernetică (DNSC).
+ - Raportarea infrastructurii malițioase către registratorii de domenii (Namecheap / Cloudflare / Netcraft).
+ - Transmiterea logurilor și dovezilor tehnice către CERT-RO / Directoratul Național de Securitate Cibernetică (DNSC).
 2. **Recomandări pentru Utilizatori**:
-   - Nicio instituție bancară legitimă nu va apela niciodată un client pentru a-i cere codurile SMS de autorizare sau datele de pe spatele cardului (CVV).
-   - Dacă primiți un astfel de apel, închideți imediat și contactați banca exclusiv prin chat-ul securizat din interiorul aplicației oficiale.
+ - Nicio instituție bancară legitimă nu va apela niciodată un client pentru a-i cere codurile SMS de autorizare sau datele de pe spatele cardului (CVV).
+ - Dacă primiți un astfel de apel, închideți imediat și contactați banca exclusiv prin chat-ul securizat din interiorul aplicației oficiale.

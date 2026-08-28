@@ -1,15 +1,15 @@
 export const articles = [
-  {
-    id: "case-study-en",
-    title: "Executive Case Study (EN)",
-    category: "Forensic Report",
-    icon: "📄",
-    summary: "Full forensic case study in English exposing API disclosure, withdrawal kill-switches, and SQL injection.",
-    content: `# 🛡️ Case Study: Forensic Deconstruction of a Fraudulent Task Scam & Cryptocurrency Drainage Platform
+ {
+ id: "case-study-en",
+ title: "Executive Case Study (EN)",
+ category: "Forensic Report",
+ icon: "",
+ summary: "Full forensic case study in English exposing API disclosure, withdrawal kill-switches, and SQL injection.",
+ content: `# Case Study: Forensic Deconstruction of a Fraudulent Task Scam & Cryptocurrency Drainage Platform
 
-**Author:** \`stefannut\`  
-**Date:** August 2026  
-**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence  
+**Author:** \`stefannut\` 
+**Date:** August 2026 
+**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Forensic teardown of backend API exposure, client-side UI manipulation, and financial entrapment mechanisms in a global Task Scam / Pig Butchering platform.
 
 ---
@@ -29,44 +29,44 @@ Through traffic interception (Burp Suite) and API endpoint analysis, this invest
 
 \`\`\`mermaid
 flowchart TD
-    Victim(["👤 Victim User"])
-    Admin(["🕵️ Threat Actor Admin Panel"])
+ Victim([" Victim User"])
+ Admin([" Threat Actor Admin Panel"])
 
-    subgraph FRONTEND["Frontend Presentation Layer"]
-        UI["Vue.js Web Application
+ subgraph FRONTEND["Frontend Presentation Layer"]
+ UI["Vue.js Web Application
 Simulated Task Engine & Fictitious Balances"]
-        FEED["Fabricated Live News & Payout Feed
+ FEED["Fabricated Live News & Payout Feed
 (Derived from /api/v1/site/config data)"]
-    end
+ end
 
-    subgraph BACKEND["Backend & API Layer"]
-        API_CONFIG["/api/v1/site/config
+ subgraph BACKEND["Backend & API Layer"]
+ API_CONFIG["/api/v1/site/config
 Withdrawal Kill-Switch: false
 Country Code Lock: +40"]
-        API_AUTH["/api/v1/user/auth/*
+ API_AUTH["/api/v1/user/auth/*
 SQL Injection Surface on invite_code & username"]
-        DB[(Campaign Database & Ledger)]
-    end
+ DB[(Campaign Database & Ledger)]
+ end
 
-    subgraph TRAP["Financial Drain Trap"]
-        DEPOSIT["USDT TRC-20 Deposit Requirement
+ subgraph TRAP["Financial Drain Trap"]
+ DEPOSIT["USDT TRC-20 Deposit Requirement
 Mandatory 'VIP Task Level Unlock'"]
-        WALLET["Attacker Consolidation Wallet
+ WALLET["Attacker Consolidation Wallet
 (Laundering through Mixers/Bridges)"]
-        BLOCK["Withdrawal Blocked Indefinitely
+ BLOCK["Withdrawal Blocked Indefinitely
 'Compliance Tax / Security Audit Fee Required'"]
-    end
+ end
 
-    Victim -->|Registers with invite_code: 888888| UI
-    UI <--> API_CONFIG
-    UI <--> API_AUTH
-    API_AUTH <--> DB
-    Admin -->|Manipulates task payouts & odds| DB
-    UI -->|Displays fake accrued earnings| FEED
-    FEED -->|Lured into funding account| DEPOSIT
-    DEPOSIT --> WALLET
-    Victim -.->|Attempts cash withdrawal| BLOCK
-    BLOCK -->|Funds permanently expropriated| Admin
+ Victim -->|Registers with invite_code: 888888| UI
+ UI <--> API_CONFIG
+ UI <--> API_AUTH
+ API_AUTH <--> DB
+ Admin -->|Manipulates task payouts & odds| DB
+ UI -->|Displays fake accrued earnings| FEED
+ FEED -->|Lured into funding account| DEPOSIT
+ DEPOSIT --> WALLET
+ Victim -.->|Attempts cash withdrawal| BLOCK
+ BLOCK -->|Funds permanently expropriated| Admin
 \`\`\`
 
 ---
@@ -78,17 +78,17 @@ Interrogating the unauthenticated site configuration endpoint revealed the opera
 
 \`\`\`json
 {
-  "code": 200,
-  "data": {
-    "siteName": "Global E-Commerce Task Hub",
-    "defaultCountryCode": "+40",
-    "withdrawMethodBank": false,
-    "withdrawMethodRevolut": false,
-    "minDepositUSDT": 50,
-    "aiNewsFeed": [
-      { "title": "Platform partners with top retailers", "date": "2026-08-01" }
-    ]
-  }
+ "code": 200,
+ "data": {
+ "siteName": "Global E-Commerce Task Hub",
+ "defaultCountryCode": "+40",
+ "withdrawMethodBank": false,
+ "withdrawMethodRevolut": false,
+ "minDepositUSDT": 50,
+ "aiNewsFeed": [
+ { "title": "Platform partners with top retailers", "date": "2026-08-01" }
+ ]
+ }
 }
 \`\`\`
 
@@ -128,18 +128,18 @@ The \`invite_code\` parameter (validated as \`888888\`) and the \`username\` fie
 2. **Blockchain Tracing**: Track wallet transfer hops on TRONSCAN to identify consolidation exchanges and submit asset freezing requests to compliance desks.
 3. **Abuse Takedown**: Issue immediate abuse notices to CDN providers and domain registrars hosting the API infrastructure.
 `
-  },
-  {
-    id: "case-study-ro",
-    title: "Studiu de Caz (RO)",
-    category: "Forensic Report",
-    icon: "🇷🇴",
-    summary: "Studiu de caz tehnic complet în limba română.",
-    content: `# 🛡️ Studiu de Caz: Dezasamblarea Infrastructurii Frauduloase a unei Scheme Task Scam (Fake Job & Crypto Drainage)
+ },
+ {
+ id: "case-study-ro",
+ title: "Studiu de Caz (RO)",
+ category: "Forensic Report",
+ icon: "",
+ summary: "Studiu de caz tehnic complet în limba română.",
+ content: `# Studiu de Caz: Dezasamblarea Infrastructurii Frauduloase a unei Scheme Task Scam (Fake Job & Crypto Drainage)
 
-**Autor:** \`stefannut\`  
-**Dată:** August 2026  
-**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică  
+**Autor:** \`stefannut\` 
+**Dată:** August 2026 
+**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Obiectiv:** Analiza forensică a arhitecturii backend, vulnerabilităților API și mecanismelor de manipulare UI utilizate într-o schemă globală de tip "Task Scam" / Pig Butchering.
 
 ---
@@ -159,36 +159,36 @@ Analiza de securitate realizată prin interceptarea traficului (Burp Suite) și 
 
 \`\`\`mermaid
 flowchart TD
-    Victim(["👤 Utilizator Victimă"])
-    Admin(["🕵️ Panou Administrare Atacator"])
+ Victim([" Utilizator Victimă"])
+ Admin([" Panou Administrare Atacator"])
 
-    subgraph FRONTEND["Stratul Frontend (UI Manipulat)"]
-        UI["Interfață Web / Mobile Web\\nSimulare Sarcini & Balanță Falsă"]
-        FEED["Fake News Feed & Tranzacții Fictive\\n(Statistici injectate din /api/v1/site/config)"]
-    end
+ subgraph FRONTEND["Stratul Frontend (UI Manipulat)"]
+ UI["Interfață Web / Mobile Web\\nSimulare Sarcini & Balanță Falsă"]
+ FEED["Fake News Feed & Tranzacții Fictive\\n(Statistici injectate din /api/v1/site/config)"]
+ end
 
-    subgraph BACKEND["Stratul Backend & API"]
-        API_CONFIG["Endpoint: /api/v1/site/config\\nKill-Switch Retrageri Fiat (false)\\nCountry Code: +40 Lock"]
-        API_AUTH["Endpoint: /api/v1/user/auth/*\\nVulnerabilitate SQLi pe invite_code / user"]
-        DB[(Bază de Date Campanii & Victime)]
-    end
+ subgraph BACKEND["Stratul Backend & API"]
+ API_CONFIG["Endpoint: /api/v1/site/config\\nKill-Switch Retrageri Fiat (false)\\nCountry Code: +40 Lock"]
+ API_AUTH["Endpoint: /api/v1/user/auth/*\\nVulnerabilitate SQLi pe invite_code / user"]
+ DB[(Bază de Date Campanii & Victime)]
+ end
 
-    subgraph TRAP["Mecanismul de Fraudarare Financiară"]
-        DEPOSIT["Depunere Criptomonedă (USDT TRC20)\\nPentru 'Deblocare Task-uri VIP'"]
-        WALLET["Portofel Crypto Atacator\\n(Rulare prin Bridge-uri & Mixere)"]
-        BLOCK["Blocare Retragere Fonduri\\n'Eroare de conformitate / Comision suplimentar'"]
-    end
+ subgraph TRAP["Mecanismul de Fraudarare Financiară"]
+ DEPOSIT["Depunere Criptomonedă (USDT TRC20)\\nPentru 'Deblocare Task-uri VIP'"]
+ WALLET["Portofel Crypto Atacator\\n(Rulare prin Bridge-uri & Mixere)"]
+ BLOCK["Blocare Retragere Fonduri\\n'Eroare de conformitate / Comision suplimentar'"]
+ end
 
-    Victim -->|Înregistrare cu invite_code: 888888| UI
-    UI <--> API_CONFIG
-    UI <--> API_AUTH
-    API_AUTH <--> DB
-    Admin -->|Manipulare cote & balanțe| DB
-    UI -->|Afișează câștiguri fictive| FEED
-    FEED -->|Victima este convinsă să investească| DEPOSIT
-    DEPOSIT --> WALLET
-    Victim -.->|Încercare retragere fonduri| BLOCK
-    BLOCK -->|Fondurile sunt reținute definitiv| Admin
+ Victim -->|Înregistrare cu invite_code: 888888| UI
+ UI <--> API_CONFIG
+ UI <--> API_AUTH
+ API_AUTH <--> DB
+ Admin -->|Manipulare cote & balanțe| DB
+ UI -->|Afișează câștiguri fictive| FEED
+ FEED -->|Victima este convinsă să investească| DEPOSIT
+ DEPOSIT --> WALLET
+ Victim -.->|Încercare retragere fonduri| BLOCK
+ BLOCK -->|Fondurile sunt reținute definitiv| Admin
 \`\`\`
 
 ---
@@ -200,17 +200,17 @@ Interogarea directă a endpoint-ului de configurare a dezvăluit parametrii oper
 
 \`\`\`json
 {
-  "code": 200,
-  "data": {
-    "siteName": "Global E-Commerce Task Hub",
-    "defaultCountryCode": "+40",
-    "withdrawMethodBank": false,
-    "withdrawMethodRevolut": false,
-    "minDepositUSDT": 50,
-    "aiNewsFeed": [
-      { "title": "Platform partners with top retailers", "date": "2026-08-01" }
-    ]
-  }
+ "code": 200,
+ "data": {
+ "siteName": "Global E-Commerce Task Hub",
+ "defaultCountryCode": "+40",
+ "withdrawMethodBank": false,
+ "withdrawMethodRevolut": false,
+ "minDepositUSDT": 50,
+ "aiNewsFeed": [
+ { "title": "Platform partners with top retailers", "date": "2026-08-01" }
+ ]
+ }
 }
 \`\`\`
 
@@ -247,20 +247,20 @@ Câmpul \`invite_code\` (utilizat pentru afilierea victimei la un operator speci
 ## 6. Concluzii și Măsuri Defensive
 
 1. **Indicatori de Recunoaștere a Scam-ului**:
-   - Orice ofertă de muncă ce cere depunerea prealabilă de fonduri proprii (în crypto sau fiat) pentru a putea finaliza sarcini sau a debloca câștiguri este o fraudă garantată.
-   - Interfețele care oferă "câștiguri garantate de 200-500 RON/zi" pentru câteva click-uri pe zi utilizează grafice simulate, fără nicio legătură cu comercianți reali.
+ - Orice ofertă de muncă ce cere depunerea prealabilă de fonduri proprii (în crypto sau fiat) pentru a putea finaliza sarcini sau a debloca câștiguri este o fraudă garantată.
+ - Interfețele care oferă "câștiguri garantate de 200-500 RON/zi" pentru câteva click-uri pe zi utilizează grafice simulate, fără nicio legătură cu comercianți reali.
 2. **Recomandări de Investigare**:
-   - Urmărirea fluxurilor financiare prin exploratoare blockchain (TRONSCAN) pentru identificarea adreselor de consolidare ale atacatorilor.
-   - Trimiterea rapoartelor către autorități și furnizorii de infrastructură CDN/Hosting pentru suspendarea domeniilor.
+ - Urmărirea fluxurilor financiare prin exploratoare blockchain (TRONSCAN) pentru identificarea adreselor de consolidare ale atacatorilor.
+ - Trimiterea rapoartelor către autorități și furnizorii de infrastructură CDN/Hosting pentru suspendarea domeniilor.
 `
-  },
-  {
-    id: "api-exposure",
-    title: "API Configuration Disclosure",
-    category: "Vulnerability Audit",
-    icon: "🔍",
-    summary: "Analysis of /api/v1/site/config, withdrawal kill-switches, and hardcoded country codes.",
-    content: `# API Logic and Configuration Disclosure
+ },
+ {
+ id: "api-exposure",
+ title: "API Configuration Disclosure",
+ category: "Vulnerability Audit",
+ icon: "",
+ summary: "Analysis of /api/v1/site/config, withdrawal kill-switches, and hardcoded country codes.",
+ content: `# API Logic and Configuration Disclosure
 
 During the interception of HTTP/HTTPS traffic, a critical endpoint was identified: \`/api/v1/site/config\`. This endpoint serves as the primary data source for the frontend "Vibecoding" logic.
 
@@ -269,14 +269,14 @@ During the interception of HTTP/HTTPS traffic, a critical endpoint was identifie
 * **Geographic Campaign Lock**: The field \`defaultCountryCode\` is hardcoded to \`+40\`, matching the Romanian market. Attempts to register with other prefixes (e.g., +64) result in backend rejections.
 * **Fake News Feed**: The "AI NEWS" section is populated via a static JSON array within this config, featuring outdated or fabricated headlines to build false authority.
 `
-  },
-  {
-    id: "sqli",
-    title: "SQL Injection Surface",
-    category: "Vulnerability Audit",
-    icon: "💉",
-    summary: "Analysis of un-sanitized invite_code and username authentication parameters.",
-    content: `# Potential SQL Injection (SQLi) Surface Analysis
+ },
+ {
+ id: "sqli",
+ title: "SQL Injection Surface",
+ category: "Vulnerability Audit",
+ icon: "",
+ summary: "Analysis of un-sanitized invite_code and username authentication parameters.",
+ content: `# Potential SQL Injection (SQLi) Surface Analysis
 
 During the registration and login phase, several input fields were audited for improper sanitization. While a full exploit was not executed (to remain within ethical boundaries), the entry points were identified.
 
@@ -294,14 +294,14 @@ To mitigate these risks, the backend must implement:
 2. **Strict Input Validation** on the server side, not just the client side.
 3. **WAF (Web Application Firewall)** rules to filter out common SQL injection patterns (though Cloudflare was present, it appeared to be in 'detection' rather than 'prevention' mode for specific payload types).
 `
-  },
-  {
-    id: "ui-manipulation",
-    title: "Client UI & Balance Manipulation",
-    category: "Fraud Mechanics",
-    icon: "🎭",
-    summary: "Fictitious profit simulation and fake WebSocket transactions.",
-    content: `# Frontend Integrity and Localization Bypass
+ },
+ {
+ id: "ui-manipulation",
+ title: "Client UI & Balance Manipulation",
+ category: "Fraud Mechanics",
+ icon: "",
+ summary: "Fictitious profit simulation and fake WebSocket transactions.",
+ content: `# Frontend Integrity and Localization Bypass
 
 The platform's frontend is built with Vite/Vue.js but lacks proper server-side state validation for user sessions and localization.
 
@@ -310,14 +310,14 @@ The platform's frontend is built with Vite/Vue.js but lacks proper server-side s
 * **State Conflict**: Despite forcing the Russian locale (\`Регистрация\`), the hardcoded Romanian campaign prefix (\`+40\`) remained active. This proves that the backend does not synchronize regional settings with user-selected languages, highlighting a "white-label" scam template implementation.
 * **Dead Elements**: Multiple UI components (e.g., "Detailed GPU Statistics") were confirmed to be non-functional shells with no underlying logic or event listeners.
 `
-  },
-  {
-    id: "fingerprinting",
-    title: "Stack & Threat Fingerprinting",
-    category: "Infrastructure",
-    icon: "🏷️",
-    summary: "PHP/Laravel backend and Vue.js SPA task scam kit fingerprinting.",
-    content: `# Client-Side Tracking and Hardware Fingerprinting
+ },
+ {
+ id: "fingerprinting",
+ title: "Stack & Threat Fingerprinting",
+ category: "Infrastructure",
+ icon: "",
+ summary: "PHP/Laravel backend and Vue.js SPA task scam kit fingerprinting.",
+ content: `# Client-Side Tracking and Hardware Fingerprinting
 
 The platform utilizes advanced browser fingerprinting techniques to track unique visitors, likely to prevent "multi-accounting" by researchers or bots.
 
@@ -326,13 +326,13 @@ The platform utilizes advanced browser fingerprinting techniques to track unique
 * **Hardware Profile**: The script successfully extracted CPU architecture (\`x86_64\`) and core count (2 cores alocated in VM).
 * **Identity Persistence**: The \`device_id\` and \`device_send\` UUIDs persist across sessions, allowing the scammers to blacklist specific devices if suspicious activity (like security auditing) is detected.
 `
-  }
+ }
 ];
 
 export const iocList = [
-  { type: "Endpoint", indicator: "/api/v1/site/config", threat: "Unauthenticated Config Disclosure", status: "Exposed" },
-  { type: "Endpoint", indicator: "/api/v1/user/auth/register", threat: "SQL Injection Vector", status: "Vulnerable" },
-  { type: "Invite Code", indicator: "888888", threat: "Fraud Affiliate Identifier", status: "Active" },
-  { type: "Crypto Asset", indicator: "USDT TRC-20 (TRON)", threat: "Irreversible Deposit Drainage", status: "Tracked" },
-  { type: "Flag", indicator: "withdrawMethodBank: false", threat: "Premeditated Withdrawal Kill-Switch", status: "Hardcoded" }
+ { type: "Endpoint", indicator: "/api/v1/site/config", threat: "Unauthenticated Config Disclosure", status: "Exposed" },
+ { type: "Endpoint", indicator: "/api/v1/user/auth/register", threat: "SQL Injection Vector", status: "Vulnerable" },
+ { type: "Invite Code", indicator: "888888", threat: "Fraud Affiliate Identifier", status: "Active" },
+ { type: "Crypto Asset", indicator: "USDT TRC-20 (TRON)", threat: "Irreversible Deposit Drainage", status: "Tracked" },
+ { type: "Flag", indicator: "withdrawMethodBank: false", threat: "Premeditated Withdrawal Kill-Switch", status: "Hardcoded" }
 ];

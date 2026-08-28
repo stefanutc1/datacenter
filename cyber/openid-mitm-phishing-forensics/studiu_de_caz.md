@@ -1,8 +1,8 @@
-# 🛡️ Studiu de Caz: Analiza Forensică a unui Atac Adversary-in-the-Middle (AiTM) pe Mecanismul OpenID Steam
+# Studiu de Caz: Analiza Forensică a unui Atac Adversary-in-the-Middle (AiTM) pe Mecanismul OpenID Steam
 
-**Autor:** `stefannut`  
-**Dată:** August 2026  
-**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică  
+**Autor:** `stefannut` 
+**Dată:** August 2026 
+**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Țintă Analizată:** Campanie activă de phishing și deturnare a conturilor Steam prin ferestre pop-up false (Browser-in-the-Middle) și releu OpenID proxy.
 
 ---
@@ -19,23 +19,23 @@ Analiza a relevat utilizarea unui kit modular de phishing capabil să intercepte
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    actor Victim as Utilizator Victimă
-    participant FakeSite as Portal Phishing (Fake Tournament)
-    participant AttackerProxy as AiTM Reverse Proxy
-    participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
-    actor AttackerBot as Bot Automatizat Atacator
+ autonumber
+ actor Victim as Utilizator Victimă
+ participant FakeSite as Portal Phishing (Fake Tournament)
+ participant AttackerProxy as AiTM Reverse Proxy
+ participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
+ actor AttackerBot as Bot Automatizat Atacator
 
-    Victim->>FakeSite: 1. Accesează link-ul malițios (Pretext turneu CS2)
-    FakeSite->>Victim: 2. Afișează fereastră falsă de login (Browser-in-the-Middle)
-    Victim->>FakeSite: 3. Introduce User, Parolă și Steam Guard TOTP
-    FakeSite->>AttackerProxy: 4. Trimite credențialele în timp real (JSON POST)
-    AttackerProxy->>SteamAuth: 5. Autentificare legitimă în numele victimei
-    SteamAuth-->>AttackerProxy: 6. Emite cookie-uri de sesiune (steamLoginSecure, sessionid)
-    AttackerProxy->>AttackerBot: 7. Transferă token-ul de sesiune către bot
-    AttackerBot->>SteamAuth: 8. Activează Family View PIN (blochează setările victimei)
-    AttackerBot->>SteamAuth: 9. Creează API Key nou și generează oferte de Trade
-    AttackerProxy-->>FakeSite: 10. Afișează eroare fictivă ("Vote registered / Server error")
+ Victim->>FakeSite: 1. Accesează link-ul malițios (Pretext turneu CS2)
+ FakeSite->>Victim: 2. Afișează fereastră falsă de login (Browser-in-the-Middle)
+ Victim->>FakeSite: 3. Introduce User, Parolă și Steam Guard TOTP
+ FakeSite->>AttackerProxy: 4. Trimite credențialele în timp real (JSON POST)
+ AttackerProxy->>SteamAuth: 5. Autentificare legitimă în numele victimei
+ SteamAuth-->>AttackerProxy: 6. Emite cookie-uri de sesiune (steamLoginSecure, sessionid)
+ AttackerProxy->>AttackerBot: 7. Transferă token-ul de sesiune către bot
+ AttackerBot->>SteamAuth: 8. Activează Family View PIN (blochează setările victimei)
+ AttackerBot->>SteamAuth: 9. Creează API Key nou și generează oferte de Trade
+ AttackerProxy-->>FakeSite: 10. Afișează eroare fictivă ("Vote registered / Server error")
 ```
 
 ### 2.1 Tehnica Browser-in-the-Middle (BitM)
@@ -86,8 +86,8 @@ După obținerea sesiunii valide, infrastructura atacatorilor execută un script
 ## 6. Măsuri de Mitigare și Detecție
 
 1. **Pentru Utilizatori**:
-   - Nu introduceți niciodată datele de logare Steam pe ferestre pop-up apărute pe site-uri terțe. Dacă sunteți deja autentificat pe `steamcommunity.com`, butonul legitim de OpenID necesită doar un singur click ("Sign In"), fără a cere din nou parola sau codul TOTP.
-   - Verificați periodic dacă aveți chei API necunoscute pe `https://steamcommunity.com/dev/apikey`.
+ - Nu introduceți niciodată datele de logare Steam pe ferestre pop-up apărute pe site-uri terțe. Dacă sunteți deja autentificat pe `steamcommunity.com`, butonul legitim de OpenID necesită doar un singur click ("Sign In"), fără a cere din nou parola sau codul TOTP.
+ - Verificați periodic dacă aveți chei API necunoscute pe `https://steamcommunity.com/dev/apikey`.
 2. **Pentru Echipe Defensive / SOC**:
-   - Blocarea la nivel de DNS/Web Proxy a domeniilor nou înregistrate (NRD < 30 zile) ce conțin keyword-uri precum `steam`, `cs2`, `tournament`, `valve`.
-   - Monitorizarea conexiunilor HTTPS inițiate către ASN-uri cu reputație scăzută.
+ - Blocarea la nivel de DNS/Web Proxy a domeniilor nou înregistrate (NRD < 30 zile) ce conțin keyword-uri precum `steam`, `cs2`, `tournament`, `valve`.
+ - Monitorizarea conexiunilor HTTPS inițiate către ASN-uri cu reputație scăzută.

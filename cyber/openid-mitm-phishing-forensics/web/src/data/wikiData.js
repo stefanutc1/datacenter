@@ -1,15 +1,15 @@
 export const articles = [
-  {
-    id: "case-study-en",
-    title: "Executive Case Study (EN)",
-    category: "Forensic Report",
-    icon: "📄",
-    summary: "Full forensic case study in English covering BitM attack mechanics, Family View hijack, and MITRE mapping.",
-    content: `# 🛡️ Case Study: Forensic Analysis of an Adversary-in-the-Middle (AiTM) Attack on Steam OpenID Authentication
+ {
+ id: "case-study-en",
+ title: "Executive Case Study (EN)",
+ category: "Forensic Report",
+ icon: "",
+ summary: "Full forensic case study in English covering BitM attack mechanics, Family View hijack, and MITRE mapping.",
+ content: `# Case Study: Forensic Analysis of an Adversary-in-the-Middle (AiTM) Attack on Steam OpenID Authentication
 
-**Author:** \`stefannut\`  
-**Date:** August 2026  
-**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence  
+**Author:** \`stefannut\` 
+**Date:** August 2026 
+**Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Active phishing and account takeover campaign leveraging Browser-in-the-Middle (BitM) fake popups and real-time OpenID session relay.
 
 ---
@@ -26,23 +26,23 @@ The malicious infrastructure weaponized a high-fidelity **Browser-in-the-Middle 
 
 \`\`\`mermaid
 sequenceDiagram
-    autonumber
-    actor Victim as Victim User
-    participant FakeSite as Phishing Landing Page (Fake Tournament)
-    participant AttackerProxy as AiTM Reverse Proxy C2
-    participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
-    actor AttackerBot as Automated Trade Hijack Bot
+ autonumber
+ actor Victim as Victim User
+ participant FakeSite as Phishing Landing Page (Fake Tournament)
+ participant AttackerProxy as AiTM Reverse Proxy C2
+ participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
+ actor AttackerBot as Automated Trade Hijack Bot
 
-    Victim->>FakeSite: 1. Clicks tournament link & selects "Vote via Steam"
-    FakeSite->>Victim: 2. Renders fake popup window with simulated SSL address bar
-    Victim->>FakeSite: 3. Inputs Steam username, password & Steam Guard TOTP
-    FakeSite->>AttackerProxy: 4. Transmits credentials via JSON POST in real-time
-    AttackerProxy->>SteamAuth: 5. Executes legitimate OpenID login handshake
-    SteamAuth-->>AttackerProxy: 6. Issues authenticated session cookies (steamLoginSecure)
-    AttackerProxy->>AttackerBot: 7. Transfers session context to trading bot
-    AttackerBot->>SteamAuth: 8. Configures Family View PIN (locks victim settings)
-    AttackerBot->>SteamAuth: 9. Generates Web API Key & intercepts trade offers
-    AttackerProxy-->>FakeSite: 10. Displays error message ("Vote recorded / Server busy")
+ Victim->>FakeSite: 1. Clicks tournament link & selects "Vote via Steam"
+ FakeSite->>Victim: 2. Renders fake popup window with simulated SSL address bar
+ Victim->>FakeSite: 3. Inputs Steam username, password & Steam Guard TOTP
+ FakeSite->>AttackerProxy: 4. Transmits credentials via JSON POST in real-time
+ AttackerProxy->>SteamAuth: 5. Executes legitimate OpenID login handshake
+ SteamAuth-->>AttackerProxy: 6. Issues authenticated session cookies (steamLoginSecure)
+ AttackerProxy->>AttackerBot: 7. Transfers session context to trading bot
+ AttackerBot->>SteamAuth: 8. Configures Family View PIN (locks victim settings)
+ AttackerBot->>SteamAuth: 9. Generates Web API Key & intercepts trade offers
+ AttackerProxy-->>FakeSite: 10. Displays error message ("Vote recorded / Server busy")
 \`\`\`
 
 ### 2.1 Browser-in-the-Middle (BitM) Mechanics
@@ -94,18 +94,18 @@ Unlike traditional phishing campaigns that redirect victims to an external typo-
 2. **API Key Auditing**: Inspect \`https://steamcommunity.com/dev/apikey\` regularly for unauthorized API registrations.
 3. **Enterprise Defense**: Deploy DNS sinkholing for newly registered domains (NRDs) matching gaming and tournament keywords.
 `
-  },
-  {
-    id: "case-study-ro",
-    title: "Studiu de Caz (RO)",
-    category: "Forensic Report",
-    icon: "🇷🇴",
-    summary: "Studiu de caz tehnic complet în limba română.",
-    content: `# 🛡️ Studiu de Caz: Analiza Forensică a unui Atac Adversary-in-the-Middle (AiTM) pe Mecanismul OpenID Steam
+ },
+ {
+ id: "case-study-ro",
+ title: "Studiu de Caz (RO)",
+ category: "Forensic Report",
+ icon: "",
+ summary: "Studiu de caz tehnic complet în limba română.",
+ content: `# Studiu de Caz: Analiza Forensică a unui Atac Adversary-in-the-Middle (AiTM) pe Mecanismul OpenID Steam
 
-**Autor:** \`stefannut\`  
-**Dată:** August 2026  
-**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică  
+**Autor:** \`stefannut\` 
+**Dată:** August 2026 
+**Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Țintă Analizată:** Campanie activă de phishing și deturnare a conturilor Steam prin ferestre pop-up false (Browser-in-the-Middle) și releu OpenID proxy.
 
 ---
@@ -122,23 +122,23 @@ Analiza a relevat utilizarea unui kit modular de phishing capabil să intercepte
 
 \`\`\`mermaid
 sequenceDiagram
-    autonumber
-    actor Victim as Utilizator Victimă
-    participant FakeSite as Portal Phishing (Fake Tournament)
-    participant AttackerProxy as AiTM Reverse Proxy
-    participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
-    actor AttackerBot as Bot Automatizat Atacator
+ autonumber
+ actor Victim as Utilizator Victimă
+ participant FakeSite as Portal Phishing (Fake Tournament)
+ participant AttackerProxy as AiTM Reverse Proxy
+ participant SteamAuth as Valve Steam OpenID (steamcommunity.com)
+ actor AttackerBot as Bot Automatizat Atacator
 
-    Victim->>FakeSite: 1. Accesează link-ul malițios (Pretext turneu CS2)
-    FakeSite->>Victim: 2. Afișează fereastră falsă de login (Browser-in-the-Middle)
-    Victim->>FakeSite: 3. Introduce User, Parolă și Steam Guard TOTP
-    FakeSite->>AttackerProxy: 4. Trimite credențialele în timp real (JSON POST)
-    AttackerProxy->>SteamAuth: 5. Autentificare legitimă în numele victimei
-    SteamAuth-->>AttackerProxy: 6. Emite cookie-uri de sesiune (steamLoginSecure, sessionid)
-    AttackerProxy->>AttackerBot: 7. Transferă token-ul de sesiune către bot
-    AttackerBot->>SteamAuth: 8. Activează Family View PIN (blochează setările victimei)
-    AttackerBot->>SteamAuth: 9. Creează API Key nou și generează oferte de Trade
-    AttackerProxy-->>FakeSite: 10. Afișează eroare fictivă ("Vote registered / Server error")
+ Victim->>FakeSite: 1. Accesează link-ul malițios (Pretext turneu CS2)
+ FakeSite->>Victim: 2. Afișează fereastră falsă de login (Browser-in-the-Middle)
+ Victim->>FakeSite: 3. Introduce User, Parolă și Steam Guard TOTP
+ FakeSite->>AttackerProxy: 4. Trimite credențialele în timp real (JSON POST)
+ AttackerProxy->>SteamAuth: 5. Autentificare legitimă în numele victimei
+ SteamAuth-->>AttackerProxy: 6. Emite cookie-uri de sesiune (steamLoginSecure, sessionid)
+ AttackerProxy->>AttackerBot: 7. Transferă token-ul de sesiune către bot
+ AttackerBot->>SteamAuth: 8. Activează Family View PIN (blochează setările victimei)
+ AttackerBot->>SteamAuth: 9. Creează API Key nou și generează oferte de Trade
+ AttackerProxy-->>FakeSite: 10. Afișează eroare fictivă ("Vote registered / Server error")
 \`\`\`
 
 ### 2.1 Tehnica Browser-in-the-Middle (BitM)
@@ -189,20 +189,20 @@ După obținerea sesiunii valide, infrastructura atacatorilor execută un script
 ## 6. Măsuri de Mitigare și Detecție
 
 1. **Pentru Utilizatori**:
-   - Nu introduceți niciodată datele de logare Steam pe ferestre pop-up apărute pe site-uri terțe. Dacă sunteți deja autentificat pe \`steamcommunity.com\`, butonul legitim de OpenID necesită doar un singur click ("Sign In"), fără a cere din nou parola sau codul TOTP.
-   - Verificați periodic dacă aveți chei API necunoscute pe \`https://steamcommunity.com/dev/apikey\`.
+ - Nu introduceți niciodată datele de logare Steam pe ferestre pop-up apărute pe site-uri terțe. Dacă sunteți deja autentificat pe \`steamcommunity.com\`, butonul legitim de OpenID necesită doar un singur click ("Sign In"), fără a cere din nou parola sau codul TOTP.
+ - Verificați periodic dacă aveți chei API necunoscute pe \`https://steamcommunity.com/dev/apikey\`.
 2. **Pentru Echipe Defensive / SOC**:
-   - Blocarea la nivel de DNS/Web Proxy a domeniilor nou înregistrate (NRD < 30 zile) ce conțin keyword-uri precum \`steam\`, \`cs2\`, \`tournament\`, \`valve\`.
-   - Monitorizarea conexiunilor HTTPS inițiate către ASN-uri cu reputație scăzută.
+ - Blocarea la nivel de DNS/Web Proxy a domeniilor nou înregistrate (NRD < 30 zile) ce conțin keyword-uri precum \`steam\`, \`cs2\`, \`tournament\`, \`valve\`.
+ - Monitorizarea conexiunilor HTTPS inițiate către ASN-uri cu reputație scăzută.
 `
-  },
-  {
-    id: "tech-analysis",
-    title: "Technical Analysis & Obfuscation",
-    category: "Technical Deep Dive",
-    icon: "🔬",
-    summary: "Frontend JS payload analysis, OpenID callback interceptor, and reverse proxy mechanics.",
-    content: `# Technical Analysis
+ },
+ {
+ id: "tech-analysis",
+ title: "Technical Analysis & Obfuscation",
+ category: "Technical Deep Dive",
+ icon: "",
+ summary: "Frontend JS payload analysis, OpenID callback interceptor, and reverse proxy mechanics.",
+ content: `# Technical Analysis
 
 ## Environment
 
@@ -246,14 +246,14 @@ După obținerea sesiunii valide, infrastructura atacatorilor execută un script
 
 The infrastructure pattern here — a cloned login flow with a disposable backend, used for high-volume low-cost credential theft — shows up in different forms elsewhere. See [\`Task-Scam-Infrastructure-Analysis\`](https://github.com/moanast/Task-Scam-Infrastructure-Analysis) for an analysis of a fraudulent investment platform using a similarly templated, geographically-targeted approach.
 `
-  },
-  {
-    id: "steam-report",
-    title: "Valve Disclosure Report",
-    category: "Threat Intelligence",
-    icon: "📬",
-    summary: "Incident submission report and security recommendations sent to Valve Security.",
-    content: `# Steam Ticket
+ },
+ {
+ id: "steam-report",
+ title: "Valve Disclosure Report",
+ category: "Threat Intelligence",
+ icon: "",
+ summary: "Incident submission report and security recommendations sent to Valve Security.",
+ content: `# Steam Ticket
 
 Hello, I would like to report a phishing website that is impersonating Steam in order to steal user accounts through an OpenID MITM attack and Family View abuse.
 
@@ -299,14 +299,14 @@ This marks the final step on my side. The investigation, domain blocking, and an
 ## Report Content
 <[Open it here](https://help.steampowered.com/en/wizard/HelpRequest/?ticket=4AijpJxDugKEAQOBQoBuRgukfNSOAj21OrqwnZH%2Bj9mtO1nx98DD%2BBErZMj3oibG)>
 `
-  }
+ }
 ];
 
 export const iocList = [
-  { type: "Domain", indicator: "cs2-tournament-bracket[.]top", threat: "Phishing Landing Portal", status: "Offline / Sinkholed" },
-  { type: "Domain", indicator: "vote-league-cup[.]com", threat: "Phishing Landing Portal", status: "Offline / Sinkholed" },
-  { type: "ASN", indicator: "AS202425", threat: "Bulletproof Offshore VPS", status: "Flagged" },
-  { type: "SSL", indicator: "Let's Encrypt R3 DV", threat: "Short-Lived Cert (<24h)", status: "Revoked" },
-  { type: "Cookie", indicator: "steamLoginSecure", threat: "Session Token Hijack", status: "Critical" },
-  { type: "Endpoint", indicator: "/api/v2/auth/steam_callback", threat: "Credential Harvesting C2", status: "Blocked" }
+ { type: "Domain", indicator: "cs2-tournament-bracket[.]top", threat: "Phishing Landing Portal", status: "Offline / Sinkholed" },
+ { type: "Domain", indicator: "vote-league-cup[.]com", threat: "Phishing Landing Portal", status: "Offline / Sinkholed" },
+ { type: "ASN", indicator: "AS202425", threat: "Bulletproof Offshore VPS", status: "Flagged" },
+ { type: "SSL", indicator: "Let's Encrypt R3 DV", threat: "Short-Lived Cert (<24h)", status: "Revoked" },
+ { type: "Cookie", indicator: "steamLoginSecure", threat: "Session Token Hijack", status: "Critical" },
+ { type: "Endpoint", indicator: "/api/v2/auth/steam_callback", threat: "Credential Harvesting C2", status: "Blocked" }
 ];

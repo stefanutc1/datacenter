@@ -1,133 +1,133 @@
 <template>
-  <div class="wiki-container">
-    <header class="wiki-header">
-      <div class="header-left">
-        <span class="logo-icon">📊</span>
-        <div class="brand">
-          <h1>{{ t('hub_title') }}</h1>
-          <span class="version-tag">{{ t('hub_tag') }}</span>
-        </div>
-      </div>
-      <div class="header-right">
-        <div class="lang-selector-pill">
-          <button class="lang-choice" :class="{ active: currentLang === 'ro' }" @click="setLanguage('ro')">ro</button>
-          <span class="lang-div">/</span>
-          <button class="lang-choice" :class="{ active: currentLang === 'en' }" @click="setLanguage('en')">en</button>
-        </div>
+ <div class="wiki-container">
+ <header class="wiki-header">
+ <div class="header-left">
+ <span class="logo-icon"></span>
+ <div class="brand">
+ <h1>{{ t('hub_title') }}</h1>
+ <span class="version-tag">{{ t('hub_tag') }}</span>
+ </div>
+ </div>
+ <div class="header-right">
+ <div class="lang-selector-pill">
+ <button class="lang-choice" :class="{ active: currentLang === 'ro' }" @click="setLanguage('ro')">ro</button>
+ <span class="lang-div">/</span>
+ <button class="lang-choice" :class="{ active: currentLang === 'en' }" @click="setLanguage('en')">en</button>
+ </div>
 
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input v-model="searchQuery" type="text" :placeholder="t('search_placeholder')" />
-          <button v-if="searchQuery" @click="searchQuery = ''" class="clear-btn">✕</button>
-        </div>
-        <a href="https://github.com/stefannut/Task-Scam-Infrastructure-Analysis" target="_blank" class="github-link">
-          {{ t('repo_link') }}
-        </a>
-      </div>
-    </header>
+ <div class="search-box">
+ <span class="search-icon"></span>
+ <input v-model="searchQuery" type="text" :placeholder="t('search_placeholder')" />
+ <button v-if="searchQuery" @click="searchQuery = ''" class="clear-btn"></button>
+ </div>
+ <a href="https://github.com/stefannut/Task-Scam-Infrastructure-Analysis" target="_blank" class="github-link">
+ {{ t('repo_link') }}
+ </a>
+ </div>
+ </header>
 
-    <div class="wiki-body">
-      <aside class="wiki-sidebar">
-        <div class="sidebar-section">
-          <h3>{{ t('dossiers_title') }}</h3>
-          <ul class="nav-list">
-            <li
-              v-for="article in filteredArticles"
-              :key="article.id"
-              :class="{ active: selectedArticle && selectedArticle.id === article.id && activeTab === 'docs' }"
-              @click="selectArticle(article)"
-            >
-              <span class="nav-icon">{{ article.icon }}</span>
-              <span class="nav-title">{{ article.title }}</span>
-            </li>
-          </ul>
-        </div>
+ <div class="wiki-body">
+ <aside class="wiki-sidebar">
+ <div class="sidebar-section">
+ <h3>{{ t('dossiers_title') }}</h3>
+ <ul class="nav-list">
+ <li
+ v-for="article in filteredArticles"
+ :key="article.id"
+ :class="{ active: selectedArticle && selectedArticle.id === article.id && activeTab === 'docs' }"
+ @click="selectArticle(article)"
+ >
+ <span class="nav-icon">{{ article.icon }}</span>
+ <span class="nav-title">{{ article.title }}</span>
+ </li>
+ </ul>
+ </div>
 
-        <div class="sidebar-section">
-          <h3>{{ t('intel_title') }}</h3>
-          <ul class="nav-list">
-            <li :class="{ active: activeTab === 'iocs' }" @click="activeTab = 'iocs'">
-              <span class="nav-icon">🎯</span>
-              <span class="nav-title">{{ t('nav_iocs') }} ({{ iocs.length }})</span>
-            </li>
-            <li :class="{ active: activeTab === 'mitre' }" @click="activeTab = 'mitre'">
-              <span class="nav-icon">📊</span>
-              <span class="nav-title">{{ t('nav_mitre') }}</span>
-            </li>
-          </ul>
-        </div>
+ <div class="sidebar-section">
+ <h3>{{ t('intel_title') }}</h3>
+ <ul class="nav-list">
+ <li :class="{ active: activeTab === 'iocs' }" @click="activeTab = 'iocs'">
+ <span class="nav-icon"></span>
+ <span class="nav-title">{{ t('nav_iocs') }} ({{ iocs.length }})</span>
+ </li>
+ <li :class="{ active: activeTab === 'mitre' }" @click="activeTab = 'mitre'">
+ <span class="nav-icon"></span>
+ <span class="nav-title">{{ t('nav_mitre') }}</span>
+ </li>
+ </ul>
+ </div>
 
-        <div class="sidebar-footer">
-          <p>{{ t('investigator') }} <strong>@stefannut</strong></p>
-          <p>{{ t('classification') }}</p>
-        </div>
-      </aside>
+ <div class="sidebar-footer">
+ <p>{{ t('investigator') }} <strong>@stefannut</strong></p>
+ <p>{{ t('classification') }}</p>
+ </div>
+ </aside>
 
-      <main class="wiki-content">
-        <!-- DOCS TAB -->
-        <div v-if="activeTab === 'docs' && selectedArticle" class="article-view">
-          <div class="article-meta">
-            <span class="badge">{{ selectedArticle.category }}</span>
-            <span class="summary-text">{{ selectedArticle.summary }}</span>
-          </div>
-          <article class="markdown-body" v-html="renderedMarkdown"></article>
-        </div>
+ <main class="wiki-content">
+ <!-- DOCS TAB -->
+ <div v-if="activeTab === 'docs' && selectedArticle" class="article-view">
+ <div class="article-meta">
+ <span class="badge">{{ selectedArticle.category }}</span>
+ <span class="summary-text">{{ selectedArticle.summary }}</span>
+ </div>
+ <article class="markdown-body" v-html="renderedMarkdown"></article>
+ </div>
 
-        <!-- IOC TAB -->
-        <div v-else-if="activeTab === 'iocs'" class="iocs-view">
-          <div class="view-header">
-            <h2>{{ t('ioc_header_title') }}</h2>
-            <p>{{ t('ioc_header_sub') }}</p>
-          </div>
-          <div class="ioc-table-wrapper">
-            <table class="ioc-table">
-              <thead>
-                <tr>
-                  <th>{{ t('th_type') }}</th>
-                  <th>{{ t('th_indicator') }}</th>
-                  <th>{{ t('th_desc') }}</th>
-                  <th>{{ t('th_status') }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="ioc in filteredIocs" :key="ioc.indicator">
-                  <td><span class="type-pill">{{ ioc.type }}</span></td>
-                  <td><code>{{ ioc.indicator }}</code></td>
-                  <td>{{ ioc.threat }}</td>
-                  <td><span class="status-badge">{{ ioc.status }}</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+ <!-- IOC TAB -->
+ <div v-else-if="activeTab === 'iocs'" class="iocs-view">
+ <div class="view-header">
+ <h2>{{ t('ioc_header_title') }}</h2>
+ <p>{{ t('ioc_header_sub') }}</p>
+ </div>
+ <div class="ioc-table-wrapper">
+ <table class="ioc-table">
+ <thead>
+ <tr>
+ <th>{{ t('th_type') }}</th>
+ <th>{{ t('th_indicator') }}</th>
+ <th>{{ t('th_desc') }}</th>
+ <th>{{ t('th_status') }}</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr v-for="ioc in filteredIocs" :key="ioc.indicator">
+ <td><span class="type-pill">{{ ioc.type }}</span></td>
+ <td><code>{{ ioc.indicator }}</code></td>
+ <td>{{ ioc.threat }}</td>
+ <td><span class="status-badge">{{ ioc.status }}</span></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ </div>
 
-        <!-- MITRE ATT&CK TAB -->
-        <div v-else-if="activeTab === 'mitre'" class="mitre-view">
-          <div class="view-header">
-            <h2>{{ t('mitre_title') }}</h2>
-            <p>{{ t('mitre_sub') }}</p>
-          </div>
-          <div class="mitre-grid">
-            <div class="mitre-card">
-              <span class="t-badge">T1566.002 / T1566.004</span>
-              <h4>{{ t('t1_title') }}</h4>
-              <p>{{ t('t1_desc') }}</p>
-            </div>
-            <div class="mitre-card">
-              <span class="t-badge">T1557.001 / T1556</span>
-              <h4>{{ t('t2_title') }}</h4>
-              <p>{{ t('t2_desc') }}</p>
-            </div>
-            <div class="mitre-card">
-              <span class="t-badge">T1098 / T1027</span>
-              <h4>{{ t('t3_title') }}</h4>
-              <p>{{ t('t3_desc') }}</p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  </div>
+ <!-- MITRE ATT&CK TAB -->
+ <div v-else-if="activeTab === 'mitre'" class="mitre-view">
+ <div class="view-header">
+ <h2>{{ t('mitre_title') }}</h2>
+ <p>{{ t('mitre_sub') }}</p>
+ </div>
+ <div class="mitre-grid">
+ <div class="mitre-card">
+ <span class="t-badge">T1566.002 / T1566.004</span>
+ <h4>{{ t('t1_title') }}</h4>
+ <p>{{ t('t1_desc') }}</p>
+ </div>
+ <div class="mitre-card">
+ <span class="t-badge">T1557.001 / T1556</span>
+ <h4>{{ t('t2_title') }}</h4>
+ <p>{{ t('t2_desc') }}</p>
+ </div>
+ <div class="mitre-card">
+ <span class="t-badge">T1098 / T1027</span>
+ <h4>{{ t('t3_title') }}</h4>
+ <p>{{ t('t3_desc') }}</p>
+ </div>
+ </div>
+ </div>
+ </main>
+ </div>
+ </div>
 </template>
 
 <script setup>
@@ -141,45 +141,45 @@ const allArticles = ref(articles);
 const iocs = ref(iocList);
 
 function getDefaultArticle() {
-  const matching = articles.find(a => a.id.toLowerCase().includes(currentLang.value));
-  return matching || articles[0];
+ const matching = articles.find(a => a.id.toLowerCase().includes(currentLang.value));
+ return matching || articles[0];
 }
 
 const selectedArticle = ref(getDefaultArticle());
 const searchQuery = ref('');
 
 watch(currentLang, () => {
-  selectedArticle.value = getDefaultArticle();
+ selectedArticle.value = getDefaultArticle();
 });
 
 const filteredArticles = computed(() => {
-  if (!searchQuery.value) return allArticles.value;
-  const q = searchQuery.value.toLowerCase();
-  return allArticles.value.filter(a =>
-    a.title.toLowerCase().includes(q) ||
-    a.summary.toLowerCase().includes(q) ||
-    a.content.toLowerCase().includes(q)
-  );
+ if (!searchQuery.value) return allArticles.value;
+ const q = searchQuery.value.toLowerCase();
+ return allArticles.value.filter(a =>
+ a.title.toLowerCase().includes(q) ||
+ a.summary.toLowerCase().includes(q) ||
+ a.content.toLowerCase().includes(q)
+ );
 });
 
 const filteredIocs = computed(() => {
-  if (!searchQuery.value) return iocs.value;
-  const q = searchQuery.value.toLowerCase();
-  return iocs.value.filter(i =>
-    i.indicator.toLowerCase().includes(q) ||
-    i.threat.toLowerCase().includes(q) ||
-    i.type.toLowerCase().includes(q)
-  );
+ if (!searchQuery.value) return iocs.value;
+ const q = searchQuery.value.toLowerCase();
+ return iocs.value.filter(i =>
+ i.indicator.toLowerCase().includes(q) ||
+ i.threat.toLowerCase().includes(q) ||
+ i.type.toLowerCase().includes(q)
+ );
 });
 
 const renderedMarkdown = computed(() => {
-  if (!selectedArticle.value) return '';
-  return marked.parse(selectedArticle.value.content);
+ if (!selectedArticle.value) return '';
+ return marked.parse(selectedArticle.value.content);
 });
 
 function selectArticle(art) {
-  selectedArticle.value = art;
-  activeTab.value = 'docs';
+ selectedArticle.value = art;
+ activeTab.value = 'docs';
 }
 </script>
 
@@ -193,38 +193,38 @@ function selectArticle(art) {
 .header-right { display: flex; align-items: center; gap: 16px; }
 
 .lang-selector-pill {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
+ display: flex;
+ align-items: center;
+ gap: 3px;
+ background: var(--bg-primary);
+ border: 1px solid var(--border-color);
+ padding: 3px 8px;
+ border-radius: 6px;
+ font-family: var(--font-mono);
+ font-size: 11px;
 }
 
 .lang-choice {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 11px;
-  cursor: pointer;
-  padding: 1px 4px;
-  border-radius: 3px;
-  text-transform: lowercase;
+ background: transparent;
+ border: none;
+ color: var(--text-muted);
+ font-family: inherit;
+ font-size: 11px;
+ cursor: pointer;
+ padding: 1px 4px;
+ border-radius: 3px;
+ text-transform: lowercase;
 }
 
 .lang-choice.active {
-  color: var(--text-primary);
-  background: var(--accent-primary-light, #8e5e63);
-  font-weight: 700;
+ color: var(--text-primary);
+ background: var(--accent-primary-light, #8e5e63);
+ font-weight: 700;
 }
 
 .lang-div {
-  color: var(--text-muted);
-  opacity: 0.5;
+ color: var(--text-muted);
+ opacity: 0.5;
 }
 
 .search-box { display: flex; align-items: center; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 12px; gap: 8px; }
