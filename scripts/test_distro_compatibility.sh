@@ -52,13 +52,10 @@ python3 -m venv /tmp/elo_distro_venv
 . /tmp/elo_distro_venv/bin/activate
 
 echo "Installing ELO framework and dependencies in $DISTRO_NAME..."
-pip install --upgrade pip setuptools wheel
-pip install pytest pytest-asyncio httpx pydantic psutil uvicorn fastapi pyyaml python-dotenv
+python3 -m pip install --upgrade --break-system-packages pip setuptools wheel 2>/dev/null || python3 -m pip install --upgrade pip setuptools wheel 2>/dev/null || true
+python3 -m pip install --break-system-packages pytest pytest-asyncio httpx pydantic psutil uvicorn fastapi pyyaml python-dotenv 2>/dev/null || python3 -m pip install pytest pytest-asyncio httpx pydantic psutil uvicorn fastapi pyyaml python-dotenv
 
-pip install -e elo/packages/elo-contracts
-pip install -e elo/packages/elo-security
-pip install -e elo/packages/elo-ai-client
-pip install -e elo/apps/elo-core
+python3 -m pip install --break-system-packages -e elo/packages/elo-contracts -e elo/packages/elo-security -e elo/packages/elo-ai-client -e elo/apps/elo-core 2>/dev/null || python3 -m pip install -e elo/packages/elo-contracts -e elo/packages/elo-security -e elo/packages/elo-ai-client -e elo/apps/elo-core
 
 echo "Executing automated test suite on $DISTRO_NAME..."
 cd elo
