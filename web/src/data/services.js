@@ -266,7 +266,7 @@ Pi-hole runs inside LXC 101 on IP \`192.168.1.4\`. Its \`pihole.toml\` and dnsma
     volumes:
       - ./config:/config`,
     wikiMarkdown: `### Home Assistant Overview
-Home Assistant acts as the main nervous system for the homelab physical environment. It runs on LXC 107 and is reverse-proxied via \`ha.lan\` and \`homeassistant.lan\`.`
+Home Assistant acts as the main nervous system for the homelab physical environment. It runs on LXC 106 on Primary Hypervisor (Node 1, x86_64) and is reverse-proxied via \`ha.lan\` and \`homeassistant.lan\`.`
   },
   {
     id: 'immich',
@@ -280,47 +280,49 @@ Home Assistant acts as the main nervous system for the homelab physical environm
     domainUrl: 'http://immich.lan',
     internalUrl: 'http://immich.lan',
     icon: 'image',
-    color: '#4285f4',
+    color: '#3498db',
     image: 'ghcr.io/immich-app/immich-server:release',
     containerName: 'immich_server',
     status: 'online',
-    tags: ['Photos', 'Backup', 'AI Facial Recognition', 'Mobile Sync', 'RAW Support'],
-    description: 'High-performance self-hosted backup and gallery solution for photos and videos featuring AI facial clustering and CLIP search.',
+    tags: ['Photos', 'Backup', 'Facial Recognition', 'ML / AI', 'Mobile Sync'],
+    description: 'High-performance self-hosted backup and media exploration solution featuring machine learning facial clustering, CLIP search, and automated smartphone uploads.',
     features: [
-      'Automated background backup from iOS and Android devices',
-      'On-device AI facial recognition and semantic CLIP search',
-      'Hardware-accelerated video transcoding and thumbnail generation',
-      'Multi-user shared partner libraries and album collaboration'
+      'Automated background background mobile media sync (iOS / Android)',
+      'Hardware-accelerated transcoding (NVENC / QuickSync / VAAPI)',
+      'Facial recognition, object classification, and spatial map browsing',
+      'Multi-user isolation with partner sharing libraries and albums'
     ],
-    volumes: ['/mnt/storage/photos:/usr/src/app/upload', './pgdata:/var/lib/postgresql/data'],
-    envVars: ['DB_DATABASE_NAME=immich', 'DB_USERNAME=postgres', 'TZ=Europe/Bucharest'],
+    volumes: ['/mnt/storage/photos:/usr/src/app/upload', './immich_postgres:/var/lib/postgresql/data'],
+    envVars: ['DB_DATABASE_NAME=immich', 'TZ=Europe/Bucharest'],
     composeCode: `services:
   immich-server:
-    container_name: immich_server
     image: ghcr.io/immich-app/immich-server:release
+    container_name: immich_server
+    restart: unless-stopped
     ports:
       - "2283:2283"
-    restart: unless-stopped`,
-    wikiMarkdown: `### Immich Architecture
-Immich runs in LXC 103 with dedicated PostgreSQL 16 vector store and Redis caching instance.`
+    volumes:
+      - /mnt/storage/photos:/usr/src/app/upload`,
+    wikiMarkdown: `### Immich Media Platform
+Immich runs in LXC 103 on Primary Hypervisor (Node 1, x86_64) with dedicated PostgreSQL 16 vector store and Redis caching instance.`
   },
   {
     id: 'vaultwarden',
     logo: 'icons/vaultwarden.svg',
     name: 'Vaultwarden Password Vault',
     category: 'security',
-    ip: '192.168.1.16',
+    ip: '192.168.64.21',
     port: 8080,
-    ipUrl: 'http://192.168.1.16:8080',
+    ipUrl: 'http://192.168.64.21:8080',
     domain: 'vaultwarden.lan',
     domainUrl: 'http://vaultwarden.lan',
-    internalUrl: 'http://vaultwarden.lan',
+    internalUrl: 'http://192.168.64.21:8080',
     icon: 'lock',
     color: '#175ddc',
     image: 'vaultwarden/server:latest',
     containerName: 'vaultwarden',
     status: 'online',
-    tags: ['Bitwarden', 'Passwords', '2FA / TOTP', 'Secrets', 'Zero-Knowledge'],
+    tags: ['ARM64 Node 3', 'Bitwarden', 'Passwords', '2FA / TOTP', 'Secrets', 'Zero-Knowledge'],
     description: 'Lightweight Rust implementation of Bitwarden backend providing zero-knowledge encrypted credential storage and TOTP authenticator.',
     features: [
       'Full compatibility with official Bitwarden desktop and mobile clients',
@@ -340,7 +342,7 @@ Immich runs in LXC 103 with dedicated PostgreSQL 16 vector store and Redis cachi
     volumes:
       - ./vw-data:/data`,
     wikiMarkdown: `### Vaultwarden Overview
-Vaultwarden is deployed in LXC 112 on port 8080 and routed via \`vaultwarden.lan\`.`
+Vaultwarden is deployed on ARM64 Hypervisor (Node 3, LXC 106) on port 8080 and routed via \`vaultwarden.lan\` / \`http://192.168.64.21:8080\`.`
   },
   {
     id: 'nextcloud',
@@ -378,25 +380,25 @@ Vaultwarden is deployed in LXC 112 on port 8080 and routed via \`vaultwarden.lan
     volumes:
       - ./html:/var/www/html`,
     wikiMarkdown: `### Nextcloud Hub
-Nextcloud is deployed on LXC 105 and accessible via \`nextcloud.lan\`.`
+Nextcloud is deployed on LXC 104 on Primary Hypervisor (Node 1, x86_64) and accessible via \`nextcloud.lan\`.`
   },
   {
     id: 'grafana',
     logo: 'icons/grafana.svg',
     name: 'Grafana Telemetry & Dashboards',
     category: 'monitoring',
-    ip: '192.168.1.11',
+    ip: '192.168.64.24',
     port: 3000,
-    ipUrl: 'http://192.168.1.11:3000',
+    ipUrl: 'http://192.168.64.24:3000',
     domain: 'grafana.lan',
     domainUrl: 'http://grafana.lan',
-    internalUrl: 'http://grafana.lan',
+    internalUrl: 'http://192.168.64.24:3000',
     icon: 'bar-chart-2',
     color: '#f46800',
-    image: 'grafana/grafana:latest',
+    image: 'grafana/grafana-oss:latest',
     containerName: 'grafana',
     status: 'online',
-    tags: ['Metrics', 'Dashboards', 'Prometheus', 'Loki', 'Visualizations'],
+    tags: ['ARM64 Node 3', 'Metrics', 'Dashboards', 'Prometheus', 'Loki', 'Visualizations'],
     description: 'Central visualization and analytics platform aggregating Prometheus hardware metrics, Loki logs, and Proxmox node health.',
     features: [
       'Real-time dashboards for CPU, RAM, disk I/O, and network bandwidth',
@@ -408,35 +410,35 @@ Nextcloud is deployed on LXC 105 and accessible via \`nextcloud.lan\`.`
     envVars: ['GF_SECURITY_ADMIN_USER=admin', 'GF_USERS_ALLOW_SIGN_UP=false'],
     composeCode: `services:
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana-oss:latest
     container_name: grafana
     ports:
       - "3000:3000"
     restart: unless-stopped`,
     wikiMarkdown: `### Grafana Observability
-Grafana runs in LXC 108 alongside Prometheus and Loki, routed via \`grafana.lan\`.`
+Grafana runs on ARM64 Hypervisor (Node 3, LXC 107) alongside Prometheus and Loki, routed via \`grafana.lan\` / \`http://192.168.64.24:3000\`.`
   },
   {
     id: 'prometheus',
     logo: 'icons/prometheus.svg',
     name: 'Prometheus TSDB Engine',
     category: 'monitoring',
-    ip: '192.168.1.11',
+    ip: '192.168.64.24',
     port: 9090,
-    ipUrl: 'http://192.168.1.11:9090',
+    ipUrl: 'http://192.168.64.24:9090',
     domain: 'prometheus.lan',
     domainUrl: 'http://prometheus.lan',
-    internalUrl: 'http://prometheus.lan',
+    internalUrl: 'http://192.168.64.24:9090',
     icon: 'activity',
     color: '#e6522c',
     image: 'prom/prometheus:latest',
     containerName: 'prometheus',
     status: 'online',
-    tags: ['Time Series', 'Metrics', 'Scraping', 'Alerting', 'Exporters'],
+    tags: ['ARM64 Node 3', 'Time Series', 'Metrics', 'Scraping', 'Alerting', 'Exporters'],
     description: 'High-efficiency time-series metric collector scraping node-exporter, Proxmox hypervisor telemetry, and container runtime statistics.',
     features: [
       'Multi-dimensional data model with PromQL query language',
-      'Automated scrape target discovery across 192.168.1.0/24',
+      'Automated scrape target discovery across 192.168.1.0/24 and 192.168.64.0/24',
       'Efficient local TSDB storage with configurable retention policies',
       'Alert rule evaluation and dispatch to Alertmanager'
     ],
@@ -450,25 +452,25 @@ Grafana runs in LXC 108 alongside Prometheus and Loki, routed via \`grafana.lan\
       - "9090:9090"
     restart: unless-stopped`,
     wikiMarkdown: `### Prometheus Metrics Engine
-Prometheus scrapes Node-Exporter on port 9100 across Proxmox nodes and LXC containers.`
+Prometheus runs on ARM64 Hypervisor (Node 3, LXC 107) and scrapes Node-Exporter on port 9100 across Proxmox nodes and LXC containers.`
   },
   {
     id: 'loki',
     logo: 'icons/loki.svg',
     name: 'Grafana Loki Log Engine',
     category: 'monitoring',
-    ip: '192.168.1.11',
+    ip: '192.168.64.24',
     port: 3100,
-    ipUrl: 'http://192.168.1.11:3100',
+    ipUrl: 'http://192.168.64.24:3100',
     domain: 'loki.lan',
     domainUrl: 'http://loki.lan',
-    internalUrl: 'http://loki.lan',
+    internalUrl: 'http://192.168.64.24:3100',
     icon: 'file-text',
     color: '#e17055',
     image: 'grafana/loki:latest',
     containerName: 'loki',
     status: 'online',
-    tags: ['Logs', 'Promtail', 'LogQL', 'Audit', 'Aggregator'],
+    tags: ['ARM64 Node 3', 'Logs', 'Promtail', 'LogQL', 'Audit', 'Aggregator'],
     description: 'Horizontally-scalable log aggregation system indexing metadata labels to ingest syslog and Docker container logs with minimal overhead.',
     features: [
       'LogQL querying integrated natively inside Grafana dashboards',
@@ -485,25 +487,25 @@ Prometheus scrapes Node-Exporter on port 9100 across Proxmox nodes and LXC conta
       - "3100:3100"
     restart: unless-stopped`,
     wikiMarkdown: `### Loki Log Aggregator
-Loki is deployed in LXC 108 and accessible via \`loki.lan\`.`
+Loki is deployed on ARM64 Hypervisor (Node 3, LXC 107) and accessible via \`loki.lan\` / \`http://192.168.64.24:3100\`.`
   },
   {
     id: 'uptime-kuma',
     logo: 'icons/uptime-kuma.svg',
     name: 'Uptime Kuma Status Monitor',
     category: 'monitoring',
-    ip: '192.168.1.7',
+    ip: '192.168.64.23',
     port: 3001,
-    ipUrl: 'http://192.168.1.7:3001',
+    ipUrl: 'http://192.168.64.23:3001',
     domain: 'uptime.lan',
     domainUrl: 'http://uptime.lan',
-    internalUrl: 'http://uptime.lan',
+    internalUrl: 'http://192.168.64.23:3001',
     icon: 'check-circle',
     color: '#5cd85a',
     image: 'louislam/uptime-kuma:1',
     containerName: 'uptime-kuma',
     status: 'online',
-    tags: ['Uptime', 'Ping', 'Status Page', 'Alerts', 'Health Check'],
+    tags: ['ARM64 Node 3', 'Uptime', 'Ping', 'Status Page', 'Alerts', 'Health Check'],
     description: 'Self-hosted monitoring tool tracking HTTP status, TCP ports, DNS latency, and SSL certificate validity with public status badges.',
     features: [
       'Real-time ping, HTTP 200, TCP port, and certificate expiration checks',
@@ -521,7 +523,7 @@ Loki is deployed in LXC 108 and accessible via \`loki.lan\`.`
       - "3001:3001"
     restart: unless-stopped`,
     wikiMarkdown: `### Uptime Kuma Monitor
-Uptime Kuma runs on LXC 104 and verifies endpoints every 20 seconds.`
+Uptime Kuma runs on ARM64 Hypervisor (Node 3, LXC 105) and verifies endpoints every 20 seconds.`
   },
   {
     id: 'n8n',
@@ -557,7 +559,7 @@ Uptime Kuma runs on LXC 104 and verifies endpoints every 20 seconds.`
       - "5678:5678"
     restart: unless-stopped`,
     wikiMarkdown: `### n8n Automation Engine
-n8n is deployed on LXC 110 and accessible via \`n8n.lan\`.`
+n8n is deployed on LXC 108 on Primary Hypervisor (Node 1, x86_64) and accessible via \`n8n.lan\`.`
   },
   {
     id: 'gitea',
@@ -594,7 +596,7 @@ n8n is deployed on LXC 110 and accessible via \`n8n.lan\`.`
       - "2222:22"
     restart: unless-stopped`,
     wikiMarkdown: `### Gitea Git Forge
-Gitea runs on LXC 113 and hosts internal Git repositories and configuration manifests.`
+Gitea runs on LXC 110 on Primary Hypervisor (Node 1, x86_64) and hosts internal Git repositories and configuration manifests.`
   },
   {
     id: 'woodpecker-ci',
@@ -630,7 +632,7 @@ Gitea runs on LXC 113 and hosts internal Git repositories and configuration mani
       - "8000:8000"
     restart: unless-stopped`,
     wikiMarkdown: `### Woodpecker CI
-Woodpecker CI is deployed on LXC 111 and automates build verification.`
+Woodpecker CI is deployed on LXC 109 on Primary Hypervisor (Node 1, x86_64) and automates build verification.`
   },
   {
     id: 'authelia',
@@ -666,7 +668,7 @@ Woodpecker CI is deployed on LXC 111 and automates build verification.`
       - "9091:9091"
     restart: unless-stopped`,
     wikiMarkdown: `### Authelia SSO
-Authelia runs in LXC 109 on Primary Hypervisor (Node 1, x86_64) and acts as the gatekeeper for local domain access.`
+Authelia runs in LXC 107 on Primary Hypervisor (Node 1, x86_64) and acts as the gatekeeper for local domain access.`
   },
   {
     id: 'crowdsec',
@@ -738,7 +740,7 @@ CrowdSec protects the homelab against automated scanning, brute-force, and explo
       - "8096:8096"
     restart: unless-stopped`,
     wikiMarkdown: `### Jellyfin Media Server
-Jellyfin runs on LXC 117 alongside the Servarr suite on IP \`192.168.1.21\`.`
+Jellyfin runs on LXC 112 on Primary Hypervisor (Node 1, x86_64) alongside the Servarr suite on IP \`192.168.1.21\`.`
   },
   {
     id: 'radarr',
@@ -774,7 +776,7 @@ Jellyfin runs on LXC 117 alongside the Servarr suite on IP \`192.168.1.21\`.`
       - "7878:7878"
     restart: unless-stopped`,
     wikiMarkdown: `### Radarr Movie Manager
-Radarr is deployed in LXC 117 and managed via \`radarr.lan\`.`
+Radarr is deployed in LXC 112 on Primary Hypervisor (Node 1, x86_64) and managed via \`radarr.lan\`.`
   },
   {
     id: 'sonarr',
@@ -810,7 +812,7 @@ Radarr is deployed in LXC 117 and managed via \`radarr.lan\`.`
       - "8989:8989"
     restart: unless-stopped`,
     wikiMarkdown: `### Sonarr TV Series Manager
-Sonarr runs on LXC 117 and is accessible via \`sonarr.lan\`.`
+Sonarr runs on LXC 112 on Primary Hypervisor (Node 1, x86_64) and is accessible via \`sonarr.lan\`.`
   },
   {
     id: 'prowlarr',
@@ -846,7 +848,7 @@ Sonarr runs on LXC 117 and is accessible via \`sonarr.lan\`.`
       - "9696:9696"
     restart: unless-stopped`,
     wikiMarkdown: `### Prowlarr Indexer Manager
-Prowlarr is deployed in LXC 117 and accessible via \`prowlarr.lan\`.`
+Prowlarr is deployed in LXC 112 on Primary Hypervisor (Node 1, x86_64) and accessible via \`prowlarr.lan\`.`
   },
   {
     id: 'bazarr',
@@ -882,7 +884,7 @@ Prowlarr is deployed in LXC 117 and accessible via \`prowlarr.lan\`.`
       - "6767:6767"
     restart: unless-stopped`,
     wikiMarkdown: `### Bazarr Subtitle Downloader
-Bazarr is deployed in LXC 117 and accessible via \`bazarr.lan\`.`
+Bazarr is deployed in LXC 112 on Primary Hypervisor (Node 1, x86_64) and accessible via \`bazarr.lan\`.`
   },
   {
     id: 'qbittorrent',
@@ -918,7 +920,7 @@ Bazarr is deployed in LXC 117 and accessible via \`bazarr.lan\`.`
       - "8080:8080"
     restart: unless-stopped`,
     wikiMarkdown: `### qBittorrent Downloader
-qBittorrent runs in LXC 117 and handles all automated Servarr downloads.`
+qBittorrent runs in LXC 112 on Primary Hypervisor (Node 1, x86_64) and handles all automated Servarr downloads.`
   },
   {
     id: 'actualbudget',
@@ -1061,7 +1063,7 @@ Trilium Notes runs on ARM64 Hypervisor (Node 3, LXC 102) and is accessible via \
       - "8080:8080"
     restart: unless-stopped`,
     wikiMarkdown: `### Scrutiny Disk Health
-Scrutiny is deployed in LXC 114 on Primary Hypervisor (Node 1, x86_64) and monitors drive telemetry via \`scrutiny.lan\` / \`http://192.168.1.18:8080\`.`
+Scrutiny is deployed in LXC 111 on Primary Hypervisor (Node 1, x86_64) and monitors drive telemetry via \`scrutiny.lan\` / \`http://192.168.1.18:8080\`.`
   },
   {
     id: 'scrutiny-arm',

@@ -135,42 +135,38 @@ const initialNodes = [
   { id: 'gateway', label: 'tailscale mesh & traefik', sublabel: 'core gateway · 100.64.0.0/10', type: 'coordinator', ip: '100.64.0.1', color: '#00d2d3', radius: 18 },
   
   // Physical Hypervisors / Hosts
-  { id: 'proxmox-01', label: 'node 1 (proxmox)', sublabel: 'core compute · i3-10100f / gtx 1050 ti', type: 'router', ip: '192.168.1.100', color: '#00cec9', radius: 15 },
+  { id: 'proxmox-01', label: 'node 1 (proxmox x86)', sublabel: 'core compute · i3-10100f / 8gb ram', type: 'router', ip: '192.168.1.132', color: '#00cec9', radius: 15 },
   { id: 'omv-02', label: 'node 2 (openmediavault)', sublabel: 'nfs nas · celeron n2830', type: 'router', ip: '192.168.1.110', color: '#00cec9', radius: 15 },
-  { id: 'proxmox-arm-03', label: 'node 3 (proxmox arm)', sublabel: 'apple m1 · aarch64 hypervisor', type: 'router', ip: '192.168.1.120', color: '#00cec9', radius: 15 },
-  { id: 'k8s-node-04', label: 'node 4 (k8s worker)', sublabel: 'k3s agent · athlon ii x2 / gts 250', type: 'router', ip: '192.168.1.130', color: '#00cec9', radius: 15 },
+  { id: 'proxmox-arm-03', label: 'node 3 (proxmox arm64)', sublabel: 'apple m1 · aarch64 hypervisor', type: 'router', ip: '192.168.64.14', color: '#00cec9', radius: 15 },
+  { id: 'k8s-node-04', label: 'node 4 (k8s worker)', sublabel: 'k3s agent · athlon ii x2 / gts 250', type: 'router', ip: '192.168.1.18', color: '#00cec9', radius: 15 },
 
-  // Node 1 Services (Proxmox Compute)
-  { id: 'homeassistant', label: 'home assistant', sublabel: 'iot core · lxc 103', type: 'end-device', ip: '192.168.1.103', port: 8123, color: '#10b981', radius: 10 },
-  { id: 'zigbee2mqtt', label: 'zigbee2mqtt', sublabel: 'zb-bridge · lxc 104', type: 'end-device', ip: '192.168.1.104', port: 8080, color: '#10b981', radius: 9 },
-  { id: 'mosquitto', label: 'mosquitto mqtt', sublabel: 'event broker · lxc 106', type: 'end-device', ip: '192.168.1.106', port: 1883, color: '#10b981', radius: 9 },
-  { id: 'frigate', label: 'frigate nvr', sublabel: 'nvenc gpu · lxc 118', type: 'end-device', ip: '192.168.1.118', port: 5000, color: '#10b981', radius: 11 },
-  { id: 'immich', label: 'immich photos', sublabel: 'ml backup · lxc 107', type: 'end-device', ip: '192.168.1.107', port: 2283, color: '#10b981', radius: 10 },
-  { id: 'vaultwarden', label: 'vaultwarden', sublabel: 'bitwarden · lxc 105', type: 'end-device', ip: '192.168.1.105', port: 8080, color: '#10b981', radius: 9 },
-  { id: 'grafana', label: 'grafana', sublabel: 'telemetry · lxc 120', type: 'end-device', ip: '192.168.1.120', port: 3000, color: '#10b981', radius: 10 },
-  { id: 'prometheus', label: 'prometheus', sublabel: 'metrics · lxc 124', type: 'end-device', ip: '192.168.1.124', port: 9090, color: '#10b981', radius: 9 },
-  { id: 'uptime-kuma', label: 'uptime kuma', sublabel: 'health ping · lxc 125', type: 'end-device', ip: '192.168.1.125', port: 3001, color: '#10b981', radius: 9 },
-  { id: 'gitea', label: 'gitea forge', sublabel: 'git repo · lxc 108', type: 'end-device', ip: '192.168.1.108', port: 3000, color: '#10b981', radius: 9 },
-  { id: 'woodpecker', label: 'woodpecker ci', sublabel: 'ci runners · lxc 109', type: 'end-device', ip: '192.168.1.109', port: 8000, color: '#10b981', radius: 9 },
-  { id: 'pihole', label: 'pi-hole dns', sublabel: 'adblock · lxc 100', type: 'end-device', ip: '192.168.1.100', port: 80, color: '#10b981', radius: 10 },
-  { id: 'wiki-docs', label: 'wiki docs', sublabel: 'knowledge base · lxc 123', type: 'end-device', ip: '192.168.1.123', port: 80, color: '#10b981', radius: 9 },
+  // Node 1 Services (Proxmox Compute x86_64)
+  { id: 'nginx-proxy', label: 'nginx proxy manager', sublabel: 'edge ingress · lxc 100', type: 'end-device', ip: '192.168.1.3', port: 81, color: '#10b981', radius: 10 },
+  { id: 'pihole', label: 'pi-hole dns', sublabel: 'dns adblock · lxc 101', type: 'end-device', ip: '192.168.1.4', port: 80, color: '#10b981', radius: 10 },
+  { id: 'tailscale-svc', label: 'tailscale mesh', sublabel: 'mesh vpn · lxc 102', type: 'end-device', ip: '192.168.1.5', color: '#10b981', radius: 9 },
+  { id: 'immich', label: 'immich photos', sublabel: 'ml backup · lxc 103', type: 'end-device', ip: '192.168.1.15', port: 2283, color: '#10b981', radius: 10 },
+  { id: 'nextcloud', label: 'nextcloud hub', sublabel: 'private cloud · lxc 104', type: 'end-device', ip: '192.168.1.8', port: 80, color: '#10b981', radius: 10 },
+  { id: 'crowdsec-svc', label: 'crowdsec ips', sublabel: 'cyber defense · lxc 105', type: 'end-device', ip: '192.168.1.9', port: 8080, color: '#10b981', radius: 9 },
+  { id: 'homeassistant', label: 'home assistant', sublabel: 'iot core · lxc 106', type: 'end-device', ip: '192.168.1.10', port: 8123, color: '#10b981', radius: 10 },
+  { id: 'authelia-svc', label: 'authelia sso', sublabel: '2fa portal · lxc 107', type: 'end-device', ip: '192.168.1.20', port: 9091, color: '#10b981', radius: 9 },
+  { id: 'n8n-svc', label: 'n8n automation', sublabel: 'workflows · lxc 108', type: 'end-device', ip: '192.168.1.13', port: 5678, color: '#10b981', radius: 9 },
+  { id: 'woodpecker', label: 'woodpecker ci', sublabel: 'ci runners · lxc 109', type: 'end-device', ip: '192.168.1.14', port: 8000, color: '#10b981', radius: 9 },
+  { id: 'gitea', label: 'gitea forge', sublabel: 'git repo · lxc 110', type: 'end-device', ip: '192.168.1.17', port: 3000, color: '#10b981', radius: 9 },
+  { id: 'scrutiny-x64', label: 'scrutiny (x64)', sublabel: 'disk smart · lxc 111', type: 'end-device', ip: '192.168.1.18', port: 8080, color: '#10b981', radius: 9 },
+  { id: 'media-suite-svc', label: 'media suite (servarr)', sublabel: 'jellyfin/qbit · lxc 112', type: 'end-device', ip: '192.168.1.21', port: 8096, color: '#10b981', radius: 11 },
 
-  // Node 2 Services (OpenMediaVault NAS)
-  { id: 'nextcloud', label: 'nextcloud hub', sublabel: 'nfs cloud · lxc 111', type: 'end-device', ip: '192.168.1.111', port: 8080, color: '#10b981', radius: 10 },
-  { id: 'jellyfin', label: 'jellyfin media', sublabel: 'streaming · lxc 112', type: 'end-device', ip: '192.168.1.112', port: 8096, color: '#10b981', radius: 10 },
-  { id: 'qbittorrent', label: 'qbittorrent', sublabel: 'downloads · lxc 113', type: 'end-device', ip: '192.168.1.113', port: 8080, color: '#10b981', radius: 9 },
-  { id: 'sonarr', label: 'sonarr', sublabel: 'tv series · lxc 114', type: 'end-device', ip: '192.168.1.114', port: 8989, color: '#10b981', radius: 8 },
-  { id: 'radarr', label: 'radarr', sublabel: 'movies · lxc 115', type: 'end-device', ip: '192.168.1.115', port: 7878, color: '#10b981', radius: 8 },
-  { id: 'bazarr', label: 'bazarr', sublabel: 'subtitles · lxc 116', type: 'end-device', ip: '192.168.1.116', port: 6767, color: '#10b981', radius: 8 },
-  { id: 'prowlarr', label: 'prowlarr', sublabel: 'indexers · lxc 117', type: 'end-device', ip: '192.168.1.117', port: 9696, color: '#10b981', radius: 8 },
-
-  // Node 3 Services (Apple M1)
-  { id: 'm1-runner', label: 'm1 arm64 runner', sublabel: 'multi-arch compiler', type: 'end-device', ip: '192.168.1.121', color: '#10b981', radius: 9 },
-  { id: 'm1-dns-backup', label: 'pi-hole standby', sublabel: 'secondary resolver', type: 'offline', ip: '192.168.1.122', color: '#e74c3c', radius: 8 },
+  // Node 3 Services (Apple M1 ARM64 Utility Hypervisor)
+  { id: 'it-tools-arm', label: 'it-tools', sublabel: 'utilities · lxc 100', type: 'end-device', ip: '192.168.64.15', port: 8080, color: '#00b894', radius: 9 },
+  { id: 'actual-budget-arm', label: 'actual budget', sublabel: 'finance · lxc 101', type: 'end-device', ip: '192.168.64.16', port: 5006, color: '#00b894', radius: 9 },
+  { id: 'trilium-arm', label: 'trilium notes', sublabel: 'kb notes · lxc 102', type: 'end-device', ip: '192.168.64.17', port: 8080, color: '#00b894', radius: 9 },
+  { id: 'changedetection-arm', label: 'changedetection', sublabel: 'web monitor · lxc 103', type: 'end-device', ip: '192.168.64.18', port: 5000, color: '#00b894', radius: 9 },
+  { id: 'scrutiny-arm-svc', label: 'scrutiny (arm64)', sublabel: 'nvme smart · lxc 104', type: 'end-device', ip: '192.168.64.19', port: 8088, color: '#00b894', radius: 9 },
+  { id: 'uptime-kuma', label: 'uptime kuma', sublabel: 'health ping · lxc 105', type: 'end-device', ip: '192.168.64.23', port: 3001, color: '#00b894', radius: 10 },
+  { id: 'vaultwarden', label: 'vaultwarden', sublabel: 'bitwarden · lxc 106', type: 'end-device', ip: '192.168.64.21', port: 8080, color: '#00b894', radius: 10 },
+  { id: 'monitoring-stack', label: 'grafana / prometheus', sublabel: 'observability · lxc 107', type: 'end-device', ip: '192.168.64.24', port: 3000, color: '#00b894', radius: 11 },
 
   // Node 4 Services (k8s Worker)
-  { id: 'k3s-agent', label: 'k3s pod worker', sublabel: 'containerd cri', type: 'end-device', ip: '192.168.1.131', color: '#10b981', radius: 9 },
-  { id: 'async-queue', label: 'async queue worker', sublabel: 'batch compute', type: 'end-device', ip: '192.168.1.132', color: '#10b981', radius: 8 }
+  { id: 'k3s-agent', label: 'k3s pod worker', sublabel: 'containerd cri', type: 'end-device', ip: '192.168.1.18', color: '#10b981', radius: 9 }
 ];
 
 const initialLinks = [
@@ -180,44 +176,35 @@ const initialLinks = [
   { source: 'gateway', target: 'proxmox-arm-03', dashed: false },
   { source: 'gateway', target: 'k8s-node-04', dashed: false },
 
-  // Proxmox-01 to Compute Services
-  { source: 'proxmox-01', target: 'homeassistant', dashed: false },
-  { source: 'proxmox-01', target: 'frigate', dashed: false },
-  { source: 'proxmox-01', target: 'immich', dashed: false },
-  { source: 'proxmox-01', target: 'vaultwarden', dashed: false },
-  { source: 'proxmox-01', target: 'grafana', dashed: false },
-  { source: 'proxmox-01', target: 'prometheus', dashed: false },
-  { source: 'proxmox-01', target: 'uptime-kuma', dashed: false },
-  { source: 'proxmox-01', target: 'gitea', dashed: false },
+  // Proxmox-01 to Compute Services (x86_64)
+  { source: 'proxmox-01', target: 'nginx-proxy', dashed: false },
   { source: 'proxmox-01', target: 'pihole', dashed: false },
-  { source: 'proxmox-01', target: 'wiki-docs', dashed: false },
+  { source: 'proxmox-01', target: 'tailscale-svc', dashed: false },
+  { source: 'proxmox-01', target: 'immich', dashed: false },
+  { source: 'proxmox-01', target: 'nextcloud', dashed: false },
+  { source: 'proxmox-01', target: 'crowdsec-svc', dashed: false },
+  { source: 'proxmox-01', target: 'homeassistant', dashed: false },
+  { source: 'proxmox-01', target: 'authelia-svc', dashed: false },
+  { source: 'proxmox-01', target: 'n8n-svc', dashed: false },
+  { source: 'proxmox-01', target: 'woodpecker', dashed: false },
+  { source: 'proxmox-01', target: 'gitea', dashed: false },
+  { source: 'proxmox-01', target: 'scrutiny-x64', dashed: false },
+  { source: 'proxmox-01', target: 'media-suite-svc', dashed: false },
 
-  // IoT Cross-links
-  { source: 'homeassistant', target: 'zigbee2mqtt', dashed: true },
-  { source: 'homeassistant', target: 'mosquitto', dashed: true },
-  { source: 'homeassistant', target: 'frigate', dashed: true },
+  // Proxmox-ARM-03 to Utility Services (ARM64)
+  { source: 'proxmox-arm-03', target: 'it-tools-arm', dashed: false },
+  { source: 'proxmox-arm-03', target: 'actual-budget-arm', dashed: false },
+  { source: 'proxmox-arm-03', target: 'trilium-arm', dashed: false },
+  { source: 'proxmox-arm-03', target: 'changedetection-arm', dashed: false },
+  { source: 'proxmox-arm-03', target: 'scrutiny-arm-svc', dashed: false },
+  { source: 'proxmox-arm-03', target: 'uptime-kuma', dashed: false },
+  { source: 'proxmox-arm-03', target: 'vaultwarden', dashed: false },
+  { source: 'proxmox-arm-03', target: 'monitoring-stack', dashed: false },
+
+  // Cross-links
   { source: 'gitea', target: 'woodpecker', dashed: true },
-  { source: 'grafana', target: 'prometheus', dashed: true },
-
-  // OMV-02 to Storage & Media Services
-  { source: 'omv-02', target: 'nextcloud', dashed: false },
-  { source: 'omv-02', target: 'jellyfin', dashed: false },
-  { source: 'omv-02', target: 'qbittorrent', dashed: false },
-  { source: 'omv-02', target: 'sonarr', dashed: false },
-  { source: 'omv-02', target: 'radarr', dashed: false },
-  { source: 'sonarr', target: 'prowlarr', dashed: true },
-  { source: 'radarr', target: 'prowlarr', dashed: true },
-  { source: 'sonarr', target: 'qbittorrent', dashed: true },
-  { source: 'radarr', target: 'qbittorrent', dashed: true },
-  { source: 'sonarr', target: 'bazarr', dashed: true },
-
-  // M1 ARM64 Workloads
-  { source: 'proxmox-arm-03', target: 'm1-runner', dashed: false },
-  { source: 'proxmox-arm-03', target: 'm1-dns-backup', dashed: true },
-
-  // k8s Node 4 Workloads
-  { source: 'k8s-node-04', target: 'k3s-agent', dashed: false },
-  { source: 'k8s-node-04', target: 'async-queue', dashed: false }
+  { source: 'monitoring-stack', target: 'uptime-kuma', dashed: true },
+  { source: 'k8s-node-04', target: 'k3s-agent', dashed: false }
 ];
 
 let nodes = [];

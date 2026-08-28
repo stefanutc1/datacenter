@@ -59,8 +59,8 @@ Production-grade, declarative homelab monorepo and autonomous infrastructure con
 flowchart TB
     subgraph ComputeNodes["Physical & Virtual Compute Layer"]
         M1["Apple M1 Host (192.168.1.133)<br/>MacBook-Air.local • ELO Daemon • Metal MPS"]
-        PVE1["Node 1: Proxmox VE x86_64 (192.168.1.132)<br/>Core KVM/LXC Hypervisor (16 LXC + 2 VMs)"]
-        PVE2["Node 3: Proxmox VE ARM64 (192.168.64.14)<br/>Apple Silicon Hypervisor (5 Native aarch64 LXCs)"]
+        PVE1["Node 1: Proxmox VE x86_64 (192.168.1.132)<br/>Core KVM/LXC Hypervisor (13 LXC + 2 VMs)"]
+        PVE2["Node 3: Proxmox VE ARM64 (192.168.64.14)<br/>Apple Silicon Hypervisor (8 Native aarch64 LXCs)"]
         NAS["Node 2: OpenMediaVault NAS (192.168.1.135)<br/>ZFS Pools • NFS/SMB Storage • Backups"]
         K8S["Node 4: k8s-node-04 (192.168.1.18)<br/>k3s Container Compute Worker"]
     end
@@ -68,8 +68,8 @@ flowchart TB
     subgraph VirtualLayer["Proxmox Virtual Machines & Containers"]
         VM200["VM 200: OPNsense Gateway (192.168.1.132:8443)<br/>Routing • Firewall • WireGuard • Suricata"]
         VM201["VM 201: Alpine Microservices (192.168.1.202)<br/>Cloud-Init • Lightweight Microservices"]
-        LXC_X64["Node 1 x86_64 LXC Fleet (100–115)<br/>Home Assistant • Immich • Vaultwarden • Grafana • Media"]
-        LXC_ARM["Node 3 ARM64 LXC Fleet (100–104)<br/>IT-Tools • Actual Budget • Trilium • ChangeDetection • Scrutiny"]
+        LXC_X64["Node 1 x86_64 LXC Fleet (100–112)<br/>NPM • Pi-hole • Immich • Nextcloud • CrowdSec • Home Assistant • Authelia • n8n • Woodpecker • Gitea • Scrutiny • Media"]
+        LXC_ARM["Node 3 ARM64 LXC Fleet (100–107)<br/>IT-Tools • Actual Budget • Trilium • ChangeDetection • Scrutiny • Uptime Kuma • Vaultwarden • Monitoring (Grafana/Prometheus)"]
     end
 
     subgraph ELOSubsystem["ELO Orchestration & Control Plane"]
@@ -102,8 +102,8 @@ flowchart TB
 | Node Identifier | Hostname / IP | Hardware & Architecture | Primary Roles & Workloads | Reachability & Probing |
 |:---|:---|:---|:---|:---|
 | **`apple-m1-compute`** | `MacBook-Air.local`<br/>`192.168.1.133` | Apple Silicon M1 • 8-Core ARM64 • 8GB Unified • Metal GPU | Local Host, ELO FastAPI Daemon, Local LLM Inference, C# .NET Native App Host | Active Local Runtime • `0.1ms` |
-| **`pve-node-1`** | `pve.lan`<br/>`192.168.1.132` | Intel Core i3-10100F • GTX 1050 Ti • 8GB DDR4 • x86_64 | Primary Hypervisor Host, KVM VMs (OPNsense), Core LXC Fleet (100–115) | TCP Probe: `:8006`, `:22`, `:9100` |
-| **`pve-node-3-arm`** | `pve-arm.lan`<br/>`192.168.64.14` | Apple Silicon M1 • 4GB Dedicated • ARM64 (aarch64) | Secondary ARM64 Hypervisor, Utility LXC Fleet (100–104) | TCP Probe: `:8006`, `:22`, `:9100` |
+| **`pve-node-1`** | `pve.lan`<br/>`192.168.1.132` | Intel Core i3-10100F • GTX 1050 Ti • 8GB DDR4 • x86_64 | Primary Hypervisor Host, KVM VMs (OPNsense), Core LXC Fleet (100–112) | TCP Probe: `:8006`, `:22`, `:9100` |
+| **`pve-node-3-arm`** | `pve-arm.lan`<br/>`192.168.64.14` | Apple Silicon M1 • 4GB Dedicated • ARM64 (aarch64) | Secondary ARM64 Hypervisor, Utility LXC Fleet (100–107) | TCP Probe: `:8006`, `:22`, `:9100` |
 | **`openmediavault-nas`**| `nas.lan`<br/>`192.168.1.135` | Dedicated NAS Storage Appliance • Debian Linux | ZFS Mirrored Pools, SMB/NFS Shares, BorgBackup Repository, Scrutiny SMART | TCP Probe: `:80`, `:445`, `:22`, `:9100` |
 | **`k8s-node-04`** | `k8s-node-04.lan`<br/>`192.168.1.18` | AMD Athlon II X2 220 • GTS 250 • 4GB DDR3 • x86_64 | Kubernetes Worker Node (k3s-agent), Asynchronous Microservice Compute | TCP Probe: `:6443`, `:22`, `:9100` |
 
@@ -145,18 +145,15 @@ The cluster orchestrates **28 production services** distributed across dual Prox
 | **`CT 101`** | **Pi-hole DNS** | Ingress & Networking | `192.168.1.4:80` | `pihole.lan` | Network-wide ad blocking, DNS sinkhole, and custom local `.lan` resolver. |
 | **`CT 102`** | **Tailscale Mesh Gateway** | Ingress & Networking | `192.168.1.5` | `tailscale.lan` | Encrypted mesh VPN subnet router with WireGuard kernel acceleration. |
 | **`CT 103`** | **Immich Photos & Video** | Storage & Cloud | `192.168.1.15:2283` | `immich.lan` | Self-hosted photo/video backup with on-premise AI facial recognition. |
-| **`CT 104`** | **Uptime Kuma** | Observability & Logs | `192.168.1.7:3001` | `status.lan` | Real-time service uptime monitor with automated webhook alerts. |
-| **`CT 105`** | **Nextcloud Hub** | Storage & Cloud | `192.168.1.8:80` | `nextcloud.lan` | Collaborative productivity cloud with file sync, calendar, and WebDAV. |
-| **`CT 106`** | **CrowdSec Defense** | Security & Identity | `192.168.1.9:8080` | `crowdsec.lan` | Collaborative cyber defense engine parsing server logs to ban malicious IPs. |
-| **`CT 107`** | **Home Assistant Core** | Smart Home & IoT | `192.168.1.10:8123` | `ha.lan` | Central home automation platform integrating ESP32 nodes & Zigbee sensors. |
-| **`CT 108`** | **Monitoring (Grafana/Prometheus)** | Observability & Logs | `192.168.1.11:3000` | `grafana.lan` | Central observability dashboards rendering Prometheus metrics & Loki logs. |
-| **`CT 109`** | **Authelia 2FA / SSO** | Security & Identity | `192.168.1.20:9091` | `auth.lan` | Multi-factor authentication provider protecting ingress paths with TOTP/FIDO2. |
-| **`CT 110`** | **n8n Workflow Automation** | Automation & Workflow | `192.168.1.13:5678` | `n8n.lan` | Low-code workflow automation orchestrating webhooks, cron jobs, and alerts. |
-| **`CT 111`** | **Woodpecker CI** | DevOps & CI/CD | `192.168.1.14:8000` | `ci.lan` | Container-native continuous integration engine executing automated test pipelines. |
-| **`CT 112`** | **Vaultwarden Vault** | Security & Identity | `192.168.1.16:80` | `vaultwarden.lan` | Rust Bitwarden backend providing zero-knowledge password and TOTP vault. |
-| **`CT 113`** | **Gitea Forge** | DevOps & CI/CD | `192.168.1.17:3000` | `git.lan` | On-premise self-hosted Git repository server with SSH keys and OAuth2. |
-| **`CT 114`** | **Scrutiny SMART (x86_64)** | Storage & Cloud | `192.168.1.18:8080` | `scrutiny.lan` | Hard drive health monitor tracking SMART attributes on x86_64 storage pool. |
-| **`CT 115`** | **Media Suite (Jellyfin/Arr Stack)** | Media & Streaming | `192.168.1.21:8096` | `jellyfin.lan` | Jellyfin, Radarr, Sonarr, Prowlarr, Bazarr, and qBittorrent stack. |
+| **`CT 104`** | **Nextcloud Hub** | Storage & Cloud | `192.168.1.8:80` | `nextcloud.lan` | Collaborative productivity cloud with file sync, calendar, and WebDAV. |
+| **`CT 105`** | **CrowdSec Defense** | Security & Identity | `192.168.1.9:8080` | `crowdsec.lan` | Collaborative cyber defense engine parsing server logs to ban malicious IPs. |
+| **`CT 106`** | **Home Assistant Core** | Smart Home & IoT | `192.168.1.10:8123` | `ha.lan` | Central home automation platform integrating ESP32 nodes & Zigbee sensors. |
+| **`CT 107`** | **Authelia 2FA / SSO** | Security & Identity | `192.168.1.20:9091` | `auth.lan` | Multi-factor authentication provider protecting ingress paths with TOTP/FIDO2. |
+| **`CT 108`** | **n8n Workflow Automation** | Automation & Workflow | `192.168.1.13:5678` | `n8n.lan` | Low-code workflow automation orchestrating webhooks, cron jobs, and alerts. |
+| **`CT 109`** | **Woodpecker CI** | DevOps & CI/CD | `192.168.1.14:8000` | `ci.lan` | Container-native continuous integration engine executing automated test pipelines. |
+| **`CT 110`** | **Gitea Forge** | DevOps & CI/CD | `192.168.1.17:3000` | `git.lan` | On-premise self-hosted Git repository server with SSH keys and OAuth2. |
+| **`CT 111`** | **Scrutiny SMART (x86_64)** | Storage & Cloud | `192.168.1.18:8080` | `scrutiny.lan` | Hard drive health monitor tracking SMART attributes on x86_64 storage pool. |
+| **`CT 112`** | **Media Suite (Jellyfin/Arr Stack)** | Media & Streaming | `192.168.1.21:8096` | `jellyfin.lan` | Jellyfin, Radarr, Sonarr, Prowlarr, Bazarr, and qBittorrent stack. |
 
 ---
 
@@ -169,6 +166,9 @@ The cluster orchestrates **28 production services** distributed across dual Prox
 | **`CT 102`** | **Trilium Personal Notes** | Productivity & Notes | `192.168.64.17:8080` | `trilium.lan` | Hierarchical knowledge base and note-taking app with SQLite backend. |
 | **`CT 103`** | **ChangeDetection.io** | Automation & Workflow | `192.168.64.18:5000` | `changedetection.lan` | Automated website change and DOM diff detection with restock alerts. |
 | **`CT 104`** | **Scrutiny SMART (ARM64)** | Storage & Cloud | `192.168.64.19:8088` | `scrutiny-arm.lan` | Native ARM64 storage health telemetry for Apple Silicon NVMe SSD endurance. |
+| **`CT 105`** | **Uptime Kuma Status Monitor** | Observability & Logs | `192.168.64.23:3001` | `uptime.lan` | Native ARM64 real-time uptime monitor and ping tracker with webhook triggers. |
+| **`CT 106`** | **Vaultwarden Password Vault** | Security & Identity | `192.168.64.21:8080` | `vaultwarden.lan` | Lightweight Rust Bitwarden backend providing zero-knowledge password vault. |
+| **`CT 107`** | **Monitoring (Grafana / Prometheus / Loki)** | Observability & Logs | `192.168.64.24:3000` | `grafana.lan` | Unified ARM64 observability suite with Grafana OSS, Prometheus TSDB & Loki logs. |
 
 ---
 
