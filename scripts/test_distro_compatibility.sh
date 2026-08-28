@@ -7,7 +7,7 @@ export PIP_NO_CACHE_DIR=1
 
 echo "=== Multi-Linux Distribution Compatibility & Portability Runner ==="
 
-if [-f /etc/os-release]; then
+if [ -f /etc/os-release ]; then
     . /etc/os-release
     DISTRO_ID="$ID"
     DISTRO_NAME="$PRETTY_NAME"

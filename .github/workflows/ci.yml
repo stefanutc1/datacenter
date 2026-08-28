@@ -131,7 +131,7 @@ jobs:
 
       - name: Validate Terraform Modules
         run: |
-          if [-d terraform]; then
+          if [ -d terraform ]; then
             for dir in $(find terraform -type f -name "*.tf" -exec dirname {} + | sort -u); do
               echo "Validating Terraform in $dir..."
               (cd "$dir" && terraform init -backend=false && terraform validate) || true
@@ -147,23 +147,23 @@ jobs:
         run: |
           pip install ansible ansible-lint
           ansible-galaxy collection install community.general || true
-          if [-d ansible/playbooks]; then
+          if [ -d ansible/playbooks ]; then
             for pb in ansible/playbooks/*.yml; do
-              [-f "$pb"] && ansible-playbook --syntax-check "$pb" || true
+              [ -f "$pb" ] && ansible-playbook --syntax-check "$pb" || true
             done
           fi
-          if [-f ai/ansible/playbook.yml]; then
+          if [ -f ai/ansible/playbook.yml ]; then
             ansible-playbook --syntax-check ai/ansible/playbook.yml || true
           fi
 
       - name: Validate Docker Compose Configuration & Topologies
         run: |
           echo "Validating root and service docker-compose files..."
-          if [-f docker-compose.yml]; then
+          if [ -f docker-compose.yml ]; then
             docker compose config -q || true
           fi
           for comp in services/*/docker-compose.yml; do
-            if [-f "$comp"]; then
+            if [ -f "$comp" ]; then
               echo "Validating $comp..."
               docker compose -f "$comp" config -q || true
             fi
@@ -173,7 +173,7 @@ jobs:
         run: |
           curl -sL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
           sudo mv kubeconform /usr/local/bin/
-          if [-d kubernetes]; then
+          if [ -d kubernetes ]; then
             find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \) -exec kubeconform -summary -ignore-missing-schemas {} + || true
           fi
 
