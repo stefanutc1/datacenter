@@ -1026,19 +1026,45 @@ onUnmounted(() => {
   color: #f5ecec;
 }
 
-/* ADE Split Workspace */
+/* ADE Split Workspace with Futuristic Cyber Styling */
 .ade-workspace {
   display: flex;
   min-height: 560px;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(0, 240, 255, 0.15);
+  position: relative;
+}
+
+.ade-workspace::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 40px;
+  height: 2px;
+  background: #00f0ff;
+  box-shadow: 0 0 10px #00f0ff;
+  z-index: 10;
+}
+
+.ade-workspace::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  width: 40px;
+  height: 2px;
+  background: #ff007f;
+  box-shadow: 0 0 10px #ff007f;
+  z-index: 10;
 }
 
 .ade-sidebar {
   width: 250px;
-  background: rgba(0, 0, 0, 0.25);
-  border-right: 1px solid var(--border-color);
+  background: rgba(4, 6, 13, 0.65);
+  border-right: 1px solid rgba(0, 240, 255, 0.15);
   display: flex;
   flex-direction: column;
 }

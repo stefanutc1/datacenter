@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ELO — Autonomous AI Operating Layer</title>
     
-    <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="apple-touch-icon" href="logo-512.png" />
     
-    <!-- Editorial Typography: Newsreader, Plus Jakarta Sans, JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -22,399 +20,616 @@
     
     <style>
         :root {
-            --bg-primary: #0d090a;
-            --bg-secondary: #140f11;
-            --bg-surface: #201719;
-            --bg-card: rgba(32, 23, 25, 0.75);
-            --bg-card-hover: rgba(62, 42, 44, 0.45);
+            --bg-void: #04060d;
+            --bg-deep: #070b16;
+            --bg-surface: #0c1222;
+            --bg-card: rgba(12, 18, 34, 0.75);
+            --bg-card-hover: rgba(18, 28, 52, 0.85);
             
-            --border-color: rgba(214, 182, 186, 0.15);
-            --border-color-hover: rgba(214, 182, 186, 0.4);
+            --border-glow: rgba(0, 240, 255, 0.22);
+            --border-glow-hover: rgba(0, 240, 255, 0.65);
+            --border-magenta: rgba(255, 0, 127, 0.35);
             
-            --text-primary: #f5ecec;
-            --text-secondary: #d6b6ba;
-            --text-muted: #9e7f83;
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff007f;
+            --neon-emerald: #00ff9d;
+            --neon-purple: #9d4edd;
+            --neon-amber: #ffb800;
+            --neon-crimson: #ff2255;
             
-            --accent-mauve: #c89b9e;
-            --accent-mauve-light: #e8d5d7;
-            --accent-emerald: #6b9e78;
-            --accent-amber: #cfa16a;
-            --accent-cyan: #00cec9;
-            --accent-purple: #a855f7;
-            --accent-danger: #b8555a;
-
-            --font-serif: 'Newsreader', serif;
+            --text-main: #f0f6fc;
+            --text-dim: #94a3b8;
+            --text-muted: #64748b;
+            
+            --font-hud: 'Orbitron', sans-serif;
             --font-sans: 'Plus Jakarta Sans', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-secondary);
+            background-color: var(--bg-void);
+            color: var(--text-main);
             font-family: var(--font-sans);
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(62, 42, 44, 0.45) 0%, transparent 60%),
-                radial-gradient(circle at 10% 90%, rgba(0, 206, 201, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(107, 158, 120, 0.05) 0%, transparent 50%),
-                linear-gradient(to bottom, #0d090a 0%, #080607 100%);
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 50% -10%, rgba(0, 240, 255, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 10% 90%, rgba(157, 78, 221, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 157, 0.06) 0%, transparent 50%),
+                linear-gradient(to bottom, #04060d 0%, #060913 100%);
         }
 
-        .font-serif-custom { font-family: var(--font-serif); }
+        /* Canvas Particle Background */
+        #cyber-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.65;
+        }
+
+        .font-hud { font-family: var(--font-hud); }
         .font-mono-custom { font-family: var(--font-mono); }
 
-        /* Rich Markdown Prose Styling */
-        .prose-elo h1, .prose-elo h2, .prose-elo h3 {
-            color: #f5ecec;
-            font-weight: 700;
-            margin-top: 0.25rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.01em;
+        /* Cyberpunk HUD Glass Card */
+        .hud-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border-radius: 12px;
+            position: relative;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
         }
-        .prose-elo h3 { font-size: 0.95rem; }
-        .prose-elo h4 { font-size: 0.85rem; color: #d6b6ba; font-weight: 600; margin-top: 0.5rem; }
-        .prose-elo p { margin-bottom: 0.4rem; line-height: 1.55; }
-        .prose-elo p:last-child { margin-bottom: 0; }
-        .prose-elo ul { list-style-type: none; padding-left: 0.25rem; margin-bottom: 0.5rem; }
-        .prose-elo li { position: relative; padding-left: 1.1rem; margin-bottom: 0.25rem; }
-        .prose-elo li::before {
-            content: "•";
+
+        .hud-card::before {
+            content: "";
             position: absolute;
-            left: 0.2rem;
-            color: #c89b9e;
-            font-weight: bold;
+            top: -1px;
+            left: 12px;
+            width: 28px;
+            height: 2px;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 10px var(--neon-cyan);
+            transition: all 0.3s ease;
         }
-        .prose-elo code {
-            background: rgba(13, 9, 10, 0.8);
-            border: 1px solid rgba(214, 182, 186, 0.15);
-            padding: 0.1rem 0.35rem;
-            border-radius: 0.25rem;
+
+        .hud-card::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            right: 12px;
+            width: 28px;
+            height: 2px;
+            background: var(--neon-magenta);
+            box-shadow: 0 0 10px var(--neon-magenta);
+            transition: all 0.3s ease;
+        }
+
+        .hud-card:hover {
+            border-color: var(--border-glow-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 48px -8px rgba(0, 240, 255, 0.18), inset 0 1px 0 0 rgba(0, 240, 255, 0.3);
+        }
+
+        .hud-card:hover::before { width: 50%; }
+        .hud-card:hover::after { width: 50%; }
+
+        /* 3D Quantum Gyro Reactor Widget */
+        .quantum-reactor-container {
+            width: 90px;
+            height: 90px;
+            perspective: 800px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantum-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            pointer-events: none;
+        }
+
+        .ring-1 {
+            width: 80px;
+            height: 80px;
+            border-top-color: var(--neon-cyan);
+            border-bottom-color: var(--neon-cyan);
+            animation: spinRing1 4s linear infinite;
+            filter: drop-shadow(0 0 8px var(--neon-cyan));
+        }
+
+        .ring-2 {
+            width: 64px;
+            height: 64px;
+            border-left-color: var(--neon-magenta);
+            border-right-color: var(--neon-magenta);
+            animation: spinRing2 6s linear infinite reverse;
+            filter: drop-shadow(0 0 8px var(--neon-magenta));
+        }
+
+        .ring-3 {
+            width: 48px;
+            height: 48px;
+            border-top-color: var(--neon-emerald);
+            border-right-color: var(--neon-emerald);
+            animation: spinRing3 3s linear infinite;
+            filter: drop-shadow(0 0 8px var(--neon-emerald));
+        }
+
+        .quantum-core-orb {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffffff 10%, var(--neon-cyan) 60%, transparent 100%);
+            box-shadow: 0 0 18px var(--neon-cyan), inset 0 0 8px #ffffff;
+            animation: pulseOrb 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes spinRing1 {
+            0% { transform: rotateX(65deg) rotateY(20deg) rotateZ(0deg); }
+            100% { transform: rotateX(65deg) rotateY(20deg) rotateZ(360deg); }
+        }
+
+        @keyframes spinRing2 {
+            0% { transform: rotateX(30deg) rotateY(70deg) rotateZ(0deg); }
+            100% { transform: rotateX(30deg) rotateY(70deg) rotateZ(360deg); }
+        }
+
+        @keyframes spinRing3 {
+            0% { transform: rotateX(80deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(80deg) rotateY(0deg) rotateZ(360deg); }
+        }
+
+        @keyframes pulseOrb {
+            0% { transform: scale(0.85); filter: drop-shadow(0 0 10px var(--neon-cyan)); }
+            100% { transform: scale(1.15); filter: drop-shadow(0 0 24px var(--neon-cyan)) drop-shadow(0 0 10px var(--neon-magenta)); }
+        }
+
+        /* Glowing Neon Badges & Buttons */
+        .cyber-btn {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(157, 78, 221, 0.12) 100%);
+            border: 1px solid var(--border-glow);
+            color: var(--neon-cyan);
             font-family: var(--font-mono);
             font-size: 0.75rem;
-            color: #00cec9;
-        }
-        .prose-elo strong { color: #f5ecec; font-weight: 600; }
-        .prose-elo em { color: #d6b6ba; }
-
-        /* Homelab-SOC Glassmorphism */
-        .soc-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border-radius: 1rem;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            padding: 0.5rem 0.85rem;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.08);
         }
 
-        .soc-card:hover {
-            border-color: var(--border-color-hover);
+        .cyber-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.25) 0%, rgba(157, 78, 221, 0.25) 100%);
+            border-color: var(--neon-cyan);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+            transform: translateY(-1px);
         }
 
-        .pulse-dot {
+        .cyber-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Holographic Scanline Overlay */
+        .scanlines {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scanlines::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 240, 255, 0.02) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.01), rgba(0, 255, 0, 0.005), rgba(0, 0, 255, 0.01));
+            z-index: 10;
+            background-size: 100% 3px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* Glowing Progress Bars */
+        .neon-bar {
+            height: 5px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .neon-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .neon-bar-fill::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
             width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--accent-emerald);
-            box-shadow: 0 0 8px rgba(107, 158, 120, 0.8);
-            animation: pulseGlow 2s infinite ease-in-out;
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff;
+            border-radius: 4px;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px var(--accent-emerald)); }
+        /* Markdown Rendering inside Chat */
+        .prose-elo h1, .prose-elo h2, .prose-elo h3 {
+            color: #ffffff;
+            font-weight: 700;
+            margin-top: 0.5rem;
+            margin-bottom: 0.4rem;
         }
+        .prose-elo p { margin-bottom: 0.5rem; line-height: 1.6; }
+        .prose-elo p:last-child { margin-bottom: 0; }
+        .prose-elo code {
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--neon-cyan);
+        }
+        .prose-elo pre {
+            background: #060913;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 0.85rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 0.5rem 0;
+        }
+        .prose-elo pre code {
+            background: transparent;
+            border: none;
+            padding: 0;
+            color: #e2e8f0;
+        }
+        .prose-elo ul { padding-left: 1.2rem; list-style-type: square; margin-bottom: 0.5rem; }
+        .prose-elo li { margin-bottom: 0.2rem; }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: rgba(13, 9, 10, 0.6); }
-        ::-webkit-scrollbar-thumb { background: rgba(214, 182, 186, 0.2); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(214, 182, 186, 0.5); }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(5, 8, 17, 0.7); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.25); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.6); }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- TOP EDITORIAL HEADER -->
-    <header class="border-b border-[rgba(214,182,186,0.12)] bg-[#140f11]/80 backdrop-blur-xl sticky top-0 z-40 px-4 lg:px-8 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <canvas id="cyber-canvas"></canvas>
+
+    <!-- TOP CYBER HUD HEADER -->
+    <header class="border-b border-[rgba(0,240,255,0.18)] bg-[#070b16]/85 backdrop-blur-2xl sticky top-0 z-40 px-4 lg:px-8 py-3.5 shadow-lg shadow-black/50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between relative z-10">
             
-            <!-- Left Branding -->
-            <div class="flex items-center gap-3.5">
-                <div class="w-10 h-10 rounded-xl bg-[#3e2a2c]/60 border border-[rgba(214,182,186,0.25)] flex items-center justify-center shadow-lg shadow-black/40">
-                    <span class="font-serif-custom font-bold text-xl text-[#f5ecec]">E</span>
+            <!-- Left Branding & System Telemetry Status -->
+            <div class="flex items-center gap-4">
+                <div class="relative flex items-center justify-center">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-[#00f0ff]/20 via-[#9d4edd]/20 to-[#ff007f]/20 border border-[rgba(0,240,255,0.4)] flex items-center justify-center shadow-lg shadow-[rgba(0,240,255,0.25)]">
+                        <span class="font-hud font-extrabold text-xl text-[#00f0ff] tracking-wider">E</span>
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#00ff9d] rounded-full border-2 border-[#070b16] animate-ping"></span>
+                    <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#00ff9d] rounded-full border-2 border-[#070b16]"></span>
                 </div>
                 <div>
-                    <div class="flex items-center gap-2">
-                        <span class="font-serif-custom font-bold text-xl text-[#f5ecec] tracking-tight lowercase">elo</span>
-                        <span class="text-[10px] font-mono-custom px-2 py-0.5 rounded-full bg-[#3e2a2c]/80 text-[#d6b6ba] border border-[rgba(214,182,186,0.2)]">ai operating layer</span>
+                    <div class="flex items-center gap-2.5">
+                        <span class="font-hud font-bold text-xl text-white tracking-widest uppercase">ELO</span>
+                        <span class="text-[10px] font-mono-custom px-2.5 py-0.5 rounded-md bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/30 uppercase font-semibold">Autonomous Core</span>
+                        <span id="header-swarm-badge" class="hidden sm:inline-block text-[10px] font-mono-custom px-2 py-0.5 rounded-md bg-[#9d4edd]/15 text-[#c77dff] border border-[#9d4edd]/30">SWARM 4X ACTIVE</span>
                     </div>
-                    <div class="flex items-center gap-2 text-[11px] text-[#9e7f83] font-mono-custom mt-0.5">
-                        <span class="pulse-dot"></span>
-                        <span id="header-host-label">PROXMOX PVE-1</span>
-                        <span>•</span>
-                        <span id="header-uptime" class="text-[#c89b9e]">UPTIME: --</span>
+                    <div class="flex items-center gap-2.5 text-[11px] text-[#94a3b8] font-mono-custom mt-0.5">
+                        <span id="header-host-label" class="text-white font-bold">PROXMOX PVE-1</span>
+                        <span>|</span>
+                        <span id="header-uptime" class="text-[#00f0ff]">UPTIME: --</span>
+                        <span>|</span>
+                        <span class="text-[#00ff9d]">SEC-TIER: ZERO-TRUST L0-L3</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Controls: LLM Config, Language Toggle, Voice, SFX -->
-            <div class="flex items-center gap-2.5">
-                <!-- LLM Settings Button -->
-                <button onclick="openLLMModal()" class="px-2.5 py-1 rounded-lg bg-[#201719] border border-[rgba(214,182,186,0.2)] hover:border-[#c89b9e] text-xs font-mono-custom text-[#f5ecec] transition flex items-center gap-1.5 shadow-sm">
-                    <i data-lucide="cpu" class="w-3.5 h-3.5 text-[#a855f7]"></i>
-                    <span id="active-llm-badge" class="font-bold text-[#c89b9e]">MOCK / GEMINI</span>
+            <!-- Right Controls: LLM Cascade, Voice, Language, SFX -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- LLM Cascade Status Button -->
+                <button onclick="openLLMModal()" class="cyber-btn flex items-center gap-1.5">
+                    <i data-lucide="cpu" class="w-3.5 h-3.5 text-[#00f0ff]"></i>
+                    <span id="active-llm-badge" class="font-bold">CASCADE AUTO</span>
+                </button>
+
+                <!-- Daily Briefing Generator Button -->
+                <button onclick="triggerDailyBriefing()" title="Generate 07:00 Homelab Briefing" class="cyber-btn hidden md:flex items-center gap-1.5 border-[#00ff9d]/30 text-[#00ff9d]">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                    <span>07:00 BRIEFING</span>
                 </button>
 
                 <!-- Language Toggle [RO / EN] -->
-                <button onclick="toggleLanguage()" class="px-2.5 py-1 rounded-lg bg-[#201719] border border-[rgba(214,182,186,0.2)] hover:border-[#c89b9e] text-xs font-mono-custom text-[#f5ecec] transition flex items-center gap-1">
-                    <i data-lucide="globe" class="w-3.5 h-3.5 text-[#00cec9]"></i>
-                    <span id="lang-indicator" class="font-bold text-[#c89b9e]">RO</span>
+                <button onclick="toggleLanguage()" class="cyber-btn flex items-center gap-1">
+                    <i data-lucide="globe" class="w-3.5 h-3.5 text-[#9d4edd]"></i>
+                    <span id="lang-indicator" class="font-bold text-white">RO</span>
                 </button>
 
-                <!-- Voice Auto-Speak Toggle -->
-                <button id="voice-toggle-btn" onclick="toggleAutoVoice()" class="px-2.5 py-1 rounded-lg bg-[#201719] border border-[rgba(214,182,186,0.2)] hover:border-[#c89b9e] text-xs font-mono-custom text-[#d6b6ba] transition flex items-center gap-1">
-                    <i data-lucide="volume-2" class="w-3.5 h-3.5 text-[#6b9e78]"></i>
+                <!-- Voice Output Toggle -->
+                <button id="voice-toggle-btn" onclick="toggleAutoVoice()" class="cyber-btn flex items-center gap-1">
+                    <i data-lucide="volume-2" class="w-3.5 h-3.5 text-[#00ff9d]"></i>
                     <span id="voice-label">VOICE ON</span>
                 </button>
 
-                <!-- Hands-free Always Listening Wake Word ("Hey ELO") -->
-                <button id="wakeword-btn" onclick="toggleWakeWord()" class="px-2.5 py-1 rounded-lg bg-[#201719] border border-[rgba(214,182,186,0.2)] hover:border-[#6b9e78] text-xs font-mono-custom text-[#d6b6ba] transition flex items-center gap-1.5 shadow-sm">
-                    <i data-lucide="radio" class="w-3.5 h-3.5 text-[#6b9e78]"></i>
+                <!-- Hands-Free Wake Word -->
+                <button id="wakeword-btn" onclick="toggleWakeWord()" class="cyber-btn hidden lg:flex items-center gap-1.5 border-[#ffb800]/30 text-[#ffb800]">
+                    <i data-lucide="radio" class="w-3.5 h-3.5"></i>
                     <span id="wakeword-label">WAKE WORD OFF</span>
                 </button>
 
-                <!-- Live Ping -->
-                <div class="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#0d090a] border border-[rgba(214,182,186,0.1)] text-[11px] font-mono-custom text-[#6b9e78]">
-                    <i data-lucide="activity" class="w-3 h-3"></i>
-                    <span id="ping-text">9ms</span>
+                <!-- Ping Telemetry -->
+                <div class="hidden sm:flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#04060d] border border-[rgba(0,240,255,0.2)] text-[11px] font-mono-custom text-[#00ff9d]">
+                    <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                    <span id="ping-text">--ms</span>
                 </div>
             </div>
 
         </div>
     </header>
 
-    <!-- UNIFIED SINGLE-PAGE AI OPERATING LAYER -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- MAIN GRID CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
         
-        <!-- LEFT PANEL: REACTOR CORE, REAL TELEMETRY & HOMELAB INVENTORY (5 cols) -->
-        <div class="lg:col-span-5 flex flex-col gap-6">
+        <!-- LEFT COLUMN: QUANTUM REACTOR CORE, TELEMETRY GAUGES & SWARM STATUS (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
             
-            <!-- HOLOGRAPHIC CORE CARD -->
-            <div class="soc-card p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                <div class="absolute -top-12 -right-12 w-32 h-32 bg-[#3e2a2c]/40 rounded-full blur-3xl"></div>
-                <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-[#00cec9]/10 rounded-full blur-3xl"></div>
-
-                <!-- Canvas Core Visualizer -->
-                <div class="relative w-44 h-44 flex items-center justify-center my-1">
-                    <canvas id="coreCanvas" width="180" height="180" class="absolute inset-0"></canvas>
-                    
-                    <!-- Core Push-to-Talk Button -->
-                    <button id="voice-core-btn" onclick="toggleSpeech()" class="relative z-10 w-20 h-20 rounded-full bg-[#140f11] border border-[rgba(214,182,186,0.3)] hover:border-[#00cec9] flex flex-col items-center justify-center shadow-xl shadow-black/60 hover:scale-105 transition-all group">
-                        <i data-lucide="mic" id="mic-icon" class="w-7 h-7 text-[#c89b9e] group-hover:text-[#00cec9] transition"></i>
-                        <span id="mic-label" class="text-[9px] font-mono-custom text-[#9e7f83] mt-1">HOLD / CLICK</span>
-                    </button>
+            <!-- 1. Quantum Reactor AI Engine State -->
+            <div class="hud-card p-5">
+                <div class="flex items-center justify-between mb-4 border-b border-[rgba(0,240,255,0.12)] pb-3">
+                    <div class="flex items-center gap-2.5">
+                        <i data-lucide="zap" class="w-4 h-4 text-[#00f0ff]"></i>
+                        <h2 class="font-hud font-bold text-xs text-white uppercase tracking-wider">Quantum AI Core &amp; Swarm Hub</h2>
+                    </div>
+                    <span id="core-state-badge" class="px-2.5 py-0.5 rounded text-[10px] font-mono-custom font-bold bg-[#00ff9d]/15 text-[#00ff9d] border border-[#00ff9d]/40 uppercase">
+                        STANDBY (AUTONOMOUS)
+                    </span>
                 </div>
 
-                <div class="mt-1">
-                    <h3 id="core-state-title" class="font-serif-custom text-lg font-bold text-[#f5ecec] lowercase">elo operating layer // ready</h3>
-                    <p id="core-state-desc" class="text-xs text-[#9e7f83] mt-0.5 lowercase" data-i18n="core_standby_desc">sistem gata pentru comenzi vocale sau interogări homelab</p>
-                </div>
-            </div>
-
-            <!-- LIVE HARDWARE TELEMETRY (GENUINE HOST PSUTIL METRICS) -->
-            <div class="soc-card p-5">
-                <div class="flex items-center justify-between border-b border-[rgba(214,182,186,0.12)] pb-2.5 mb-3">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="cpu" class="w-4 h-4 text-[#c89b9e]"></i>
-                        <h4 class="font-serif-custom font-bold text-sm text-[#f5ecec] lowercase" data-i18n="hardware_title">hardware telemetry (live)</h4>
-                    </div>
-                    <span class="text-[10px] font-mono-custom px-2 py-0.5 rounded bg-[#6b9e78]/15 text-[#6b9e78] border border-[#6b9e78]/30">REALTIME POLLING</span>
-                </div>
-
-                <div class="space-y-3 font-mono-custom text-xs">
-                    <!-- CPU Usage -->
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-[#9e7f83] lowercase">cpu load (<span id="cpu-cores">--</span> cores)</span>
-                            <span id="tele-cpu-val" class="text-[#f5ecec] font-bold">-- %</span>
-                        </div>
-                        <div class="w-full bg-[#0d090a] rounded-full h-1.5 overflow-hidden">
-                            <div id="tele-cpu-bar" class="bg-[#c89b9e] h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
+                <div class="flex items-center gap-5">
+                    <!-- 3D Gyro Reactor -->
+                    <div class="quantum-reactor-container">
+                        <div class="quantum-ring ring-1"></div>
+                        <div class="quantum-ring ring-2"></div>
+                        <div class="quantum-ring ring-3"></div>
+                        <div class="quantum-core-orb"></div>
                     </div>
 
-                    <!-- RAM Usage -->
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-[#9e7f83] lowercase">ram usage</span>
-                            <span id="tele-ram-val" class="text-[#f5ecec] font-bold">-- / -- GB</span>
+                    <!-- Core Stats -->
+                    <div class="flex-1 space-y-2 text-xs font-mono-custom">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[#94a3b8]">Router Pipeline:</span>
+                            <span id="core-active-provider" class="font-bold text-[#00f0ff]">Gemini &gt; Groq &gt; Ollama</span>
                         </div>
-                        <div class="w-full bg-[#0d090a] rounded-full h-1.5 overflow-hidden">
-                            <div id="tele-ram-bar" class="bg-[#00cec9] h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[#94a3b8]">Metal MPS Neural:</span>
+                            <span class="text-[#00ff9d] font-bold">ARM64 Core (Synced)</span>
                         </div>
-                    </div>
-
-                    <!-- Disk Usage -->
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-[#9e7f83] lowercase">disk storage (root)</span>
-                            <span id="tele-disk-val" class="text-[#f5ecec] font-bold">-- / -- GB</span>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[#94a3b8]">Swarm Orchestrator:</span>
+                            <span class="text-[#c77dff] font-bold">4 SRE Sub-Agents</span>
                         </div>
-                        <div class="w-full bg-[#0d090a] rounded-full h-1.5 overflow-hidden">
-                            <div id="tele-disk-bar" class="bg-[#cfa16a] h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[#94a3b8]">Gatekeeper Guard:</span>
+                            <span class="text-[#ffb800] font-bold">HMAC Audit Active</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-3 pt-2.5 border-t border-[rgba(214,182,186,0.1)] grid grid-cols-2 gap-2 text-center text-xs font-mono-custom">
-                    <div class="bg-[#0d090a]/60 p-1.5 rounded border border-[rgba(214,182,186,0.08)]">
-                        <span class="text-[10px] text-[#9e7f83] block lowercase">arch</span>
-                        <span id="tele-os-val" class="text-[#d6b6ba] font-semibold text-[11px]">--</span>
+                <!-- Swarm Agents Micro-Chips -->
+                <div class="mt-4 pt-3 border-t border-[rgba(0,240,255,0.1)] grid grid-cols-2 gap-2 text-[10px] font-mono-custom">
+                    <div class="p-1.5 rounded bg-[#070b16] border border-[#00f0ff]/20 flex items-center justify-between">
+                        <span class="text-[#94a3b8]">NetSecAgent</span>
+                        <span class="text-[#00ff9d]">WATCHING</span>
                     </div>
-                    <div class="bg-[#0d090a]/60 p-1.5 rounded border border-[rgba(214,182,186,0.08)]">
-                        <span class="text-[10px] text-[#9e7f83] block lowercase">network</span>
-                        <span id="tele-net-val" class="text-[#00cec9] font-semibold text-[11px]">-- MB</span>
+                    <div class="p-1.5 rounded bg-[#070b16] border border-[#00f0ff]/20 flex items-center justify-between">
+                        <span class="text-[#94a3b8]">StorageAgent</span>
+                        <span class="text-[#00ff9d]">ZFS SCRUB OK</span>
+                    </div>
+                    <div class="p-1.5 rounded bg-[#070b16] border border-[#00f0ff]/20 flex items-center justify-between">
+                        <span class="text-[#94a3b8]">InfraAgent</span>
+                        <span class="text-[#00f0ff]">AUTO-BALANCED</span>
+                    </div>
+                    <div class="p-1.5 rounded bg-[#070b16] border border-[#00f0ff]/20 flex items-center justify-between">
+                        <span class="text-[#94a3b8]">HomeAgent</span>
+                        <span class="text-[#c77dff]">MESH ACTIVE</span>
                     </div>
                 </div>
             </div>
 
-            <!-- DYNAMIC CLUSTER NODES HEALTH (PROXMOX, NAS, M1) -->
-            <div class="soc-card p-5">
-                <div class="flex items-center justify-between border-b border-[rgba(214,182,186,0.12)] pb-2 mb-2.5">
+            <!-- 2. Real-Time Hardware Telemetry Gauges -->
+            <div class="hud-card p-5 space-y-4">
+                <div class="flex items-center justify-between border-b border-[rgba(0,240,255,0.12)] pb-2.5">
                     <div class="flex items-center gap-2">
-                        <i data-lucide="server" class="w-4 h-4 text-[#cfa16a]"></i>
-                        <h4 class="font-serif-custom font-bold text-xs text-[#f5ecec] lowercase">homelab cluster nodes (live probe)</h4>
+                        <i data-lucide="gauge" class="w-4 h-4 text-[#00ff9d]"></i>
+                        <h2 class="font-hud font-bold text-xs text-white uppercase tracking-wider">Live System Metrics</h2>
                     </div>
-                    <span class="text-[10px] font-mono-custom text-[#9e7f83]">IP / TCP PROBE</span>
+                    <span class="text-[10px] font-mono-custom text-[#94a3b8]">PSUTIL LOCAL PROBE</span>
                 </div>
 
-                <div id="cluster-nodes-container" class="space-y-2 font-mono-custom text-xs">
-                    <!-- Dynamic nodes rendered via JS -->
+                <!-- CPU Gauge -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs font-mono-custom">
+                        <span class="text-[#94a3b8]">CPU Usage (<span id="cpu-cores">--</span> Cores)</span>
+                        <span id="tele-cpu-val" class="font-bold text-[#00f0ff]">--%</span>
+                    </div>
+                    <div class="neon-bar">
+                        <div id="tele-cpu-bar" class="neon-bar-fill bg-gradient-to-r from-[#00f0ff] to-[#9d4edd]" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- RAM Gauge -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs font-mono-custom">
+                        <span class="text-[#94a3b8]">Unified RAM Allocation</span>
+                        <span id="tele-ram-val" class="font-bold text-[#00ff9d]">-- / -- GB (--%)</span>
+                    </div>
+                    <div class="neon-bar">
+                        <div id="tele-ram-bar" class="neon-bar-fill bg-gradient-to-r from-[#00ff9d] to-[#00f0ff]" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- NVMe Disk Gauge -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs font-mono-custom">
+                        <span class="text-[#94a3b8]">Storage / NVMe Root</span>
+                        <span id="tele-disk-val" class="font-bold text-[#ffb800]">-- / -- GB (--%)</span>
+                    </div>
+                    <div class="neon-bar">
+                        <div id="tele-disk-bar" class="neon-bar-fill bg-gradient-to-r from-[#ffb800] to-[#ff007f]" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- Network I/O -->
+                <div class="pt-2 border-t border-[rgba(0,240,255,0.08)] flex justify-between text-xs font-mono-custom">
+                    <span class="text-[#94a3b8]">Network I/O Throughput:</span>
+                    <span id="tele-net-val" class="font-bold text-[#00f0ff]">▲ --MB ▼ --MB</span>
                 </div>
             </div>
 
-            <!-- HOMELAB SERVICES DIRECTORY (EXTRACTED FROM HOMELAB-SOC) -->
-            <div class="soc-card p-5 flex flex-col h-[280px]">
-                <div class="flex items-center justify-between border-b border-[rgba(214,182,186,0.12)] pb-2.5 mb-2.5">
+            <!-- 3. Homelab Physical Nodes & Topology -->
+            <div class="hud-card p-5 space-y-3">
+                <div class="flex items-center justify-between border-b border-[rgba(0,240,255,0.12)] pb-2.5">
                     <div class="flex items-center gap-2">
-                        <i data-lucide="layers" class="w-4 h-4 text-[#00cec9]"></i>
-                        <h4 class="font-serif-custom font-bold text-xs text-[#f5ecec] lowercase">homelab workloads (<span id="service-count-badge">22</span>)</h4>
+                        <i data-lucide="server" class="w-4 h-4 text-[#9d4edd]"></i>
+                        <h2 class="font-hud font-bold text-xs text-white uppercase tracking-wider">Cluster Infrastructure Nodes</h2>
                     </div>
+                    <span class="text-[10px] font-mono-custom text-[#00ff9d] font-bold">3 HOSTS</span>
+                </div>
+                <div id="cluster-nodes-container" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    <!-- Dynamic Proxmox, NAS, M1 Nodes -->
+                </div>
+            </div>
+
+            <!-- 4. Workload Services Catalog & Real-Time Prober -->
+            <div class="hud-card p-5 space-y-3">
+                <div class="flex items-center justify-between border-b border-[rgba(0,240,255,0.12)] pb-2.5">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="layers" class="w-4 h-4 text-[#ffb800]"></i>
+                        <h2 class="font-hud font-bold text-xs text-white uppercase tracking-wider">Workload Services Catalog</h2>
+                    </div>
+                    <span id="service-count-badge" class="px-2 py-0.5 rounded bg-[#ffb800]/15 text-[#ffb800] border border-[#ffb800]/30 text-[10px] font-mono-custom font-bold">-- SERVICES</span>
+                </div>
+
+                <div class="relative">
                     <input 
                         type="text" 
                         id="service-filter-input" 
                         oninput="filterServices()" 
-                        placeholder="filtrează..." 
-                        class="bg-[#0d090a] border border-[rgba(214,182,186,0.15)] rounded px-2 py-0.5 text-[11px] text-[#f5ecec] placeholder-[#9e7f83] focus:outline-none w-28 font-mono-custom"
+                        placeholder="Search service, port, IP, or stack..." 
+                        class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#00f0ff] rounded-lg px-3 py-1.5 text-xs text-white font-mono-custom placeholder-[#64748b] focus:outline-none"
                     />
                 </div>
 
-                <div id="services-list-container" class="flex-1 overflow-y-auto space-y-1.5 pr-1 font-mono-custom text-xs">
-                    <!-- Dynamic services injected via JS -->
-                </div>
-            </div>
-
-            <!-- QUICK DISPATCH PROMPTS -->
-            <div class="soc-card p-4">
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="sendPrompt('Ce faci broski?')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#c89b9e] text-xs transition">
-                        <span class="font-semibold text-[#f5ecec] block"> "Ce faci broski?"</span>
-                    </button>
-                    <button onclick="sendPrompt('Arată-mi resursele reale din Homelab')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#c89b9e] text-xs transition">
-                        <span class="font-semibold text-[#f5ecec] block"> "Resurse Homelab"</span>
-                    </button>
-                    <button onclick="sendPrompt('Restart VM 101')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#cfa16a] text-xs transition">
-                        <span class="font-semibold text-[#cfa16a] block"> "Restart VM 101"</span>
-                    </button>
-                    <button onclick="sendPrompt('Rulează simularea Monte Carlo')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#00cec9] text-xs transition">
-                        <span class="font-semibold text-[#00cec9] block"> "Monte Carlo Risk"</span>
-                    </button>
+                <div id="services-list-container" class="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+                    <!-- Dynamic Service List -->
                 </div>
             </div>
 
         </div>
 
-        <!-- RIGHT PANEL: CONVERSATIONAL STREAM & VOICE FEED (7 cols) -->
-        <div class="lg:col-span-7 flex flex-col h-[820px] soc-card p-5 relative">
+        <!-- RIGHT COLUMN: INTERACTIVE AI NEURAL CONSOLE & TOOL EXECUTION STREAM (7 cols) -->
+        <div class="lg:col-span-7 flex flex-col space-y-4">
             
-            <div class="flex items-center justify-between border-b border-[rgba(214,182,186,0.12)] pb-3 mb-3">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="terminal" class="w-4 h-4 text-[#00cec9]"></i>
-                    <h3 class="font-serif-custom font-bold text-sm text-[#f5ecec] lowercase">elo conversational & tool execution stream</h3>
+            <!-- Quick Action Command Chips -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-mono-custom">
+                <button onclick="sendPrompt('Verifica starea generala a clusterului Proxmox si nodurilor homelab')" class="cyber-btn whitespace-nowrap">
+                    Cluster Health
+                </button>
+                <button onclick="sendPrompt('Analizeaza integritatea pool-urilor ZFS si starea discurilor SMART')" class="cyber-btn whitespace-nowrap">
+                    Storage &amp; ZFS
+                </button>
+                <button onclick="sendPrompt('Executa un disaster recovery drill pentru Vaultwarden si Postgres')" class="cyber-btn whitespace-nowrap">
+                    DR Sandbox Drill
+                </button>
+                <button onclick="sendPrompt('Verifica logurile de securitate OPNsense si semnalele CrowdSec')" class="cyber-btn whitespace-nowrap">
+                    SecOps Defense
+                </button>
+                <button onclick="sendPrompt('Genereaza raportul operational zilnic de la ora 07:00')" class="cyber-btn whitespace-nowrap">
+                    Daily Briefing
+                </button>
+            </div>
+
+            <!-- Voice Recognition Pulse Visualizer Banner (When Active) -->
+            <div id="voice-banner" class="hidden p-3 rounded-xl bg-gradient-to-r from-[#00f0ff]/15 via-[#9d4edd]/15 to-[#ff007f]/15 border border-[#00f0ff]/40 flex items-center justify-between animate-pulse">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-[#00f0ff] animate-ping"></div>
+                    <span class="text-xs font-mono-custom text-[#00f0ff] font-bold uppercase tracking-wider">Listening to Voice Stream...</span>
+                    <span id="voice-transcript-text" class="text-xs font-mono-custom text-white italic"></span>
                 </div>
-                <button onclick="clearChat()" class="text-xs text-[#9e7f83] hover:text-[#f5ecec] font-mono-custom flex items-center gap-1 transition lowercase">
-                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> <span data-i18n="clear_btn">clear feed</span>
-                </button>
+                <button onclick="stopSpeech()" class="px-2 py-0.5 rounded bg-[#ff2255]/20 text-[#ff2255] border border-[#ff2255]/40 text-[10px] font-mono-custom uppercase font-bold">Stop</button>
             </div>
 
-            <!-- Chat Stream -->
-            <div id="chat-stream" class="flex-1 overflow-y-auto space-y-4 pr-2">
-                <div class="flex gap-3">
-                    <div class="w-8 h-8 rounded-xl bg-[#3e2a2c] border border-[rgba(214,182,186,0.25)] flex items-center justify-center text-[#f5ecec] font-serif-custom font-bold text-sm shrink-0">
-                        E
+            <!-- Pending Security Approvals Gate (L2/L3 Level) -->
+            <div id="approvals-container" class="hidden space-y-3">
+                <!-- Dynamically Injected Interactive Approval Cards -->
+            </div>
+
+            <!-- Neural Execution Chat Feed -->
+            <div id="chat-messages-container" class="hud-card p-5 flex-1 min-h-[520px] max-h-[640px] overflow-y-auto space-y-4 scanlines">
+                <!-- Initial Welcome Banner -->
+                <div class="p-4 rounded-xl bg-[#070b16] border border-[#00f0ff]/20 text-xs font-mono-custom space-y-2">
+                    <div class="flex items-center justify-between text-[#00f0ff] font-bold">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-4 h-4"></i>
+                            ELO AI CONTROL PLANE // NEURAL STREAM ONLINE
+                        </span>
+                        <span class="text-[10px] text-[#00ff9d]">READY</span>
                     </div>
-                    <div class="flex-1">
-                        <div class="bg-[#140f11] border border-[rgba(214,182,186,0.15)] rounded-2xl rounded-tl-none p-3.5 text-sm text-[#d6b6ba] shadow-lg">
-                            <p class="font-serif-custom font-semibold text-[#c89b9e] text-xs mb-1 lowercase">elo operating layer // active</p>
-                            <span data-i18n="welcome_msg">Salut! Sunt ELO. Am integrat toate resursele și topologia din homelab (Nginx, Pi-hole, OPNsense, Immich, Nextcloud, Grafana, Academic ERP). Vorbește cu mine sau trimite orice comandă.</span>
-                        </div>
-                        <span class="text-[10px] text-[#9e7f83] font-mono-custom mt-1 block lowercase">security gate L0-L3 enabled • hybrid llm ready</span>
-                    </div>
+                    <p class="text-[#94a3b8] leading-relaxed" data-i18n="welcome_msg">
+                        Connected to Homelab infrastructure and multi-agent swarm. All Proxmox hypervisor nodes, ZFS storage arrays, OPNsense firewalls, and local Apple Silicon ML accelerators are synchronized.
+                    </p>
                 </div>
             </div>
 
-            <!-- Live Voice Recognition Banner -->
-            <div id="voice-banner" class="hidden my-2 p-3 rounded-xl bg-[#00cec9]/10 border border-[#00cec9]/40 text-xs text-[#f5ecec] flex items-center gap-2.5 animate-pulse font-mono-custom">
-                <i data-lucide="mic" class="w-4 h-4 text-[#00cec9]"></i>
-                <span class="font-bold text-[#00cec9]">LISTENING:</span>
-                <span id="voice-transcript-text" class="italic">...</span>
-            </div>
+            <!-- Command Dispatch Bar -->
+            <form id="chat-form" onsubmit="handleSend(event)" class="flex items-center gap-2">
+                <div class="relative flex-1">
+                    <input 
+                        type="text" 
+                        id="chat-input" 
+                        placeholder="Dispatch natural language command or SRE query..." 
+                        class="w-full bg-[#070b16] border border-[rgba(0,240,255,0.25)] focus:border-[#00f0ff] rounded-xl px-4 py-3 text-sm text-white font-mono-custom placeholder-[#64748b] focus:outline-none shadow-inner shadow-black/60"
+                        autocomplete="off"
+                    />
+                    <div class="absolute right-3 top-3 text-[11px] font-mono-custom text-[#64748b] hidden sm:block">
+                        ENTER to dispatch
+                    </div>
+                </div>
 
-            <!-- Quick Action Domain Pills -->
-            <div class="mt-2 pt-2 border-t border-[rgba(214,182,186,0.1)] flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-                <button type="button" onclick="quickSend('Stare Proxmox VE si clustere')" class="px-2.5 py-1 rounded-lg bg-[#201719] hover:bg-[#3e2a2c] border border-[rgba(214,182,186,0.15)] text-[11px] font-mono-custom text-[#00cec9] shrink-0 transition flex items-center gap-1">
-                    <i data-lucide="server" class="w-3 h-3"></i> Proxmox Live
-                </button>
-                <button type="button" onclick="quickSend('Stare dispozitive Smart Home in Home Assistant')" class="px-2.5 py-1 rounded-lg bg-[#201719] hover:bg-[#3e2a2c] border border-[rgba(214,182,186,0.15)] text-[11px] font-mono-custom text-[#cfa16a] shrink-0 transition flex items-center gap-1">
-                    <i data-lucide="home" class="w-3 h-3"></i> Home Assistant
-                </button>
-                <button type="button" onclick="quickSend('Stare firewall OPNsense si Cyber Shield')" class="px-2.5 py-1 rounded-lg bg-[#201719] hover:bg-[#3e2a2c] border border-[rgba(214,182,186,0.15)] text-[11px] font-mono-custom text-[#6b9e78] shrink-0 transition flex items-center gap-1">
-                    <i data-lucide="shield-check" class="w-3 h-3"></i> OPNsense Cyber
-                </button>
-                <button type="button" onclick="quickSend('Cauta in documentatie topologia si VLAN-urile din Homelab')" class="px-2.5 py-1 rounded-lg bg-[#201719] hover:bg-[#3e2a2c] border border-[rgba(214,182,186,0.15)] text-[11px] font-mono-custom text-[#a855f7] shrink-0 transition flex items-center gap-1">
-                    <i data-lucide="book-open" class="w-3 h-3"></i> RAG Docs
-                </button>
-                <button type="button" onclick="quickSend('Trimite alerta de test pe telefon')" class="px-2.5 py-1 rounded-lg bg-[#201719] hover:bg-[#3e2a2c] border border-[rgba(214,182,186,0.15)] text-[11px] font-mono-custom text-[#b8555a] shrink-0 transition flex items-center gap-1">
-                    <i data-lucide="bell" class="w-3 h-3"></i> Alertă SMS
-                </button>
-            </div>
-
-            <!-- Input Box -->
-            <form id="chat-form" onsubmit="handleSend(event)" class="mt-2 pt-2 border-t border-[rgba(214,182,186,0.12)] flex gap-2">
-                <input 
-                    type="text" 
-                    id="chat-input" 
-                    placeholder="Întreabă-mă ceva (ex: 'Ce faci broski?', 'Status server', 'Unde rulează Immich?')..."
-                    class="flex-1 bg-[#0d090a] border border-[rgba(214,182,186,0.2)] focus:border-[#c89b9e] rounded-xl px-4 py-3 text-sm text-[#f5ecec] placeholder-[#9e7f83] focus:outline-none transition"
-                    autocomplete="off"
-                />
-
-                <!-- Voice Push-to-Talk Button -->
+                <!-- Voice Input Microphone Button -->
                 <button 
                     type="button" 
+                    id="mic-btn"
                     onclick="toggleSpeech()" 
-                    title="Voice Input"
-                    class="px-4 py-3 rounded-xl bg-[#201719] border border-[rgba(214,182,186,0.2)] hover:border-[#00cec9] text-[#00cec9] transition flex items-center justify-center">
+                    title="Toggle Push-to-Talk"
+                    class="px-4 py-3 rounded-xl bg-[#0c1222] border border-[rgba(0,240,255,0.25)] hover:border-[#00f0ff] text-[#00f0ff] transition flex items-center justify-center shadow-lg">
                     <i data-lucide="mic" class="w-4 h-4"></i>
                 </button>
 
-                <!-- Send Button -->
+                <!-- Submit Button -->
                 <button 
                     type="submit" 
-                    class="px-5 py-3 rounded-xl bg-[#3e2a2c] hover:bg-[#54393c] border border-[rgba(214,182,186,0.3)] text-[#f5ecec] font-semibold text-xs flex items-center gap-1.5 shadow-lg transition lowercase">
-                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                    <span data-i18n="send_btn">dispatch</span>
+                    class="px-6 py-3 rounded-xl bg-gradient-to-r from-[#00f0ff] to-[#9d4edd] text-[#04060d] font-hud font-bold text-xs tracking-wider flex items-center gap-2 shadow-lg shadow-[rgba(0,240,255,0.3)] hover:brightness-110 transition uppercase">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span data-i18n="send_btn">EXECUTE</span>
                 </button>
             </form>
 
@@ -422,127 +637,106 @@
 
     </main>
 
-    <!-- LLM CONFIGURATION MODAL (CASCADE PIPELINE) -->
-    <div id="llm-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="soc-card max-w-xl w-full p-6 space-y-4 border border-[rgba(214,182,186,0.3)] shadow-2xl relative my-8">
-            <div class="flex items-center justify-between border-b border-[rgba(214,182,186,0.12)] pb-3">
+    <!-- LLM CONFIGURATION MODAL -->
+    <div id="llm-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="hud-card max-w-xl w-full p-6 space-y-4 border border-[rgba(0,240,255,0.4)] shadow-2xl relative my-8">
+            <div class="flex items-center justify-between border-b border-[rgba(0,240,255,0.15)] pb-3">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-[#a855f7]/20 border border-[#a855f7]/40 flex items-center justify-center text-[#a855f7]">
-                        <i data-lucide="layers" class="w-4 h-4"></i>
+                    <div class="w-8 h-8 rounded-lg bg-[#00f0ff]/20 border border-[#00f0ff]/40 flex items-center justify-center text-[#00f0ff]">
+                        <i data-lucide="cpu" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 class="font-serif-custom font-bold text-lg text-[#f5ecec] lowercase">tiered llm cascade pipeline</h3>
-                        <span class="text-[10px] font-mono-custom text-[#9e7f83]">AUTOMATIC QUOTA FAILOVER: GEMINI  CHATGPT  CLAUDE  LOCAL OLLAMA</span>
+                        <h3 class="font-hud font-bold text-base text-white tracking-wider uppercase">Tiered LLM Cascade Config</h3>
+                        <span class="text-[10px] font-mono-custom text-[#94a3b8]">FREE TIER PRIORITY: GEMINI &gt; GROQ LPU &gt; OPENROUTER &gt; LOCAL OLLAMA</span>
                     </div>
                 </div>
-                <button onclick="closeLLMModal()" class="text-[#9e7f83] hover:text-[#f5ecec] transition">
+                <button onclick="closeLLMModal()" class="text-[#94a3b8] hover:text-white transition">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
-            <!-- Active Cascade Status Banner -->
-            <div class="p-3 rounded-xl bg-[#0d090a] border border-[rgba(214,182,186,0.15)] text-xs font-mono-custom">
-                <div class="flex items-center justify-between mb-1">
-                    <span class="text-[#9e7f83] text-[10px] uppercase">Active Cascade Chain:</span>
-                    <span id="llm-status-text" class="font-bold text-[#6b9e78]">ONLINE (CASCADE READY)</span>
+            <!-- Active Cascade Banner -->
+            <div class="p-3 rounded-xl bg-[#04060d] border border-[rgba(0,240,255,0.2)] text-xs font-mono-custom space-y-1">
+                <div class="flex items-center justify-between">
+                    <span class="text-[#94a3b8] text-[10px] uppercase">Active Cascade Chain:</span>
+                    <span id="llm-status-text" class="font-bold text-[#00ff9d]">ONLINE (CASCADE READY)</span>
                 </div>
-                <div id="cascade-chain-display" class="text-[#00cec9] font-bold text-[11px] truncate">
-                    Gemini  ChatGPT  Claude  Mock
+                <div id="cascade-chain-display" class="text-[#00f0ff] font-bold text-[11px] truncate">
+                    Gemini &gt; Groq &gt; OpenRouter &gt; Ollama &gt; Mock
                 </div>
             </div>
 
             <div class="space-y-3.5 text-xs font-mono-custom max-h-[55vh] overflow-y-auto pr-1">
                 <!-- Tier 1: Google Gemini -->
-                <div class="p-3 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.12)] space-y-2">
+                <div class="p-3 rounded-xl bg-[#070b16] border border-[rgba(0,240,255,0.15)] space-y-2">
                     <div class="flex items-center justify-between">
-                        <span class="font-bold text-[#00cec9] flex items-center gap-1.5">
-                            <span class="px-1.5 py-0.2 rounded bg-[#00cec9]/20 text-[10px]">TIER 1</span> Google Gemini Cloud (Direct)
+                        <span class="font-bold text-[#00f0ff] flex items-center gap-1.5">
+                            <span class="px-1.5 py-0.2 rounded bg-[#00f0ff]/20 text-[10px]">TIER 1</span> Google Gemini Cloud
                         </span>
-                        <span id="gemini-status-indicator" class="text-[10px] text-[#6b9e78]">CONFIGURED</span>
+                        <span id="gemini-status-indicator" class="text-[10px] text-[#00ff9d]">CONFIGURED</span>
                     </div>
                     <input 
                         type="password" 
                         id="gemini-key-input" 
                         placeholder="Google Gemini API Key (AIzaSy...)" 
-                        class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#00cec9] rounded-lg p-2 text-[#f5ecec] focus:outline-none placeholder-[#9e7f83]"
+                        class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#00f0ff] rounded-lg p-2 text-white focus:outline-none placeholder-[#64748b]"
                     />
-                    <select id="gemini-model-select" class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#00cec9] rounded-lg p-2 text-[#f5ecec] focus:outline-none">
-                        <option value="gemini-3.6-flash">gemini-3.6-flash (Recomandat • Rapid & Inteligent)</option>
-                        <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Ultra-rapid)</option>
-                        <option value="gemini-2.5-pro">gemini-2.5-pro (Raționament avansat)</option>
+                    <select id="gemini-model-select" class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#00f0ff] rounded-lg p-2 text-white focus:outline-none">
+                        <option value="gemini-2.5-flash">gemini-2.5-flash (Fast &amp; High Capability)</option>
+                        <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Ultra-Low Latency)</option>
+                        <option value="gemini-2.5-pro">gemini-2.5-pro (Deep SRE Reasoning)</option>
                     </select>
                 </div>
 
-                <!-- Tier 2: OpenRouter.ai Universal Multi-Model Hub -->
-                <div class="p-3 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.12)] space-y-2">
+                <!-- Tier 2: Groq LPU -->
+                <div class="p-3 rounded-xl bg-[#070b16] border border-[rgba(0,240,255,0.15)] space-y-2">
                     <div class="flex items-center justify-between">
-                        <span class="font-bold text-[#a855f7] flex items-center gap-1.5">
-                            <span class="px-1.5 py-0.2 rounded bg-[#a855f7]/20 text-[10px]">TIER 2</span> OpenRouter.ai (Multi-Model Hub)
+                        <span class="font-bold text-[#ffb800] flex items-center gap-1.5">
+                            <span class="px-1.5 py-0.2 rounded bg-[#ffb800]/20 text-[10px]">TIER 2</span> Groq LPU (Ultra-Fast)
                         </span>
-                        <span id="openrouter-status-indicator" class="text-[10px] text-[#9e7f83]">NOT SET</span>
+                        <span id="groq-status-indicator" class="text-[10px] text-[#94a3b8]">NOT SET</span>
+                    </div>
+                    <input 
+                        type="password" 
+                        id="groq-key-input" 
+                        placeholder="Groq API Key (gsk_...)" 
+                        class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#ffb800] rounded-lg p-2 text-white focus:outline-none placeholder-[#64748b]"
+                    />
+                    <select id="groq-model-select" class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#ffb800] rounded-lg p-2 text-white focus:outline-none">
+                        <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Fast 70B Instruct)</option>
+                        <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (Sub-100ms Inference)</option>
+                        <option value="mixtral-8x7b-32768">mixtral-8x7b-32768 (MoE Context)</option>
+                    </select>
+                </div>
+
+                <!-- Tier 3: OpenRouter Universal Hub -->
+                <div class="p-3 rounded-xl bg-[#070b16] border border-[rgba(0,240,255,0.15)] space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-[#9d4edd] flex items-center gap-1.5">
+                            <span class="px-1.5 py-0.2 rounded bg-[#9d4edd]/20 text-[10px]">TIER 3</span> OpenRouter.ai Hub
+                        </span>
+                        <span id="openrouter-status-indicator" class="text-[10px] text-[#94a3b8]">NOT SET</span>
                     </div>
                     <input 
                         type="password" 
                         id="openrouter-key-input" 
                         placeholder="OpenRouter API Key (sk-or-v1-...)" 
-                        class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#a855f7] rounded-lg p-2 text-[#f5ecec] focus:outline-none placeholder-[#9e7f83]"
+                        class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#9d4edd] rounded-lg p-2 text-white focus:outline-none placeholder-[#64748b]"
                     />
-                    <select id="openrouter-model-select" class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#a855f7] rounded-lg p-2 text-[#f5ecec] focus:outline-none">
-                        <option value="openai/gpt-4o-mini">openai/gpt-4o-mini (Recomandat OpenRouter • Rapid & Ieftin)</option>
-                        <option value="anthropic/claude-3.5-sonnet">anthropic/claude-3.5-sonnet (Raționament de elită)</option>
-                        <option value="deepseek/deepseek-chat">deepseek/deepseek-chat (DeepSeek V3 / R1)</option>
-                        <option value="meta-llama/llama-3.3-70b-instruct">meta-llama/llama-3.3-70b-instruct (Meta Open Weights)</option>
+                    <select id="openrouter-model-select" class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#9d4edd] rounded-lg p-2 text-white focus:outline-none">
+                        <option value="meta-llama/llama-3.3-70b-instruct:free">meta-llama/llama-3.3-70b-instruct:free</option>
+                        <option value="deepseek/deepseek-chat:free">deepseek/deepseek-chat:free</option>
                         <option value="google/gemini-2.0-flash-001">google/gemini-2.0-flash-001</option>
                     </select>
                 </div>
 
-                <!-- Tier 3: OpenAI ChatGPT Direct -->
-                <div class="p-3 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.12)] space-y-2">
+                <!-- Tier 4: Local Ollama on Apple Silicon MPS -->
+                <div class="p-3 rounded-xl bg-[#070b16] border border-[rgba(0,240,255,0.15)] space-y-2">
                     <div class="flex items-center justify-between">
-                        <span class="font-bold text-[#10a37f] flex items-center gap-1.5">
-                            <span class="px-1.5 py-0.2 rounded bg-[#10a37f]/20 text-[10px]">TIER 3</span> OpenAI ChatGPT (Direct)
+                        <span class="font-bold text-[#00ff9d] flex items-center gap-1.5">
+                            <span class="px-1.5 py-0.2 rounded bg-[#00ff9d]/20 text-[10px]">TIER 4</span> Local Ollama / Apple Metal MPS
                         </span>
-                        <span id="openai-status-indicator" class="text-[10px] text-[#9e7f83]">NOT SET</span>
-                    </div>
-                    <input 
-                        type="password" 
-                        id="openai-key-input" 
-                        placeholder="OpenAI API Key (sk-...)" 
-                        class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#10a37f] rounded-lg p-2 text-[#f5ecec] focus:outline-none placeholder-[#9e7f83]"
-                    />
-                    <select id="openai-model-select" class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#10a37f] rounded-lg p-2 text-[#f5ecec] focus:outline-none">
-                        <option value="gpt-4o-mini">gpt-4o-mini (Cost-eficient & Rapid)</option>
-                        <option value="gpt-4o">gpt-4o (Raționament de top)</option>
-                    </select>
-                </div>
-
-                <!-- Tier 4: Anthropic Claude Direct -->
-                <div class="p-3 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.12)] space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="font-bold text-[#cfa16a] flex items-center gap-1.5">
-                            <span class="px-1.5 py-0.2 rounded bg-[#cfa16a]/20 text-[10px]">TIER 4</span> Anthropic Claude (Direct)
-                        </span>
-                        <span id="claude-status-indicator" class="text-[10px] text-[#9e7f83]">NOT SET</span>
-                    </div>
-                    <input 
-                        type="password" 
-                        id="claude-key-input" 
-                        placeholder="Anthropic API Key (sk-ant-...)" 
-                        class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#cfa16a] rounded-lg p-2 text-[#f5ecec] focus:outline-none placeholder-[#9e7f83]"
-                    />
-                    <select id="claude-model-select" class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#cfa16a] rounded-lg p-2 text-[#f5ecec] focus:outline-none">
-                        <option value="claude-3-5-sonnet-20241022">claude-3-5-sonnet-20241022 (Excelență în cod & raționament)</option>
-                        <option value="claude-3-haiku-20240307">claude-3-haiku (Latență ultra-redusă)</option>
-                    </select>
-                </div>
-
-                <!-- Tier 5: Local Ollama / vLLM -->
-                <div class="p-3 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.12)] space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="font-bold text-[#e17055] flex items-center gap-1.5">
-                            <span class="px-1.5 py-0.2 rounded bg-[#e17055]/20 text-[10px]">TIER 5</span> Local Ollama / Self-Hosted
-                        </span>
-                        <span id="ollama-status-indicator" class="text-[10px] text-[#9e7f83]">ENDPOINT</span>
+                        <span id="ollama-status-indicator" class="text-[10px] text-[#00ff9d]">ACTIVE</span>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <input 
@@ -550,74 +744,153 @@
                             id="ollama-url-input" 
                             value="http://localhost:11434" 
                             placeholder="http://localhost:11434"
-                            class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#e17055] rounded-lg p-2 text-[#f5ecec] focus:outline-none"
+                            class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#00ff9d] rounded-lg p-2 text-white focus:outline-none"
                         />
                         <input 
                             type="text" 
                             id="ollama-model-input" 
                             value="llama3.1:8b" 
                             placeholder="llama3.1:8b"
-                            class="w-full bg-[#140f11] border border-[rgba(214,182,186,0.15)] focus:border-[#e17055] rounded-lg p-2 text-[#f5ecec] focus:outline-none"
+                            class="w-full bg-[#04060d] border border-[rgba(0,240,255,0.2)] focus:border-[#00ff9d] rounded-lg p-2 text-white focus:outline-none"
                         />
                     </div>
                 </div>
             </div>
 
-            <div class="flex gap-2.5 pt-3 border-t border-[rgba(214,182,186,0.12)]">
-                <button onclick="saveLLMConfig()" class="flex-1 py-2.5 rounded-xl bg-[#3e2a2c] hover:bg-[#54393c] border border-[rgba(214,182,186,0.3)] text-[#f5ecec] font-semibold text-xs transition lowercase">
-                    salvează & actualizează cascada
+            <div class="flex gap-3 pt-3 border-t border-[rgba(0,240,255,0.15)]">
+                <button onclick="saveLLMConfig()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#00f0ff] to-[#9d4edd] text-[#04060d] font-hud font-bold text-xs tracking-wider uppercase shadow-lg shadow-[rgba(0,240,255,0.3)] hover:brightness-110 transition">
+                    Save &amp; Activate Cascade
                 </button>
-                <button onclick="closeLLMModal()" class="px-4 py-2.5 rounded-xl bg-[#0d090a] border border-[rgba(214,182,186,0.15)] text-[#9e7f83] hover:text-[#f5ecec] text-xs transition lowercase">
-                    anulează
+                <button onclick="closeLLMModal()" class="px-5 py-2.5 rounded-xl bg-[#070b16] border border-[rgba(0,240,255,0.2)] text-[#94a3b8] hover:text-white text-xs font-mono-custom transition uppercase">
+                    Cancel
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- HOLOGRAPHIC SCRIPT: VOICE, TELEMETRY & MULTI-LANGUAGE ENGINE -->
+    <!-- HOLOGRAPHIC CLIENT SCRIPT -->
     <script>
         lucide.createIcons();
 
-        let homelabServicesCache = [];
+        // 1. Interactive Cyber Canvas Particles Background
+        const canvas = document.getElementById('cyber-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 150 };
 
-        // 1. Multi-Language Dictionary (Romanian & English Only)
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = (Math.random() - 0.5) * 0.8;
+                this.color = Math.random() > 0.5 ? '#00f0ff' : '#9d4edd';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+                if (mouse.x != null && mouse.y != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        let angle = Math.atan2(dy, dx);
+                        this.x -= Math.cos(angle) * 1.5;
+                        this.y -= Math.sin(angle) * 1.5;
+                    }
+                }
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 18000);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 110) {
+                        ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 * (1 - dist / 110)})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        resizeCanvas();
+        animateParticles();
+
+        // 2. Multi-Language Dictionary
         let currentLang = "RO";
         const translations = {
             RO: {
-                core_standby_desc: "sistem gata pentru comenzi vocale sau interogări homelab",
-                hardware_title: "telemetrie hardware (reală)",
-                clear_btn: "curăță feed",
-                send_btn: "trimite",
-                welcome_msg: "Salut! Sunt ELO. Am integrat toate resursele și topologia din homelab (Nginx, Pi-hole, OPNsense, Immich, Nextcloud, Grafana, Academic ERP). Vorbește cu mine sau trimite orice comandă.",
+                send_btn: "EXECUTA",
+                welcome_msg: "Conectat la infrastructura homelab si swarm-ul multi-agent ELO. Nodurile Proxmox, storage-ul ZFS, firewall-ul OPNsense si acceleratoarele Metal MPS sunt sincronizate. Transmite orice comanda.",
             },
             EN: {
-                core_standby_desc: "system ready for voice commands or homelab queries",
-                hardware_title: "hardware telemetry (live)",
-                clear_btn: "clear feed",
-                send_btn: "dispatch",
-                welcome_msg: "Hey there! I'm ELO. I've connected your entire Homelab topology and services (Nginx, Pi-hole, OPNsense, Immich, Nextcloud, Grafana, Academic ERP). Speak or dispatch any command.",
+                send_btn: "DISPATCH",
+                welcome_msg: "Connected to Homelab infrastructure and ELO multi-agent swarm. Proxmox hypervisor nodes, ZFS arrays, OPNsense firewalls, and Metal MPS accelerators are synchronized. Dispatch any command.",
             }
         };
 
         function toggleLanguage() {
             currentLang = currentLang === "RO" ? "EN" : "RO";
             document.getElementById("lang-indicator").innerText = currentLang;
-            
             const dict = translations[currentLang];
             document.querySelectorAll("[data-i18n]").forEach(el => {
                 const key = el.getAttribute("data-i18n");
-                if (dict[key]) {
-                    el.innerText = dict[key];
-                }
+                if (dict[key]) el.innerText = dict[key];
             });
-
-            if (recognition) {
-                recognition.lang = currentLang === "RO" ? "ro-RO" : "en-US";
-            }
-            speakText(currentLang === "RO" ? "Modul de limbă română activat." : "English language mode activated.");
+            if (recognition) recognition.lang = currentLang === "RO" ? "ro-RO" : "en-US";
+            speakText(currentLang === "RO" ? "Modul de limba romana activat." : "English language mode active.");
         }
 
-        // 2. Live Hardware & Services Telemetry Polling
+        // 3. Telemetry & Infrastructure Monitoring
+        let homelabServicesCache = [];
+
         async function fetchLiveTelemetry() {
             try {
                 const start = performance.now();
@@ -642,16 +915,13 @@
                 document.getElementById('tele-disk-val').innerText = `${data.disk.used_gb} / ${data.disk.total_gb} GB (${data.disk.usage_pct}%)`;
                 document.getElementById('tele-disk-bar').style.width = `${Math.min(data.disk.usage_pct, 100)}%`;
 
-                // OS & Net
-                document.getElementById('tele-os-val').innerText = `${data.arch}`;
+                // Network
                 document.getElementById('tele-net-val').innerText = `▲ ${data.network.sent_mb}MB ▼ ${data.network.recv_mb}MB`;
 
-                // Render Dynamic Cluster Nodes
-                if (data.nodes) {
-                    renderClusterNodes(data.nodes);
-                }
+                // Nodes
+                if (data.nodes) renderClusterNodes(data.nodes);
 
-                // Update Services List
+                // Services
                 if (data.services) {
                     homelabServicesCache = data.services;
                     const filterInput = document.getElementById('service-filter-input');
@@ -659,9 +929,8 @@
                         renderServicesList(homelabServicesCache);
                     }
                 }
-
             } catch (err) {
-                console.warn("Telemetry polling issue:", err);
+                console.warn("Telemetry polling warning:", err);
             }
         }
 
@@ -671,25 +940,22 @@
 
             container.innerHTML = nodes.map(n => {
                 const isOnline = n.is_reachable || n.status === "ONLINE";
-                const dotColor = isOnline ? "bg-[#6b9e78]" : "bg-[#b8555a]";
-                const badgeColor = isOnline ? "text-[#6b9e78] bg-[#6b9e78]/15 border-[#6b9e78]/30" : "text-[#b8555a] bg-[#b8555a]/15 border-[#b8555a]/30";
-                const latencyText = n.latency_ms ? `${n.latency_ms}ms` : "OFFLINE";
+                const dotColor = isOnline ? "bg-[#00ff9d]" : "bg-[#ff2255]";
+                const badgeStyle = isOnline ? "text-[#00ff9d] bg-[#00ff9d]/15 border-[#00ff9d]/30" : "text-[#ff2255] bg-[#ff2255]/15 border-[#ff2255]/30";
+                const latency = n.latency_ms ? `${n.latency_ms}ms` : "OFFLINE";
 
                 return `
-                    <div onclick="sendPrompt('Status nod ${n.name}')" class="p-2.5 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.1)] hover:border-[#cfa16a] cursor-pointer transition">
-                        <div class="flex items-center justify-between mb-1">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full ${dotColor} ${isOnline ? 'animate-pulse' : ''}"></span>
-                                <span class="font-bold text-[#f5ecec] text-xs">${n.name}</span>
+                    <div onclick="sendPrompt('Status nod ${n.name}')" class="p-2.5 rounded-lg bg-[#04060d] border border-[rgba(0,240,255,0.12)] hover:border-[#00f0ff] cursor-pointer transition flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-2 h-2 rounded-full ${dotColor} ${isOnline ? 'animate-ping' : ''}"></span>
+                            <div>
+                                <span class="font-bold text-white text-xs block leading-tight">${n.name}</span>
+                                <span class="text-[10px] text-[#94a3b8] font-mono">${n.ip}</span>
                             </div>
-                            <span class="text-[10px] font-mono-custom px-2 py-0.2 rounded border ${badgeColor}">
-                                ${isOnline ? `ONLINE • ${latencyText}` : 'OFFLINE'}
-                            </span>
                         </div>
-                        <div class="flex items-center justify-between text-[10px] text-[#9e7f83]">
-                            <span>IP: <code class="text-[#d6b6ba]">${n.ip}</code></span>
-                            <span class="truncate max-w-[150px]">${n.role || ''}</span>
-                        </div>
+                        <span class="text-[10px] font-mono-custom px-2 py-0.5 rounded border ${badgeStyle}">
+                            ${isOnline ? `ONLINE (${latency})` : 'OFFLINE'}
+                        </span>
                     </div>
                 `;
             }).join('');
@@ -698,33 +964,23 @@
         function renderServicesList(services) {
             const container = document.getElementById('services-list-container');
             if (!container) return;
-            document.getElementById('service-count-badge').innerText = services.length;
-            
+            document.getElementById('service-count-badge').innerText = `${services.length} SERVICES`;
+
             container.innerHTML = services.map(s => {
                 const isOnline = s.is_reachable || s.status === "ONLINE";
-                const dotColor = isOnline ? "bg-[#6b9e78]" : "bg-[#b8555a]";
-                const latencyBadge = s.latency_ms ? `<span class="text-[9px] text-[#6b9e78]">${s.latency_ms}ms</span>` : `<span class="text-[9px] text-[#b8555a]">OFFLINE</span>`;
-                const pinnedBadge = s.is_pinned ? `<span class="text-[9px] px-1 py-0.2 rounded bg-[#cfa16a]/20 text-[#cfa16a] border border-[#cfa16a]/40 font-mono"> PINNED</span>` : '';
+                const dotColor = isOnline ? "bg-[#00ff9d]" : "bg-[#ff2255]";
+                const latencyText = s.latency_ms ? `<span class="text-[9px] text-[#00ff9d] font-mono">${s.latency_ms}ms</span>` : `<span class="text-[9px] text-[#ff2255] font-mono">OFFLINE</span>`;
 
                 return `
-                    <div onclick="sendPrompt('Status si detalii pentru serviciul ${s.name} (${s.ip}:${s.port})')" class="p-2 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.1)] hover:border-[#00cec9] cursor-pointer transition flex items-center justify-between group">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-2 h-2 rounded-full ${dotColor} ${isOnline ? 'animate-pulse' : ''}"></span>
+                    <div onclick="sendPrompt('Status si detalii pentru serviciul ${s.name} (${s.ip}:${s.port})')" class="p-2 rounded-lg bg-[#04060d] border border-[rgba(0,240,255,0.1)] hover:border-[#00f0ff] cursor-pointer transition flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full ${dotColor}"></span>
                             <div>
-                                <div class="flex items-center gap-1.5">
-                                    <span class="font-semibold text-[#f5ecec] block leading-tight text-xs">${s.name}</span>
-                                    ${pinnedBadge}
-                                </div>
-                                <div class="flex items-center gap-2 text-[10px] text-[#9e7f83]">
-                                    <span class="text-[#00cec9] font-mono">${s.ip}:${s.port}</span>
-                                    <span>•</span>
-                                    <span class="text-[#d6b6ba]">${s.category}</span>
-                                </div>
+                                <span class="font-semibold text-white text-xs block leading-tight">${s.name}</span>
+                                <span class="text-[10px] text-[#94a3b8] font-mono">${s.ip}:${s.port}</span>
                             </div>
                         </div>
-                        <div class="text-right">
-                            ${latencyBadge}
-                        </div>
+                        ${latencyText}
                     </div>
                 `;
             }).join('');
@@ -737,8 +993,7 @@
                 s.id.toLowerCase().includes(q) ||
                 s.category.toLowerCase().includes(q) ||
                 s.ip.toLowerCase().includes(q) ||
-                (s.port && s.port.toString().includes(q)) ||
-                (s.domain && s.domain.toLowerCase().includes(q))
+                (s.port && s.port.toString().includes(q))
             );
             renderServicesList(filtered);
         }
@@ -746,7 +1001,7 @@
         setInterval(fetchLiveTelemetry, 3000);
         fetchLiveTelemetry();
 
-        // 3. LLM Configuration Modal Logic
+        // 4. LLM Cascade Configuration Modal
         function openLLMModal() {
             document.getElementById('llm-modal').classList.remove('hidden');
             fetchLLMStatus();
@@ -761,28 +1016,19 @@
             try {
                 const resp = await fetch('/v1/llm/status');
                 const data = await resp.json();
+                document.getElementById('cascade-chain-display').innerText = data.cascade_chain || "Gemini > Groq > OpenRouter > Ollama > Mock";
                 
-                document.getElementById('cascade-chain-display').innerText = data.cascade_chain || "Gemini  OpenRouter  ChatGPT  Claude  Mock";
-                
-                // Indicators
                 document.getElementById('gemini-status-indicator').innerText = data.gemini_configured ? "CONFIGURED (TIER 1)" : "NOT SET";
-                document.getElementById('gemini-status-indicator').className = data.gemini_configured ? "text-[10px] text-[#6b9e78] font-bold" : "text-[10px] text-[#9e7f83]";
+                document.getElementById('gemini-status-indicator').className = data.gemini_configured ? "text-[10px] text-[#00ff9d] font-bold" : "text-[10px] text-[#94a3b8]";
+
+                document.getElementById('groq-status-indicator').innerText = data.groq_configured ? `CONFIGURED (${data.groq_model})` : "NOT SET";
+                document.getElementById('groq-status-indicator').className = data.groq_configured ? "text-[10px] text-[#ffb800] font-bold" : "text-[10px] text-[#94a3b8]";
 
                 document.getElementById('openrouter-status-indicator').innerText = data.openrouter_configured ? `CONFIGURED (${data.openrouter_model})` : "NOT SET";
-                document.getElementById('openrouter-status-indicator').className = data.openrouter_configured ? "text-[10px] text-[#a855f7] font-bold" : "text-[10px] text-[#9e7f83]";
+                document.getElementById('openrouter-status-indicator').className = data.openrouter_configured ? "text-[10px] text-[#9d4edd] font-bold" : "text-[10px] text-[#94a3b8]";
 
-                document.getElementById('openai-status-indicator').innerText = data.openai_configured ? "CONFIGURED (TIER 3)" : "NOT SET";
-                document.getElementById('openai-status-indicator').className = data.openai_configured ? "text-[10px] text-[#10a37f] font-bold" : "text-[10px] text-[#9e7f83]";
-
-                document.getElementById('claude-status-indicator').innerText = data.anthropic_configured ? "CONFIGURED (TIER 4)" : "NOT SET";
-                document.getElementById('claude-status-indicator').className = data.anthropic_configured ? "text-[10px] text-[#cfa16a] font-bold" : "text-[10px] text-[#9e7f83]";
-
-                const badge = document.getElementById('active-llm-badge');
-                badge.innerText = `CASCADE AUTO`;
-                badge.className = "font-bold text-[#00cec9]";
+                document.getElementById('active-llm-badge').innerText = "CASCADE AUTO";
                 document.getElementById('llm-status-text').innerText = "ONLINE (CASCADE ACTIVE)";
-                document.getElementById('llm-status-text').className = "font-bold text-[#6b9e78]";
-
             } catch (e) {
                 console.warn("LLM status fetch error:", e);
             }
@@ -791,28 +1037,24 @@
         async function saveLLMConfig() {
             const geminiKey = document.getElementById('gemini-key-input').value.trim();
             const geminiModel = document.getElementById('gemini-model-select').value;
+            const groqKey = document.getElementById('groq-key-input').value.trim();
+            const groqModel = document.getElementById('groq-model-select').value;
             const openrouterKey = document.getElementById('openrouter-key-input').value.trim();
             const openrouterModel = document.getElementById('openrouter-model-select').value;
-            const openaiKey = document.getElementById('openai-key-input').value.trim();
-            const openaiModel = document.getElementById('openai-model-select').value;
-            const claudeKey = document.getElementById('claude-key-input').value.trim();
-            const claudeModel = document.getElementById('claude-model-select').value;
             const ollamaUrl = document.getElementById('ollama-url-input').value.trim();
             const ollamaModel = document.getElementById('ollama-model-input').value.trim();
 
             const payload = {
                 provider: "cascade",
                 gemini_model: geminiModel,
+                groq_model: groqModel,
                 openrouter_model: openrouterModel,
-                openai_model: openaiModel,
-                anthropic_model: claudeModel,
                 local_llm_base_url: ollamaUrl,
                 local_llm_model: ollamaModel,
             };
             if (geminiKey) payload.gemini_api_key = geminiKey;
+            if (groqKey) payload.groq_api_key = groqKey;
             if (openrouterKey) payload.openrouter_api_key = openrouterKey;
-            if (openaiKey) payload.openai_api_key = openaiKey;
-            if (claudeKey) payload.anthropic_api_key = claudeKey;
 
             try {
                 const resp = await fetch('/v1/llm/config', {
@@ -823,15 +1065,14 @@
                 await resp.json();
                 await fetchLLMStatus();
                 closeLLMModal();
-                speakText(currentLang === "RO" ? "Cascada de modele AI a fost actualizată." : "Tiered AI cascade pipeline updated successfully.");
+                speakText(currentLang === "RO" ? "Cascada de modele AI a fost actualizata." : "AI cascade pipeline updated successfully.");
             } catch (err) {
-                alert("Eroare la actualizarea cascadei LLM: " + err);
+                alert("Eroare la actualizarea cascadei: " + err);
             }
         }
-
         fetchLLMStatus();
 
-        // 4. Voice Engine (TTS & STT)
+        // 5. Voice Synthesis & Speech Recognition
         let autoVoiceEnabled = true;
         let isSpeaking = false;
         let isListening = false;
@@ -845,22 +1086,20 @@
         function speakText(text) {
             if (!autoVoiceEnabled || !('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel();
-
             const cleanText = text.replace(/[*#`_\[\]]/g, '').replace(/https?:\/\/\S+/g, 'link').trim();
             const utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.lang = currentLang === "RO" ? "ro-RO" : "en-US";
             utterance.rate = 1.05;
-            utterance.pitch = 0.95;
+            utterance.pitch = 0.98;
 
             utterance.onstart = () => {
                 isSpeaking = true;
-                setCoreState("SPEAKING");
+                setCoreState("SPEAKING (TTS ACTIVE)");
             };
             utterance.onend = () => {
                 isSpeaking = false;
-                setCoreState("STANDBY");
+                setCoreState("STANDBY (AUTONOMOUS)");
             };
-
             window.speechSynthesis.speak(utterance);
         }
 
@@ -875,7 +1114,7 @@
 
             recognition.onstart = () => {
                 isListening = true;
-                setCoreState("LISTENING");
+                setCoreState("LISTENING (VOICE IN)");
                 document.getElementById('voice-banner').classList.remove('hidden');
                 document.getElementById('voice-transcript-text').innerText = "...";
             };
@@ -896,314 +1135,136 @@
 
             recognition.onend = () => {
                 isListening = false;
-                setCoreState("STANDBY");
+                setCoreState("STANDBY (AUTONOMOUS)");
                 document.getElementById('voice-banner').classList.add('hidden');
             };
         }
+        initSpeech();
 
         function toggleSpeech() {
             if (!recognition) {
-                alert("Speech recognition is supported in Chrome, Safari, and Edge.");
+                alert("Speech recognition API is not supported in this browser.");
                 return;
             }
             if (isListening) {
                 recognition.stop();
             } else {
-                try {
-                    recognition.lang = currentLang === "RO" ? "ro-RO" : "en-US";
-                    recognition.start();
-                } catch (e) {
-                    console.warn(e);
-                }
+                recognition.start();
             }
         }
 
-        // Hands-free "Hey ELO" Wake Word
-        let wakeWordEnabled = false;
-        let wakeRecognition = null;
-
-        function toggleWakeWord() {
-            wakeWordEnabled = !wakeWordEnabled;
-            const btn = document.getElementById('wakeword-btn');
-            const label = document.getElementById('wakeword-label');
-            if (wakeWordEnabled) {
-                label.innerText = "WAKE WORD ON ('Hey ELO')";
-                btn.classList.add('border-[#6b9e78]', 'bg-[#6b9e78]/20');
-                startWakeWordListener();
-                speakText(currentLang === "RO" ? "Modul Always-Listening activat. Spune 'Hey ELO' urmat de comanda ta." : "Wake word listening active. Say 'Hey ELO' followed by your command.");
-            } else {
-                label.innerText = "WAKE WORD OFF";
-                btn.classList.remove('border-[#6b9e78]', 'bg-[#6b9e78]/20');
-                if (wakeRecognition) {
-                    try { wakeRecognition.stop(); } catch(e) {}
-                }
-            }
+        function stopSpeech() {
+            if (recognition && isListening) recognition.stop();
         }
 
-        function startWakeWordListener() {
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRec) return;
-
-            wakeRecognition = new SpeechRec();
-            wakeRecognition.continuous = true;
-            wakeRecognition.interimResults = true;
-            wakeRecognition.lang = currentLang === "RO" ? "ro-RO" : "en-US";
-
-            wakeRecognition.onresult = (event) => {
-                for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    const transcript = event.results[i][0].transcript.toLowerCase();
-                    if (transcript.includes("hey elo") || transcript.includes("elo") || transcript.includes("salut elo")) {
-                        let cleaned = transcript
-                            .replace(/hey elo/g, "")
-                            .replace(/salut elo/g, "")
-                            .replace(/elo/g, "")
-                            .trim();
-                        
-                        if (cleaned.length > 2 && event.results[i].isFinal) {
-                            document.getElementById('chat-input').value = cleaned;
-                            handleSend(null, cleaned);
-                        } else {
-                            setCoreState("LISTENING");
-                        }
-                    }
-                }
-            };
-
-            wakeRecognition.onend = () => {
-                if (wakeWordEnabled) {
-                    try { wakeRecognition.start(); } catch(e) {}
-                }
-            };
-
-            try { wakeRecognition.start(); } catch(e) {}
+        function setCoreState(stateStr) {
+            const badge = document.getElementById('core-state-badge');
+            if (badge) badge.innerText = stateStr;
         }
 
-        function quickSend(text) {
-            document.getElementById('chat-input').value = text;
-            handleSend(null, text);
-        }
-
-        // 5. Holographic Core Canvas Animation
-        const canvas = document.getElementById('coreCanvas');
-        const ctx = canvas.getContext('2d');
-        let coreState = "STANDBY";
-        let angle = 0;
-
-        function setCoreState(state) {
-            coreState = state;
-            const title = document.getElementById('core-state-title');
-            const desc = document.getElementById('core-state-desc');
-
-            if (state === "STANDBY") {
-                title.innerText = "elo operating layer // ready";
-                desc.innerText = currentLang === "RO" ? "sistem gata pentru comenzi vocale sau interogări" : "system ready for commands or queries";
-            } else if (state === "LISTENING") {
-                title.innerText = "elo // listening...";
-                desc.innerText = currentLang === "RO" ? "recepționez vocea ta în timp real..." : "receiving voice in realtime...";
-            } else if (state === "THINKING") {
-                title.innerText = "elo // reasoning & tools...";
-                desc.innerText = currentLang === "RO" ? "evaluez contextul și securitatea L0-L3..." : "evaluating context and L0-L3 security...";
-            } else if (state === "SPEAKING") {
-                title.innerText = "elo // vocalizing...";
-                desc.innerText = currentLang === "RO" ? "sinteză vocală activă..." : "speech synthesis active...";
-            } else if (state === "ALERT") {
-                title.innerText = "elo // security approval required";
-                desc.innerText = currentLang === "RO" ? "necesită confirmare explicită din partea ta!" : "explicit user confirmation required!";
-            }
-        }
-
-        function drawCore() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-            angle += (coreState === "THINKING" ? 0.08 : (coreState === "SPEAKING" ? 0.05 : 0.02));
-
-            // Outer Ring
-            ctx.beginPath();
-            ctx.arc(cx, cy, 68, 0, Math.PI * 2);
-            ctx.strokeStyle = coreState === "ALERT" ? "rgba(207, 161, 106, 0.4)" : "rgba(200, 155, 158, 0.25)";
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-
-            // Segmented Arc
-            ctx.save();
-            ctx.translate(cx, cy);
-            ctx.rotate(angle);
-            ctx.beginPath();
-            ctx.arc(0, 0, 58, 0, Math.PI * 1.4);
-            ctx.strokeStyle = coreState === "ALERT" ? "#cfa16a" : (coreState === "LISTENING" ? "#6b9e78" : "#c89b9e");
-            ctx.lineWidth = 2.5;
-            ctx.stroke();
-            ctx.restore();
-
-            // Inner Pulsing Center
-            const pulse = Math.sin(Date.now() * 0.005) * 5;
-            ctx.beginPath();
-            ctx.arc(cx, cy, 30 + pulse, 0, Math.PI * 2);
-            ctx.fillStyle = coreState === "ALERT" ? "rgba(207, 161, 106, 0.15)" : "rgba(200, 155, 158, 0.12)";
-            ctx.fill();
-
-            requestAnimationFrame(drawCore);
-        }
-
-        // 6. Conversational Chat & Tool Calls
-        async function handleSend(e, overrideText = null) {
+        // 6. Natural Language Chat & Tool Execution
+        async function handleSend(e, explicitText = null) {
             if (e) e.preventDefault();
             const input = document.getElementById('chat-input');
-            const text = overrideText || input.value.trim();
+            const text = explicitText || input.value.trim();
             if (!text) return;
 
             input.value = "";
-            appendUserBubble(text);
-            setCoreState("THINKING");
+            appendMessage("USER", text);
+            setCoreState("REASONING (REACT LOOP)");
 
             try {
                 const resp = await fetch('/v1/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text, actor: "web_soc_user" })
+                    body: JSON.stringify({ message: text, actor: "web_admin" })
                 });
                 const data = await resp.json();
+                setCoreState("STANDBY (AUTONOMOUS)");
 
                 if (data.status === "COMPLETED") {
-                    appendEloBubble(data.response, data.tools_executed);
-                    speakText(data.response);
-                    setCoreState("STANDBY");
+                    appendMessage("ELO", data.response || "Comanda a fost executata cu succes.");
+                    speakText(data.response || "Executed.");
                 } else if (data.status === "AWAITING_APPROVAL") {
-                    appendApprovalGate(data.approval_request);
-                    setCoreState("ALERT");
-                    speakText(currentLang === "RO" ? `Atenție: comanda necesită aprobarea ta pentru ${data.approval_request.tool_name}` : `Attention: action requires your security approval for ${data.approval_request.tool_name}`);
+                    renderApprovalRequest(data.approval_request);
+                    appendMessage("GATEKEEPER", `Actiune L${data.approval_request.security_level} necesita aprobare de securitate.`);
+                } else {
+                    appendMessage("ELO", data.response || JSON.stringify(data));
                 }
             } catch (err) {
-                console.error("Chat error:", err);
-                appendEloBubble(currentLang === "RO" ? "Eroare de comunicare cu daemonul ELO." : "Error communicating with ELO daemon.");
-                setCoreState("STANDBY");
+                setCoreState("STANDBY (AUTONOMOUS)");
+                appendMessage("SYSTEM_ERROR", `Eroare comunicatie core: ${err}`);
             }
         }
 
-        function sendPrompt(prompt) {
-            document.getElementById('chat-input').value = prompt;
-            handleSend(null, prompt);
+        function sendPrompt(txt) {
+            document.getElementById('chat-input').value = txt;
+            handleSend(null, txt);
         }
 
-        function appendUserBubble(text) {
-            const stream = document.getElementById('chat-stream');
-            const html = `
-                <div class="flex gap-3 justify-end">
-                    <div class="max-w-md bg-[#3e2a2c]/60 border border-[rgba(214,182,186,0.25)] rounded-2xl rounded-tr-none p-3 text-sm text-[#f5ecec]">
-                        ${text}
-                    </div>
+        function appendMessage(sender, content) {
+            const container = document.getElementById('chat-messages-container');
+            const isUser = sender === "USER";
+            const senderColor = isUser ? "text-[#00f0ff]" : sender === "GATEKEEPER" ? "text-[#ffb800]" : "text-[#00ff9d]";
+            const borderStyle = isUser ? "border-[#00f0ff]/30 bg-[#0c1222]" : "border-[#00ff9d]/30 bg-[#070b16]";
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `p-4 rounded-xl border ${borderStyle} text-xs font-mono-custom space-y-2`;
+            msgDiv.innerHTML = `
+                <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+                    <span class="font-bold font-hud ${senderColor} tracking-wider">${sender}</span>
+                    <span class="text-[10px] text-[#94a3b8]">${new Date().toLocaleTimeString()}</span>
+                </div>
+                <div class="prose-elo text-white leading-relaxed">
+                    ${marked.parse(content)}
                 </div>
             `;
-            stream.insertAdjacentHTML('beforeend', html);
-            stream.scrollTop = stream.scrollHeight;
-        }
-
-        function appendEloBubble(text, tools = []) {
-            const stream = document.getElementById('chat-stream');
-            let toolsHtml = "";
-            if (tools && tools.length > 0) {
-                toolsHtml = `
-                    <div class="mt-2.5 pt-2 border-t border-[rgba(214,182,186,0.1)] flex flex-wrap gap-1.5">
-                        ${tools.map(t => `<span class="px-2 py-0.5 rounded bg-[#0d090a] border border-[rgba(214,182,186,0.15)] text-[10px] text-[#00cec9] font-mono-custom"> ${t.tool} (OK)</span>`).join('')}
-                    </div>
-                `;
-            }
-
-            let formattedBody = text;
-            try {
-                if (window.marked && typeof window.marked.parse === 'function') {
-                    formattedBody = window.marked.parse(text);
-                } else {
-                    formattedBody = `<p>${text.replace(/\n/g, '<br/>')}</p>`;
-                }
-            } catch (e) {
-                formattedBody = `<p>${text.replace(/\n/g, '<br/>')}</p>`;
-            }
-
-            const html = `
-                <div class="flex gap-3">
-                    <div class="w-8 h-8 rounded-xl bg-[#3e2a2c] border border-[rgba(214,182,186,0.25)] flex items-center justify-center text-[#f5ecec] font-serif-custom font-bold text-sm shrink-0">
-                        E
-                    </div>
-                    <div class="flex-1">
-                        <div class="bg-[#140f11] border border-[rgba(214,182,186,0.15)] rounded-2xl rounded-tl-none p-3.5 text-sm text-[#d6b6ba] shadow-lg prose-elo">
-                            ${formattedBody}
-                            ${toolsHtml}
-                        </div>
-                    </div>
-                </div>
-            `;
-            stream.insertAdjacentHTML('beforeend', html);
-            stream.scrollTop = stream.scrollHeight;
-        }
-
-        function appendApprovalGate(req) {
-            const stream = document.getElementById('chat-stream');
-            const html = `
-                <div class="p-4 rounded-2xl bg-[#cfa16a]/15 border border-[#cfa16a]/50 shadow-lg space-y-2.5">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#cfa16a] animate-ping"></span>
-                            <span class="font-mono-custom font-bold text-xs text-[#cfa16a] uppercase">SECURITY APPROVAL REQUIRED • ${req.security_level}</span>
-                        </div>
-                        <span class="font-mono-custom text-[10px] text-[#9e7f83]">ID: ${req.id.substring(0, 8)}</span>
-                    </div>
-                    
-                    <div class="text-xs text-[#f5ecec]">
-                        <p class="font-semibold text-[#cfa16a]">Tool: <code class="text-[#00cec9] font-mono-custom">${req.tool_name}</code></p>
-                        <p class="text-[#9e7f83] mt-1">Explicație: ${req.explanation}</p>
-                        <p class="text-[#9e7f83]">Parametri: <code class="text-[#d6b6ba]">${JSON.stringify(req.parameters)}</code></p>
-                    </div>
-
-                    <div class="flex gap-2 pt-2" id="approval-btn-group-${req.id}">
-                        <button onclick="resolveApproval('${req.id}', true)" class="flex-1 py-2 px-3 rounded-xl bg-[#6b9e78] hover:bg-[#5a8765] text-black font-bold text-xs flex items-center justify-center gap-1.5 transition lowercase">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i> aprobă acțiunea
-                        </button>
-                        <button onclick="resolveApproval('${req.id}', false)" class="flex-1 py-2 px-3 rounded-xl bg-[#b8555a] hover:bg-[#964247] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition lowercase">
-                            <i data-lucide="x" class="w-3.5 h-3.5"></i> respinge
-                        </button>
-                    </div>
-                </div>
-            `;
-            stream.insertAdjacentHTML('beforeend', html);
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
             lucide.createIcons();
-            stream.scrollTop = stream.scrollHeight;
         }
 
-        async function resolveApproval(requestId, approved) {
-            const btnGroup = document.getElementById(`approval-btn-group-${requestId}`);
-            if (btnGroup) {
-                btnGroup.innerHTML = `<span class="text-xs text-[#9e7f83] italic">Processing decision...</span>`;
-            }
+        function renderApprovalRequest(req) {
+            const container = document.getElementById('approvals-container');
+            container.classList.remove('hidden');
+            container.innerHTML = `
+                <div class="p-4 rounded-xl bg-gradient-to-r from-[#ffb800]/15 via-[#ff007f]/15 to-[#ff2255]/15 border-2 border-[#ffb800] space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="font-hud font-bold text-xs text-[#ffb800] uppercase tracking-wider">Security Gatekeeper Approval Required</span>
+                        <span class="px-2 py-0.5 rounded bg-[#ffb800]/20 text-[#ffb800] text-[10px] font-bold">LEVEL ${req.security_level}</span>
+                    </div>
+                    <div class="text-xs font-mono-custom space-y-1 text-white">
+                        <div><strong class="text-[#94a3b8]">Tool:</strong> <code class="text-[#00f0ff]">${req.tool_name}</code></div>
+                        <div><strong class="text-[#94a3b8]">Explanation:</strong> ${req.explanation}</div>
+                        <div><strong class="text-[#94a3b8]">Parameters:</strong> <code class="text-[#ffb800]">${JSON.stringify(req.parameters)}</code></div>
+                    </div>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="resolveApproval('${req.id}', true)" class="flex-1 py-2 rounded-lg bg-[#00ff9d] text-[#04060d] font-hud font-bold text-xs uppercase hover:brightness-110 transition">Approve &amp; Execute</button>
+                        <button onclick="resolveApproval('${req.id}', false)" class="flex-1 py-2 rounded-lg bg-[#ff2255] text-white font-hud font-bold text-xs uppercase hover:brightness-110 transition">Deny &amp; Abort</button>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
 
+        async function resolveApproval(reqId, approved) {
             try {
-                const resp = await fetch(`/v1/approvals/${requestId}/resolve`, {
+                const resp = await fetch(`/v1/approvals/${reqId}/resolve`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ approved: approved, actor: "web_admin" })
                 });
-                if (approved) {
-                    speakText(currentLang === "RO" ? "Acțiune aprobată cu succes." : "Action approved successfully.");
-                    btnGroup.innerHTML = `<span class="text-xs text-[#6b9e78] font-bold"> APPROVED BY USER</span>`;
-                } else {
-                    speakText(currentLang === "RO" ? "Acțiune respinsă." : "Action rejected.");
-                    btnGroup.innerHTML = `<span class="text-xs text-[#b8555a] font-bold"> REJECTED BY USER</span>`;
-                }
-                setCoreState("STANDBY");
-            } catch (err) {
-                console.error("Approval error:", err);
+                const data = await resp.json();
+                document.getElementById('approvals-container').classList.add('hidden');
+                appendMessage("GATEKEEPER", `Aprobare ${approved ? 'CONFIRMATA' : 'RESPINSA'}. Token: ${data.capability_token ? 'GENERAT' : 'REVOCAT'}`);
+            } catch (e) {
+                alert("Eroare la rezolvarea aprobarii: " + e);
             }
         }
 
-        function clearChat() {
-            document.getElementById('chat-stream').innerHTML = "";
+        async function triggerDailyBriefing() {
+            sendPrompt("Genereaza un briefing operational complet pentru toate serviciile homelab, stocare ZFS si telemetrie.");
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            initSpeech();
-            drawCore();
-        });
     </script>
 </body>
 </html>
