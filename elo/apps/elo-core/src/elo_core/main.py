@@ -383,5 +383,90 @@ async def get_watchdog_status():
     }
 
 
+# -------------------------------------------------------------
+# Phase 3-6: Advanced Hardware, Memory, Swarm & Voice Endpoints
+# -------------------------------------------------------------
+
+@app.post("/v1/presence/update")
+async def receive_esp32_presence(update: Dict[str, Any]):
+    from elo_contracts.presence import ESP32PresenceUpdate
+    from .registry import _global_presence_mgr
+    parsed = ESP32PresenceUpdate(**update)
+    return _global_presence_mgr.process_presence_update(parsed)
+
+
+@app.get("/v1/presence")
+async def get_presence_state():
+    from .registry import _global_presence_mgr
+    return _global_presence_mgr.get_current_presence_status()
+
+
+@app.post("/v1/presence/route")
+async def route_presence_action(req: Dict[str, Any]):
+    from elo_contracts.presence import RoomActionRequest
+    from .registry import _global_presence_mgr
+    parsed = RoomActionRequest(**req)
+    return _global_presence_mgr.route_contextual_action(parsed)
+
+
+@app.post("/v1/memory/search")
+async def search_semantic_memory(query: str, domain: Optional[str] = None, top_k: int = 3):
+    from .registry import _global_memory_store
+    results = await _global_memory_store.search_memory(query=query, domain=domain, top_k=top_k)
+    return {
+        "query": query,
+        "results_count": len(results),
+        "matches": [
+            {"content": r.entry.content, "domain": r.entry.domain, "similarity": r.similarity, "metadata": r.entry.metadata}
+            for r in results
+        ]
+    }
+
+
+@app.post("/v1/memory/save")
+async def save_semantic_memory(content: str, domain: str = "homelab", metadata: Optional[Dict[str, Any]] = None):
+    from .registry import _global_memory_store
+    entry = await _global_memory_store.save_memory(content=content, domain=domain, metadata=metadata)
+    return {"status": "SAVED", "id": entry.id, "domain": entry.domain, "content": entry.content}
+
+
+@app.post("/v1/agents/execute")
+async def execute_subagent_task(role: str, action: str = "default", parameters: Optional[Dict[str, Any]] = None):
+    from elo_contracts.agents import AgentRole, SubAgentTask
+    from .registry import (
+        _global_secops_agent,
+        _global_sysadmin_agent,
+        _global_energy_agent,
+        _global_predictive_healer,
+    )
+    task = SubAgentTask(
+        task_id=f"TASK-REQ-{os.urandom(3).hex()}",
+        role=AgentRole(role),
+        objective=f"Execute {action}",
+        parameters={"action": action, **(parameters or {})},
+    )
+
+    if task.role == AgentRole.SECOPS_HUNTER:
+        res = await _global_secops_agent.execute_task(task)
+    elif task.role == AgentRole.SYSADMIN_OPTIMIZER:
+        res = await _global_sysadmin_agent.execute_task(task)
+    elif task.role == AgentRole.SMART_HOME_ENERGY:
+        res = await _global_energy_agent.execute_task(task)
+    elif task.role == AgentRole.PREDICTIVE_HEALER:
+        res = await _global_predictive_healer.analyze_storage_health()
+    else:
+        raise HTTPException(status_code=400, detail=f"Unknown agent role '{role}'")
+
+    return res.model_dump()
+
+
+@app.get("/v1/voice/status")
+async def get_offline_voice_status():
+    from elo_ai_client.offline_engine import OfflineVoiceEngine
+    engine_offline = OfflineVoiceEngine()
+    return engine_offline.get_engine_status()
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host=config.host, port=config.port)
+

@@ -10,6 +10,12 @@ from .proxmox_client import ProxmoxClient
 from .homeassistant_client import HomeAssistantClient
 from .opnsense_client import OPNsenseClient
 from .knowledge import HomelabKnowledgeBase
+from .memory.pgvector_store import PgVectorMemoryStore
+from .hardware.esp32_presence import ESP32PresenceManager
+from .agents.secops_agent import SecOpsThreatHunterAgent
+from .agents.sysadmin_agent import SysAdminOptimizerAgent
+from .agents.energy_agent import SmartHomeEnergyAgent
+from .self_healing.predictive import PredictiveHealthAnalyzer
 
 
 class ToolRegistry:
@@ -256,6 +262,75 @@ async def _builtin_send_phone_alert(
     )
 
 
+# Global Subsystem Instances
+_global_memory_store = PgVectorMemoryStore()
+_global_presence_mgr = ESP32PresenceManager()
+_global_secops_agent = SecOpsThreatHunterAgent()
+_global_sysadmin_agent = SysAdminOptimizerAgent()
+_global_energy_agent = SmartHomeEnergyAgent()
+_global_predictive_healer = PredictiveHealthAnalyzer()
+
+
+async def _builtin_memory_save(content: str, domain: str = "homelab", tags: Optional[List[str]] = None) -> Dict[str, Any]:
+    """Saves semantic knowledge into pgvector memory."""
+    entry = await _global_memory_store.save_memory(content=content, domain=domain, metadata={"tags": tags or []})
+    return {"status": "SAVED", "id": entry.id, "domain": entry.domain, "content": entry.content}
+
+
+async def _builtin_memory_search(query: str, domain: Optional[str] = None, top_k: int = 3) -> Dict[str, Any]:
+    """Performs semantic cosine similarity search across pgvector memory."""
+    results = await _global_memory_store.search_memory(query=query, domain=domain, top_k=top_k)
+    return {
+        "query": query,
+        "results_count": len(results),
+        "matches": [
+            {"content": r.entry.content, "domain": r.entry.domain, "similarity": r.similarity, "metadata": r.entry.metadata}
+            for r in results
+        ]
+    }
+
+
+async def _builtin_presence_get() -> Dict[str, Any]:
+    """Gets current physical presence status across ESP32 tracked rooms."""
+    return _global_presence_mgr.get_current_presence_status()
+
+
+async def _builtin_presence_route(action: str, target_room: Optional[str] = None) -> Dict[str, Any]:
+    """Routes an action contextually based on ESP32 physical presence."""
+    from elo_contracts.presence import RoomActionRequest
+    return _global_presence_mgr.route_contextual_action(RoomActionRequest(action=action, target_room=target_room))
+
+
+async def _builtin_secops_scan() -> Dict[str, Any]:
+    """Runs autonomous SecOps Threat Hunter log analysis across Wazuh and Suricata."""
+    res = await _global_secops_agent.analyze_security_events()
+    return res.model_dump()
+
+
+async def _builtin_secops_quarantine(attacker_ip: str, reason: str = "Threat identified by SecOps Agent") -> Dict[str, Any]:
+    """Bans a malicious IP address on OPNsense firewall."""
+    res = await _global_secops_agent.quarantine_ip(attacker_ip, reason)
+    return res.model_dump()
+
+
+async def _builtin_sysadmin_optimize() -> Dict[str, Any]:
+    """Runs cluster resource optimization across Proxmox and NAS."""
+    res = await _global_sysadmin_agent.optimize_cluster_resources()
+    return res.model_dump()
+
+
+async def _builtin_energy_optimize() -> Dict[str, Any]:
+    """Analyzes smart home power consumption and identifies idle loads."""
+    res = await _global_energy_agent.optimize_energy_consumption()
+    return res.model_dump()
+
+
+async def _builtin_predictive_health() -> Dict[str, Any]:
+    """Runs predictive SMART and ZFS health analysis."""
+    res = await _global_predictive_healer.analyze_storage_health()
+    return res.model_dump()
+
+
 def create_default_registry() -> ToolRegistry:
     reg = ToolRegistry()
 
@@ -351,28 +426,18 @@ def create_default_registry() -> ToolRegistry:
         },
         security_level=SecurityLevel.L1_LOW_WRITE,
         handler=_builtin_ha_control_device,
-        domain="smarthome",
+        domain="smart_home",
     )
 
-    # 7. OPNsense Firewall Status (L0)
-    reg.register(
-        name="opnsense_get_status",
-        description="Fetches OPNsense gateway latency, WAN/LAN status, and active cyber security defenses.",
-        parameters_schema={"type": "object", "properties": {}},
-        security_level=SecurityLevel.L0_READ_ONLY,
-        handler=_builtin_opnsense_status,
-        domain="security",
-    )
-
-    # 8. OPNsense Block IP (L2)
+    # 8. OPNsense Block Malicious IP (L2)
     reg.register(
         name="opnsense_block_ip",
-        description="Blocks an attacking or malicious IP address on the OPNsense firewall.",
+        description="Blocks a malicious IP address on the OPNsense stateful firewall.",
         parameters_schema={
             "type": "object",
             "properties": {
-                "ip_address": {"type": "string", "description": "IP to block"},
-                "reason": {"type": "string", "default": "Blocked by ELO Security Gate"},
+                "ip_address": {"type": "string", "description": "IP address to block"},
+                "reason": {"type": "string", "default": "Blocked by ELO Security Gatekeeper"},
             },
             "required": ["ip_address"],
         },
@@ -381,7 +446,116 @@ def create_default_registry() -> ToolRegistry:
         domain="security",
     )
 
-    # 9. Homelab Knowledge & Documentation RAG (L0)
+    # 9. Persistent Semantic Memory Search (L0)
+    reg.register(
+        name="memory_search_context",
+        description="Performs semantic vector search across pgvector knowledge, configurations, and user history.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Semantic search query"},
+                "domain": {"type": "string", "default": "homelab"},
+                "top_k": {"type": "integer", "default": 3},
+            },
+            "required": ["query"],
+        },
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_memory_search,
+        domain="memory",
+    )
+
+    # 10. Persistent Semantic Memory Save (L1)
+    reg.register(
+        name="memory_save_context",
+        description="Saves a new fact, user preference, or configuration note into persistent semantic memory.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "content": {"type": "string", "description": "Information or preference to remember"},
+                "domain": {"type": "string", "default": "homelab"},
+            },
+            "required": ["content"],
+        },
+        security_level=SecurityLevel.L1_LOW_WRITE,
+        handler=_builtin_memory_save,
+        domain="memory",
+    )
+
+    # 11. ESP32 Physical Presence State (L0)
+    reg.register(
+        name="esp32_get_presence_state",
+        description="Queries ESP32 sensors to determine the user's active room and physical location in the house.",
+        parameters_schema={"type": "object", "properties": {}},
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_presence_get,
+        domain="hardware",
+    )
+
+    # 12. ESP32 Contextual Room Action Routing (L1)
+    reg.register(
+        name="esp32_route_room_action",
+        description="Executes a smart home action contextually in the user's current room.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "action": {"type": "string", "description": "Action verb, e.g. turn_on_lights, turn_off_lights, play_music"},
+                "target_room": {"type": "string", "description": "Optional explicit room ID"},
+            },
+            "required": ["action"],
+        },
+        security_level=SecurityLevel.L1_LOW_WRITE,
+        handler=_builtin_presence_route,
+        domain="hardware",
+    )
+
+    # 13. SecOps Autonomous Threat Hunter Scan (L0)
+    reg.register(
+        name="secops_analyze_security_events",
+        description="Sub-Agent: Scans Wazuh and Suricata logs, correlating brute force and intrusion attempts.",
+        parameters_schema={"type": "object", "properties": {}},
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_secops_scan,
+        domain="security",
+    )
+
+    # 14. SecOps Quarantine Malicious IP (L2)
+    reg.register(
+        name="secops_quarantine_ip",
+        description="Sub-Agent: Bans a suspicious attacker IP address on OPNsense with threat logging.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "attacker_ip": {"type": "string", "description": "IP address to quarantine"},
+                "reason": {"type": "string", "default": "SecOps Threat Hunter automated ban"},
+            },
+            "required": ["attacker_ip"],
+        },
+        security_level=SecurityLevel.L2_HIGH_IMPACT,
+        handler=_builtin_secops_quarantine,
+        domain="security",
+    )
+
+    # 15. SysAdmin Cluster Resource Optimizer (L1)
+    reg.register(
+        name="sysadmin_optimize_cluster_resources",
+        description="Sub-Agent: Scans Proxmox and NAS telemetry, recommends KSM deduplication, and cleans Docker caches.",
+        parameters_schema={"type": "object", "properties": {}},
+        security_level=SecurityLevel.L1_LOW_WRITE,
+        handler=_builtin_sysadmin_optimize,
+        domain="infrastructure",
+    )
+
+    # 16. Smart Home Energy Optimizer (L0)
+    reg.register(
+        name="energy_optimize_smart_home",
+        description="Sub-Agent: Analyzes Shelly smart plugs and Home Assistant loads to identify idle electricity waste.",
+        parameters_schema={"type": "object", "properties": {}},
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_energy_optimize,
+        domain="smart_home",
+    )
+
+    # 18. Homelab Knowledge & Documentation RAG (L0)
     reg.register(
         name="knowledge_search_docs",
         description="Searches Homelab architectural documentation, network topology, VLANs, and configuration manuals.",
@@ -397,7 +571,7 @@ def create_default_registry() -> ToolRegistry:
         domain="knowledge",
     )
 
-    # 10. Homelab Service Lookup (L0)
+    # 19. Homelab Service Lookup (L0)
     reg.register(
         name="homelab_query_service",
         description="Queries the Homelab inventory for any service, container, port, domain, IP, or tags.",
@@ -413,10 +587,10 @@ def create_default_registry() -> ToolRegistry:
         domain="homelab",
     )
 
-    # 11. Send Phone Alert (L1)
+    # 20. Send Phone Alert (L1)
     reg.register(
         name="send_phone_alert",
-        description="Dispatches an urgent SMS and mobile notification alert to the administrator's phone number.",
+        description="Dispatches an urgent notification alert to the administrator.",
         parameters_schema={
             "type": "object",
             "properties": {
@@ -431,7 +605,7 @@ def create_default_registry() -> ToolRegistry:
         domain="security",
     )
 
-    # 12. Academic Monte Carlo (L0)
+    # 21. Academic Monte Carlo (L0)
     reg.register(
         name="academic_monte_carlo_simulation",
         description="Runs a stochastic Monte Carlo financial risk simulation.",

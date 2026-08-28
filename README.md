@@ -212,7 +212,26 @@ The watchdog runs as an asynchronous background task (`asyncio.create_task`) wit
 3. If an outage is detected:
    - Records an incident in the audit database.
    - Triggers an automated recovery attempt if an L1 tool is available.
-   - Dispatches instant SMS / Push notifications to the configured administrator contact.
+   - Dispatches instant alerts to the configured administrator channels.
+
+### 4. 🧠 Persistent Semantic Memory with `pgvector` & RAG
+* **Vectorized Knowledge Base**: PostgreSQL with `pgvector` (`vector(128/768)`) storing documentation chunks, VM configurations, and user preferences.
+* **Hybrid Search**: Combines deterministic cosine similarity vectors with lexical keyword weighting for sub-millisecond retrieval.
+* **User Preferences & Context**: Remembers user habits, notification thresholds, and VM profiles across sessions.
+
+### 5. 📡 ESP32 Hardware & Physical Room-Awareness
+* **Presence Sensor Integration**: Consumes BLE and mmWave radar telemetry from ESP32 nodes over MQTT/REST.
+* **Contextual Action Routing**: Commands like *"Turn on lights"* or *"Play music"* automatically resolve to the specific Home Assistant entity for the room the user is currently located in (`Birou`, `Living`, `Server Room`).
+
+### 6. 🤖 Autonomous Sub-Agent Swarm
+* **🛡️ SecOps Threat-Hunter Agent**: Analyzes Wazuh SIEM & Suricata NIDS logs; automatically triggers OPNsense quarantine rules upon detecting brute-force or malicious scans.
+* **⚙️ SysAdmin Optimization Agent**: Evaluates RAM/CPU telemetry on Proxmox (`192.168.1.132`) & NAS (`192.168.1.135`), initiates KSM memory deduplication, and prunes dangling Docker caches.
+* **💡 Smart Home & Energy Agent**: Interrogates Home Assistant (`192.168.1.10:8123`) & Shelly smart relays to detect vampire idle loads and optimize heating.
+* **🛡️ Predictive Health Healer**: Analyzes SMART disk telemetry (`scrutiny.lan`) and triggers proactive ZFS snapshots before hardware degradation occurs.
+
+### 7. 🎙️ Offline Voice & Apple Silicon Metal MPS Acceleration
+* **Whisper.cpp & Piper TTS**: Offline speech-to-text and neural voice synthesis executing locally on Apple M1 Metal MPS hardware (`192.168.1.133`).
+* **Zero-WAN Resilience**: The full ReAct loop and tool registry operate seamlessly even during complete Internet blackouts.
 
 ---
 
