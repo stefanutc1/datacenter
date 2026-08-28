@@ -952,12 +952,11 @@
             wakeRecognition.onresult = (event) => {
                 for (let i = event.resultIndex; i < event.results.length; ++i) {
                     const transcript = event.results[i][0].transcript.toLowerCase();
-                    if (transcript.includes("hey elo") || transcript.includes("elo") || transcript.includes("jarvis") || transcript.includes("salut elo")) {
+                    if (transcript.includes("hey elo") || transcript.includes("elo") || transcript.includes("salut elo")) {
                         let cleaned = transcript
                             .replace(/hey elo/g, "")
                             .replace(/salut elo/g, "")
                             .replace(/elo/g, "")
-                            .replace(/jarvis/g, "")
                             .trim();
                         
                         if (cleaned.length > 2 && event.results[i].isFinal) {

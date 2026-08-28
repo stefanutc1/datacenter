@@ -12,10 +12,7 @@ public class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        Console.WriteLine("=================================================");
-        Console.WriteLine("🧠 ELO — Autonomous AI Operating Layer & Orchestrator");
-        Console.WriteLine("🖥️  macOS Native C# .NET 10 Desktop Application");
-        Console.WriteLine("=================================================");
+        Console.WriteLine("ELO Desktop Client (.NET 10 macOS)");
 
         string appDir = AppDomain.CurrentDomain.BaseDirectory;
         string wwwrootDir = Path.Combine(appDir, "wwwroot");

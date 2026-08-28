@@ -132,17 +132,17 @@ class MockLLMClient(BaseLLMClient):
                 "How can I assist you right now?"
             )
         elif any(w in lower_msg for w in ["salut", "buna", "buna ziua", "servus", "neata", "alo"]):
-            resp_text = "Salut! Sunt ELO, sistemul tău de operare AI. Toate cele 22 de servicii din homelab sunt monitorizate. Cum te pot ajuta?"
+            resp_text = "Salut! Sunt ELO, panoul de control al infrastructurii. Toate serviciile din homelab sunt monitorizate. Cu ce te pot ajuta?"
         elif any(w in lower_msg for w in ["cine esti", "who are you", "ce stii sa faci", "capabilities"]):
             resp_text = (
-                "Sunt ELO (Autonomous AI Operating Layer), inspirat de conceptul Jarvis. "
-                "Am acces la inventarul complet Homelab (Proxmox, OPNsense, Immich, Nextcloud, Vaultwarden, Pi-hole, n8n, etc.), "
-                "pot rula simulări financiare Monte Carlo, monitoriza telemetria hardware și executa acțiuni cu porți de securitate L0-L3."
+                "Sunt ELO, un orchestrator pentru homelab. "
+                "Am acces la inventarul infrastructurii (Proxmox, OPNsense, Home Assistant, Immich, Nextcloud, Grafana), "
+                "telemetria nodurilor, securitatea rețelei și automatizări."
             )
         else:
             resp_text = (
-                f"Am înțeles cererea ta: '{last_msg}'. "
-                f"Sunt pregătit să interoghez serviciile din homelab, să execut comenzi sau să rulez analize."
+                f"Am preluat cererea: '{last_msg}'. "
+                f"Pot interoga serviciile din homelab, verifica starea nodurilor sau executa acțiuni."
             )
 
         return LLMResponse(

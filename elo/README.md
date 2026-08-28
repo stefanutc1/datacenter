@@ -1,37 +1,39 @@
-# ELO — AI Operating Layer & Orchestrator
+# ELO — Control Plane & Orchestrator
 
-Personal AI operating layer and orchestration platform connecting Homelab infrastructure, academic/business ERP, and commercial retail SaaS.
+Personal orchestration platform connecting Homelab infrastructure (Proxmox VE, OpenMediaVault, Home Assistant, OPNsense) and automations.
 
 ---
 
-## 🏗️ Monorepo Architecture
+## Architecture
 
 ```
 elo/
 ├── packages/
 │   ├── elo-contracts/         # Pydantic v2 schemas: SecurityLevel (L0-L3), Tools, Events
 │   ├── elo-security/          # Zero-trust Gatekeeper, HMAC Capability Tokens, Approval Queues
-│   └── elo-ai-client/         # Hybrid LLM Router (Ollama/vLLM Local + Gemini/Claude Cloud)
+│   └── elo-ai-client/         # Multi-provider cascade client (Gemini, OpenRouter, Claude, GPT, Ollama)
 │
 ├── apps/
-│   └── elo-core/              # FastAPI Daemon, Tool Registry, ReAct Engine, Telegram Bot, CLI
+│   ├── elo-core/              # FastAPI Daemon, Tool Registry, Watchdog, Web UI
+│   └── elo-desktop-macos/     # Native C# .NET 10 macOS Desktop application & DMG
 │
 ├── infra/
-│   └── init-db.sql            # PostgreSQL 16 + pgvector schema initialization
+│   └── init-db.sql            # PostgreSQL schema initialization
 │
-├── docker-compose.yml         # Postgres pgvector + Redis 7 local stack
+├── docker-compose.yml         # Postgres pgvector + Redis stack
 ├── .env.example               # Environment variables template
 └── pyproject.toml
 ```
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
-### 1. Activați mediul virtual și instalați pachetele
+### 1. Setup Virtual Environment
 
 ```bash
-cd /Users/s3nnnzzzatyeeee/.gemini/antigravity/scratch/elo
+cd elo
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -e packages/elo-contracts -e packages/elo-security -e packages/elo-ai-client -e apps/elo-core
 ```

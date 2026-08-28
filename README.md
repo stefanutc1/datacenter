@@ -22,53 +22,52 @@ A comprehensive infrastructure, autonomous AI operating layer, and cybersecurity
 
 ## ⚡ Highlights
 
-- **🧠 ELO Autonomous AI Operating Layer (`elo/`)** — JARVIS-like AI orchestrator with Tiered Multi-Provider Cascade (Gemini, OpenRouter, Claude, GPT-4, Local Ollama), hands-free **"Hey ELO"** wake word, real-time Proxmox VE REST API control, Home Assistant domotics, OPNsense Cyber Shield, RAG semantic knowledge base, and autonomous Self-Healing Watchdog with phone SMS/Push alerts.
-- **🖥️ 30+ self-hosted services** deployed via `docker-compose` with persistent volume management and Nginx Proxy Manager / Authelia SSO.
-- **🛡️ Cyber Proving Ground (`cyber/`)** — SOC/SIEM operations (Wazuh 4.8, Suricata NIDS, Grafana Loki), DFIR triage, Red Team emulation (Atomic Red Team, BloodHound), and automated SAST.
-- **⚙️ Automated system hardening** via Ansible roles enforcing CIS Level 1 sysctl baselines and restrictive access policies.
-- **🏗️ Terraform-provisioned Proxmox VMs** using a reusable cloud-init Ubuntu module and multi-hypervisor support (Proxmox, Xen, ESXi, Hyper-V, bhyve).
-- **☸️ k3s Kubernetes cluster** with FluxCD GitOps synchronization against this repository.
-- **📡 ESP32 embedded projects** — automated irrigation control and physical presence sensing via MQTT.
+- **ELO Control Plane & Orchestrator (`elo/`)** — Centralized infrastructure manager with Multi-Provider failover cascade (Gemini, OpenRouter, Claude, GPT-4, Local Ollama), voice wake word, real-time Proxmox VE REST API integration, Home Assistant domotics, OPNsense gateway controls, knowledge base, and automated watchdog with mobile notifications.
+- **30+ self-hosted services** deployed via `docker-compose` with persistent volume management and Nginx Proxy Manager / Authelia SSO.
+- **Cyber Proving Ground (`cyber/`)** — SOC/SIEM operations (Wazuh 4.8, Suricata NIDS, Grafana Loki), DFIR triage, Red Team emulation (Atomic Red Team, BloodHound), and automated SAST.
+- **Automated system hardening** via Ansible roles enforcing CIS Level 1 sysctl baselines and restrictive access policies.
+- **Terraform-provisioned Proxmox VMs** using a reusable cloud-init Ubuntu module and multi-hypervisor support (Proxmox, Xen, ESXi, Hyper-V, bhyve).
+- **k3s Kubernetes cluster** with FluxCD GitOps synchronization against this repository.
+- **ESP32 embedded projects** — automated irrigation control and physical presence sensing via MQTT.
 
 ---
 
-## 🧠 ELO — Autonomous AI Operating Layer (`elo/`)
+## ELO — Infrastructure Control Plane (`elo/`)
 
-[`elo/`](elo/) is the next-generation autonomous orchestrator running on the local node (`MacBook-Air.local`) that monitors, controls, and interacts with the entire infrastructure through natural language and voice:
+[`elo/`](elo/) is the orchestrator running on the local node (`MacBook-Air.local`) that monitors, controls, and interacts with homelab infrastructure:
 
 ```mermaid
 flowchart LR
-    User(["🗣️ Voice / Text (Hey ELO)"]) --> WebUI["🌐 Holographic Arc Reactor UI"]
-    WebUI --> Engine["⚙️ ELO ReAct Engine & Gatekeeper"]
+    User(["Voice / Text"]) --> WebUI["Web UI / Desktop App"]
+    WebUI --> Engine["ELO Engine & Gatekeeper"]
     
-    subgraph Cascade["Tiered AI Model Cascade"]
-        G["Tier 1: Google Gemini"] -->|Out of Credits / 429| OR["Tier 2: OpenRouter Hub"]
+    subgraph Cascade["Model Cascade"]
+        G["Tier 1: Google Gemini"] -->|429 / Quota| OR["Tier 2: OpenRouter Hub"]
         OR -->|Failover| OAI["Tier 3: OpenAI Direct"]
         OAI -->|Failover| CL["Tier 4: Claude Direct"]
-        CL -->|Failover| OL["Tier 5: Local Ollama (M1/Metal)"]
+        CL -->|Failover| OL["Tier 5: Local Ollama"]
         OL -->|Offline| M["Tier 6: Mock Deterministic"]
     end
     
     Engine --> Cascade
     
-    subgraph Integrations["Live Homelab Ecosystem"]
-        Engine -->|REST API :8006| PVE["🖥️ Proxmox VE (192.168.10.2)"]
-        Engine -->|REST/WS :8123| HASS["🏠 Home Assistant (192.168.20.10)"]
-        Engine -->|Firewall API :443| OPN["🛡️ OPNsense (192.168.10.1)"]
-        Engine -->|RAG Search| RAG["🧠 Homelab Knowledge Base"]
-        Engine -->|SMS / Push / Bot| Phone["📱 Phone / Telegram Alerting"]
+    subgraph Integrations["Homelab Ecosystem"]
+        Engine -->|REST API :8006| PVE["Proxmox VE (192.168.1.132)"]
+        Engine -->|REST/WS :8123| HASS["Home Assistant (192.168.1.10)"]
+        Engine -->|Firewall API :8443| OPN["OPNsense (192.168.1.132)"]
+        Engine -->|Search| RAG["Homelab Knowledge Base"]
+        Engine -->|SMS / Push / Bot| Phone["Mobile Notifications"]
     end
     
-    Watchdog["🔄 Self-Healing Watchdog (30s loop)"] -->|Health Polling & Auto-Recovery| Integrations
 ```
 
 ### Key Capabilities:
-1. **Tiered Zero-Latency Failover Cascade**: Instant automatic failover if any model runs out of credits or hits rate limits (`429`), with smart 5-minute quota cooldown.
-2. **Proxmox VE REST API**: Live node probing and VM/LXC management (`start`, `stop`, `reboot`, `snapshot`) gated by L2 security approvals.
-3. **Home Assistant Domotics**: Control smart lights, switches, and read temperature sensors via voice commands.
-4. **OPNsense Cyber Shield**: Inspect WAN gateway status and instantly block malicious IP addresses.
-5. **Self-Healing Watchdog**: Background loop that detects outages, restarts failed containers, and sends SMS/Push notifications.
-6. **Always-Listening "Hey ELO"**: Browser-based continuous wake word detection with speech synthesis.
+1. **Multi-Provider Failover Cascade**: Automatic failover if any model runs out of credits or encounters errors (`429`), with 5-minute quota cooldown.
+2. **Proxmox VE REST API**: Live node status and VM/LXC lifecycle management (`start`, `stop`, `reboot`, `snapshot`) gated by security approvals.
+3. **Home Assistant Domotics**: Query and control smart devices, lights, and sensor states.
+4. **OPNsense Gateway**: Inspect gateway health and block malicious IP addresses.
+5. **Watchdog Daemon**: Background loop that detects node/container outages and sends alerts.
+6. **Voice Wake Word**: Browser-based wake word detection with speech synthesis.
 
 ---
 

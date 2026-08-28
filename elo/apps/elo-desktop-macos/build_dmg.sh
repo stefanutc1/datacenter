@@ -10,14 +10,11 @@ APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
 DMG_NAME="ELO-macOS-arm64.dmg"
 STAGING_DIR="$BUILD_DIR/dmg_staging"
 
-echo "================================================================"
-echo "🚀 Building ELO — C# .NET 10 macOS Application & DMG Installer"
-echo "================================================================"
+echo "Building ELO .NET 10 macOS Application & DMG Installer..."
 
 rm -rf "$BUILD_DIR" "$DIST_DIR"
 mkdir -p "$BUILD_DIR" "$DIST_DIR" "$STAGING_DIR"
 
-echo "📦 1. Compiling & Publishing Self-Contained .NET 10 (osx-arm64)..."
 dotnet publish "$PROJECT_DIR/EloDesktop.csproj" \
     -c Release \
     -r osx-arm64 \
@@ -25,20 +22,16 @@ dotnet publish "$PROJECT_DIR/EloDesktop.csproj" \
     -p:PublishSingleFile=false \
     -o "$BUILD_DIR/publish"
 
-echo "📂 2. Constructing macOS App Bundle ($APP_NAME.app)..."
 mkdir -p "$APP_BUNDLE/Contents/MacOS"
 mkdir -p "$APP_BUNDLE/Contents/Resources"
 
-# Copy published binaries into Contents/MacOS
 cp -R "$BUILD_DIR/publish/"* "$APP_BUNDLE/Contents/MacOS/"
 chmod +x "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
 
-# Copy AppIcon.icns into Resources
 if [ -f "$SCRIPT_DIR/AppIcon.icns" ]; then
     cp "$SCRIPT_DIR/AppIcon.icns" "$APP_BUNDLE/Contents/Resources/AppIcon.icns"
 fi
 
-# Create Info.plist
 cat << 'EOF' > "$APP_BUNDLE/Contents/Info.plist"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -47,7 +40,7 @@ cat << 'EOF' > "$APP_BUNDLE/Contents/Info.plist"
     <key>CFBundleName</key>
     <string>ELO</string>
     <key>CFBundleDisplayName</key>
-    <string>ELO — AI Operating Layer</string>
+    <string>ELO</string>
     <key>CFBundleIdentifier</key>
     <string>com.elo.operatinglayer</string>
     <key>CFBundleVersion</key>
@@ -67,30 +60,24 @@ cat << 'EOF' > "$APP_BUNDLE/Contents/Info.plist"
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSMicrophoneUsageDescription</key>
-    <string>ELO requires microphone access for voice commands and hands-free 'Hey ELO' wake word.</string>
+    <string>Microphone access is required for voice control.</string>
     <key>NSSpeechRecognitionUsageDescription</key>
-    <string>ELO requires speech recognition to transcribe real-time voice queries.</string>
+    <string>Speech recognition access is required for voice transcription.</string>
     <key>NSRequiresAquaSystemAppearance</key>
     <false/>
 </dict>
 </plist>
 EOF
 
-echo "🎨 3. Preparing DMG Distribution Staging..."
 cp -R "$APP_BUNDLE" "$STAGING_DIR/"
 ln -s /Applications "$STAGING_DIR/Applications"
 
-echo "💿 4. Generating DMG Image using hdiutil..."
 hdiutil create \
-    -volname "ELO AI Operating Layer" \
+    -volname "ELO" \
     -srcfolder "$STAGING_DIR" \
     -ov \
     -format UDZO \
     "$DIST_DIR/$DMG_NAME"
 
-echo ""
-echo "================================================================"
-echo "✅ SUCCESS! macOS DMG Installer created at:"
-echo "📁 $DIST_DIR/$DMG_NAME"
-echo "================================================================"
+echo "DMG created at: $DIST_DIR/$DMG_NAME"
 ls -lh "$DIST_DIR/$DMG_NAME"
