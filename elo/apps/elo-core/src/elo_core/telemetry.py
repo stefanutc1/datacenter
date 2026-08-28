@@ -54,7 +54,7 @@ async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.3) ->
     if is_local:
         node_result = dict(node)
         node_result["name"] = f"Apple M1 Node ({platform.node()})"
-        node_result["ip"] = f"127.0.0.1 ({platform.node()})"
+        node_result["ip"] = f"192.168.1.133 ({platform.node()})"
         node_result["is_reachable"] = True
         node_result["status"] = "ONLINE"
         node_result["active_port"] = "LOCAL_DAEMON"

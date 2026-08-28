@@ -350,7 +350,7 @@ HOMELAB_NODES: List[Dict[str, Any]] = [
         "id": "apple-m1-compute",
         "name": "Apple M1 Node (Local Host)",
         "role": "Local Host • ARM64 Compute & ELO Core Runtime",
-        "ip": "127.0.0.1 (MacBook-Air.local)",
+        "ip": "192.168.1.133 (MacBook-Air.local)",
         "is_local_host": True,
         "status": "ONLINE",
         "workloads": "ELO Core Daemon, Local ML Accelerators, Metal MPS"
