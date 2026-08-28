@@ -28,19 +28,11 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: |
-            web/package-lock.json
-            homepage/package-lock.json
+          cache-dependency-path: web/package-lock.json
 
       - name: Install Web Dependencies
         run: |
           cd web && npm install
-          if [ -d "../homepage" ] && [ -f "../homepage/package.json" ]; then
-            cd ../homepage && npm install
-          fi
-          if [ -d "../custom-apps" ] && [ -f "../custom-apps/package.json" ]; then
-            cd ../custom-apps && npm install
-          fi
 
       - name: Build Unified Distribution Bundle
         run: |

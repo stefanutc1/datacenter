@@ -1,12 +1,11 @@
 {
-  "name": "homelab-wiki-web",
+  "name": "homelab-web",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node build-all.js",
-    "build:single": "vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
