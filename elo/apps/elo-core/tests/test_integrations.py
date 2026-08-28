@@ -8,22 +8,22 @@ from elo_core.knowledge import HomelabKnowledgeBase
 
 @pytest.mark.asyncio
 async def test_proxmox_client_reachability_and_offline_fallback():
-    pve = ProxmoxClient(host="192.168.10.2")
+    pve = ProxmoxClient(host="192.168.1.132")
     status = await pve.get_cluster_status()
-    assert status["host"] == "192.168.10.2"
+    assert status["host"] == "192.168.1.132"
     assert status["status"] in ["ONLINE", "OFFLINE", "ONLINE (AUTH_REQUIRED)"]
 
 
 @pytest.mark.asyncio
 async def test_homeassistant_client_offline_fallback():
-    hass = HomeAssistantClient(base_url="http://192.168.20.10:8123")
+    hass = HomeAssistantClient(base_url="http://192.168.1.10:8123")
     res = await hass.get_states()
     assert res["status"] in ["SUCCESS", "OFFLINE", "ONLINE (AUTH_REQUIRED)"]
 
 
 @pytest.mark.asyncio
 async def test_opnsense_client_block_ip():
-    opn = OPNsenseClient(host="192.168.10.1")
+    opn = OPNsenseClient(host="192.168.1.132:8443")
     res = await opn.block_ip("45.33.32.156", "Test Malicious IP")
     assert res["status"] in ["SUCCESS", "OFFLINE"]
 

@@ -646,9 +646,12 @@
                 }
 
                 // Update Services List
-                if (data.services && (!homelabServicesCache.length || homelabServicesCache.length !== data.services.length)) {
+                if (data.services) {
                     homelabServicesCache = data.services;
-                    renderServicesList(homelabServicesCache);
+                    const filterInput = document.getElementById('service-filter-input');
+                    if (!filterInput || !filterInput.value.trim()) {
+                        renderServicesList(homelabServicesCache);
+                    }
                 }
 
             } catch (err) {
@@ -688,19 +691,37 @@
 
         function renderServicesList(services) {
             const container = document.getElementById('services-list-container');
+            if (!container) return;
             document.getElementById('service-count-badge').innerText = services.length;
-            container.innerHTML = services.map(s => `
-                <div onclick="sendPrompt('Unde rulează ${s.name}?')" class="p-2 rounded bg-[#0d090a]/70 border border-[rgba(214,182,186,0.08)] hover:border-[#c89b9e] cursor-pointer transition flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#6b9e78]"></span>
-                        <div>
-                            <span class="font-semibold text-[#f5ecec] block leading-tight">${s.name}</span>
-                            <span class="text-[10px] text-[#9e7f83]">${s.domain || s.ip}:${s.port}</span>
+            
+            container.innerHTML = services.map(s => {
+                const isOnline = s.is_reachable || s.status === "ONLINE";
+                const dotColor = isOnline ? "bg-[#6b9e78]" : "bg-[#b8555a]";
+                const latencyBadge = s.latency_ms ? `<span class="text-[9px] text-[#6b9e78]">${s.latency_ms}ms</span>` : `<span class="text-[9px] text-[#b8555a]">OFFLINE</span>`;
+                const pinnedBadge = s.is_pinned ? `<span class="text-[9px] px-1 py-0.2 rounded bg-[#cfa16a]/20 text-[#cfa16a] border border-[#cfa16a]/40 font-mono">★ PINNED</span>` : '';
+
+                return `
+                    <div onclick="sendPrompt('Status si detalii pentru serviciul ${s.name} (${s.ip}:${s.port})')" class="p-2 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.1)] hover:border-[#00cec9] cursor-pointer transition flex items-center justify-between group">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-2 h-2 rounded-full ${dotColor} ${isOnline ? 'animate-pulse' : ''}"></span>
+                            <div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="font-semibold text-[#f5ecec] block leading-tight text-xs">${s.name}</span>
+                                    ${pinnedBadge}
+                                </div>
+                                <div class="flex items-center gap-2 text-[10px] text-[#9e7f83]">
+                                    <span class="text-[#00cec9] font-mono">${s.ip}:${s.port}</span>
+                                    <span>•</span>
+                                    <span class="text-[#d6b6ba]">${s.category}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            ${latencyBadge}
                         </div>
                     </div>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-[#3e2a2c] text-[#c89b9e] font-mono-custom">${s.category}</span>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function filterServices() {
@@ -709,6 +730,8 @@
                 s.name.toLowerCase().includes(q) ||
                 s.id.toLowerCase().includes(q) ||
                 s.category.toLowerCase().includes(q) ||
+                s.ip.toLowerCase().includes(q) ||
+                (s.port && s.port.toString().includes(q)) ||
                 (s.domain && s.domain.toLowerCase().includes(q))
             );
             renderServicesList(filtered);

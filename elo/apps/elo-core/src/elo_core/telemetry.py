@@ -4,16 +4,49 @@ import time
 import asyncio
 import platform
 import psutil
-import httpx
 from typing import Dict, Any, List
 from .homelab_inventory import HOMELAB_SERVICES, HOMELAB_NODES
 
 
-async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.4) -> Dict[str, Any]:
+async def probe_service_reachability(service: Dict[str, Any], timeout: float = 0.25) -> Dict[str, Any]:
+    """
+    Probes an individual Homelab workload directly by its exact IP and Port via TCP socket.
+    Does NOT rely on DNS resolution or domain names.
+    """
+    ip = service.get("ip")
+    port = service.get("port")
+    
+    is_online = False
+    latency_ms = None
+    start_t = time.perf_counter()
+
+    if ip and port:
+        try:
+            conn = asyncio.open_connection(ip, int(port))
+            reader, writer = await asyncio.wait_for(conn, timeout=timeout)
+            writer.close()
+            try:
+                await writer.wait_closed()
+            except Exception:
+                pass
+            is_online = True
+            latency_ms = round((time.perf_counter() - start_t) * 1000, 1)
+        except Exception:
+            is_online = False
+
+    res = dict(service)
+    res["is_reachable"] = is_online
+    res["status"] = "ONLINE" if is_online else "OFFLINE"
+    res["latency_ms"] = latency_ms
+    res["last_checked"] = time.strftime("%H:%M:%S")
+    return res
+
+
+async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.3) -> Dict[str, Any]:
     """
     Probes an individual Homelab node asynchronously via TCP sockets.
     If it's the Local Host (MacBook-Air.local / Apple M1), it returns ONLINE directly with 0ms latency.
-    For remote nodes (Proxmox, NAS), probes management ports via TCP.
+    For remote nodes (Proxmox 192.168.1.132, NAS 192.168.1.135), probes management ports via TCP.
     """
     node_id = node.get("id")
     is_local = node.get("is_local_host") or node_id == "apple-m1-compute"
@@ -36,7 +69,7 @@ async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.4) ->
         return node_result
 
     ip = node.get("ip")
-    probe_ports = node.get("probe_ports", [80, 22, 8006, 445, 11434])
+    probe_ports = node.get("probe_ports", [8006, 80, 22, 445, 9100])
     
     is_online = False
     connected_port = None
@@ -66,16 +99,16 @@ async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.4) ->
     node_result["latency_ms"] = latency_ms
     node_result["last_checked"] = time.strftime("%H:%M:%S")
 
-    # If Proxmox is online, probe metrics if exporter available
+    # If Proxmox is online, probe metrics
     if is_online and node.get("id") == "pve-node-1":
         node_result["metrics"] = {
-            "hypervisor": "Proxmox VE 8.x",
+            "hypervisor": "Proxmox VE 8.x (192.168.1.132)",
             "containers_running": "LXC 100-119 active",
             "vms_running": "VM 200 (OPNsense), VM 201 (Alpine)",
         }
     elif is_online and node.get("id") == "openmediavault-nas":
         node_result["metrics"] = {
-            "storage_os": "OpenMediaVault 7.x",
+            "storage_os": "OpenMediaVault 7.x (192.168.1.135)",
             "zfs_pools": "tank-pool-01 (ONLINE)",
             "shares": "NFS, SMB, BorgBackup active",
         }
@@ -93,7 +126,7 @@ async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.4) ->
 async def get_real_system_telemetry_async() -> Dict[str, Any]:
     """
     Gathers local host hardware metrics (CPU, RAM, Disk, Net) via psutil
-    AND concurrently probes remote Proxmox, NAS, and Compute nodes dynamically.
+    AND concurrently probes remote Proxmox, NAS nodes AND all 28 workload services by IP:port.
     """
     # 1. Local Machine / Node Hardware Metrics
     cpu_pct = psutil.cpu_percent(interval=0.03)
@@ -121,9 +154,13 @@ async def get_real_system_telemetry_async() -> Dict[str, Any]:
     net_sent_mb = round(net.bytes_sent / (1024 ** 2), 2)
     net_recv_mb = round(net.bytes_recv / (1024 ** 2), 2)
 
-    # 2. Dynamic Asynchronous Probe of Proxmox, NAS, and Homelab Nodes
-    probe_tasks = [probe_node_reachability(node) for node in HOMELAB_NODES]
-    probed_nodes = await asyncio.gather(*probe_tasks, return_exceptions=False)
+    # 2. Dynamic Asynchronous Probe of Proxmox, NAS, and M1 Nodes
+    node_tasks = [probe_node_reachability(node) for node in HOMELAB_NODES]
+    probed_nodes = await asyncio.gather(*node_tasks, return_exceptions=False)
+
+    # 3. Dynamic Asynchronous Probe of all 28 Homelab Workloads by IP:Port
+    service_tasks = [probe_service_reachability(service) for service in HOMELAB_SERVICES]
+    probed_services = await asyncio.gather(*service_tasks, return_exceptions=False)
 
     return {
         "hostname": platform.node(),
@@ -152,7 +189,7 @@ async def get_real_system_telemetry_async() -> Dict[str, Any]:
             "sent_mb": net_sent_mb,
             "recv_mb": net_recv_mb,
         },
-        "services": HOMELAB_SERVICES,
+        "services": probed_services,
         "nodes": probed_nodes,
     }
 
@@ -162,7 +199,6 @@ def get_real_system_telemetry() -> Dict[str, Any]:
     try:
         loop = asyncio.get_event_loop()
         if loop.is_running():
-            # If already inside an async event loop, create task or run in executor
             return loop.run_until_complete(get_real_system_telemetry_async())
     except Exception:
         pass

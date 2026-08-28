@@ -14,13 +14,13 @@ class OPNsenseClient:
 
     def __init__(
         self,
-        host: str = "192.168.10.1",
+        host: str = "192.168.1.132:8443",
         api_key: Optional[str] = None,
         api_secret: Optional[str] = None,
         verify_ssl: bool = False,
         timeout: float = 4.0,
     ):
-        self.host = host.strip() if host else "192.168.10.1"
+        self.host = host.strip() if host else "192.168.1.132:8443"
         self.api_key = api_key
         self.api_secret = api_secret
         self.verify_ssl = verify_ssl

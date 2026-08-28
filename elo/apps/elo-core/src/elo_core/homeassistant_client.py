@@ -14,11 +14,11 @@ class HomeAssistantClient:
 
     def __init__(
         self,
-        base_url: str = "http://192.168.20.10:8123",
+        base_url: str = "http://192.168.1.10:8123",
         access_token: Optional[str] = None,
         timeout: float = 4.0,
     ):
-        self.base_url = base_url.rstrip("/")
+        self.base_url = (base_url or "http://192.168.1.10:8123").rstrip("/")
         self.access_token = access_token
         self.timeout = timeout
 

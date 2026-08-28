@@ -16,7 +16,7 @@ class ProxmoxClient:
 
     def __init__(
         self,
-        host: str = "192.168.10.2",
+        host: str = "192.168.1.132",
         port: int = 8006,
         api_token_id: Optional[str] = None,
         api_token_secret: Optional[str] = None,
@@ -25,7 +25,7 @@ class ProxmoxClient:
         verify_ssl: bool = False,
         timeout: float = 5.0,
     ):
-        self.host = host.strip() if host else "192.168.10.2"
+        self.host = host.strip() if host else "192.168.1.132"
         self.port = port
         self.base_url = f"https://{self.host}:{self.port}/api2/json"
         self.api_token_id = api_token_id
