@@ -14,4 +14,4 @@ rules:
     message: "Avoid permissive chmod 777 or 666 in production deployment scripts"
     severity: ERROR
     patterns:
-      - pattern-regex: "chmod\s+(777|666)"
+      - pattern-regex: 'chmod\s+(777|666)'

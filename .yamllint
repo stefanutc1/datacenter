@@ -1,5 +1,17 @@
 extends: default
 
+ignore: |
+  node_modules/
+  **/node_modules/
+  .venv/
+  **/.venv/
+  dist/
+  **/dist/
+  build/
+  **/build/
+  .git/
+  **/.git/
+
 rules:
   line-length: disable
   document-start: disable
@@ -9,3 +21,5 @@ rules:
   trailing-spaces: disable
   empty-lines: disable
   indentation: disable
+  comments: disable
+  colons: disable
