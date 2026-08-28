@@ -206,10 +206,10 @@ jobs:
           pip install -e elo/packages/elo-ai-client
           pip install -e elo/apps/elo-core
 
-      - name: Execute Pytest Suite with Coverage
+      - name: Execute Pytest Suite
         run: |
           cd elo
-          PYTHONPATH="apps/elo-core/src:packages/elo-contracts/src:packages/elo-security/src:packages/elo-ai-client/src" pytest -v --cov=elo_core --cov=elo_security --cov=elo_ai_client --cov=elo_contracts -o asyncio_mode=auto
+          PYTHONPATH="apps/elo-core/src:packages/elo-contracts/src:packages/elo-security/src:packages/elo-ai-client/src" python -m pytest -v -o asyncio_mode=auto
 
   # ==========================================
   # STAGE 6: MULTI-LINUX DISTRIBUTION COMPATIBILITY MATRIX
