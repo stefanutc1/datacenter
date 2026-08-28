@@ -375,14 +375,21 @@ All changes to the monorepo are continuously validated and deployed via GitHub A
 ### Automated CI Pipeline Stages:
 1. **DevSecOps Secret Scanning (Gitleaks)**: Scans every commit for accidental secrets, tokens, or SSH keys.
 2. **SAST Static Analysis (Bandit)**: Static security analysis for Python in the ELO subsystem.
-3. **Shell Script Linting (ShellCheck)**: Shell script validation across `scripts/` and `ai/scripts/`.
+3. **Multi-Distro Shell Script Portability (ShellCheck)**: Shell script validation across `scripts/` and `ai/scripts/`.
 4. **Docker Compose Validator**: Validates YAML syntax and environment declarations across all 28 service compose stacks.
 5. **Model Context Protocol (MCP) Validator**: Syntax and schema checking for `ai/mcp_config.json`.
 6. **Ansible Playbook Syntax Check**: Automated `ansible-playbook --syntax-check` on all playbooks.
 7. **Terraform Validation**: Format checking (`fmt`) and template validation across provider templates.
 8. **Web Dashboard Build**: Vite build and static distribution bundle verification.
-9. **ELO Automated Test Suite (18/18 Tests)**: Automated test execution on Python 3.12 for tool registry, ReAct loop, HMAC capability tokens, API endpoints, and client failover cascades.
-10. **macOS Native DMG Builder (`macos-14`)**: Native .NET 10 compilation on Apple Silicon with automated DMG generation and GitHub Releases attachment.
+9. **ELO Automated Test Suite (26/26 Tests)**: Automated test execution on Python 3.12 for tool registry, ReAct loop, HMAC capability tokens, API endpoints, pgvector memory, and sub-agents.
+10. **Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively across 6 major Linux container ecosystems:
+    * **Debian 12 Bookworm** (`glibc` - Proxmox VE & OpenMediaVault base)
+    * **Ubuntu 24.04 LTS Noble** (`glibc`)
+    * **Alpine Linux 3.20** (`musl libc` - VM 201 microservices)
+    * **Rocky Linux 9** (Enterprise RPM / RHEL)
+    * **Fedora 40** (Modern upstream RPM)
+    * **Arch Linux** (Rolling release bleeding edge)
+11. **macOS Native DMG Builder (`macos-14`)**: Native .NET 10 compilation on Apple Silicon with automated DMG generation and GitHub Releases attachment.
 
 ---
 

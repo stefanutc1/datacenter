@@ -1,4 +1,4 @@
-name: CI Validation & DevSecOps Pipeline
+name: CI Validation & Multi-Distro DevSecOps Pipeline
 
 on:
   push:
@@ -80,15 +80,22 @@ jobs:
           fi
 
   shellcheck:
-    name: Shell Script Quality & Linting (ShellCheck)
+    name: Shell Script Quality & Portability (ShellCheck)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run ShellCheck on Shell Scripts
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Portable ShellCheck
+        run: pip install shellcheck-py
+
+      - name: Run ShellCheck on all Shell Scripts
         run: |
-          sudo apt-get update && sudo apt-get install -y shellcheck
           find scripts ai/scripts elo/apps/elo-desktop-macos -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} + || true
 
   docker-compose-validate:
@@ -167,7 +174,7 @@ jobs:
           echo "✅ Frontend build verified successfully!"
 
   elo-test:
-    name: Test ELO AI Operating Layer (18/18 Test Suite)
+    name: Test ELO AI Operating Layer (26/26 Test Suite)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -191,3 +198,32 @@ jobs:
         run: |
           cd elo
           PYTHONPATH=. python -m pytest -v -o asyncio_mode=auto
+
+  distro-compatibility-matrix:
+    name: Multi-Linux Compatibility Matrix (${{ matrix.distro.name }})
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.distro.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        distro:
+          - name: "Debian 12 Bookworm (Proxmox/OMV Base)"
+            image: "debian:12-slim"
+          - name: "Ubuntu 24.04 LTS (Noble Numbat)"
+            image: "ubuntu:24.04"
+          - name: "Alpine Linux 3.20 (musl libc / Minimal VM 201)"
+            image: "alpine:3.20"
+          - name: "Rocky Linux 9 (RHEL / Enterprise RPM)"
+            image: "rockylinux:9"
+          - name: "Fedora 40 (Modern Upstream)"
+            image: "fedora:40"
+          - name: "Arch Linux (Rolling Release)"
+            image: "archlinux:latest"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Execute Multi-Distribution Compatibility & Test Script
+        run: |
+          sh scripts/test_distro_compatibility.sh
