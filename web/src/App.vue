@@ -1,5 +1,8 @@
 <template>
   <div class="app-layout" :data-theme="currentTheme">
+    <!-- 60 FPS Interactive Cyber Particle Background Canvas -->
+    <CyberParticleCanvas />
+
     <!-- Top Navigation Bar -->
     <header class="top-nav glass-panel">
       <div class="nav-container">
@@ -11,7 +14,7 @@
           </div>
           <div class="brand-text-block">
             <div class="brand-title-row">
-              <h1 class="brand-title">homelab</h1>
+              <h1 class="brand-title">homelab &amp; elo</h1>
             </div>
             <p class="brand-subtitle">proxmox ve &bull; openmediavault &bull; elo ai control plane &bull; k8s &bull; soc</p>
           </div>
@@ -27,6 +30,14 @@
             >
               <svg class="svg-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
               services
+            </button>
+            <button 
+              class="view-tab-btn elo-tab-btn" 
+              :class="{ active: currentView === 'elo' }" 
+              @click="currentView = 'elo'"
+            >
+              <svg class="svg-icon-xs text-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 3.3 2 6.2 5 7.4V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.6c3-1.2 5-4.1 5-7.4a8 8 0 0 0-8-8z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+              elo ai terminal
             </button>
             <button 
               class="view-tab-btn" 
@@ -66,7 +77,7 @@
               @click="currentView = 'ai'"
             >
               <svg class="svg-icon-xs text-purple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 3.3 2 6.2 5 7.4V20a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2.6c3-1.2 5-4.1 5-7.4a8 8 0 0 0-8-8z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
-              ai memory &amp; mcp
+              mcp workspace
             </button>
             <button 
               class="view-tab-btn" 
@@ -113,6 +124,9 @@
 
     <!-- Main Dynamic Content Workspace -->
     <main class="main-content">
+      <!-- Real-Time Futuristic Telemetry HUD (Always Visible on Dashboard & ELO) -->
+      <CommandCenterHUD v-if="currentView === 'dashboard' || currentView === 'elo'" />
+
       <!-- View 1: Main Services Dashboard -->
       <div v-if="currentView === 'dashboard'" class="dashboard-view fade-in">
         <!-- Pinned Favorites Bar -->
@@ -179,10 +193,13 @@
         </section>
       </div>
 
-      <!-- View 2: Hardware Nodes Specification -->
+      <!-- View 2: ELO Live Interactive AI Terminal -->
+      <EloLiveTerminal v-else-if="currentView === 'elo'" />
+
+      <!-- View 3: Hardware Nodes Specification -->
       <HardwareView v-else-if="currentView === 'hardware'" />
 
-      <!-- View 3: Interactive Markdown Wiki & Architectural Docs -->
+      <!-- View 4: Interactive Markdown Wiki & Architectural Docs -->
       <div v-else-if="currentView === 'wiki'" class="wiki-view fade-in">
         <div class="wiki-container-split">
           <!-- Left Navigation Sidebar -->
@@ -287,23 +304,23 @@
         </div>
       </div>
 
-      <!-- View 4: Visual VLAN & Mesh Topology -->
+      <!-- View 5: Visual VLAN & Mesh Topology -->
       <TopologyView v-else-if="currentView === 'topology'" />
 
-      <!-- View 5: Port Allocation Matrix -->
+      <!-- View 6: Port Allocation Matrix -->
       <PortMatrix 
         v-else-if="currentView === 'ports'" 
         :services="servicesList"
         @select="openServiceModal"
       />
 
-      <!-- View 6: 10h+ Emergency Blackout Standard Operating Procedure -->
+      <!-- View 7: 10h+ Emergency Blackout Standard Operating Procedure -->
       <EmergencyView v-else-if="currentView === 'emergency'" />
 
-      <!-- View 7: AI Memory Room & MCP Workspace -->
+      <!-- View 8: AI Memory Room & MCP Workspace -->
       <AiView v-else-if="currentView === 'ai'" />
 
-      <!-- View 8: ESP32 & Embedded IoT Workspace -->
+      <!-- View 9: ESP32 & Embedded IoT Workspace -->
       <Esp32View v-else-if="currentView === 'esp32'" />
     </main>
 
@@ -338,6 +355,9 @@ import { ref, computed, onMounted } from 'vue';
 import { marked } from 'marked';
 import { categories as categoriesList, services as servicesList } from './data/services.js';
 import { allArticles } from './data/wikiData.js';
+import CyberParticleCanvas from './components/CyberParticleCanvas.vue';
+import CommandCenterHUD from './components/CommandCenterHUD.vue';
+import EloLiveTerminal from './components/EloLiveTerminal.vue';
 import ServiceCard from './components/ServiceCard.vue';
 import ServiceModal from './components/ServiceModal.vue';
 import TopologyView from './components/TopologyView.vue';
@@ -473,6 +493,7 @@ const resetFilters = () => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .top-nav {
@@ -502,7 +523,7 @@ const resetFilters = () => {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: linear-space(135deg, var(--accent-color), #8e44ad);
+  background: linear-gradient(135deg, var(--accent-primary-light), #8e44ad);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -538,7 +559,7 @@ const resetFilters = () => {
 .view-tabs {
   display: flex;
   gap: 0.4rem;
-  background: var(--card-bg);
+  background: var(--bg-card);
   padding: 0.3rem;
   border-radius: 10px;
   border: 1px solid var(--border-color);
@@ -560,11 +581,16 @@ const resetFilters = () => {
 }
 
 .view-tab-btn:hover {
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .view-tab-btn.active {
-  background: var(--accent-color);
+  background: var(--accent-primary);
+  color: #fff;
+}
+
+.elo-tab-btn.active {
+  background: linear-gradient(135deg, #8e44ad, #3e2a2c);
   color: #fff;
 }
 
@@ -591,17 +617,17 @@ const resetFilters = () => {
 
 .search-input {
   padding: 0.45rem 2rem 0.45rem 2.2rem;
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  color: var(--text-color);
+  color: var(--text-primary);
   font-size: 0.8rem;
   width: 240px;
   outline: none;
 }
 
 .search-input:focus {
-  border-color: var(--accent-color);
+  border-color: var(--accent-primary-light);
 }
 
 .search-clear-btn {
@@ -614,11 +640,11 @@ const resetFilters = () => {
 }
 
 .theme-toggle-btn, .github-icon-btn {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.45rem;
-  color: var(--text-color);
+  color: var(--text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -631,6 +657,8 @@ const resetFilters = () => {
   width: 100%;
   margin: 0 auto;
   padding: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .favorites-section {
@@ -662,7 +690,7 @@ const resetFilters = () => {
   font-size: 0.75rem;
   padding: 0.2rem 0.6rem;
   border-radius: 20px;
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-muted);
 }
@@ -670,7 +698,7 @@ const resetFilters = () => {
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .category-nav {
@@ -687,7 +715,7 @@ const resetFilters = () => {
 .cat-pill {
   padding: 0.4rem 0.9rem;
   border-radius: 20px;
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-muted);
   font-size: 0.8rem;
@@ -701,9 +729,9 @@ const resetFilters = () => {
 }
 
 .cat-pill.active {
-  background: var(--accent-color);
+  background: var(--accent-primary);
   color: #fff;
-  border-color: var(--accent-color);
+  border-color: var(--accent-primary-light);
 }
 
 .cat-count {
@@ -730,9 +758,9 @@ const resetFilters = () => {
   width: 100%;
   padding: 0.5rem 0.8rem;
   border-radius: 8px;
-  background: var(--bg-color);
+  background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--border-color);
-  color: var(--text-color);
+  color: var(--text-primary);
   font-size: 0.8rem;
   margin-bottom: 1rem;
   outline: none;
@@ -755,7 +783,7 @@ const resetFilters = () => {
   border-radius: 8px;
   border: none;
   background: transparent;
-  color: var(--text-color);
+  color: var(--text-primary);
   font-size: 0.85rem;
   text-align: left;
   cursor: pointer;
@@ -763,11 +791,11 @@ const resetFilters = () => {
 }
 
 .wiki-nav-item:hover {
-  background: var(--card-hover-bg);
+  background: var(--bg-card-hover);
 }
 
 .wiki-nav-item.active {
-  background: var(--accent-color);
+  background: var(--accent-primary);
   color: #fff;
 }
 
@@ -828,18 +856,19 @@ const resetFilters = () => {
 }
 
 .wiki-markdown-body pre {
-  background: #1e1e2e;
-  color: #cdd6f4;
+  background: #120e0f;
+  color: #f5ecec;
   padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
+  border: 1px solid var(--border-color);
 }
 
 .wiki-markdown-body code {
-  background: rgba(120, 120, 150, 0.15);
+  background: rgba(214, 182, 186, 0.12);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
-  font-family: monospace;
+  font-family: var(--font-mono);
 }
 
 .wiki-markdown-body table {
@@ -855,7 +884,7 @@ const resetFilters = () => {
 }
 
 .wiki-markdown-body th {
-  background: var(--card-bg);
+  background: var(--bg-card);
 }
 
 .app-footer {
@@ -864,6 +893,8 @@ const resetFilters = () => {
   font-size: 0.75rem;
   color: var(--text-muted);
   margin-top: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .footer-content {
