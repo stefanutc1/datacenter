@@ -12,10 +12,29 @@ from .homelab_inventory import HOMELAB_SERVICES, HOMELAB_NODES
 async def probe_node_reachability(node: Dict[str, Any], timeout: float = 0.4) -> Dict[str, Any]:
     """
     Probes an individual Homelab node asynchronously via TCP sockets.
-    If the node is powered on and reachable on any of its management ports,
-    it returns status ONLINE with measured latency in ms.
-    If powered off or unreachable, returns status OFFLINE gracefully without blocking.
+    If it's the Local Host (MacBook-Air.local / Apple M1), it returns ONLINE directly with 0ms latency.
+    For remote nodes (Proxmox, NAS), probes management ports via TCP.
     """
+    node_id = node.get("id")
+    is_local = node.get("is_local_host") or node_id == "apple-m1-compute"
+    
+    if is_local:
+        node_result = dict(node)
+        node_result["name"] = f"Apple M1 Node ({platform.node()})"
+        node_result["ip"] = f"127.0.0.1 ({platform.node()})"
+        node_result["is_reachable"] = True
+        node_result["status"] = "ONLINE"
+        node_result["active_port"] = "LOCAL_DAEMON"
+        node_result["latency_ms"] = 0.1
+        node_result["last_checked"] = time.strftime("%H:%M:%S")
+        node_result["metrics"] = {
+            "role": "Local Host • ELO Brain Core",
+            "host_os": f"{platform.system()} {platform.machine()}",
+            "hardware": "Apple Silicon M1",
+            "gpu_acceleration": "Apple Metal MPS (Active)",
+        }
+        return node_result
+
     ip = node.get("ip")
     probe_ports = node.get("probe_ports", [80, 22, 8006, 445, 11434])
     

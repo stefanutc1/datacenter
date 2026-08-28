@@ -293,27 +293,32 @@ HOMELAB_SERVICES: List[Dict[str, Any]] = [
 
 HOMELAB_NODES: List[Dict[str, Any]] = [
     {
+        "id": "apple-m1-compute",
+        "name": "Apple M1 Node (Local Host)",
+        "role": "Local Host • ARM64 Compute & ELO Core Runtime",
+        "ip": "127.0.0.1 (MacBook-Air.local)",
+        "is_local_host": True,
+        "status": "ONLINE",
+        "workloads": "ELO Core Daemon, Local ML Accelerators, Metal MPS"
+    },
+    {
         "id": "pve-node-1",
         "name": "Proxmox VE Hypervisor",
         "role": "Core Hypervisor & Virtualization",
         "ip": "192.168.10.2",
-        "status": "online",
-        "workloads": "LXC 100-119, VM 200 (OPNsense), VM 201 (Alpine), ELO Core Daemon"
+        "probe_ports": [8006, 22, 9100],
+        "is_local_host": False,
+        "status": "probe",
+        "workloads": "LXC 100-119, VM 200 (OPNsense), VM 201 (Alpine)"
     },
     {
         "id": "openmediavault-nas",
         "name": "OpenMediaVault NAS",
         "role": "Storage & ZFS Backup Pools",
         "ip": "192.168.10.3",
-        "status": "online",
+        "probe_ports": [80, 445, 22, 9100],
+        "is_local_host": False,
+        "status": "probe",
         "workloads": "ZFS Pools, NFS / SMB Shares, BorgBackup"
-    },
-    {
-        "id": "apple-m1-compute",
-        "name": "Apple M1 Node",
-        "role": "ARM64 Compute & Local ML Inference",
-        "ip": "192.168.20.4",
-        "status": "online",
-        "workloads": "vLLM / Ollama Local Model Runtime, PyTorch ML Accelerators"
     }
 ]
