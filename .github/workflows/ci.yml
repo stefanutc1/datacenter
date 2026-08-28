@@ -145,5 +145,5 @@ jobs:
       - name: Run ELO Automated Test Suite
         run: |
           cd elo
-          python -m pytest -v -o asyncio_mode=auto
+          PYTHONPATH=. python -m pytest -v -o asyncio_mode=auto
 

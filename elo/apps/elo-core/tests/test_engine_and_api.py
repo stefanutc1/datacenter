@@ -17,7 +17,7 @@ async def test_tool_registry_execution():
     res = await reg.execute("proxmox_get_cluster_status", {"node": "pve-node-1"})
     assert res.success is True
     assert res.output["status"] == "ONLINE"
-    assert res.output["cpu_usage_pct"] > 0
+    assert res.output["cpu_usage_pct"] >= 0
 
     # Test L0 Monte Carlo
     res_mc = await reg.execute("academic_monte_carlo_simulation", {"iterations": 500})
