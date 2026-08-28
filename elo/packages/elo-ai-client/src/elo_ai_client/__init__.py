@@ -8,8 +8,7 @@ from .base import (
 from .mock_client import MockLLMClient
 from .local_client import LocalOllamaClient
 from .cloud_client import CloudGeminiClient
-from .openai_client import OpenAIClient
-from .claude_client import AnthropicClaudeClient
+from .groq_client import GroqClient
 from .openrouter_client import OpenRouterClient
 from .router import HybridRouter, CascadeRouter
 from .embeddings import DeterministicEmbeddingsGenerator, cosine_similarity
@@ -24,8 +23,7 @@ __all__ = [
     "MockLLMClient",
     "LocalOllamaClient",
     "CloudGeminiClient",
-    "OpenAIClient",
-    "AnthropicClaudeClient",
+    "GroqClient",
     "OpenRouterClient",
     "HybridRouter",
     "CascadeRouter",

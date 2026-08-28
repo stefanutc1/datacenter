@@ -13,8 +13,7 @@ from elo_security.gatekeeper import SecurityGatekeeper
 from elo_ai_client.mock_client import MockLLMClient
 from elo_ai_client.local_client import LocalOllamaClient
 from elo_ai_client.cloud_client import CloudGeminiClient
-from elo_ai_client.openai_client import OpenAIClient
-from elo_ai_client.claude_client import AnthropicClaudeClient
+from elo_ai_client.groq_client import GroqClient
 from elo_ai_client.openrouter_client import OpenRouterClient
 from elo_ai_client.router import HybridRouter, CascadeRouter
 from .config import config
@@ -43,50 +42,42 @@ def build_llm_router(
     primary_prov: Optional[str] = None,
     gemini_key: Optional[str] = None,
     gemini_mdl: Optional[str] = None,
+    groq_key: Optional[str] = None,
+    groq_mdl: Optional[str] = None,
     openrouter_key: Optional[str] = None,
     openrouter_mdl: Optional[str] = None,
-    openai_key: Optional[str] = None,
-    openai_mdl: Optional[str] = None,
-    claude_key: Optional[str] = None,
-    claude_mdl: Optional[str] = None,
     ollama_url: Optional[str] = None,
     ollama_mdl: Optional[str] = None,
 ) -> CascadeRouter:
     prov = primary_prov or config.primary_provider
     g_key = gemini_key if gemini_key is not None else config.gemini_api_key
     g_mdl = gemini_mdl or config.gemini_model
+    grq_key = groq_key if groq_key is not None else config.groq_api_key
+    grq_mdl = groq_mdl or config.groq_model
     or_key = openrouter_key if openrouter_key is not None else config.openrouter_api_key
     or_mdl = openrouter_mdl or config.openrouter_model
-    oai_key = openai_key if openai_key is not None else config.openai_api_key
-    oai_mdl = openai_mdl or config.openai_model
-    cl_key = claude_key if claude_key is not None else config.anthropic_api_key
-    cl_mdl = claude_mdl or config.anthropic_model
     o_url = ollama_url or config.local_llm_base_url
     o_mdl = ollama_mdl or config.local_llm_model
 
     providers = []
 
-    # Priority 1: Gemini (if configured)
+    # Priority 1: Gemini (Generous free tier)
     if g_key:
         providers.append(CloudGeminiClient(api_key=g_key, model=g_mdl))
 
-    # Priority 2: OpenRouter Universal Hub (if configured)
+    # Priority 2: Groq LPU (Ultra-fast free tier)
+    if grq_key:
+        providers.append(GroqClient(api_key=grq_key, model=grq_mdl))
+
+    # Priority 3: OpenRouter Universal Hub (Free tier models pool)
     if or_key:
         providers.append(OpenRouterClient(api_key=or_key, model=or_mdl))
 
-    # Priority 3: OpenAI Direct (if configured)
-    if oai_key:
-        providers.append(OpenAIClient(api_key=oai_key, model=oai_mdl))
-
-    # Priority 4: Anthropic Claude Direct (if configured)
-    if cl_key:
-        providers.append(AnthropicClaudeClient(api_key=cl_key, model=cl_mdl))
-
-    # Priority 5: Local Ollama (if configured/available)
-    if prov == "local_ollama" or config.fallback_provider == "local_ollama":
+    # Priority 4: Local Ollama (Self-hosted on Apple Silicon Metal MPS)
+    if prov == "local_ollama" or config.fallback_provider == "local_ollama" or o_url:
         providers.append(LocalOllamaClient(base_url=o_url, model=o_mdl))
 
-    # Priority 6: Deterministic Mock fallback (failsafe)
+    # Priority 5: Deterministic Mock fallback (failsafe)
     providers.append(MockLLMClient())
 
     return CascadeRouter(providers=providers)
@@ -105,20 +96,22 @@ def update_engine_llm(
     primary_prov: Optional[str] = None,
     gemini_key: Optional[str] = None,
     gemini_mdl: Optional[str] = None,
+    groq_key: Optional[str] = None,
+    groq_mdl: Optional[str] = None,
     openrouter_key: Optional[str] = None,
     openrouter_mdl: Optional[str] = None,
-    openai_key: Optional[str] = None,
-    openai_mdl: Optional[str] = None,
-    claude_key: Optional[str] = None,
-    claude_mdl: Optional[str] = None,
     ollama_url: Optional[str] = None,
     ollama_mdl: Optional[str] = None,
-) -> CascadeRouter:
-    global llm_router
+):
+    global llm_router, engine
     if gemini_key is not None:
         config.gemini_api_key = gemini_key
     if gemini_mdl:
         config.gemini_model = gemini_mdl
+    if groq_key is not None:
+        config.groq_api_key = groq_key
+    if groq_mdl:
+        config.groq_model = groq_mdl
     if openrouter_key is not None:
         config.openrouter_api_key = openrouter_key
     if openrouter_mdl:

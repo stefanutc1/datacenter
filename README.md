@@ -13,7 +13,7 @@
 
 <!-- AUTO-METRICS-START -->
 [![Active Workloads](https://img.shields.io/badge/Workloads-31%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
-[![Automated Tests](https://img.shields.io/badge/Tests-26%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
+[![Automated Tests](https://img.shields.io/badge/Tests-28%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
 [![ELO Tools](https://img.shields.io/badge/ELO%20Tools-19%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
 [![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--08--28-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
 <!-- AUTO-METRICS-END -->
@@ -177,18 +177,17 @@ elo/
 └── pyproject.toml
 ```
 
-### 1. Multi-Provider Zero-Latency Failover Cascade
+### 1. Multi-Provider Zero-Latency Failover Cascade (Free-Tier Optimized)
 
-ELO implements a deterministic fallback cascade. If a model provider exhausts its API quota or triggers an HTTP `429 Too Many Requests`, the router immediately fails over in $0\text{ ms}$ and places the failing provider into a 5-minute cooldown cache.
+ELO implements a deterministic fallback cascade strictly optimized for zero-cost, high-speed, free-tier tokens:
 
 ```mermaid
 graph TD
-    Request["Incoming Request"] --> T1["Tier 1: Google Gemini Flash / Pro"]
-    T1 -->|HTTP 429 / Quota Zero| T2["Tier 2: OpenRouter Hub (Multi-Model Pool)"]
-    T2 -->|Connection Failure| T3["Tier 3: OpenAI Direct (GPT-4o / GPT-4o-mini)"]
-    T3 -->|Connection Failure| T4["Tier 4: Anthropic Direct (Claude 3.5 Sonnet)"]
-    T4 -->|Offline / No WAN| T5["Tier 5: Local Ollama (Apple M1 Metal Acceleration)"]
-    T5 -->|Local Daemon Down| T6["Tier 6: Mock Deterministic Fallback"]
+    Request["Incoming Request"] --> T1["Tier 1: Google Gemini (Gemini 2.5 Flash / Pro)"]
+    T1 -->|HTTP 429 / Quota Zero| T2["Tier 2: Groq LPU (Llama 3.3 70B / 3.1 8B)"]
+    T2 -->|Rate Limit / Quota| T3["Tier 3: OpenRouter Hub (Free Tier Models Pool)"]
+    T3 -->|Offline / No WAN| T4["Tier 4: Local Ollama (Apple M1 Metal Acceleration)"]
+    T4 -->|Local Daemon Down| T5["Tier 5: Mock Deterministic Fallback"]
 ```
 
 ### 2. Security Ring Architecture & Gatekeeper

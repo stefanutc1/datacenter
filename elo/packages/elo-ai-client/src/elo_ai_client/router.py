@@ -29,17 +29,16 @@ QUOTA_ERROR_KEYWORDS = [
 
 class CascadeRouter(BaseLLMClient):
     """
-    Multi-Provider Tiered Cascade Router with Instant Credit/Quota Failover & Smart Cooldown.
+    Multi-Provider Tiered Cascade Router with Instant Free-Tier Failover & Smart Cooldown.
     
     Order of execution:
-    Tier 1: Google Gemini Direct
-    Tier 2: OpenRouter Universal Hub (GPT-4o, Claude, DeepSeek, Llama)
-    Tier 3: OpenAI Direct
-    Tier 4: Anthropic Claude Direct
-    Tier 5: Local Ollama / vLLM (Self-Hosted)
-    Tier 6: Deterministic Mock Failsafe
+    Tier 1: Google Gemini (Free Generous Tier - Gemini 2.5 Flash / Pro)
+    Tier 2: Groq LPU (Ultra-Fast Free Tier - Llama 3.3 70B / Llama 3.1 8B)
+    Tier 3: OpenRouter Universal Hub (Free Tier Models Pool - meta-llama/llama-3.3-70b-instruct:free)
+    Tier 4: Local Ollama / vLLM (Self-Hosted on Apple Silicon Metal MPS)
+    Tier 5: Deterministic Mock Failsafe (Offline Test Fallback)
     
-    If any model runs out of credits, hits rate limits (429), or runs out of quota,
+    If any model runs out of free quota (429/ResourceExhausted),
     the router IMMEDIATELY routes the request to the next available tier without interrupting the user.
     """
 

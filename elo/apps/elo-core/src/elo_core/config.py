@@ -36,30 +36,26 @@ class ELOConfig(BaseModel):
         default_factory=lambda: os.getenv("LOCAL_LLM_MODEL", "llama3.1:8b")
     )
 
-    # Cloud LLMs
+    # Cloud LLMs (Free-tier oriented)
     gemini_api_key: Optional[str] = Field(
         default_factory=lambda: os.getenv("GEMINI_API_KEY")
     )
     gemini_model: str = Field(
-        default_factory=lambda: os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
+        default_factory=lambda: os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
     )
-    openai_api_key: Optional[str] = Field(
-        default_factory=lambda: os.getenv("OPENAI_API_KEY")
+    groq_api_key: Optional[str] = Field(
+        default_factory=lambda: os.getenv("GROQ_API_KEY")
     )
-    openai_model: str = Field(
-        default_factory=lambda: os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-    )
-    anthropic_api_key: Optional[str] = Field(
-        default_factory=lambda: os.getenv("ANTHROPIC_API_KEY")
-    )
-    anthropic_model: str = Field(
-        default_factory=lambda: os.getenv("ANTHROPIC_MODEL", "claude-3-5-sonnet-20241022")
+    groq_model: str = Field(
+        default_factory=lambda: os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
     )
     openrouter_api_key: Optional[str] = Field(
         default_factory=lambda: os.getenv("OPENROUTER_API_KEY")
     )
     openrouter_model: str = Field(
-        default_factory=lambda: os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini")
+        default_factory=lambda: os.getenv(
+            "OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct:free"
+        )
     )
 
     # Gatekeeper
