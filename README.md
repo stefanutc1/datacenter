@@ -1,263 +1,383 @@
-<div align="center">
+# Stefanut Homelab & ELO Control Plane
 
-# Homelab
+[![CI Validation](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
+[![CD Deployment](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml)
+[![Infrastructure](https://img.shields.io/badge/Infrastructure-Proxmox%20%7C%20OMV%20%7C%20Apple%20Silicon-blue?style=flat&logo=proxmox)](https://github.com/stefanutc1/homelab)
+[![ELO Control Plane](https://img.shields.io/badge/ELO%20Core-Python%203.12%20%7C%20FastAPI%20%7C%20ReAct-emerald?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
+[![Desktop App](https://img.shields.io/badge/ELO%20Desktop-C%23%20.NET%2010%20%7C%20macOS%20ARM64-purple?style=flat&logo=dotnet)](https://github.com/stefanutc1/homelab/tree/main/elo/apps/elo-desktop-macos)
+[![Security Baseline](https://img.shields.io/badge/Compliance-CIS%20Level%201%20Hardened-green?style=flat&logo=ansible)](https://github.com/stefanutc1/homelab/tree/main/ansible)
+[![License](https://img.shields.io/badge/License-MIT-gray?style=flat)](LICENSE)
 
-**Self-Hosted Infrastructure · Autonomous AI Operating Layer (ELO) · IaC · GitOps · SOC Operations · DFIR · Edge Computing**
-
-A comprehensive infrastructure, autonomous AI operating layer, and cybersecurity proving ground built on Proxmox VE, declarative Ansible automation, Terraform IaC, k3s Kubernetes, Wazuh XDR SIEM, Home Assistant domotics, and ESP32 embedded edge devices.
-
-[![CI](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions)
-![ELO AI](https://img.shields.io/badge/ELO-AI_Operating_Layer-a855f7?style=flat-square&logo=openai&logoColor=white)
-![Ansible](https://img.shields.io/badge/Ansible-Role--Based_IaC-EE0000?style=flat-square&logo=ansible&logoColor=white)
-![Terraform](https://img.shields.io/badge/Terraform-1.8%2B-7B42BC?style=flat-square&logo=terraform&logoColor=white)
-![k3s](https://img.shields.io/badge/Kubernetes-k3s-326CE5?style=flat-square&logo=kubernetes&logoColor=white)
-![Wazuh](https://img.shields.io/badge/SIEM-Wazuh_XDR_4.8-005B94?style=flat-square)
-![FluxCD](https://img.shields.io/badge/GitOps-FluxCD-5468FF?style=flat-square)
-[![Wiki Hub](https://img.shields.io/badge/Wiki_Hub-GitHub_Pages-22c55e?style=flat-square&logo=githubpages&logoColor=white)](https://stefanutc1.github.io/homelab/)
-![License](https://img.shields.io/badge/License-MIT-1D3557?style=flat-square)
-
-</div>
+Production-grade, declarative homelab monorepo and autonomous infrastructure control plane. Integrates bare-metal Apple Silicon compute, Proxmox VE virtualization, OpenMediaVault storage, stateful OPNsense network segmentation, cyber defense proving grounds (SOC/SIEM/DFIR), and the **ELO Control Plane** for real-time orchestration, telemetry, and automated self-healing.
 
 ---
 
-## ⚡ Highlights
+## 📑 Table of Contents
 
-- **ELO Control Plane & Orchestrator (`elo/`)** — Centralized infrastructure manager with Multi-Provider failover cascade (Gemini, OpenRouter, Claude, GPT-4, Local Ollama), voice wake word, real-time Proxmox VE REST API integration, Home Assistant domotics, OPNsense gateway controls, knowledge base, and automated watchdog with mobile notifications.
-- **30+ self-hosted services** deployed via `docker-compose` with persistent volume management and Nginx Proxy Manager / Authelia SSO.
-- **Cyber Proving Ground (`cyber/`)** — SOC/SIEM operations (Wazuh 4.8, Suricata NIDS, Grafana Loki), DFIR triage, Red Team emulation (Atomic Red Team, BloodHound), and automated SAST.
-- **Automated system hardening** via Ansible roles enforcing CIS Level 1 sysctl baselines and restrictive access policies.
-- **Terraform-provisioned Proxmox VMs** using a reusable cloud-init Ubuntu module and multi-hypervisor support (Proxmox, Xen, ESXi, Hyper-V, bhyve).
-- **k3s Kubernetes cluster** with FluxCD GitOps synchronization against this repository.
-- **ESP32 embedded projects** — automated irrigation control and physical presence sensing via MQTT.
-
----
-
-## ELO — Infrastructure Control Plane (`elo/`)
-
-[`elo/`](elo/) is the orchestrator running on the local node (`MacBook-Air.local`) that monitors, controls, and interacts with homelab infrastructure:
-
-```mermaid
-flowchart LR
-    User(["Voice / Text"]) --> WebUI["Web UI / Desktop App"]
-    WebUI --> Engine["ELO Engine & Gatekeeper"]
-    
-    subgraph Cascade["Model Cascade"]
-        G["Tier 1: Google Gemini"] -->|429 / Quota| OR["Tier 2: OpenRouter Hub"]
-        OR -->|Failover| OAI["Tier 3: OpenAI Direct"]
-        OAI -->|Failover| CL["Tier 4: Claude Direct"]
-        CL -->|Failover| OL["Tier 5: Local Ollama"]
-        OL -->|Offline| M["Tier 6: Mock Deterministic"]
-    end
-    
-    Engine --> Cascade
-    
-    subgraph Integrations["Homelab Ecosystem"]
-        Engine -->|REST API :8006| PVE["Proxmox VE (192.168.1.132)"]
-        Engine -->|REST/WS :8123| HASS["Home Assistant (192.168.1.10)"]
-        Engine -->|Firewall API :8443| OPN["OPNsense (192.168.1.132)"]
-        Engine -->|Search| RAG["Homelab Knowledge Base"]
-        Engine -->|SMS / Push / Bot| Phone["Mobile Notifications"]
-    end
-    
-```
-
-### Key Capabilities:
-1. **Multi-Provider Failover Cascade**: Automatic failover if any model runs out of credits or encounters errors (`429`), with 5-minute quota cooldown.
-2. **Proxmox VE REST API**: Live node status and VM/LXC lifecycle management (`start`, `stop`, `reboot`, `snapshot`) gated by security approvals.
-3. **Home Assistant Domotics**: Query and control smart devices, lights, and sensor states.
-4. **OPNsense Gateway**: Inspect gateway health and block malicious IP addresses.
-5. **Watchdog Daemon**: Background loop that detects node/container outages and sends alerts.
-6. **Voice Wake Word**: Browser-based wake word detection with speech synthesis.
+1. [Architecture Overview](#-architecture-overview)
+2. [Physical & Logical Node Map](#-physical--logical-node-map)
+3. [Network Topology & VLAN Architecture](#-network-topology--vlan-architecture)
+4. [Workload Catalog & Pinned Favorites](#-workload-catalog--pinned-favorites)
+5. [ELO Control Plane & Orchestration Engine](#-elo-control-plane--orchestration-engine)
+6. [Native macOS Desktop Application (.NET 10)](#-native-macos-desktop-application-net-10)
+7. [Infrastructure as Code & Configuration Management](#-infrastructure-as-code--configuration-management)
+8. [Cyber Proving Ground & SOC/SIEM Operations](#-cyber-proving-ground--socsiem-operations)
+9. [CI/CD Pipelines & Quality Gates](#-cicd-pipelines--quality-gates)
+10. [Repository Monorepo Layout](#-repository-monorepo-layout)
+11. [Operations & Runbook](#-operations--runbook)
 
 ---
 
-## 🏗️ Stack
-
-| Domain | Tools |
-|:---|:---|
-| **AI Operating Layer** | **ELO Core, FastAPI, ReAct Loop, Multi-Provider Cascade (Gemini, OpenRouter, Claude, GPT-4, Ollama), Web Speech** |
-| Virtualization | Proxmox VE 8/9, macOS UTM / QEMU, Xen, ESXi, Hyper-V, bhyve |
-| Configuration Management | Ansible (role-based, idempotent) |
-| Infrastructure as Code | Terraform — Proxmox, Xen, ESXi, Hyper-V, bhyve providers |
-| Container Orchestration | k3s (lightweight Kubernetes) |
-| GitOps | FluxCD — Kustomization + GitRepository CRDs |
-| SIEM / XDR | Wazuh Manager 4.8 + Wazuh Dashboard |
-| Log Aggregation | Grafana Loki + Promtail |
-| Network IDS | Suricata (EVE JSON) |
-| Monitoring | Prometheus + Alertmanager + Grafana |
-| Reverse Proxy / SSL | Nginx Proxy Manager (Let's Encrypt auto-cert) |
-| Auth / SSO | Authelia (MFA, forward auth), Authentik |
-| Home Automation | Home Assistant with automations and MQTT |
-| Password Manager | Vaultwarden (self-hosted Bitwarden) |
-| Media & Storage | Immich, AList, FileBrowser, arr-suite (Sonarr, Bazarr), OpenMediaVault ZFS |
-| Network / VPN | NetBird (WireGuard mesh), Pi-hole, OPNsense |
-| CI/CD | GitHub Actions (`ci.yml`, `cd.yml`) + Woodpecker CI |
-| DFIR & Forensics | `triage_collector.sh`, `memory_dump.sh`, Chainsaw |
-| Offensive Security | Atomic Red Team, BloodHound, LinPEAS |
-| Static Analysis | Semgrep SAST, TruffleHog, Trivy, yamllint, ansible-lint |
-| Embedded / Edge | ESP32 (Arduino C++) — irrigation, footprint sensor |
-
----
-
-## 🌐 Network Architecture
+## 🏛️ Architecture Overview
 
 ```mermaid
 flowchart TB
-    Internet(["🌐 Internet"])
-
-    subgraph PVE["Proxmox VE Hypervisor (192.168.10.2)"]
-        direction TB
-
-        subgraph CORE["Core Infrastructure (VLAN 10)"]
-            OPN["OPNsense (192.168.10.1)\nFirewall · VLAN routing · Suricata"]
-            DNS["Pi-hole\nDNS · Ad blocking"]
-            VPN["NetBird\nWireGuard mesh VPN"]
-        end
-
-        subgraph PROXY["Reverse Proxy & Auth"]
-            NPM["Nginx Proxy Manager\nSSL :80/:443 · Let's Encrypt"]
-            AUTH["Authelia\nSSO · 2FA forward auth :9091"]
-        end
-
-        subgraph MON["Observability & SOC (VLAN 20/30)"]
-            PROM["Prometheus + Alertmanager\nMetrics · Alert routing"]
-            GRAF["Grafana + Loki\nDashboards & Logs :3000"]
-            WAZUH["Wazuh XDR SIEM\nThreat detection :1514/:443"]
-            KUMA["Uptime Kuma\nService health :3001"]
-        end
-
-        subgraph SVC["Services & Applications"]
-            IMMICH["Immich · Nextcloud\nFileBrowser · AList"]
-            VAULT["Vaultwarden\nPassword vault"]
-            N8N["n8n · Gitea\nWoodpecker CI"]
-            HASS["Home Assistant :8123\nSmart Home Hub"]
-        end
-
-        subgraph CYBER["Cyber Proving Ground (cyber/)"]
-            SURICATA["Suricata NIDS\nMirrored packet inspection"]
-            DFIR["DFIR Live Triage\nMemory & forensic collection"]
-            REDTEAM["Atomic Red Team\nMITRE ATT&CK emulation"]
-        end
-
-        subgraph K8S["k3s Kubernetes Cluster"]
-            FLUX["FluxCD GitOps\nKustomization · GitRepository"]
-        end
+    subgraph ComputeNodes["Physical & Virtual Compute Layer"]
+        M1["Apple M1 Host (192.168.1.133)<br/>MacBook-Air.local • ELO Daemon • Metal MPS"]
+        PVE["Proxmox VE (192.168.1.132)<br/>Core KVM/LXC Hypervisor"]
+        NAS["OpenMediaVault NAS (192.168.1.135)<br/>ZFS Pools • NFS/SMB Storage • Backups"]
     end
 
-    subgraph ELO_NODE["Host Node (MacBook-Air.local / Apple M1)"]
-        ELO_APP["🧠 ELO AI Core Daemon (:8000)\nWatchdog · Voice · Tiered LLM"]
+    subgraph VirtualLayer["Proxmox Virtual Machines & Containers"]
+        VM200["VM 200: OPNsense Gateway (192.168.1.132:8443)<br/>Routing • Firewall • WireGuard • Suricata"]
+        VM201["VM 201: Alpine Microservices (192.168.1.202)<br/>Cloud-Init • Lightweight Microservices"]
+        LXC["LXC Container Fleet<br/>Home Assistant • Immich • Vaultwarden • Grafana"]
     end
 
-    subgraph EDGE["ESP32 Edge Layer"]
-        IRR["Irrigation Controller\nValve · Schedule · Weather"]
-        FP["Footprint Sensor\nPIR · MQTT presence"]
+    subgraph ELOSubsystem["ELO Orchestration & Control Plane"]
+        WebDesktop["Web UI & C# .NET 10 Desktop App (ELO.app)"]
+        ReActEngine["ReAct Orchestration Engine & Security Gatekeeper"]
+        Watchdog["Self-Healing Watchdog (30s TCP Socket Prober)"]
+        Cascade["Tiered Failover Cascade<br/>Gemini ➔ OpenRouter ➔ OpenAI ➔ Claude ➔ Ollama ➔ Mock"]
     end
 
-    Internet --> OPN
-    OPN --> NPM
-    NPM --> AUTH
-    AUTH --> SVC
-    OPN --> DNS
-    OPN --> VPN
-    PROM --> GRAF
-    PROM --> KUMA
-    K8S --> FLUX
-    EDGE --> HASS
-    FP -->|MQTT| HASS
-    OPN --> CYBER
-    ELO_APP <-->|REST API| PVE
-    ELO_APP <-->|REST API| HASS
-    ELO_APP <-->|REST API| OPN
+    M1 -->|IPC / HTTP| ReActEngine
+    WebDesktop -->|REST API :8000 / WebSockets| ReActEngine
+    ReActEngine --> Cascade
+    ReActEngine -->|REST API :8006| PVE
+    ReActEngine -->|REST/WS :8123| LXC
+    ReActEngine -->|Firewall API :8443| VM200
+    Watchdog -->|Concurrent TCP Sockets| ComputeNodes
+    Watchdog -->|Concurrent TCP Sockets| LXC
+    PVE --> VM200
+    PVE --> VM201
+    PVE --> LXC
 ```
 
 ---
 
-## 📁 Repository Layout
+## 🖥️ Physical & Logical Node Map
+
+| Node Identifier | Hostname / IP | Hardware & Specs | Primary Roles & Workloads | Reachability & Probing |
+|:---|:---|:---|:---|:---|
+| **`apple-m1-compute`** | `MacBook-Air.local`<br/>`192.168.1.133` | Apple Silicon M1 • 8-Core ARM64 • 8GB Unified • Metal GPU | Local Host, ELO FastAPI Daemon, Local LLM Inference, C# .NET Native App Host | Active Local Runtime • `0.1ms` |
+| **`pve-node-1`** | `pve.lan`<br/>`192.168.1.132` | Bare-Metal x86_64 Server • Proxmox VE 8/9 Kernel | Hypervisor Host, KVM Virtual Machines, LXC Container Fleet, QEMU Agents | TCP Probe: `:8006`, `:22`, `:9100` |
+| **`openmediavault-nas`**| `nas.lan`<br/>`192.168.1.135` | Dedicated NAS Storage Appliance • Debian Linux | ZFS Mirrored Pools, SMB/NFS Shares, BorgBackup Repository, Scrutiny SMART | TCP Probe: `:80`, `:445`, `:22`, `:9100` |
+
+---
+
+## 🌐 Network Topology & VLAN Architecture
+
+```mermaid
+graph TD
+    WAN["WAN Uplink (ISP Modem / ONT)"] -->|WAN Interface| OPN["OPNsense Stateful Firewall & Router<br/>(192.168.1.132:8443 / 192.168.10.1)"]
+
+    OPN -->|VLAN 10: Management| V10["VLAN 10 — Management (192.168.10.0/24)<br/>Proxmox VE Host, NAS WebUI, OPNsense WebGUI, Switch Admin"]
+    OPN -->|VLAN 20: Services| V20["VLAN 20 — Services & Core Workloads (192.168.20.0/24)<br/>Home Assistant, Immich, Vaultwarden, Grafana, Nginx Proxy Manager"]
+    OPN -->|VLAN 30: Cyber Lab| V30["VLAN 30 — Cyber Proving Ground (192.168.30.0/24)<br/>Wazuh SIEM, Suricata NIDS, CTF Sandbox, Isolated Malware Analysis"]
+    OPN -->|VLAN 40: DMZ| V40["VLAN 40 — DMZ & Public Ingress (192.168.40.0/24)<br/>Cloudflare Tunnels, Ingress Reverse Proxy, Public Web Hooks"]
+    OPN -->|VLAN 50: IoT & Home| V50["VLAN 50 — Smart Home & IoT (192.168.50.0/24)<br/>ESP32 Microcontrollers, Zigbee/Z-Wave Bridges, Shelly Relays"]
+```
+
+### Security Zone Inter-VLAN Matrix
+
+* **VLAN 10 (Management)**: Strictly isolated. Accessible only from authenticated management devices or via WireGuard VPN with multi-factor authentication.
+* **VLAN 20 (Services)**: Standard application layer. Traversed through Nginx Proxy Manager with Authelia 2FA and CrowdSec validation.
+* **VLAN 30 (Cyber Lab)**: Total outbound egress restriction. Sandboxed network environment with isolated routing tables for threat simulation.
+* **VLAN 50 (IoT)**: Strict deny-all WAN access with pinhole exceptions for NTP and Home Assistant MQTT (:1883).
+
+---
+
+## 📦 Workload Catalog & Pinned Favorites
+
+The cluster orchestrates 28 production services. All reachability checks are performed by direct raw TCP socket verification (`IP:PORT`) in parallel via `asyncio.gather`.
+
+### ★ Pinned Primary Services
+
+| Service | Category | Direct Address | Domain | Description |
+|:---|:---|:---|:---|:---|
+| **Home Assistant Core** | Smart Home & IoT | `192.168.1.10:8123` | `ha.lan` | Central home automation platform integrating ESP32 nodes, Zigbee sensors, Shelly relays, and climate scripts. |
+| **Immich Photos & Video** | Storage & Cloud | `192.168.1.15:2283` | `immich.lan` | Self-hosted photo/video backup and gallery solution with on-premise AI facial recognition and CLIP semantic search. |
+| **Vaultwarden Vault** | Security & Identity | `192.168.1.16:8080` | `vaultwarden.lan`| Lightweight Rust implementation of Bitwarden backend providing zero-knowledge credential and TOTP vault storage. |
+| **Grafana Telemetry** | Observability & Logs| `192.168.1.11:3000` | `grafana.lan` | Central observability dashboards rendering Prometheus metrics, Proxmox hypervisor metrics, and Loki log streams. |
+
+### Complete Service Inventory (24 Workloads)
+
+| # | Service Name | Category | Direct Address | Domain | Purpose & Functionality |
+|:--|:---|:---|:---|:---|:---|
+| 1 | **Nginx Proxy Manager** | Ingress & Networking | `192.168.1.3:81` | `npm.lan` | Reverse proxy and SSL certificate manager with Let's Encrypt automation. |
+| 2 | **Pi-hole DNS** | Ingress & Networking | `192.168.1.4:8080` | `pihole.lan` | Network-wide ad blocking, DNS sinkhole, and custom local `.lan` zone resolver. |
+| 3 | **Nextcloud Hub** | Storage & Cloud | `192.168.1.8:80` | `nextcloud.lan` | Collaborative productivity platform with file sync, calendar, and WebDAV endpoints. |
+| 4 | **Prometheus TSDB** | Observability & Logs| `192.168.1.11:9090` | `prometheus.lan`| Time-series database scraping node_exporter, cAdvisor, and system metrics. |
+| 5 | **Grafana Loki** | Observability & Logs| `192.168.1.11:3100` | `loki.lan` | Multi-tenant log aggregation engine collecting logs across all Docker containers. |
+| 6 | **Uptime Kuma** | Observability & Logs| `192.168.1.7:3001` | `status.lan` | Uptime monitor checking HTTP/TCP endpoints with incident escalation alerts. |
+| 7 | **n8n Workflow Automation**| Automation & Workflow| `192.168.1.13:5678` | `n8n.lan` | Low-code workflow automation orchestrating webhooks, cron jobs, and alerts. |
+| 8 | **Gitea Forge** | DevOps & CI/CD | `192.168.1.17:3000` | `git.lan` | On-premise self-hosted Git repository server with SSH keys and OAuth2. |
+| 9 | **Woodpecker CI** | DevOps & CI/CD | `192.168.1.14:8000` | `ci.lan` | Container-native continuous integration engine executing automated test pipelines. |
+| 10| **Authelia 2FA / SSO** | Security & Identity | `192.168.1.20:9091` | `auth.lan` | Multi-factor authentication provider protecting ingress proxy paths with TOTP/Duo. |
+| 11| **CrowdSec Defense** | Security & Identity | `192.168.1.9:8080` | `crowdsec.lan` | Collaborative cyber defense engine parsing server logs to ban malicious IPs. |
+| 12| **Jellyfin Media Server**| Media & Streaming | `192.168.1.21:8096` | `jellyfin.lan` | Open-source media streaming system with hardware-accelerated transcoding. |
+| 13| **Radarr** | Media & Streaming | `192.168.1.21:7878` | `radarr.lan` | Automated movie collection manager and torrent/Usenet integration layer. |
+| 14| **Sonarr** | Media & Streaming | `192.168.1.21:8989` | `sonarr.lan` | Smart TV series tracking and automated download grabber. |
+| 15| **Prowlarr** | Media & Streaming | `192.168.1.21:9696` | `prowlarr.lan` | Torrent indexer and Usenet proxy aggregator syncing with Sonarr/Radarr. |
+| 16| **Bazarr** | Media & Streaming | `192.168.1.21:6767` | `bazarr.lan` | Automated multilingual subtitle manager and synchronization tool. |
+| 17| **qBittorrent Client** | Media & Streaming | `192.168.1.21:8080` | `qbittorrent.lan`| BitTorrent client with WebUI, bandwidth scheduler, and categories. |
+| 18| **Actual Budget** | Productivity & Notes| `192.168.1.22:5006` | `actualbudget.lan`| Zero-based envelope budgeting app with end-to-end encrypted sync. |
+| 19| **ChangeDetection.io** | Automation & Workflow| `192.168.1.24:5000` | `changedetection.lan`| Automated website change and DOM diff detection with restock alerts. |
+| 20| **Trilium Notes** | Productivity & Notes| `192.168.1.19:8080` | `trilium.lan` | Hierarchical note-taking app with markdown editor and revision tracking. |
+| 21| **Scrutiny SMART** | Storage & Cloud | `192.168.1.18:8080` | `scrutiny.lan` | Hard drive health monitor tracking SMART attributes and disk degradation. |
+| 22| **IT-Tools** | Productivity & Notes| `192.168.1.12:80` | `it-tools.lan` | Handy collection of developer utilities (encoders, JWT decoders, hashers). |
+| 23| **OPNsense Core (VM 200)**| Virtual Machines (VM)| `192.168.1.132:8443`| `opnsense.lan` | Virtualized firewall and router appliance running on Proxmox VE. |
+| 24| **Alpine Server (VM 201)**| Virtual Machines (VM)| `192.168.1.202:22` | `alpine.lan` | Cloud-init Alpine Linux v3.21 virtual machine consuming < 60 MB RAM. |
+
+---
+
+## 🧠 ELO Control Plane & Orchestration Engine
+
+ELO (`elo/`) is a modular control plane designed to unify infrastructure management, telemetry, and automated remediation under a centralized runtime.
+
+```
+elo/
+├── packages/
+│   ├── elo-contracts/         # Pydantic v2 schemas: SecurityLevel (L0-L3), Tools, Events
+│   ├── elo-security/          # Zero-trust Gatekeeper, HMAC Capability Tokens, Approval Queues
+│   └── elo-ai-client/         # Multi-provider cascade client (Gemini, OpenRouter, Claude, GPT, Ollama)
+│
+├── apps/
+│   ├── elo-core/              # FastAPI Daemon, Tool Registry, Watchdog, Web UI
+│   └── elo-desktop-macos/     # Native C# .NET 10 macOS Desktop application & DMG
+│
+├── infra/
+│   └── init-db.sql            # PostgreSQL schema initialization
+│
+├── docker-compose.yml         # Postgres pgvector + Redis stack
+├── .env.example               # Environment variables template
+└── pyproject.toml
+```
+
+### 1. Multi-Provider Zero-Latency Failover Cascade
+
+ELO implements a deterministic fallback cascade. If a model provider exhausts its API quota or triggers an HTTP `429 Too Many Requests`, the router immediately fails over in $0\text{ ms}$ and places the failing provider into a 5-minute cooldown cache.
+
+```mermaid
+graph TD
+    Request["Incoming Request"] --> T1["Tier 1: Google Gemini Flash / Pro"]
+    T1 -->|HTTP 429 / Quota Zero| T2["Tier 2: OpenRouter Hub (Multi-Model Pool)"]
+    T2 -->|Connection Failure| T3["Tier 3: OpenAI Direct (GPT-4o / GPT-4o-mini)"]
+    T3 -->|Connection Failure| T4["Tier 4: Anthropic Direct (Claude 3.5 Sonnet)"]
+    T4 -->|Offline / No WAN| T5["Tier 5: Local Ollama (Apple M1 Metal Acceleration)"]
+    T5 -->|Local Daemon Down| T6["Tier 6: Mock Deterministic Fallback"]
+```
+
+### 2. Security Ring Architecture & Gatekeeper
+
+Every operational tool in ELO is assigned an explicit security ring:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  L0_READ_ONLY (Immediate Execution)                        │
+│  - System telemetry, node probes, log queries, searches     │
+├─────────────────────────────────────────────────────────────┤
+│  L1_LOW_WRITE (Auto-Executed + HMAC Audit Trail)           │
+│  - Setting alert thresholds, temporary IP caching          │
+├─────────────────────────────────────────────────────────────┤
+│  L2_HIGH_IMPACT (Interactive User Approval Required)        │
+│  - Proxmox VM/LXC start/stop/reboot, OPNsense firewall ban │
+├─────────────────────────────────────────────────────────────┤
+│  L3_CRITICAL (Strict 2FA / Break-Glass Challenge)          │
+│  - Database drop, destructive volume purge, factory reset  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 3. Self-Healing Watchdog Engine
+
+The watchdog runs as an asynchronous background task (`asyncio.create_task`) with a 30-second cycle:
+1. Concurrently probes Proxmox (`192.168.1.132`), OpenMediaVault (`192.168.1.135`), and the local node (`192.168.1.133`).
+2. Concurrently probes all 28 workload TCP ports (`timeout=0.25s`).
+3. If an outage is detected:
+   - Records an incident in the audit database.
+   - Triggers an automated recovery attempt if an L1 tool is available.
+   - Dispatches instant SMS / Push notifications to the configured administrator contact.
+
+---
+
+## 🖥️ Native macOS Desktop Application (.NET 10)
+
+ELO includes a native desktop application for macOS located in `elo/apps/elo-desktop-macos`:
+
+* **Framework**: Built on **.NET 10.0 (C# 13)** using `Photino.NET` with native Cocoa `NSWindow` and WebKit `WKWebView`.
+* **Platform Support**: Compiled as a native self-contained binary for Apple Silicon (`osx-arm64`).
+* **Microphone & Speech**: Pre-configured in `Info.plist` with `NSMicrophoneUsageDescription` and `NSSpeechRecognitionUsageDescription` for continuous voice wake word ("Hey ELO").
+* **Installer**: Packaged as a 38MB compressed disk image (`ELO-macOS-arm64.dmg`) with drag-and-drop installation to `/Applications`.
+
+### Build & Package DMG:
+
+```bash
+cd elo/apps/elo-desktop-macos
+chmod +x build_dmg.sh
+./build_dmg.sh
+```
+
+---
+
+## ⚙️ Infrastructure as Code & Configuration Management
+
+### 1. Terraform Infrastructure Provisioning
+
+Located in `terraform/`, configurations manage automated virtual machine lifecycle on Proxmox VE:
+* Cloud-Init provisioning for Ubuntu 24.04 LTS and Alpine Linux v3.21.
+* Automated network interface attachment with VLAN tagging.
+* Declarative state management and resource isolation.
+
+```bash
+cd terraform/proxmox
+terraform init
+terraform plan
+terraform apply
+```
+
+### 2. Ansible Hardening & Baseline Roles
+
+Located in `ansible/`, automation playbooks enforce security baselines:
+* **CIS Benchmark Level 1**: Hardened kernel parameters (`/etc/sysctl.d/99-security.conf`), disabled unused network protocols, strict file permissions.
+* **SSH Hardening**: Key-only authentication, disabled root login, port isolation.
+* **Package Management**: Automated unattended security updates across Debian/Ubuntu/Alpine nodes.
+
+```bash
+cd ansible
+ansible-playbook -i inventory/hosts.ini playbooks/site.yml --check
+```
+
+---
+
+## 🛡️ Cyber Proving Ground & SOC/SIEM Operations
+
+The `cyber/` directory serves as an isolated testbed and continuous security monitoring center:
+
+```mermaid
+flowchart LR
+    Nodes["Workloads & Hypervisor"] -->|Log Forwarding / Syslog| Suricata["Suricata NIDS<br/>(Network Threat Detection)"]
+    Nodes -->|Wazuh Agent :1514| Wazuh["Wazuh Manager 4.8<br/>(HIDS & Compliance)"]
+    Suricata -->|EVE JSON| Loki["Grafana Loki"]
+    Wazuh -->|Security Events| Grafana["Grafana SOC Dashboards"]
+    Loki --> Grafana
+    
+    subgraph OffensiveTesting["Emulation & Defense Testing"]
+        Atomic["Atomic Red Team (T1059, T1082)"]
+        BloodHound["BloodHound AD Analysis"]
+        Semgrep["Semgrep Static Analysis"]
+    end
+    
+    OffensiveTesting -.->|Simulated Attacks| Nodes
+```
+
+* **Wazuh 4.8 SIEM**: Endpoint visibility, file integrity monitoring (FIM), vulnerability assessment.
+* **Suricata NIDS**: Deep packet inspection against the Emerging Threats (ET) open ruleset on OPNsense gateway.
+* **Offensive Emulation**: MITRE ATT&CK test patterns via Atomic Red Team for detection validation.
+
+---
+
+## 🚀 CI/CD Pipelines & Quality Gates
+
+All changes to the monorepo are validated via GitHub Actions:
+
+```
+.github/workflows/
+├── ci.yml    # Linting, Terraform validation, and ELO Automated Test Suite
+└── cd.yml    # Docker container image build & GitHub Pages frontend deployment
+```
+
+### Automated CI Pipeline Stages:
+1. **Lint YAML & Ansible**: `yamllint` enforcement across all infrastructure definitions.
+2. **Validate Terraform**: Format checking and syntax validation across provider templates.
+3. **Build & Validate Web**: Vite build and static asset verification.
+4. **Test ELO Core (18/18 Tests)**: Automated test execution covering tool registry, ReAct loop, HMAC capability tokens, API endpoints, and client failover cascades.
+
+```bash
+cd elo
+pytest -v
+```
+
+---
+
+## 📂 Repository Monorepo Layout
 
 ```
 homelab/
-├── .github/                         # GitHub Actions CI/CD (yamllint, ansible-lint, terraform, elo-test)
-│
-├── elo/                             # 🧠 ELO Autonomous AI Operating Layer
-│   ├── apps/elo-core/               # FastAPI Daemon, ReAct Engine, Watchdog, Web UI
+├── .github/workflows/         # GitHub Actions CI/CD workflows (ci.yml, cd.yml)
+├── ansible/                   # Ansible configuration management & CIS hardening
+│   ├── inventory/             # Host inventories (hosts.ini)
+│   ├── playbooks/             # Deployment and compliance playbooks
+│   └── roles/                 # Modular roles (docker, common, security, monitoring)
+├── cyber/                     # Cyber proving ground, SOC/SIEM configs, CTF sandboxes
+│   ├── soc/                   # Wazuh, Suricata, and Loki alert rules
+│   └── ctf/                   # Challenge containers and reverse engineering labs
+├── elo/                       # ELO Infrastructure Control Plane & Orchestrator
+│   ├── apps/
+│   │   ├── elo-core/          # FastAPI Daemon, Tool Registry, Watchdog, Web UI
+│   │   └── elo-desktop-macos/ # Native C# .NET 10 macOS Application & DMG Builder
 │   ├── packages/
-│   │   ├── elo-ai-client/           # Tiered Cascade Router (Gemini, OpenRouter, Claude, GPT, Ollama)
-│   │   ├── elo-contracts/           # SecurityLevel (L0-L3), Tools & Event Contracts
-│   │   └── elo-security/            # HMAC Tokens, Gatekeeper, Approval Queues
-│   ├── docker-compose.yml           # PostgreSQL pgvector + Redis stack
-│   └── README.md                    # Detailed ELO documentation
-│
-├── cyber/                           # Cyber Security & SOC Proving Ground
-│   ├── ai/                          # MITRE ATT&CK correlation & IOC extraction
-│   ├── ansible/                     # Hardening, FIM, SIEM agents & emergency quarantine
-│   ├── audit/                       # CIS auditd rules, Nuclei, Semgrep, Trivy, TruffleHog
-│   ├── ctf/                         # Atomic Red Team, BloodHound, LinPEAS, Web security
-│   ├── forensics/                   # Chainsaw, memory dump, volatile triage collector
-│   └── services/                    # Wazuh Manager, Loki-Grafana, Suricata, CyberChef
-│
-├── ansible/
-│   ├── roles/
-│   │   ├── home_assistant/          # Home Assistant configuration role
-│   │   └── system_hardening/        # Sysctl CIS parameters, restrictive umask (027)
-│   ├── group_vars/                  # Host group variable files
-│   └── playbook.yml                 # Master Ansible playbook
-│
-├── kubernetes/
-│   ├── gitops/
-│   │   ├── flux-system/             # FluxCD GitRepository CRD and source definitions
-│   │   └── clusters/homelab/        # Kustomization manifests for cluster workloads
-│   ├── ansible/                     # k3s cluster provisioning via Ansible
-│   ├── services/                    # Kubernetes service manifests
-│   └── hardware/                    # Cluster hardware reference docs
-│
-├── terraform/
-│   ├── modules/
-│   │   └── proxmox_vm/              # Reusable Proxmox VM module (cloud-init, virtio)
-│   └── main.tf                      # Root topology provisioner
-│
-├── hypervisors/
-│   ├── proxmox/                     # Proxmox VE LXC & VM Terraform configs
-│   ├── xen/                         # Xen hypervisor Terraform module
-│   ├── esxi/                        # VMware ESXi Terraform module
-│   ├── hyperv/                      # Hyper-V Terraform module
-│   └── bhyve/                       # FreeBSD bhyve Terraform module
-│
-├── vms/
-│   ├── alpine-server/               # Alpine Linux v3.21 Virt KVM (VM 201) microservices setup
-│   └── opnsense/                    # OPNsense Core Firewall (VM 200) gateway configuration
-│
-├── services/                        # 28+ Docker Compose self-hosted application stacks
-├── custom-apps/                     # Standalone custom SaaS replacements (PulseGuard, DevForge, etc.)
-├── web/                             # Unified Homelab & CyberLab Interactive Wiki Web Portal
-│
-├── esp32/
-│   ├── irrigation/                  # Automated irrigation controller (Arduino C++)
-│   └── footprint/                   # Physical footprint / presence sensor (MQTT)
-│
-├── scripts/                         # Lab bootstrap and maintenance scripts
-└── Makefile                         # Unified task runner
+│   │   ├── elo-contracts/     # Pydantic v2 schemas and models
+│   │   ├── elo-security/      # Zero-trust Gatekeeper & HMAC tokens
+│   │   └── elo-ai-client/     # Multi-provider cascade client
+│   ├── docker-compose.yml     # PostgreSQL pgvector + Redis dependencies
+│   ├── pyproject.toml         # Python package definitions
+│   └── pytest.ini             # Test configuration
+├── services/                  # Production Docker Compose stacks by service group
+│   ├── media/                 # Jellyfin, Radarr, Sonarr, Prowlarr, Bazarr
+│   ├── monitoring/            # Prometheus, Grafana, Loki, Uptime Kuma
+│   ├── security/              # Vaultwarden, Authelia, CrowdSec
+│   └── storage/               # Nextcloud, Immich, Scrutiny
+├── terraform/                 # Terraform configurations for Proxmox & VMs
+├── vms/                       # VM definitions (OPNsense, Alpine Server)
+└── README.md                  # Comprehensive monorepo documentation
 ```
 
 ---
 
-## 🧪 CI/CD Validation
+## 🛠️ Operations & Runbook
 
-GitHub Actions runs automated checks on every push and PR:
-
-- `elo-test` — Comprehensive automated testing of ELO (`pytest -v`)
-- `lint-yaml` — YAML syntax and Ansible linting (`yamllint`, `ansible-lint`)
-- `build-frontend` — Build and artifact validation for web dashboards
-- `terraform-validate` — Syntax and configuration validation (`terraform validate`)
+### Starting the ELO Control Plane Daemon
 
 ```bash
-# Run tests locally:
-cd elo && pytest -v
-yamllint -c .yamllint .
-cd terraform && terraform init -backend=false && terraform validate
+# 1. Activate virtual environment
+cd elo
+source .venv/bin/activate
+
+# 2. Start FastAPI Daemon with Watchdog
+uvicorn elo_core.main:app --host 0.0.0.0 --port 8000 --reload
 ```
+
+### Accessing ELO Web Dashboard
+Open your browser and navigate to:
+```
+http://localhost:8000/
+```
+
+### Running the macOS Desktop Application
+Open the disk image on your Desktop and drag `ELO.app` into `/Applications`:
+```bash
+open ~/Desktop/ELO-macOS-arm64.dmg
+```
+
+### Emergency Break-Glass Procedures
+If the ELO control plane is unreachable or an API token has expired:
+1. **Direct SSH Access**: SSH into `pve-node-1` directly via `ssh root@192.168.1.132`.
+2. **OPNsense WebGUI**: Access the firewall management interface directly on `https://192.168.1.132:8443`.
+3. **Database Inspection**: Connect to PostgreSQL directly using `psql -h localhost -U elo_user -d elo_db`.
 
 ---
 
-## 📜 License
+## 📄 License
 
-MIT — Copyright (c) 2026 stefanutc1 (`@stefanutc1`).
+This repository is maintained as an open-source infrastructure project under the **MIT License**. See [LICENSE](LICENSE) for full details.
