@@ -1,70 +1,54 @@
-# Roadmap
+# 🗺️ Homelab & ELO Engineering Roadmap
 
-This document outlines the current state of the infrastructure and the direction it is heading. It is maintained as a living reference — reviewed and updated as priorities shift, services mature, and new requirements emerge.
-
-The scope of this roadmap is limited to the **services layer**.
+This document outlines the evolutionary milestones, past achievements, and future strategic engineering deliverables for the **Homelab & ELO Platform**.
 
 ---
 
-## Current State
+## 🎯 High-Level Phase Overview
 
-The homelab currently operates as a modular, service-oriented infrastructure with the following characteristics:
-
-- **Deployment model**: Services are defined declaratively via Docker Compose, one directory per service under `/services`, with lifecycle management (provisioning, deployment, updates) handled through Ansible playbooks.
-- **Configuration management**: Host inventory and variables are managed through Ansible's inventory system, enabling role-based targeting of hosts rather than manual, host-by-host operations.
-- **Secrets handling**: Environment-specific secrets are isolated via `.env` files (git-ignored) and Ansible Vault for anything consumed during automated deployment, keeping credentials out of version control entirely.
-- **Separation of concerns**: This repository is intentionally scoped to services only. Network infrastructure (OPNsense, VLANs, firewall rules) is managed independently, allowing each layer to evolve without introducing tight coupling.
-- **Single-node operation**: Services currently run on a single Docker host (or a small, manually coordinated set of hosts), with no automated failover.
-- **Manual backup practices**: Persistent volume data is backed up on an ad hoc or manually scheduled basis rather than through a unified, automated backup pipeline.
-
-This foundation prioritizes clarity and reproducibility over scale — a deliberate choice, since the near-term goal is a system that is easy to reason about and safely extend, not a system optimized prematurely for load it doesn't yet carry.
-
----
-
-## Planned Improvements
-
-The following improvements are scoped to strengthening reliability, observability, and operational maturity of the existing services layer.
-
-### High Availability (HA)
-
-- Introduce multi-node Docker orchestration (evaluating Docker Swarm vs. a lightweight Kubernetes distribution such as K3s) for services where downtime tolerance is low.
-- Identify which services genuinely benefit from HA versus which are acceptable as single-instance (not every homelab service justifies the added complexity).
-- Implement health checks at the Compose level as a prerequisite step, ensuring services can be automatically restarted or flagged before full HA is introduced.
-
-### Automated Backups
-
-- Replace ad hoc backup practices with a scheduled, automated pipeline (e.g., Restic or Borg) targeting all declared persistent volumes.
-- Define a consistent retention policy (daily/weekly/monthly rotation) applied uniformly across services, rather than per-service improvisation.
-- Store backups off-host at minimum, with an offsite/cloud-encrypted copy as a stretch goal.
-- Add periodic restore testing to the roadmap itself — a backup that has never been restored is not yet a verified backup.
-
-### Monitoring & Observability Stack
-
-- Deploy a centralized monitoring stack (Prometheus + Grafana, or an equivalent) as a first-class service within `/services`.
-- Instrument existing services with exporters where available, prioritizing host-level metrics (CPU, memory, disk) before deeper application-level metrics.
-- Introduce centralized log aggregation (e.g., Loki or an ELK-family stack) to reduce reliance on `docker logs` for troubleshooting.
-- Define alerting thresholds for the most operationally significant failure modes (disk pressure, container restart loops, backup job failures) before expanding to broader alerting coverage.
-
-### Configuration & Deployment Maturity
-
-- Expand Ansible playbook coverage so that a full host rebuild (from bare OS to fully deployed services) is achievable through automation alone, minimizing manual recovery steps.
-- Introduce basic CI validation (lint Compose files, validate Ansible playbook syntax) to catch configuration errors before they reach a deploy step.
+| Phase | Strategic Domain | Status | Key Deliverables |
+| :---: | :--- | :---: | :--- |
+| **Phase 1** | **Foundational Virtualization & Network** | ✅ Complete | Proxmox VE 9.2, OPNsense Gateway, VLAN 1-40 segmentation, Tailscale mesh. |
+| **Phase 2** | **Workload Containerization & IaC** | ✅ Complete | 31 Docker Compose microservices, Ansible CIS Level 1 hardening, Terraform Cloud-Init modules. |
+| **Phase 3** | **Persistent Semantic Memory & RAG** | ✅ Complete | `pgvector` store, 128-D dense vector embeddings, long-term user preferences recall. |
+| **Phase 4** | **Edge IoT & Room-Awareness** | ✅ Complete | ESP32 BLE / mmWave radar telemetry over MQTT, contextual room entity routing. |
+| **Phase 5** | **Autonomous Sub-Agent Swarm** | ✅ Complete | SecOps Threat-Hunter, SysAdmin Optimizer, Smart Energy Agent, Predictive ZFS Healer. |
+| **Phase 6** | **Enterprise CI/CD & Free-Tier AI** | ✅ Complete | 8-Stage CI/CD matrix, 6-Distro Linux runner, Free-tier cascade (Gemini/Groq/OpenRouter/Ollama). |
+| **Phase 7** | **Edge Voice Acceleration & Kubernetes Mesh** | 🚧 Active | Whisper.cpp Metal MPS streaming, k3s multi-node HA, automated cluster auto-scaler. |
+| **Phase 8** | **Autonomous Self-Healing Infrastructure** | 📋 Planned | Zero-touch kernel live-patching, BGP dynamic routing, off-grid solar telemetry forecasting. |
 
 ---
 
+## 🚀 Detailed Phase Deliverables
 
-### Cross-Repo Automation with the Networking Repository
-- Investigate a shared, minimal "contract" (e.g., a machine-readable manifest of exposed ports/hostnames per service) that the networking repository can consume, preserving separation of concerns while reducing manual coordination between the two layers.
+### ✅ Phase 1–2: Core Foundation & IaC (Delivered)
+- Dual-NIC paravirtualized OPNsense router (VM 200) with stateful packet filtering.
+- Lightweight Alpine Linux microservice environment (VM 202) consuming $< 60\text{ MB}$ RAM.
+- Complete infrastructure automated through Terraform and Ansible playbooks.
+- Pi-hole DNS sinkhole with automated local `*.lan` domain resolution.
 
-### Secrets Management Evolution
+### ✅ Phase 3–5: ELO Autonomous Control Plane (Delivered)
+- **FastAPI Control Daemon** (`192.168.1.133:8000`) with interactive web UI and Telegram bot integration.
+- **Zero-Trust Security Gatekeeper**: L0–L3 security clearance rings with HMAC-SHA256 capability tokens.
+- **pgvector Semantic Memory**: Vectorized storage of homelab runbooks and incident resolutions.
+- **ESP32 Room-Awareness**: Physical location tracking across `Birou`, `Living`, `Server Room`, `Dormitor`.
+- **Specialized Multi-Agent Swarm**:
+  - 🛡️ SecOps Threat-Hunter (Wazuh SIEM + Suricata NIDS + OPNsense firewall ban).
+  - ⚙️ SysAdmin Optimizer (KSM memory deduplication + Docker cache pruning).
+  - ⚡ Smart Home Energy Agent (Home Assistant power analysis + vampire load isolation).
+  - 🛡️ Predictive Health Healer (SMART disk telemetry + automated ZFS snapshot trigger).
 
-- Evaluate migrating from Ansible Vault toward a dedicated secrets manager (e.g., HashiCorp Vault) as the number of services and hosts grows, particularly if dynamic secret rotation becomes valuable.
+### ✅ Phase 6: Enterprise CI/CD & Free-Tier AI Cascade (Delivered)
+- **Zero-Cost LLM Failover Cascade**: Strict prioritization of Google Gemini 2.5 Flash $\to$ Groq LPU $\to$ OpenRouter Hub (:free) $\to$ Local Ollama (Metal MPS) $\to$ Mock Failsafe.
+- **8-Stage Enterprise CI Pipeline**: Shift-left DevSecOps (Gitleaks, TruffleHog), SAST (Bandit, Semgrep), CVE audit (Trivy), multi-Python matrix (3.9–3.13), and multi-Linux container matrix (Debian, Ubuntu, Alpine, Rocky, Fedora, Arch).
+- **Native macOS Desktop Packaging**: C# .NET 10 self-contained `ELO-macOS-arm64.dmg`.
 
-### Infrastructure Documentation as a Portfolio Artifact
+### 🚧 Phase 7: Edge Voice & Kubernetes Mesh (In Progress)
+- [ ] Bidirectional real-time voice streaming with Whisper.cpp and Piper TTS over WebSocket.
+- [ ] Multi-node k3s cluster high-availability control plane failover.
+- [ ] FluxCD GitOps automated canary deployments with Flagger.
 
-- Maintain this repository's documentation (`README.md`, `CONTRIBUTING.md`, this roadmap) at a standard suitable for external review, treating documentation quality as a deliverable alongside the infrastructure itself.
-- Periodically revisit the roadmap to retire completed items into a changelog, keeping this document focused on what's ahead rather than accumulating historical clutter.
-
----
-
-*Last reviewed: this document should be updated whenever a planned improvement is completed or priorities shift — treat it as a snapshot of intent, not a fixed contract.*
+### 📋 Phase 8: Autonomous Self-Healing (Future Horizon)
+- [ ] Automated kernel live-patching without VM reboots.
+- [ ] Dynamic BGP multihoming and OPNsense CARP hardware failover.
+- [ ] Edge solar generation telemetry correlation with server frequency scaling.

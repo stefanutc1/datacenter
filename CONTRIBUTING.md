@@ -1,134 +1,163 @@
-# Contributing Guide
+# 🤝 Contributing to Homelab & ELO
 
-This document defines the standards for adding, modifying, and maintaining services within this repository. It exists to keep the infrastructure predictable, auditable, and safe to operate — whether you're the sole maintainer returning after months away, or a collaborator seeing the repo for the first time.
-
-This repository is scoped strictly to **services** (application layer, managed via Docker Compose and orchestrated with Ansible). Networking, firewall rules, and OPNsense configuration live in a separate repository and are out of scope here.
+Thank you for your interest in contributing to the **Homelab & ELO (Enhanced Local Orchestrator)** platform! This project is an enterprise-grade, declarative homelab infrastructure monorepo integrating Proxmox VE, OpenMediaVault, autonomous AI control planes, ESP32 edge telemetry, and multi-distribution Linux CI/CD pipelines.
 
 ---
 
-## 1. Guiding Principles
-
-- **Infrastructure as Code**: Every change to a running service must be traceable to a commit. No manual `docker exec` fixes that aren't reflected in the repo.
-- **Secrets never touch version control.** No exceptions, no "just this once."
-- **Modularity**: Each service is self-contained and independently deployable. A new service should never require editing unrelated services to function.
-- **Separation of concerns**: This repo handles services. Network topology, VLANs, firewall rules, and reverse proxy routing at the network level belong in the `opnsense` repository.
+## 📋 Table of Contents
+1. [Monorepo Architecture Overview](#1-monorepo-architecture-overview)
+2. [Development Environment Setup](#2-development-environment-setup)
+3. [Conventional Commits & Git Standards](#3-conventional-commits--git-standards)
+4. [Testing & Quality Assurance](#4-testing--quality-assurance)
+5. [Code Quality & Linting Baselines](#5-code-quality--linting-baselines)
+6. [Pull Request & Review Process](#6-pull-request--review-process)
+7. [Security & Data Hygiene Rules](#7-security--data-hygiene-rules)
 
 ---
 
-## 2. Secrets Management
+## 1. Monorepo Architecture Overview
 
-This is the single most important rule in this repository.
+The codebase is organized as a unified monorepo:
 
-### Rules
+```
+homelab/
+├── .github/workflows/         # 8-Stage Enterprise CI/CD & DevSecOps Workflows
+├── ai/                        # Antigravity Model Context Protocol (MCP) Server
+├── ansible/                   # Ansible Playbooks, Inventories & CIS Hardening Roles
+├── cyber/                     # Defensive SIEM / SOC Telemetry & CTF Labs
+├── elo/                       # ELO Autonomous Control Plane & Sub-Agent Swarm
+│   ├── apps/
+│   │   ├── elo-core/          # FastAPI Daemon, Watchdog, Memory & Tools
+│   │   └── elo-desktop-macos/ # Native C# .NET 10 macOS Application (.dmg)
+│   └── packages/
+│       ├── elo-contracts/     # Type-Safe Pydantic v2 Models
+│       ├── elo-security/      # Zero-Trust Gatekeeper & Capability Tokens
+│       └── elo-ai-client/     # Free-Tier Fallback Cascade Client (Groq/Gemini/Ollama)
+├── scripts/                   # System Administration & PuTTY Automation Toolkit
+├── services/                  # Production Docker Compose Workloads (31 Stacks)
+├── terraform/                 # Infrastructure as Code for Proxmox VMs
+└── web/                       # Unified Vue 3 / Vite Dashboard & Documentation
+```
 
-1. **No secrets in Git, ever.** This includes API keys, passwords, tokens, database credentials, TLS private keys, and connection strings.
-2. All secrets are provided via:
-   - A local `.env` file (per service, git-ignored), **or**
-   - An external vault/secrets manager (e.g., HashiCorp Vault, Ansible Vault, Bitwarden Secrets Manager) for anything deployed via automation.
-3. Every service folder that requires secrets **must** include an `.env.example` file with the required variable names and placeholder/dummy values — never real ones.
-4. `.env` is included in the root `.gitignore` and must not be re-added on a per-service basis.
-5. If a secret is accidentally committed:
-   - Rotate the credential immediately. Assume it is compromised the moment it hits Git history, even in a private repo.
-   - Purge it from history (`git filter-repo` or equivalent) — do not rely on a follow-up commit to "remove" it.
+---
 
-### Ansible-managed secrets
+## 2. Development Environment Setup
 
-For any secret consumed during an Ansible deployment (as opposed to a static `.env` read directly by Compose), use **Ansible Vault**:
+### Prerequisites
+- **Python**: `3.9` through `3.13` (recommended: `3.12`)
+- **Node.js**: `22.x LTS` + `npm`
+- **Docker & Docker Compose**: `v2.24+`
+- **.NET SDK**: `10.0` (for macOS Desktop App development)
+- **Git**: `2.40+`
+
+### Initializing the Local Environment
 
 ```bash
-ansible-vault encrypt group_vars/all/secrets.yml
+# 1. Clone repository
+git clone https://github.com/stefanutc1/homelab.git
+cd homelab
+
+# 2. Setup ELO Python virtual environment
+cd elo
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip setuptools wheel
+pip install pytest pytest-asyncio pytest-cov httpx pydantic psutil uvicorn fastapi pyyaml python-dotenv
+pip install -e packages/elo-contracts -e packages/elo-security -e packages/elo-ai-client -e apps/elo-core
+
+# 3. Setup Web Dashboard
+cd ../web
+npm install
 ```
 
-Never commit an unencrypted `group_vars/*/secrets.yml`. The vault password itself is never stored in the repository, in plaintext files, or in chat/notes committed alongside it.
-
 ---
 
-## 3. Adding a New Service
+## 3. Conventional Commits & Git Standards
 
-All services live under `/services/<service-name>/`. Before opening a PR (or committing directly, if working solo), confirm the folder matches this structure:
+We strictly adhere to the **Conventional Commits 1.0.0** specification:
 
 ```
-services/<service-name>/
-├── docker-compose.yml
-├── .env.example
-├── README.md
-└── volumes/            # if the service requires bind-mounted persistent data
-    └── .gitkeep
+<type>(<scope>): <short description in imperative mood>
+
+[optional body explaining why and context]
+
+[optional footer for issue tracking: Fixes #123]
 ```
 
-### 3.1 `docker-compose.yml` requirements
-
-- Pin image versions explicitly (`image: nginx:1.27.0`, not `nginx:latest`). Reproducibility matters more than always running bleeding-edge.
-- Define all persistent data via named volumes or explicit bind mounts under `volumes/` — never rely on a container's anonymous/ephemeral filesystem for anything that must survive a redeploy.
-- Set explicit container names and restart policies (`restart: unless-stopped` is the default expectation).
-- Attach the service to the appropriate external Docker network (see `README.md` at the repo root for current network naming) rather than declaring ad hoc networks per service.
-- Reference secrets via `env_file: .env`, never hardcoded inline.
-
-### 3.2 `README.md` requirements
-
-Each service's `README.md` should be short but complete enough that someone unfamiliar with the service can deploy and recover it. At minimum:
-
-- **Purpose**: One or two sentences on what the service does and why it's in the homelab.
-- **Dependencies**: Other services or external resources it requires (databases, reverse proxy, DNS entries).
-- **Ports**: Exposed ports and their intended access scope (internal only vs. reverse-proxied).
-- **Persistent data**: What's stored, where, and backup considerations.
-- **Environment variables**: A table or list matching `.env.example`.
-- **Restore procedure**: The minimum steps to bring this service back from a backup.
-
-### 3.3 Persistent volume mapping
-
-- Bind-mounted data goes under `services/<service-name>/volumes/`.
-- Do **not** commit actual data contents — only a `.gitkeep` to preserve the folder structure, if needed. Add the concrete data path to `.gitignore`.
-- Document the mapping explicitly in the service's `README.md` (host path → container path), even though the host path is git-ignored.
+### Supported Commit Types:
+* `feat`: A new feature (e.g. adding a new ELO agent or tool).
+* `fix`: A bug fix (e.g. patching failover router cooldown or network timeout).
+* `docs`: Documentation updates (e.g. `README.md`, `SECURITY.md`, `ARCHITECTURE.md`).
+* `refactor`: Code restructuring without modifying behavior.
+* `test`: Adding or correcting automated tests.
+* `ci`: CI/CD workflow, runner, or packaging updates.
+* `security`: Vulnerability remediation or gatekeeper policy updates.
+* `chore`: Dependency updates, formatting, and routine housekeeping.
 
 ---
 
-## 4. Updating Existing Configurations
+## 4. Testing & Quality Assurance
 
-- Changes to an existing `docker-compose.yml` should be made in a dedicated commit (or PR) that references *why* the change is happening (version bump, config fix, resource limit adjustment) — not bundled silently into unrelated work.
-- Breaking changes (port changes, volume path changes, required new environment variables) must be called out at the top of the commit message and reflected in the service's `README.md` in the same change.
-- If a change requires a one-time manual migration step (e.g., moving data to a new volume path), document that step in the README under a `## Migration Notes` section, and remove it once it's no longer relevant to new deployments.
+All features and bug fixes must include automated test coverage:
 
----
+```bash
+# Run full ELO test suite with coverage
+cd elo
+pytest -v --cov=elo_core --cov=elo_security --cov=elo_ai_client --cov=elo_contracts -o asyncio_mode=auto
 
-## 5. Deployment via Ansible
-
-Deployment and lifecycle management of services on hosts is handled through Ansible. Compose files describe *what* a service is; Ansible describes *where* and *how* it gets deployed.
-
-### 5.1 Inventory conventions
-
-- Hosts are grouped by role, not by hostname alone (e.g., `[docker_hosts]`, `[backup_targets]`), so playbooks can target a role rather than an individual machine.
-- New hosts are added to `inventory/hosts.yml` (or the equivalent inventory file in use) under the appropriate group. Include a comment above non-obvious entries explaining the host's purpose.
-- Host-specific variables (IP, SSH user, Docker Compose project path) go in `host_vars/<hostname>.yml`, not inline in the inventory file, to keep the inventory readable as it grows.
-- Group-wide variables go in `group_vars/<group>.yml`.
-
-Example inventory addition:
-
-```yaml
-# inventory/hosts.yml
-docker_hosts:
-  hosts:
-    homelab-node02:
-      ansible_host: 10.0.20.12
-      ansible_user: deploy
+# Test multi-distribution Linux portability locally
+cd ..
+sh scripts/test_distro_compatibility.sh
 ```
 
-### 5.2 Playbook expectations
-
-- Each service should be deployable independently via tags (`ansible-playbook deploy.yml --tags "service-name"`), so a single-service redeploy doesn't require running the entire playbook.
-- Idempotency is mandatory: running a playbook twice in a row should result in zero changes on the second run, assuming no drift.
-- Any task that could be destructive (volume removal, container recreation with data loss potential) should be explicit and never a default behavior triggered by a routine deploy.
+**Quality Baseline**: All **28/28 tests** must pass 100% green before any PR will be considered for review.
 
 ---
 
-## 6. Commit and PR Conventions
+## 5. Code Quality & Linting Baselines
 
-- Commit messages should state *what* changed and, where not obvious, *why*. `Add vaultwarden service` is fine for a net-new addition; `Fix vaultwarden backup path` should briefly note what was broken.
-- One logical change per commit where practical — a service addition and an unrelated config fix should not share a commit.
-- If working via PRs (solo or collaborative), the PR description should confirm:
-  - [ ] No secrets are present in the diff.
-  - [ ] `.env.example` is updated if new environment variables were introduced.
-  - [ ] The service's `README.md` reflects the current state of the service.
-  - [ ] Image versions are pinned, not `latest`.
+Before submitting a PR, ensure all local linters pass cleanly:
+
+```bash
+# 1. Python Linting & Formatting (Ruff)
+ruff check elo/
+ruff format elo/
+
+# 2. Python Static Type Checking (MyPy)
+mypy --ignore-missing-imports elo/packages/elo-contracts/src elo/packages/elo-security/src elo/packages/elo-ai-client/src elo/apps/elo-core/src
+
+# 3. Shell Script Portability (ShellCheck)
+find scripts ai elo .github -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} +
+
+# 4. YAML Syntax Verification (Yamllint)
+yamllint -d "{extends: default, rules: {line-length: {max: 300}, document-start: disable}}" .
+
+# 5. Frontend Build Verification (Vue 3 / Vite)
+cd web && npm run build
+```
 
 ---
+
+## 6. Pull Request & Review Process
+
+1. **Branch Naming**:
+   - `feature/name-of-feature`
+   - `fix/issue-description`
+   - `ci/pipeline-enhancement`
+2. **Pull Request Checklist**:
+   - [ ] Branch is rebased against the latest `main`.
+   - [ ] All automated tests pass (`pytest -v`).
+   - [ ] Linters (`ruff`, `mypy`, `shellcheck`, `yamllint`) return 0 errors.
+   - [ ] Documentation (`README.md`, `ARCHITECTURE.md`) has been updated.
+   - [ ] No API keys, credentials, or `.env` files are included.
+3. **CI Quality Gate**:
+   - The 8-Stage Enterprise CI Pipeline must execute and turn green on GitHub Actions.
+
+---
+
+## 7. Security & Data Hygiene Rules
+
+> [!CAUTION]
+> **Zero Credential Exposure Rule**:
+> Never commit `.env` files, production tokens (`TELEGRAM_BOT_TOKEN`, `GEMINI_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`), private SSH keys, or wireguard configuration files.
+> All secrets must remain local or managed via environment variables and GitHub Action Secrets.

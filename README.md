@@ -23,6 +23,19 @@ Production-grade, declarative homelab monorepo and autonomous infrastructure con
 
 ---
 
+### 📚 Official Engineering Documentation Hub
+
+| Document | Description | Scope |
+| :--- | :--- | :--- |
+| 🛡️ [**SECURITY.md**](SECURITY.md) | Comprehensive Security Policy, Threat Model (STRIDE), Cryptographic Standards & Gatekeeper RBAC | Security & Governance |
+| 🤝 [**CONTRIBUTING.md**](CONTRIBUTING.md) | Developer Setup, Conventional Commits 1.0.0, Testing Standards & Quality Gates | Engineering Standards |
+| 🏛️ [**ARCHITECTURE.md**](ARCHITECTURE.md) | Deep Blueprint: Network Matrices, ZFS Storage, Multi-Agent Swarm & Failover Cascades | Technical Architecture |
+| 🗺️ [**ROADMAP.md**](ROADMAP.md) | Strategic Evolution & Deliverables across Phases 1 through 8 | Future Roadmap |
+| 📜 [**CHANGELOG.md**](CHANGELOG.md) | Semantic Versioning Release Notes & Milestone Records | Version History |
+| ⚖️ [**CODE_OF_CONDUCT.md**](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1 Code of Conduct | Community Standards |
+
+---
+
 ## 📑 Table of Contents
 
 1. [Architecture Overview](#-architecture-overview)
