@@ -7,14 +7,18 @@ import secrets
 import struct
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
-from pydantic import BaseModel, Field
-from cryptography.exceptions import InvalidSignature
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import ec, ed25519, padding, rsa
-from cryptography.hazmat.primitives.serialization import (
-    load_der_public_key,
-    load_pem_public_key,
-)
+try:
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric import ec, ed25519, padding, rsa
+    from cryptography.hazmat.primitives.serialization import (
+        load_der_public_key,
+        load_pem_public_key,
+    )
+    CRYPTOGRAPHY_AVAILABLE = True
+except ImportError:
+    CRYPTOGRAPHY_AVAILABLE = False
+    InvalidSignature = Exception  # type: ignore
 from elo_contracts.security import SecurityLevel
 
 

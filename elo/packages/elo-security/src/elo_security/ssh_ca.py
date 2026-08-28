@@ -7,15 +7,20 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple, Union
 from pydantic import BaseModel, Field
-from cryptography.exceptions import InvalidSignature
-from cryptography.hazmat.primitives.asymmetric import ed25519
-from cryptography.hazmat.primitives.serialization import (
-    Encoding,
-    NoEncryption,
-    PrivateFormat,
-    PublicFormat,
-    load_ssh_public_key,
-)
+try:
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.primitives.asymmetric import ed25519
+    from cryptography.hazmat.primitives.serialization import (
+        Encoding,
+        NoEncryption,
+        PrivateFormat,
+        PublicFormat,
+        load_ssh_public_key,
+    )
+    CRYPTOGRAPHY_AVAILABLE = True
+except ImportError:
+    CRYPTOGRAPHY_AVAILABLE = False
+    InvalidSignature = Exception  # type: ignore
 
 SSH2_CERT_TYPE_USER = 1
 SSH2_CERT_TYPE_HOST = 2

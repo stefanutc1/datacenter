@@ -200,7 +200,7 @@ jobs:
       - name: Install ELO Framework Packages & Test Harness
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          pip install pytest pytest-asyncio httpx pydantic psutil uvicorn fastapi pyyaml python-dotenv
+          pip install pytest pytest-asyncio httpx pydantic cryptography psutil uvicorn fastapi pyyaml python-dotenv
           pip install -e elo/packages/elo-contracts
           pip install -e elo/packages/elo-security
           pip install -e elo/packages/elo-ai-client
