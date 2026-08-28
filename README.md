@@ -1,4 +1,6 @@
-# Stefanut Homelab & ELO Control Plane
+<div align="center">
+
+# Homelab
 
 [![CI Validation](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
 [![CD Deployment](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml)
@@ -7,6 +9,8 @@
 [![Desktop App](https://img.shields.io/badge/ELO%20Desktop-C%23%20.NET%2010%20%7C%20macOS%20ARM64-purple?style=flat&logo=dotnet)](https://github.com/stefanutc1/homelab/tree/main/elo/apps/elo-desktop-macos)
 [![Security Baseline](https://img.shields.io/badge/Compliance-CIS%20Level%201%20Hardened-green?style=flat&logo=ansible)](https://github.com/stefanutc1/homelab/tree/main/ansible)
 [![License](https://img.shields.io/badge/License-MIT-gray?style=flat)](LICENSE)
+
+</div>
 
 Production-grade, declarative homelab monorepo and autonomous infrastructure control plane. Integrates bare-metal Apple Silicon compute, Proxmox VE virtualization, OpenMediaVault storage, stateful OPNsense network segmentation, cyber defense proving grounds (SOC/SIEM/DFIR), and the **ELO Control Plane** for real-time orchestration, telemetry, and automated self-healing.
 
@@ -257,6 +261,25 @@ Located in `ansible/`, automation playbooks enforce security baselines:
 cd ansible
 ansible-playbook -i inventory/hosts.ini playbooks/site.yml --check
 ```
+
+### 3. Remote Administration & PuTTY Automation Toolkit (`scripts/`)
+
+Located in `scripts/`, a consolidated suite of shell scripts, Perl/Ruby utilities, and assembly diagnostics for remote host operations, SSH tunneling, and session management:
+
+* **Batch SSH Orchestration & Monitoring**:
+  * `scripts/perl/batch_ssh_exec.pl`: Multi-host parallel command execution with ANSI terminal formatting (`scripts/perl/lib/PuttyANSI.pm`).
+  * `scripts/ruby/server_audit.rb` & `scripts/perl/sysmon_terminal.pl`: Remote host resource auditing, CPU/memory profiling, and network socket monitoring.
+  * `scripts/perl/netstat_traffic_watch.pl`: Real-time active socket and connection watcher.
+* **PuTTY & SSH Tunnel Management**:
+  * `scripts/ruby/ssh_tunnel_helper.rb`: Automated SSH port forwarding and SOCKS5 proxy daemon orchestration (`scripts/config/tunnels.example.yaml`).
+  * `scripts/perl/putty_session_mgr.pl` & `scripts/ruby/putty_session_sync.rb`: PuTTY session configuration generator, registry synchronization (`scripts/config/putty_template.reg`), and PPK key converter (`scripts/perl/ppk_key_helper.pl`).
+* **Cluster Lifecycle & Disaster Recovery**:
+  * `scripts/cold-boot-sequence.sh` / `.ps1`: Ordered cluster power-on sequence ensuring network/storage availability before compute.
+  * `scripts/emergency-shutdown.sh` / `.ps1`: Graceful multi-node shutdown sequence preventing ZFS pool corruption.
+  * `scripts/optimize-proxmox-ram.sh` / `.ps1`: KSM memory ballooning and ZFS ARC cache tuner for Proxmox VE.
+  * `scripts/network-scan.sh` / `.ps1`: Automated subnet discovery and port scanner.
+* **Low-Level Hardware Diagnostics**:
+  * `scripts/*.asm` (x86_64 NASM): Standalone bare-metal utilities (`cpuid.asm`, `sysinfo.asm`, `memzero.asm`, `diskcheck.asm`, `hexdump.asm`, `reboot.asm`).
 
 ---
 
