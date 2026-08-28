@@ -1,6 +1,6 @@
 <div align="center">
 
-# Homelab & CyberLab
+# Homelab
 
 **Self-Hosted Infrastructure · Autonomous AI Operating Layer (ELO) · IaC · GitOps · SOC Operations · DFIR · Edge Computing**
 
