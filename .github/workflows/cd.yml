@@ -46,7 +46,7 @@ jobs:
           cp dist/index.html dist/404.html 2>/dev/null || true
 
       - name: Setup GitHub Pages Config
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
         continue-on-error: true
 
       - name: Upload Pages Artifact
