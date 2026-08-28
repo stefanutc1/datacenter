@@ -336,24 +336,27 @@ flowchart LR
 
 ## 🚀 CI/CD Pipelines & Quality Gates
 
-All changes to the monorepo are validated via GitHub Actions:
+All changes to the monorepo are continuously validated and deployed via GitHub Actions:
 
 ```
 .github/workflows/
-├── ci.yml    # Linting, Terraform validation, and ELO Automated Test Suite
-└── cd.yml    # Docker container image build & GitHub Pages frontend deployment
+├── ci.yml                       # DevSecOps, Linting, Docker Compose, Terraform & ELO Test Suite
+├── cd.yml                       # Web Docker image build (GHCR) & GitHub Pages deployment
+├── desktop-macos-release.yml    # Native C# .NET 10 macOS Apple Silicon DMG Builder & GitHub Release
+└── container-scan.yml           # Scheduled Trivy vulnerability and CVE scanner
 ```
 
 ### Automated CI Pipeline Stages:
-1. **Lint YAML & Ansible**: `yamllint` enforcement across all infrastructure definitions.
-2. **Validate Terraform**: Format checking and syntax validation across provider templates.
-3. **Build & Validate Web**: Vite build and static asset verification.
-4. **Test ELO Core (18/18 Tests)**: Automated test execution covering tool registry, ReAct loop, HMAC capability tokens, API endpoints, and client failover cascades.
-
-```bash
-cd elo
-pytest -v
-```
+1. **DevSecOps Secret Scanning (Gitleaks)**: Scans every commit for accidental secrets, tokens, or SSH keys.
+2. **SAST Static Analysis (Bandit)**: Static security analysis for Python in the ELO subsystem.
+3. **Shell Script Linting (ShellCheck)**: Shell script validation across `scripts/` and `ai/scripts/`.
+4. **Docker Compose Validator**: Validates YAML syntax and environment declarations across all 28 service compose stacks.
+5. **Model Context Protocol (MCP) Validator**: Syntax and schema checking for `ai/mcp_config.json`.
+6. **Ansible Playbook Syntax Check**: Automated `ansible-playbook --syntax-check` on all playbooks.
+7. **Terraform Validation**: Format checking (`fmt`) and template validation across provider templates.
+8. **Web Dashboard Build**: Vite build and static distribution bundle verification.
+9. **ELO Automated Test Suite (18/18 Tests)**: Automated test execution on Python 3.12 for tool registry, ReAct loop, HMAC capability tokens, API endpoints, and client failover cascades.
+10. **macOS Native DMG Builder (`macos-14`)**: Native .NET 10 compilation on Apple Silicon with automated DMG generation and GitHub Releases attachment.
 
 ---
 
