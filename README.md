@@ -23,12 +23,13 @@ Production-grade, declarative homelab monorepo and autonomous infrastructure con
 3. [Network Topology & VLAN Architecture](#-network-topology--vlan-architecture)
 4. [Workload Catalog & Pinned Favorites](#-workload-catalog--pinned-favorites)
 5. [ELO Control Plane & Orchestration Engine](#-elo-control-plane--orchestration-engine)
-6. [Native macOS Desktop Application (.NET 10)](#-native-macos-desktop-application-net-10)
-7. [Infrastructure as Code & Configuration Management](#-infrastructure-as-code--configuration-management)
-8. [Cyber Proving Ground & SOC/SIEM Operations](#-cyber-proving-ground--socsiem-operations)
-9. [CI/CD Pipelines & Quality Gates](#-cicd-pipelines--quality-gates)
-10. [Repository Monorepo Layout](#-repository-monorepo-layout)
-11. [Operations & Runbook](#-operations--runbook)
+6. [Antigravity Model Context Protocol Server (ai/)](#-antigravity-model-context-protocol-server-ai)
+7. [Native macOS Desktop Application (.NET 10)](#-native-macos-desktop-application-net-10)
+8. [Infrastructure as Code & Configuration Management](#-infrastructure-as-code--configuration-management)
+9. [Cyber Proving Ground & SOC/SIEM Operations](#-cyber-proving-ground--socsiem-operations)
+10. [CI/CD Pipelines & Quality Gates](#-cicd-pipelines--quality-gates)
+11. [Repository Monorepo Layout](#-repository-monorepo-layout)
+12. [Operations & Runbook](#-operations--runbook)
 
 ---
 
@@ -215,6 +216,29 @@ The watchdog runs as an asynchronous background task (`asyncio.create_task`) wit
 
 ---
 
+## 🤖 Antigravity Model Context Protocol Server (`ai/`)
+
+Located in `ai/`, the **Antigravity MCP Server** implements the open standard Model Context Protocol (MCP) by Anthropic for exposing contextual homelab tools, Git forge automation, and structured reasoning engines to external AI clients and agents:
+
+```
+ai/
+├── mcp_config.json          # MCP server registration & transport definitions
+├── Makefile                 # Build, test, and container packaging automation
+├── ansible/
+│   └── playbook.yml         # Automated deployment of MCP agents and runtime
+└── scripts/
+    ├── setup.sh             # Linux/macOS automated installation script
+    └── setup.ps1            # Windows PowerShell automated installation script
+```
+
+### Supported MCP Transports & Tool Servers:
+* **Standard I/O (`stdio`) Transport**: Low-latency JSON-RPC 2.0 communication directly with IDEs and AI agent runners.
+* **Sequential Thinking Engine**: Step-by-step reasoning server (`@modelcontextprotocol/server-sequential-thinking`) providing recursive problem breakdown and verification.
+* **GitHub & Git Forge Integrations**: Tool server (`@modelcontextprotocol/server-github`) providing repository inspection, issue tracking, and automated commit management.
+* **Ansible Automated Deployment**: Idempotent configuration management for headless server nodes running MCP agents.
+
+---
+
 ## 🖥️ Native macOS Desktop Application (.NET 10)
 
 ELO includes a native desktop application for macOS located in `elo/apps/elo-desktop-macos`:
@@ -338,6 +362,10 @@ pytest -v
 ```
 homelab/
 ├── .github/workflows/         # GitHub Actions CI/CD workflows (ci.yml, cd.yml)
+├── ai/                        # Antigravity Model Context Protocol (MCP) Server & agents
+│   ├── mcp_config.json        # MCP server registration & transport definitions
+│   ├── ansible/               # Automated deployment of MCP agents
+│   └── scripts/               # Cross-platform installation and setup scripts
 ├── ansible/                   # Ansible configuration management & CIS hardening
 │   ├── inventory/             # Host inventories (hosts.ini)
 │   ├── playbooks/             # Deployment and compliance playbooks
@@ -356,6 +384,10 @@ homelab/
 │   ├── docker-compose.yml     # PostgreSQL pgvector + Redis dependencies
 │   ├── pyproject.toml         # Python package definitions
 │   └── pytest.ini             # Test configuration
+├── scripts/                   # Remote administration, SSH tunneling, assembly diagnostics
+│   ├── perl/                  # Batch SSH execution and ANSI terminal monitors
+│   ├── ruby/                  # Tunnel helpers, database backup rotators, log analyzers
+│   └── config/                # Host definitions, tunnel configs, PuTTY registry templates
 ├── services/                  # Production Docker Compose stacks by service group
 │   ├── media/                 # Jellyfin, Radarr, Sonarr, Prowlarr, Bazarr
 │   ├── monitoring/            # Prometheus, Grafana, Loki, Uptime Kuma
