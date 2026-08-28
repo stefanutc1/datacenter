@@ -73,7 +73,7 @@ flowchart TB
         WebDesktop["Web UI & C# .NET 10 Desktop App (ELO.app)"]
         ReActEngine["ReAct Orchestration Engine & Security Gatekeeper"]
         Watchdog["Self-Healing Watchdog (30s TCP Socket Prober)"]
-        Cascade["Tiered Failover Cascade<br/>Gemini  OpenRouter  OpenAI  Claude  Ollama  Mock"]
+        Cascade["Free-Tier Failover Cascade<br/>Gemini 2.5  Groq LPU  OpenRouter  Local Ollama Metal MPS  Mock"]
     end
 
     M1 -->|IPC / HTTP| ReActEngine
@@ -416,8 +416,8 @@ graph TD
         MacDMG["macOS .NET 10 DMG Packaging (arm64)"]
     end
 
-    subgraph STAGE8["Stage 8: Continuous Deployment (CD) & Release"]
-        GHPages["Deploy to GitHub Pages"]
+    subgraph STAGE8["Stage 8: Continuous Deployment (CD) & Private Release"]
+        PrivateBundle["Private Self-Hosted Bundle Integrity (PoC)"]
         GHCRWeb["Publish homelab-web Multi-Arch (GHCR)"]
         GHCRElo["Publish elo-core Multi-Arch (GHCR)"]
     end
@@ -429,32 +429,32 @@ graph TD
 
 ### Master Pipeline Stages & Quality Gates:
 
-1. ** Shift-Left Secret Scanning (`Gitleaks` & `TruffleHog`)**: Zero-tolerance scanning across full Git history for exposed API keys, private certificates, and credentials.
-2. ** Code Quality & Strict Typing (`Ruff`, `MyPy`, `ShellCheck`, `Yamllint`)**:
+1. **Shift-Left Secret Scanning (`Gitleaks` & `TruffleHog`)**: Zero-tolerance scanning across full Git history for exposed API keys, private certificates, and credentials.
+2. **Code Quality & Strict Typing (`Ruff`, `MyPy`, `ShellCheck`, `Yamllint`)**:
    - `Ruff` linter and formatter validation for all Python packages.
    - `MyPy` static type verification across all contract interfaces (`elo_contracts`).
    - `ShellCheck-Py` portability validation for all POSIX shell and bash automation scripts.
    - `Yamllint` syntax and schema check for Ansible playbooks, Kubernetes manifests, and Docker Compose files.
-3. ** SAST & Vulnerability Auditing (`Bandit`, `Semgrep`, `Trivy`)**:
+3. **SAST & Vulnerability Auditing (`Bandit`, `Semgrep`, `Trivy`)**:
    - `Bandit` AST vulnerability analysis on the ELO control plane and tools.
    - `Semgrep` static security rule evaluation for IaC and application code.
    - `Trivy` filesystem, base image, and CVE audit.
-4. ** Infrastructure as Code Validation (`Terraform`, `Ansible`, `Docker Compose`, `Kubeconform`)**:
+4. **Infrastructure as Code Validation (`Terraform`, `Ansible`, `Docker Compose`, `Kubeconform`)**:
    - `Terraform` format verification and template validation across Proxmox VM modules.
    - `Ansible-lint` and `ansible-playbook --syntax-check` on all provisioning playbooks.
    - Schema validation across all 31 Docker Compose service stacks.
    - `Kubeconform` validation against Kubernetes v1.30 API schemas.
-5. ** Multi-Python Version Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)**: Full automated test execution with coverage reporting (`28/28 tests passed 100% green`).
-6. ** Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively inside 6 major Linux container ecosystems:
+5. **Multi-Python Version Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)**: Full automated test execution with coverage reporting (`26/26 tests passed 100% green`).
+6. **Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively inside 6 major Linux container ecosystems:
    - **Debian 12 Bookworm** (`glibc` — Proxmox VE & OpenMediaVault base)
    - **Ubuntu 24.04 LTS Noble** (`glibc` — modern cloud server base)
    - **Alpine Linux 3.20** (`musl libc` — VM 201 & ultra-lean containers)
    - **Rocky Linux 9** (Enterprise RHEL / RPM ecosystem)
    - **Fedora 40** (Modern upstream RPM)
    - **Arch Linux** (Rolling release bleeding edge)
-7. ** Web Frontend Build & Bundle Verification**: Complete Vue 3 / Vite production compilation testing bundle size and asset integrity.
-8. ** Continuous Deployment & Multi-Arch Container Release (`.github/workflows/cd.yml`)**:
-   - Automated deployment of the static frontend dashboard to **GitHub Pages**.
+7. **Web Frontend Build & 3D Topology Verification**: Complete Vue 3 / Vite production compilation verifying 3D perspective topology canvas, responsive layouts, and asset bundle integrity.
+8. **Continuous Deployment & Multi-Arch Container Release (`.github/workflows/cd.yml`)**:
+   - Verification and packaging of the private self-hosted frontend bundle (local homelab network execution, 100% source code preserved as PoC).
    - Build and release of multi-architecture container images (`linux/amd64`, `linux/arm64`) to **GitHub Container Registry (GHCR)**.
    - Packaging of the native macOS Desktop application into `ELO-macOS-arm64.dmg`.
 

@@ -11,20 +11,16 @@ concurrency:
 
 jobs:
   # ==========================================
-  # STAGE 1: WEB FRONTEND GITHUB PAGES DEPLOY
+  # STAGE 1: WEB FRONTEND BUNDLE & POC INTEGRITY CHECK (PRIVATE SELF-HOSTED)
   # ==========================================
-  build-and-deploy-frontend:
-    name:  Build & Deploy Frontend to GitHub Pages
+  build-and-verify-frontend:
+    name:  Web Frontend — Build & Packaging Integrity (Private Self-Hosted PoC)
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pages: write
-      id-token: write
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
@@ -38,36 +34,12 @@ jobs:
           cd web
           npm ci || npm install
 
-      - name: Build Production Frontend Bundle
+      - name: Build Production Frontend Bundle (PoC Local / Private Mesh)
         run: |
           cd web
-          GITHUB_PAGES=true DEPLOY_TARGET=gh-pages NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}/ npm run build
-          touch dist/.nojekyll
-          cp dist/index.html dist/404.html 2>/dev/null || true
-
-      - name: Setup GitHub Pages Config
-        uses: actions/configure-pages@v5
-        continue-on-error: true
-
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: web/dist
-        continue-on-error: true
-
-      - name: Deploy to GitHub Pages Environment
-        id: deployment
-        uses: actions/deploy-pages@v4
-        continue-on-error: true
-
-      - name: Deploy Static Build to gh-pages Branch (Dual-Mode Resilient Fallback)
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./web/dist
-          publish_branch: gh-pages
-          force_orphan: true
-          commit_message: "deploy(pages): automatic production build [skip ci]"
+          npm run build
+          test -f dist/index.html
+          echo "Private self-hosted frontend bundle verified successfully."
 
   # ==========================================
   # STAGE 2: MULTI-ARCH DOCKER CONTAINER RELEASE (GHCR)

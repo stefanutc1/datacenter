@@ -11,6 +11,11 @@ class AgentRole(str, Enum):
     SYSADMIN_OPTIMIZER = "sysadmin_optimizer"
     SMART_HOME_ENERGY = "smart_home_energy"
     PREDICTIVE_HEALER = "predictive_healer"
+    NETSEC = "netsec_agent"
+    INFRA = "infra_agent"
+    STORAGE = "storage_agent"
+    HOME = "home_agent"
+    SWARM_ORCHESTRATOR = "swarm_orchestrator"
 
 
 class SubAgentTask(BaseModel):

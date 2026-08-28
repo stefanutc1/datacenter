@@ -65,6 +65,14 @@
             </button>
             <button 
               class="view-tab-btn" 
+              :class="{ active: currentView === 'topology3d' }" 
+              @click="currentView = 'topology3d'"
+            >
+              <svg class="svg-icon-xs text-cyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              3d topology
+            </button>
+            <button 
+              class="view-tab-btn" 
               :class="{ active: currentView === 'ports' }" 
               @click="currentView = 'ports'"
             >
@@ -307,6 +315,9 @@
       <!-- View 5: Visual VLAN & Mesh Topology -->
       <TopologyView v-else-if="currentView === 'topology'" />
 
+      <!-- View 5.1: Interactive 3D Perspective Topology Visualizer -->
+      <Topology3DView v-else-if="currentView === 'topology3d'" />
+
       <!-- View 6: Port Allocation Matrix -->
       <PortMatrix 
         v-else-if="currentView === 'ports'" 
@@ -361,6 +372,7 @@ import EloLiveTerminal from './components/EloLiveTerminal.vue';
 import ServiceCard from './components/ServiceCard.vue';
 import ServiceModal from './components/ServiceModal.vue';
 import TopologyView from './components/TopologyView.vue';
+import Topology3DView from './components/Topology3DView.vue';
 import PortMatrix from './components/PortMatrix.vue';
 import EmergencyView from './components/EmergencyView.vue';
 import HardwareView from './components/HardwareView.vue';
