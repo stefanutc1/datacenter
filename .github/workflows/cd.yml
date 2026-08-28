@@ -1,4 +1,4 @@
-name: CD Deployment Pipeline
+name: Enterprise CD Deployment & Multi-Arch Container Release
 
 on:
   push:
@@ -10,8 +10,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
-    name: Build & Deploy Frontend
+  # ==========================================
+  # STAGE 1: WEB FRONTEND GITHUB PAGES DEPLOY
+  # ==========================================
+  build-and-deploy-frontend:
+    name: 🌐 Build & Deploy Frontend to GitHub Pages
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -30,15 +33,15 @@ jobs:
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
-      - name: Install Web Dependencies
+      - name: Install Frontend Dependencies
         run: |
-          cd web && npm install
+          cd web
+          npm ci || npm install
 
-      - name: Build Unified Distribution Bundle
+      - name: Build Production Frontend Bundle
         run: |
           cd web
           GITHUB_PAGES=true DEPLOY_TARGET=gh-pages NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}/ npm run build
-          mkdir -p dist
           touch dist/.nojekyll
           cp dist/index.html dist/404.html 2>/dev/null || true
 
@@ -46,7 +49,7 @@ jobs:
         uses: actions/configure-pages@v5
         continue-on-error: true
 
-      - name: Upload Pages Artifact (for Actions Pages mode)
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist
@@ -57,7 +60,7 @@ jobs:
         uses: actions/deploy-pages@v4
         continue-on-error: true
 
-      - name: Deploy Static Build to gh-pages Branch (Dual-Mode Fallback)
+      - name: Deploy Static Build to gh-pages Branch (Dual-Mode Resilient Fallback)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -66,15 +69,31 @@ jobs:
           force_orphan: true
           commit_message: "deploy(pages): automatic production build [skip ci]"
 
-  docker-publish:
-    name: Build & Push Web Docker Image to GHCR
+  # ==========================================
+  # STAGE 2: MULTI-ARCH DOCKER CONTAINER RELEASE (GHCR)
+  # ==========================================
+  publish-multiarch-containers:
+    name: 🐳 Publish Multi-Arch Containers to GHCR (AMD64 & ARM64)
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: 'homelab-web'
+            context: '.'
+            dockerfile: 'web/Dockerfile'
+          - name: 'elo-core'
+            context: 'elo'
+            dockerfile: 'elo/apps/elo-core/Dockerfile'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up QEMU (for Multi-Arch Emulation)
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -90,15 +109,17 @@ jobs:
         id: meta
         run: |
           REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          IMAGE_NAME="ghcr.io/${REPO_OWNER}/homelab-web"
+          IMAGE_NAME="ghcr.io/${REPO_OWNER}/${{ matrix.target.name }}"
           echo "image=${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
 
-      - name: Build and Push Docker Image
+      - name: Build & Push Multi-Arch Image (linux/amd64, linux/arm64)
+        if: hashFiles(matrix.target.dockerfile) != ''
         uses: docker/build-push-action@v5
         continue-on-error: true
         with:
-          context: .
-          file: web/Dockerfile
+          context: ${{ matrix.target.context }}
+          file: ${{ matrix.target.dockerfile }}
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ steps.meta.outputs.image }}:latest

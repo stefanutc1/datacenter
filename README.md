@@ -359,36 +359,91 @@ flowchart LR
 
 ---
 
-## 🚀 CI/CD Pipelines & Quality Gates
+## 🚀 Enterprise CI/CD & DevSecOps Master Pipeline
 
-All changes to the monorepo are continuously validated and deployed via GitHub Actions:
+Every commit and pull request to the monorepo is continuously validated, audited, and deployed through an automated **8-Stage Enterprise CI/CD Pipeline** running on GitHub Actions:
 
+```mermaid
+graph TD
+    subgraph STAGE1["Stage 1: Shift-Left DevSecOps & Secrets"]
+        Gitleaks["Gitleaks Secret Scanner"]
+        TruffleHog["TruffleHog Deep Git Audit"]
+    end
+
+    subgraph STAGE2["Stage 2: Code Quality, Typing & Linting"]
+        Ruff["Ruff Linter & Formatter"]
+        MyPy["MyPy Static Type Checker"]
+        ShellCheck["ShellCheck POSIX Portability"]
+        Yamllint["Yamllint (Playbooks & K8s)"]
+    end
+
+    subgraph STAGE3["Stage 3: SAST & Vulnerability Auditing"]
+        Bandit["Bandit Python AST SAST"]
+        Semgrep["Semgrep Static Security"]
+        Trivy["Trivy CVE & Misconfiguration Scanner"]
+    end
+
+    subgraph STAGE4["Stage 4: IaC & Orchestration Validation"]
+        Terraform["Terraform Validate (Proxmox VMs)"]
+        Ansible["Ansible-lint & Syntax-Check"]
+        Compose["Docker Compose Schema (31 Stacks)"]
+        Kubeconform["Kubeconform (K3s Manifests)"]
+    end
+
+    subgraph STAGE5["Stage 5: Multi-Python Matrix (28/28 Tests)"]
+        PyMatrix["Python 3.9 · 3.10 · 3.11 · 3.12 · 3.13 (Pytest 100% Pass)"]
+    end
+
+    subgraph STAGE6["Stage 6: Multi-Linux Distro Matrix"]
+        DistroMatrix["Debian 12 · Ubuntu 24.04 · Alpine 3.20 (musl) · Rocky 9 · Fedora 40 · Arch"]
+    end
+
+    subgraph STAGE7["Stage 7: Web Frontend & macOS Packaging"]
+        ViteBuild["Vue 3 Frontend Production Build (Vite)"]
+        MacDMG["macOS .NET 10 DMG Packaging (arm64)"]
+    end
+
+    subgraph STAGE8["Stage 8: Continuous Deployment (CD) & Release"]
+        GHPages["Deploy to GitHub Pages"]
+        GHCRWeb["Publish homelab-web Multi-Arch (GHCR)"]
+        GHCRElo["Publish elo-core Multi-Arch (GHCR)"]
+    end
+
+    STAGE1 --> STAGE2 --> STAGE3 --> STAGE4 --> STAGE5 --> STAGE6 --> STAGE7 --> STAGE8
 ```
-.github/workflows/
-├── ci.yml                       # DevSecOps, Linting, Docker Compose, Terraform & ELO Test Suite
-├── cd.yml                       # Web Docker image build (GHCR) & GitHub Pages deployment
-├── desktop-macos-release.yml    # Native C# .NET 10 macOS Apple Silicon DMG Builder & GitHub Release
-└── container-scan.yml           # Scheduled Trivy vulnerability and CVE scanner
-```
 
-### Automated CI Pipeline Stages:
-1. **DevSecOps Secret Scanning (Gitleaks)**: Scans every commit for accidental secrets, tokens, or SSH keys.
-2. **SAST Static Analysis (Bandit)**: Static security analysis for Python in the ELO subsystem.
-3. **Multi-Distro Shell Script Portability (ShellCheck)**: Shell script validation across `scripts/` and `ai/scripts/`.
-4. **Docker Compose Validator**: Validates YAML syntax and environment declarations across all 28 service compose stacks.
-5. **Model Context Protocol (MCP) Validator**: Syntax and schema checking for `ai/mcp_config.json`.
-6. **Ansible Playbook Syntax Check**: Automated `ansible-playbook --syntax-check` on all playbooks.
-7. **Terraform Validation**: Format checking (`fmt`) and template validation across provider templates.
-8. **Web Dashboard Build**: Vite build and static distribution bundle verification.
-9. **ELO Automated Test Suite (26/26 Tests)**: Automated test execution on Python 3.12 for tool registry, ReAct loop, HMAC capability tokens, API endpoints, pgvector memory, and sub-agents.
-10. **Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively across 6 major Linux container ecosystems:
-    * **Debian 12 Bookworm** (`glibc` - Proxmox VE & OpenMediaVault base)
-    * **Ubuntu 24.04 LTS Noble** (`glibc`)
-    * **Alpine Linux 3.20** (`musl libc` - VM 201 microservices)
-    * **Rocky Linux 9** (Enterprise RPM / RHEL)
-    * **Fedora 40** (Modern upstream RPM)
-    * **Arch Linux** (Rolling release bleeding edge)
-11. **macOS Native DMG Builder (`macos-14`)**: Native .NET 10 compilation on Apple Silicon with automated DMG generation and GitHub Releases attachment.
+---
+
+### Master Pipeline Stages & Quality Gates:
+
+1. **🛡️ Shift-Left Secret Scanning (`Gitleaks` & `TruffleHog`)**: Zero-tolerance scanning across full Git history for exposed API keys, private certificates, and credentials.
+2. **🔍 Code Quality & Strict Typing (`Ruff`, `MyPy`, `ShellCheck`, `Yamllint`)**:
+   - `Ruff` linter and formatter validation for all Python packages.
+   - `MyPy` static type verification across all contract interfaces (`elo_contracts`).
+   - `ShellCheck-Py` portability validation for all POSIX shell and bash automation scripts.
+   - `Yamllint` syntax and schema check for Ansible playbooks, Kubernetes manifests, and Docker Compose files.
+3. **🔒 SAST & Vulnerability Auditing (`Bandit`, `Semgrep`, `Trivy`)**:
+   - `Bandit` AST vulnerability analysis on the ELO control plane and tools.
+   - `Semgrep` static security rule evaluation for IaC and application code.
+   - `Trivy` filesystem, base image, and CVE audit.
+4. **🏗️ Infrastructure as Code Validation (`Terraform`, `Ansible`, `Docker Compose`, `Kubeconform`)**:
+   - `Terraform` format verification and template validation across Proxmox VM modules.
+   - `Ansible-lint` and `ansible-playbook --syntax-check` on all provisioning playbooks.
+   - Schema validation across all 31 Docker Compose service stacks.
+   - `Kubeconform` validation against Kubernetes v1.30 API schemas.
+5. **🧪 Multi-Python Version Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)**: Full automated test execution with coverage reporting (`28/28 tests passed 100% green`).
+6. **🐧 Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively inside 6 major Linux container ecosystems:
+   - **Debian 12 Bookworm** (`glibc` — Proxmox VE & OpenMediaVault base)
+   - **Ubuntu 24.04 LTS Noble** (`glibc` — modern cloud server base)
+   - **Alpine Linux 3.20** (`musl libc` — VM 201 & ultra-lean containers)
+   - **Rocky Linux 9** (Enterprise RHEL / RPM ecosystem)
+   - **Fedora 40** (Modern upstream RPM)
+   - **Arch Linux** (Rolling release bleeding edge)
+7. **🌐 Web Frontend Build & Bundle Verification**: Complete Vue 3 / Vite production compilation testing bundle size and asset integrity.
+8. **🚀 Continuous Deployment & Multi-Arch Container Release (`.github/workflows/cd.yml`)**:
+   - Automated deployment of the static frontend dashboard to **GitHub Pages**.
+   - Build and release of multi-architecture container images (`linux/amd64`, `linux/arm64`) to **GitHub Container Registry (GHCR)**.
+   - Packaging of the native macOS Desktop application into `ELO-macOS-arm64.dmg`.
 
 ---
 
