@@ -8,7 +8,7 @@ set -euo pipefail
 
 SUBNET="${1:-192.168.1}"
 
-echo "🔎 [NETWORK SCAN] Scanning active hosts on ${SUBNET}.0/24..."
+echo " [NETWORK SCAN] Scanning active hosts on ${SUBNET}.0/24..."
 printf "%-18s %-20s %-20s\n" "IP ADDRESS" "STATUS" "HOSTNAME"
 echo "--------------------------------------------------------"
 
@@ -23,4 +23,4 @@ for i in {1..254}; do
 done
 wait
 echo "--------------------------------------------------------"
-echo "🎉 Network scan finished!"
+echo " Network scan finished!"

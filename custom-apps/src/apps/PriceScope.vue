@@ -3,7 +3,7 @@
     <!-- App Top Bar -->
     <header class="app-topbar">
       <div class="brand-box">
-        <div class="logo-circle">👁</div>
+        <div class="logo-circle"></div>
         <div>
           <h1 class="app-name">pricescope &bull; webwatcher</h1>
           <p class="app-tagline">real-time dom change detector &amp; live web price tracking engine</p>
@@ -16,8 +16,8 @@
           <span>live market &amp; web poller: active</span>
         </div>
         <button class="primary-btn" :disabled="isFetchingAll" @click="fetchEveryTarget">
-          <span v-if="!isFetchingAll">⚡ poll all live urls now</span>
-          <span v-else>⏳ fetching web pages...</span>
+          <span v-if="!isFetchingAll"> poll all live urls now</span>
+          <span v-else> fetching web pages...</span>
         </button>
         <button class="action-btn" @click="showAddModal = true">+ add custom url</button>
       </div>
@@ -26,7 +26,7 @@
     <!-- Top Live Market & Crypto Price Feed -->
     <div class="market-ticker-banner glass-panel" v-if="marketPrices">
       <div class="ticker-title-group">
-        <span class="ticker-logo">📈</span>
+        <span class="ticker-logo"></span>
         <span class="ticker-label">live market pricing feed</span>
       </div>
       <div class="ticker-items">
@@ -54,7 +54,7 @@
               <span class="hash-tag code-font">sha: {{ t.hash }}</span>
             </div>
             <h2 class="t-name">{{ t.name }}</h2>
-            <a :href="t.url" target="_blank" class="t-url code-font">{{ t.url }} ↗</a>
+            <a :href="t.url" target="_blank" class="t-url code-font">{{ t.url }} </a>
           </div>
 
           <div class="target-pricing" v-if="t.currentPrice || (t.detectedPrices && t.detectedPrices.length > 0)">
@@ -90,7 +90,7 @@
         <div class="card-footer">
           <span class="footer-msg">status: active live sync &bull; alert threshold: any dom change / price alert</span>
           <button class="poll-single-btn" :disabled="t.isFetching" @click="fetchSingleTarget(t)">
-            {{ t.isFetching ? '⏳ fetching live...' : '⚡ poll target now' }}
+            {{ t.isFetching ? ' fetching live...' : ' poll target now' }}
           </button>
         </div>
       </div>
@@ -162,7 +162,7 @@ const watchTargets = ref([
       { type: 'normal', prefix: ' ', content: 'Hacker News Frontpage Live Snapshot' },
       { type: 'added', prefix: '+', content: 'Top Story: Linux Kernel 6.10 Released with Multi-Architecture Updates' },
       { type: 'normal', prefix: ' ', content: '142 points by username 2 hours ago | 48 comments' }
-    ]
+]
   },
   {
     id: 'proxmox-wiki',
@@ -183,7 +183,7 @@ const watchTargets = ref([
       { type: 'added', prefix: '+', content: '* Linux Kernel 6.8.8-2-pve default hypervisor kernel' },
       { type: 'added', prefix: '+', content: '* QEMU 8.2.2 with hardware-assisted memory ballooning' },
       { type: 'normal', prefix: ' ', content: '* Enhanced ZFS 2.2.4 block cloning support' }
-    ]
+]
   },
   {
     id: 'hardware-rtx',
@@ -205,7 +205,7 @@ const watchTargets = ref([
       { type: 'removed', prefix: '-', content: '<span class="old-price">2,219.00 RON</span>' },
       { type: 'added', prefix: '+', content: '<span class="new-price">1,899.99 RON (-14.5% Flash Deal)</span>' },
       { type: 'normal', prefix: ' ', content: '<div class="stock in-stock">In Stoc (Livrare 24h)</div>' }
-    ]
+]
   }
 ]);
 
@@ -249,7 +249,7 @@ async function fetchEveryTarget() {
   await Promise.all([
     fetchLiveMarkets(),
     ...watchTargets.value.map(t => fetchSingleTarget(t))
-  ]);
+]);
   isFetchingAll.value = false;
 }
 

@@ -1,15 +1,15 @@
-# 🚨 Runbooks & Disaster Recovery
+# Runbooks & Disaster Recovery
 
-## 1. ⚡ Extended 10+ Hour Power Outage Standard Operating Procedure (SOP)
+## 1.  Extended 10+ Hour Power Outage Standard Operating Procedure (SOP)
 
 During prolonged blackouts ($> 10\text{ hours}$), battery-backed UPS reserves cannot sustain full compute workloads. To protect OpenMediaVault NAS NFS storage shares, database write journals, and delicate electronics from dirty dismounts or grid recovery power surges, follow this 4-phase protocol:
 
 ```mermaid
 graph TD
-    A["⚡ Grid Failure Detected (T+0m)"] --> B["NUT Alert & Broadcast (T+2m)"]
+    A[" Grid Failure Detected (T+0m)"] --> B["NUT Alert & Broadcast (T+2m)"]
     B --> C["Phase 1: Cascading Graceful Shutdown (T+5m)"]
     C --> D["Phase 2: Physical Isolation & Battery Cutoff (T+15m - 10h)"]
-    D --> E["⚡ Grid Power Restored & Stabilized (T+10h+)"]
+    D --> E[" Grid Power Restored & Stabilized (T+10h+)"]
     E --> F["Phase 3: Staged Cold-Boot Sequence"]
     F --> G["Phase 4: NAS NFS Mount & Health Verification"]
 ```
@@ -65,7 +65,7 @@ sudo -u postgres psql -c "SELECT datname, pg_size_pretty(pg_database_size(datnam
 
 ---
 
-## 2. 💾 Automated Backup Hierarchy & 3-2-1 Strategy
+## 2.  Automated Backup Hierarchy & 3-2-1 Strategy
 
 - **Proxmox Backup Server (PBS):** Daily deduplicated snapshots of all 24 LXC containers and 3 KVM VMs with encrypted remote sync.
 - **NAS NFS Backups:** Scheduled automated backups of application state and persistent volumes stored on OpenMediaVault NAS (`192.168.1.5`).

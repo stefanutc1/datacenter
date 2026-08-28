@@ -19,4 +19,4 @@ pre-commit install
 echo "[+] Running initial formatting and checks..."
 make fmt
 
-echo "[✓] Bootstrap completed successfully!"
+echo "[] Bootstrap completed successfully!"

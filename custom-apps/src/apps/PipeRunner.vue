@@ -3,7 +3,7 @@
     <!-- App Top Bar -->
     <header class="app-topbar">
       <div class="brand-box">
-        <div class="logo-circle">🚀</div>
+        <div class="logo-circle"></div>
         <div>
           <h1 class="app-name">piperunner ci</h1>
           <p class="app-tagline">autonomous ci/cd pipeline engine &bull; synchronized with git commits</p>
@@ -16,8 +16,8 @@
           <span>git hook: listening on HEAD</span>
         </div>
         <button class="primary-btn" :disabled="isRunning" @click="runPipelineForSelected">
-          <span v-if="!isRunning">▶ trigger pipeline for commit ({{ activeCommit ? activeCommit.hash : 'HEAD' }})</span>
-          <span v-else>⏳ executing build steps...</span>
+          <span v-if="!isRunning"> trigger pipeline for commit ({{ activeCommit ? activeCommit.hash : 'HEAD' }})</span>
+          <span v-else> executing build steps...</span>
         </button>
       </div>
     </header>
@@ -28,7 +28,7 @@
       <div class="pipelines-history-pane glass-panel">
         <div class="pane-header">
           <span class="pane-title">synced git commit builds ({{ gitCommits.length }})</span>
-          <button class="refresh-sub-btn" @click="fetchCommits">🔄 refresh</button>
+          <button class="refresh-sub-btn" @click="fetchCommits"> refresh</button>
         </div>
 
         <div class="runs-list">
@@ -41,7 +41,7 @@
           >
             <div class="run-row-left">
               <span class="status-icon" :class="getRunStatus(c.hash, idx)">
-                {{ getRunStatus(c.hash, idx) === 'passed' ? '✓' : (getRunStatus(c.hash, idx) === 'running' ? '◷' : '✕') }}
+                {{ getRunStatus(c.hash, idx) === 'passed' ? '' : (getRunStatus(c.hash, idx) === 'running' ? '◷' : '') }}
               </span>
               <div>
                 <div class="run-commit-msg">{{ c.message }}</div>
@@ -103,7 +103,7 @@
               <div class="stage-time code-font">{{ stage.time }}</div>
             </div>
             <div class="stage-state-mark">
-              <span v-if="stage.status === 'passed'">✓</span>
+              <span v-if="stage.status === 'passed'"></span>
               <span v-else-if="stage.status === 'running'" class="spin-mark">◷</span>
               <span v-else>○</span>
             </div>
@@ -185,14 +185,14 @@ function selectCommit(c) {
 function resetLogsForCommit(c) {
   logs.value = [
     { ts: '00:00:01', type: 'info', text: `[piperunner] clone repository stefannut/homelab @ git:${c.hash}...` },
-    { ts: '00:00:02', type: 'success', text: `✓ commit verified: "${c.message}" by @${c.author}` },
-    { ts: '00:00:04', type: 'success', text: '✓ stage 1: eslint, markdownlint & yamllint 0 errors' },
-    { ts: '00:00:07', type: 'success', text: '✓ stage 2: vitest & vue unit test suites passed' },
-    { ts: '00:00:09', type: 'success', text: '✓ stage 3: vite build completed: dist/ generated in 420ms' },
-    { ts: '00:00:11', type: 'success', text: `✓ stage 4: docker tag homelab/build:${c.hash} created & pushed` },
-    { ts: '00:00:12', type: 'success', text: '✓ stage 5: proxmox pve webhook triggered, service refreshed' },
+    { ts: '00:00:02', type: 'success', text: ` commit verified: "${c.message}" by @${c.author}` },
+    { ts: '00:00:04', type: 'success', text: ' stage 1: eslint, markdownlint & yamllint 0 errors' },
+    { ts: '00:00:07', type: 'success', text: ' stage 2: vitest & vue unit test suites passed' },
+    { ts: '00:00:09', type: 'success', text: ' stage 3: vite build completed: dist/ generated in 420ms' },
+    { ts: '00:00:11', type: 'success', text: ` stage 4: docker tag homelab/build:${c.hash} created & pushed` },
+    { ts: '00:00:12', type: 'success', text: ' stage 5: proxmox pve webhook triggered, service refreshed' },
     { ts: '00:00:12', type: 'info', text: `[piperunner] pipeline execution for ${c.hash} completed successfully (exit code 0)` }
-  ];
+];
   for (const s of stages.value) s.status = 'passed';
 }
 
@@ -205,7 +205,7 @@ function runPipelineForSelected() {
 
   logs.value = [
     { ts: '00:00:00', type: 'info', text: `[piperunner] starting clean pipeline execution for commit ${c.hash}...` }
-  ];
+];
 
   for (const s of stages.value) s.status = 'pending';
 
@@ -225,7 +225,7 @@ function runPipelineForSelected() {
       logs.value.push({
         ts: '00:00:11',
         type: 'success',
-        text: `✓ all pipeline stages passed cleanly for commit ${c.hash}! zero errors.`
+        text: ` all pipeline stages passed cleanly for commit ${c.hash}! zero errors.`
       });
       isRunning.value = false;
       currentPipelineStatus.value = 'passed';

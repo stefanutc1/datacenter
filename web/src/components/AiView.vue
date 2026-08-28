@@ -217,7 +217,7 @@
             <span class="inspector-dot" :style="{ backgroundColor: selectedItem.color || '#a855f7' }"></span>
             <h4>{{ selectedItem.name }}</h4>
           </div>
-          <button class="close-inspector-btn" @click="selectedItem = null">✕</button>
+          <button class="close-inspector-btn" @click="selectedItem = null"></button>
         </div>
 
         <div class="inspector-body">
@@ -243,7 +243,7 @@
           </div>
 
           <button class="switch-doc-btn" @click="viewMode = 'markdown'">
-            open full markdown docs ↗
+            open full markdown docs 
           </button>
         </div>
       </aside>
@@ -278,12 +278,12 @@ const subTabs = [
 ];
 
 const openGroups = reactive({
-  '📌 pinned': true,
-  '🤖 agents': true,
-  '🧠 memory & rag': true,
-  '⚡ mcp tools': true,
-  '🎯 skills': true,
-  '📦 models & hardware': true
+  ' pinned': true,
+  ' agents': true,
+  ' memory & rag': true,
+  ' mcp tools': true,
+  ' skills': true,
+  ' models & hardware': true
 });
 
 function toggleGroup(name) {
@@ -528,34 +528,34 @@ const aiGraphLinks = [
 const treeSections = computed(() => {
   return [
     {
-      name: '📌 pinned',
+      name: ' pinned',
       items: [
         aiKnowledgeData.find(i => i.id === 'homelab-ops-agent'),
         aiKnowledgeData.find(i => i.id === 'architecture-memory'),
         aiKnowledgeData.find(i => i.id === 'proxmox-mcp')
-      ].filter(Boolean)
+].filter(Boolean)
     },
     {
-      name: '🤖 agents',
+      name: ' agents',
       items: aiKnowledgeData.filter(i => i.category === 'agents')
     },
     {
-      name: '🧠 memory & rag',
+      name: ' memory & rag',
       items: aiKnowledgeData.filter(i => i.category === 'memory')
     },
     {
-      name: '⚡ mcp tools',
+      name: ' mcp tools',
       items: aiKnowledgeData.filter(i => i.category === 'mcp')
     },
     {
-      name: '🎯 skills',
+      name: ' skills',
       items: aiKnowledgeData.filter(i => i.category === 'skills')
     },
     {
-      name: '📦 models & hardware',
+      name: ' models & hardware',
       items: aiKnowledgeData.filter(i => i.category === 'models')
     }
-  ];
+];
 });
 
 const filteredSections = computed(() => {

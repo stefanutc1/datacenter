@@ -69,9 +69,9 @@ def generate_report(hostname, findings, source_file="Live Telemetry"):
         sev = f["severity"]
         severity_counts[sev] = severity_counts.get(sev, 0) + 1
 
-    report = f"""# 🛡️ CyberLab AI Threat Intelligence & Audit Report: {hostname}
+    report = f"""# CyberLab AI Threat Intelligence & Audit Report: {hostname}
 
-## 📊 Summary & Metadata
+## Summary & Metadata
 * **Node**: `{hostname}`
 * **Analysis Timestamp**: `{timestamp}`
 * **Log Source**: `{source_file}`
@@ -80,7 +80,7 @@ def generate_report(hostname, findings, source_file="Live Telemetry"):
 
 ---
 
-## 🎯 MITRE ATT&CK Matrix Correlation
+## MITRE ATT&CK Matrix Correlation
 
 | Severity | MITRE Tactic | Technique | Matched Log Sample |
 | :--- | :--- | :--- | :--- |
@@ -94,7 +94,7 @@ def generate_report(hostname, findings, source_file="Live Telemetry"):
     report += f"""
 ---
 
-## 💡 Automated Recommendations & Incident Playbooks
+## Automated Recommendations & Incident Playbooks
 1. **Host Isolation**: If critical kernel or account manipulation events are present, trigger emergency containment:
    ```bash
    ansible-playbook -i inventory/hosts.yml ansible/playbooks/incident_response.yml -e target_host={hostname}

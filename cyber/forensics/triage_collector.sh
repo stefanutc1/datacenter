@@ -9,7 +9,7 @@ OUT_DIR="/tmp/cyberlab_triage_${TIMESTAMP}"
 mkdir -p "${OUT_DIR}"
 
 echo "======================================================================"
-echo "  🚨 CyberLab Live Forensics & Volatile Artifact Collector"
+echo "   CyberLab Live Forensics & Volatile Artifact Collector"
 echo "======================================================================"
 echo "Output Directory: ${OUT_DIR}"
 
@@ -56,7 +56,7 @@ tar -czf "${TAR_FILE}" -C /tmp "cyberlab_triage_${TIMESTAMP}"
 sha256sum "${TAR_FILE}" > "${TAR_FILE}.sha256"
 
 echo "======================================================================"
-echo "  ✅ Triage collection complete!"
+echo "   Triage collection complete!"
 echo "  Artifact Archive : ${TAR_FILE}"
 echo "  SHA-256 Checksum : $(cat ${TAR_FILE}.sha256)"
 echo "======================================================================"

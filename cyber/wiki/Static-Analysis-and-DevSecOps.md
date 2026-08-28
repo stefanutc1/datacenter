@@ -1,4 +1,4 @@
-# 🔬 Static Analysis & DevSecOps
+# Static Analysis & DevSecOps
 
 ## 1. Semgrep SAST Analysis (`audit/semgrep/`, `scripts/run_semgrep_sast.sh`)
 

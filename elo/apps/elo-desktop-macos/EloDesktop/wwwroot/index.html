@@ -319,16 +319,16 @@
             <div class="soc-card p-4">
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="sendPrompt('Ce faci broski?')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#c89b9e] text-xs transition">
-                        <span class="font-semibold text-[#f5ecec] block">💬 "Ce faci broski?"</span>
+                        <span class="font-semibold text-[#f5ecec] block"> "Ce faci broski?"</span>
                     </button>
                     <button onclick="sendPrompt('Arată-mi resursele reale din Homelab')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#c89b9e] text-xs transition">
-                        <span class="font-semibold text-[#f5ecec] block">📊 "Resurse Homelab"</span>
+                        <span class="font-semibold text-[#f5ecec] block"> "Resurse Homelab"</span>
                     </button>
                     <button onclick="sendPrompt('Restart VM 101')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#cfa16a] text-xs transition">
-                        <span class="font-semibold text-[#cfa16a] block">⚠️ "Restart VM 101"</span>
+                        <span class="font-semibold text-[#cfa16a] block"> "Restart VM 101"</span>
                     </button>
                     <button onclick="sendPrompt('Rulează simularea Monte Carlo')" class="text-left p-2 rounded-lg bg-[#0d090a]/70 border border-[rgba(214,182,186,0.12)] hover:border-[#00cec9] text-xs transition">
-                        <span class="font-semibold text-[#00cec9] block">📈 "Monte Carlo Risk"</span>
+                        <span class="font-semibold text-[#00cec9] block"> "Monte Carlo Risk"</span>
                     </button>
                 </div>
             </div>
@@ -432,7 +432,7 @@
                     </div>
                     <div>
                         <h3 class="font-serif-custom font-bold text-lg text-[#f5ecec] lowercase">tiered llm cascade pipeline</h3>
-                        <span class="text-[10px] font-mono-custom text-[#9e7f83]">AUTOMATIC QUOTA FAILOVER: GEMINI ➔ CHATGPT ➔ CLAUDE ➔ LOCAL OLLAMA</span>
+                        <span class="text-[10px] font-mono-custom text-[#9e7f83]">AUTOMATIC QUOTA FAILOVER: GEMINI  CHATGPT  CLAUDE  LOCAL OLLAMA</span>
                     </div>
                 </div>
                 <button onclick="closeLLMModal()" class="text-[#9e7f83] hover:text-[#f5ecec] transition">
@@ -447,7 +447,7 @@
                     <span id="llm-status-text" class="font-bold text-[#6b9e78]">ONLINE (CASCADE READY)</span>
                 </div>
                 <div id="cascade-chain-display" class="text-[#00cec9] font-bold text-[11px] truncate">
-                    Gemini ➔ ChatGPT ➔ Claude ➔ Mock
+                    Gemini  ChatGPT  Claude  Mock
                 </div>
             </div>
 
@@ -704,7 +704,7 @@
                 const isOnline = s.is_reachable || s.status === "ONLINE";
                 const dotColor = isOnline ? "bg-[#6b9e78]" : "bg-[#b8555a]";
                 const latencyBadge = s.latency_ms ? `<span class="text-[9px] text-[#6b9e78]">${s.latency_ms}ms</span>` : `<span class="text-[9px] text-[#b8555a]">OFFLINE</span>`;
-                const pinnedBadge = s.is_pinned ? `<span class="text-[9px] px-1 py-0.2 rounded bg-[#cfa16a]/20 text-[#cfa16a] border border-[#cfa16a]/40 font-mono">★ PINNED</span>` : '';
+                const pinnedBadge = s.is_pinned ? `<span class="text-[9px] px-1 py-0.2 rounded bg-[#cfa16a]/20 text-[#cfa16a] border border-[#cfa16a]/40 font-mono"> PINNED</span>` : '';
 
                 return `
                     <div onclick="sendPrompt('Status si detalii pentru serviciul ${s.name} (${s.ip}:${s.port})')" class="p-2 rounded-xl bg-[#0d090a]/80 border border-[rgba(214,182,186,0.1)] hover:border-[#00cec9] cursor-pointer transition flex items-center justify-between group">
@@ -762,7 +762,7 @@
                 const resp = await fetch('/v1/llm/status');
                 const data = await resp.json();
                 
-                document.getElementById('cascade-chain-display').innerText = data.cascade_chain || "Gemini ➔ OpenRouter ➔ ChatGPT ➔ Claude ➔ Mock";
+                document.getElementById('cascade-chain-display').innerText = data.cascade_chain || "Gemini  OpenRouter  ChatGPT  Claude  Mock";
                 
                 // Indicators
                 document.getElementById('gemini-status-indicator').innerText = data.gemini_configured ? "CONFIGURED (TIER 1)" : "NOT SET";
@@ -1106,7 +1106,7 @@
             if (tools && tools.length > 0) {
                 toolsHtml = `
                     <div class="mt-2.5 pt-2 border-t border-[rgba(214,182,186,0.1)] flex flex-wrap gap-1.5">
-                        ${tools.map(t => `<span class="px-2 py-0.5 rounded bg-[#0d090a] border border-[rgba(214,182,186,0.15)] text-[10px] text-[#00cec9] font-mono-custom">🛠️ ${t.tool} (OK)</span>`).join('')}
+                        ${tools.map(t => `<span class="px-2 py-0.5 rounded bg-[#0d090a] border border-[rgba(214,182,186,0.15)] text-[10px] text-[#00cec9] font-mono-custom"> ${t.tool} (OK)</span>`).join('')}
                     </div>
                 `;
             }
@@ -1186,10 +1186,10 @@
                 });
                 if (approved) {
                     speakText(currentLang === "RO" ? "Acțiune aprobată cu succes." : "Action approved successfully.");
-                    btnGroup.innerHTML = `<span class="text-xs text-[#6b9e78] font-bold">✅ APPROVED BY USER</span>`;
+                    btnGroup.innerHTML = `<span class="text-xs text-[#6b9e78] font-bold"> APPROVED BY USER</span>`;
                 } else {
                     speakText(currentLang === "RO" ? "Acțiune respinsă." : "Action rejected.");
-                    btnGroup.innerHTML = `<span class="text-xs text-[#b8555a] font-bold">❌ REJECTED BY USER</span>`;
+                    btnGroup.innerHTML = `<span class="text-xs text-[#b8555a] font-bold"> REJECTED BY USER</span>`;
                 }
                 setCoreState("STANDBY");
             } catch (err) {

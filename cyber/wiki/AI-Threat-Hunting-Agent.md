@@ -1,4 +1,4 @@
-# 🤖 AI Threat Hunting Agent
+# AI Threat Hunting Agent
 
 CyberLab includes a native Python AI threat hunting and correlation engine under `ai/`:
 

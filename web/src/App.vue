@@ -106,7 +106,7 @@
                 placeholder="search services, ports, tags, runbooks..." 
                 class="search-input"
               />
-              <button v-if="searchQuery" @click="searchQuery = ''" class="search-clear-btn" title="clear search">✕</button>
+              <button v-if="searchQuery" @click="searchQuery = ''" class="search-clear-btn" title="clear search"></button>
             </div>
 
             <button @click="toggleTheme" class="theme-toggle-btn" :title="`switch to ${currentTheme === 'dark' ? 'light' : 'dark'} mode`">

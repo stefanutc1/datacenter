@@ -7,7 +7,7 @@ on:
 
 jobs:
   nightly-security-scan:
-    name: 🛡️ Nightly Comprehensive Security Scan
+    name:  Nightly Comprehensive Security Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

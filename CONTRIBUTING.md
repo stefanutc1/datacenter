@@ -1,10 +1,10 @@
-# 🤝 Contributing to Homelab & ELO
+# Contributing to Homelab & ELO
 
 Thank you for your interest in contributing to the **Homelab & ELO (Enhanced Local Orchestrator)** platform! This project is an enterprise-grade, declarative homelab infrastructure monorepo integrating Proxmox VE, OpenMediaVault, autonomous AI control planes, ESP32 edge telemetry, and multi-distribution Linux CI/CD pipelines.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 1. [Monorepo Architecture Overview](#1-monorepo-architecture-overview)
 2. [Development Environment Setup](#2-development-environment-setup)
 3. [Conventional Commits & Git Standards](#3-conventional-commits--git-standards)
@@ -145,11 +145,11 @@ cd web && npm run build
    - `fix/issue-description`
    - `ci/pipeline-enhancement`
 2. **Pull Request Checklist**:
-   - [ ] Branch is rebased against the latest `main`.
-   - [ ] All automated tests pass (`pytest -v`).
-   - [ ] Linters (`ruff`, `mypy`, `shellcheck`, `yamllint`) return 0 errors.
-   - [ ] Documentation (`README.md`, `ARCHITECTURE.md`) has been updated.
-   - [ ] No API keys, credentials, or `.env` files are included.
+   - [] Branch is rebased against the latest `main`.
+   - [] All automated tests pass (`pytest -v`).
+   - [] Linters (`ruff`, `mypy`, `shellcheck`, `yamllint`) return 0 errors.
+   - [] Documentation (`README.md`, `ARCHITECTURE.md`) has been updated.
+   - [] No API keys, credentials, or `.env` files are included.
 3. **CI Quality Gate**:
    - The 8-Stage Enterprise CI Pipeline must execute and turn green on GitHub Actions.
 

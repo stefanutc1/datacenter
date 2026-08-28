@@ -2,9 +2,9 @@ name: CI - Validate Configs & Scripts
 
 on:
   pull_request:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
   push:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
 
 jobs:
   lint-and-validate:
@@ -26,15 +26,15 @@ jobs:
       - name: Validate JSON syntax (mcp_config.json)
         run: |
           python3 -c "import json; json.load(open('mcp_config.json'))"
-          echo "[✓] mcp_config.json is valid JSON."
+          echo "[] mcp_config.json is valid JSON."
 
       - name: Validate Shell script syntax (setup.sh)
         run: |
           bash -n scripts/setup.sh
-          echo "[✓] setup.sh syntax is valid."
+          echo "[] setup.sh syntax is valid."
 
       - name: Run Ansible Lint
         if: hashFiles('ansible/playbook.yml') != ''
         run: |
           ansible-lint ansible/playbook.yml
-          echo "[✓] Ansible playbook passed linting."
+          echo "[] Ansible playbook passed linting."

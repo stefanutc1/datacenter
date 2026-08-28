@@ -11,7 +11,7 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
-log "🏷️ [PROXMOX TAGS] Applying standardized tags across all LXC containers and VMs..."
+log " [PROXMOX TAGS] Applying standardized tags across all LXC containers and VMs..."
 
 # LXC Containers Tags Map (100 to 119)
 declare -A LXC_TAGS=(
@@ -39,11 +39,11 @@ declare -A LXC_TAGS=(
 
 for ctid in "${!LXC_TAGS[@]}"; do
     tags="${LXC_TAGS[$ctid]}"
-    if [ -f "/etc/pve/lxc/${ctid}.conf" ]; then
+    if [-f "/etc/pve/lxc/${ctid}.conf"]; then
         pct set "$ctid" -tags "$tags" >/dev/null 2>&1 || {
             sed -i "s/^tags:.*/tags: $tags/" "/etc/pve/lxc/${ctid}.conf"
         }
-        printf "   ✅ LXC %-3s -> Tags: %s\n" "$ctid" "$tags"
+        printf "    LXC %-3s -> Tags: %s\n" "$ctid" "$tags"
     fi
 done
 
@@ -55,12 +55,12 @@ declare -A VM_TAGS=(
 
 for vmid in "${!VM_TAGS[@]}"; do
     tags="${VM_TAGS[$vmid]}"
-    if [ -f "/etc/pve/qemu-server/${vmid}.conf" ]; then
+    if [-f "/etc/pve/qemu-server/${vmid}.conf"]; then
         qm set "$vmid" -tags "$tags" >/dev/null 2>&1 || {
             sed -i "s/^tags:.*/tags: $tags/" "/etc/pve/qemu-server/${vmid}.conf"
         }
-        printf "   ✅ VM  %-3s -> Tags: %s\n" "$vmid" "$tags"
+        printf "    VM  %-3s -> Tags: %s\n" "$vmid" "$tags"
     fi
 done
 
-log "🎉 [COMPLETE] Proxmox VE Fleet Tags applied successfully!"
+log " [COMPLETE] Proxmox VE Fleet Tags applied successfully!"

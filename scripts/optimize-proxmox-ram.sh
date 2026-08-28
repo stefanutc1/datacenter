@@ -11,10 +11,10 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
-log "🚀 [PROXMOX RAM OPTIMIZATION] Starting Aggressive Memory Tuning..."
+log " [PROXMOX RAM OPTIMIZATION] Starting Aggressive Memory Tuning..."
 
 # 1. Host Kernel Memory Parameter Optimization
-log "⚡ [1/5] Configuring Host Sysctl (swappiness=10, vfs cache pressure, dirty ratios)..."
+log " [1/5] Configuring Host Sysctl (swappiness=10, vfs cache pressure, dirty ratios)..."
 cat << "SYSCTL" > /etc/sysctl.d/99-homelab-memory.conf
 vm.swappiness = 10
 vm.vfs_cache_pressure = 50
@@ -24,7 +24,7 @@ SYSCTL
 sysctl -p /etc/sysctl.d/99-homelab-memory.conf
 
 # 2. Enable & Tune Kernel Samepage Merging (KSM) for Shared Alpine Linux Memory Pages
-log "🧠 [2/5] Enabling and Tuning Kernel Samepage Merging (KSM)..."
+log " [2/5] Enabling and Tuning Kernel Samepage Merging (KSM)..."
 echo 1 > /sys/kernel/mm/ksm/run || true
 echo 1000 > /sys/kernel/mm/ksm/pages_to_scan || true
 echo 50 > /sys/kernel/mm/ksm/sleep_millisecs || true
@@ -32,11 +32,11 @@ systemctl enable --now ksm 2>/dev/null || true
 systemctl enable --now ksmtuned 2>/dev/null || true
 
 # 3. Disable Unused TTY Gettys inside all Alpine Containers
-log "🧹 [3/5] Disabling unused TTY gettys in Alpine container inittabs..."
+log " [3/5] Disabling unused TTY gettys in Alpine container inittabs..."
 for ctid in $(pct list | awk "NR>1 {print \$1}"); do
     if pct status "$ctid" 2>/dev/null | grep -q "status: running"; then
         pct exec "$ctid" -- sh -c "
-            if [ -f /etc/inittab ]; then
+            if [-f /etc/inittab]; then
                 sed -i 's/^tty/#tty/g' /etc/inittab 2>/dev/null || true
                 kill -HUP 1 2>/dev/null || true
             fi
@@ -45,7 +45,7 @@ for ctid in $(pct list | awk "NR>1 {print \$1}"); do
 done
 
 # 4. Apply Ultra-Lean Razor-Sharp Memory Allocations (RAM:SWAP in MB)
-log "📦 [4/5] Applying ultra-lean container RAM limits..."
+log " [4/5] Applying ultra-lean container RAM limits..."
 declare -A MEM_MAP=(
     [100]="112:64"   # Nginx Proxy Manager
     [101]="96:64"    # Pi-hole DNS
@@ -74,18 +74,18 @@ for ctid in "${!MEM_MAP[@]}"; do
     mem="${val%%:*}"
     swap="${val##*:}"
     
-    if [ -f "/etc/pve/lxc/${ctid}.conf" ]; then
+    if [-f "/etc/pve/lxc/${ctid}.conf"]; then
         pct set "$ctid" -memory "$mem" -swap "$swap" 2>/dev/null || {
             sed -i "s/^memory:.*/memory: $mem/" "/etc/pve/lxc/${ctid}.conf"
             sed -i "s/^swap:.*/swap: $swap/" "/etc/pve/lxc/${ctid}.conf"
         }
-        printf "   ✅ LXC %-3s -> Memory: %4s MB | Swap: %4s MB\n" "$ctid" "$mem" "$swap"
+        printf "    LXC %-3s -> Memory: %4s MB | Swap: %4s MB\n" "$ctid" "$mem" "$swap"
     fi
 done
 
 # 5. Drop Host Caches and Reclaim Inactive Memory
-log "🔄 [5/5] Dropping host page cache & flushing memory..."
+log " [5/5] Dropping host page cache & flushing memory..."
 sync
 echo 3 > /proc/sys/vm/drop_caches
 
-log "🎉 [COMPLETE] Proxmox RAM Optimization Finished Successfully!"
+log " [COMPLETE] Proxmox RAM Optimization Finished Successfully!"

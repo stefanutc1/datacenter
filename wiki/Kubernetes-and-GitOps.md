@@ -1,4 +1,4 @@
-# ☸️ Kubernetes & GitOps
+# Kubernetes & GitOps
 
 ## k3s Cluster Architecture
 

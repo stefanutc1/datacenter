@@ -1,4 +1,4 @@
-# 🌐 Architecture & Networking
+# Architecture & Networking
 
 ## Subnetting & VLAN Topology
 

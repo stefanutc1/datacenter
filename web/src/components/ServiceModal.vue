@@ -35,13 +35,13 @@
         <div class="metric-item">
           <span class="metric-label">local domain (.lan)</span>
           <a :href="service.domainUrl || service.internalUrl" target="_blank" rel="noopener noreferrer" class="metric-link code-font text-ellipsis">
-            {{ service.domain || service.internalUrl }} ↗
+            {{ service.domain || service.internalUrl }} 
           </a>
         </div>
         <div class="metric-item">
           <span class="metric-label">direct ip &amp; port</span>
           <a :href="service.ipUrl" target="_blank" rel="noopener noreferrer" class="metric-link code-font text-ellipsis">
-            {{ service.ip }}:{{ service.port }} ↗
+            {{ service.ip }}:{{ service.port }} 
           </a>
         </div>
         <div class="metric-item">

@@ -1,4 +1,4 @@
-# 🛡️ CyberLab Wiki
+# CyberLab Wiki
 
 - [[Home]]
 - [[Network Topology & Segmentation|Network-Topology-and-Segmentation]]

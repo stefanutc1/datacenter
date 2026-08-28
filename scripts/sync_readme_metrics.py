@@ -86,10 +86,10 @@ def update_readme():
 
     if new_content != content:
         README_PATH.write_text(new_content, encoding="utf-8")
-        print(f"✅ README.md successfully updated with latest metrics: {services_cnt} services, {tools_cnt} tools, {tests_cnt} tests.")
+        print(f" README.md successfully updated with latest metrics: {services_cnt} services, {tools_cnt} tools, {tests_cnt} tests.")
         return True
     else:
-        print("ℹ️ README.md is already up to date.")
+        print(" README.md is already up to date.")
         return False
 
 

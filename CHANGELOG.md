@@ -1,4 +1,4 @@
-# 📜 Changelog
+# Changelog
 
 All notable changes to the **Homelab & ELO Platform** will be documented in this file.
 
@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.5.0] - 2026-08-28
 
-### 🚀 Added
+### Added
 - **8-Stage Enterprise CI/CD & DevSecOps Master Pipeline**:
   - Gitleaks & TruffleHog OSS deep Git history secret auditing.
   - Ruff linter/formatter, MyPy static type checking, ShellCheck-Py, and Yamllint.
@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Unified all dashboard components, hardware node inspectors, topology graphs, port matrices, and full Markdown documentation into a single Vue 3 / Vite application in `web/`.
   - Removed redundant `homepage/` subfolder.
 
-### 🔒 Security
+### Security
 - Removed paid proprietary model providers (OpenAI/ChatGPT and Anthropic/Claude) to eliminate recurring token costs.
 - Enforced non-interactive mode and dedicated virtual environments for PEP 668 compliance across Linux distributions.
 
@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - 2026-08-27
 
-### 🚀 Added
+### Added
 - **ELO Autonomous Sub-Agent Swarm**:
   - `SecOpsThreatHunterAgent`: Automated correlation of Wazuh SIEM and Suricata NIDS logs with OPNsense IP quarantine.
   - `SysAdminOptimizerAgent`: Cluster RAM/CPU telemetry optimization and Docker cache pruning.
@@ -56,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-08-25
 
-### 🚀 Added
+### Added
 - Initial Proxmox VE 9.2 hypervisor provisioning with OPNsense virtual router (VM 200) and Alpine Linux server (VM 202).
 - Declarative Infrastructure as Code configurations via Terraform and Ansible CIS Level 1 hardening.
 - Production deployment of 28 containerized microservices across VLAN 1, 10, 20, 30, and 40.

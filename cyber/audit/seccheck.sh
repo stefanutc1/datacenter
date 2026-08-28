@@ -5,7 +5,7 @@
 set -euo pipefail
 
 echo "======================================================================"
-echo "  🔍 CyberLab Deep Host Security & Hygiene Inspector"
+echo "   CyberLab Deep Host Security & Hygiene Inspector"
 echo "======================================================================"
 
 echo "==> [1/6] Checking for SUID / SGID Binaries..."
@@ -25,7 +25,7 @@ find / -nouser -o -nogroup 2>/dev/null | head -n 20 || echo "Clean: No orphan fi
 
 echo ""
 echo "==> [5/6] Checking SSH Daemon Configuration..."
-if [ -f /etc/ssh/sshd_config ]; then
+if [-f /etc/ssh/sshd_config]; then
     echo "Port: $(grep -E '^Port ' /etc/ssh/sshd_config || echo '22 (default)')"
     echo "PermitRootLogin: $(grep -E '^PermitRootLogin ' /etc/ssh/sshd_config || echo 'default')"
     echo "PasswordAuthentication: $(grep -E '^PasswordAuthentication ' /etc/ssh/sshd_config || echo 'default')"

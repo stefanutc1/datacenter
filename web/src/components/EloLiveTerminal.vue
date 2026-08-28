@@ -123,7 +123,7 @@
           <div class="swarm-list">
             <div class="swarm-card">
               <div class="swarm-header">
-                <span class="swarm-name">🛡️ SecOps Threat-Hunter</span>
+                <span class="swarm-name"> SecOps Threat-Hunter</span>
                 <span class="swarm-status active">ACTIVE</span>
               </div>
               <p class="swarm-desc">Correlating Wazuh SIEM &amp; Suricata NIDS logs &bull; 0 Active Threats</p>
@@ -131,7 +131,7 @@
 
             <div class="swarm-card">
               <div class="swarm-header">
-                <span class="swarm-name">⚙️ SysAdmin Optimizer</span>
+                <span class="swarm-name"> SysAdmin Optimizer</span>
                 <span class="swarm-status active">ACTIVE</span>
               </div>
               <p class="swarm-desc">KSM deduplication: 420 MB saved &bull; Proxmox RAM: 72% optimal</p>
@@ -139,7 +139,7 @@
 
             <div class="swarm-card">
               <div class="swarm-header">
-                <span class="swarm-name">⚡ Smart Energy Agent</span>
+                <span class="swarm-name"> Smart Energy Agent</span>
                 <span class="swarm-status active">STANDBY</span>
               </div>
               <p class="swarm-desc">Home Assistant power draw: 142W &bull; 0 Vampire loads detected</p>
@@ -147,7 +147,7 @@
 
             <div class="swarm-card">
               <div class="swarm-header">
-                <span class="swarm-name">🛡️ Predictive ZFS Healer</span>
+                <span class="swarm-name"> Predictive ZFS Healer</span>
                 <span class="swarm-status active">HEALTHY</span>
               </div>
               <p class="swarm-desc">Scrutiny SMART: 0 Bad sectors &bull; Last snapshot: 10m ago</p>
@@ -195,10 +195,10 @@ const audioCanvasRef = ref(null);
 let animAudioId = null;
 
 const promptPills = [
-  { icon: '🖥️', label: 'Cluster Health', text: 'Verifică starea nodurilor Proxmox și OpenMediaVault NAS' },
-  { icon: '🛡️', label: 'SecOps Audit', text: 'Rulează un audit de securitate pe logurile OPNsense și Wazuh SIEM' },
-  { icon: '📍', label: 'ESP32 Room Jump', text: 'Simulează schimbarea locației fizice prin radar ESP32 în Living' },
-  { icon: '🧠', label: 'Cascade Test', text: 'Testează cascada de modele gratuite Gemini -> Groq -> OpenRouter' }
+  { icon: '', label: 'Cluster Health', text: 'Verifică starea nodurilor Proxmox și OpenMediaVault NAS' },
+  { icon: '', label: 'SecOps Audit', text: 'Rulează un audit de securitate pe logurile OPNsense și Wazuh SIEM' },
+  { icon: '', label: 'ESP32 Room Jump', text: 'Simulează schimbarea locației fizice prin radar ESP32 în Living' },
+  { icon: '', label: 'Cascade Test', text: 'Testează cascada de modele gratuite Gemini -> Groq -> OpenRouter' }
 ];
 
 const messages = ref([
@@ -207,10 +207,10 @@ const messages = ref([
     time: '12:00:00',
     content: 'Salutare! Sunt **ELO (Enhanced Local Orchestrator)**. Controlul autonom al infrastructurii homelab este activat. Cu ce pot asista clusterul?',
     steps: [
-      { type: 'reasoning', badge: '🧠 SYSTEM_INIT', text: 'Loaded 19 registered tools into L0-L3 Gatekeeper.' },
-      { type: 'action', badge: '⚡ MEMORY_SYNC', text: 'Vector index pgvector synchronized (128-D cosine embeddings).' },
-      { type: 'completed', badge: '✅ CASCADE_READY', text: 'Tier 1: Gemini 2.5 Flash | Tier 2: Groq LPU (Llama 3.3 70B).' }
-    ],
+      { type: 'reasoning', badge: ' SYSTEM_INIT', text: 'Loaded 19 registered tools into L0-L3 Gatekeeper.' },
+      { type: 'action', badge: ' MEMORY_SYNC', text: 'Vector index pgvector synchronized (128-D cosine embeddings).' },
+      { type: 'completed', badge: ' CASCADE_READY', text: 'Tier 1: Gemini 2.5 Flash | Tier 2: Groq LPU (Llama 3.3 70B).' }
+],
     showTrace: true
   }
 ]);
@@ -253,36 +253,36 @@ const handleSubmit = async () => {
 
     if (userText.toLowerCase().includes('proxmox') || userText.toLowerCase().includes('cluster') || userText.toLowerCase().includes('health')) {
       steps = [
-        { type: 'reasoning', badge: '🧠 REASONING', text: 'Operator requested cluster telemetry probe. Resolving target nodes.' },
-        { type: 'action', badge: '⚡ EXEC_TOOL', text: 'proxmox_get_cluster_status(node="pve", ip="192.168.1.132")' },
-        { type: 'observation', badge: '🔍 OBSERVATION', text: 'PVE Online: CPU 14%, RAM 5.8/8GB, GTX 1050 Ti VRAM 1.2/4GB, ZFS Pool 100% OK.' },
-        { type: 'action', badge: '⚡ EXEC_TOOL', text: 'nas_get_smart_status(ip="192.168.1.135")' },
-        { type: 'observation', badge: '🔍 OBSERVATION', text: 'OpenMediaVault NAS: 0 bad sectors, CPU temp 34°C.' },
-        { type: 'completed', badge: '✅ SYNTHESIS', text: 'Cluster operates within optimal bounds. Zero degraded services.' }
-      ];
+        { type: 'reasoning', badge: ' REASONING', text: 'Operator requested cluster telemetry probe. Resolving target nodes.' },
+        { type: 'action', badge: ' EXEC_TOOL', text: 'proxmox_get_cluster_status(node="pve", ip="192.168.1.132")' },
+        { type: 'observation', badge: ' OBSERVATION', text: 'PVE Online: CPU 14%, RAM 5.8/8GB, GTX 1050 Ti VRAM 1.2/4GB, ZFS Pool 100% OK.' },
+        { type: 'action', badge: ' EXEC_TOOL', text: 'nas_get_smart_status(ip="192.168.1.135")' },
+        { type: 'observation', badge: ' OBSERVATION', text: 'OpenMediaVault NAS: 0 bad sectors, CPU temp 34°C.' },
+        { type: 'completed', badge: ' SYNTHESIS', text: 'Cluster operates within optimal bounds. Zero degraded services.' }
+];
       responseText = 'Toate cele **4 noduri hardware** funcționează optim:\n- **Proxmox VE (192.168.1.132)**: CPU 14%, RAM 5.8/8 GB, 31 containere active.\n- **OpenMediaVault NAS (192.168.1.135)**: Stocare ZFS sănătoasă, SMART 100% OK.\n- **Apple M1 Host (192.168.1.133)**: ELO Daemon activ, accelerare Metal MPS pregătită.\n- **k8s Worker**: nod conectat.';
     } else if (userText.toLowerCase().includes('securitate') || userText.toLowerCase().includes('secops') || userText.toLowerCase().includes('opnsense')) {
       steps = [
-        { type: 'reasoning', badge: '🧠 REASONING', text: 'Dispatching telemetry probe to SecOps Threat-Hunter sub-agent.' },
-        { type: 'action', badge: '⚡ EXEC_TOOL', text: 'opnsense_get_firewall_logs(limit=50)' },
-        { type: 'observation', badge: '🔍 OBSERVATION', text: '0 active brute-force attempts. CrowdSec LAPI reputation score: 100% clean.' },
-        { type: 'completed', badge: '✅ AUDIT_DONE', text: 'Perimeter firewall stateful rules validated. No IP quarantines required.' }
-      ];
-      responseText = '🛡️ **Raport SecOps Threat-Hunter**:\n- **OPNsense Firewall (192.168.1.132:8443)**: Niciun atac detectat în ultimele 60 de minute.\n- **Suricata NIDS / Wazuh SIEM**: 0 alerte critice.\n- **CrowdSec LAPI**: Bouncer activat, reguli sincronizate.';
+        { type: 'reasoning', badge: ' REASONING', text: 'Dispatching telemetry probe to SecOps Threat-Hunter sub-agent.' },
+        { type: 'action', badge: ' EXEC_TOOL', text: 'opnsense_get_firewall_logs(limit=50)' },
+        { type: 'observation', badge: ' OBSERVATION', text: '0 active brute-force attempts. CrowdSec LAPI reputation score: 100% clean.' },
+        { type: 'completed', badge: ' AUDIT_DONE', text: 'Perimeter firewall stateful rules validated. No IP quarantines required.' }
+];
+      responseText = ' **Raport SecOps Threat-Hunter**:\n- **OPNsense Firewall (192.168.1.132:8443)**: Niciun atac detectat în ultimele 60 de minute.\n- **Suricata NIDS / Wazuh SIEM**: 0 alerte critice.\n- **CrowdSec LAPI**: Bouncer activat, reguli sincronizate.';
     } else if (userText.toLowerCase().includes('esp32') || userText.toLowerCase().includes('room') || userText.toLowerCase().includes('living')) {
       steps = [
-        { type: 'reasoning', badge: '🧠 REASONING', text: 'Processing ESP32 room-awareness radar telemetry.' },
-        { type: 'action', badge: '⚡ EXEC_TOOL', text: 'esp32_set_presence_zone(room="Living", rssi=-54)' },
-        { type: 'observation', badge: '🔍 OBSERVATION', text: 'Presence shifted to Living. Re-routing contextual smart home entities.' },
-        { type: 'completed', badge: '✅ ZONE_UPDATED', text: 'Living zone active. Ambient lights and audio target updated.' }
-      ];
-      responseText = '📡 **ESP32 Room-Awareness Sincronizat**:\n- Locația operatorului a fost actualizată la **Living** (mmWave radar detecție continuă).\n- Comenzile vocale și automatizările Home Assistant sunt acum direcționate în proximitatea din Living.';
+        { type: 'reasoning', badge: ' REASONING', text: 'Processing ESP32 room-awareness radar telemetry.' },
+        { type: 'action', badge: ' EXEC_TOOL', text: 'esp32_set_presence_zone(room="Living", rssi=-54)' },
+        { type: 'observation', badge: ' OBSERVATION', text: 'Presence shifted to Living. Re-routing contextual smart home entities.' },
+        { type: 'completed', badge: ' ZONE_UPDATED', text: 'Living zone active. Ambient lights and audio target updated.' }
+];
+      responseText = ' **ESP32 Room-Awareness Sincronizat**:\n- Locația operatorului a fost actualizată la **Living** (mmWave radar detecție continuă).\n- Comenzile vocale și automatizările Home Assistant sunt acum direcționate în proximitatea din Living.';
     } else {
       steps = [
-        { type: 'reasoning', badge: '🧠 REASONING', text: 'Query evaluated through ReAct pipeline and pgvector semantic memory store.' },
-        { type: 'action', badge: '⚡ RETRIEVAL', text: 'pgvector_search_context(query="' + userText + '")' },
-        { type: 'completed', badge: '✅ INFERENCE', text: 'Generated response using Groq Llama 3.3 70B (340 tokens/sec).' }
-      ];
+        { type: 'reasoning', badge: ' REASONING', text: 'Query evaluated through ReAct pipeline and pgvector semantic memory store.' },
+        { type: 'action', badge: ' RETRIEVAL', text: 'pgvector_search_context(query="' + userText + '")' },
+        { type: 'completed', badge: ' INFERENCE', text: 'Generated response using Groq Llama 3.3 70B (340 tokens/sec).' }
+];
       responseText = 'Comanda a fost executată cu succes prin **ELO ReAct Loop**. Toate sistemele homelab au procesat cererea conform politicilor de securitate L0-L3.';
     }
 

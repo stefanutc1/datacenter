@@ -1,4 +1,4 @@
-# 🏠 Homelab Wiki
+# Homelab Wiki
 
 - [[Home]]
 - [[Architecture & Networking|Architecture-and-Networking]]

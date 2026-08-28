@@ -1,10 +1,10 @@
-# 🏛️ Homelab & ELO System Architecture Blueprint
+# Homelab & ELO System Architecture Blueprint
 
 This document defines the comprehensive engineering architecture, physical topology, network matrix, autonomous AI orchestration pipeline, and storage subsystems powering the **Homelab & ELO Platform**.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 1. [Physical & Virtual Hardware Topology](#1-physical--virtual-hardware-topology)
 2. [Network Matrix & VLAN Architecture](#2-network-matrix--vlan-architecture)
 3. [ELO AI Control Plane Architecture](#3-elo-ai-control-plane-architecture)
@@ -120,16 +120,16 @@ graph TD
 
 Instead of a monolithic model, ELO delegates domain-specific tasks to dedicated autonomous sub-agents:
 
-1. 🛡️ **SecOps Threat-Hunter Agent (`elo_core.agents.secops_agent`)**:
+1.  **SecOps Threat-Hunter Agent (`elo_core.agents.secops_agent`)**:
    - Correlates Wazuh XDR and Suricata NIDS event streams.
    - Automatically isolates brute-force attackers by injecting stateful blacklist rules on OPNsense (`192.168.1.132:8443`).
-2. ⚙️ **SysAdmin Optimizer Agent (`elo_core.agents.sysadmin_agent`)**:
+2.  **SysAdmin Optimizer Agent (`elo_core.agents.sysadmin_agent`)**:
    - Monitors cluster memory utilization across nodes.
    - Triggers Kernel Samepage Merging (KSM) deduplication and purges dangling container image caches.
-3. ⚡ **Smart Home Energy Agent (`elo_core.agents.energy_agent`)**:
+3.  **Smart Home Energy Agent (`elo_core.agents.energy_agent`)**:
    - Interrogates Home Assistant (`192.168.1.10:8123`) power metrics.
    - Detects idle vampire power draws and orchestrates energy-saving schedules.
-4. 🛡️ **Predictive Health Storage Healer (`elo_core.self_healing.predictive`)**:
+4.  **Predictive Health Storage Healer (`elo_core.self_healing.predictive`)**:
    - Analyzes SMART disk telemetry on Scrutiny (`192.168.1.18`).
    - Automatically creates ZFS safety snapshots on OpenMediaVault (`192.168.1.135`) before drive failure occurs.
 

@@ -14,7 +14,7 @@ jobs:
   # STAGE 1: WEB FRONTEND GITHUB PAGES DEPLOY
   # ==========================================
   build-and-deploy-frontend:
-    name: 🌐 Build & Deploy Frontend to GitHub Pages
+    name:  Build & Deploy Frontend to GitHub Pages
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -73,7 +73,7 @@ jobs:
   # STAGE 2: MULTI-ARCH DOCKER CONTAINER RELEASE (GHCR)
   # ==========================================
   publish-multiarch-containers:
-    name: 🐳 Publish Multi-Arch Containers to GHCR (AMD64 & ARM64)
+    name:  Publish Multi-Arch Containers to GHCR (AMD64 & ARM64)
     runs-on: ubuntu-latest
     permissions:
       contents: read

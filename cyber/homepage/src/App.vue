@@ -51,7 +51,7 @@
             ai threat memory &amp; mcp
           </button>
           <a :href="wikiUrl" class="tab-btn wiki-tab-btn">
-            architecture wiki ↗
+            architecture wiki 
           </a>
         </div>
 
@@ -65,7 +65,7 @@
             type="text" 
             placeholder="search tools, mitre att&ck, ports, credentials..." 
           />
-          <button v-if="searchQuery" class="clear-search-btn" @click="searchQuery = ''">✕</button>
+          <button v-if="searchQuery" class="clear-search-btn" @click="searchQuery = ''"></button>
         </div>
       </section>
 
@@ -129,7 +129,7 @@
         <div class="footer-links">
           <a :href="wikiUrl">architecture wiki</a>
           <span>&bull;</span>
-          <a href="https://github.com/stefannut/cyberlab" target="_blank">github repository ↗</a>
+          <a href="https://github.com/stefannut/cyberlab" target="_blank">github repository </a>
         </div>
       </div>
     </footer>

@@ -16,7 +16,7 @@ jobs:
   # STAGE 1: SECRETS & LEAK DETECTION
   # ==========================================
   secrets-audit:
-    name: 🛡️ DevSecOps — Secrets & Credentials Audit (Gitleaks & TruffleHog)
+    name:  DevSecOps — Secrets & Credentials Audit (Gitleaks & TruffleHog)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,7 +43,7 @@ jobs:
   # STAGE 2: STATIC CODE ANALYSIS & LINTING
   # ==========================================
   code-quality-and-linting:
-    name: 🔍 Code Quality — Ruff, MyPy, ShellCheck & YAML Lint
+    name:  Code Quality — Ruff, MyPy, ShellCheck & YAML Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -83,7 +83,7 @@ jobs:
   # STAGE 3: DEVSECOPS SAST & VULNERABILITY SCANS
   # ==========================================
   sast-and-vulnerability-audit:
-    name: 🔒 DevSecOps — SAST (Bandit, Semgrep) & Trivy CVE Audit
+    name:  DevSecOps — SAST (Bandit, Semgrep) & Trivy CVE Audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -118,7 +118,7 @@ jobs:
   # STAGE 4: IAC, VIRTUALIZATION & ORCHESTRATION VALIDATION
   # ==========================================
   iac-and-infrastructure-validation:
-    name: 🏗️ IaC & Orchestration — Terraform, Ansible, Compose & K8s
+    name:  IaC & Orchestration — Terraform, Ansible, Compose & K8s
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -131,7 +131,7 @@ jobs:
 
       - name: Validate Terraform Modules
         run: |
-          if [ -d terraform ]; then
+          if [-d terraform]; then
             for dir in $(find terraform -type f -name "*.tf" -exec dirname {} + | sort -u); do
               echo "Validating Terraform in $dir..."
               (cd "$dir" && terraform init -backend=false && terraform validate) || true
@@ -147,23 +147,23 @@ jobs:
         run: |
           pip install ansible ansible-lint
           ansible-galaxy collection install community.general || true
-          if [ -d ansible/playbooks ]; then
+          if [-d ansible/playbooks]; then
             for pb in ansible/playbooks/*.yml; do
-              [ -f "$pb" ] && ansible-playbook --syntax-check "$pb" || true
+              [-f "$pb"] && ansible-playbook --syntax-check "$pb" || true
             done
           fi
-          if [ -f ai/ansible/playbook.yml ]; then
+          if [-f ai/ansible/playbook.yml]; then
             ansible-playbook --syntax-check ai/ansible/playbook.yml || true
           fi
 
       - name: Validate Docker Compose Configuration & Topologies
         run: |
           echo "Validating root and service docker-compose files..."
-          if [ -f docker-compose.yml ]; then
+          if [-f docker-compose.yml]; then
             docker compose config -q || true
           fi
           for comp in services/*/docker-compose.yml; do
-            if [ -f "$comp" ]; then
+            if [-f "$comp"]; then
               echo "Validating $comp..."
               docker compose -f "$comp" config -q || true
             fi
@@ -173,7 +173,7 @@ jobs:
         run: |
           curl -sL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
           sudo mv kubeconform /usr/local/bin/
-          if [ -d kubernetes ]; then
+          if [-d kubernetes]; then
             find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \) -exec kubeconform -summary -ignore-missing-schemas {} + || true
           fi
 
@@ -181,7 +181,7 @@ jobs:
   # STAGE 5: ELO PYTHON MATRIX TESTS (3.9 - 3.13)
   # ==========================================
   elo-python-matrix:
-    name: 🧪 ELO Framework Tests (Python ${{ matrix.python-version }})
+    name:  ELO Framework Tests (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -215,7 +215,7 @@ jobs:
   # STAGE 6: MULTI-LINUX DISTRIBUTION COMPATIBILITY MATRIX
   # ==========================================
   distro-compatibility-matrix:
-    name: 🐧 Multi-Linux Matrix (${{ matrix.distro.name }})
+    name:  Multi-Linux Matrix (${{ matrix.distro.name }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -246,7 +246,7 @@ jobs:
   # STAGE 7: WEB FRONTEND INTEGRITY & COMPILATION
   # ==========================================
   web-frontend-build:
-    name: 🌐 Web Frontend — Build & Bundle Integrity (Vue 3 / Vite)
+    name:  Web Frontend — Build & Bundle Integrity (Vue 3 / Vite)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -272,13 +272,13 @@ jobs:
       - name: Validate Output Bundle
         run: |
           test -f web/dist/index.html
-          echo "✅ Frontend production bundle verified successfully!"
+          echo " Frontend production bundle verified successfully!"
 
   # ==========================================
   # STAGE 8: MASTER QUALITY & RELEASE GATE
   # ==========================================
   ci-master-gate:
-    name: 🏆 Master CI Quality & Security Gate
+    name:  Master CI Quality & Security Gate
     needs:
       - secrets-audit
       - code-quality-and-linting
@@ -292,13 +292,13 @@ jobs:
       - name: Quality Gate Status
         run: |
           echo "================================================================"
-          echo "🎉 ALL ENTERPRISE CI & DEVSECOPS QUALITY GATES PASSED 100% GREEN!"
+          echo " ALL ENTERPRISE CI & DEVSECOPS QUALITY GATES PASSED 100% GREEN!"
           echo "================================================================"
-          echo "✅ Secrets & Credential Leak Scanning (Gitleaks, TruffleHog)"
-          echo "✅ Static Code Analysis & Linting (Ruff, MyPy, ShellCheck, Yamllint)"
-          echo "✅ SAST Security & Vulnerability Auditing (Bandit, Semgrep, Trivy)"
-          echo "✅ Infrastructure as Code Validation (Terraform, Ansible, Docker, K8s)"
-          echo "✅ ELO Multi-Python Test Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)"
-          echo "✅ Multi-Distribution Linux Matrix (Debian, Ubuntu, Alpine, Rocky, Fedora, Arch)"
-          echo "✅ Web Frontend Build & Bundle Verification (Vue 3 / Vite)"
+          echo " Secrets & Credential Leak Scanning (Gitleaks, TruffleHog)"
+          echo " Static Code Analysis & Linting (Ruff, MyPy, ShellCheck, Yamllint)"
+          echo " SAST Security & Vulnerability Auditing (Bandit, Semgrep, Trivy)"
+          echo " Infrastructure as Code Validation (Terraform, Ansible, Docker, K8s)"
+          echo " ELO Multi-Python Test Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)"
+          echo " Multi-Distribution Linux Matrix (Debian, Ubuntu, Alpine, Rocky, Fedora, Arch)"
+          echo " Web Frontend Build & Bundle Verification (Vue 3 / Vite)"
           echo "================================================================"

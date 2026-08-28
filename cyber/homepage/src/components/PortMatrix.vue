@@ -48,7 +48,7 @@
               <span class="mitre-pill">{{ tool.mitre ? tool.mitre.split(',')[0] : 'n/a' }}</span>
             </td>
             <td class="text-right">
-              <button class="inspect-btn" @click.stop="$emit('select', tool)">inspect ↗</button>
+              <button class="inspect-btn" @click.stop="$emit('select', tool)">inspect </button>
             </td>
           </tr>
         </tbody>

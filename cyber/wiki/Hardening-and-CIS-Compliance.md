@@ -1,4 +1,4 @@
-# 🛡️ Hardening & CIS Compliance
+# Hardening & CIS Compliance
 
 ## Ansible Baseline Roles
 

@@ -247,7 +247,7 @@ async def get_llm_status():
     return {
         "active_provider": config.primary_provider,
         "is_healthy": is_healthy,
-        "cascade_chain": " ➔ ".join(configured_cascade),
+        "cascade_chain": "  ".join(configured_cascade),
         "gemini_configured": bool(config.gemini_api_key),
         "gemini_model": config.gemini_model,
         "openrouter_configured": bool(config.openrouter_api_key),
@@ -412,7 +412,7 @@ async def search_semantic_memory(query: str, domain: Optional[str] = None, top_k
         "matches": [
             {"content": r.entry.content, "domain": r.entry.domain, "similarity": r.similarity, "metadata": r.entry.metadata}
             for r in results
-        ]
+]
     }
 
 

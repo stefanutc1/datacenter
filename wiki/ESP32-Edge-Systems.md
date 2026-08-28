@@ -1,4 +1,4 @@
-# 🌿 ESP32 Edge Systems
+# ESP32 Edge Systems
 
 ## 1. Automated Irrigation Controller (`esp32/irrigation/`)
 

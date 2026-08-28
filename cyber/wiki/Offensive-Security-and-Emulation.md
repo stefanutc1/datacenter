@@ -1,4 +1,4 @@
-# ⚔️ Offensive Security & Emulation
+# Offensive Security & Emulation
 
 ## 1. Atomic Red Team Harness (`ctf/atomic_red_team/`)
 

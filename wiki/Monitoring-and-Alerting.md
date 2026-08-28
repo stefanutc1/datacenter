@@ -1,4 +1,4 @@
-# 📊 Monitoring & Alerting
+# Monitoring & Alerting
 
 ## Prometheus Telemetry Architecture
 

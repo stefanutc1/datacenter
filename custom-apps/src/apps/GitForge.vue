@@ -3,7 +3,7 @@
     <!-- App Top Bar -->
     <header class="app-topbar">
       <div class="brand-box">
-        <div class="logo-circle">🌿</div>
+        <div class="logo-circle"></div>
         <div>
           <h1 class="app-name">gitforge lite</h1>
           <p class="app-tagline">live local git server &bull; direct sync with .git repository</p>
@@ -15,8 +15,8 @@
           <span class="live-pulse"></span>
           <span>git: sync active</span>
         </div>
-        <button class="primary-btn" @click="refreshGitData">🔄 sync now</button>
-        <button class="action-btn" @click="copyClone">📋 git clone</button>
+        <button class="primary-btn" @click="refreshGitData"> sync now</button>
+        <button class="action-btn" @click="copyClone"> git clone</button>
       </div>
     </header>
 
@@ -31,7 +31,7 @@
             <span class="repo-accent">homelab</span>
           </h2>
           <div class="repo-meta-row">
-            <span class="branch-pill">🌿 {{ gitInfo.branch }}</span>
+            <span class="branch-pill"> {{ gitInfo.branch }}</span>
             <span class="commit-pill code-font" v-if="gitInfo.latestCommit.hash">
               HEAD: {{ gitInfo.latestCommit.hash }} &bull; {{ gitInfo.latestCommit.date }}
             </span>
@@ -62,14 +62,14 @@
           :class="{ active: viewMode === 'files' }" 
           @click="viewMode = 'files'"
         >
-          📁 files &amp; code tree
+           files &amp; code tree
         </button>
         <button 
           class="subtab-btn" 
           :class="{ active: viewMode === 'commits' }" 
           @click="viewMode = 'commits'"
         >
-          🕒 live git commit log ({{ commits.length }})
+           live git commit log ({{ commits.length }})
         </button>
       </div>
 
@@ -88,7 +88,7 @@
               :class="{ active: selectedFile && selectedFile.path === item.path }"
               @click="loadFile(item)"
             >
-              <span class="file-icon">📄</span>
+              <span class="file-icon"></span>
               <span class="file-name">{{ item.path }}</span>
               <span class="file-commit-msg">{{ item.lastCommit }}</span>
             </li>
@@ -196,7 +196,7 @@ async function refreshGitData() {
       fetch('/api/git/info').then(r => r.json()),
       fetch('/api/git/commits').then(r => r.json()),
       fetch('/api/git/files').then(r => r.json())
-    ]);
+]);
 
     gitInfo.value = infoRes;
     commits.value = commitsRes;

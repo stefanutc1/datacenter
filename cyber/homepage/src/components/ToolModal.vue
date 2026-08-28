@@ -16,7 +16,7 @@
             <h2 class="modal-title">{{ tool.name }}</h2>
           </div>
         </div>
-        <button class="close-btn" @click="$emit('close')">✕</button>
+        <button class="close-btn" @click="$emit('close')"></button>
       </div>
 
       <div class="modal-body">
@@ -62,7 +62,7 @@
           <div class="code-header">
             <h3>quick execution command</h3>
             <button class="copy-btn" @click="copyCode(tool.quickCommand)">
-              {{ copied ? '✓ copied' : 'copy command' }}
+              {{ copied ? ' copied' : 'copy command' }}
             </button>
           </div>
           <pre class="code-block"><code>{{ tool.quickCommand }}</code></pre>
@@ -73,11 +73,11 @@
           <div class="endpoints-grid">
             <a v-if="tool.directUrl" :href="tool.directUrl" target="_blank" class="endpoint-card">
               <span class="ep-label">direct socket link</span>
-              <span class="ep-val">{{ tool.directUrl }} ↗</span>
+              <span class="ep-val">{{ tool.directUrl }} </span>
             </a>
             <a v-if="tool.domainUrl" :href="tool.domainUrl" target="_blank" class="endpoint-card domain-card">
               <span class="ep-label">internal domain (.lan)</span>
-              <span class="ep-val">{{ tool.domainUrl }} ↗</span>
+              <span class="ep-val">{{ tool.domainUrl }} </span>
             </a>
           </div>
         </div>
@@ -86,7 +86,7 @@
       <div class="modal-footer">
         <button class="btn-secondary" @click="$emit('close')">close inspector</button>
         <a v-if="tool.directUrl" :href="tool.directUrl" target="_blank" class="btn-primary">
-          launch target ↗
+          launch target 
         </a>
       </div>
     </div>

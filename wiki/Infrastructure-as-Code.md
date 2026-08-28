@@ -1,4 +1,4 @@
-# 🏗️ Infrastructure as Code (IaC)
+# Infrastructure as Code (IaC)
 
 ## Proxmox VM Terraform Module
 

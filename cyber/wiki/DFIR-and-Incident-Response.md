@@ -1,4 +1,4 @@
-# 🚨 DFIR & Incident Response
+# DFIR & Incident Response
 
 ## 1. Live Triage Artifact Collector (`forensics/triage_collector.sh`)
 

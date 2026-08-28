@@ -7,7 +7,7 @@ export PIP_NO_CACHE_DIR=1
 
 echo "=== Multi-Linux Distribution Compatibility & Portability Runner ==="
 
-if [ -f /etc/os-release ]; then
+if [-f /etc/os-release]; then
     . /etc/os-release
     DISTRO_ID="$ID"
     DISTRO_NAME="$PRETTY_NAME"
@@ -64,4 +64,4 @@ echo "Executing automated test suite on $DISTRO_NAME..."
 cd elo
 PYTHONPATH=. python3 -m pytest -v -o asyncio_mode=auto
 
-echo "✅ Distribution $DISTRO_NAME is 100% verified and compatible!"
+echo " Distribution $DISTRO_NAME is 100% verified and compatible!"

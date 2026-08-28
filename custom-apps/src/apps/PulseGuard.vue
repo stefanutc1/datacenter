@@ -3,7 +3,7 @@
     <!-- App Top Bar -->
     <header class="app-topbar">
       <div class="brand-box">
-        <div class="logo-circle">⚡</div>
+        <div class="logo-circle"></div>
         <div>
           <h1 class="app-name">pulseguard</h1>
           <p class="app-tagline">real-time heartbeat prober &bull; live latency &amp; ssl certificate telemetry</p>
@@ -15,10 +15,10 @@
           <span class="pulse-dot"></span>
           <span>live prober: active (10s sync)</span>
         </div>
-        <button class="primary-btn" @click="probeAllMonitors">⚡ probe all live</button>
+        <button class="primary-btn" @click="probeAllMonitors"> probe all live</button>
         <button class="action-btn" @click="showAddModal = true">+ add url probe</button>
         <button class="mode-switch-btn" :class="{ active: isPublicView }" @click="isPublicView = !isPublicView">
-          {{ isPublicView ? '← return to admin portal' : 'preview public status page ↗' }}
+          {{ isPublicView ? '← return to admin portal' : 'preview public status page ' }}
         </button>
       </div>
     </header>
@@ -32,7 +32,7 @@
           <p class="pub-desc">real-time availability telemetry, actual socket latency distributions, and ssl validity.</p>
         </div>
         <div class="pub-overall-badge" :class="allUp ? 'operational' : 'degraded'">
-          <span class="check-icon">{{ allUp ? '✓' : '⚠' }}</span>
+          <span class="check-icon">{{ allUp ? '' : '' }}</span>
           <span>{{ allUp ? 'all systems 100% operational' : 'intermittent latency detected' }}</span>
         </div>
       </div>
@@ -124,7 +124,7 @@
 
           <div class="tel-actions">
             <button class="ping-btn" :disabled="selectedMonitor.isProbing" @click="probeSingleMonitor(selectedMonitor)">
-              {{ selectedMonitor.isProbing ? '⏳ probing...' : '⚡ live probe now' }}
+              {{ selectedMonitor.isProbing ? ' probing...' : ' live probe now' }}
             </button>
           </div>
         </div>
@@ -171,7 +171,7 @@
         <div class="incidents-section">
           <h4>real-time probe telemetry stream</h4>
           <div class="incident-card" :class="selectedMonitor.status === 'up' ? 'operational' : 'degraded'">
-            <span class="inc-icon">{{ selectedMonitor.status === 'up' ? '✓' : '⚠' }}</span>
+            <span class="inc-icon">{{ selectedMonitor.status === 'up' ? '' : '' }}</span>
             <div>
               <div class="inc-title">target probe status: {{ selectedMonitor.status.toUpperCase() }} (http {{ selectedMonitor.statusCode || 200 }})</div>
               <p class="inc-msg">

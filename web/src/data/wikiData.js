@@ -262,10 +262,10 @@ graph TD
 - ELO resolves physical room zones (**Birou**, **Living**, **Server Room**, **Dormitor**) and dynamically routes generic vocal/text commands (*"turn on the lights"*) to the proximity Home Assistant entities.
 
 ### 3. autonomous specialized multi-agent swarm
-- 🛡️ **SecOps Threat-Hunter Agent**: analyzes Wazuh XDR and Suricata NIDS logs; executes instant quarantine on OPNsense at \`192.168.1.132:8443\`.
-- ⚙️ **SysAdmin Optimizer Agent**: correlates cluster telemetry, identifies memory bloat, recommends KSM deduplication, and cleans Docker cache.
-- ⚡ **Smart Home Energy Agent**: monitors power consumption across Home Assistant & Shelly smart plugs; flags vampire loads during idle hours.
-- 🛡️ **Predictive Storage Healer**: tracks SMART disk health metrics and proactively triggers ZFS safety snapshots on OpenMediaVault (\`192.168.1.135\`).
+-  **SecOps Threat-Hunter Agent**: analyzes Wazuh XDR and Suricata NIDS logs; executes instant quarantine on OPNsense at \`192.168.1.132:8443\`.
+-  **SysAdmin Optimizer Agent**: correlates cluster telemetry, identifies memory bloat, recommends KSM deduplication, and cleans Docker cache.
+-  **Smart Home Energy Agent**: monitors power consumption across Home Assistant & Shelly smart plugs; flags vampire loads during idle hours.
+-  **Predictive Storage Healer**: tracks SMART disk health metrics and proactively triggers ZFS safety snapshots on OpenMediaVault (\`192.168.1.135\`).
 
 ### 4. native macos desktop application (.net 10)
 - native C# application packaged into a self-contained DMG installer (\`elo-desktop-macos.dmg\`) with auto-reconnecting WebSocket telemetry and biometric Touch ID confirmation.
@@ -303,12 +303,12 @@ the continuous integration and delivery architecture under \`.github/workflows/\
 
 ## 1. multi-linux compatibility matrix (\`distro-compatibility-matrix\`)
 automatically executes the entire test suite on 6 native Linux containers:
-- 🐧 **Debian 12 Bookworm** (\`glibc\` — base for Proxmox VE & OpenMediaVault)
-- 🐧 **Ubuntu 24.04 LTS Noble** (\`glibc\`)
-- 🏔️ **Alpine Linux 3.20** (\`musl libc\` — VM 201 & ultra-lightweight containers)
-- 🪨 **Rocky Linux 9** (Enterprise RPM / RHEL)
-- 🎩 **Fedora 40** (modern RPM upstream)
-- 🏹 **Arch Linux** (rolling release bleeding-edge)
+-  **Debian 12 Bookworm** (\`glibc\` — base for Proxmox VE & OpenMediaVault)
+-  **Ubuntu 24.04 LTS Noble** (\`glibc\`)
+-  **Alpine Linux 3.20** (\`musl libc\` — VM 201 & ultra-lightweight containers)
+-  **Rocky Linux 9** (Enterprise RPM / RHEL)
+-  **Fedora 40** (modern RPM upstream)
+-  **Arch Linux** (rolling release bleeding-edge)
 
 ## 2. devsecops security scanning
 - **Gitleaks**: zero-tolerance secrets and credential leak detection.

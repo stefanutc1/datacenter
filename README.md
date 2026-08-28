@@ -23,20 +23,20 @@ Production-grade, declarative homelab monorepo and autonomous infrastructure con
 
 ---
 
-### 📚 Official Engineering Documentation Hub
+### Official Engineering Documentation Hub
 
 | Document | Description | Scope |
 | :--- | :--- | :--- |
-| 🛡️ [**SECURITY.md**](SECURITY.md) | Comprehensive Security Policy, Threat Model (STRIDE), Cryptographic Standards & Gatekeeper RBAC | Security & Governance |
-| 🤝 [**CONTRIBUTING.md**](CONTRIBUTING.md) | Developer Setup, Conventional Commits 1.0.0, Testing Standards & Quality Gates | Engineering Standards |
-| 🏛️ [**ARCHITECTURE.md**](ARCHITECTURE.md) | Deep Blueprint: Network Matrices, ZFS Storage, Multi-Agent Swarm & Failover Cascades | Technical Architecture |
-| 🗺️ [**ROADMAP.md**](ROADMAP.md) | Strategic Evolution & Deliverables across Phases 1 through 8 | Future Roadmap |
-| 📜 [**CHANGELOG.md**](CHANGELOG.md) | Semantic Versioning Release Notes & Milestone Records | Version History |
-| ⚖️ [**CODE_OF_CONDUCT.md**](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1 Code of Conduct | Community Standards |
+|  [**SECURITY.md**](SECURITY.md) | Comprehensive Security Policy, Threat Model (STRIDE), Cryptographic Standards & Gatekeeper RBAC | Security & Governance |
+|  [**CONTRIBUTING.md**](CONTRIBUTING.md) | Developer Setup, Conventional Commits 1.0.0, Testing Standards & Quality Gates | Engineering Standards |
+|  [**ARCHITECTURE.md**](ARCHITECTURE.md) | Deep Blueprint: Network Matrices, ZFS Storage, Multi-Agent Swarm & Failover Cascades | Technical Architecture |
+|  [**ROADMAP.md**](ROADMAP.md) | Strategic Evolution & Deliverables across Phases 1 through 8 | Future Roadmap |
+|  [**CHANGELOG.md**](CHANGELOG.md) | Semantic Versioning Release Notes & Milestone Records | Version History |
+|  [**CODE_OF_CONDUCT.md**](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1 Code of Conduct | Community Standards |
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Architecture Overview](#-architecture-overview)
 2. [Physical & Logical Node Map](#-physical--logical-node-map)
@@ -53,7 +53,7 @@ Production-grade, declarative homelab monorepo and autonomous infrastructure con
 
 ---
 
-## 🏛️ Architecture Overview
+## Architecture Overview
 
 ```mermaid
 flowchart TB
@@ -73,7 +73,7 @@ flowchart TB
         WebDesktop["Web UI & C# .NET 10 Desktop App (ELO.app)"]
         ReActEngine["ReAct Orchestration Engine & Security Gatekeeper"]
         Watchdog["Self-Healing Watchdog (30s TCP Socket Prober)"]
-        Cascade["Tiered Failover Cascade<br/>Gemini ➔ OpenRouter ➔ OpenAI ➔ Claude ➔ Ollama ➔ Mock"]
+        Cascade["Tiered Failover Cascade<br/>Gemini  OpenRouter  OpenAI  Claude  Ollama  Mock"]
     end
 
     M1 -->|IPC / HTTP| ReActEngine
@@ -91,7 +91,7 @@ flowchart TB
 
 ---
 
-## 🖥️ Physical & Logical Node Map
+## Physical & Logical Node Map
 
 | Node Identifier | Hostname / IP | Hardware & Specs | Primary Roles & Workloads | Reachability & Probing |
 |:---|:---|:---|:---|:---|
@@ -101,7 +101,7 @@ flowchart TB
 
 ---
 
-## 🌐 Network Topology & VLAN Architecture
+## Network Topology & VLAN Architecture
 
 ```mermaid
 graph TD
@@ -123,11 +123,11 @@ graph TD
 
 ---
 
-## 📦 Workload Catalog & Pinned Favorites
+## Workload Catalog & Pinned Favorites
 
 The cluster orchestrates 28 production services. All reachability checks are performed by direct raw TCP socket verification (`IP:PORT`) in parallel via `asyncio.gather`.
 
-### ★ Pinned Primary Services
+### Pinned Primary Services
 
 | Service | Category | Direct Address | Domain | Description |
 |:---|:---|:---|:---|:---|
@@ -167,7 +167,7 @@ The cluster orchestrates 28 production services. All reachability checks are per
 
 ---
 
-## 🧠 ELO Control Plane & Orchestration Engine
+## ELO Control Plane & Orchestration Engine
 
 ELO (`elo/`) is a modular control plane designed to unify infrastructure management, telemetry, and automated remediation under a centralized runtime.
 
@@ -233,28 +233,28 @@ The watchdog runs as an asynchronous background task (`asyncio.create_task`) wit
    - Triggers an automated recovery attempt if an L1 tool is available.
    - Dispatches instant alerts to the configured administrator channels.
 
-### 4. 🧠 Persistent Semantic Memory with `pgvector` & RAG
+### 4.  Persistent Semantic Memory with `pgvector` & RAG
 * **Vectorized Knowledge Base**: PostgreSQL with `pgvector` (`vector(128/768)`) storing documentation chunks, VM configurations, and user preferences.
 * **Hybrid Search**: Combines deterministic cosine similarity vectors with lexical keyword weighting for sub-millisecond retrieval.
 * **User Preferences & Context**: Remembers user habits, notification thresholds, and VM profiles across sessions.
 
-### 5. 📡 ESP32 Hardware & Physical Room-Awareness
+### 5.  ESP32 Hardware & Physical Room-Awareness
 * **Presence Sensor Integration**: Consumes BLE and mmWave radar telemetry from ESP32 nodes over MQTT/REST.
 * **Contextual Action Routing**: Commands like *"Turn on lights"* or *"Play music"* automatically resolve to the specific Home Assistant entity for the room the user is currently located in (`Birou`, `Living`, `Server Room`).
 
-### 6. 🤖 Autonomous Sub-Agent Swarm
-* **🛡️ SecOps Threat-Hunter Agent**: Analyzes Wazuh SIEM & Suricata NIDS logs; automatically triggers OPNsense quarantine rules upon detecting brute-force or malicious scans.
-* **⚙️ SysAdmin Optimization Agent**: Evaluates RAM/CPU telemetry on Proxmox (`192.168.1.132`) & NAS (`192.168.1.135`), initiates KSM memory deduplication, and prunes dangling Docker caches.
-* **💡 Smart Home & Energy Agent**: Interrogates Home Assistant (`192.168.1.10:8123`) & Shelly smart relays to detect vampire idle loads and optimize heating.
-* **🛡️ Predictive Health Healer**: Analyzes SMART disk telemetry (`scrutiny.lan`) and triggers proactive ZFS snapshots before hardware degradation occurs.
+### 6.  Autonomous Sub-Agent Swarm
+* ** SecOps Threat-Hunter Agent**: Analyzes Wazuh SIEM & Suricata NIDS logs; automatically triggers OPNsense quarantine rules upon detecting brute-force or malicious scans.
+* ** SysAdmin Optimization Agent**: Evaluates RAM/CPU telemetry on Proxmox (`192.168.1.132`) & NAS (`192.168.1.135`), initiates KSM memory deduplication, and prunes dangling Docker caches.
+* ** Smart Home & Energy Agent**: Interrogates Home Assistant (`192.168.1.10:8123`) & Shelly smart relays to detect vampire idle loads and optimize heating.
+* ** Predictive Health Healer**: Analyzes SMART disk telemetry (`scrutiny.lan`) and triggers proactive ZFS snapshots before hardware degradation occurs.
 
-### 7. 🎙️ Offline Voice & Apple Silicon Metal MPS Acceleration
+### 7.  Offline Voice & Apple Silicon Metal MPS Acceleration
 * **Whisper.cpp & Piper TTS**: Offline speech-to-text and neural voice synthesis executing locally on Apple M1 Metal MPS hardware (`192.168.1.133`).
 * **Zero-WAN Resilience**: The full ReAct loop and tool registry operate seamlessly even during complete Internet blackouts.
 
 ---
 
-## 🤖 Antigravity Model Context Protocol Server (`ai/`)
+## Antigravity Model Context Protocol Server (`ai/`)
 
 Located in `ai/`, the **Antigravity MCP Server** implements the open standard Model Context Protocol (MCP) by Anthropic for exposing contextual homelab tools, Git forge automation, and structured reasoning engines to external AI clients and agents:
 
@@ -277,7 +277,7 @@ ai/
 
 ---
 
-## 🖥️ Native macOS Desktop Application (.NET 10)
+## Native macOS Desktop Application (.NET 10)
 
 ELO includes a native desktop application for macOS located in `elo/apps/elo-desktop-macos`:
 
@@ -296,7 +296,7 @@ chmod +x build_dmg.sh
 
 ---
 
-## ⚙️ Infrastructure as Code & Configuration Management
+## Infrastructure as Code & Configuration Management
 
 ### 1. Terraform Infrastructure Provisioning
 
@@ -345,7 +345,7 @@ Located in `scripts/`, a consolidated suite of shell scripts, Perl/Ruby utilitie
 
 ---
 
-## 🛡️ Cyber Proving Ground & SOC/SIEM Operations
+## Cyber Proving Ground & SOC/SIEM Operations
 
 The `cyber/` directory serves as an isolated testbed and continuous security monitoring center:
 
@@ -372,7 +372,7 @@ flowchart LR
 
 ---
 
-## 🚀 Enterprise CI/CD & DevSecOps Master Pipeline
+## Enterprise CI/CD & DevSecOps Master Pipeline
 
 Every commit and pull request to the monorepo is continuously validated, audited, and deployed through an automated **8-Stage Enterprise CI/CD Pipeline** running on GitHub Actions:
 
@@ -429,38 +429,38 @@ graph TD
 
 ### Master Pipeline Stages & Quality Gates:
 
-1. **🛡️ Shift-Left Secret Scanning (`Gitleaks` & `TruffleHog`)**: Zero-tolerance scanning across full Git history for exposed API keys, private certificates, and credentials.
-2. **🔍 Code Quality & Strict Typing (`Ruff`, `MyPy`, `ShellCheck`, `Yamllint`)**:
+1. ** Shift-Left Secret Scanning (`Gitleaks` & `TruffleHog`)**: Zero-tolerance scanning across full Git history for exposed API keys, private certificates, and credentials.
+2. ** Code Quality & Strict Typing (`Ruff`, `MyPy`, `ShellCheck`, `Yamllint`)**:
    - `Ruff` linter and formatter validation for all Python packages.
    - `MyPy` static type verification across all contract interfaces (`elo_contracts`).
    - `ShellCheck-Py` portability validation for all POSIX shell and bash automation scripts.
    - `Yamllint` syntax and schema check for Ansible playbooks, Kubernetes manifests, and Docker Compose files.
-3. **🔒 SAST & Vulnerability Auditing (`Bandit`, `Semgrep`, `Trivy`)**:
+3. ** SAST & Vulnerability Auditing (`Bandit`, `Semgrep`, `Trivy`)**:
    - `Bandit` AST vulnerability analysis on the ELO control plane and tools.
    - `Semgrep` static security rule evaluation for IaC and application code.
    - `Trivy` filesystem, base image, and CVE audit.
-4. **🏗️ Infrastructure as Code Validation (`Terraform`, `Ansible`, `Docker Compose`, `Kubeconform`)**:
+4. ** Infrastructure as Code Validation (`Terraform`, `Ansible`, `Docker Compose`, `Kubeconform`)**:
    - `Terraform` format verification and template validation across Proxmox VM modules.
    - `Ansible-lint` and `ansible-playbook --syntax-check` on all provisioning playbooks.
    - Schema validation across all 31 Docker Compose service stacks.
    - `Kubeconform` validation against Kubernetes v1.30 API schemas.
-5. **🧪 Multi-Python Version Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)**: Full automated test execution with coverage reporting (`28/28 tests passed 100% green`).
-6. **🐧 Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively inside 6 major Linux container ecosystems:
+5. ** Multi-Python Version Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)**: Full automated test execution with coverage reporting (`28/28 tests passed 100% green`).
+6. ** Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively inside 6 major Linux container ecosystems:
    - **Debian 12 Bookworm** (`glibc` — Proxmox VE & OpenMediaVault base)
    - **Ubuntu 24.04 LTS Noble** (`glibc` — modern cloud server base)
    - **Alpine Linux 3.20** (`musl libc` — VM 201 & ultra-lean containers)
    - **Rocky Linux 9** (Enterprise RHEL / RPM ecosystem)
    - **Fedora 40** (Modern upstream RPM)
    - **Arch Linux** (Rolling release bleeding edge)
-7. **🌐 Web Frontend Build & Bundle Verification**: Complete Vue 3 / Vite production compilation testing bundle size and asset integrity.
-8. **🚀 Continuous Deployment & Multi-Arch Container Release (`.github/workflows/cd.yml`)**:
+7. ** Web Frontend Build & Bundle Verification**: Complete Vue 3 / Vite production compilation testing bundle size and asset integrity.
+8. ** Continuous Deployment & Multi-Arch Container Release (`.github/workflows/cd.yml`)**:
    - Automated deployment of the static frontend dashboard to **GitHub Pages**.
    - Build and release of multi-architecture container images (`linux/amd64`, `linux/arm64`) to **GitHub Container Registry (GHCR)**.
    - Packaging of the native macOS Desktop application into `ELO-macOS-arm64.dmg`.
 
 ---
 
-## 📂 Repository Monorepo Layout
+## Repository Monorepo Layout
 
 ```
 homelab/
@@ -503,7 +503,7 @@ homelab/
 
 ---
 
-## 🛠️ Operations & Runbook
+## Operations & Runbook
 
 ### Starting the ELO Control Plane Daemon
 
@@ -536,6 +536,6 @@ If the ELO control plane is unreachable or an API token has expired:
 
 ---
 
-## 📄 License
+## License
 
 This repository is maintained as an open-source infrastructure project under the **MIT License**. See [LICENSE](LICENSE) for full details.

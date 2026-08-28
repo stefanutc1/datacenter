@@ -217,7 +217,7 @@
             <span class="inspector-dot" :style="{ backgroundColor: selectedItem.color || '#a855f7' }"></span>
             <h4>{{ selectedItem.name }}</h4>
           </div>
-          <button class="close-inspector-btn" @click="selectedItem = null">✕</button>
+          <button class="close-inspector-btn" @click="selectedItem = null"></button>
         </div>
 
         <div class="inspector-body">
@@ -243,7 +243,7 @@
           </div>
 
           <button class="switch-doc-btn" @click="viewMode = 'markdown'">
-            open full markdown docs ↗
+            open full markdown docs 
           </button>
         </div>
       </aside>
@@ -278,12 +278,12 @@ const subTabs = [
 ];
 
 const openGroups = reactive({
-  '📌 pinned': true,
-  '🤖 threat agents': true,
-  '🧠 mitre & ioc memory': true,
-  '⚡ security mcp': true,
-  '🎯 skills': true,
-  '📦 models & engines': true
+  ' pinned': true,
+  ' threat agents': true,
+  ' mitre & ioc memory': true,
+  ' security mcp': true,
+  ' skills': true,
+  ' models & engines': true
 });
 
 function toggleGroup(name) {
@@ -514,34 +514,34 @@ const aiGraphLinks = [
 const treeSections = computed(() => {
   return [
     {
-      name: '📌 pinned',
+      name: ' pinned',
       items: [
         aiKnowledgeData.find(i => i.id === 'ai-threat-correlation-agent'),
         aiKnowledgeData.find(i => i.id === 'mitre-attack-rag'),
         aiKnowledgeData.find(i => i.id === 'wazuh-mcp')
-      ].filter(Boolean)
+].filter(Boolean)
     },
     {
-      name: '🤖 threat agents',
+      name: ' threat agents',
       items: aiKnowledgeData.filter(i => i.category === 'agents')
     },
     {
-      name: '🧠 mitre & ioc memory',
+      name: ' mitre & ioc memory',
       items: aiKnowledgeData.filter(i => i.category === 'memory')
     },
     {
-      name: '⚡ security mcp',
+      name: ' security mcp',
       items: aiKnowledgeData.filter(i => i.category === 'mcp')
     },
     {
-      name: '🎯 skills',
+      name: ' skills',
       items: aiKnowledgeData.filter(i => i.category === 'skills')
     },
     {
-      name: '📦 models & engines',
+      name: ' models & engines',
       items: aiKnowledgeData.filter(i => i.category === 'models')
     }
-  ];
+];
 });
 
 const filteredSections = computed(() => {

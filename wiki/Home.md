@@ -1,10 +1,10 @@
-# 🏠 Homelab Infrastructure Wiki
+# Homelab Infrastructure Wiki
 
 Welcome to the **Homelab Knowledge Base**. This wiki contains the complete architectural blueprints, configuration standards, operations runbooks, and disaster recovery procedures for the entire homelab environment.
 
 ```mermaid
 flowchart TB
-    Internet(["🌐 WAN / Internet"])
+    Internet([" WAN / Internet"])
 
     subgraph PVE["Proxmox VE Hypervisor Host"]
         direction TB
@@ -69,7 +69,7 @@ MQTT to Home Assistant"]
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
 1. **[[Architecture & Networking|Architecture-and-Networking]]** — VLAN topology, subnet allocations, firewall rules, and reverse proxy routing.
 2. **[[Services Catalog|Services-Catalog]]** — Complete inventory of 30+ containerized services, exposed ports, and volume layouts.

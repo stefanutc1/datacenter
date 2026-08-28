@@ -208,7 +208,7 @@
             <span class="inspector-dot" :style="{ backgroundColor: selectedItem.color || '#00cec9' }"></span>
             <h4>{{ selectedItem.name }}</h4>
           </div>
-          <button class="close-inspector-btn" @click="selectedItem = null">✕</button>
+          <button class="close-inspector-btn" @click="selectedItem = null"></button>
         </div>
 
         <div class="inspector-body">
@@ -238,7 +238,7 @@
           </div>
 
           <button class="switch-doc-btn" @click="viewMode = 'markdown'">
-            view firmware source ↗
+            view firmware source 
           </button>
         </div>
       </aside>
@@ -272,11 +272,11 @@ const subTabs = [
 ];
 
 const openGroups = reactive({
-  '📌 pinned': true,
-  '📟 esp32 boards': true,
-  '🔌 sensors & actuators': true,
-  '📡 protocols & bus': true,
-  '🛠️ firmware & code': true
+  ' pinned': true,
+  ' esp32 boards': true,
+  ' sensors & actuators': true,
+  ' protocols & bus': true,
+  ' firmware & code': true
 });
 
 function toggleGroup(name) {
@@ -521,30 +521,30 @@ const espGraphLinks = [
 const treeSections = computed(() => {
   return [
     {
-      name: '📌 pinned',
+      name: ' pinned',
       items: [
         espKnowledgeData.find(i => i.id === 'esp32-footprint'),
         espKnowledgeData.find(i => i.id === 'esp32-irrigation'),
         espKnowledgeData.find(i => i.id === 'esp32-cam-entry')
-      ].filter(Boolean)
+].filter(Boolean)
     },
     {
-      name: '📟 esp32 boards',
+      name: ' esp32 boards',
       items: espKnowledgeData.filter(i => i.category === 'boards')
     },
     {
-      name: '🔌 sensors & actuators',
+      name: ' sensors & actuators',
       items: espKnowledgeData.filter(i => i.category === 'sensors')
     },
     {
-      name: '📡 protocols & bus',
+      name: ' protocols & bus',
       items: espKnowledgeData.filter(i => i.category === 'protocols')
     },
     {
-      name: '🛠️ firmware & code',
+      name: ' firmware & code',
       items: espKnowledgeData.filter(i => i.category === 'firmware')
     }
-  ];
+];
 });
 
 const filteredSections = computed(() => {

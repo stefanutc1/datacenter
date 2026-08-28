@@ -1,4 +1,4 @@
-# 🌐 Network Topology & Segmentation
+# Network Topology & Segmentation
 
 ## Zero-Trust VLAN Boundaries
 

@@ -55,7 +55,7 @@ class MockLLMClient(BaseLLMClient):
                         name="proxmox_reboot_vm",
                         arguments={"vm_id": 101, "force": False},
                     )
-                ],
+],
                 model_used="elo-hybrid-core",
                 provider="elo_brain",
                 latency_ms=(time.perf_counter() - start_time) * 1000,
@@ -67,7 +67,7 @@ class MockLLMClient(BaseLLMClient):
             "grafana", "prometheus", "loki", "uptime", "kuma", "n8n", "gitea", "woodpecker",
             "authelia", "crowdsec", "jellyfin", "radarr", "sonarr", "prowlarr", "bazarr",
             "qbittorrent", "actualbudget", "trilium", "scrutiny", "erp", "opnsense"
-        ]
+]
         matched_service = next((s for s in service_keywords if s in lower_msg), None)
         if matched_service and ("unde" in lower_msg or "where" in lower_msg or "port" in lower_msg or "ce e" in lower_msg or "info" in lower_msg or "cauta" in lower_msg):
             return LLMResponse(
@@ -78,7 +78,7 @@ class MockLLMClient(BaseLLMClient):
                         name="homelab_query_service",
                         arguments={"query": matched_service},
                     )
-                ],
+],
                 model_used="elo-hybrid-core",
                 provider="elo_brain",
                 latency_ms=(time.perf_counter() - start_time) * 1000,
@@ -94,7 +94,7 @@ class MockLLMClient(BaseLLMClient):
                         name="proxmox_get_cluster_status",
                         arguments={"node": "pve-node-1"},
                     )
-                ],
+],
                 model_used="elo-hybrid-core",
                 provider="elo_brain",
                 latency_ms=(time.perf_counter() - start_time) * 1000,
@@ -110,7 +110,7 @@ class MockLLMClient(BaseLLMClient):
                         name="academic_monte_carlo_simulation",
                         arguments={"iterations": 5000, "scenario": "volatility_high"},
                     )
-                ],
+],
                 model_used="elo-hybrid-core",
                 provider="elo_brain",
                 latency_ms=(time.perf_counter() - start_time) * 1000,
@@ -177,33 +177,33 @@ class MockLLMClient(BaseLLMClient):
             nodes_md = ""
             for n in nodes:
                 is_on = n.get("is_reachable") or n.get("status") == "ONLINE"
-                st_badge = f"🟢 **ONLINE** (`{n.get('latency_ms')}ms`)" if is_on else "🔴 **OFFLINE / Inaccesibil**"
+                st_badge = f" **ONLINE** (`{n.get('latency_ms')}ms`)" if is_on else " **OFFLINE / Inaccesibil**"
                 nodes_md += f"  • **{n.get('name')}** (`{n.get('ip')}`): {st_badge}\n"
 
             vms = data.get("active_vms", [])
             vms_md = ""
             for vm in vms:
-                vms_md += f"  • `{vm.get('vmid')}` — **{vm.get('name')}** (`{vm.get('ip')}`) ➔ *{vm.get('status')}*\n"
+                vms_md += f"  • `{vm.get('vmid')}` — **{vm.get('name')}** (`{vm.get('ip')}`)  *{vm.get('status')}*\n"
 
             return (
-                f"### 📊 Raport Status Homelab & Telemetrie\n\n"
-                f"🖥️ **Nod Gazdă (`{hostname}`)**:\n"
-                f"• **Stare**: 🟢 `ONLINE` | **Uptime**: `{uptime}`\n"
+                f"### Raport Status Homelab & Telemetrie\n\n"
+                f" **Nod Gazdă (`{hostname}`)**:\n"
+                f"• **Stare**:  `ONLINE` | **Uptime**: `{uptime}`\n"
                 f"• **Încărcare CPU**: `{cpu}%`\n"
                 f"• **Memorie RAM**: `{ram_used} GB` / `{ram_total} GB` (`{ram_pct}%` utilizat)\n\n"
-                f"🌐 **Stare Noduri Cluster (Sondare Live)**:\n{nodes_md}\n"
-                f"📦 **Workload-uri & Servicii Active**:\n{vms_md}"
+                f" **Stare Noduri Cluster (Sondare Live)**:\n{nodes_md}\n"
+                f" **Workload-uri & Servicii Active**:\n{vms_md}"
             )
 
         # 2. Homelab Query Service Formatter
         if "service" in data and isinstance(data["service"], dict):
             s = data["service"]
             return (
-                f"### 🔎 Informații Serviciu: {s.get('name', 'N/A')}\n\n"
+                f"### Informații Serviciu: {s.get('name', 'N/A')}\n\n"
                 f"• **Categorie**: `{s.get('category', '').upper()}`\n"
                 f"• **Locație & Port**: `{s.get('domain') or s.get('ip')}:{s.get('port')}`\n"
                 f"• **Container**: `{s.get('container', 'N/A')}` (LXC `{s.get('lxc_vmid', 'N/A')}`)\n"
-                f"• **Stare**: 🟢 `ONLINE`\n"
+                f"• **Stare**:  `ONLINE`\n"
                 f"• **Descriere**: {s.get('description', '')}\n"
                 f"• **Tag-uri**: `{', '.join(s.get('tags', []))}`"
             )
@@ -211,26 +211,26 @@ class MockLLMClient(BaseLLMClient):
         # 3. Academic Monte Carlo Formatter
         if "scenario" in data and ("mean_return" in data or "expected_return_pct" in data or "var_95" in data):
             return (
-                f"### 📈 Raport Simulare Financiară Monte Carlo\n\n"
+                f"### Raport Simulare Financiară Monte Carlo\n\n"
                 f"• **Scenariu**: `{data.get('scenario')}`\n"
                 f"• **Iterații Rulate**: `{data.get('iterations', 1000):,}`\n"
                 f"• **Randament Mediu Estimat**: `+{data.get('mean_return', 12.4)}%`\n"
                 f"• **Value at Risk (VaR 95%)**: `-{abs(data.get('var_95', 5.8))}%`\n"
-                f"• **Evaluare Risc**: 🟢 `STABIL / ÎN PARAMETRI OPTIMI`"
+                f"• **Evaluare Risc**:  `STABIL / ÎN PARAMETRI OPTIMI`"
             )
 
         # 4. Phone / SMS Incident Alert Formatter
         if "dispatched_channels" in data or "incident_title" in data:
             channels = data.get("dispatched_channels", {})
             return (
-                f"### 🚨 Alertă Transmisă pe Telefon & Canale Mobile\n\n"
+                f"### Alertă Transmisă pe Telefon & Canale Mobile\n\n"
                 f"• **Titlu Incident**: `{data.get('incident_title', 'Homelab Incident')}`\n"
-                f"• **Nivel Severitate**: ⚠️ `{data.get('severity', 'HIGH').upper()}`\n"
+                f"• **Nivel Severitate**:  `{data.get('severity', 'HIGH').upper()}`\n"
                 f"• **Canale Dispecerizate**:\n"
-                f"  - 📱 **SMS Telefon**: `{channels.get('sms', {}).get('status', 'SENT')}` ({channels.get('sms', {}).get('target', 'Administrator')})\n"
-                f"  - 🔔 **Mobile Push (NTFY)**: `{channels.get('push', {}).get('status', 'SUCCESS')}`\n"
-                f"  - 💬 **Telegram Bot**: `{channels.get('telegram', {}).get('status', 'CONFIGURED')}`\n\n"
-                f"🛡️ *Notificarea a fost dispecerizată instant către telefonul tău.*"
+                f"  -  **SMS Telefon**: `{channels.get('sms', {}).get('status', 'SENT')}` ({channels.get('sms', {}).get('target', 'Administrator')})\n"
+                f"  -  **Mobile Push (NTFY)**: `{channels.get('push', {}).get('status', 'SUCCESS')}`\n"
+                f"  -  **Telegram Bot**: `{channels.get('telegram', {}).get('status', 'CONFIGURED')}`\n\n"
+                f" *Notificarea a fost dispecerizată instant către telefonul tău.*"
             )
 
         # 5. Home Assistant Smart Home Formatter
@@ -241,32 +241,32 @@ class MockLLMClient(BaseLLMClient):
                 for e in entities[:6]:
                     ent_lines += f"  • `{e.get('entity_id')}`: **{e.get('state')}** ({e.get('attributes', {}).get('friendly_name', 'N/A')})\n"
                 return (
-                    f"### 💡 Stare Dispozitive Smart Home (Home Assistant)\n\n"
+                    f"### Stare Dispozitive Smart Home (Home Assistant)\n\n"
                     f"• **Dispozitive Descoperite**: `{len(entities)}`\n"
                     f"{ent_lines}\n"
-                    f"🏠 *Integrare activă pe `192.168.20.10:8123`.*"
+                    f" *Integrare activă pe `192.168.20.10:8123`.*"
                 )
             else:
                 return (
-                    f"### ⚡ Comandă Smart Home Executată\n\n"
+                    f"### Comandă Smart Home Executată\n\n"
                     f"• **Dispozitiv**: `{data.get('entity_id')}`\n"
                     f"• **Acțiune**: `{data.get('domain')}.{data.get('service')}`\n"
-                    f"• **Stare**: 🟢 `SUCCES`"
+                    f"• **Stare**:  `SUCCES`"
                 )
 
         # 6. OPNsense Firewall Status Formatter
         if "firewall_rule" in data or "gateway" in data or "target_ip" in data:
             if "target_ip" in data:
                 return (
-                    f"### 🛡️ OPNsense Cyber Shield — IP Blocat\n\n"
-                    f"• **IP Blocat**: `🔴 {data.get('target_ip')}`\n"
+                    f"### OPNsense Cyber Shield — IP Blocat\n\n"
+                    f"• **IP Blocat**: ` {data.get('target_ip')}`\n"
                     f"• **Motiv**: `{data.get('description')}`\n"
                     f"• **Alias Firewall**: `{data.get('firewall_rule')}`\n"
-                    f"🔒 *Regula a fost activată instant pe OPNsense.*"
+                    f" *Regula a fost activată instant pe OPNsense.*"
                 )
             return (
-                f"### 🛡️ Raport Firewall OPNsense & Gateway\n\n"
-                f"• **Stare Firewall**: 🟢 `ONLINE / ACTIV`\n"
+                f"### Raport Firewall OPNsense & Gateway\n\n"
+                f"• **Stare Firewall**:  `ONLINE / ACTIV`\n"
                 f"• **Protecție**: `Suricata IDS/IPS & CrowdSec Active`\n"
                 f"• **Gateway WAN**: `192.168.10.1` (Latenta: `<1ms`)"
             )
@@ -276,14 +276,14 @@ class MockLLMClient(BaseLLMClient):
             results = data.get("results", [])
             docs_md = ""
             for r in results:
-                docs_md += f"#### 📖 {r.get('topic')}\n{r.get('content')}\n\n"
+                docs_md += f"#### {r.get('topic')}\n{r.get('content')}\n\n"
             return (
-                f"### 🧠 Documentație Găsită pentru: \"{data.get('query')}\"\n\n"
+                f"### Documentație Găsită pentru: \"{data.get('query')}\"\n\n"
                 f"{docs_md}"
             )
 
         # Fallback to key-value list
-        lines = ["### 📋 Rezultat Execuție:"]
+        lines = ["### Rezultat Execuție:"]
         for k, v in data.items():
             lines.append(f"• **{k.replace('_', ' ').title()}**: `{v}`")
         return "\n".join(lines)

@@ -1,10 +1,10 @@
-# 🛡️ Homelab & ELO Security Policy & Threat Model
+# Homelab & ELO Security Policy & Threat Model
 
 Welcome to the **Homelab & ELO (Enhanced Local Orchestrator)** Security Policy. This document defines the security architecture, threat model, cryptographic baselines, security clearance rings, vulnerability disclosure protocols, and incident containment runbooks for the entire infrastructure monorepo.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 1. [Security Architecture & Zero-Trust Posture](#1-security-architecture--zero-trust-posture)
 2. [Security Ring Clearance Model (L0–L3)](#2-security-ring-clearance-model-l0l3)
 3. [Cryptographic Standards & Token Architecture](#3-cryptographic-standards--token-architecture)
@@ -148,7 +148,7 @@ sequenceDiagram
     Suricata->>SecOps: Detects SSH Brute-Force from Malicious IP
     SecOps->>Gatekeeper: Request L2 Tool `opnsense_block_ip(ip)`
     Gatekeeper->>Admin: Dispatch Telegram Approval Request
-    Admin->>Gatekeeper: Click [✅ Approve]
+    Admin->>Gatekeeper: Click [Approve]
     Gatekeeper->>OPNsense: Inject Stateful IP Blacklist Rule
     OPNsense-->>SecOps: 200 OK — IP Quarantined
     SecOps->>Admin: Send Incident Response Report (Markdown)

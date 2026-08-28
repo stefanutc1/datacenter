@@ -37,13 +37,13 @@
             </td>
             <td>
               <a v-if="svc.domain" :href="svc.domainUrl || svc.internalUrl" target="_blank" rel="noopener noreferrer" class="domain-tag code-font">
-                {{ svc.domain }} ↗
+                {{ svc.domain }} 
               </a>
               <span v-else class="text-muted">-</span>
             </td>
             <td>
               <a v-if="svc.ip" :href="svc.ipUrl" target="_blank" rel="noopener noreferrer" class="ip-tag code-font">
-                {{ svc.ip }}:{{ svc.port }} ↗
+                {{ svc.ip }}:{{ svc.port }} 
               </a>
               <span v-else class="text-muted">-</span>
             </td>

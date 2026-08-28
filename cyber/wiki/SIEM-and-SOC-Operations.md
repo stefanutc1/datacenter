@@ -1,4 +1,4 @@
-# 🔍 SIEM & SOC Operations
+# SIEM & SOC Operations
 
 ## 1. Wazuh XDR Stack (`services/wazuh/`)
 

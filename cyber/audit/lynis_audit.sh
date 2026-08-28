@@ -8,7 +8,7 @@ REPORT_DIR="${1:-/tmp/cyberlab-audit}"
 mkdir -p "${REPORT_DIR}"
 
 echo "======================================================================"
-echo "  🛡️ CyberLab Automated Security & CIS Compliance Audit"
+echo "   CyberLab Automated Security & CIS Compliance Audit"
 echo "======================================================================"
 
 if ! command -v lynis &>/dev/null; then
@@ -25,7 +25,7 @@ WARNINGS_COUNT=$(grep -c "^warning\[\]=" "${REPORT_DIR}/lynis-report.dat" || ech
 
 echo ""
 echo "======================================================================"
-echo "  📊 AUDIT RESULTS SUMMARY"
+echo "   AUDIT RESULTS SUMMARY"
 echo "======================================================================"
 echo "  Hardening Index  : ${HARDENING_INDEX} / 100"
 echo "  Active Warnings  : ${WARNINGS_COUNT}"

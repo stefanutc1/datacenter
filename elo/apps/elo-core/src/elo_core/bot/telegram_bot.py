@@ -46,21 +46,21 @@ class TelegramBotNotifier:
         Sends an interactive approval prompt to the admin Telegram chat.
         """
         text = (
-            f"🛡️ *[ELO SECURITY GATE: {request.security_level.value}]*\n\n"
-            f"🔧 *Unealtă solicitată:* `{request.tool_name}`\n"
-            f"📝 *Explicație:* {request.explanation}\n"
-            f"📦 *Parametri:* `{request.parameters}`\n"
-            f"⏱️ *Expiră în:* 5 minute\n"
-            f"🆔 *Ticket ID:* `{request.id}`"
+            f" *[ELO SECURITY GATE: {request.security_level.value}]*\n\n"
+            f" *Unealtă solicitată:* `{request.tool_name}`\n"
+            f" *Explicație:* {request.explanation}\n"
+            f" *Parametri:* `{request.parameters}`\n"
+            f" *Expiră în:* 5 minute\n"
+            f" *Ticket ID:* `{request.id}`"
         )
         
         reply_markup = {
             "inline_keyboard": [
                 [
-                    {"text": "✅ Aprobă", "callback_data": f"approve:{request.id}"},
-                    {"text": "❌ Respinge", "callback_data": f"deny:{request.id}"},
-                ]
-            ]
+                    {"text": " Aprobă", "callback_data": f"approve:{request.id}"},
+                    {"text": " Respinge", "callback_data": f"deny:{request.id}"},
+]
+]
         }
         await self.send_message(text, reply_markup=reply_markup)
 
@@ -82,7 +82,7 @@ class TelegramBotNotifier:
         success, token = self.gatekeeper.resolve_request(decision)
 
         if not success:
-            return f"❌ Ticketul `{req_id}` nu a putut fi rezolvat (posibil expirat sau deja procesat)."
+            return f" Ticketul `{req_id}` nu a putut fi rezolvat (posibil expirat sau deja procesat)."
 
-        status_str = "APROBAT ✅" if is_approved else "RESPINS ❌"
+        status_str = "APROBAT " if is_approved else "RESPINS "
         return f"Ticket `{req_id}` a fost marcat ca {status_str} de {actor}."

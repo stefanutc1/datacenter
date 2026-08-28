@@ -55,7 +55,7 @@ class AlertDispatcher:
                     data={
                         "From": self.twilio_from_number,
                         "To": target,
-                        "Body": f"🚨 [ELO ALERT]: {message}",
+                        "Body": f" [ELO ALERT]: {message}",
                     },
                 )
                 if resp.status_code in [200, 201]:
@@ -70,7 +70,7 @@ class AlertDispatcher:
             async with httpx.AsyncClient(timeout=10.0) as client:
                 resp = await client.post(
                     self.sms_webhook_url,
-                    json={"to": target, "message": f"🚨 [ELO ALERT]: {message}"},
+                    json={"to": target, "message": f" [ELO ALERT]: {message}"},
                 )
                 if resp.status_code in [200, 201, 204]:
                     logger.info(f"[SMS SENT] Alert sent to {target} via SMS Webhook Gateway.")
@@ -119,7 +119,7 @@ class AlertDispatcher:
         url = f"https://api.telegram.org/bot{self.telegram_bot_token}/sendMessage"
         payload = {
             "chat_id": self.telegram_chat_id,
-            "text": f"🚨 *[ELO INCIDENT ALERT]*\n\n{message}",
+            "text": f" *[ELO INCIDENT ALERT]*\n\n{message}",
             "parse_mode": "Markdown",
         }
         try:

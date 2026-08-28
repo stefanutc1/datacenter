@@ -1,4 +1,4 @@
-# 🛡️ CyberLab Defense & Operations Wiki
+# CyberLab Defense & Operations Wiki
 
 Welcome to the **CyberLab Security Engineering & Threat Operations Knowledge Base**. This repository provides the technical specifications, detection rules, hardening standards, and incident response playbooks for the CyberLab security proving ground.
 
@@ -42,7 +42,7 @@ MITRE ATT&CK Correlation"]
 
 ---
 
-## 📑 Wiki Modules
+## Wiki Modules
 
 1. **[[Network Topology & Segmentation|Network-Topology-and-Segmentation]]** — Zero-trust VLAN boundaries, routing rules, and controller access.
 2. **[[SIEM & SOC Operations|SIEM-and-SOC-Operations]]** — Wazuh XDR deployment, Loki log aggregation, Promtail rules, and CyberChef.

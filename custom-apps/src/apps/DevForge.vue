@@ -3,7 +3,7 @@
     <!-- Top App Bar -->
     <header class="app-topbar">
       <div class="brand-box">
-        <div class="logo-circle">🛠</div>
+        <div class="logo-circle"></div>
         <div>
           <h1 class="app-name">devforge</h1>
           <p class="app-tagline">offline-first developer utility suite &amp; token analyzer</p>
@@ -12,7 +12,7 @@
 
       <div class="topbar-actions">
         <div class="privacy-badge">
-          <span>🔒 100% client-side execution &bull; zero telemetry</span>
+          <span> 100% client-side execution &bull; zero telemetry</span>
         </div>
       </div>
     </header>
@@ -110,7 +110,7 @@
           </div>
 
           <textarea v-model="jsonText" class="code-textarea" rows="14" placeholder="paste json object here..."></textarea>
-          <div v-if="jsonErrMsg" class="error-strip">⚠ {{ jsonErrMsg }}</div>
+          <div v-if="jsonErrMsg" class="error-strip"> {{ jsonErrMsg }}</div>
         </section>
 
         <!-- 4. Crypto Hasher -->
@@ -183,23 +183,23 @@ const toolCategories = [
   {
     name: 'tokens & auth',
     items: [
-      { id: 'jwt', name: 'jwt debugger', icon: '🔑' },
-      { id: 'uuid', name: 'uuid & nanoid', icon: '🎲' }
-    ]
+      { id: 'jwt', name: 'jwt debugger', icon: '' },
+      { id: 'uuid', name: 'uuid & nanoid', icon: '' }
+]
   },
   {
     name: 'formatting & data',
     items: [
-      { id: 'json', name: 'json formatter', icon: '📋' },
-      { id: 'base64', name: 'base64 & hex', icon: '🔤' }
-    ]
+      { id: 'json', name: 'json formatter', icon: '' },
+      { id: 'base64', name: 'base64 & hex', icon: '' }
+]
   },
   {
     name: 'crypto & time',
     items: [
-      { id: 'crypto', name: 'hash calculator', icon: '🔒' },
-      { id: 'cron', name: 'cron humanizer', icon: '⏰' }
-    ]
+      { id: 'crypto', name: 'hash calculator', icon: '' },
+      { id: 'cron', name: 'cron humanizer', icon: '' }
+]
   }
 ];
 
@@ -278,7 +278,7 @@ const calculatedHashes = computed(() => {
     { algo: 'sha-512', val: sha256 + sha256 },
     { algo: 'md5', val: md5 },
     { algo: 'sha-1', val: sha1 }
-  ];
+];
 });
 
 // Base64

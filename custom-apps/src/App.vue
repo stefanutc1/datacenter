@@ -77,11 +77,11 @@ import PipeRunner from './apps/PipeRunner.vue';
 const currentAppId = ref('pulseguard');
 
 const services = [
-  { id: 'pulseguard', name: 'pulseguard', replaces: 'uptime kuma', icon: '⚡', color: '#10b981', tier: 'tier 1' },
-  { id: 'devforge', name: 'devforge', replaces: 'it-tools', icon: '🛠', color: '#00cec9', tier: 'tier 1' },
-  { id: 'pricescope', name: 'pricescope', replaces: 'changedetection', icon: '👁', color: '#cfa16a', tier: 'tier 1' },
-  { id: 'gitforge', name: 'gitforge', replaces: 'gitea', icon: '🌿', color: '#c084fc', tier: 'tier 2' },
-  { id: 'piperunner', name: 'piperunner', replaces: 'woodpecker ci', icon: '🚀', color: '#e74c3c', tier: 'tier 2' }
+  { id: 'pulseguard', name: 'pulseguard', replaces: 'uptime kuma', icon: '', color: '#10b981', tier: 'tier 1' },
+  { id: 'devforge', name: 'devforge', replaces: 'it-tools', icon: '', color: '#00cec9', tier: 'tier 1' },
+  { id: 'pricescope', name: 'pricescope', replaces: 'changedetection', icon: '', color: '#cfa16a', tier: 'tier 1' },
+  { id: 'gitforge', name: 'gitforge', replaces: 'gitea', icon: '', color: '#c084fc', tier: 'tier 2' },
+  { id: 'piperunner', name: 'piperunner', replaces: 'woodpecker ci', icon: '', color: '#e74c3c', tier: 'tier 2' }
 ];
 </script>
 

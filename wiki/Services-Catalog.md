@@ -1,4 +1,4 @@
-# 📦 Services Catalog
+# Services Catalog
 
 Complete breakdown of all services hosted across Docker Compose stacks:
 
