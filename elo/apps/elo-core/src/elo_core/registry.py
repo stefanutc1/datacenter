@@ -161,6 +161,34 @@ async def _builtin_homelab_query_service(query: str) -> Dict[str, Any]:
     }
 
 
+async def _builtin_send_phone_alert(
+    message: str,
+    severity: str = "high",
+    phone_number: str = "",
+) -> Dict[str, Any]:
+    """Sends an emergency alert / SMS to the administrator's phone."""
+    from .notifier import AlertDispatcher
+    import os
+    
+    dispatcher = AlertDispatcher(
+        phone_number=phone_number or os.getenv("ADMIN_PHONE_NUMBER"),
+        twilio_account_sid=os.getenv("TWILIO_ACCOUNT_SID"),
+        twilio_auth_token=os.getenv("TWILIO_AUTH_TOKEN"),
+        twilio_from_number=os.getenv("TWILIO_FROM_NUMBER"),
+        sms_webhook_url=os.getenv("SMS_WEBHOOK_URL"),
+        telegram_bot_token=os.getenv("TELEGRAM_BOT_TOKEN"),
+        telegram_chat_id=os.getenv("TELEGRAM_ADMIN_CHAT_ID"),
+        ntfy_topic=os.getenv("NTFY_TOPIC", "elo-homelab-alerts"),
+    )
+    
+    return await dispatcher.broadcast_incident(
+        title="Homelab Alert",
+        message=message,
+        severity=severity,
+        phone_number=phone_number or os.getenv("ADMIN_PHONE_NUMBER"),
+    )
+
+
 def create_default_registry() -> ToolRegistry:
     reg = ToolRegistry()
     
@@ -226,6 +254,24 @@ def create_default_registry() -> ToolRegistry:
         security_level=SecurityLevel.L0_READ_ONLY,
         handler=_builtin_run_monte_carlo,
         domain="business",
+    )
+
+    # 5. Send Phone Alert (L1 Audited Operation)
+    reg.register(
+        name="send_phone_alert",
+        description="Dispatches an urgent SMS and mobile notification alert to the administrator's phone number when an incident, node failure, or security breach occurs.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "message": {"type": "string", "description": "Alert message describing the issue"},
+                "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"], "default": "high"},
+                "phone_number": {"type": "string", "description": "Target phone number with country code (e.g. +407xxxxxxxx)", "default": ""},
+            },
+            "required": ["message"],
+        },
+        security_level=SecurityLevel.L1_LOW_WRITE,
+        handler=_builtin_send_phone_alert,
+        domain="security",
     )
 
     return reg

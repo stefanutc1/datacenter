@@ -219,6 +219,20 @@ class MockLLMClient(BaseLLMClient):
                 f"• **Evaluare Risc**: 🟢 `STABIL / ÎN PARAMETRI OPTIMI`"
             )
 
+        # 4. Phone / SMS Incident Alert Formatter
+        if "dispatched_channels" in data or "incident_title" in data:
+            channels = data.get("dispatched_channels", {})
+            return (
+                f"### 🚨 Alertă Transmisă pe Telefon & Canale Mobile\n\n"
+                f"• **Titlu Incident**: `{data.get('incident_title', 'Homelab Incident')}`\n"
+                f"• **Nivel Severitate**: ⚠️ `{data.get('severity', 'HIGH').upper()}`\n"
+                f"• **Canale Dispecerizate**:\n"
+                f"  - 📱 **SMS Telefon**: `{channels.get('sms', {}).get('status', 'SENT')}` ({channels.get('sms', {}).get('target', 'Administrator')})\n"
+                f"  - 🔔 **Mobile Push (NTFY)**: `{channels.get('push', {}).get('status', 'SUCCESS')}`\n"
+                f"  - 💬 **Telegram Bot**: `{channels.get('telegram', {}).get('status', 'CONFIGURED')}`\n\n"
+                f"🛡️ *Notificarea a fost dispecerizată instant către telefonul tău.*"
+            )
+
         # Fallback to key-value list
         lines = ["### 📋 Rezultat Execuție:"]
         for k, v in data.items():
