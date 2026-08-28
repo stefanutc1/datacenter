@@ -225,6 +225,101 @@ in addition to lightweight lxc containers, the homelab platform runs dedicated *
 - **micro footprint**: allocated only **256 mb ram** (ballooning to 128 mb), consuming $< 60\\text{ mb}$ idle ram.
 - **network**: static ip \`192.168.1.202/24\`, gateway \`192.168.1.1\`, dns \`192.168.1.4\` (\`alpine.lan\`).
 `
+  },
+  {
+    id: "elo-control-plane",
+    section: "homelab",
+    title: "elo autonomous ai control plane",
+    category: "ai & automation",
+    icon: "ai",
+    summary: "agentic control plane with pgvector semantic memory, esp32 presence, multi-agent swarm, and zero-cost free-tier cascade.",
+    content: `# elo: autonomous agentic homelab control plane
+
+**ELO (Enhanced Local Orchestrator)** is a self-hosted autonomous AI control plane for Proxmox VE, OPNsense, Home Assistant, and ZFS storage systems.
+
+\`\`\`mermaid
+graph TD
+    User["User (Web / macOS App / Telegram)"] --> Gatekeeper["Security Gatekeeper (L0–L3 Rings)"]
+    Gatekeeper --> Router["CascadeRouter (Free-Tier Optimized)"]
+    Router -->|Tier 1| Gemini["Google Gemini (2.5 Flash / Pro)"]
+    Router -->|Tier 2 (Quota/429)| Groq["Groq LPU (Llama 3.3 70B Versatile)"]
+    Router -->|Tier 3 (Rate Limit)| OpenRouter["OpenRouter Hub (:free Pool)"]
+    Router -->|Tier 4 (Offline)| Ollama["Local Ollama (Apple M1 Metal MPS)"]
+    Router -->|Tier 5| Mock["Mock Deterministic Failsafe"]
+\`\`\`
+
+---
+
+## core autonomous features (phases 1–6)
+
+### 1. persistent semantic memory with \`pgvector\`
+- full vector indexing for homelab runbooks, inventory, and conversation logs.
+- deterministic 128-dimensional dense embeddings with cosine similarity search.
+- persistent long-term recall of user preferences, VM contexts, and previous incident resolutions.
+
+### 2. hardware esp32 & room-awareness
+- microcontrollers across the home stream BLE / mmWave radar telemetry over MQTT.
+- ELO resolves physical room zones (**Birou**, **Living**, **Server Room**, **Dormitor**) and dynamically routes generic vocal/text commands (*"turn on the lights"*) to the proximity Home Assistant entities.
+
+### 3. autonomous specialized multi-agent swarm
+- 🛡️ **SecOps Threat-Hunter Agent**: analyzes Wazuh XDR and Suricata NIDS logs; executes instant quarantine on OPNsense at \`192.168.1.132:8443\`.
+- ⚙️ **SysAdmin Optimizer Agent**: correlates cluster telemetry, identifies memory bloat, recommends KSM deduplication, and cleans Docker cache.
+- ⚡ **Smart Home Energy Agent**: monitors power consumption across Home Assistant & Shelly smart plugs; flags vampire loads during idle hours.
+- 🛡️ **Predictive Storage Healer**: tracks SMART disk health metrics and proactively triggers ZFS safety snapshots on OpenMediaVault (\`192.168.1.135\`).
+
+### 4. native macos desktop application (.net 10)
+- native C# application packaged into a self-contained DMG installer (\`elo-desktop-macos.dmg\`) with auto-reconnecting WebSocket telemetry and biometric Touch ID confirmation.
+`
+  },
+  {
+    id: "antigravity-mcp",
+    section: "homelab",
+    title: "antigravity mcp server",
+    category: "ai & automation",
+    icon: "sys",
+    summary: "model context protocol (mcp) server exposing live homelab tools to ai agents.",
+    content: `# antigravity mcp server (\`ai/\`)
+
+located under \`ai/\`, this service implements the **Model Context Protocol (MCP)** specification over stdio and HTTP JSON-RPC.
+
+## exposed mcp tool endpoints:
+- \`homelab_list_services\`: retrieves live status of all 31 Docker compose microservices.
+- \`proxmox_get_cluster\`: scrapes node status, CPU/RAM utilization, and VM states from Proxmox VE (\`192.168.1.132\`).
+- \`opnsense_block_ip\`: injects stateful firewall blacklist rules on OPNsense gateway.
+- \`homeassistant_call_service\`: executes home automation domain actions.
+- \`zfs_snapshot_dataset\`: creates instant ZFS dataset snapshots on NAS (\`192.168.1.135\`).
+`
+  },
+  {
+    id: "multi-distro-cicd",
+    section: "homelab",
+    title: "multi-linux ci/cd & devsecops",
+    category: "automation",
+    icon: "sast",
+    summary: "github actions matrix pipeline across 6 linux distros, devsecops scanning, and automatic readme sync.",
+    content: `# multi-distribution linux ci/cd pipeline
+
+the continuous integration and delivery architecture under \`.github/workflows/\` enforces multi-distribution compatibility and enterprise DevSecOps baselines.
+
+## 1. multi-linux compatibility matrix (\`distro-compatibility-matrix\`)
+automatically executes the entire test suite on 6 native Linux containers:
+- 🐧 **Debian 12 Bookworm** (\`glibc\` — base for Proxmox VE & OpenMediaVault)
+- 🐧 **Ubuntu 24.04 LTS Noble** (\`glibc\`)
+- 🏔️ **Alpine Linux 3.20** (\`musl libc\` — VM 201 & ultra-lightweight containers)
+- 🪨 **Rocky Linux 9** (Enterprise RPM / RHEL)
+- 🎩 **Fedora 40** (modern RPM upstream)
+- 🏹 **Arch Linux** (rolling release bleeding-edge)
+
+## 2. devsecops security scanning
+- **Gitleaks**: zero-tolerance secrets and credential leak detection.
+- **Bandit SAST**: Python AST vulnerability analysis.
+- **Trivy Vulnerability Scanner**: filesystem, base image, and CVE auditor.
+- **Portable ShellCheck-Py**: POSIX shell script static analysis.
+
+## 3. automated readme.md & metrics sync
+- dynamically inspects active workloads, registered ELO tools (19 tools), and test suites (28/28 passed).
+- automatically updates root documentation badges on every push.
+`
   }
 ];
 
@@ -447,6 +542,10 @@ declarative virtualization packages configured via apple hypervisor.framework an
 export const allArticles = [...homelabArticles, ...cyberArticles];
 
 export const homelabServices = [
+  { name: "elo ai control plane", logo: "icons/python.svg", category: "ai & automation", ip: "192.168.1.133", port: 8000, ipUrl: "http://192.168.1.133:8000", domain: "elo.lan", domainUrl: "http://elo.lan", status: "active" },
+  { name: "antigravity mcp server", logo: "icons/python.svg", category: "ai & automation", ip: "192.168.1.133", port: 8000, ipUrl: "http://192.168.1.133:8000/docs", domain: "mcp.lan", domainUrl: "http://mcp.lan", status: "active" },
+  { name: "proxmox ve hypervisor", logo: "icons/proxmox.svg", category: "infrastructure", ip: "192.168.1.132", port: 8006, ipUrl: "https://192.168.1.132:8006", domain: "pve.lan", domainUrl: "https://pve.lan", status: "active" },
+  { name: "openmediavault nas", logo: "icons/nextcloud.svg", category: "infrastructure", ip: "192.168.1.135", port: 80, ipUrl: "http://192.168.1.135", domain: "nas.lan", domainUrl: "http://nas.lan", status: "active" },
   { name: "nginx proxy manager", logo: "icons/nginx-proxy-manager.svg", category: "ingress", ip: "192.168.1.3", port: 81, ipUrl: "http://192.168.1.3:81", domain: "nginx.lan", domainUrl: "http://nginx.lan", status: "active" },
   { name: "authelia sso", logo: "icons/authelia.svg", category: "ingress", ip: "192.168.1.20", port: 9091, ipUrl: "http://192.168.1.20:9091", domain: "authelia.lan", domainUrl: "http://authelia.lan", status: "active" },
   { name: "pi-hole dns", logo: "icons/pihole.svg", category: "networking", ip: "192.168.1.4", port: 8080, ipUrl: "http://192.168.1.4:8080/admin/", domain: "pihole.lan", domainUrl: "http://pihole.lan/admin/", status: "active" },

@@ -31,7 +31,6 @@ jobs:
           cache-dependency-path: |
             web/package-lock.json
             homepage/package-lock.json
-            custom-apps/package-lock.json
 
       - name: Install Web Dependencies
         run: |

@@ -1,5 +1,6 @@
 export const categories = [
   { id: 'all', name: 'All Services', icon: 'layers' },
+  { id: 'ai', name: 'AI & Autonomous Control', icon: 'zap' },
   { id: 'media', name: 'Media & Streaming', icon: 'film' },
   { id: 'iot', name: 'Smart Home & IoT', icon: 'cpu' },
   { id: 'security', name: 'Security & Identity', icon: 'shield-check' },
@@ -13,6 +14,137 @@ export const categories = [
 ];
 
 export const services = [
+  {
+    id: 'elo-core',
+    logo: 'icons/python.svg',
+    name: 'ELO Autonomous Control Plane',
+    category: 'ai',
+    ip: '192.168.1.133',
+    port: 8000,
+    ipUrl: 'http://192.168.1.133:8000',
+    domain: 'elo.lan',
+    domainUrl: 'http://elo.lan',
+    internalUrl: 'http://192.168.1.133:8000',
+    icon: 'zap',
+    color: '#8e44ad',
+    image: 'elo-core:latest',
+    containerName: 'elo_core',
+    status: 'online',
+    tags: ['AI Agent', 'FastAPI', 'pgvector RAG', 'ESP32 Presence', 'Multi-Agent Swarm', 'Metal MPS'],
+    description: 'Autonomous AI control plane for Proxmox VE, OPNsense, Home Assistant, and ZFS. Features persistent pgvector memory, ESP32 room-awareness, multi-agent swarm, and zero-cost free-tier LLM cascade.',
+    features: [
+      'Zero-Cost LLM Cascade: Gemini 2.5 Flash -> Groq LPU -> OpenRouter :free -> Local Ollama Metal MPS',
+      'ESP32 mmWave / BLE presence room-awareness with contextual entity routing',
+      'Autonomous Swarm: SecOps Threat Hunter, SysAdmin Optimizer, Smart Energy, Predictive Storage Healer',
+      'Persistent semantic memory RAG using PostgreSQL pgvector (128-dim embeddings)'
+    ],
+    volumes: ['/var/log/elo:/app/logs'],
+    envVars: ['PRIMARY_LLM_PROVIDER=gemini', 'FALLBACK_LLM_PROVIDER=groq', 'LOCAL_LLM_BASE_URL=http://localhost:11434'],
+    composeCode: `services:
+  elo-core:
+    image: elo-core:latest
+    container_name: elo_core
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    environment:
+      - PRIMARY_LLM_PROVIDER=gemini
+      - FALLBACK_LLM_PROVIDER=groq
+      - LOCAL_LLM_BASE_URL=http://localhost:11434`,
+    wikiMarkdown: `### ELO AI Control Plane Architecture
+ELO runs on the Apple Silicon M1 node (192.168.1.133) providing autonomous infrastructure orchestration with biometric macOS Gatekeeper challenge authorization.`
+  },
+  {
+    id: 'antigravity-mcp',
+    logo: 'icons/python.svg',
+    name: 'Antigravity Homelab MCP Server',
+    category: 'ai',
+    ip: '192.168.1.133',
+    port: 8000,
+    ipUrl: 'http://192.168.1.133:8000/docs',
+    domain: 'mcp.lan',
+    domainUrl: 'http://mcp.lan',
+    internalUrl: 'http://192.168.1.133:8000',
+    icon: 'cpu',
+    color: '#3498db',
+    image: 'antigravity-mcp:latest',
+    containerName: 'antigravity_mcp',
+    status: 'online',
+    tags: ['Model Context Protocol', 'AI Tools', 'JSON-RPC', 'Proxmox API', 'OPNsense API'],
+    description: 'Model Context Protocol (MCP) server providing live homelab infrastructure inspection, container telemetry, and command execution tools to AI assistants.',
+    features: [
+      'Full MCP 2024-11-05 standard implementation over stdio and HTTP JSON-RPC',
+      'Live tool execution for Proxmox status, OPNsense IP blocks, Home Assistant automations',
+      'Native integration with Antigravity, Claude Desktop, and Cursor'
+    ],
+    volumes: ['/ai:/app/ai'],
+    envVars: ['MCP_TRANSPORT=stdio'],
+    composeCode: `services:
+  antigravity-mcp:
+    build: ./ai
+    container_name: antigravity_mcp
+    restart: unless-stopped`,
+    wikiMarkdown: `### Antigravity MCP Server
+Located in ai/, connects AI coding assistants directly to homelab runtime telemetry.`
+  },
+  {
+    id: 'proxmox-hypervisor',
+    logo: 'icons/proxmox.svg',
+    name: 'Proxmox VE Hypervisor',
+    category: 'networking',
+    ip: '192.168.1.132',
+    port: 8006,
+    ipUrl: 'https://192.168.1.132:8006',
+    domain: 'pve.lan',
+    domainUrl: 'https://pve.lan',
+    internalUrl: 'https://192.168.1.132:8006',
+    icon: 'server',
+    color: '#e67e22',
+    image: 'bare-metal:proxmox-ve-9.2',
+    containerName: 'pve_host',
+    status: 'online',
+    tags: ['Hypervisor', 'KVM', 'LXC', 'Debian 12', 'ZFS'],
+    description: 'Primary bare-metal hypervisor node hosting all homelab virtual machines, LXC microservices, Frigate NVR, and ML experimentation workloads.',
+    features: [
+      'Intel Core i3-10100F (4C / 8T) with NVIDIA GTX 1050 Ti GPU passthrough',
+      'LXC container density and QEMU hardware-assisted virtualization',
+      'Integrated firewall, network bridges, and local-lvm storage tier'
+    ],
+    volumes: ['/etc/pve:/etc/pve'],
+    envVars: [],
+    composeCode: `# Bare-metal Proxmox VE 9.2 Host: 192.168.1.132:8006`,
+    wikiMarkdown: `### Proxmox VE Node 1
+Primary compute node at 192.168.1.132.`
+  },
+  {
+    id: 'openmediavault-nas',
+    logo: 'icons/nextcloud.svg',
+    name: 'OpenMediaVault Storage NAS',
+    category: 'cloud',
+    ip: '192.168.1.135',
+    port: 80,
+    ipUrl: 'http://192.168.1.135',
+    domain: 'nas.lan',
+    domainUrl: 'http://nas.lan',
+    internalUrl: 'http://192.168.1.135',
+    icon: 'hard-drive',
+    color: '#27ae60',
+    image: 'bare-metal:openmediavault-7',
+    containerName: 'omv_host',
+    status: 'online',
+    tags: ['NAS', 'ZFS', 'SMB / NFS', 'Backups', 'Debian 12'],
+    description: 'Centralized NAS appliance providing SMB/NFS file shares, ZFS snapshot datasets, and secondary backup repository for all homelab VMs.',
+    features: [
+      'ZFS dataset redundancy with predictive SMART health healing',
+      'Automated rsync backup sync from Proxmox cluster',
+      'Low-power dedicated storage architecture on ASUS X451MA'
+    ],
+    volumes: ['/srv/zfs:/srv/zfs'],
+    envVars: [],
+    composeCode: `# Bare-metal OpenMediaVault NAS Host: 192.168.1.135:80`,
+    wikiMarkdown: `### OpenMediaVault Storage Node
+Central storage NAS at 192.168.1.135.`
+  },
   {
     id: 'nginx-proxy-manager',
     logo: 'icons/nginx-proxy-manager.svg',
