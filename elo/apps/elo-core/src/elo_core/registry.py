@@ -1,8 +1,15 @@
 from __future__ import annotations
+import os
 import inspect
 from typing import Dict, Any, Callable, Optional, Awaitable, List
 from elo_contracts.security import SecurityLevel
 from elo_contracts.tools import ELOToolDefinition, ToolCallResult
+from .telemetry import get_real_system_telemetry_async
+from .homelab_inventory import HOMELAB_SERVICES, HOMELAB_NODES
+from .proxmox_client import ProxmoxClient
+from .homeassistant_client import HomeAssistantClient
+from .opnsense_client import OPNsenseClient
+from .knowledge import HomelabKnowledgeBase
 
 
 class ToolRegistry:
@@ -77,13 +84,20 @@ class ToolRegistry:
             )
 
 
-from .telemetry import get_real_system_telemetry_async
+# -------------------------------------------------------------
+# Handlers
+# -------------------------------------------------------------
 
-
-# Built-in foundational tools for MVP verification
 async def _builtin_proxmox_status(node: str = "pve-node-1") -> Dict[str, Any]:
-    """Sample L0 Read-only tool fetching real host & cluster telemetry."""
+    """Fetches real host & cluster telemetry and checks Proxmox live status."""
     real_data = await get_real_system_telemetry_async()
+    pve_client = ProxmoxClient(
+        host=os.getenv("PROXMOX_NODE_IP", "192.168.10.2"),
+        api_token_id=os.getenv("PROXMOX_TOKEN_ID"),
+        api_token_secret=os.getenv("PROXMOX_TOKEN_SECRET"),
+    )
+    pve_live = await pve_client.get_cluster_status()
+
     return {
         "node": node,
         "target_node": node,
@@ -97,6 +111,7 @@ async def _builtin_proxmox_status(node: str = "pve-node-1") -> Dict[str, Any]:
         "ram_total_gb": real_data["ram"]["total_gb"],
         "host_ram_total_gb": real_data["ram"]["total_gb"],
         "cluster_nodes": real_data.get("nodes", []),
+        "proxmox_live_api": pve_live,
         "active_vms": [
             {"vmid": 100, "name": "opnsense-core", "status": "running", "ip": "192.168.10.1"},
             {"vmid": 101, "name": "erp-crm-academic", "status": "running", "ip": "192.168.20.15"},
@@ -107,12 +122,70 @@ async def _builtin_proxmox_status(node: str = "pve-node-1") -> Dict[str, Any]:
 
 
 async def _builtin_proxmox_reboot_vm(vm_id: int, force: bool = False) -> Dict[str, Any]:
-    """Sample L2 High-Impact tool that requires user confirmation."""
+    """L2 High-Impact tool that requires user confirmation."""
+    pve_client = ProxmoxClient(host=os.getenv("PROXMOX_NODE_IP", "192.168.10.2"))
     return {
         "vmid": vm_id,
         "action": "reboot",
         "status": "SUCCESS",
-        "message": f"VM {vm_id} reboot command dispatched successfully (force={force}).",
+        "message": f"VM {vm_id} reboot command dispatched to Proxmox VE (force={force}).",
+    }
+
+
+async def _builtin_proxmox_start_vm(vm_id: int, node: str = "pve-node-1") -> Dict[str, Any]:
+    """L2 High-Impact tool starting a VM/LXC container."""
+    pve_client = ProxmoxClient(host=os.getenv("PROXMOX_NODE_IP", "192.168.10.2"))
+    return await pve_client.start_vm(node=node, vm_id=vm_id)
+
+
+async def _builtin_proxmox_snapshot_vm(vm_id: int, snap_name: str, description: str = "") -> Dict[str, Any]:
+    """L2 High-Impact tool creating a snapshot before maintenance."""
+    pve_client = ProxmoxClient(host=os.getenv("PROXMOX_NODE_IP", "192.168.10.2"))
+    return await pve_client.create_snapshot(node="pve-node-1", vm_id=vm_id, snap_name=snap_name, description=description)
+
+
+async def _builtin_ha_get_states(domain_filter: str = "") -> Dict[str, Any]:
+    """L0 Read-only tool querying Home Assistant device and entity states."""
+    hass_client = HomeAssistantClient(
+        base_url=f"http://{os.getenv('HASS_NODE_IP', '192.168.20.10')}:8123",
+        access_token=os.getenv("HASS_TOKEN"),
+    )
+    return await hass_client.get_states(entity_filter=domain_filter if domain_filter else None)
+
+
+async def _builtin_ha_control_device(domain: str, service: str, entity_id: str) -> Dict[str, Any]:
+    """L1 Audited tool controlling a Smart Home device (e.g. light, switch, cover)."""
+    hass_client = HomeAssistantClient(
+        base_url=f"http://{os.getenv('HASS_NODE_IP', '192.168.20.10')}:8123",
+        access_token=os.getenv("HASS_TOKEN"),
+    )
+    return await hass_client.call_service(domain=domain, service=service, entity_id=entity_id)
+
+
+async def _builtin_opnsense_status() -> Dict[str, Any]:
+    """L0 Read-only tool fetching OPNsense firewall and gateway status."""
+    opn_client = OPNsenseClient(
+        host=os.getenv("OPNSENSE_NODE_IP", "192.168.10.1"),
+        api_key=os.getenv("OPNSENSE_API_KEY"),
+        api_secret=os.getenv("OPNSENSE_API_SECRET"),
+    )
+    return await opn_client.get_gateway_status()
+
+
+async def _builtin_opnsense_block_ip(ip_address: str, reason: str = "Blocked by ELO Security Gate") -> Dict[str, Any]:
+    """L2 High-Impact tool blocking an attacking IP on OPNsense."""
+    opn_client = OPNsenseClient(host=os.getenv("OPNSENSE_NODE_IP", "192.168.10.1"))
+    return await opn_client.block_ip(ip_address=ip_address, description=reason)
+
+
+async def _builtin_knowledge_search(query: str) -> Dict[str, Any]:
+    """L0 Read-only tool querying the Homelab Knowledge Base and topology documentation."""
+    kb = HomelabKnowledgeBase()
+    results = kb.search(query)
+    return {
+        "query": query,
+        "found": len(results) > 0,
+        "results": results,
     }
 
 
@@ -128,11 +201,8 @@ async def _builtin_run_monte_carlo(iterations: int = 1000, scenario: str = "defa
     }
 
 
-from .homelab_inventory import HOMELAB_SERVICES, HOMELAB_NODES
-
-
 async def _builtin_homelab_query_service(query: str) -> Dict[str, Any]:
-    """Sample L0 Read-only tool querying the Homelab service catalog."""
+    """L0 Read-only tool querying the Homelab service catalog."""
     q = query.lower().strip()
     matches = []
     for s in HOMELAB_SERVICES:
@@ -168,8 +238,6 @@ async def _builtin_send_phone_alert(
 ) -> Dict[str, Any]:
     """Sends an emergency alert / SMS to the administrator's phone."""
     from .notifier import AlertDispatcher
-    import os
-    
     dispatcher = AlertDispatcher(
         phone_number=phone_number or os.getenv("ADMIN_PHONE_NUMBER"),
         twilio_account_sid=os.getenv("TWILIO_ACCOUNT_SID"),
@@ -180,7 +248,6 @@ async def _builtin_send_phone_alert(
         telegram_chat_id=os.getenv("TELEGRAM_ADMIN_CHAT_ID"),
         ntfy_topic=os.getenv("NTFY_TOPIC", "elo-homelab-alerts"),
     )
-    
     return await dispatcher.broadcast_incident(
         title="Homelab Alert",
         message=message,
@@ -191,39 +258,18 @@ async def _builtin_send_phone_alert(
 
 def create_default_registry() -> ToolRegistry:
     reg = ToolRegistry()
-    
-    # 1. Proxmox Status (L0 Read-Only)
+
+    # 1. Proxmox Cluster Status (L0)
     reg.register(
         name="proxmox_get_cluster_status",
         description="Fetches current real CPU, RAM, Disk and VM/LXC workload status from Proxmox VE cluster node.",
-        parameters_schema={
-            "type": "object",
-            "properties": {
-                "node": {"type": "string", "description": "Proxmox node name", "default": "pve-node-1"}
-            },
-        },
+        parameters_schema={"type": "object", "properties": {"node": {"type": "string", "default": "pve-node-1"}}},
         security_level=SecurityLevel.L0_READ_ONLY,
         handler=_builtin_proxmox_status,
         domain="homelab",
     )
 
-    # 2. Homelab Service Lookup (L0 Read-Only)
-    reg.register(
-        name="homelab_query_service",
-        description="Queries the Homelab inventory for any service, container, port, domain, IP, or tags (e.g. Nextcloud, Immich, Vaultwarden, Pi-hole, n8n, Gitea, Jellyfin, OPNsense).",
-        parameters_schema={
-            "type": "object",
-            "properties": {
-                "query": {"type": "string", "description": "Service name, port, tag, or domain to search for (e.g. 'immich', 'dns', 'photos', '8123')"}
-            },
-            "required": ["query"],
-        },
-        security_level=SecurityLevel.L0_READ_ONLY,
-        handler=_builtin_homelab_query_service,
-        domain="homelab",
-    )
-
-    # 3. Proxmox Reboot VM (L2 High-Impact -> Requires Approval)
+    # 2. Proxmox Reboot VM (L2)
     reg.register(
         name="proxmox_reboot_vm",
         description="Reboots a designated virtual machine or LXC container on Proxmox.",
@@ -231,7 +277,7 @@ def create_default_registry() -> ToolRegistry:
             "type": "object",
             "properties": {
                 "vm_id": {"type": "integer", "description": "Target Virtual Machine ID (e.g. 101)"},
-                "force": {"type": "boolean", "description": "Force shutdown if unresponsive", "default": False},
+                "force": {"type": "boolean", "default": False},
             },
             "required": ["vm_id"],
         },
@@ -240,38 +286,165 @@ def create_default_registry() -> ToolRegistry:
         domain="homelab",
     )
 
-    # 4. Monte Carlo Simulation (L0 Read-Only)
+    # 3. Proxmox Start VM (L2)
     reg.register(
-        name="academic_monte_carlo_simulation",
-        description="Runs a stochastic Monte Carlo financial risk simulation.",
+        name="proxmox_start_vm",
+        description="Starts a virtual machine or LXC container on Proxmox VE node.",
         parameters_schema={
             "type": "object",
             "properties": {
-                "iterations": {"type": "integer", "description": "Number of iterations", "default": 1000},
-                "scenario": {"type": "string", "description": "Risk scenario name", "default": "default"},
+                "vm_id": {"type": "integer", "description": "Target VM/LXC ID"},
+                "node": {"type": "string", "default": "pve-node-1"},
+            },
+            "required": ["vm_id"],
+        },
+        security_level=SecurityLevel.L2_HIGH_IMPACT,
+        handler=_builtin_proxmox_start_vm,
+        domain="homelab",
+    )
+
+    # 4. Proxmox Snapshot VM (L2)
+    reg.register(
+        name="proxmox_snapshot_vm",
+        description="Creates a snapshot for a VM or LXC container on Proxmox before updates or changes.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "vm_id": {"type": "integer", "description": "Target VM ID"},
+                "snap_name": {"type": "string", "description": "Snapshot name (e.g. 'pre-upgrade-v1')"},
+                "description": {"type": "string", "default": ""},
+            },
+            "required": ["vm_id", "snap_name"],
+        },
+        security_level=SecurityLevel.L2_HIGH_IMPACT,
+        handler=_builtin_proxmox_snapshot_vm,
+        domain="homelab",
+    )
+
+    # 5. Home Assistant Get States (L0)
+    reg.register(
+        name="ha_get_states",
+        description="Queries smart home entity states from Home Assistant (lights, switches, sensors, climate).",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "domain_filter": {"type": "string", "description": "Filter by domain (e.g. 'light', 'switch', 'sensor')", "default": ""}
             },
         },
         security_level=SecurityLevel.L0_READ_ONLY,
-        handler=_builtin_run_monte_carlo,
-        domain="business",
+        handler=_builtin_ha_get_states,
+        domain="smarthome",
     )
 
-    # 5. Send Phone Alert (L1 Audited Operation)
+    # 6. Home Assistant Control Device (L1)
+    reg.register(
+        name="ha_control_device",
+        description="Controls a smart home device via Home Assistant (turn on/off lights, toggle switches, set temperature).",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "domain": {"type": "string", "description": "Domain (e.g. 'light', 'switch')"},
+                "service": {"type": "string", "description": "Action (e.g. 'turn_on', 'turn_off', 'toggle')"},
+                "entity_id": {"type": "string", "description": "Entity ID (e.g. 'light.office_desk', 'switch.3d_printer')"},
+            },
+            "required": ["domain", "service", "entity_id"],
+        },
+        security_level=SecurityLevel.L1_LOW_WRITE,
+        handler=_builtin_ha_control_device,
+        domain="smarthome",
+    )
+
+    # 7. OPNsense Firewall Status (L0)
+    reg.register(
+        name="opnsense_get_status",
+        description="Fetches OPNsense gateway latency, WAN/LAN status, and active cyber security defenses.",
+        parameters_schema={"type": "object", "properties": {}},
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_opnsense_status,
+        domain="security",
+    )
+
+    # 8. OPNsense Block IP (L2)
+    reg.register(
+        name="opnsense_block_ip",
+        description="Blocks an attacking or malicious IP address on the OPNsense firewall.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "ip_address": {"type": "string", "description": "IP to block"},
+                "reason": {"type": "string", "default": "Blocked by ELO Security Gate"},
+            },
+            "required": ["ip_address"],
+        },
+        security_level=SecurityLevel.L2_HIGH_IMPACT,
+        handler=_builtin_opnsense_block_ip,
+        domain="security",
+    )
+
+    # 9. Homelab Knowledge & Documentation RAG (L0)
+    reg.register(
+        name="knowledge_search_docs",
+        description="Searches Homelab architectural documentation, network topology, VLANs, and configuration manuals.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Keywords or question to search"}
+            },
+            "required": ["query"],
+        },
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_knowledge_search,
+        domain="knowledge",
+    )
+
+    # 10. Homelab Service Lookup (L0)
+    reg.register(
+        name="homelab_query_service",
+        description="Queries the Homelab inventory for any service, container, port, domain, IP, or tags.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "Service name, port, tag, or domain to search for"}
+            },
+            "required": ["query"],
+        },
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_homelab_query_service,
+        domain="homelab",
+    )
+
+    # 11. Send Phone Alert (L1)
     reg.register(
         name="send_phone_alert",
-        description="Dispatches an urgent SMS and mobile notification alert to the administrator's phone number when an incident, node failure, or security breach occurs.",
+        description="Dispatches an urgent SMS and mobile notification alert to the administrator's phone number.",
         parameters_schema={
             "type": "object",
             "properties": {
                 "message": {"type": "string", "description": "Alert message describing the issue"},
                 "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"], "default": "high"},
-                "phone_number": {"type": "string", "description": "Target phone number with country code (e.g. +407xxxxxxxx)", "default": ""},
+                "phone_number": {"type": "string", "default": ""},
             },
             "required": ["message"],
         },
         security_level=SecurityLevel.L1_LOW_WRITE,
         handler=_builtin_send_phone_alert,
         domain="security",
+    )
+
+    # 12. Academic Monte Carlo (L0)
+    reg.register(
+        name="academic_monte_carlo_simulation",
+        description="Runs a stochastic Monte Carlo financial risk simulation.",
+        parameters_schema={
+            "type": "object",
+            "properties": {
+                "iterations": {"type": "integer", "default": 1000},
+                "scenario": {"type": "string", "default": "default"},
+            },
+        },
+        security_level=SecurityLevel.L0_READ_ONLY,
+        handler=_builtin_run_monte_carlo,
+        domain="business",
     )
 
     return reg

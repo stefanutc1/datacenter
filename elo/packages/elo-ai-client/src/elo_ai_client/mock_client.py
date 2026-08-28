@@ -233,6 +233,55 @@ class MockLLMClient(BaseLLMClient):
                 f"🛡️ *Notificarea a fost dispecerizată instant către telefonul tău.*"
             )
 
+        # 5. Home Assistant Smart Home Formatter
+        if "entities" in data or "domain" in data and "service" in data:
+            if "entities" in data:
+                entities = data.get("entities", [])
+                ent_lines = ""
+                for e in entities[:6]:
+                    ent_lines += f"  • `{e.get('entity_id')}`: **{e.get('state')}** ({e.get('attributes', {}).get('friendly_name', 'N/A')})\n"
+                return (
+                    f"### 💡 Stare Dispozitive Smart Home (Home Assistant)\n\n"
+                    f"• **Dispozitive Descoperite**: `{len(entities)}`\n"
+                    f"{ent_lines}\n"
+                    f"🏠 *Integrare activă pe `192.168.20.10:8123`.*"
+                )
+            else:
+                return (
+                    f"### ⚡ Comandă Smart Home Executată\n\n"
+                    f"• **Dispozitiv**: `{data.get('entity_id')}`\n"
+                    f"• **Acțiune**: `{data.get('domain')}.{data.get('service')}`\n"
+                    f"• **Stare**: 🟢 `SUCCES`"
+                )
+
+        # 6. OPNsense Firewall Status Formatter
+        if "firewall_rule" in data or "gateway" in data or "target_ip" in data:
+            if "target_ip" in data:
+                return (
+                    f"### 🛡️ OPNsense Cyber Shield — IP Blocat\n\n"
+                    f"• **IP Blocat**: `🔴 {data.get('target_ip')}`\n"
+                    f"• **Motiv**: `{data.get('description')}`\n"
+                    f"• **Alias Firewall**: `{data.get('firewall_rule')}`\n"
+                    f"🔒 *Regula a fost activată instant pe OPNsense.*"
+                )
+            return (
+                f"### 🛡️ Raport Firewall OPNsense & Gateway\n\n"
+                f"• **Stare Firewall**: 🟢 `ONLINE / ACTIV`\n"
+                f"• **Protecție**: `Suricata IDS/IPS & CrowdSec Active`\n"
+                f"• **Gateway WAN**: `192.168.10.1` (Latenta: `<1ms`)"
+            )
+
+        # 7. Knowledge Base RAG Formatter
+        if "results" in data and "query" in data:
+            results = data.get("results", [])
+            docs_md = ""
+            for r in results:
+                docs_md += f"#### 📖 {r.get('topic')}\n{r.get('content')}\n\n"
+            return (
+                f"### 🧠 Documentație Găsită pentru: \"{data.get('query')}\"\n\n"
+                f"{docs_md}"
+            )
+
         # Fallback to key-value list
         lines = ["### 📋 Rezultat Execuție:"]
         for k, v in data.items():

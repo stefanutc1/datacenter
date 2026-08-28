@@ -155,11 +155,19 @@ def update_engine_llm(
     return llm_router
 
 
+from .watchdog import SelfHealingWatchdog
+
+# Watchdog singleton
+watchdog = SelfHealingWatchdog(check_interval=30.0)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
+    await watchdog.start()
     yield
     # Shutdown
+    await watchdog.stop()
 
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"
@@ -340,6 +348,39 @@ async def resolve_approval(request_id: str, req: ApprovalResolutionRequest):
 @app.get("/v1/audit")
 async def list_audit_logs(limit: int = 50):
     return {"audit_logs": audit_logger.get_recent_logs(limit=limit)}
+
+
+@app.get("/v1/proxmox/status")
+async def get_proxmox_status():
+    from .proxmox_client import ProxmoxClient
+    pve = ProxmoxClient(host=os.getenv("PROXMOX_NODE_IP", "192.168.10.2"))
+    return await pve.get_cluster_status()
+
+
+@app.get("/v1/homeassistant/states")
+async def get_homeassistant_states(domain: Optional[str] = None):
+    from .homeassistant_client import HomeAssistantClient
+    hass = HomeAssistantClient(
+        base_url=f"http://{os.getenv('HASS_NODE_IP', '192.168.20.10')}:8123",
+        access_token=os.getenv("HASS_TOKEN"),
+    )
+    return await hass.get_states(entity_filter=domain)
+
+
+@app.get("/v1/opnsense/status")
+async def get_opnsense_status():
+    from .opnsense_client import OPNsenseClient
+    opn = OPNsenseClient(host=os.getenv("OPNSENSE_NODE_IP", "192.168.10.1"))
+    return await opn.get_gateway_status()
+
+
+@app.get("/v1/watchdog/status")
+async def get_watchdog_status():
+    return {
+        "is_running": watchdog.is_running,
+        "interval_seconds": watchdog.check_interval,
+        "last_states": watchdog._last_node_states,
+    }
 
 
 if __name__ == "__main__":
