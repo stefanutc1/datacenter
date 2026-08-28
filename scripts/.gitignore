@@ -1,0 +1,10 @@
+*.swp
+*.bak
+*~
+.DS_Store
+vendor/bundle/
+.bundle/
+*.ppk.tmp
+tmp/
+build_repo*.py
+push_to_github.sh
