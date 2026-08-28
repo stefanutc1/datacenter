@@ -559,25 +559,25 @@ Uptime Kuma runs on ARM64 Hypervisor (Node 3, LXC 105) and verifies endpoints ev
       - "5678:5678"
     restart: unless-stopped`,
     wikiMarkdown: `### n8n Automation Engine
-n8n is deployed on LXC 108 on Primary Hypervisor (Node 1, x86_64) and accessible via \`n8n.lan\`.`
+n8n is deployed on LXC 107 on Primary Hypervisor (Node 1, x86_64) and accessible via \`n8n.lan\`.`
   },
   {
     id: 'gitea',
     logo: 'icons/gitea.svg',
     name: 'Gitea Git Forge & Actions',
     category: 'devops',
-    ip: '192.168.1.17',
+    ip: '192.168.64.25',
     port: 3000,
-    ipUrl: 'http://192.168.1.17:3000',
-    domain: 'gitea.lan',
-    domainUrl: 'http://gitea.lan',
-    internalUrl: 'http://gitea.lan',
+    ipUrl: 'http://192.168.64.25:3000',
+    domain: 'git.lan',
+    domainUrl: 'http://git.lan',
+    internalUrl: 'http://192.168.64.25:3000',
     icon: 'git-pull-request',
     color: '#609926',
     image: 'gitea/gitea:latest',
     containerName: 'gitea',
     status: 'online',
-    tags: ['Git', 'Repositories', 'Code Review', 'CI/CD', 'GitOps'],
+    tags: ['ARM64 Node 3', 'Git', 'Repositories', 'Code Review', 'CI/CD', 'GitOps'],
     description: 'Lightweight self-hosted Git version control forge supporting pull requests, issue tracking, and mirror synchronization with GitHub.',
     features: [
       'Ultra-fast Git operations with SQLite/PostgreSQL storage',
@@ -596,25 +596,25 @@ n8n is deployed on LXC 108 on Primary Hypervisor (Node 1, x86_64) and accessible
       - "2222:22"
     restart: unless-stopped`,
     wikiMarkdown: `### Gitea Git Forge
-Gitea runs on LXC 110 on Primary Hypervisor (Node 1, x86_64) and hosts internal Git repositories and configuration manifests.`
+Gitea runs on ARM64 Hypervisor (Node 3, LXC 109) and hosts internal Git repositories and configuration manifests.`
   },
   {
     id: 'woodpecker-ci',
     logo: 'icons/woodpecker.svg',
     name: 'Woodpecker CI/CD Engine',
     category: 'devops',
-    ip: '192.168.1.14',
+    ip: '192.168.64.26',
     port: 8000,
-    ipUrl: 'http://192.168.1.14:8000',
-    domain: 'woodpecker.lan',
-    domainUrl: 'http://woodpecker.lan',
-    internalUrl: 'http://woodpecker.lan',
+    ipUrl: 'http://192.168.64.26:8000',
+    domain: 'ci.lan',
+    domainUrl: 'http://ci.lan',
+    internalUrl: 'http://192.168.64.26:8000',
     icon: 'cpu',
     color: '#2ecc71',
     image: 'woodpeckerci/woodpecker-server:latest',
     containerName: 'woodpecker-server',
     status: 'online',
-    tags: ['CI/CD', 'Pipelines', 'Docker in Docker', 'Linting', 'Continuous Testing'],
+    tags: ['ARM64 Node 3', 'CI/CD', 'Pipelines', 'Docker in Docker', 'Linting', 'Continuous Testing'],
     description: 'Community-driven container-native continuous integration engine executing automated test suites, linting, and Docker container builds.',
     features: [
       'YAML pipeline definitions declared directly in repository root (.woodpecker.yml)',
@@ -632,25 +632,25 @@ Gitea runs on LXC 110 on Primary Hypervisor (Node 1, x86_64) and hosts internal 
       - "8000:8000"
     restart: unless-stopped`,
     wikiMarkdown: `### Woodpecker CI
-Woodpecker CI is deployed on LXC 109 on Primary Hypervisor (Node 1, x86_64) and automates build verification.`
+Woodpecker CI is deployed on ARM64 Hypervisor (Node 3, LXC 110) and automates build verification.`
   },
   {
     id: 'authelia',
     logo: 'icons/authelia.svg',
     name: 'Authelia 2FA & SSO Portal',
     category: 'security',
-    ip: '192.168.1.20',
+    ip: '192.168.64.20',
     port: 9091,
-    ipUrl: 'http://192.168.1.20:9091',
-    domain: 'authelia.lan',
-    domainUrl: 'http://authelia.lan',
-    internalUrl: 'http://authelia.lan',
+    ipUrl: 'http://192.168.64.20:9091',
+    domain: 'auth.lan',
+    domainUrl: 'http://auth.lan',
+    internalUrl: 'http://192.168.64.20:9091',
     icon: 'key',
     color: '#0984e3',
     image: 'authelia/authelia:latest',
     containerName: 'authelia',
     status: 'online',
-    tags: ['x86_64 Node 1', 'SSO', '2FA', 'OpenID Connect', 'Forward Auth', 'Identity'],
+    tags: ['ARM64 Node 3', 'SSO', '2FA', 'OpenID Connect', 'Forward Auth', 'Identity'],
     description: 'Open-source authentication server providing Single Sign-On (SSO) and multi-factor authentication (TOTP, WebAuthn/FIDO2) for reverse proxy ingress.',
     features: [
       'Two-factor authentication via TOTP authenticator apps and FIDO2/WebAuthn keys',
@@ -668,7 +668,7 @@ Woodpecker CI is deployed on LXC 109 on Primary Hypervisor (Node 1, x86_64) and 
       - "9091:9091"
     restart: unless-stopped`,
     wikiMarkdown: `### Authelia SSO
-Authelia runs in LXC 107 on Primary Hypervisor (Node 1, x86_64) and acts as the gatekeeper for local domain access.`
+Authelia runs in LXC 108 on Utility Hypervisor (Node 3, ARM64) and acts as the gatekeeper for local domain access.`
   },
   {
     id: 'crowdsec',
@@ -740,7 +740,7 @@ CrowdSec protects the homelab against automated scanning, brute-force, and explo
       - "8096:8096"
     restart: unless-stopped`,
     wikiMarkdown: `### Jellyfin Media Server
-Jellyfin runs on LXC 112 on Primary Hypervisor (Node 1, x86_64) alongside the Servarr suite on IP \`192.168.1.21\`.`
+Jellyfin runs on LXC 109 on Primary Hypervisor (Node 1, x86_64) alongside the Servarr suite on IP \`192.168.1.21\`.`
   },
   {
     id: 'radarr',
@@ -1063,7 +1063,7 @@ Trilium Notes runs on ARM64 Hypervisor (Node 3, LXC 102) and is accessible via \
       - "8080:8080"
     restart: unless-stopped`,
     wikiMarkdown: `### Scrutiny Disk Health
-Scrutiny is deployed in LXC 111 on Primary Hypervisor (Node 1, x86_64) and monitors drive telemetry via \`scrutiny.lan\` / \`http://192.168.1.18:8080\`.`
+Scrutiny is deployed in LXC 108 on Primary Hypervisor (Node 1, x86_64) and monitors drive telemetry via \`scrutiny.lan\` / \`http://192.168.1.18:8080\`.`
   },
   {
     id: 'scrutiny-arm',
@@ -1165,35 +1165,5 @@ IT-Tools runs in LXC 100 on ARM64 Hypervisor (Node 3) and is accessible via \`it
     composeCode: `qm create 200 --name opnsense --memory 1024 --cores 2 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1`,
     wikiMarkdown: `### OPNsense Core Gateway (VM 200)
 OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtual bridges.`
-  },
-  {
-    id: 'alpine-server',
-    logo: 'icons/alpine.svg',
-    name: 'Alpine Linux Microservices Server',
-    category: 'vms',
-    ip: '192.168.1.202',
-    port: 22,
-    ipUrl: 'http://192.168.1.202:22',
-    domain: 'alpine.lan',
-    domainUrl: 'http://alpine.lan',
-    internalUrl: 'http://alpine.lan',
-    icon: 'terminal',
-    color: '#0d597f',
-    image: 'Alpine Linux 3.21 Virt (KVM)',
-    containerName: 'VM 201',
-    status: 'online',
-    tags: ['Alpine 3.21', 'VM 201', 'Cloud-Init', 'SSH', 'Microservices', 'KVM'],
-    description: 'Ultra-lean Alpine Linux v3.21 cloud-init virtual machine configured with user Stefanut, SSH key authorization, and QEMU guest agent consuming < 60 MB RAM.',
-    features: [
-      'Automated Cloud-Init provisioning with SSH key authorization and injected secrets',
-      'QEMU Guest Agent enabled for seamless hypervisor metrics and shutdown sync',
-      'Static IP configuration (192.168.1.202/24) with Pi-hole DNS (192.168.1.4)',
-      '25 GB NVMe paravirtualized disk with VirtIO SCSI single controller'
-    ],
-    volumes: ['local-lvm:vm-201-disk-0 (25 GB)', 'local:iso/alpine-virt-3.21.3-x86_64.iso'],
-    envVars: ['CI_USER=Stefanut', 'SSH_PORT=22', 'IP=192.168.1.202/24'],
-    composeCode: `qm create 201 --name alpine-server --memory 256 --balloon 128 --cores 2 --cpu host --scsi0 local-lvm:vm-201-disk-0,discard=on,ssd=1 --net0 virtio,bridge=vmbr0`,
-    wikiMarkdown: `### Alpine Server (VM 201)
-Alpine Linux v3.21 runs as VM 201 with cloud-init automation and SSH key authentication.`
   }
 ];

@@ -148,12 +148,9 @@ const initialNodes = [
   { id: 'nextcloud', label: 'nextcloud hub', sublabel: 'private cloud · lxc 104', type: 'end-device', ip: '192.168.1.8', port: 80, color: '#10b981', radius: 10 },
   { id: 'crowdsec-svc', label: 'crowdsec ips', sublabel: 'cyber defense · lxc 105', type: 'end-device', ip: '192.168.1.9', port: 8080, color: '#10b981', radius: 9 },
   { id: 'homeassistant', label: 'home assistant', sublabel: 'iot core · lxc 106', type: 'end-device', ip: '192.168.1.10', port: 8123, color: '#10b981', radius: 10 },
-  { id: 'authelia-svc', label: 'authelia sso', sublabel: '2fa portal · lxc 107', type: 'end-device', ip: '192.168.1.20', port: 9091, color: '#10b981', radius: 9 },
-  { id: 'n8n-svc', label: 'n8n automation', sublabel: 'workflows · lxc 108', type: 'end-device', ip: '192.168.1.13', port: 5678, color: '#10b981', radius: 9 },
-  { id: 'woodpecker', label: 'woodpecker ci', sublabel: 'ci runners · lxc 109', type: 'end-device', ip: '192.168.1.14', port: 8000, color: '#10b981', radius: 9 },
-  { id: 'gitea', label: 'gitea forge', sublabel: 'git repo · lxc 110', type: 'end-device', ip: '192.168.1.17', port: 3000, color: '#10b981', radius: 9 },
-  { id: 'scrutiny-x64', label: 'scrutiny (x64)', sublabel: 'disk smart · lxc 111', type: 'end-device', ip: '192.168.1.18', port: 8080, color: '#10b981', radius: 9 },
-  { id: 'media-suite-svc', label: 'media suite (servarr)', sublabel: 'jellyfin/qbit · lxc 112', type: 'end-device', ip: '192.168.1.21', port: 8096, color: '#10b981', radius: 11 },
+  { id: 'n8n-svc', label: 'n8n automation', sublabel: 'workflows · lxc 107', type: 'end-device', ip: '192.168.1.13', port: 5678, color: '#10b981', radius: 9 },
+  { id: 'scrutiny-x64', label: 'scrutiny (x64)', sublabel: 'disk smart · lxc 108', type: 'end-device', ip: '192.168.1.18', port: 8080, color: '#10b981', radius: 9 },
+  { id: 'media-suite-svc', label: 'media suite (servarr)', sublabel: 'jellyfin/qbit · lxc 109', type: 'end-device', ip: '192.168.1.21', port: 8096, color: '#10b981', radius: 11 },
 
   // Node 3 Services (Apple M1 ARM64 Utility Hypervisor)
   { id: 'it-tools-arm', label: 'it-tools', sublabel: 'utilities · lxc 100', type: 'end-device', ip: '192.168.64.15', port: 8080, color: '#00b894', radius: 9 },
@@ -164,6 +161,9 @@ const initialNodes = [
   { id: 'uptime-kuma', label: 'uptime kuma', sublabel: 'health ping · lxc 105', type: 'end-device', ip: '192.168.64.23', port: 3001, color: '#00b894', radius: 10 },
   { id: 'vaultwarden', label: 'vaultwarden', sublabel: 'bitwarden · lxc 106', type: 'end-device', ip: '192.168.64.21', port: 8080, color: '#00b894', radius: 10 },
   { id: 'monitoring-stack', label: 'grafana / prometheus', sublabel: 'observability · lxc 107', type: 'end-device', ip: '192.168.64.24', port: 3000, color: '#00b894', radius: 11 },
+  { id: 'authelia-svc', label: 'authelia sso', sublabel: '2fa portal · lxc 108', type: 'end-device', ip: '192.168.64.20', port: 9091, color: '#00b894', radius: 10 },
+  { id: 'gitea', label: 'gitea forge', sublabel: 'git repo · lxc 109', type: 'end-device', ip: '192.168.64.25', port: 3000, color: '#00b894', radius: 10 },
+  { id: 'woodpecker', label: 'woodpecker ci', sublabel: 'ci runners · lxc 110', type: 'end-device', ip: '192.168.64.26', port: 8000, color: '#00b894', radius: 10 },
 
   // Node 4 Services (k8s Worker)
   { id: 'k3s-agent', label: 'k3s pod worker', sublabel: 'containerd cri', type: 'end-device', ip: '192.168.1.18', color: '#10b981', radius: 9 }
@@ -184,10 +184,7 @@ const initialLinks = [
   { source: 'proxmox-01', target: 'nextcloud', dashed: false },
   { source: 'proxmox-01', target: 'crowdsec-svc', dashed: false },
   { source: 'proxmox-01', target: 'homeassistant', dashed: false },
-  { source: 'proxmox-01', target: 'authelia-svc', dashed: false },
   { source: 'proxmox-01', target: 'n8n-svc', dashed: false },
-  { source: 'proxmox-01', target: 'woodpecker', dashed: false },
-  { source: 'proxmox-01', target: 'gitea', dashed: false },
   { source: 'proxmox-01', target: 'scrutiny-x64', dashed: false },
   { source: 'proxmox-01', target: 'media-suite-svc', dashed: false },
 
@@ -200,6 +197,9 @@ const initialLinks = [
   { source: 'proxmox-arm-03', target: 'uptime-kuma', dashed: false },
   { source: 'proxmox-arm-03', target: 'vaultwarden', dashed: false },
   { source: 'proxmox-arm-03', target: 'monitoring-stack', dashed: false },
+  { source: 'proxmox-arm-03', target: 'authelia-svc', dashed: false },
+  { source: 'proxmox-arm-03', target: 'gitea', dashed: false },
+  { source: 'proxmox-arm-03', target: 'woodpecker', dashed: false },
 
   // Cross-links
   { source: 'gitea', target: 'woodpecker', dashed: true },
