@@ -10,6 +10,13 @@
 [![Security Baseline](https://img.shields.io/badge/Compliance-CIS%20Level%201%20Hardened-green?style=flat&logo=ansible)](https://github.com/stefanutc1/homelab/tree/main/ansible)
 [![License](https://img.shields.io/badge/License-MIT-gray?style=flat)](LICENSE)
 
+
+<!-- AUTO-METRICS-START -->
+[![Active Workloads](https://img.shields.io/badge/Workloads-31%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
+[![Automated Tests](https://img.shields.io/badge/Tests-26%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
+[![ELO Tools](https://img.shields.io/badge/ELO%20Tools-19%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
+[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--08--28-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
+<!-- AUTO-METRICS-END -->
 </div>
 
 Production-grade, declarative homelab monorepo and autonomous infrastructure control plane. Integrates bare-metal Apple Silicon compute, Proxmox VE virtualization, OpenMediaVault storage, stateful OPNsense network segmentation, cyber defense proving grounds (SOC/SIEM/DFIR), and the **ELO Control Plane** for real-time orchestration, telemetry, and automated self-healing.
