@@ -648,7 +648,7 @@ Woodpecker CI is deployed on LXC 111 and automates build verification.`
     image: 'authelia/authelia:latest',
     containerName: 'authelia',
     status: 'online',
-    tags: ['SSO', '2FA', 'OpenID Connect', 'Forward Auth', 'Identity'],
+    tags: ['x86_64 Node 1', 'SSO', '2FA', 'OpenID Connect', 'Forward Auth', 'Identity'],
     description: 'Open-source authentication server providing Single Sign-On (SSO) and multi-factor authentication (TOTP, WebAuthn/FIDO2) for reverse proxy ingress.',
     features: [
       'Two-factor authentication via TOTP authenticator apps and FIDO2/WebAuthn keys',
@@ -666,7 +666,7 @@ Woodpecker CI is deployed on LXC 111 and automates build verification.`
       - "9091:9091"
     restart: unless-stopped`,
     wikiMarkdown: `### Authelia SSO
-Authelia runs in LXC 116 and acts as the gatekeeper for local domain access.`
+Authelia runs in LXC 109 on Primary Hypervisor (Node 1, x86_64) and acts as the gatekeeper for local domain access.`
   },
   {
     id: 'crowdsec',
@@ -925,18 +925,18 @@ qBittorrent runs in LXC 117 and handles all automated Servarr downloads.`
     logo: 'icons/actualbudget.svg',
     name: 'Actual Budget',
     category: 'productivity',
-    ip: '192.168.1.22',
+    ip: '192.168.64.16',
     port: 5006,
-    ipUrl: 'http://192.168.1.22:5006',
+    ipUrl: 'http://192.168.64.16:5006',
     domain: 'actualbudget.lan',
     domainUrl: 'http://actualbudget.lan',
-    internalUrl: 'http://actualbudget.lan',
+    internalUrl: 'http://192.168.64.16:5006',
     icon: 'dollar-sign',
     color: '#27ae60',
     image: 'actualbudget/actual-server:latest',
     containerName: 'actualbudget',
     status: 'online',
-    tags: ['Finance', 'Budgeting', 'Zero-Based', 'Privacy', 'Encrypted Sync'],
+    tags: ['ARM64 Node 3', 'Finance', 'Budgeting', 'Zero-Based', 'Privacy', 'Encrypted Sync'],
     description: 'Privacy-focused zero-based envelope budgeting application with encrypted client-side synchronization and automated bank statement parsing.',
     features: [
       'Zero-based envelope budgeting methodology with monthly roll-over',
@@ -954,25 +954,25 @@ qBittorrent runs in LXC 117 and handles all automated Servarr downloads.`
       - "5006:5006"
     restart: unless-stopped`,
     wikiMarkdown: `### Actual Budget Overview
-Actual Budget runs on LXC 118 and is accessible via \`actualbudget.lan\`.`
+Actual Budget runs on ARM64 Hypervisor (Node 3, LXC 101) and is accessible via \`actualbudget.lan\` / \`http://192.168.64.16:5006\`.`
   },
   {
     id: 'changedetection',
     logo: 'icons/changedetection.svg',
     name: 'ChangeDetection.io Monitor',
     category: 'automation',
-    ip: '192.168.1.24',
+    ip: '192.168.64.18',
     port: 5000,
-    ipUrl: 'http://192.168.1.24:5000',
+    ipUrl: 'http://192.168.64.18:5000',
     domain: 'changedetection.lan',
     domainUrl: 'http://changedetection.lan',
-    internalUrl: 'http://changedetection.lan',
+    internalUrl: 'http://192.168.64.18:5000',
     icon: 'eye',
     color: '#d63031',
     image: 'dgtlmoon/changedetection.io:latest',
     containerName: 'changedetection',
     status: 'online',
-    tags: ['Web Monitor', 'Diff Tracker', 'Restock Alerts', 'Scraping', 'Webhooks'],
+    tags: ['ARM64 Node 3', 'Web Monitor', 'Diff Tracker', 'Restock Alerts', 'Scraping', 'Webhooks'],
     description: 'Automated website change detection and notification tool monitoring price updates, restock alerts, API changes, and DOM element mutations.',
     features: [
       'Visual CSS and XPath selector filtering to monitor specific page regions',
@@ -990,24 +990,24 @@ Actual Budget runs on LXC 118 and is accessible via \`actualbudget.lan\`.`
       - "5000:5000"
     restart: unless-stopped`,
     wikiMarkdown: `### ChangeDetection.io
-ChangeDetection runs on LXC 119 and monitors web page changes automatically.`
+ChangeDetection runs on ARM64 Hypervisor (Node 3, LXC 103) and monitors web page changes automatically via \`changedetection.lan\` / \`http://192.168.64.18:5000\`.`
   },
   {
     id: 'trillium-notes',
     name: 'Trilium Personal Knowledge Base',
     category: 'productivity',
-    ip: '192.168.1.19',
+    ip: '192.168.64.17',
     port: 8080,
-    ipUrl: 'http://192.168.1.19:8080',
+    ipUrl: 'http://192.168.64.17:8080',
     domain: 'trilium.lan',
     domainUrl: 'http://trilium.lan',
-    internalUrl: 'http://trilium.lan',
+    internalUrl: 'http://192.168.64.17:8080',
     icon: 'book-open',
     color: '#8e44ad',
     image: 'zadam/trilium:latest',
     containerName: 'trilium',
     status: 'online',
-    tags: ['Notes', 'Knowledge Base', 'Markdown', 'Mind Maps', 'Encryption'],
+    tags: ['ARM64 Node 3', 'Notes', 'Knowledge Base', 'Markdown', 'Mind Maps', 'Encryption'],
     description: 'Hierarchical note-taking application designed for building extensive personal knowledge bases with rich text, code snippets, and mind maps.',
     features: [
       'Infinite tree hierarchy and clone notes with multi-parent placement',
@@ -1025,12 +1025,12 @@ ChangeDetection runs on LXC 119 and monitors web page changes automatically.`
       - "8080:8080"
     restart: unless-stopped`,
     wikiMarkdown: `### Trilium Notes
-Trilium Notes runs in LXC 115 and is accessible via \`trilium.lan\`.`
+Trilium Notes runs on ARM64 Hypervisor (Node 3, LXC 102) and is accessible via \`trilium.lan\` / \`http://192.168.64.17:8080\`.`
   },
   {
     id: 'scrutiny',
     logo: 'icons/scrutiny.svg',
-    name: 'Scrutiny S.M.A.R.T. Drive Health',
+    name: 'Scrutiny S.M.A.R.T. Drive Health (x86_64)',
     category: 'monitoring',
     ip: '192.168.1.18',
     port: 8080,
@@ -1043,7 +1043,7 @@ Trilium Notes runs in LXC 115 and is accessible via \`trilium.lan\`.`
     image: 'ghcr.io/analogj/scrutiny:master-omnibus',
     containerName: 'scrutiny',
     status: 'online',
-    tags: ['S.M.A.R.T.', 'Storage Health', 'SSD Wear', 'Drive Telemetry', 'Alerts'],
+    tags: ['x86_64 Node 1', 'S.M.A.R.T.', 'Storage Health', 'SSD Wear', 'Drive Telemetry', 'Alerts'],
     description: 'Hard drive health dashboard tracking S.M.A.R.T. metrics, temperature trends, and failure probabilities across SSD and HDD storage devices.',
     features: [
       'Automated smartctl daemon inspection across all hypervisor storage disks',
@@ -1061,25 +1061,60 @@ Trilium Notes runs in LXC 115 and is accessible via \`trilium.lan\`.`
       - "8080:8080"
     restart: unless-stopped`,
     wikiMarkdown: `### Scrutiny Disk Health
-Scrutiny is deployed in LXC 114 and monitors drive telemetry via \`scrutiny.lan\`.`
+Scrutiny is deployed in LXC 114 on Primary Hypervisor (Node 1, x86_64) and monitors drive telemetry via \`scrutiny.lan\` / \`http://192.168.1.18:8080\`.`
+  },
+  {
+    id: 'scrutiny-arm',
+    logo: 'icons/scrutiny.svg',
+    name: 'Scrutiny S.M.A.R.T. Drive Health (ARM64)',
+    category: 'monitoring',
+    ip: '192.168.64.19',
+    port: 8088,
+    ipUrl: 'http://192.168.64.19:8088',
+    domain: 'scrutiny-arm.lan',
+    domainUrl: 'http://scrutiny-arm.lan',
+    internalUrl: 'http://192.168.64.19:8088',
+    icon: 'disc',
+    color: '#9b59b6',
+    image: 'ghcr.io/analogj/scrutiny:master-omnibus',
+    containerName: 'scrutiny_arm',
+    status: 'online',
+    tags: ['ARM64 Node 3', 'S.M.A.R.T.', 'Storage Health', 'NVMe Wear', 'Drive Telemetry'],
+    description: 'ARM64 disk telemetry and storage health collector monitoring NVMe SSD endurance and performance on Apple Silicon.',
+    features: [
+      'Native ARM64 container runtime for Apple Silicon storage telemetry',
+      'NVMe temperature, wear level and endurance monitoring',
+      'InfluxDB metrics backend with embedded web UI on port 8088'
+    ],
+    volumes: ['./config:/opt/scrutiny/config'],
+    envVars: ['TZ=Europe/Bucharest'],
+    composeCode: `services:
+  scrutiny:
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    container_name: scrutiny
+    ports:
+      - "8088:8080"
+    restart: unless-stopped`,
+    wikiMarkdown: `### Scrutiny ARM64
+Scrutiny ARM64 is deployed in LXC 104 on ARM64 Hypervisor (Node 3) and accessible via \`http://192.168.64.19:8088\`.`
   },
   {
     id: 'it-tools',
     logo: 'icons/it-tools.svg',
     name: 'IT-Tools Handy Utilities',
     category: 'productivity',
-    ip: '192.168.1.12',
-    port: 80,
-    ipUrl: 'http://192.168.1.12',
+    ip: '192.168.64.15',
+    port: 8080,
+    ipUrl: 'http://192.168.64.15:8080',
     domain: 'it-tools.lan',
     domainUrl: 'http://it-tools.lan',
-    internalUrl: 'http://it-tools.lan',
+    internalUrl: 'http://192.168.64.15:8080',
     icon: 'tool',
     color: '#00b894',
     image: 'corentinth/it-tools:latest',
     containerName: 'it-tools',
     status: 'online',
-    tags: ['Dev Tools', 'Cheatsheets', 'Converters', 'Generators', 'Network Tools'],
+    tags: ['ARM64 Node 3', 'Dev Tools', 'Cheatsheets', 'Converters', 'Generators', 'Network Tools'],
     description: 'Collection of handy online tools for developers and system administrators including JWT decoders, UUID generators, subnet calculators, and hashers.',
     features: [
       'Client-side execution with zero telemetry or data retention',
@@ -1094,10 +1129,10 @@ Scrutiny is deployed in LXC 114 and monitors drive telemetry via \`scrutiny.lan\
     image: corentinth/it-tools:latest
     container_name: it-tools
     ports:
-      - "80:80"
+      - "8080:80"
     restart: unless-stopped`,
     wikiMarkdown: `### IT-Tools Utility Suite
-IT-Tools runs in LXC 109 and is accessible via \`it-tools.lan\`.`
+IT-Tools runs in LXC 100 on ARM64 Hypervisor (Node 3) and is accessible via \`it-tools.lan\` / \`http://192.168.64.15:8080\`.`
   },
   {
     id: 'opnsense-vm',
