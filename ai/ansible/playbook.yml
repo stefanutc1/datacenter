@@ -1,0 +1,26 @@
+---
+- name: Deploy Antigravity Configurations
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    target_dir: "{{ lookup('env', 'HOME') }}/.antigravity"
+
+  tasks:
+    - name: Ensure target configuration directory exists
+      ansible.builtin.file:
+        path: "{{ target_dir }}"
+        state: directory
+        mode: '0700'
+
+    - name: Copy MCP configuration file
+      ansible.builtin.copy:
+        src: "../mcp_config.json"
+        dest: "{{ target_dir }}/mcp_config.json"
+        mode: '0600'
+
+    - name: Verify setup script permissions
+      ansible.builtin.file:
+        path: "../scripts/setup.sh"
+        mode: '0755'

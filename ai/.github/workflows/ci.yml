@@ -1,0 +1,40 @@
+name: CI - Validate Configs & Scripts
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies (ansible-lint)
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible-lint
+
+      - name: Validate JSON syntax (mcp_config.json)
+        run: |
+          python3 -c "import json; json.load(open('mcp_config.json'))"
+          echo "[✓] mcp_config.json is valid JSON."
+
+      - name: Validate Shell script syntax (setup.sh)
+        run: |
+          bash -n scripts/setup.sh
+          echo "[✓] setup.sh syntax is valid."
+
+      - name: Run Ansible Lint
+        if: hashFiles('ansible/playbook.yml') != ''
+        run: |
+          ansible-lint ansible/playbook.yml
+          echo "[✓] Ansible playbook passed linting."
