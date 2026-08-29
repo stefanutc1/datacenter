@@ -159,8 +159,12 @@ const categoryLabel = computed(() => {
     storage: 'Storage',
     security: 'Security',
     monitoring: 'Observability',
-    network: 'Networking',
-    productivity: 'Productivity'
+    networking: 'Networking',
+    productivity: 'Productivity',
+    cloud: 'Storage & Cloud',
+    devops: 'DevOps & CI/CD',
+    vms: 'Virtual Machines',
+    iot: 'Smart Home & IoT'
   };
   return map[props.service.category] || props.service.category;
 });
@@ -168,7 +172,8 @@ const categoryLabel = computed(() => {
 const getLogoUrl = (logo) => {
   if (!logo) return null;
   if (logo.startsWith('http')) return logo;
-  return `./icons/${logo}`;
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+  return `${base}/${logo.replace(/^\.?\/?/, '')}`;
 };
 </script>
 
