@@ -225,11 +225,11 @@ class InfraAgent:
             imbalances.append(
                 f"Node {self.primary_node} RAM utilization is {primary_score.mem_usage_pct}% (threshold: {threshold_mem_pct}%)"
             )
-            # Propose migrating non-critical microservice VM 201 (Alpine Linux)
+            # Propose migrating non-critical workload VM 201 (Windows Server)
             task = MigrationTask(
                 task_id=f"MIG-{uuid.uuid4().hex[:6]}",
                 vmid=201,
-                vm_name="alpine-microservices",
+                vm_name="windows-server",
                 source_node=self.primary_node,
                 target_node=self.secondary_node,
                 online_live=True,

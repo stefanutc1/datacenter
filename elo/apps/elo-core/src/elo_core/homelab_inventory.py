@@ -331,16 +331,16 @@ HOMELAB_SERVICES: List[Dict[str, Any]] = [
         "description": "Enterprise virtual router and stateful firewall appliance providing layer-3 routing, inter-VLAN isolation, HAProxy reverse proxy, and WireGuard VPN."
     },
     {
-        "id": "alpine-microservices",
-        "name": "Alpine Linux Microservices Server",
+        "id": "windows-server-2025",
+        "name": "Windows Server 2025 Datacenter",
         "category": "Virtual Machines (VMs)",
-        "ip": "192.168.1.202",
-        "port": 22,
-        "domain": "alpine.lan",
+        "ip": "192.168.1.132",
+        "port": 3389,
+        "domain": "winserver.lan",
         "status": "online",
         "is_pinned": False,
-        "tags": ["Alpine 3.21", "VM 201", "Cloud-Init", "KVM"],
-        "description": "Ultra-lean Alpine Linux v3.21 cloud-init virtual machine configured with user Stefanut, SSH key authorization, and QEMU guest agent consuming < 60 MB RAM."
+        "tags": ["Windows Server 2025", "VM 201", "Active Directory", "KVM", "RDP"],
+        "description": "Dedicated Windows Server 2025 datacenter virtual machine configured with OVMF UEFI, TPM 2.0, VirtIO drivers, 4GB RAM, and 120GB NVMe storage."
     }
 ]
 
@@ -363,7 +363,7 @@ HOMELAB_NODES: List[Dict[str, Any]] = [
         "probe_ports": [8006, 22, 9100],
         "is_local_host": False,
         "status": "probe",
-        "workloads": "LXC Containers, VM 200 (OPNsense), VM 201 (Alpine)"
+        "workloads": "LXC Containers, VM 200 (OPNsense), VM 201 (Windows Server 2025)"
     },
     {
         "id": "openmediavault-nas",

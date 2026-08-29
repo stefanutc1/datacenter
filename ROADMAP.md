@@ -23,7 +23,7 @@ This document outlines the evolutionary milestones, past achievements, and futur
 
 ### Phase 1–2: Core Foundation & IaC (Delivered)
 - Dual-NIC paravirtualized OPNsense router (VM 200) with stateful packet filtering.
-- Lightweight Alpine Linux microservice environment (VM 202) consuming $< 60\text{ MB}$ RAM.
+- Dedicated Windows Server 2025 Datacenter VM (VM 201) and native container fleet.
 - Complete infrastructure automated through Terraform and Ansible playbooks.
 - Pi-hole DNS sinkhole with automated local `*.lan` domain resolution.
 

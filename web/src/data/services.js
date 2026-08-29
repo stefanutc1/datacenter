@@ -1165,5 +1165,35 @@ IT-Tools runs in LXC 100 on ARM64 Hypervisor (Node 3) and is accessible via \`it
     composeCode: `qm create 200 --name opnsense --memory 1024 --cores 2 --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1`,
     wikiMarkdown: `### OPNsense Core Gateway (VM 200)
 OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtual bridges.`
+  },
+  {
+    id: 'windows-server',
+    logo: 'icons/windows.svg',
+    name: 'Windows Server 2025 Datacenter',
+    category: 'vms',
+    ip: '192.168.1.132',
+    port: 3389,
+    ipUrl: 'http://192.168.1.132:3389',
+    domain: 'winserver.lan',
+    domainUrl: 'http://winserver.lan',
+    internalUrl: 'http://192.168.1.132:3389',
+    icon: 'monitor',
+    color: '#00a4ef',
+    image: 'Windows Server 2025 x64 (UEFI/OVMF)',
+    containerName: 'VM 201',
+    status: 'online',
+    tags: ['x86_64 Node 1', 'Windows Server 2025', 'VM 201', 'Active Directory', 'RDP', 'KVM Q35'],
+    description: 'Dedicated Windows Server 2025 virtual machine running with OVMF UEFI, TPM 2.0, VirtIO storage & network controllers, 4GB RAM, and 120GB NVMe disk.',
+    features: [
+      'Modern Windows Server 2025 architecture with UEFI OVMF BIOS and TPM 2.0',
+      'High-performance VirtIO SCSI single controller with 120GB disk storage',
+      'Remote Desktop Protocol (RDP) administration on port 3389',
+      'Active Directory Domain Services (AD DS) and Group Policy orchestration'
+    ],
+    volumes: ['local-lvm:vm-201-disk-1 (120 GB)', 'local-lvm:vm-201-disk-0 (4 MB EFI)', 'local-lvm:vm-201-disk-2 (4 MB TPM)'],
+    envVars: ['RDP_PORT=3389', 'MEMORY_MB=4096', 'CORES=2'],
+    composeCode: `qm create 201 --name windows --memory 4096 --cores 2 --cpu x86-64-v2-AES --bios ovmf --machine q35 --efidisk0 local-lvm:vm-201-disk-0,efitype=4m --tpmstate0 local-lvm:vm-201-disk-2,version=v2.0 --scsi0 local-lvm:vm-201-disk-1,size=120G --net0 virtio,bridge=vmbr0`,
+    wikiMarkdown: `### Windows Server 2025 (VM 201)
+Windows Server 2025 runs as VM 201 on Primary Hypervisor (Node 1, x86_64) configured with 4GB RAM, 2 vCPUs, and 120GB NVMe storage.`
   }
 ];

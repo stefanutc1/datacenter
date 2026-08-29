@@ -22,7 +22,7 @@ graph TB
     subgraph NODE1["Node 1: Proxmox VE Hypervisor (192.168.1.132)"]
         PVE_HW["Intel Core i3-10100F · 8 GB RAM · GTX 1050 Ti · 512 GB SSD"]
         VM200["VM 200: OPNsense Virtual Gateway (:8443)"]
-        VM202["VM 202: Alpine Linux Server (:22)"]
+        VM201["VM 201: Windows Server 2025 (:3389)"]
         LXC_STACK["31 Containerized Microservices (Docker Compose)"]
     end
 

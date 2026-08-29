@@ -140,7 +140,9 @@ const initialNodes = [
   { id: 'proxmox-arm-03', label: 'node 3 (proxmox arm64)', sublabel: 'apple m1 · aarch64 hypervisor', type: 'router', ip: '192.168.64.14', color: '#00cec9', radius: 15 },
   { id: 'k8s-node-04', label: 'node 4 (k8s worker)', sublabel: 'k3s agent · athlon ii x2 / gts 250', type: 'router', ip: '192.168.1.18', color: '#00cec9', radius: 15 },
 
-  // Node 1 Services (Proxmox Compute x86_64)
+  // Node 1 Services & VMs (Proxmox Compute x86_64)
+  { id: 'opnsense-vm', label: 'opnsense gateway', sublabel: 'firewall/router · vm 200', type: 'end-device', ip: '192.168.1.132', port: 8443, color: '#e74c3c', radius: 11 },
+  { id: 'windows-server-vm', label: 'windows server 2025', sublabel: 'ad / rdp · vm 201', type: 'end-device', ip: '192.168.1.132', port: 3389, color: '#00a4ef', radius: 11 },
   { id: 'nginx-proxy', label: 'nginx proxy manager', sublabel: 'edge ingress · lxc 100', type: 'end-device', ip: '192.168.1.3', port: 81, color: '#10b981', radius: 10 },
   { id: 'pihole', label: 'pi-hole dns', sublabel: 'dns adblock · lxc 101', type: 'end-device', ip: '192.168.1.4', port: 80, color: '#10b981', radius: 10 },
   { id: 'tailscale-svc', label: 'tailscale mesh', sublabel: 'mesh vpn · lxc 102', type: 'end-device', ip: '192.168.1.5', color: '#10b981', radius: 9 },
@@ -176,7 +178,9 @@ const initialLinks = [
   { source: 'gateway', target: 'proxmox-arm-03', dashed: false },
   { source: 'gateway', target: 'k8s-node-04', dashed: false },
 
-  // Proxmox-01 to Compute Services (x86_64)
+  // Proxmox-01 to VMs & Compute Services (x86_64)
+  { source: 'proxmox-01', target: 'opnsense-vm', dashed: false },
+  { source: 'proxmox-01', target: 'windows-server-vm', dashed: false },
   { source: 'proxmox-01', target: 'nginx-proxy', dashed: false },
   { source: 'proxmox-01', target: 'pihole', dashed: false },
   { source: 'proxmox-01', target: 'tailscale-svc', dashed: false },

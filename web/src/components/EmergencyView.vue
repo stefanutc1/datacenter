@@ -187,8 +187,8 @@ const shutdownTiers = [
     color: '#cfa16a',
     name: 'workstations & secondary vms',
     description: 'gracefully shutdown kvm guest oses with disk sync before database teardown.',
-    targets: ['alpine server (202)'],
-    command: 'qm shutdown 202 --timeout 30'
+    targets: ['windows server 2025 (201)'],
+    command: 'qm shutdown 201 --timeout 60'
   },
   {
     tier: 'tier 2',

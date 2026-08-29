@@ -108,8 +108,8 @@ async def probe_node_reachability(node: Dict[str, Any], timeout: Optional[float]
     if is_online and node.get("id") == "pve-node-1":
         node_result["metrics"] = {
             "hypervisor": "Proxmox VE 8.x (192.168.1.132)",
-            "containers_running": "LXC 100-119 active",
-            "vms_running": "VM 200 (OPNsense), VM 201 (Alpine)",
+            "containers_running": "LXC 100-109 active",
+            "vms_running": "VM 200 (OPNsense), VM 201 (Windows Server)",
         }
     elif is_online and node.get("id") == "openmediavault-nas":
         node_result["metrics"] = {

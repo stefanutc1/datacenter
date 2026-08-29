@@ -34,13 +34,13 @@ jobs:
 
       - name: Commit and Push Updated README
         run: |
-          if [-n "$(git status --porcelain README.md)"]; then
+          if [ -n "$(git status --porcelain README.md)" ]; then
             git config --local user.email "action@github.com"
             git config --local user.name "github-actions[bot]"
             git add README.md
             git commit -m "docs(readme): auto-update workloads, test stats and badges [skip ci]"
             git push
-            echo " README.md auto-updated and committed."
+            echo "README.md auto-updated and committed."
           else
-            echo " No changes detected in README.md."
+            echo "No changes detected in README.md."
           fi

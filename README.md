@@ -13,9 +13,9 @@
 
 <!-- AUTO-METRICS-START -->
 [![Active Workloads](https://img.shields.io/badge/Workloads-31%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
-[![Automated Tests](https://img.shields.io/badge/Tests-11%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
+[![Automated Tests](https://img.shields.io/badge/Tests-14%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
 [![ELO Tools](https://img.shields.io/badge/ELO%20Tools-19%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
-[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--08--28-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
+[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--08--29-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
 <!-- AUTO-METRICS-END -->
 </div>
 
@@ -59,7 +59,7 @@ Production-grade, declarative homelab monorepo and autonomous infrastructure con
 flowchart TB
     subgraph ComputeNodes["Physical & Virtual Compute Layer"]
         M1["Apple M1 Host (192.168.1.133)<br/>MacBook-Air.local • ELO Daemon • Metal MPS"]
-        PVE1["Node 1: Proxmox VE x86_64 (192.168.1.132)<br/>Core KVM/LXC Hypervisor (10 LXC + 1 VM)"]
+        PVE1["Node 1: Proxmox VE x86_64 (192.168.1.132)<br/>Core KVM/LXC Hypervisor (10 LXC + 2 VMs)"]
         PVE2["Node 3: Proxmox VE ARM64 (192.168.64.14)<br/>Apple Silicon Hypervisor (11 Native aarch64 LXCs)"]
         NAS["Node 2: OpenMediaVault NAS (192.168.1.135)<br/>ZFS Pools • NFS/SMB Storage • Backups"]
         K8S["Node 4: k8s-node-04 (192.168.1.18)<br/>k3s Container Compute Worker"]
@@ -67,6 +67,7 @@ flowchart TB
 
     subgraph VirtualLayer["Proxmox Virtual Machines & Containers"]
         VM200["VM 200: OPNsense Gateway (192.168.1.132:8443)<br/>Routing • Firewall • WireGuard • Suricata"]
+        VM201["VM 201: Windows Server 2025 (192.168.1.132:3389)<br/>Active Directory • RDP • Datacenter Services"]
         LXC_X64["Node 1 x86_64 LXC Fleet (100–109)<br/>NPM • Pi-hole • Tailscale • Immich • Nextcloud • CrowdSec • Home Assistant • n8n • Scrutiny • Media"]
         LXC_ARM["Node 3 ARM64 LXC Fleet (100–110)<br/>IT-Tools • Actual Budget • Trilium • ChangeDetection • Scrutiny • Uptime Kuma • Vaultwarden • Monitoring • Authelia • Gitea • Woodpecker"]
     end
@@ -89,6 +90,7 @@ flowchart TB
     Watchdog -->|Concurrent TCP Sockets| LXC_X64
     Watchdog -->|Concurrent TCP Sockets| LXC_ARM
     PVE1 --> VM200
+    PVE1 --> VM201
     PVE1 --> LXC_X64
     PVE2 --> LXC_ARM
 ```
@@ -100,7 +102,7 @@ flowchart TB
 | Node Identifier | Hostname / IP | Hardware & Architecture | Primary Roles & Workloads | Reachability & Probing |
 |:---|:---|:---|:---|:---|
 | **`apple-m1-compute`** | `MacBook-Air.local`<br/>`192.168.1.133` | Apple Silicon M1 • 8-Core ARM64 • 8GB Unified • Metal GPU | Local Host, ELO FastAPI Daemon, Local LLM Inference, C# .NET Native App Host | Active Local Runtime • `0.1ms` |
-| **`pve-node-1`** | `pve.lan`<br/>`192.168.1.132` | Intel Core i3-10100F • GTX 1050 Ti • 8GB DDR4 • x86_64 | Primary Hypervisor Host, KVM VMs (OPNsense), Core LXC Fleet (100–109) | TCP Probe: `:8006`, `:22`, `:9100` |
+| **`pve-node-1`** | `pve.lan`<br/>`192.168.1.132` | Intel Core i3-10100F • GTX 1050 Ti • 8GB DDR4 • x86_64 | Primary Hypervisor Host, KVM VMs (OPNsense, Windows Server 2025), Core LXC Fleet (100–109) | TCP Probe: `:8006`, `:22`, `:9100` |
 | **`pve-node-3-arm`** | `pve-arm.lan`<br/>`192.168.64.14` | Apple Silicon M1 • 4GB Dedicated • ARM64 (aarch64) | Secondary ARM64 Hypervisor, Utility LXC Fleet (100–110) | TCP Probe: `:8006`, `:22`, `:9100` |
 | **`openmediavault-nas`**| `nas.lan`<br/>`192.168.1.135` | Dedicated NAS Storage Appliance • Debian Linux | ZFS Mirrored Pools, SMB/NFS Shares, BorgBackup Repository, Scrutiny SMART | TCP Probe: `:80`, `:445`, `:22`, `:9100` |
 | **`k8s-node-04`** | `k8s-node-04.lan`<br/>`192.168.1.18` | AMD Athlon II X2 220 • GTS 250 • 4GB DDR3 • x86_64 | Kubernetes Worker Node (k3s-agent), Asynchronous Microservice Compute | TCP Probe: `:6443`, `:22`, `:9100` |
@@ -138,6 +140,7 @@ The cluster orchestrates **28 production services** distributed across dual Prox
 | VMID / ID | Service Name | Category | Direct Address | Domain | Purpose & Functionality |
 |:---|:---|:---|:---|:---|:---|
 | **`VM 200`** | **OPNsense Core Gateway** | Virtual Machines (VM) | `192.168.1.132:8443` | `opnsense.lan` | Core stateful firewall, inter-VLAN routing, and WireGuard VPN server. |
+| **`VM 201`** | **Windows Server 2025** | Virtual Machines (VM) | `192.168.1.132:3389` | `winserver.lan` | Enterprise Windows Server 2025 Datacenter VM (OVMF UEFI, TPM 2.0, VirtIO, Active Directory). |
 | **`CT 100`** | **Nginx Proxy Manager** | Ingress & Networking | `192.168.1.3:81` | `npm.lan` | Reverse proxy and SSL certificate manager with Let's Encrypt automation. |
 | **`CT 101`** | **Pi-hole DNS** | Ingress & Networking | `192.168.1.4:80` | `pihole.lan` | Network-wide ad blocking, DNS sinkhole, and custom local `.lan` resolver. |
 | **`CT 102`** | **Tailscale Mesh Gateway** | Ingress & Networking | `192.168.1.5` | `tailscale.lan` | Encrypted mesh VPN subnet router with WireGuard kernel acceleration. |
@@ -450,7 +453,7 @@ graph TD
 6. **Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively inside 6 major Linux container ecosystems:
    - **Debian 12 Bookworm** (`glibc` — Proxmox VE & OpenMediaVault base)
    - **Ubuntu 24.04 LTS Noble** (`glibc` — modern cloud server base)
-   - **Alpine Linux 3.20** (`musl libc` — VM 201 & ultra-lean containers)
+   - **Alpine Linux 3.24** (`musl libc` — ultra-lean container fleet)
    - **Rocky Linux 9** (Enterprise RHEL / RPM ecosystem)
    - **Fedora 40** (Modern upstream RPM)
    - **Arch Linux** (Rolling release bleeding edge)

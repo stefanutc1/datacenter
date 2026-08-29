@@ -9,7 +9,7 @@ HOMELAB_KNOWLEDGE_DOCS = [
         "topic": "Proxmox Virtualization Node (pve-node-1)",
         "content": (
             "Proxmox VE 8.x rulează pe IP-ul 192.168.10.2:8006 (VLAN 10 Management). "
-            "Găzduiește containerele LXC 100-119 și VM-urile: VM 200 (OPNsense Router), VM 201 (Alpine Linux). "
+            "Găzduiește containerele LXC 100-109 și VM-urile: VM 200 (OPNsense Router), VM 201 (Windows Server 2025). "
             "Storage-ul pentru VM disk images este pe ZFS local-zfs și share-urile NFS de pe OpenMediaVault."
         ),
         "tags": ["proxmox", "pve", "vm", "lxc", "hypervisor", "192.168.10.2", "8006"]

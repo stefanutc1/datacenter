@@ -198,7 +198,7 @@ located in \`esp32/\`, edge microcontrollers extend homelab automation into the 
     title: "virtual machines (kvm)",
     category: "hypervisors",
     icon: "kvm",
-    summary: "declarative specifications, cloud-init automation, and virtio hardware acceleration for vm 200 and vm 202.",
+    summary: "declarative specifications, cloud-init automation, and virtio hardware acceleration for vm 200 and vm 201.",
     content: `# proxmox ve kvm virtual machines architecture
 
 in addition to lightweight lxc containers, the homelab platform runs dedicated **kvm virtual machines** for workloads requiring kernel isolation, paravirtualized network appliances, and full guest operating systems.
@@ -210,7 +210,7 @@ in addition to lightweight lxc containers, the homelab platform runs dedicated *
 | vmid | name | operating system | vcpus | ram | storage disk | network bridge | primary protocol | role / function |
 | :---: | :--- | :--- | :---: | :---: | :--- | :--- | :--- | :--- |
 | **200** | \`opnsense\` | freebsd 14.x / opnsense | 2 | 1024 mb | 16 gb ssd (\`local-lvm\`) | \`vmbr0\` (wan) + \`vmbr1\` (lan) | webgui (\`:8443\`) | core firewall, nat gateway, wireguard |
-| **202** | \`alpine-server\` | alpine linux v3.21 virt | 2 | 256 mb | 25 gb nvme (\`local-lvm\`) | \`vmbr0\` (management) | ssh (\`:22\`), openrc | ultra-lean alpine microservices |
+| **201** | \`windows\` | windows server 2025 x64 | 2 | 4096 mb | 120 gb nvme (\`local-lvm\`) | \`vmbr0\` (management) | rdp (\`:3389\`), ovmf/tpm | active directory, enterprise services |
 
 ---
 
@@ -220,10 +220,10 @@ in addition to lightweight lxc containers, the homelab platform runs dedicated *
 - **routing**: inter-vlan routing, stateful inspection, and crowdsec ips/ids remediation bouncer.
 - **access**: webgui at \`https://192.168.1.132:8443\` or \`https://opnsense.lan\`.
 
-## 2. alpine linux server (vm 202)
-- **base platform**: ultra-lean **alpine linux v3.21 virt** kernel with openrc init system and \`musl\` libc.
-- **micro footprint**: allocated only **256 mb ram** (ballooning to 128 mb), consuming $< 60\\text{ mb}$ idle ram.
-- **network**: static ip \`192.168.1.202/24\`, gateway \`192.168.1.1\`, dns \`192.168.1.4\` (\`alpine.lan\`).
+## 2. windows server 2025 (vm 201)
+- **base platform**: enterprise **windows server 2025 x64** running on kvm with ovmf uefi and tpm 2.0.
+- **hardware allocation**: **4096 mb ram**, 2 vcpus, and **120 gb virtio scsi single** storage disk.
+- **network & access**: static ip \`192.168.1.132:3389\`, rdp administration, active directory domain services (\`winserver.lan\`).
 `
   },
   {
@@ -305,7 +305,7 @@ the continuous integration and delivery architecture under \`.github/workflows/\
 automatically executes the entire test suite on 6 native Linux containers:
 -  **Debian 12 Bookworm** (\`glibc\` — base for Proxmox VE & OpenMediaVault)
 -  **Ubuntu 24.04 LTS Noble** (\`glibc\`)
--  **Alpine Linux 3.20** (\`musl libc\` — VM 201 & ultra-lightweight containers)
+-  **Alpine Linux 3.24** (\`musl libc\` — ultra-lightweight container fleet)
 -  **Rocky Linux 9** (Enterprise RPM / RHEL)
 -  **Fedora 40** (modern RPM upstream)
 -  **Arch Linux** (rolling release bleeding-edge)
@@ -573,7 +573,7 @@ export const homelabServices = [
   { name: "actual budget", logo: "icons/actualbudget.svg", category: "productivity", ip: "192.168.1.22", port: 5006, ipUrl: "http://192.168.1.22:5006", domain: "actualbudget.lan", domainUrl: "http://actualbudget.lan", status: "active" },
   { name: "it-tools", logo: "icons/it-tools.svg", category: "utilities", ip: "192.168.1.12", port: 80, ipUrl: "http://192.168.1.12", domain: "it-tools.lan", domainUrl: "http://it-tools.lan", status: "active" },
   { name: "opnsense gateway", logo: "icons/opnsense.svg", category: "virtual machines", ip: "192.168.1.132", port: 8443, ipUrl: "https://192.168.1.132:8443", domain: "opnsense.lan", domainUrl: "https://opnsense.lan", status: "active" },
-  { name: "alpine server", logo: "icons/alpine.svg", category: "virtual machines", ip: "192.168.1.202", port: 22, ipUrl: "http://192.168.1.202:22", domain: "alpine.lan", domainUrl: "http://alpine.lan", status: "active" }
+  { name: "windows server 2025", logo: "icons/windows.svg", category: "virtual machines", ip: "192.168.1.132", port: 3389, ipUrl: "http://192.168.1.132:3389", domain: "winserver.lan", domainUrl: "http://winserver.lan", status: "active" }
 ];
 
 export const cyberlabTools = [
