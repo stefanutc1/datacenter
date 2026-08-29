@@ -1,4 +1,4 @@
-name: Enterprise CI & DevSecOps Master Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -13,10 +13,10 @@ concurrency:
 
 jobs:
   # ==========================================
-  # STAGE 1: SECRETS & LEAK DETECTION
+  # STAGE 1: SECRETS DETECTION
   # ==========================================
   secrets-audit:
-    name:  DevSecOps — Secrets & Credentials Audit (Gitleaks & TruffleHog)
+    name: Secrets Audit (Gitleaks & TruffleHog)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -30,7 +30,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-      - name: TruffleHog OSS Deep Git Scanner
+      - name: TruffleHog Git Scanner
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
@@ -43,7 +43,7 @@ jobs:
   # STAGE 2: STATIC CODE ANALYSIS & LINTING
   # ==========================================
   code-quality-and-linting:
-    name:  Code Quality — Ruff, MyPy, ShellCheck & YAML Lint
+    name: Code Quality & Linting (Ruff, MyPy, ShellCheck, YAML)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -54,7 +54,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Quality & Linting Tools
+      - name: Install Linting Tools
         run: |
           python -m pip install --upgrade pip
           pip install ruff mypy yamllint shellcheck-py
@@ -79,10 +79,10 @@ jobs:
           yamllint -d "{extends: default, rules: {line-length: {max: 300}, document-start: disable, truthy: disable}}" . || true
 
   # ==========================================
-  # STAGE 3: DEVSECOPS SAST & VULNERABILITY SCANS
+  # STAGE 3: SECURITY & VULNERABILITY SCANS
   # ==========================================
   sast-and-vulnerability-audit:
-    name:  DevSecOps — SAST (Bandit, Semgrep) & Trivy CVE Audit
+    name: Security Audit (Bandit, Semgrep, Trivy)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -93,17 +93,17 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Bandit Security AST Scanner
+      - name: Bandit Security Scanner
         run: |
           pip install bandit
           bandit -r elo/packages elo/apps/elo-core/src -ll -i || true
 
-      - name: Semgrep SAST Analysis
+      - name: Semgrep Analysis
         run: |
           pip install semgrep
           semgrep scan --config auto elo/ || true
 
-      - name: Trivy Vulnerability & Misconfiguration Scanner
+      - name: Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -114,10 +114,10 @@ jobs:
         continue-on-error: true
 
   # ==========================================
-  # STAGE 4: IAC, VIRTUALIZATION & ORCHESTRATION VALIDATION
+  # STAGE 4: IAC & CONFIGURATION VALIDATION
   # ==========================================
   iac-and-infrastructure-validation:
-    name:  IaC & Orchestration — Terraform, Ansible, Compose & K8s
+    name: IaC Validation (Terraform, Ansible, Compose, K8s)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -155,7 +155,7 @@ jobs:
             ansible-playbook --syntax-check ai/ansible/playbook.yml || true
           fi
 
-      - name: Validate Docker Compose Configuration & Topologies
+      - name: Validate Docker Compose Configuration
         run: |
           echo "Validating root and service docker-compose files..."
           if [ -f docker-compose.yml ]; then
@@ -168,7 +168,7 @@ jobs:
             fi
           done
 
-      - name: Validate Kubernetes Manifests & Kustomizations (K3s)
+      - name: Validate Kubernetes Manifests
         run: |
           curl -sL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
           sudo mv kubeconform /usr/local/bin/
@@ -180,7 +180,7 @@ jobs:
   # STAGE 5: ELO PYTHON MATRIX TESTS (3.9 - 3.13)
   # ==========================================
   elo-python-matrix:
-    name:  ELO Framework Tests (Python ${{ matrix.python-version }})
+    name: ELO Tests (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -195,7 +195,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install ELO Framework Packages & Test Harness
+      - name: Install ELO Packages & Test Harness
         run: |
           python -m pip install --upgrade pip setuptools wheel
           pip install pytest pytest-asyncio httpx pydantic cryptography psutil uvicorn fastapi pyyaml python-dotenv
@@ -213,23 +213,23 @@ jobs:
   # STAGE 6: MULTI-LINUX DISTRIBUTION COMPATIBILITY MATRIX
   # ==========================================
   distro-compatibility-matrix:
-    name:  Multi-Linux Matrix (${{ matrix.distro.name }})
+    name: Linux Compatibility (${{ matrix.distro.name }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         distro:
-          - name: 'Debian 12 Bookworm (glibc - Proxmox/OMV Base)'
+          - name: 'Debian 12 Bookworm'
             image: 'debian:12-slim'
-          - name: 'Ubuntu 24.04 LTS (Noble Numbat)'
+          - name: 'Ubuntu 24.04 LTS'
             image: 'ubuntu:24.04'
-          - name: 'Alpine Linux 3.20 (musl libc - Microservices)'
+          - name: 'Alpine Linux 3.20'
             image: 'alpine:3.20'
-          - name: 'Rocky Linux 9 (Enterprise RHEL/RPM)'
+          - name: 'Rocky Linux 9'
             image: 'rockylinux:9'
-          - name: 'Fedora 40 (Modern Upstream RPM)'
+          - name: 'Fedora 40'
             image: 'fedora:40'
-          - name: 'Arch Linux (Rolling Release)'
+          - name: 'Arch Linux'
             image: 'archlinux:latest'
     container:
       image: ${{ matrix.distro.image }}
@@ -237,14 +237,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Native OS-Agnostic Test Runner
+      - name: Run OS Test Runner
         run: sh scripts/test_distro_compatibility.sh
 
   # ==========================================
-  # STAGE 7: WEB FRONTEND INTEGRITY & COMPILATION
+  # STAGE 7: WEB FRONTEND COMPILATION
   # ==========================================
   web-frontend-build:
-    name:  Web Frontend — Build & Bundle Integrity (Vue 3 / Vite)
+    name: Web Frontend Build (Vue 3 / Vite)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -270,13 +270,13 @@ jobs:
       - name: Validate Output Bundle
         run: |
           test -f web/dist/index.html
-          echo " Frontend production bundle verified successfully!"
+          echo "Frontend production bundle built successfully."
 
   # ==========================================
-  # STAGE 8: MASTER QUALITY & RELEASE GATE
+  # STAGE 8: CI QUALITY SUMMARY
   # ==========================================
   ci-master-gate:
-    name:  Master CI Quality & Security Gate
+    name: CI Summary
     needs:
       - secrets-audit
       - code-quality-and-linting
@@ -287,16 +287,6 @@ jobs:
       - web-frontend-build
     runs-on: ubuntu-latest
     steps:
-      - name: Quality Gate Status
+      - name: Quality Checks Status
         run: |
-          echo "================================================================"
-          echo " ALL ENTERPRISE CI & DEVSECOPS QUALITY GATES PASSED 100% GREEN!"
-          echo "================================================================"
-          echo " Secrets & Credential Leak Scanning (Gitleaks, TruffleHog)"
-          echo " Static Code Analysis & Linting (Ruff, MyPy, ShellCheck, Yamllint)"
-          echo " SAST Security & Vulnerability Auditing (Bandit, Semgrep, Trivy)"
-          echo " Infrastructure as Code Validation (Terraform, Ansible, Docker, K8s)"
-          echo " ELO Multi-Python Test Matrix (Python 3.9, 3.10, 3.11, 3.12, 3.13)"
-          echo " Multi-Distribution Linux Matrix (Debian, Ubuntu, Alpine, Rocky, Fedora, Arch)"
-          echo " Web Frontend Build & Bundle Verification (Vue 3 / Vite)"
-          echo "================================================================"
+          echo "All automated CI quality checks completed."

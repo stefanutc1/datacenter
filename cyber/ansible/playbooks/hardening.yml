@@ -1,6 +1,6 @@
 ---
 # Standalone Security Hardening Playbook
-- name: Apply Enterprise Hardening and FIM
+- name: Apply Baseline Hardening and FIM
   hosts: hardened_nodes
   become: true
   roles:

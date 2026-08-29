@@ -8,8 +8,8 @@ This document defines the comprehensive engineering architecture, physical topol
 1. [Physical & Virtual Hardware Topology](#1-physical--virtual-hardware-topology)
 2. [Network Matrix & VLAN Architecture](#2-network-matrix--vlan-architecture)
 3. [ELO AI Control Plane Architecture](#3-elo-ai-control-plane-architecture)
-4. [Zero-Cost LLM Failover Cascade](#4-zero-cost-llm-failover-cascade)
-5. [Autonomous Multi-Agent Swarm](#5-autonomous-multi-agent-swarm)
+4. [LLM Fallback Chain](#4-llm-fallback-chain)
+5. [Automation Agents](#5-automation-agents)
 6. [Storage & ZFS Auto-Healing Architecture](#6-storage--zfs-auto-healing-architecture)
 7. [Disaster Recovery & Blackout 10h+ SOP](#7-disaster-recovery--blackout-10h-sop)
 
@@ -101,24 +101,24 @@ sequenceDiagram
 
 ---
 
-## 4. Zero-Cost LLM Failover Cascade
+## 4. LLM Fallback Chain
 
-ELO implements an instant failover router designed specifically for zero-cost, free-tier tokens:
+ELO implements an automated failover router across available LLM providers:
 
 ```mermaid
 graph TD
-    Request["Incoming AI Request"] --> T1["Tier 1: Google Gemini (Gemini 2.5 Flash / Pro)"]
-    T1 -->|HTTP 429 / Quota Zero| T2["Tier 2: Groq LPU (Llama 3.3 70B Versatile)"]
-    T2 -->|Rate Limit / Quota| T3["Tier 3: OpenRouter Universal Hub (:free Pool)"]
-    T3 -->|Offline / WAN Blackout| T4["Tier 4: Local Ollama (Apple M1 Metal MPS)"]
-    T4 -->|Daemon Offline| T5["Tier 5: Deterministic Mock Failsafe"]
+    Request["Incoming AI Request"] --> T1["Tier 1: Google Gemini (Gemini 2.5 Flash)"]
+    T1 -->|Rate Limit / 429| T2["Tier 2: Groq (Llama 3.3 70B)"]
+    T2 -->|Rate Limit / Quota| T3["Tier 3: OpenRouter Hub"]
+    T3 -->|Offline / No WAN| T4["Tier 4: Local Ollama (Apple M1)"]
+    T4 -->|Daemon Offline| T5["Tier 5: Deterministic Fallback"]
 ```
 
 ---
 
-## 5. Autonomous Multi-Agent Swarm
+## 5. Automation Agents
 
-Instead of a monolithic model, ELO delegates domain-specific tasks to dedicated autonomous sub-agents:
+ELO delegates background operational tasks to modular scripts and agents:
 
 1.  **SecOps Threat-Hunter Agent (`elo_core.agents.secops_agent`)**:
    - Correlates Wazuh XDR and Suricata NIDS event streams.

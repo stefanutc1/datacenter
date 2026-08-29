@@ -1,4 +1,4 @@
-# CyberLab Enterprise Architecture & Network Segmentation
+# CyberLab Architecture & Network Segmentation
 
 ## Network Zoning & Subnets
 

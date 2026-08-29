@@ -232,7 +232,7 @@ in addition to lightweight lxc containers, the homelab platform runs dedicated *
     title: "elo autonomous ai control plane",
     category: "ai & automation",
     icon: "ai",
-    summary: "agentic control plane with pgvector semantic memory, esp32 presence, multi-agent swarm, and zero-cost free-tier cascade.",
+    summary: "agentic control plane with pgvector semantic memory, esp32 presence, automation agents, and zero-cost free-tier cascade.",
     content: `# elo: autonomous agentic homelab control plane
 
 **ELO (Enhanced Local Orchestrator)** is a self-hosted autonomous AI control plane for Proxmox VE, OPNsense, Home Assistant, and ZFS storage systems.
@@ -261,7 +261,7 @@ graph TD
 - microcontrollers across the home stream BLE / mmWave radar telemetry over MQTT.
 - ELO resolves physical room zones (**Birou**, **Living**, **Server Room**, **Dormitor**) and dynamically routes generic vocal/text commands (*"turn on the lights"*) to the proximity Home Assistant entities.
 
-### 3. autonomous specialized multi-agent swarm
+### 3. autonomous specialized automation agents
 -  **SecOps Threat-Hunter Agent**: analyzes Wazuh XDR and Suricata NIDS logs; executes instant quarantine on OPNsense at \`192.168.1.132:8443\`.
 -  **SysAdmin Optimizer Agent**: correlates cluster telemetry, identifies memory bloat, recommends KSM deduplication, and cleans Docker cache.
 -  **Smart Home Energy Agent**: monitors power consumption across Home Assistant & Shelly smart plugs; flags vampire loads during idle hours.
@@ -306,7 +306,7 @@ automatically executes the entire test suite on 6 native Linux containers:
 -  **Debian 12 Bookworm** (\`glibc\` — base for Proxmox VE & OpenMediaVault)
 -  **Ubuntu 24.04 LTS Noble** (\`glibc\`)
 -  **Alpine Linux 3.24** (\`musl libc\` — ultra-lightweight container fleet)
--  **Rocky Linux 9** (Enterprise RPM / RHEL)
+-  **Rocky Linux 9** (RPM / RHEL)
 -  **Fedora 40** (modern RPM upstream)
 -  **Arch Linux** (rolling release bleeding-edge)
 
@@ -333,7 +333,7 @@ export const cyberArticles = [
     summary: "high-level cyber proving ground architecture, xdr telemetry, and offensive/defensive tracks.",
     content: `# cyberlab security architecture overview
 
-cyberlab is an enterprise-grade defensive proving ground and offensive security laboratory built on **utm / qemu**, **proxmox ve**, **ansible**, **wazuh xdr 4.8**, and **grafana loki**.
+cyberlab is a defensive proving ground and security laboratory built on **utm / qemu**, **proxmox ve**, **ansible**, **wazuh xdr 4.8**, and **grafana loki**.
 
 ## core engineering tracks
 
@@ -514,7 +514,7 @@ native python intelligence tools under \`cyber/ai/\`:
     title: "utm virtual machines (macos)",
     category: "cyber architecture",
     icon: "utm",
-    summary: "windows 10 enterprise victim endpoint & kali linux offensive penetration testing sandbox.",
+    summary: "windows 10 victim endpoint & kali linux offensive penetration testing sandbox.",
     content: `# cyberlab utm virtual machines (macos / apple silicon)
 
 declarative virtualization packages configured via apple hypervisor.framework and qemu:
@@ -525,13 +525,13 @@ declarative virtualization packages configured via apple hypervisor.framework an
 
 | vm name | target os | vcpus | ram | network forwarding | role / function |
 | :--- | :--- | :---: | :---: | :--- | :--- |
-| **windows 10 enterprise** | windows 10 x64 / arm64 | 2 | 4096 mb | \`13389:3389\` (rdp) | victim endpoint, sysmon edr telemetry, malware sandbox |
+| **windows 10** | windows 10 x64 / arm64 | 2 | 4096 mb | \`13389:3389\` (rdp) | victim endpoint, sysmon edr telemetry, malware sandbox |
 | **kali linux offensive** | kali rolling 2024.x | 2 | 4096 mb | \`2222:22\` (ssh) | attack emulator, metasploit, burp suite, nmap |
 
 ---
 
 ## access standards & secret management
-- **windows 10 enterprise:** \`administrator\` (configured via local security policy / vault)
+- **windows 10:** \`administrator\` (configured via local security policy / vault)
 - **kali linux offensive:** \`kali\` (ssh key authorization)
 - **wazuh dashboard:** \`admin\` (managed via \`.env\` & sops)
 - **grafana loki:** \`admin\` (injected via docker secrets)

@@ -1,4 +1,4 @@
-name: Enterprise CD Deployment & Multi-Arch Container Release
+name: CD Deployment & Container Release
 
 on:
   push:
@@ -11,10 +11,10 @@ concurrency:
 
 jobs:
   # ==========================================
-  # STAGE 1: WEB FRONTEND BUNDLE & POC INTEGRITY CHECK (PRIVATE SELF-HOSTED)
+  # STAGE 1: WEB FRONTEND BUILD
   # ==========================================
   build-and-verify-frontend:
-    name:  Web Frontend — Build & Packaging Integrity (Private Self-Hosted PoC)
+    name: Build Frontend (Vue 3 / Vite)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,18 +34,18 @@ jobs:
           cd web
           npm ci || npm install
 
-      - name: Build Production Frontend Bundle (PoC Local / Private Mesh)
+      - name: Build Production Frontend Bundle
         run: |
           cd web
           npm run build
           test -f dist/index.html
-          echo "Private self-hosted frontend bundle verified successfully."
+          echo "Frontend bundle verified successfully."
 
   # ==========================================
-  # STAGE 2: MULTI-ARCH DOCKER CONTAINER RELEASE (GHCR)
+  # STAGE 2: MULTI-ARCH CONTAINER RELEASE
   # ==========================================
   publish-multiarch-containers:
-    name:  Publish Multi-Arch Containers to GHCR (AMD64 & ARM64)
+    name: Publish Containers to GHCR (AMD64 & ARM64)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -64,7 +64,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up QEMU (for Multi-Arch Emulation)
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx

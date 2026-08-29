@@ -1,5 +1,5 @@
 # ==============================================================================
-# Enterprise CyberLab — Terraform Local State & Topology Provisioner
+# CyberLab — Terraform Local State & Topology Provisioner
 # ==============================================================================
 
 resource "local_file" "ansible_dynamic_inventory" {

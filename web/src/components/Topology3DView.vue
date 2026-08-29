@@ -8,7 +8,7 @@
             <polyline points="2 17 12 22 22 17" />
             <polyline points="2 12 12 17 22 12" />
           </svg>
-          <span class="badge-title">3D WebGL Homelab & Swarm Topology</span>
+          <span class="badge-title">3D Homelab Topology</span>
         </div>
         <p class="header-subtitle">Real-time perspective graph of nodes, VLAN networks, container meshes, and ELO decision paths</p>
       </div>
@@ -36,7 +36,7 @@
               :class="{ active: viewMode === 'swarm' }" 
               @click="viewMode = 'swarm'"
             >
-              ELO Swarm Flow
+              ELO Flow
             </button>
           </div>
         </div>
@@ -81,7 +81,7 @@
             <span class="hud-val font-mono text-success">{{ selectedNode.status }}</span>
           </div>
           <div class="hud-metric-row">
-            <span class="hud-key">ELO Swarm Agent:</span>
+            <span class="hud-key">ELO Agent:</span>
             <span class="hud-val font-mono text-purple">{{ selectedNode.swarmAgent || 'Orchestrator Core' }}</span>
           </div>
           <div class="hud-metric-row">

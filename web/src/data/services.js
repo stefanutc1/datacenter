@@ -1,6 +1,6 @@
 export const categories = [
   { id: 'all', name: 'All Services', icon: 'layers' },
-  { id: 'ai', name: 'AI & Autonomous Control', icon: 'zap' },
+  { id: 'ai', name: 'AI & Control', icon: 'zap' },
   { id: 'media', name: 'Media & Streaming', icon: 'film' },
   { id: 'iot', name: 'Smart Home & IoT', icon: 'cpu' },
   { id: 'security', name: 'Security & Identity', icon: 'shield-check' },
@@ -17,7 +17,7 @@ export const services = [
   {
     id: 'elo-core',
     logo: 'icons/python.svg',
-    name: 'ELO Autonomous Control Plane',
+    name: 'ELO Control Plane',
     category: 'ai',
     ip: '192.168.1.133',
     port: 8000,
@@ -30,12 +30,12 @@ export const services = [
     image: 'elo-core:latest',
     containerName: 'elo_core',
     status: 'online',
-    tags: ['AI Agent', 'FastAPI', 'pgvector RAG', 'ESP32 Presence', 'Multi-Agent Swarm', 'Metal MPS'],
-    description: 'Autonomous AI control plane for Proxmox VE, OPNsense, Home Assistant, and ZFS. Features persistent pgvector memory, ESP32 room-awareness, multi-agent swarm, and zero-cost free-tier LLM cascade.',
+    tags: ['AI Agent', 'FastAPI', 'pgvector RAG', 'ESP32 Presence', 'Automation Agents', 'Metal MPS'],
+    description: 'AI control plane for Proxmox VE, OPNsense, Home Assistant, and ZFS. Features persistent pgvector memory, ESP32 room-awareness, modular automation agents, and LLM fallback routing.',
     features: [
       'Zero-Cost LLM Cascade: Gemini 2.5 Flash -> Groq LPU -> OpenRouter :free -> Local Ollama Metal MPS',
       'ESP32 mmWave / BLE presence room-awareness with contextual entity routing',
-      'Autonomous Swarm: SecOps Threat Hunter, SysAdmin Optimizer, Smart Energy, Predictive Storage Healer',
+      'Automation Agents: SecOps Threat Hunter, SysAdmin Optimizer, Smart Energy, Storage Health',
       'Persistent semantic memory RAG using PostgreSQL pgvector (128-dim embeddings)'
     ],
     volumes: ['/var/log/elo:/app/logs'],
@@ -361,7 +361,7 @@ Vaultwarden is deployed on ARM64 Hypervisor (Node 3, LXC 106) on port 8080 and r
     containerName: 'nextcloud',
     status: 'online',
     tags: ['Storage', 'WebDAV', 'Office', 'Sync', 'Calendars'],
-    description: 'Enterprise-grade private cloud platform featuring file sync, calendar/contacts sharing, collaborative document editing, and WebDAV endpoints.',
+    description: 'Self-hosted cloud platform featuring file sync, calendar/contacts sharing, collaborative document editing, and WebDAV endpoints.',
     features: [
       'Client file synchronization across Linux, macOS, Windows, iOS, and Android',
       'Integrated Nextcloud Office / Collaboratory real-time editing',
@@ -1153,7 +1153,7 @@ IT-Tools runs in LXC 100 on ARM64 Hypervisor (Node 3) and is accessible via \`it
     containerName: 'VM 200',
     status: 'online',
     tags: ['OPNsense', 'VM 200', 'Firewall', 'Gateway', 'HAProxy', 'WireGuard'],
-    description: 'Enterprise virtual router and stateful firewall appliance providing layer-3 routing, inter-VLAN isolation, HAProxy reverse proxy, and WireGuard VPN.',
+    description: 'Virtual router and firewall appliance providing layer-3 routing, inter-VLAN isolation, HAProxy reverse proxy, and WireGuard VPN.',
     features: [
       'Dual-interface architecture: vmbr0 (WAN) and vmbr1 (LAN)',
       'Stateful firewall rules and CrowdSec IPS/IDS remediation bouncer',
@@ -1183,7 +1183,7 @@ OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtua
     containerName: 'VM 201',
     status: 'online',
     tags: ['x86_64 Node 1', 'Windows Server 2025', 'VM 201', 'Active Directory', 'RDP', 'KVM Q35'],
-    description: 'Dedicated Windows Server 2025 virtual machine running with OVMF UEFI, TPM 2.0, VirtIO storage & network controllers, 4GB RAM, and 120GB NVMe disk.',
+    description: 'Windows Server 2025 virtual machine running with OVMF UEFI, TPM 2.0, VirtIO storage & network controllers, 4GB RAM, and 120GB NVMe disk.',
     features: [
       'Modern Windows Server 2025 architecture with UEFI OVMF BIOS and TPM 2.0',
       'High-performance VirtIO SCSI single controller with 120GB disk storage',

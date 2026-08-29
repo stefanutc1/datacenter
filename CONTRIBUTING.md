@@ -1,6 +1,6 @@
 # Contributing to Homelab & ELO
 
-Thank you for your interest in contributing to the **Homelab & ELO (Enhanced Local Orchestrator)** platform! This project is an enterprise-grade, declarative homelab infrastructure monorepo integrating Proxmox VE, OpenMediaVault, autonomous AI control planes, ESP32 edge telemetry, and multi-distribution Linux CI/CD pipelines.
+Thank you for your interest in contributing to the **Homelab & ELO (Enhanced Local Orchestrator)** platform! This repository contains the declarative infrastructure configurations, automation playbooks, local orchestrator services, and web dashboard for a self-hosted homelab environment.
 
 ---
 
@@ -21,11 +21,11 @@ The codebase is organized as a unified monorepo:
 
 ```
 homelab/
-├── .github/workflows/         # 8-Stage Enterprise CI/CD & DevSecOps Workflows
+├── .github/workflows/         # CI/CD Workflows & Quality Checks
 ├── ai/                        # Antigravity Model Context Protocol (MCP) Server
 ├── ansible/                   # Ansible Playbooks, Inventories & CIS Hardening Roles
 ├── cyber/                     # Defensive SIEM / SOC Telemetry & CTF Labs
-├── elo/                       # ELO Autonomous Control Plane & Sub-Agent Swarm
+├── elo/                       # ELO Control Plane & Automation Agents
 │   ├── apps/
 │   │   ├── elo-core/          # FastAPI Daemon, Watchdog, Memory & Tools
 │   │   └── elo-desktop-macos/ # Native C# .NET 10 macOS Application (.dmg)
@@ -151,7 +151,7 @@ cd web && npm run build
    - [] Documentation (`README.md`, `ARCHITECTURE.md`) has been updated.
    - [] No API keys, credentials, or `.env` files are included.
 3. **CI Quality Gate**:
-   - The 8-Stage Enterprise CI Pipeline must execute and turn green on GitHub Actions.
+   - The CI Pipeline must execute and pass on GitHub Actions.
 
 ---
 

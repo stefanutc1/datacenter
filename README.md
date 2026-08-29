@@ -19,7 +19,7 @@
 <!-- AUTO-METRICS-END -->
 </div>
 
-Production-grade, declarative homelab monorepo and autonomous infrastructure control plane. Integrates bare-metal Apple Silicon compute, Proxmox VE virtualization, OpenMediaVault storage, stateful OPNsense network segmentation, cyber defense proving grounds (SOC/SIEM/DFIR), and the **ELO Control Plane** for real-time orchestration, telemetry, and automated self-healing.
+Declarative homelab monorepo and automation control plane. Integrates bare-metal Apple Silicon compute, Proxmox VE virtualization, OpenMediaVault storage, stateful OPNsense network segmentation, cyber defense proving grounds (SOC/SIEM/DFIR), and the **ELO Control Plane** for real-time orchestration, telemetry, and automated self-healing.
 
 ---
 
@@ -29,7 +29,7 @@ Production-grade, declarative homelab monorepo and autonomous infrastructure con
 | :--- | :--- | :--- |
 |  [**SECURITY.md**](SECURITY.md) | Comprehensive Security Policy, Threat Model (STRIDE), Cryptographic Standards & Gatekeeper RBAC | Security & Governance |
 |  [**CONTRIBUTING.md**](CONTRIBUTING.md) | Developer Setup, Conventional Commits 1.0.0, Testing Standards & Quality Gates | Engineering Standards |
-|  [**ARCHITECTURE.md**](ARCHITECTURE.md) | Deep Blueprint: Network Matrices, ZFS Storage, Multi-Agent Swarm & Failover Cascades | Technical Architecture |
+|  [**ARCHITECTURE.md**](ARCHITECTURE.md) | Architecture Blueprint: Network Matrices, Storage, Automation Agents & Fallback Chain | Technical Architecture |
 |  [**ROADMAP.md**](ROADMAP.md) | Strategic Evolution & Deliverables across Phases 1 through 8 | Future Roadmap |
 |  [**CHANGELOG.md**](CHANGELOG.md) | Semantic Versioning Release Notes & Milestone Records | Version History |
 |  [**CODE_OF_CONDUCT.md**](CODE_OF_CONDUCT.md) | Contributor Covenant 2.1 Code of Conduct | Community Standards |
@@ -140,7 +140,7 @@ The cluster orchestrates **28 production services** distributed across dual Prox
 | VMID / ID | Service Name | Category | Direct Address | Domain | Purpose & Functionality |
 |:---|:---|:---|:---|:---|:---|
 | **`VM 200`** | **OPNsense Core Gateway** | Virtual Machines (VM) | `192.168.1.132:8443` | `opnsense.lan` | Core stateful firewall, inter-VLAN routing, and WireGuard VPN server. |
-| **`VM 201`** | **Windows Server 2025** | Virtual Machines (VM) | `192.168.1.132:3389` | `winserver.lan` | Enterprise Windows Server 2025 Datacenter VM (OVMF UEFI, TPM 2.0, VirtIO, Active Directory). |
+| **`VM 201`** | **Windows Server 2025** | Virtual Machines (VM) | `192.168.1.132:3389` | `winserver.lan` | Windows Server 2025 Datacenter VM (OVMF UEFI, TPM 2.0, VirtIO, Active Directory). |
 | **`CT 100`** | **Nginx Proxy Manager** | Ingress & Networking | `192.168.1.3:81` | `npm.lan` | Reverse proxy and SSL certificate manager with Let's Encrypt automation. |
 | **`CT 101`** | **Pi-hole DNS** | Ingress & Networking | `192.168.1.4:80` | `pihole.lan` | Network-wide ad blocking, DNS sinkhole, and custom local `.lan` resolver. |
 | **`CT 102`** | **Tailscale Mesh Gateway** | Ingress & Networking | `192.168.1.5` | `tailscale.lan` | Encrypted mesh VPN subnet router with WireGuard kernel acceleration. |
@@ -247,7 +247,7 @@ The watchdog runs as an asynchronous background task (`asyncio.create_task`) wit
 * **Presence Sensor Integration**: Consumes BLE and mmWave radar telemetry from ESP32 nodes over MQTT/REST.
 * **Contextual Action Routing**: Commands like *"Turn on lights"* or *"Play music"* automatically resolve to the specific Home Assistant entity for the room the user is currently located in (`Birou`, `Living`, `Server Room`).
 
-### 6.  Autonomous Sub-Agent Swarm
+### 6.  Automation Agents
 * ** SecOps Threat-Hunter Agent**: Analyzes Wazuh SIEM & Suricata NIDS logs; automatically triggers OPNsense quarantine rules upon detecting brute-force or malicious scans.
 * ** SysAdmin Optimization Agent**: Evaluates RAM/CPU telemetry on Proxmox (`192.168.1.132`) & NAS (`192.168.1.135`), initiates KSM memory deduplication, and prunes dangling Docker caches.
 * ** Smart Home & Energy Agent**: Interrogates Home Assistant (`192.168.1.10:8123`) & Shelly smart relays to detect vampire idle loads and optimize heating.
@@ -377,13 +377,13 @@ flowchart LR
 
 ---
 
-## Enterprise CI/CD & DevSecOps Master Pipeline
+## CI/CD Pipelines & Quality Checks
 
-Every commit and pull request to the monorepo is continuously validated, audited, and deployed through an automated **8-Stage Enterprise CI/CD Pipeline** running on GitHub Actions:
+Every commit and pull request to the monorepo is continuously validated, audited, and deployed through an automated **CI/CD workflows** running on GitHub Actions:
 
 ```mermaid
 graph TD
-    subgraph STAGE1["Stage 1: Shift-Left DevSecOps & Secrets"]
+    subgraph STAGE1["Stage 1: Secrets Scanning"]
         Gitleaks["Gitleaks Secret Scanner"]
         TruffleHog["TruffleHog Deep Git Audit"]
     end
@@ -432,9 +432,9 @@ graph TD
 
 ---
 
-### Master Pipeline Stages & Quality Gates:
+### Pipeline Stages & Quality Checks:
 
-1. **Shift-Left Secret Scanning (`Gitleaks` & `TruffleHog`)**: Zero-tolerance scanning across full Git history for exposed API keys, private certificates, and credentials.
+1. **Secret Scanning (`Gitleaks` & `TruffleHog`)**: Zero-tolerance scanning across full Git history for exposed API keys, private certificates, and credentials.
 2. **Code Quality & Strict Typing (`Ruff`, `MyPy`, `ShellCheck`, `Yamllint`)**:
    - `Ruff` linter and formatter validation for all Python packages.
    - `MyPy` static type verification across all contract interfaces (`elo_contracts`).
@@ -453,8 +453,8 @@ graph TD
 6. **Multi-Linux Distribution Compatibility Matrix**: Tests and validates runtime execution natively inside 6 major Linux container ecosystems:
    - **Debian 12 Bookworm** (`glibc` — Proxmox VE & OpenMediaVault base)
    - **Ubuntu 24.04 LTS Noble** (`glibc` — modern cloud server base)
-   - **Alpine Linux 3.24** (`musl libc` — ultra-lean container fleet)
-   - **Rocky Linux 9** (Enterprise RHEL / RPM ecosystem)
+   - **Alpine Linux 3.24** (`musl libc` — minimal container fleet)
+   - **Rocky Linux 9** (RHEL / RPM ecosystem)
    - **Fedora 40** (Modern upstream RPM)
    - **Arch Linux** (Rolling release bleeding edge)
 7. **Web Frontend Build & 3D Topology Verification**: Complete Vue 3 / Vite production compilation verifying 3D perspective topology canvas, responsive layouts, and asset bundle integrity.

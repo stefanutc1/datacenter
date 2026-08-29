@@ -1,6 +1,6 @@
 ---
 # ==============================================================================
-# Master Site Convergence Playbook — Enterprise CyberLab
+# Site Playbook — CyberLab
 # ==============================================================================
 
 - name: Apply Common Baseline to All Nodes

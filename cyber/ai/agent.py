@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Enterprise CyberLab — AI Threat Intelligence & Log Correlation Agent
+CyberLab — AI Threat Intelligence & Log Correlation Agent
 Parses system security logs, correlates Auditd FIM events, and maps findings to MITRE ATT&CK.
 """
 
