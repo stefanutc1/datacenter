@@ -306,7 +306,7 @@ chmod +x build_dmg.sh
 ### 1. Terraform Infrastructure Provisioning
 
 Located in `terraform/`, configurations manage automated virtual machine lifecycle on Proxmox VE:
-* Cloud-Init provisioning for Ubuntu 24.04 LTS and Alpine Linux v3.21.
+* Automated provisioning for Ubuntu 24.04 LTS, Debian 12, and Windows Server 2025.
 * Automated network interface attachment with VLAN tagging.
 * Declarative state management and resource isolation.
 
