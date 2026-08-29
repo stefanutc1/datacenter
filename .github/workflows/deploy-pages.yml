@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -15,8 +15,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    name: Build Web Frontend (Vue/Vite)
+  build-and-deploy:
+    name: Build & Deploy Frontend (Vue/Vite)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,15 +43,26 @@ jobs:
           touch dist/.nojekyll
           cp dist/index.html dist/404.html
 
+      # Deploy to gh-pages branch (guaranteed fallback regardless of repo settings)
+      - name: Deploy to gh-pages Branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/dist
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+
+      # Upload Artifact for Actions Pages
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist
 
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
+  deploy-actions-pages:
+    name: Deploy to GitHub Pages (Workflow Mode)
+    needs: build-and-deploy
     runs-on: ubuntu-latest
+    continue-on-error: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
