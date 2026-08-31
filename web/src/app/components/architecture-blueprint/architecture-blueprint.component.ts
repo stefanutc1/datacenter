@@ -9,49 +9,49 @@ import { CommonModule } from '@angular/common';
     <section id="blueprint" class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-sans">
       
       <div class="space-y-2 mb-8">
-        <div class="text-xs font-mono font-bold tracking-widest text-cyan-400 uppercase">
+        <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
           ENGINEERING BLUEPRINT & NETWORK SCHEMATICS
         </div>
-        <h2 class="text-3xl sm:text-4xl font-bold text-white font-mono tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-bold font-serif text-sand-50 tracking-tight">
           Cluster Architecture Blueprint
         </h2>
-        <p class="text-sm text-slate-400 max-w-3xl">
+        <p class="text-sm text-sand-300 max-w-3xl font-sans">
           Technical specifications for VLAN isolation, hypervisor RAM allocation budgets, storage routing, and AI fallback cascades.
         </p>
       </div>
 
       <!-- Blueprint Tabs -->
-      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2">
+      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-mono">
         <button
           (click)="activeTab = 'vlan'"
-          [class.bg-cyan-500]="activeTab === 'vlan'"
-          [class.text-black]="activeTab === 'vlan'"
+          [class.bg-terracotta-500]="activeTab === 'vlan'"
+          [class.text-sand-50]="activeTab === 'vlan'"
           [class.font-bold]="activeTab === 'vlan'"
-          [class.text-slate-400]="activeTab !== 'vlan'"
-          [class.bg-[#0f1523]]="activeTab !== 'vlan'"
-          class="px-4 py-2 rounded-xl text-xs font-mono border border-white/10 transition-all whitespace-nowrap"
+          [class.text-sand-300]="activeTab !== 'vlan'"
+          [class.bg-[#1c1611]]="activeTab !== 'vlan'"
+          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
         >
           VLAN SEGMENTATION MATRIX
         </button>
         <button
           (click)="activeTab = 'memory'"
-          [class.bg-cyan-500]="activeTab === 'memory'"
-          [class.text-black]="activeTab === 'memory'"
+          [class.bg-terracotta-500]="activeTab === 'memory'"
+          [class.text-sand-50]="activeTab === 'memory'"
           [class.font-bold]="activeTab === 'memory'"
-          [class.text-slate-400]="activeTab !== 'memory'"
-          [class.bg-[#0f1523]]="activeTab !== 'memory'"
-          class="px-4 py-2 rounded-xl text-xs font-mono border border-white/10 transition-all whitespace-nowrap"
+          [class.text-sand-300]="activeTab !== 'memory'"
+          [class.bg-[#1c1611]]="activeTab !== 'memory'"
+          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
         >
           RAM ALLOCATION BUDGETS
         </button>
         <button
           (click)="activeTab = 'ai'"
-          [class.bg-cyan-500]="activeTab === 'ai'"
-          [class.text-black]="activeTab === 'ai'"
+          [class.bg-terracotta-500]="activeTab === 'ai'"
+          [class.text-sand-50]="activeTab === 'ai'"
           [class.font-bold]="activeTab === 'ai'"
-          [class.text-slate-400]="activeTab !== 'ai'"
-          [class.bg-[#0f1523]]="activeTab !== 'ai'"
-          class="px-4 py-2 rounded-xl text-xs font-mono border border-white/10 transition-all whitespace-nowrap"
+          [class.text-sand-300]="activeTab !== 'ai'"
+          [class.bg-[#1c1611]]="activeTab !== 'ai'"
+          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
         >
           AI ROUTING CASCADE (ELO)
         </button>
@@ -59,11 +59,11 @@ import { CommonModule } from '@angular/common';
 
       <!-- TAB 1: VLAN MATRIX -->
       @if (activeTab === 'vlan') {
-        <div class="rounded-2xl bg-[#0d131f] border border-white/10 shadow-xl overflow-hidden font-mono text-xs">
+        <div class="rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl overflow-hidden font-mono text-xs">
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="border-b border-white/10 bg-[#111927] text-slate-400 text-[11px] uppercase tracking-wider">
+                <tr class="border-b border-clay-700/40 bg-[#211b15] text-sand-300 text-[11px] uppercase tracking-wider">
                   <th class="p-4">VLAN ID</th>
                   <th class="p-4">Network Segment</th>
                   <th class="p-4">Subnet CIDR</th>
@@ -72,15 +72,15 @@ import { CommonModule } from '@angular/common';
                   <th class="p-4">Security Policy</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-white/5">
+              <tbody class="divide-y divide-clay-800/40">
                 @for (vlan of vlanMatrix; track vlan.id) {
-                  <tr class="hover:bg-white/5 transition-colors">
-                    <td class="p-4 font-bold text-cyan-400 whitespace-nowrap">{{ vlan.id }}</td>
-                    <td class="p-4 font-medium text-white">{{ vlan.name }}</td>
-                    <td class="p-4 text-slate-400 whitespace-nowrap">{{ vlan.subnet }}</td>
-                    <td class="p-4 text-slate-400 whitespace-nowrap">{{ vlan.gateway }}</td>
-                    <td class="p-4 text-slate-300">{{ vlan.nodes }}</td>
-                    <td class="p-4 text-slate-400">{{ vlan.firewallPolicy }}</td>
+                  <tr class="hover:bg-clay-800/30 transition-colors">
+                    <td class="p-4 font-bold text-terracotta-400 whitespace-nowrap">{{ vlan.id }}</td>
+                    <td class="p-4 font-medium text-sand-100">{{ vlan.name }}</td>
+                    <td class="p-4 text-sand-300 whitespace-nowrap">{{ vlan.subnet }}</td>
+                    <td class="p-4 text-sand-300 whitespace-nowrap">{{ vlan.gateway }}</td>
+                    <td class="p-4 text-sand-200">{{ vlan.nodes }}</td>
+                    <td class="p-4 text-sand-400">{{ vlan.firewallPolicy }}</td>
                   </tr>
                 }
               </tbody>
@@ -93,29 +93,29 @@ import { CommonModule } from '@angular/common';
       @if (activeTab === 'memory') {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
           @for (b of memoryBudgets; track b.node) {
-            <div class="p-6 rounded-2xl bg-[#0d131f] border border-white/10 shadow-xl space-y-4">
+            <div class="p-6 rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl space-y-4">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <h3 class="font-bold text-sm text-white font-mono">{{ b.node }}</h3>
-                  <div class="text-[11px] text-slate-400 mt-0.5">Physical Ceiling: {{ b.totalRam }}</div>
+                  <h3 class="font-bold text-sm text-sand-50 font-mono">{{ b.node }}</h3>
+                  <div class="text-[11px] text-sand-400 mt-0.5">Physical Ceiling: {{ b.totalRam }}</div>
                 </div>
                 <div class="text-right">
-                  <span class="text-base font-bold text-cyan-400">{{ b.allocatedRam }}</span>
-                  <div class="text-[10px] text-slate-500">{{ b.usagePercent }}% Allocated</div>
+                  <span class="text-base font-bold text-terracotta-400">{{ b.allocatedRam }}</span>
+                  <div class="text-[10px] text-sand-400">{{ b.usagePercent }}% Allocated</div>
                 </div>
               </div>
 
               <!-- Bar -->
-              <div class="w-full h-2 rounded-full bg-[#111927] overflow-hidden border border-white/5">
-                <div class="h-full bg-cyan-400 rounded-full" [style.width]="b.usagePercent + '%'"></div>
+              <div class="w-full h-2 rounded-full bg-[#241c15] overflow-hidden border border-clay-700/30">
+                <div class="h-full bg-terracotta-500 rounded-full" [style.width]="b.usagePercent + '%'"></div>
               </div>
 
               <div class="space-y-1.5 pt-2">
-                <div class="text-[10px] uppercase text-slate-500 tracking-wider">Allocated Workloads</div>
+                <div class="text-[10px] uppercase text-sand-400 tracking-wider">Allocated Workloads</div>
                 @for (item of b.breakdown; track item.name) {
-                  <div class="py-1.5 flex items-center justify-between border-b border-white/5 text-[11px]">
-                    <span class="text-slate-300 truncate">{{ item.name }}</span>
-                    <span class="text-cyan-400 font-bold flex-shrink-0">{{ item.ram }}</span>
+                  <div class="py-1.5 flex items-center justify-between border-b border-clay-800/40 text-[11px]">
+                    <span class="text-sand-200 truncate">{{ item.name }}</span>
+                    <span class="text-terracotta-400 font-bold flex-shrink-0">{{ item.ram }}</span>
                   </div>
                 }
               </div>
@@ -128,14 +128,14 @@ import { CommonModule } from '@angular/common';
       @if (activeTab === 'ai') {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
           @for (c of eloCascade; track c.tier) {
-            <div class="p-5 rounded-2xl bg-[#0d131f] border border-white/10 shadow-xl space-y-3 flex flex-col justify-between">
+            <div class="p-5 rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl space-y-3 flex flex-col justify-between">
               <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                  <span class="font-bold text-cyan-400">{{ c.tier }}</span>
-                  <span class="text-[10px] text-slate-500">{{ c.latency }}</span>
+                  <span class="font-bold text-terracotta-400">{{ c.tier }}</span>
+                  <span class="text-[10px] text-sand-400">{{ c.latency }}</span>
                 </div>
-                <div class="font-bold text-white text-xs">{{ c.provider }}</div>
-                <p class="text-xs text-slate-400 font-sans leading-relaxed pt-1">
+                <div class="font-bold text-sand-100 text-xs">{{ c.provider }}</div>
+                <p class="text-xs text-sand-300 font-sans leading-relaxed pt-1">
                   {{ c.role }}
                 </p>
               </div>

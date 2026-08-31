@@ -13,13 +13,13 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div class="space-y-2">
-          <div class="text-xs font-mono font-bold tracking-widest text-cyan-400 uppercase">
+          <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
             MICROSERVICES CATALOG & WORKLOAD ROSTER
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-white font-mono tracking-tight">
+          <h2 class="text-3xl sm:text-4xl font-bold font-serif text-sand-50 tracking-tight">
             Active Containerized Services ({{ services.length }})
           </h2>
-          <p class="text-sm text-slate-400 max-w-2xl">
+          <p class="text-sm text-sand-300 max-w-2xl font-sans">
             Live microservices, databases, and sandboxes deployed across Proxmox x86_64 and ARM64 Apple M1 hypervisors with allocated RAM and storage pools.
           </p>
         </div>
@@ -31,23 +31,23 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
             [value]="searchQuery"
             (input)="onSearch($event)"
             placeholder="Search service, port, host..."
-            class="w-full px-4 py-2.5 rounded-xl bg-[#0f1523] border border-white/10 text-white placeholder:text-slate-500 font-mono text-xs outline-none focus:border-cyan-400 transition-colors shadow-inner"
+            class="w-full px-4 py-2.5 rounded-xl bg-[#1c1611] border border-clay-700/50 text-sand-100 placeholder:text-sand-400 font-mono text-xs outline-none focus:border-terracotta-500 transition-colors shadow-inner"
           />
         </div>
       </div>
 
       <!-- Category Filter Pills -->
-      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2">
+      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-mono">
         @for (cat of categories; track cat.id) {
           <button
             (click)="activeCategory = cat.id"
-            [class.bg-cyan-500]="activeCategory === cat.id"
-            [class.text-black]="activeCategory === cat.id"
+            [class.bg-terracotta-500]="activeCategory === cat.id"
+            [class.text-sand-50]="activeCategory === cat.id"
             [class.font-bold]="activeCategory === cat.id"
-            [class.text-slate-400]="activeCategory !== cat.id"
-            [class.bg-[#0f1523]]="activeCategory !== cat.id"
-            [class.hover:text-white]="activeCategory !== cat.id"
-            class="px-3.5 py-2 rounded-xl text-xs font-mono border border-white/10 transition-all whitespace-nowrap"
+            [class.text-sand-300]="activeCategory !== cat.id"
+            [class.bg-[#1c1611]]="activeCategory !== cat.id"
+            [class.hover:text-sand-50]="activeCategory !== cat.id"
+            class="px-3.5 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
           >
             {{ cat.label }}
           </button>
@@ -57,60 +57,60 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
       <!-- Services Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         @for (srv of filteredServices; track srv.id) {
-          <div class="p-5 rounded-2xl bg-[#0d131f] border border-white/10 hover:border-cyan-400/40 transition-all flex flex-col justify-between group shadow-lg">
+          <div class="p-5 rounded-2xl bg-[#1a140f] border border-clay-700/40 hover:border-terracotta-500/50 transition-all flex flex-col justify-between group shadow-lg">
             
             <div class="space-y-3.5">
               <!-- Top Row: Icon & Status -->
               <div class="flex items-start justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-xl bg-[#131c2d] border border-white/10 p-2 flex items-center justify-center">
+                  <div class="w-10 h-10 rounded-xl bg-[#241c15] border border-clay-700/40 p-2 flex items-center justify-center">
                     <img [src]="'icons/' + srv.icon + '.svg'" [alt]="srv.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
                   </div>
                   <div>
-                    <h3 class="font-bold text-white font-mono text-sm group-hover:text-cyan-400 transition-colors">
+                    <h3 class="font-serif font-bold text-sand-50 text-base group-hover:text-terracotta-400 transition-colors">
                       {{ srv.name }}
                     </h3>
-                    <div class="text-[11px] font-mono text-slate-400">
+                    <div class="text-[11px] font-mono text-sand-400">
                       {{ srv.domain }}
                     </div>
                   </div>
                 </div>
 
-                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
                   {{ srv.status }}
                 </span>
               </div>
 
               <!-- Description -->
-              <p class="text-xs text-slate-300 leading-relaxed">
+              <p class="text-xs text-sand-300 leading-relaxed font-sans">
                 {{ srv.description }}
               </p>
 
               <!-- Hardware Allocations -->
               <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
-                <div class="p-2 rounded-lg bg-[#111a2a] border border-white/5">
-                  <div class="text-[9px] text-slate-500 uppercase">RAM Ceiling</div>
-                  <div class="font-bold text-cyan-400">{{ srv.ram }}</div>
+                <div class="p-2 rounded-lg bg-[#241c15] border border-clay-700/30">
+                  <div class="text-[9px] text-sand-400 uppercase">RAM Ceiling</div>
+                  <div class="font-bold text-terracotta-400">{{ srv.ram }}</div>
                 </div>
-                <div class="p-2 rounded-lg bg-[#111a2a] border border-white/5">
-                  <div class="text-[9px] text-slate-500 uppercase">Storage Pool</div>
-                  <div class="font-bold text-slate-300">{{ srv.storage }}</div>
+                <div class="p-2 rounded-lg bg-[#241c15] border border-clay-700/30">
+                  <div class="text-[9px] text-sand-400 uppercase">Storage Pool</div>
+                  <div class="font-bold text-sand-200">{{ srv.storage }}</div>
                 </div>
               </div>
 
-              <div class="p-2 rounded-lg bg-[#111a2a] border border-white/5 font-mono text-[11px] text-slate-400 flex items-center justify-between">
+              <div class="p-2 rounded-lg bg-[#241c15] border border-clay-700/30 font-mono text-[11px] text-sand-300 flex items-center justify-between">
                 <span>{{ srv.node }}</span>
                 @if (srv.port > 0) {
-                  <span class="text-cyan-400 font-bold">:{{ srv.port }}</span>
+                  <span class="text-terracotta-400 font-bold">:{{ srv.port }}</span>
                 }
               </div>
             </div>
 
             <!-- Focus in 3D Button -->
-            <div class="pt-4 mt-4 border-t border-white/5 flex items-center justify-between">
+            <div class="pt-4 mt-4 border-t border-clay-700/30 flex items-center justify-between">
               <button
                 (click)="focusNodeInTopology(srv)"
-                class="text-xs font-mono text-cyan-400 hover:text-cyan-300 font-bold flex items-center gap-1.5 transition-colors"
+                class="text-xs font-mono text-terracotta-400 hover:text-terracotta-300 font-bold flex items-center gap-1.5 transition-colors"
               >
                 <span>LOCATE IN 3D MESH</span>
                 <span>→</span>
