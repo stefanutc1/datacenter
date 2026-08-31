@@ -356,7 +356,7 @@ Home Assistant acts as the main nervous system for the homelab physical environm
     tags: ['Photos', 'Backup', 'Facial Recognition', 'ML / AI', 'Mobile Sync'],
     description: 'High-performance self-hosted backup and media exploration solution featuring machine learning facial clustering, CLIP search, and automated smartphone uploads.',
     features: [
-      'Automated background background mobile media sync (iOS / Android)',
+      'Automated background mobile media sync (iOS / Android)',
       'Hardware-accelerated transcoding (NVENC / QuickSync / VAAPI)',
       'Facial recognition, object classification, and spatial map browsing',
       'Multi-user isolation with partner sharing libraries and albums'
@@ -1121,7 +1121,7 @@ Actual Budget runs on ARM64 Hypervisor (Node 3, LXC 101) and is accessible via \
 ChangeDetection runs on ARM64 Hypervisor (Node 3, LXC 103) and monitors web page changes automatically via \`changedetection.lan\` / \`http://192.168.64.18:5000\`.`
   },
   {
-    id: 'trillium-notes',
+    id: 'trilium',
     name: 'Trilium Personal Knowledge Base',
     category: 'productivity',
     ip: '192.168.64.17',

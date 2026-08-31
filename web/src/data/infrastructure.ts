@@ -13,6 +13,9 @@ export type SubsystemCategory =
 
 export interface TopologyNode {
   id: string;
+  hostname?: string;
+  why?: string;
+  personality?: 'routing' | 'geometry' | 'perimeter' | 'orbital' | 'distributed' | 'observation';
   name: string;
   sublabel: string;
   category: SubsystemCategory;
@@ -20,7 +23,7 @@ export interface TopologyNode {
   ip?: string;
   port?: number;
   domain?: string;
-  status: 'online' | 'standby' | 'alert';
+  status: 'online' | 'standby' | 'alert' | 'maintenance' | 'offline';
   hardware?: {
     cpu?: string;
     ram: string;
@@ -53,7 +56,15 @@ export interface SubsystemPreset {
   code: string;
   title: string;
   summary: string;
-  camera: { angleX: number; angleY: number; zoom: number; panX: number; panY: number };
+  camera: {
+    angleX: number;
+    angleY: number;
+    zoom: number;
+    panX: number;
+    panY: number;
+    position?: [number, number, number];
+    target?: [number, number, number];
+  };
   highlightedNodes: string[];
 }
 
@@ -64,7 +75,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'SYS_GLOBAL',
     title: 'Cluster Nervous System',
     summary: 'Dual Proxmox VE hypervisors (x86_64 Core + ARM64 Apple Silicon), OPNsense security perimeter, and autonomous AI orchestration layer.',
-    camera: { angleX: 0.35, angleY: 0.55, zoom: 1.0, panX: 0, panY: 0 },
+    camera: { angleX: 0.35, angleY: 0.55, zoom: 1.0, panX: 0, panY: 0 , position: [0, 14, 38], target: [0, 0, 0]},
     highlightedNodes: ['node1-pve', 'node3-arm', 'opnsense-gw', 'elo-core', 'node2-omv', 'k8s-node4'],
   },
   compute: {
@@ -73,7 +84,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'VIRT_HYPERVISORS',
     title: 'Dual Hypervisor Virtualization Tier',
     summary: 'Proxmox VE 8.4 on bare-metal Intel Core i3-10100F alongside secondary ARM64 Apple Silicon hypervisor running 23 isolated LXC containers and KVM virtual machines.',
-    camera: { angleX: 0.28, angleY: 0.25, zoom: 1.25, panX: 90, panY: -20 },
+    camera: { angleX: 0.28, angleY: 0.25, zoom: 1.25, panX: 90, panY: -20 , position: [-10, 8, 26], target: [-4, 5, -1]},
     highlightedNodes: ['node1-pve', 'node3-arm', 'node2-omv', 'k8s-node4', 'vm200-opn', 'vm201-win'],
   },
   network: {
@@ -82,7 +93,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'NET_TOPOLOGY',
     title: 'Multi-VLAN & Encrypted WireGuard Mesh',
     summary: 'Strictly isolated security zones (VLAN 10 Mgmt, VLAN 20 Services, VLAN 30 Cyber, VLAN 50 IoT) connected through OPNsense routing and Tailscale point-to-point mesh.',
-    camera: { angleX: 0.5, angleY: 0.05, zoom: 1.2, panX: 0, panY: -80 },
+    camera: { angleX: 0.5, angleY: 0.05, zoom: 1.2, panX: 0, panY: -80 , position: [0, 18, 22], target: [0, 12, -6]},
     highlightedNodes: ['wan-internet', 'opnsense-gw', 'ct100-npm', 'ct101-pihole', 'tailscale-mesh'],
   },
   security: {
@@ -91,7 +102,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'SEC_ZERO_TRUST',
     title: 'Offensive Proving Ground & Defensive Telemetry',
     summary: 'CrowdSec automated IP ban remediation, Wazuh XDR log analysis, Suricata packet inspection, Authelia 2FA gatekeeper, and sandboxed victim/attack UTM VMs.',
-    camera: { angleX: 0.35, angleY: -0.45, zoom: 1.3, panX: 120, panY: -70 },
+    camera: { angleX: 0.35, angleY: -0.45, zoom: 1.3, panX: 120, panY: -70 , position: [-12, 14, -3], target: [-8, 9, -7]},
     highlightedNodes: ['opnsense-gw', 'wazuh-siem', 'suricata-nids', 'ct105-crowdsec', 'ct108-authelia', 'vaultwarden-arm'],
   },
   orchestration: {
@@ -100,7 +111,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'K8S_GITOPS',
     title: 'Kubernetes k3s Fleet & GitOps Delivery',
     summary: 'Declarative cluster management via k3s lightweight Kubernetes, continuous state reconciliation with FluxCD, and containerized microservice scheduling.',
-    camera: { angleX: 0.25, angleY: 0.7, zoom: 1.25, panX: -80, panY: -30 },
+    camera: { angleX: 0.25, angleY: 0.7, zoom: 1.25, panX: -80, panY: -30 , position: [6, 4, 26], target: [2, 0, 7]},
     highlightedNodes: ['k8s-node4', 'node1-pve', 'ct109-gitea', 'ct110-woodpecker'],
   },
   automation: {
@@ -109,7 +120,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'IAC_PIPELINES',
     title: 'Infrastructure as Code & Event Pipelines',
     summary: 'Automated bare-metal and container lifecycle managed via Terraform Proxmox modules, CIS Level 1 Ansible hardening, and Woodpecker CI pipeline runners.',
-    camera: { angleX: 0.4, angleY: 0.4, zoom: 1.2, panX: -40, panY: 20 },
+    camera: { angleX: 0.4, angleY: 0.4, zoom: 1.2, panX: -40, panY: 20 , position: [-4, 0, 22], target: [-1, -3, 4]},
     highlightedNodes: ['ct107-n8n', 'ct103-changedetection', 'ct109-gitea', 'ct110-woodpecker', 'node1-pve'],
   },
   observability: {
@@ -118,7 +129,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'MON_TELEMETRY',
     title: 'High-Density Telemetry & SMART Health',
     summary: 'Unified ARM64 observability suite scraping Prometheus metrics, Loki log aggregations, Grafana dashboards, Scrutiny NVMe/SATA health, and Uptime Kuma monitors.',
-    camera: { angleX: 0.3, angleY: 0.85, zoom: 1.3, panX: -90, panY: 40 },
+    camera: { angleX: 0.3, angleY: 0.85, zoom: 1.3, panX: -90, panY: 40 , position: [8, -2, 24], target: [4, -3, 5]},
     highlightedNodes: ['ct107-monitoring', 'ct105-uptime', 'ct104-scrutiny-arm', 'ct108-scrutiny-x64'],
   },
   services: {
@@ -127,7 +138,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'SVC_CATALOG',
     title: 'Self-Hosted Application Ecosystem',
     summary: '28 containerized microservices spanning Nextcloud Hub, Immich AI Photos, Jellyfin Media Suite, Vaultwarden, Actual Budget, and Trilium Notes.',
-    camera: { angleX: 0.2, angleY: 0.1, zoom: 1.15, panX: 0, panY: 30 },
+    camera: { angleX: 0.2, angleY: 0.1, zoom: 1.15, panX: 0, panY: 30 , position: [-8, -6, 24], target: [-5, -6, 3]},
     highlightedNodes: ['ct103-immich', 'ct104-nextcloud', 'ct109-media', 'ct101-actualbudget', 'ct102-trilium', 'ct100-it-tools'],
   },
   elo: {
@@ -136,7 +147,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'AI_CONTROL_PLANE',
     title: 'Autonomous Infrastructure AI Operating Layer',
     summary: 'Enhanced Local Orchestrator (ELO) running on Apple Silicon M1 Metal GPU. Multi-provider zero-cost cascade router, pgvector RAG memory, and SecOps threat hunting agents.',
-    camera: { angleX: -0.25, angleY: 0.0, zoom: 1.35, panX: 0, panY: 100 },
+    camera: { angleX: -0.25, angleY: 0.0, zoom: 1.35, panX: 0, panY: 100 , position: [0, -18, 24], target: [0, -13, -2]},
     highlightedNodes: ['elo-core', 'ai-gemini', 'ai-groq', 'ai-openrouter', 'ai-ollama', 'pgvector-store', 'node1-pve', 'opnsense-gw', 'ct106-ha'],
   },
   edge: {
@@ -145,7 +156,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'EDGE_PHYSICAL',
     title: 'Physical World Edge Microcontrollers',
     summary: 'ESP32 C++ firmware nodes controlling automated solenoid water irrigation and LD2410 mmWave room presence sensors publishing MQTT state to Home Assistant.',
-    camera: { angleX: 0.35, angleY: 0.65, zoom: 1.35, panX: -130, panY: 80 },
+    camera: { angleX: 0.35, angleY: 0.65, zoom: 1.35, panX: -130, panY: 80 , position: [14, -8, 22], target: [11, -8, 6]},
     highlightedNodes: ['esp32-irrigation', 'esp32-presence', 'zigbee-gateway', 'ct106-ha'],
   },
   projects: {
@@ -154,7 +165,7 @@ export const subsystemPresets: Record<SubsystemCategory, SubsystemPreset> = {
     code: 'LAB_EXPERIMENTS',
     title: 'Engineering Proving Grounds & Artifacts',
     summary: 'CyberLab Threat Hunting Platform, ELO Autonomous OS, Proxmox Ultra-Lean Memory Optimizer, and ESP32 Micro-Controllers.',
-    camera: { angleX: 0.4, angleY: -0.2, zoom: 1.1, panX: 40, panY: -20 },
+    camera: { angleX: 0.4, angleY: -0.2, zoom: 1.1, panX: 40, panY: -20 , position: [-4, 10, 26], target: [-3, 4, -2]},
     highlightedNodes: ['project-cyberlab', 'project-elo', 'project-iac', 'wazuh-siem', 'elo-core'],
   },
 };
@@ -163,6 +174,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 0: WAN / PERIMETER & GATEWAY ---
   {
     id: 'wan-internet',
+    hostname: 'WAN-GW',
+    why: 'External fiber gateway providing public IPv4 ingress and WAN connectivity.',
+    personality: 'routing',
     name: 'WAN Uplink & ISP',
     sublabel: 'Fiber Ingress / Public IPv4',
     category: 'network',
@@ -181,6 +195,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'opnsense-gw',
+    hostname: 'FW-01',
+    why: 'Core perimeter firewall and router providing multi-VLAN segmentation, NAT, and Suricata IPS.',
+    personality: 'perimeter',
     name: 'OPNsense Firewall & Router',
     sublabel: 'VM 200 · Core Gateway',
     category: 'security',
@@ -201,6 +218,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'cloudflare-tunnel',
+    hostname: 'CF-TUNNEL',
+    why: 'Zero-trust encrypted ingress tunnel for publishing internal services without opening public firewall ports.',
+    personality: 'perimeter',
     name: 'Cloudflare Zero Trust',
     sublabel: 'Encrypted Ingress Tunnel',
     category: 'network',
@@ -219,6 +239,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'tailscale-mesh',
+    hostname: 'TS-MESH',
+    why: 'Encrypted WireGuard peer-to-peer overlay network connecting remote nodes and management devices.',
+    personality: 'routing',
     name: 'Tailscale WireGuard Mesh',
     sublabel: '100.64.0.0/10 Overlay Network',
     category: 'network',
@@ -240,6 +263,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 1: PHYSICAL & VIRTUAL HYPERVISOR NODES ---
   {
     id: 'node1-pve',
+    hostname: 'PX-01',
+    why: 'Primary bare-metal x86_64 virtualization host running core production LXCs and virtual machines.',
+    personality: 'geometry',
     name: 'Proxmox VE Node 1 (x86_64)',
     sublabel: 'Primary Bare-Metal Compute',
     category: 'compute',
@@ -265,6 +291,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'node3-arm',
+    hostname: 'PX-ARM-03',
+    why: 'Secondary ARM64 Apple Silicon hypervisor providing high energy efficiency, quiet compute, and staging redundancy.',
+    personality: 'geometry',
     name: 'Proxmox VE Node 3 (ARM64)',
     sublabel: 'Secondary Apple M1 Utility Host',
     category: 'compute',
@@ -290,6 +319,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'node2-omv',
+    hostname: 'NAS-02',
+    why: 'Centralized network-attached storage server providing NFS/SMB shares and offsite backup replication.',
+    personality: 'geometry',
     name: 'OpenMediaVault NAS (Node 2)',
     sublabel: 'ZFS Storage Appliance',
     category: 'compute',
@@ -315,6 +347,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'k8s-node4',
+    hostname: 'K3S-04',
+    why: 'Dedicated Kubernetes worker node for running containerized microservices and automated batch workloads.',
+    personality: 'geometry',
     name: 'k8s Worker Node 4 (x86_64)',
     sublabel: 'k3s Cluster Compute Agent',
     category: 'orchestration',
@@ -342,6 +377,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 2: VIRTUAL MACHINES (KVM) ---
   {
     id: 'vm200-opn',
+    hostname: 'VM-200',
+    why: 'Virtualized instance of OPNsense router on dedicated network bridges for traffic isolation.',
+    personality: 'perimeter',
     name: 'OPNsense VM (KVM 200)',
     sublabel: 'Core Router & Firewall VM',
     category: 'security',
@@ -361,6 +399,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'vm201-win',
+    hostname: 'VM-201',
+    why: 'Windows Server 2025 Datacenter VM for Active Directory, group policies, and enterprise management.',
+    personality: 'geometry',
     name: 'Windows Server 2025 Datacenter',
     sublabel: 'VM 201 · Enterprise Core',
     category: 'compute',
@@ -388,6 +429,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 3: CORE LXC FLEET (NODE 1 - x86_64) ---
   {
     id: 'ct100-npm',
+    hostname: 'LXC-100',
+    why: 'Reverse proxy terminating SSL/TLS certificates and routing domain traffic to internal microservices.',
+    personality: 'routing',
     name: 'Nginx Proxy Manager',
     sublabel: 'CT 100 · Ingress Proxy',
     category: 'network',
@@ -407,6 +451,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct101-pihole',
+    hostname: 'LXC-101',
+    why: 'Local DNS server and network-wide ad/tracker sinkhole protecting all internal subnets.',
+    personality: 'perimeter',
     name: 'Pi-hole DNS Sinkhole',
     sublabel: 'CT 101 · Network Resolver',
     category: 'network',
@@ -426,6 +473,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct103-immich',
+    hostname: 'LXC-103',
+    why: 'Self-hosted photo and video backup platform with local machine learning facial recognition.',
+    personality: 'distributed',
     name: 'Immich Photos & AI ML',
     sublabel: 'CT 103 · Media Archive',
     category: 'services',
@@ -445,6 +495,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct104-nextcloud',
+    hostname: 'LXC-104',
+    why: 'Private cloud document storage, calendar, contacts, and collaborative file sync.',
+    personality: 'distributed',
     name: 'Nextcloud Productivity Hub',
     sublabel: 'CT 104 · Private Cloud',
     category: 'services',
@@ -464,6 +517,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct105-crowdsec',
+    hostname: 'LXC-105',
+    why: 'Collaborative intrusion prevention system parsing logs and blocking malicious IPs at the firewall.',
+    personality: 'perimeter',
     name: 'CrowdSec Defense Engine',
     sublabel: 'CT 105 · Intrusion Prevention',
     category: 'security',
@@ -483,6 +539,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct106-ha',
+    hostname: 'LXC-106',
+    why: 'Central smart home hub integrating Zigbee, ESP32 microcontrollers, and automation workflows.',
+    personality: 'distributed',
     name: 'Home Assistant Core',
     sublabel: 'CT 106 · Smart Home Hub',
     category: 'edge',
@@ -502,6 +561,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct107-n8n',
+    hostname: 'LXC-107',
+    why: 'Workflow automation engine linking webhooks, APIs, system alerts, and notification channels.',
+    personality: 'distributed',
     name: 'n8n Workflow Automation',
     sublabel: 'CT 107 · Low-Code Integrator',
     category: 'automation',
@@ -521,6 +583,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct108-scrutiny-x64',
+    hostname: 'LXC-108',
+    why: 'Hard drive S.M.A.R.T. health monitoring and failure prediction daemon for x86 storage arrays.',
+    personality: 'observation',
     name: 'Scrutiny SMART (x86_64)',
     sublabel: 'CT 108 · Disk Health Monitor',
     category: 'observability',
@@ -540,6 +605,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct109-media',
+    hostname: 'LXC-109',
+    why: 'Hardware-accelerated media streaming stack with automated content indexing and management.',
+    personality: 'distributed',
     name: 'Media Suite (Jellyfin / Arr)',
     sublabel: 'CT 109 · Streaming Stack',
     category: 'services',
@@ -561,6 +629,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 4: UTILITY LXC FLEET (NODE 3 - ARM64) ---
   {
     id: 'ct100-it-tools',
+    hostname: 'LXC-ARM-100',
+    why: 'Self-hosted suite of client-side developer and sysadmin utility tools.',
+    personality: 'distributed',
     name: 'IT-Tools Developer Suite',
     sublabel: 'CT 100 · Utilities',
     category: 'services',
@@ -580,6 +651,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct101-actualbudget',
+    hostname: 'LXC-ARM-101',
+    why: 'Privacy-focused local envelope budgeting application with end-to-end sync.',
+    personality: 'distributed',
     name: 'Actual Budget Server',
     sublabel: 'CT 101 · Private Finance',
     category: 'services',
@@ -599,6 +673,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct102-trilium',
+    hostname: 'LXC-ARM-102',
+    why: 'Hierarchical personal knowledge base and engineering documentation notebook.',
+    personality: 'distributed',
     name: 'Trilium Personal Notes',
     sublabel: 'CT 102 · Knowledge Base',
     category: 'services',
@@ -618,6 +695,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct103-changedetection',
+    hostname: 'LXC-ARM-103',
+    why: 'Automated website change detection and notification monitor.',
+    personality: 'observation',
     name: 'ChangeDetection.io',
     sublabel: 'CT 103 · Web Monitor',
     category: 'automation',
@@ -637,6 +717,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct104-scrutiny-arm',
+    hostname: 'LXC-ARM-104',
+    why: 'Apple Silicon NVMe S.M.A.R.T. drive health and temperature telemetry monitor.',
+    personality: 'observation',
     name: 'Scrutiny SMART (ARM64)',
     sublabel: 'CT 104 · Apple NVMe Telemetry',
     category: 'observability',
@@ -656,6 +739,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct105-uptime',
+    hostname: 'LXC-ARM-105',
+    why: 'High-frequency HTTP, TCP, and ICMP heartbeat uptime monitor with Discord alert integrations.',
+    personality: 'observation',
     name: 'Uptime Kuma Status Monitor',
     sublabel: 'CT 105 · Heartbeat Monitor',
     category: 'observability',
@@ -675,6 +761,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'vaultwarden-arm',
+    hostname: 'LXC-ARM-106',
+    why: 'Lightweight Rust implementation of Bitwarden server for zero-knowledge credential management.',
+    personality: 'perimeter',
     name: 'Vaultwarden Password Vault',
     sublabel: 'CT 106 · Zero-Knowledge Vault',
     category: 'security',
@@ -694,6 +783,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct107-monitoring',
+    hostname: 'LXC-ARM-107',
+    why: 'Unified Prometheus, Grafana, and Loki observability stack collecting cluster metrics and logs.',
+    personality: 'observation',
     name: 'Monitoring (Grafana / Prom / Loki)',
     sublabel: 'CT 107 · Unified Observability',
     category: 'observability',
@@ -713,6 +805,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct108-authelia',
+    hostname: 'LXC-ARM-108',
+    why: 'Two-factor authentication and single sign-on forward-auth gatekeeper protecting internal web apps.',
+    personality: 'perimeter',
     name: 'Authelia 2FA / SSO Gateway',
     sublabel: 'CT 108 · Identity Provider',
     category: 'security',
@@ -732,6 +827,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct109-gitea',
+    hostname: 'LXC-ARM-109',
+    why: 'Lightweight self-hosted Git forge hosting homelab Infrastructure-as-Code and configuration repositories.',
+    personality: 'geometry',
     name: 'Gitea Git Forge',
     sublabel: 'CT 109 · Version Control',
     category: 'orchestration',
@@ -751,6 +849,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ct110-woodpecker',
+    hostname: 'LXC-ARM-110',
+    why: 'Container-native CI/CD pipeline engine executing automated linting, tests, and deployments.',
+    personality: 'geometry',
     name: 'Woodpecker CI Engine',
     sublabel: 'CT 110 · Pipeline Runner',
     category: 'orchestration',
@@ -772,6 +873,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 5: CYBER SECURITY & THREAT INTELLIGENCE ---
   {
     id: 'wazuh-siem',
+    hostname: 'WAZUH-01',
+    why: 'Open-source XDR and SIEM engine collecting host security telemetry, FIM events, and compliance audits.',
+    personality: 'observation',
     name: 'Wazuh XDR & SIEM Platform',
     sublabel: 'Endpoint Telemetry & MITRE ATT&CK',
     category: 'security',
@@ -792,6 +896,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'suricata-nids',
+    hostname: 'SURICATA-01',
+    why: 'Network intrusion detection and prevention engine inspecting live packet streams across VLAN boundaries.',
+    personality: 'perimeter',
     name: 'Suricata Network IDS/IPS',
     sublabel: 'Deep Packet Inspection',
     category: 'security',
@@ -812,6 +919,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 6: ELO AUTONOMOUS AI OPERATING LAYER ---
   {
     id: 'elo-core',
+    hostname: 'ELO-01',
+    why: 'Autonomous AI control plane orchestrating cluster reasoning, tool invocation, and self-healing automation.',
+    personality: 'orbital',
     name: 'ELO Autonomous AI Control Plane',
     sublabel: 'Enhanced Local Orchestrator',
     category: 'elo',
@@ -842,6 +952,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ai-gemini',
+    hostname: 'AI-GEMINI',
+    why: 'Tier 1 high-speed multimodal cloud reasoning engine (Gemini 2.5 Flash).',
+    personality: 'orbital',
     name: 'Google Gemini 2.5 Flash / Pro',
     sublabel: 'Tier 1 Primary Cloud Intelligence',
     category: 'elo',
@@ -859,6 +972,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ai-groq',
+    hostname: 'AI-GROQ',
+    why: 'Tier 2 ultra-low-latency LPU inference for fast command classification.',
+    personality: 'orbital',
     name: 'Groq LPU Engine',
     sublabel: 'Tier 2 Low-Latency Inference',
     category: 'elo',
@@ -876,6 +992,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ai-openrouter',
+    hostname: 'AI-OPENROUTER',
+    why: 'Tier 3 multi-model routing pool for redundancy across external AI providers.',
+    personality: 'orbital',
     name: 'OpenRouter Free Pool',
     sublabel: 'Tier 3 Multi-Model Fallback',
     category: 'elo',
@@ -893,6 +1012,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'ai-ollama',
+    hostname: 'AI-OLLAMA',
+    why: 'Tier 4 offline air-gapped local LLM engine accelerated on Apple Metal GPU.',
+    personality: 'orbital',
     name: 'Local Ollama (Apple Metal GPU)',
     sublabel: 'Tier 4 Offline Air-Gapped Fallback',
     category: 'elo',
@@ -911,6 +1033,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'pgvector-store',
+    hostname: 'PGVECTOR-01',
+    why: 'PostgreSQL database with pgvector extension storing semantic embeddings for long-term AI memory.',
+    personality: 'orbital',
     name: 'PostgreSQL pgvector Memory',
     sublabel: 'Persistent Semantic RAG Store',
     category: 'elo',
@@ -931,6 +1056,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 7: EDGE & IOT MICROCONTROLLERS ---
   {
     id: 'esp32-irrigation',
+    hostname: 'ESP32-IRR',
+    why: 'Low-power microcontroller operating garden solenoid valves and soil moisture sensors.',
+    personality: 'distributed',
     name: 'ESP32 Solenoid Irrigation Node',
     sublabel: 'Outdoor Edge Microcontroller',
     category: 'edge',
@@ -950,6 +1078,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'esp32-presence',
+    hostname: 'ESP32-RADAR',
+    why: 'Millimeter-wave radar and PIR sensor detecting micro-movement room presence in real-time.',
+    personality: 'distributed',
     name: 'ESP32 mmWave Footprint Radar',
     sublabel: 'Room Presence & Environmental Sensor',
     category: 'edge',
@@ -969,6 +1100,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'zigbee-gateway',
+    hostname: 'ZIGBEE-GW',
+    why: 'USB coordinator mesh connecting temperature, motion, and contact sensors without Wi-Fi congestion.',
+    personality: 'distributed',
     name: 'Zigbee Coordinator Gateway',
     sublabel: 'CC2652P Mesh USB Coordinator',
     category: 'edge',
@@ -989,6 +1123,9 @@ export const topologyNodes: TopologyNode[] = [
   // --- TIER 8: PROJECTS & ARTIFACTS ---
   {
     id: 'project-cyberlab',
+    hostname: 'LAB-CYBER',
+    why: 'Offensive and defensive cybersecurity testing ground for Atomic Red Team and MITRE ATT&CK testing.',
+    personality: 'observation',
     name: 'CyberLab Threat Hunter Proving Ground',
     sublabel: 'SIEM / EDR / DFIR Framework',
     category: 'projects',
@@ -1006,6 +1143,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'project-elo',
+    hostname: 'LAB-ELO',
+    why: 'Autonomous AI infrastructure operating framework and open-source project repository.',
+    personality: 'orbital',
     name: 'ELO Autonomous Orchestrator Project',
     sublabel: 'Agentic Infrastructure Control',
     category: 'projects',
@@ -1023,6 +1163,9 @@ export const topologyNodes: TopologyNode[] = [
   },
   {
     id: 'project-iac',
+    hostname: 'LAB-IAC',
+    why: 'Declarative Terraform and Ansible repositories managing the complete homelab lifecycle as code.',
+    personality: 'geometry',
     name: 'Homelab Infrastructure as Code',
     sublabel: 'Terraform / Ansible / FluxCD',
     category: 'projects',

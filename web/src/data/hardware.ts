@@ -7,6 +7,8 @@ export interface HardwareNode {
   virtualization: string;
   mesh: string;
   badgeColor: string;
+  topologyNodeId: string;
+  relatedNodes: string[];
   specs: Record<string, string>;
   capacityNotes: string[];
   workloads: string[];
@@ -16,6 +18,8 @@ export const hardwareNodes: HardwareNode[] = [
   {
     id: 'proxmox-01',
     name: 'proxmox',
+    topologyNodeId: 'node1-pve',
+    relatedNodes: ['vm200-opn', 'vm201-win', 'ct100-npm', 'ct101-pihole', 'ct103-immich', 'ct104-nextcloud', 'ct105-crowdsec', 'ct106-ha', 'ct107-n8n', 'ct108-scrutiny-x64', 'ct109-media'],
     displayName: 'Node 1 — Primary Hypervisor',
     role: 'Compute, ML Sandbox & Home NVR',
     os: 'Proxmox VE 9.2 (Linux 7.0 pve)',
@@ -44,6 +48,8 @@ export const hardwareNodes: HardwareNode[] = [
   {
     id: 'omv-02',
     name: 'openmediavault',
+    topologyNodeId: 'node2-omv',
+    relatedNodes: ['ct103-immich', 'ct104-nextcloud', 'ct109-media'],
     displayName: 'Node 2 — Storage NAS',
     role: 'Centralized File Storage & Backup Repo',
     os: 'OpenMediaVault (OMV)',
@@ -70,6 +76,8 @@ export const hardwareNodes: HardwareNode[] = [
   {
     id: 'proxmox-arm-03',
     name: 'proxmox2',
+    topologyNodeId: 'node3-arm',
+    relatedNodes: ['ct100-it-tools', 'ct101-actualbudget', 'ct102-trilium', 'ct103-changedetection', 'ct104-scrutiny-arm', 'ct105-uptime', 'vaultwarden-arm', 'ct107-monitoring', 'ct108-authelia', 'ct109-gitea', 'ct110-woodpecker'],
     displayName: 'Node 3 — ARM64 Hypervisor',
     role: 'ARM64 Workloads, Staging & Redundancy',
     os: 'Proxmox VE on ARM (ARM64 Port in UTM)',
@@ -98,6 +106,8 @@ export const hardwareNodes: HardwareNode[] = [
   {
     id: 'k8s-node-04',
     name: 'k8s-node-04',
+    topologyNodeId: 'k8s-node4',
+    relatedNodes: ['ct109-gitea', 'ct110-woodpecker'],
     displayName: 'Node 4 — Kubernetes Worker',
     role: 'Kubernetes Compute & Container Worker Node',
     os: 'Alpine Linux / Debian Base',

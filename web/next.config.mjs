@@ -3,6 +3,7 @@ const nextConfig = {
   output: 'export',
   distDir: 'dist',
   basePath: process.env.GITHUB_PAGES === 'true' ? '/homelab' : '',
+  transpilePackages: ['three'],
   images: {
     unoptimized: true,
   },

@@ -24,7 +24,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       document.documentElement.classList.toggle("dark", saved === "dark");
     } else {
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initial = prefersDark ? "dark" : "dark"; // default to warm dark
+      const initial: Theme = prefersDark ? "dark" : "light";
       setThemeState(initial);
       document.documentElement.classList.toggle("dark", initial === "dark");
     }
