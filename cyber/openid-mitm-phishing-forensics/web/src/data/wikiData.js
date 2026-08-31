@@ -8,7 +8,7 @@ export const articles = [
  content: `# Case Study: Forensic Analysis of an Adversary-in-the-Middle (AiTM) Attack on Steam OpenID Authentication
 
 **Author:** \`stefannut\` 
-**Date:** August 2026 
+**Date:** 22 November 2025 
 **Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Active phishing and account takeover campaign leveraging Browser-in-the-Middle (BitM) fake popups and real-time OpenID session relay.
 
@@ -104,7 +104,7 @@ Unlike traditional phishing campaigns that redirect victims to an external typo-
  content: `# Studiu de Caz: Analiza Forensică a unui Atac Adversary-in-the-Middle (AiTM) pe Mecanismul OpenID Steam
 
 **Autor:** \`stefannut\` 
-**Dată:** August 2026 
+**Dată:** 22 November 2025 
 **Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Țintă Analizată:** Campanie activă de phishing și deturnare a conturilor Steam prin ferestre pop-up false (Browser-in-the-Middle) și releu OpenID proxy.
 

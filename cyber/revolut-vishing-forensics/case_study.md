@@ -1,7 +1,7 @@
 # Case Study: Advanced Voice Phishing (Vishing) & Real-Time Credential Relay Targeting FinTech Users (Revolut)
 
 **Author:** `stefannut` 
-**Date:** August 2026 
+**Date:** 10 August 2026 
 **Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Active social engineering, SIP telephony spoofing, and real-time reverse proxy infrastructure targeting Revolut banking accounts.
 

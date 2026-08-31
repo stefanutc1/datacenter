@@ -8,7 +8,7 @@ export const articles = [
  content: `# Case Study: Forensic Deconstruction of a Fraudulent Task Scam & Cryptocurrency Drainage Platform
 
 **Author:** \`stefannut\` 
-**Date:** August 2026 
+**Date:** 17 April 2026 
 **Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Forensic teardown of backend API exposure, client-side UI manipulation, and financial entrapment mechanisms in a global Task Scam / Pig Butchering platform.
 
@@ -138,7 +138,7 @@ The \`invite_code\` parameter (validated as \`888888\`) and the \`username\` fie
  content: `# Studiu de Caz: Dezasamblarea Infrastructurii Frauduloase a unei Scheme Task Scam (Fake Job & Crypto Drainage)
 
 **Autor:** \`stefannut\` 
-**Dată:** August 2026 
+**Dată:** 17 April 2026 
 **Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Obiectiv:** Analiza forensică a arhitecturii backend, vulnerabilităților API și mecanismelor de manipulare UI utilizate într-o schemă globală de tip "Task Scam" / Pig Butchering.
 

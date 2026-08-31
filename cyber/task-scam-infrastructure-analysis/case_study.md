@@ -1,7 +1,7 @@
 # Case Study: Forensic Deconstruction of a Fraudulent Task Scam & Cryptocurrency Drainage Platform
 
 **Author:** `stefannut` 
-**Date:** August 2026 
+**Date:** 17 April 2026 
 **Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Forensic teardown of backend API exposure, client-side UI manipulation, and financial entrapment mechanisms in a global Task Scam / Pig Butchering platform.
 

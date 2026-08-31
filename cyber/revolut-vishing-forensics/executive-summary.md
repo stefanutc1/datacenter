@@ -4,7 +4,7 @@
 
 * **Target Region**: Romania
 
-* **Date of Activity**: August 2026
+* **Date of Activity**: 10 August 2026
 
 * **Vector**: Social engineering via burner telephone numbers (at August 10,2026 with `0749...` range) combined with alternative TLD phishing links or URL shorteners.
 

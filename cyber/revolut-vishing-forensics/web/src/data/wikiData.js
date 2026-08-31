@@ -8,7 +8,7 @@ export const articles = [
  content: `# Case Study: Advanced Voice Phishing (Vishing) & Real-Time Credential Relay Targeting FinTech Users (Revolut)
 
 **Author:** \`stefannut\` 
-**Date:** August 2026 
+**Date:** 10 August 2026 
 **Classification:** TLP:CLEAR / Technical Cyber Threat Intelligence 
 **Target Analyzed:** Active social engineering, SIP telephony spoofing, and real-time reverse proxy infrastructure targeting Revolut banking accounts.
 
@@ -123,7 +123,7 @@ Immediate API Injection into Bank"]
  content: `# Studiu de Caz: Inginerie Socială & Voice Phishing (Vishing) Avansat Țintit Asupra Utilizatorilor FinTech (Revolut)
 
 **Autor:** \`stefannut\` 
-**Dată:** August 2026 
+**Dată:** 10 August 2026 
 **Clasificare:** TLP:CLEAR / Cercetare Tehnică de Securitate Cibernetică 
 **Vector Analizat:** Campanie activă de inginerie socială, Voice Phishing (Vishing), Caller ID Spoofing și clonare dinamică a portalului bancar Revolut.
 
