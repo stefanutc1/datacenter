@@ -126,6 +126,38 @@ Located in ai/, connects AI coding assistants directly to homelab runtime teleme
 Primary compute node at 192.168.1.132.`
   },
   {
+    id: 'proxmox-arm-hypervisor',
+    logo: 'icons/proxmox.svg',
+    name: 'Proxmox VE ARM64 Hypervisor',
+    category: 'networking',
+    ip: '192.168.64.14',
+    port: 8006,
+    ipUrl: 'https://192.168.64.14:8006',
+    domain: 'pve-arm.lan',
+    domainUrl: 'https://pve-arm.lan',
+    internalUrl: 'https://192.168.64.14:8006',
+    icon: 'server',
+    color: '#9b59b6',
+    image: 'proxmox-ve-arm64:9.2',
+    containerName: 'pve_arm_host',
+    status: 'online',
+    ram: '4 GB',
+    storage: '64 GB NVMe',
+    node: 'Node 3 (ARM64)',
+    tags: ['ARM64', 'Hypervisor', 'Apple Silicon', 'LXC', 'UTM / QEMU'],
+    description: 'Secondary ARM64 hypervisor running on Apple Silicon (M1) hosting utility LXC containers, staging environments, and multi-architecture builds.',
+    features: [
+      'Apple Silicon M1 8-Core processor with macOS Hypervisor.framework acceleration',
+      '4 GB dedicated RAM allocated to virtualized Proxmox VE ARM64 instance',
+      'Hosts 11 native aarch64 LXC containers and staging automation sandbox'
+    ],
+    volumes: ['/etc/pve:/etc/pve'],
+    envVars: [],
+    composeCode: `# Proxmox VE on ARM64 (Apple Silicon M1): https://192.168.64.14:8006`,
+    wikiMarkdown: `### Proxmox VE ARM64 (Node 3)
+Secondary hypervisor running on Apple Silicon (M1) at https://192.168.64.14:8006 hosting the ARM64 LXC utility fleet.`
+  },
+  {
     id: 'openmediavault-nas',
     logo: 'icons/nextcloud.svg',
     name: 'OpenMediaVault Storage NAS',
