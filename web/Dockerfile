@@ -1,4 +1,4 @@
-# Multi-stage production Dockerfile for Homelab Web Dashboard & Wiki
+# Multi-stage production Dockerfile for Homelab Web Digital Twin
 FROM node:22-alpine AS builder
 
 WORKDIR /app/web

@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    name: Build & Deploy Frontend (Next.js App Router)
+    name: Build & Deploy Frontend (Angular 20 Enterprise App)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
