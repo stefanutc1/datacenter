@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-warm-bg text-warm-primary font-sans flex flex-col antialiased selection:bg-terracotta-500/25 selection:text-sand-50">
+<div class="min-h-screen bg-theme-bg text-theme-primary font-sans flex flex-col antialiased selection:bg-emerald-500/25 selection:text-slate-50">
   
   <!-- Global Top Header -->
   <app-header></app-header>
@@ -12,7 +12,7 @@
     </div>
 
     <!-- 2. Interactive 3D Spatial Topology Section -->
-    <section id="topology-section" class="w-full py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-clay-800/40">
+    <section id="topology-section" class="w-full py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-obsidian-750">
       <app-topology-canvas
         [selectedNode]="selectedNode"
         [activeCategory]="activeCategory"
@@ -31,14 +31,14 @@
     ></app-node-inspector>
 
     <!-- 3. Physical Hardware Fleet -->
-    <div class="border-b border-clay-800/40">
+    <div class="border-b border-obsidian-750">
       <app-hardware-fleet
         (nodeFocused)="onNodeSelected($event)"
       ></app-hardware-fleet>
     </div>
 
     <!-- 4. Active Microservices Catalog (34 Workloads) -->
-    <div class="border-b border-clay-800/40">
+    <div class="border-b border-obsidian-750">
       <app-service-matrix
         (nodeFocused)="onNodeSelected($event)"
       ></app-service-matrix>
@@ -50,16 +50,16 @@
   </main>
 
   <!-- Technical Presentation Footer -->
-  <footer class="w-full py-12 px-4 sm:px-6 lg:px-8 border-t border-clay-800/60 bg-[#0e0b08] font-sans text-xs text-sand-400">
+  <footer class="w-full py-12 px-4 sm:px-6 lg:px-8 border-t border-obsidian-750 bg-[#08090b] font-sans text-xs text-slate-400">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2.5 text-sand-300">
-        <span class="w-2 h-2 rounded-full bg-terracotta-500"></span>
-        <span class="font-serif font-bold text-sm text-sand-50">Homelab Digital Twin</span>
-        <span class="text-sand-400 text-xs">— Proxmox VE · Windows Server AD · WireGuard · Wazuh XDR · DFIR · ELO</span>
+      <div class="flex items-center gap-2.5 text-slate-300">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span class="font-serif font-bold text-sm text-slate-50">Homelab Digital Twin</span>
+        <span class="text-slate-400 text-xs font-mono">— Proxmox VE · Windows Server AD · WireGuard · Wazuh XDR · DFIR · ELO</span>
       </div>
       <div class="flex items-center gap-6 font-mono text-xs">
-        <a href="#overview" class="hover:text-sand-50 transition-colors">TOP ↑</a>
-        <a href="https://github.com/stefanutc1/homelab" target="_blank" rel="noopener noreferrer" class="hover:text-sand-50 transition-colors underline">GITHUB REPO</a>
+        <a href="#overview" class="hover:text-slate-50 transition-colors">TOP ↑</a>
+        <a href="https://github.com/stefanutc1/homelab" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors underline">GITHUB REPO</a>
       </div>
     </div>
   </footer>

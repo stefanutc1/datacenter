@@ -22,34 +22,34 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
       <!-- Section Title Header -->
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div class="space-y-1">
-          <div class="text-[11px] font-mono font-bold tracking-widest text-terracotta-400 uppercase">
+          <div class="text-[11px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
             SPATIAL VISUALIZATION
           </div>
-          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-sand-50 tracking-tight">
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-50 tracking-tight">
             Interactive Infrastructure Digital Twin
           </h2>
         </div>
-        <div class="text-xs text-sand-400 font-sans hidden sm:block">
+        <div class="text-xs text-slate-400 font-sans hidden sm:block">
           Click nodes to inspect technical specs, relationships & compose manifests.
         </div>
       </div>
 
       <!-- 3D Viewer Container -->
-      <div class="relative w-full h-[580px] bg-[#14100c] rounded-2xl overflow-hidden border border-clay-700/40 shadow-xl flex flex-col select-none">
+      <div class="relative w-full h-[580px] bg-[#0c0e11] rounded-2xl overflow-hidden border border-obsidian-750 shadow-2xl flex flex-col select-none">
         
         <!-- Top HUD Layer Controls -->
         <div class="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
           
           <!-- Subsystem Layer Badges -->
-          <div class="flex items-center gap-1.5 p-1.5 rounded-xl bg-[#1c1611]/90 backdrop-blur-md border border-clay-700/50 pointer-events-auto shadow-md overflow-x-auto max-w-full">
+          <div class="flex items-center gap-1.5 p-1.5 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 pointer-events-auto shadow-lg overflow-x-auto max-w-full">
             @for (cat of categories; track cat.id) {
               <button
                 (click)="selectCategory(cat.id)"
-                [class.bg-terracotta-500]="activeCategory === cat.id"
-                [class.text-sand-50]="activeCategory === cat.id"
-                [class.font-semibold]="activeCategory === cat.id"
-                [class.text-sand-300]="activeCategory !== cat.id"
-                [class.hover:text-sand-50]="activeCategory !== cat.id"
+                [class.bg-emerald-500]="activeCategory === cat.id"
+                [class.text-slate-950]="activeCategory === cat.id"
+                [class.font-bold]="activeCategory === cat.id"
+                [class.text-slate-300]="activeCategory !== cat.id"
+                [class.hover:text-slate-50]="activeCategory !== cat.id"
                 class="px-3 py-1.5 rounded-lg text-xs font-sans transition-all whitespace-nowrap"
               >
                 {{ cat.label }}
@@ -60,24 +60,24 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
           <!-- Controls (Auto-Rotate, Perspective, Reset) -->
           <div class="flex items-center gap-2 pointer-events-auto font-sans text-xs">
             <!-- Logical / Physical Toggle -->
-            <div class="flex items-center p-1 rounded-xl bg-[#1c1611]/90 backdrop-blur-md border border-clay-700/50 shadow-md font-medium">
+            <div class="flex items-center p-1 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 shadow-md font-medium">
               <button
                 (click)="setPerspective('logical')"
-                [class.bg-terracotta-500]="perspective === 'logical'"
-                [class.text-sand-50]="perspective === 'logical'"
-                [class.font-semibold]="perspective === 'logical'"
-                [class.text-sand-300]="perspective !== 'logical'"
-                class="px-2.5 py-1 rounded-lg transition-colors"
+                [class.bg-emerald-500]="perspective === 'logical'"
+                [class.text-slate-950]="perspective === 'logical'"
+                [class.font-bold]="perspective === 'logical'"
+                [class.text-slate-300]="perspective !== 'logical'"
+                class="px-2.5 py-1 rounded-lg transition-colors font-mono text-[11px]"
               >
                 Logical
               </button>
               <button
                 (click)="setPerspective('physical')"
-                [class.bg-terracotta-500]="perspective === 'physical'"
-                [class.text-sand-50]="perspective === 'physical'"
-                [class.font-semibold]="perspective === 'physical'"
-                [class.text-sand-300]="perspective !== 'physical'"
-                class="px-2.5 py-1 rounded-lg transition-colors"
+                [class.bg-emerald-500]="perspective === 'physical'"
+                [class.text-slate-950]="perspective === 'physical'"
+                [class.font-bold]="perspective === 'physical'"
+                [class.text-slate-300]="perspective !== 'physical'"
+                class="px-2.5 py-1 rounded-lg transition-colors font-mono text-[11px]"
               >
                 Physical
               </button>
@@ -86,19 +86,19 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
             <!-- Auto-Rotate -->
             <button
               (click)="toggleAutoRotate()"
-              [class.border-terracotta-500]="isAutoRotating"
-              [class.text-terracotta-400]="isAutoRotating"
-              class="px-3 py-2 rounded-xl bg-[#1c1611]/90 backdrop-blur-md border border-clay-700/50 hover:border-terracotta-400/50 text-sand-200 font-medium transition-all flex items-center gap-2 shadow-md"
+              [class.border-emerald-500]="isAutoRotating"
+              [class.text-emerald-400]="isAutoRotating"
+              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-emerald-400/50 text-slate-200 font-medium transition-all flex items-center gap-2 shadow-md font-mono text-xs"
               title="Toggle 3D auto-rotation"
             >
-              <span class="w-2 h-2 rounded-full" [class.bg-terracotta-500]="isAutoRotating" [class.bg-clay-500]="!isAutoRotating"></span>
+              <span class="w-2 h-2 rounded-full" [class.bg-emerald-500]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
               <span>Rotate</span>
             </button>
 
             <!-- Reset Camera -->
             <button
               (click)="resetCamera()"
-              class="px-3 py-2 rounded-xl bg-[#1c1611]/90 backdrop-blur-md border border-clay-700/50 hover:border-clay-400 text-sand-200 hover:text-sand-50 font-medium transition-all shadow-md"
+              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-slate-500 text-slate-200 hover:text-slate-50 font-medium transition-all shadow-md font-mono text-xs"
             >
               Reset
             </button>
@@ -117,20 +117,20 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
         ></canvas>
 
         <!-- Bottom HUD Coordinates & Quick Stats -->
-        <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-sans text-xs text-sand-300">
-          <div class="px-3.5 py-2 rounded-xl bg-[#1c1611]/90 backdrop-blur-md border border-clay-700/50 shadow-md flex items-center gap-2.5">
+        <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-mono text-xs text-slate-300">
+          <div class="px-3.5 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 shadow-md flex items-center gap-2.5">
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span class="font-semibold text-sand-100 font-mono text-[11px]">MESH OPERATIONAL</span>
-            <span class="text-clay-600">|</span>
-            <span class="text-sand-200">{{ nodes.length }} Nodes</span>
-            <span class="text-clay-600">|</span>
-            <span class="text-terracotta-400">{{ links.length }} Live Packet Streams</span>
+            <span class="font-bold text-slate-100 text-[11px]">MESH ACTIVE</span>
+            <span class="text-obsidian-600">|</span>
+            <span class="text-slate-200">{{ nodes.length }} NODES</span>
+            <span class="text-obsidian-600">|</span>
+            <span class="text-emerald-400">{{ links.length }} LIVE FLOWS</span>
           </div>
         </div>
 
         <!-- Instructions Hint -->
-        <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-sans text-xs text-sand-400">
-          <span>Drag to rotate · Scroll to zoom</span>
+        <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-mono text-[11px] text-slate-500">
+          <span>DRAG TO ROTATE · SCROLL TO ZOOM · CLICK TO INSPECT</span>
         </div>
       </div>
     </div>
@@ -275,15 +275,15 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
     ctx.clearRect(0, 0, width, height);
 
-    // Draw Warm Perspective Coordinate Floor
-    ctx.strokeStyle = 'rgba(208, 99, 50, 0.05)';
+    // Draw Subtle Obsidian Coordinate Floor
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
     ctx.lineWidth = 1;
     for (let gx = -450; gx <= 450; gx += 75) {
       const pStart = this.project3D(gx, 340, -450, cx, cy);
       const pEnd = this.project3D(gx, 340, 450, cx, cy);
       ctx.beginPath();
       ctx.moveTo(pStart.px, pStart.py);
-      ctx.lineTo(pEnd.px, pEnd.py);
+      ctx.lineTo(pEnd.py ? pEnd.px : 0, pEnd.py);
       ctx.stroke();
     }
     for (let gz = -450; gz <= 450; gz += 75) {
@@ -326,7 +326,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
         ctx.beginPath();
         ctx.arc(packetX, packetY, Math.max(2.5, 4.0 * p1.scale), 0, Math.PI * 2);
-        ctx.fillStyle = '#faf8f5';
+        ctx.fillStyle = '#ffffff';
         ctx.fill();
       }
     });
@@ -352,7 +352,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
       if (node.isSelected || node.isHovered) {
         ctx.beginPath();
         ctx.arc(node.px, node.py, radius + 7, 0, Math.PI * 2);
-        ctx.strokeStyle = '#d06332';
+        ctx.strokeStyle = '#10b981';
         ctx.lineWidth = 2;
         ctx.stroke();
       }
@@ -384,8 +384,8 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
         const padY = 3.5;
         const badgeY = node.py + radius + 15;
 
-        // Clean semi-opaque pill background
-        ctx.fillStyle = 'rgba(20, 16, 12, 0.92)';
+        // Clean Obsidian pill background
+        ctx.fillStyle = 'rgba(12, 14, 17, 0.94)';
         ctx.beginPath();
         ctx.roundRect(
           node.px - textWidth / 2 - padX,
@@ -395,19 +395,19 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
           5
         );
         ctx.fill();
-        ctx.strokeStyle = 'rgba(222, 203, 180, 0.18)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
         ctx.lineWidth = 1;
         ctx.stroke();
 
         // Label Text
-        ctx.fillStyle = '#faf8f5';
+        ctx.fillStyle = '#f8fafc';
         ctx.fillText(label, node.px, badgeY + fontSize / 3.2);
 
-        // Sublabel if selected or hovered
+        // Sublabel if selected or hovered (IBM Plex Mono)
         if (node.isSelected || node.isHovered) {
           const subFontSize = Math.max(10, Math.round(10.5 * node.scale));
-          ctx.font = `400 ${subFontSize}px "Geist Mono", "JetBrains Mono", monospace`;
-          ctx.fillStyle = '#c4b5a2';
+          ctx.font = `400 ${subFontSize}px "IBM Plex Mono", monospace`;
+          ctx.fillStyle = '#94a3b8';
           ctx.fillText(node.sublabel || node.ip, node.px, badgeY + fontSize + 14);
         }
       }

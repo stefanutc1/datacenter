@@ -8,14 +8,15 @@ import { CommonModule } from '@angular/common';
   template: `
     <section id="blueprint" class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-sans">
       
+      <!-- Section Header -->
       <div class="space-y-2 mb-8">
-        <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
+        <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
           ENGINEERING BLUEPRINT & NETWORK SCHEMATICS
         </div>
-        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-sand-50 tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-50 tracking-tight">
           Cluster Architecture Blueprint
         </h2>
-        <p class="text-sm text-sand-300 max-w-3xl font-sans font-normal leading-relaxed">
+        <p class="text-sm text-slate-300 max-w-3xl font-sans font-normal leading-relaxed">
           Technical specifications for VLAN isolation, cyber defense toolchains, digital forensics (DFIR), hypervisor RAM allocation budgets, and AI fallback cascades.
         </p>
       </div>
@@ -24,45 +25,45 @@ import { CommonModule } from '@angular/common';
       <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-sans">
         <button
           (click)="activeTab = 'vlan'"
-          [class.bg-terracotta-500]="activeTab === 'vlan'"
-          [class.text-sand-50]="activeTab === 'vlan'"
-          [class.font-semibold]="activeTab === 'vlan'"
-          [class.text-sand-300]="activeTab !== 'vlan'"
-          [class.bg-[#1c1611]]="activeTab !== 'vlan'"
-          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
+          [class.bg-emerald-500]="activeTab === 'vlan'"
+          [class.text-slate-950]="activeTab === 'vlan'"
+          [class.font-bold]="activeTab === 'vlan'"
+          [class.text-slate-300]="activeTab !== 'vlan'"
+          [class.bg-obsidian-900]="activeTab !== 'vlan'"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
           VLAN Segmentation Matrix
         </button>
         <button
           (click)="activeTab = 'cyber'"
-          [class.bg-terracotta-500]="activeTab === 'cyber'"
-          [class.text-sand-50]="activeTab === 'cyber'"
-          [class.font-semibold]="activeTab === 'cyber'"
-          [class.text-sand-300]="activeTab !== 'cyber'"
-          [class.bg-[#1c1611]]="activeTab !== 'cyber'"
-          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
+          [class.bg-emerald-500]="activeTab === 'cyber'"
+          [class.text-slate-950]="activeTab === 'cyber'"
+          [class.font-bold]="activeTab === 'cyber'"
+          [class.text-slate-300]="activeTab !== 'cyber'"
+          [class.bg-obsidian-900]="activeTab !== 'cyber'"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
           Cyber & DFIR Forensics Stack
         </button>
         <button
           (click)="activeTab = 'memory'"
-          [class.bg-terracotta-500]="activeTab === 'memory'"
-          [class.text-sand-50]="activeTab === 'memory'"
-          [class.font-semibold]="activeTab === 'memory'"
-          [class.text-sand-300]="activeTab !== 'memory'"
-          [class.bg-[#1c1611]]="activeTab !== 'memory'"
-          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
+          [class.bg-emerald-500]="activeTab === 'memory'"
+          [class.text-slate-950]="activeTab === 'memory'"
+          [class.font-bold]="activeTab === 'memory'"
+          [class.text-slate-300]="activeTab !== 'memory'"
+          [class.bg-obsidian-900]="activeTab !== 'memory'"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
           RAM Allocation Budgets
         </button>
         <button
           (click)="activeTab = 'ai'"
-          [class.bg-terracotta-500]="activeTab === 'ai'"
-          [class.text-sand-50]="activeTab === 'ai'"
-          [class.font-semibold]="activeTab === 'ai'"
-          [class.text-sand-300]="activeTab !== 'ai'"
-          [class.bg-[#1c1611]]="activeTab !== 'ai'"
-          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
+          [class.bg-emerald-500]="activeTab === 'ai'"
+          [class.text-slate-950]="activeTab === 'ai'"
+          [class.font-bold]="activeTab === 'ai'"
+          [class.text-slate-300]="activeTab !== 'ai'"
+          [class.bg-obsidian-900]="activeTab !== 'ai'"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
           AI Routing Cascade (ELO)
         </button>
@@ -70,11 +71,11 @@ import { CommonModule } from '@angular/common';
 
       <!-- TAB 1: VLAN MATRIX -->
       @if (activeTab === 'vlan') {
-        <div class="rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl overflow-hidden font-mono text-xs">
+        <div class="rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl overflow-hidden font-mono text-xs">
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="border-b border-clay-700/40 bg-[#211b15] text-sand-300 text-[11px] uppercase tracking-wider">
+                <tr class="border-b border-obsidian-750 bg-obsidian-900 text-slate-300 text-[11px] uppercase tracking-wider">
                   <th class="p-4">VLAN ID</th>
                   <th class="p-4">Network Segment</th>
                   <th class="p-4">Subnet CIDR</th>
@@ -83,15 +84,15 @@ import { CommonModule } from '@angular/common';
                   <th class="p-4">Security Policy</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-clay-800/40">
+              <tbody class="divide-y divide-obsidian-750/70">
                 @for (vlan of vlanMatrix; track vlan.id) {
-                  <tr class="hover:bg-clay-800/30 transition-colors">
-                    <td class="p-4 font-bold text-terracotta-400 whitespace-nowrap">{{ vlan.id }}</td>
-                    <td class="p-4 font-medium text-sand-100">{{ vlan.name }}</td>
-                    <td class="p-4 text-sand-300 whitespace-nowrap">{{ vlan.subnet }}</td>
-                    <td class="p-4 text-sand-300 whitespace-nowrap">{{ vlan.gateway }}</td>
-                    <td class="p-4 text-sand-200">{{ vlan.nodes }}</td>
-                    <td class="p-4 text-sand-400">{{ vlan.firewallPolicy }}</td>
+                  <tr class="hover:bg-obsidian-750/40 transition-colors">
+                    <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">{{ vlan.id }}</td>
+                    <td class="p-4 font-medium text-slate-100">{{ vlan.name }}</td>
+                    <td class="p-4 text-slate-300 whitespace-nowrap">{{ vlan.subnet }}</td>
+                    <td class="p-4 text-slate-300 whitespace-nowrap">{{ vlan.gateway }}</td>
+                    <td class="p-4 text-slate-200">{{ vlan.nodes }}</td>
+                    <td class="p-4 text-slate-400">{{ vlan.firewallPolicy }}</td>
                   </tr>
                 }
               </tbody>
@@ -104,27 +105,27 @@ import { CommonModule } from '@angular/common';
       @if (activeTab === 'cyber') {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
           @for (pillar of cyberPillars; track pillar.title) {
-            <div class="p-6 rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl space-y-3.5 flex flex-col justify-between">
+            <div class="p-6 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl space-y-3.5 flex flex-col justify-between">
               <div class="space-y-3">
-                <div class="flex items-center justify-between border-b border-clay-700/30 pb-3">
-                  <h3 class="font-serif font-bold text-sand-50 text-base tracking-wide">
+                <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
+                  <h3 class="font-serif font-bold text-slate-50 text-base tracking-wide">
                     {{ pillar.title }}
                   </h3>
-                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-terracotta-500/15 text-terracotta-400 border border-terracotta-500/30 uppercase">
+                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase">
                     {{ pillar.badge }}
                   </span>
                 </div>
 
-                <p class="text-xs text-sand-300 leading-relaxed font-sans">
+                <p class="text-xs text-slate-300 leading-relaxed font-sans font-normal">
                   {{ pillar.description }}
                 </p>
 
-                <!-- Tools List -->
+                <!-- Tools List (IBM Plex Mono) -->
                 <div class="space-y-1.5 pt-1">
-                  <div class="text-[10px] font-mono text-sand-400 uppercase tracking-wider">Technologies & Tooling</div>
+                  <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Technologies & Tooling</div>
                   <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
                     @for (tool of pillar.tools; track tool) {
-                      <span class="px-2 py-0.5 rounded bg-[#241c15] border border-clay-700/40 text-sand-200">
+                      <span class="px-2 py-0.5 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200">
                         {{ tool }}
                       </span>
                     }
@@ -140,29 +141,29 @@ import { CommonModule } from '@angular/common';
       @if (activeTab === 'memory') {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
           @for (b of memoryBudgets; track b.node) {
-            <div class="p-6 rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl space-y-4">
+            <div class="p-6 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl space-y-4">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <h3 class="font-bold text-sm text-sand-50 font-mono">{{ b.node }}</h3>
-                  <div class="text-[11px] text-sand-400 mt-0.5">Physical Ceiling: {{ b.totalRam }}</div>
+                  <h3 class="font-bold text-sm text-slate-50 font-mono">{{ b.node }}</h3>
+                  <div class="text-[11px] text-slate-400 mt-0.5">Physical Ceiling: {{ b.totalRam }}</div>
                 </div>
                 <div class="text-right">
-                  <span class="text-base font-bold text-terracotta-400">{{ b.allocatedRam }}</span>
-                  <div class="text-[10px] text-sand-400">{{ b.usagePercent }}% Allocated</div>
+                  <span class="text-base font-bold text-emerald-400">{{ b.allocatedRam }}</span>
+                  <div class="text-[10px] text-slate-400">{{ b.usagePercent }}% Allocated</div>
                 </div>
               </div>
 
               <!-- Bar -->
-              <div class="w-full h-2 rounded-full bg-[#241c15] overflow-hidden border border-clay-700/30">
-                <div class="h-full bg-terracotta-500 rounded-full" [style.width]="b.usagePercent + '%'"></div>
+              <div class="w-full h-2 rounded-full bg-obsidian-900 overflow-hidden border border-obsidian-750">
+                <div class="h-full bg-emerald-500 rounded-full" [style.width]="b.usagePercent + '%'"></div>
               </div>
 
               <div class="space-y-1.5 pt-2">
-                <div class="text-[10px] uppercase text-sand-400 tracking-wider">Allocated Workloads</div>
+                <div class="text-[10px] uppercase text-slate-400 tracking-wider">Allocated Workloads</div>
                 @for (item of b.breakdown; track item.name) {
-                  <div class="py-1.5 flex items-center justify-between border-b border-clay-800/40 text-[11px]">
-                    <span class="text-sand-200 truncate">{{ item.name }}</span>
-                    <span class="text-terracotta-400 font-bold flex-shrink-0">{{ item.ram }}</span>
+                  <div class="py-1.5 flex items-center justify-between border-b border-obsidian-750/70 text-[11px]">
+                    <span class="text-slate-200 truncate">{{ item.name }}</span>
+                    <span class="text-emerald-400 font-bold flex-shrink-0">{{ item.ram }}</span>
                   </div>
                 }
               </div>
@@ -175,14 +176,14 @@ import { CommonModule } from '@angular/common';
       @if (activeTab === 'ai') {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
           @for (c of eloCascade; track c.tier) {
-            <div class="p-5 rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl space-y-3 flex flex-col justify-between">
+            <div class="p-5 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl space-y-3 flex flex-col justify-between">
               <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                  <span class="font-bold text-terracotta-400">{{ c.tier }}</span>
-                  <span class="text-[10px] text-sand-400">{{ c.latency }}</span>
+                  <span class="font-bold text-emerald-400">{{ c.tier }}</span>
+                  <span class="text-[10px] text-slate-400">{{ c.latency }}</span>
                 </div>
-                <div class="font-bold text-sand-100 text-xs">{{ c.provider }}</div>
-                <p class="text-xs text-sand-300 font-sans leading-relaxed pt-1">
+                <div class="font-bold text-slate-100 text-xs">{{ c.provider }}</div>
+                <p class="text-xs text-slate-300 font-sans leading-relaxed pt-1 font-normal">
                   {{ c.role }}
                 </p>
               </div>

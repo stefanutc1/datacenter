@@ -4,28 +4,30 @@
 
 @layer base {
   :root, html.dark {
-    --warm-bg: #14100c;
-    --warm-card: #1c1712;
-    --warm-hover: #261f18;
-    --warm-border: rgba(222, 203, 180, 0.12);
-    --warm-primary: #f5eee4;
-    --warm-secondary: #c4b5a2;
-    --warm-muted: #8a7b6c;
+    --theme-bg: #0c0e11;
+    --theme-card: #13171d;
+    --theme-card-hover: #1a2028;
+    --theme-border: rgba(255, 255, 255, 0.08);
+    --theme-primary: #f3f4f6;
+    --theme-secondary: #9ca3af;
+    --theme-muted: #6b7280;
+    --theme-accent: #10b981;
   }
 
   html.light {
-    --warm-bg: #faf7f2;
-    --warm-card: #ffffff;
-    --warm-hover: #f3ece1;
-    --warm-border: rgba(94, 70, 48, 0.14);
-    --warm-primary: #211912;
-    --warm-secondary: #5e4d3c;
-    --warm-muted: #8c7660;
+    --theme-bg: #f8fafc;
+    --theme-card: #ffffff;
+    --theme-card-hover: #f1f5f9;
+    --theme-border: rgba(0, 0, 0, 0.08);
+    --theme-primary: #0f172a;
+    --theme-secondary: #475569;
+    --theme-muted: #64748b;
+    --theme-accent: #059669;
   }
 
   body {
-    background-color: var(--warm-bg);
-    color: var(--warm-primary);
+    background-color: var(--theme-bg);
+    color: var(--theme-primary);
     font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
     margin: 0;
@@ -35,21 +37,21 @@
   }
 }
 
-/* Custom warm scrollbars */
+/* Custom Charcoal Obsidian scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--warm-bg);
+  background: var(--theme-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3d3124;
+  background: #262c37;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d06332;
+  background: #10b981;
 }
