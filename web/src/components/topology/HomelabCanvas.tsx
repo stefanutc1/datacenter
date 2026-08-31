@@ -9,6 +9,7 @@ import {
   subsystemPresets,
 } from "@/data/infrastructure";
 import { projectPoint3D, lerp, distance2D } from "@/lib/math3d";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 interface HomelabCanvasProps {
   activeSubsystem: SubsystemCategory;
@@ -24,6 +25,7 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
   onSelectNode,
   isAutoRotate,
 }) => {
+  const { theme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,6 +75,7 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
 
     let animId: number;
     let packetTimer = 0;
+    const isDark = theme === "dark";
 
     const render = () => {
       packetTimer += 0.015;
@@ -100,7 +103,7 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
 
       // 1. Draw Coordinate Grid Floor
       const gridY = 220;
-      ctx.strokeStyle = "rgba(0, 229, 255, 0.035)";
+      ctx.strokeStyle = isDark ? "rgba(217, 119, 87, 0.08)" : "rgba(143, 129, 119, 0.15)";
       ctx.lineWidth = 1;
       for (let gx = -350; gx <= 350; gx += 70) {
         const p1 = projectPoint3D({ x: gx, y: gridY, z: -350 }, cx, cy, cam.angleX, cam.angleY, cam.zoom, cam.panX, cam.panY);
@@ -136,7 +139,7 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
         if (!fromNode || !toNode) return;
 
         const isEdgeHighlighted =
-          activeSubsystem === 'system' ||
+          activeSubsystem === "system" ||
           (highlightedIds.includes(fromNode.id) && highlightedIds.includes(toNode.id)) ||
           (selectedNode ? fromNode.id === selectedNode.id || toNode.id === selectedNode.id : false);
 
@@ -152,7 +155,9 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
         ctx.lineWidth = isEdgeHighlighted ? Math.max(1.5, 2.5 * p1.scale) : Math.max(0.5, 1 * p1.scale);
         ctx.strokeStyle = isEdgeHighlighted
           ? edge.color
-          : "rgba(255, 255, 255, 0.08)";
+          : isDark
+          ? "rgba(255, 255, 255, 0.08)"
+          : "rgba(100, 80, 70, 0.15)";
         
         if (edge.dashed) {
           ctx.setLineDash([4, 4]);
@@ -172,9 +177,9 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
 
           ctx.beginPath();
           ctx.arc(px, py, Math.max(1.5, 3.2 * pScale), 0, Math.PI * 2);
-          ctx.fillStyle = "#ffffff";
+          ctx.fillStyle = isDark ? "#ffffff" : "#B05429";
           ctx.shadowColor = edge.color;
-          ctx.shadowBlur = 8;
+          ctx.shadowBlur = isDark ? 8 : 4;
           ctx.fill();
           ctx.shadowBlur = 0;
         }
@@ -220,7 +225,7 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
           ctx.beginPath();
           ctx.arc(px, py, radius + 12, 0, Math.PI * 2);
           ctx.fillStyle = node.color;
-          ctx.globalAlpha = 0.08;
+          ctx.globalAlpha = isDark ? 0.08 : 0.04;
           ctx.fill();
           ctx.globalAlpha = alpha;
         }
@@ -228,16 +233,16 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
         // Core Solid Node Sphere
         ctx.beginPath();
         ctx.arc(px, py, radius, 0, Math.PI * 2);
-        ctx.fillStyle = isSelected ? "#ffffff" : node.color;
+        ctx.fillStyle = isSelected ? (isDark ? "#ffffff" : "#C26735") : node.color;
         ctx.shadowColor = node.color;
-        ctx.shadowBlur = isHighlighted ? 12 : 4;
+        ctx.shadowBlur = isHighlighted ? (isDark ? 12 : 6) : 2;
         ctx.fill();
         ctx.shadowBlur = 0;
 
         // Center dot
         ctx.beginPath();
         ctx.arc(px, py, Math.max(2, radius * 0.35), 0, Math.PI * 2);
-        ctx.fillStyle = isSelected ? node.color : "#ffffff";
+        ctx.fillStyle = isSelected ? node.color : isDark ? "#ffffff" : "#FAF7F2";
         ctx.fill();
 
         // Node Monospace Title & IP
@@ -245,13 +250,19 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
           const fontSize = Math.max(9, Math.round(11 * scale));
           ctx.font = `600 ${fontSize}px "JetBrains Mono", monospace`;
           ctx.textAlign = "center";
-          ctx.fillStyle = isSelected ? "#00e5ff" : isHovered ? "#ffffff" : "rgba(226, 232, 240, 0.9)";
+          ctx.fillStyle = isSelected
+            ? (isDark ? "#E59560" : "#8E411F")
+            : isHovered
+            ? (isDark ? "#ffffff" : "#231F1D")
+            : isDark
+            ? "rgba(237, 230, 222, 0.9)"
+            : "rgba(35, 31, 29, 0.9)";
           ctx.fillText(node.name, px, py + radius + 13);
 
           if (node.ip && (isSelected || isHovered || scale > 0.95)) {
             const subFontSize = Math.max(8, Math.round(9 * scale));
             ctx.font = `400 ${subFontSize}px "JetBrains Mono", monospace`;
-            ctx.fillStyle = "rgba(148, 163, 184, 0.75)";
+            ctx.fillStyle = isDark ? "rgba(164, 148, 126, 0.8)" : "rgba(103, 90, 81, 0.8)";
             ctx.fillText(node.ip, px, py + radius + 25);
           }
         }
@@ -281,7 +292,7 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animId);
     };
-  }, [activeSubsystem, selectedNode, isAutoRotate, hoveredNodeId]);
+  }, [activeSubsystem, selectedNode, isAutoRotate, hoveredNodeId, theme]);
 
   // Mouse / Touch Event Handlers
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -323,7 +334,6 @@ export const HomelabCanvas: React.FC<HomelabCanvasProps> = ({
   };
 
   const handleMouseUp = (e: React.MouseEvent) => {
-    const wasDragging = isDraggingRef.current;
     isDraggingRef.current = false;
 
     // Detect Click if not dragging extensively

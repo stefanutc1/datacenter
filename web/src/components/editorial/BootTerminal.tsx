@@ -46,21 +46,21 @@ export const BootTerminal: React.FC<BootTerminalProps> = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-obsidian flex items-center justify-center p-4 selection:bg-cyan-500/30">
-      <div className="w-full max-w-2xl glass-panel rounded-2xl p-6 sm:p-8 border border-white/10 shadow-2xl backdrop-blur-3xl bg-black/90 scanline relative overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl rounded-3xl p-6 sm:p-8 border border-sand-300 dark:border-espresso-700 shadow-2xl bg-sand-50 dark:bg-espresso-950 text-espresso-900 dark:text-sand-100 relative overflow-hidden">
         {/* Terminal Header */}
-        <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/10">
+        <div className="flex items-center justify-between pb-4 mb-4 border-b border-sand-200 dark:border-espresso-800">
           <div className="flex items-center gap-2.5">
             <div className="w-3 h-3 rounded-full bg-rose-500/80" />
             <div className="w-3 h-3 rounded-full bg-amber-500/80" />
             <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-            <span className="code-font text-xs text-slate-400 font-semibold ml-2">
+            <span className="code-font text-xs text-espresso-600 dark:text-sand-400 font-semibold ml-2">
               system_init.sh // homelab_core
             </span>
           </div>
           <button
             onClick={onComplete}
-            className="text-xs code-font text-slate-500 hover:text-cyan-400 transition-colors flex items-center gap-1"
+            className="text-xs code-font text-terracotta-600 dark:text-terracotta-400 hover:underline transition-colors flex items-center gap-1"
           >
             <span>SKIP_BOOT</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -73,27 +73,27 @@ export const BootTerminal: React.FC<BootTerminalProps> = ({ onComplete }) => {
             const isOk = log.includes("[ONLINE]") || log.includes("[SECURE]") || log.includes("[ACTIVE]") || log.includes("[ALL 33 UP]") || log.includes("READY");
             return (
               <div key={idx} className="flex items-start gap-2 leading-relaxed animate-in fade-in duration-200">
-                <span className="text-cyan-500 select-none">&gt;</span>
-                <span className={isOk ? "text-slate-200" : "text-slate-400"}>
+                <span className="text-terracotta-500 select-none">&gt;</span>
+                <span className={isOk ? "text-espresso-900 dark:text-sand-100 font-semibold" : "text-espresso-600 dark:text-sand-400"}>
                   {log}
                 </span>
               </div>
             );
           })}
           {!isFinished && (
-            <div className="flex items-center gap-1.5 text-cyan-400 animate-pulse mt-2">
+            <div className="flex items-center gap-1.5 text-terracotta-500 animate-pulse mt-2">
               <span>_</span>
             </div>
           )}
         </div>
 
         {/* Progress status */}
-        <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-500">
+        <div className="mt-6 pt-4 border-t border-sand-200 dark:border-espresso-800 flex items-center justify-between text-xs font-mono text-espresso-500 dark:text-sand-400">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-            <span className="text-cyan-400 font-semibold">BOOTING DIGITAL TWIN</span>
+            <span className="w-2 h-2 rounded-full bg-terracotta-500 animate-ping" />
+            <span className="text-terracotta-600 dark:text-terracotta-400 font-semibold">INITIALIZING CLUSTER</span>
           </div>
-          <span>AUTONOMOUS INFRASTRUCTURE LAYER</span>
+          <span>STEFANUT HOMELAB DIGITAL TWIN</span>
         </div>
       </div>
     </div>
