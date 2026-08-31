@@ -118,22 +118,78 @@ flowchart TB
 
 ## 4. Matriz de Recursos LXC & Máquinas Virtuales
 
-### Contenedores LXC Activos
+### Catálogo Detallado de Contenedores LXC (Nodo 1 — x86_64 Principal)
 
 | VMID | Nombre de Host | SO Base | vCPU | RAM Asignada | Pool Almacenamiento | IP Estática | Categoría | Servicio Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `nginx` | Alpine 3.20 | 1 | 112 MB | `local-lvm:3G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + Bouncer CrowdSec |
-| **101** | `pihole` | Alpine 3.20 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.4` | DNS | Servidor DNS Interno & Bloqueador de Publicidad |
-| **102** | `tailscale` | Alpine 3.20 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.5` | VPN | Enrutador de Subred WireGuard Mesh |
-| **103** | `immich` | Debian 12 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.6` | Storage / IA | Galería de Fotos & Reconocimiento Facial ML |
-| **104** | `nextcloud` | Debian 12 | 2 | 512 MB | `local-lvm:16G` | `192.168.1.7` | Storage | Nube de Archivos & Sincronización WebDAV |
-| **105** | `crowdsec` | Alpine 3.20 | 1 | 96 MB | `local-lvm:2G` | `192.168.1.8` | Seguridad | Agente de Ciberseguridad & Motor de Decisiones |
-| **106** | `homeassistant` | Debian 12 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.9` | Domótica | Servidor Smart Home, Zigbee & Sensores ESP32 |
-| **107** | `n8n` | Alpine 3.20 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.10` | Automatización | Orquestación de Flujos de Trabajo & SOAR |
-| **108** | `authentik` | Debian 12 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.11` | Seguridad | Proveedor de Identidad FIDO2 / Passkeys |
-| **109** | `media-suite` | Debian 12 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.12` | Multimedia | Servidor Jellyfin con Transcodificación por GPU |
-| **110** | `ollama` | Debian 13 | 4 | 2.048 MB | `local-lvm:16G` | `192.168.1.110` | IA Local | Motor LLM en GPU (Qwen2.5-Coder, Llama-3.2) |
-| **118** | `tempo` | Alpine 3.20 | 2 | 256 MB | `local-lvm:8G` | `192.168.64.118` | Monitoreo | Backend de Rastreo Distribuido Grafana Tempo |
+| **100** | `nginx` | Debian 13 | 2 | 112 MB | `local-lvm:4G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + Bouncer CrowdSec |
+| **101** | `pihole` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.4` | DNS | Servidor DNS Interno & Bloqueador de Publicidad |
+| **102** | `tailscale` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.5` | VPN | Enrutador de Subred WireGuard Mesh Principal |
+| **103** | `immich` | Debian 13 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.15` | Storage / IA | Galería de Fotos & Reconocimiento Facial ML |
+| **104** | `nextcloud` | Debian 13 | 2 | 512 MB | `local-lvm:20G` | `192.168.1.8` | Storage | Nube de Archivos & Sincronización WebDAV |
+| **105** | `crowdsec` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.9` | Seguridad | Agente de Ciberseguridad & Motor de Decisiones IPS |
+| **106** | `homeassistant` | Debian 13 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.10` | Domótica | Servidor Smart Home, Zigbee & Sensores ESP32 |
+| **107** | `n8n` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.13` | Automatización | Orquestación de Flujos de Trabajo & SOAR |
+| **110** | `ollama` | Debian 13 | 4 | 2.048 MB | `local-lvm:16G` | `192.168.1.110` | IA Local | Motor LLM en GPU (Qwen2.5-Coder & DeepSeek-R1) |
+| **111** | `openwebui` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.111` | IA Local | Interfaz Web IA conectada a Ollama |
+| **112** | `paperless` | Debian 13 | 2 | 768 MB | `local-lvm:20G` | `192.168.1.16` | Storage / DMS | Gestión Documental & Reconocimiento OCR Tesseract |
+| **113** | `minio` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.17` | Storage | Servidor de Almacenamiento de Objetos S3 |
+| **114** | `transmission` | Alpine 3.24 | 1 | 256 MB | `local-lvm:8G` | `192.168.1.19` | Multimedia | Cliente BitTorrent Aislado |
+| **115** | `kavita` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.20` | Multimedia | Lector Digital de Libros, Cómics y Manga |
+| **116** | `stirling` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.21` | Herramientas | Suite Completa de Manipulación de PDF Offline |
+| **117** | `meilisearch` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.22` | Búsqueda | Motor de Búsqueda de Texto Completo Ultrarrápido |
+| **118** | `vector` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.23` | Monitoreo | Enrutador y Agregador de Logs en Rust |
+| **119** | `whisper` | Debian 13 | 2 | 1.024 MB | `local-lvm:8G` | `192.168.1.24` | IA Local | API de Transcripción de Voz Speech-to-Text CUDA |
+| **130** | `searxng` | Alpine 3.24 | 2 | 256 MB | `local-lvm:4G` | `192.168.1.25` | Privacidad | Metabuscador Agregado sin Rastreo |
+| **131** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.26` | IA Local | Constructor Visual de Agentes y Flujos LLM |
+| **132** | `netalertx` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.27` | Seguridad | Detector de Intrusos en Red Wi-Fi / LAN |
+| **133** | `rustdesk` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.28` | Remoto | Servidor Retransmisor de Escritorio Remoto Rust |
+| **134** | `audiobookshelf` | Alpine 3.24 | 2 | 256 MB | `local-lvm:4G` | `192.168.1.29` | Multimedia | Servidor de Audiolibros y Podcasts con Sincronización |
+| **135** | `tubearchivist` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.30` | Multimedia | Archivo y Reproducción Offline de Canales de YouTube |
+| **136** | `kopia` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.31` | Backup | Copias de Seguridad Cifradas con Deduplicación |
+| **137** | `wgeasy` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.32` | VPN | Portal Web Simple para WireGuard |
+| **138** | `calibreweb` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.33` | Multimedia | Biblioteca Digital de Libros Calibre |
+| **140** | `codeserver` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.40` | Desarrollo | Entorno Completo VS Code en Navegador Web |
+| **141** | `pgadmin` | Alpine 3.24 | 1 | 192 MB | `local-lvm:4G` | `192.168.1.41` | Base Datos | Interfaz de Administración Visual PostgreSQL |
+| **142** | `cyberchef` | Alpine 3.24 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.42` | DFIR / Cripto | Navaja Suiza de Criptoanálisis y Decodificación |
+| **143** | `drawio` | Alpine 3.24 | 1 | 96 MB | `local-lvm:2G` | `192.168.1.43` | Arquitectura | Editor de Diagramas Técnicos y Topologías de Red |
+| **144** | `dozzle` | Alpine 3.24 | 1 | 48 MB | `local-lvm:2G` | `192.168.1.44` | Monitoreo | Visualizador en Tiempo Real de Logs de Contenedores |
+| **145** | `kiwix` | Alpine 3.24 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.45` | Conocimiento | Servidor Offline de Wikipedia, ArchWiki & Docs |
+| **146** | `romm` | Alpine 3.24 | 2 | 192 MB | `local-lvm:8G` | `192.168.1.46` | Retrojuegos | Gestor de Colecciones de Videojuegos Retro & ROMs |
+| **147** | `emulatorjs` | Alpine 3.24 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.47` | Retrojuegos | Emulación de Videojuegos Retro vía WebAssembly |
+
+### Catálogo Detallado de Contenedores LXC (Nodo 3 — Apple M1 ARM64 UTM)
+
+| VMID | Nombre de Host | SO Base | vCPU | RAM Asignada | Pool Almacenamiento | IP Estática | Categoría | Servicio Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **104** | `scrutiny` | Debian 13 | 1 | 128 MB | `local:4G` | `192.168.64.104` | Monitoreo | Telemetría S.M.A.R.T. de Salud de Discos Duros |
+| **105** | `uptimekuma` | Debian 13 | 1 | 128 MB | `local:4G` | `192.168.64.105` | Monitoreo | Monitoreo de Disponibilidad de Servicios & SLA |
+| **107** | `monitoring` | Debian 13 | 2 | 384 MB | `local:8G` | `192.168.64.107` | Monitoreo | Prometheus TSDB & Cuadros de Mando Grafana |
+| **109** | `gitea` | Debian 13 | 2 | 160 MB | `local:16G` | `192.168.64.109` | Desarrollo | Forge Git Autoalojado & Revisión de Código |
+| **111** | `woodpecker` | Debian 13 | 2 | 192 MB | `local:8G` | `192.168.64.111` | CI/CD | Motor de Compilación Automatizada Woodpecker CI |
+| **118** | `tempo` | Debian 13 | 2 | 256 MB | `local:8G` | `192.168.64.118` | Monitoreo | Backend de Rastreo Distribuido Grafana Tempo |
+| **120** | `gatus` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.120` | Monitoreo | Panel Automatizado de Estado de Servicios en Go |
+| **121** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.121` | Alertas | Hub de Notificaciones Push Privadas en Móvil |
+| **122** | `linkding` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.122` | Automatización | Gestor de Marcadores Web & Búsqueda Técnica |
+| **123** | `stepca` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.123` | Seguridad | Autoridad PKI Interna & Automatización TLS ACME |
+| **124** | `tailscale-arm` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.124` | VPN | Enrutador de Subred Tailscale (Segmento ARM64) |
+| **125** | `beszel` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.125` | Monitoreo | Telemetría de Sistema en Alta Resolución (1s) |
+| **134** | `homepage` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.134` | Dashboard | Tablero de Inicio Unificado para todo el Homelab |
+| **135** | `speedtest` | Alpine 3.24 | 1 | 96 MB | `local:1G` | `192.168.64.135` | Monitoreo | Telemetría Automatizada de Ancho de Banda y Jitter |
+| **136** | `memos` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.136` | Notas | Notas Rápidas Markdown & Microblogging |
+| **137** | `wallos` | Alpine 3.24 | 1 | 48 MB | `local:1G` | `192.168.64.137` | Finanzas | Rastreador de Gastos y Suscripciones Recurrentes |
+| **138** | `syncthing` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.138` | Storage | Sincronización Continua de Archivos P2P |
+| **139** | `microbin` | Alpine 3.24 | 1 | 16 MB | `local:1G` | `192.168.64.139` | Seguridad | Pastebin Cifrado con Autodestrucción en Rust |
+| **140** | `vikunja` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.140` | Tareas | Gestor de Proyectos y Tareas Kanban |
+| **141** | `blackbox` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.141` | Monitoreo | Sondas Prometheus (ICMP / Puertos / Expiración SSL) |
+| **142** | `yourspotify` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.142` | Estadísticas | Historial de Reproducción Privado & Estadísticas |
+| **143** | `webcheck` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.143` | OSINT | Escáner OSINT de Seguridad y Análisis de Dominios |
+| **144** | `opengist` | Alpine 3.24 | 1 | 48 MB | `local:1G` | `192.168.64.144` | Desarrollo | Almacenamiento Privado de Fragmentos de Código |
+| **145** | `flatnotes` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.145` | Notas | Editor Minimalista de Notas Markdown en Archivo |
+| **146** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.146` | Alertas | Retransmisor de Notificaciones Nativas Apple iOS |
+| **147** | `shiori` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.147` | Storage | Archivado Limpio de Páginas Web en Texto Plano |
+| **148** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.148` | Privacidad | Proxy Privado de Búsqueda de Google sin Tracking |
+| **149** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.149` | Dashboard | Página de Inicio Minimalista para Navegador |
 
 ---
 

@@ -138,20 +138,78 @@ flowchart TD
 
 ### Catalog Containere LXC
 
+### Catalog Detaliat Containere LXC (Nodul 1 — x86_64 Primar)
+
 | VMID | Nume Gazdă | SO Bază | vCPU | RAM Alocat | Pool Stocare | IP Static | Categorie Subsistem | Serviciu Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `nginx` | Alpine 3.20 | 1 | 112 MB | `local-lvm:3G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + CrowdSec Bouncer |
-| **101** | `pihole` | Alpine 3.20 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.4` | DNS | DNS Sinkhole Intern Primar |
-| **102** | `tailscale` | Alpine 3.20 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.5` | VPN | Ruter Mesh WireGuard Subnet |
-| **103** | `immich` | Debian 12 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.6` | Stocare / AI | Galerie Foto + Recunoaștere Facială ML |
-| **104** | `nextcloud` | Debian 12 | 2 | 512 MB | `local-lvm:16G` | `192.168.1.7` | Stocare | Cloud de Fișiere Enterprise & Sincronizare WebDAV |
-| **105** | `crowdsec` | Alpine 3.20 | 1 | 96 MB | `local-lvm:2G` | `192.168.1.8` | Securitate | Agent Securitate Cibernetică & Motor Decizii |
-| **106** | `homeassistant` | Debian 12 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.9` | Automatizare | Hub Smart Home, Telemetrie Zigbee & ESP32 |
-| **107** | `n8n` | Alpine 3.20 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.10` | Automatizare | Orchestrare Fluxuri de Lucru & Playbook-uri SOAR |
-| **108** | `authentik` | Debian 12 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.11` | Securitate | Forward Auth, Passkeys & FIDO2 Identity Provider |
-| **109** | `media-suite` | Debian 12 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.12` | Media | Server Media Jellyfin cu Transcodare VAAPI/NVENC |
-| **110** | `ollama` | Debian 13 | 4 | 2.048 MB | `local-lvm:16G` | `192.168.1.110` | AI Local | Rulare Modele LLM pe GPU (Qwen2.5-Coder & Llama-3.2) |
-| **118** | `tempo` | Alpine 3.20 | 2 | 256 MB | `local-lvm:8G` | `192.168.64.118` | Monitorizare | Backend Tracing Distribuit Grafana Tempo |
+| **100** | `nginx` | Debian 13 | 2 | 112 MB | `local-lvm:4G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + CrowdSec Bouncer |
+| **101** | `pihole` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.4` | DNS | DNS Sinkhole Intern Primar & Resolver Local |
+| **102** | `tailscale` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.5` | VPN | Ruter Mesh WireGuard Subnet Principal |
+| **103** | `immich` | Debian 13 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.15` | Stocare / AI | Galerie Foto + Recunoaștere Facială ML |
+| **104** | `nextcloud` | Debian 13 | 2 | 512 MB | `local-lvm:20G` | `192.168.1.8` | Stocare | Cloud de Fișiere Enterprise & Sincronizare WebDAV |
+| **105** | `crowdsec` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.9` | Securitate | Agent Securitate Cibernetică & Motor Decizii |
+| **106** | `homeassistant` | Debian 13 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.10` | Automatizare | Hub Smart Home, Telemetrie Zigbee & ESP32 |
+| **107** | `n8n` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.13` | Automatizare | Orchestrare Fluxuri de Lucru & Playbook-uri SOAR |
+| **110** | `ollama` | Debian 13 | 4 | 2.048 MB | `local-lvm:16G` | `192.168.1.110` | AI Local | Rulare Modele LLM pe GPU (Qwen2.5-Coder & DeepSeek-R1) |
+| **111** | `openwebui` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.111` | AI Local | Interfață Web AI conectată la Ollama |
+| **112** | `paperless` | Debian 13 | 2 | 768 MB | `local-lvm:20G` | `192.168.1.16` | Stocare / DMS | Management Documente & Recunoaștere Text Tesseract OCR |
+| **113** | `minio` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.17` | Stocare | Server Obiecte S3 Compatibil AWS |
+| **114** | `transmission` | Alpine 3.24 | 1 | 256 MB | `local-lvm:8G` | `192.168.1.19` | Media | Client BitTorrent Izolat |
+| **115** | `kavita` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.20` | Media | Reader Cărți Digitale, Benzi Desenate & Manga |
+| **116** | `stirling` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.21` | Utilitare | Suită Manipulare și Prelucrare PDF Offline |
+| **117** | `meilisearch` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.22` | Căutare | Motor Rapid de Căutare Full-Text Intern |
+| **118** | `vector` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.23` | Monitorizare | Rutare și Agregare Loguri în Rust |
+| **119** | `whisper` | Debian 13 | 2 | 1.024 MB | `local-lvm:8G` | `192.168.1.24` | AI Local | API Transcriere Vocală Speech-to-Text CUDA |
+| **130** | `searxng` | Alpine 3.24 | 2 | 256 MB | `local-lvm:4G` | `192.168.1.25` | Intimitate | Motor Agregator de Căutare fără Tracking |
+| **131** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.26` | AI Local | Constructor Vizual de Agenți și Fluxuri LLM |
+| **132** | `netalertx` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.27` | Securitate | Scaner Intruși Wi-Fi & Dispozitive Noi în Rețea |
+| **133** | `rustdesk` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.28` | Remote | Server Releu Remote Desktop în Rust |
+| **134** | `audiobookshelf` | Alpine 3.24 | 2 | 256 MB | `local-lvm:4G` | `192.168.1.29` | Media | Server Audiobooks & Podcasturi cu Sincronizare |
+| **135** | `tubearchivist` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.30` | Media | Arhivare Canale YouTube & Redare Offline |
+| **136** | `kopia` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.31` | Backup | Backup Criptat cu Deduplicare și Snapshot-uri |
+| **137** | `wgeasy` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.32` | VPN | Portal de Gestiune Rapidă Conexiuni WireGuard |
+| **138** | `calibreweb` | Alpine 3.24 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.33` | Media | Interfață Web Bibliotecă Cărți Calibre |
+| **140** | `codeserver` | Alpine 3.24 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.40` | Dezvoltare | Mediu Complet Visual Studio Code în Browser |
+| **141** | `pgadmin` | Alpine 3.24 | 1 | 192 MB | `local-lvm:4G` | `192.168.1.41` | Baze Date | Interfață Vizuală Administrare PostgreSQL |
+| **142** | `cyberchef` | Alpine 3.24 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.42` | DFIR / Crypto | Criptanaliză, Decodare & Deobfuscare |
+| **143** | `drawio` | Alpine 3.24 | 1 | 96 MB | `local-lvm:2G` | `192.168.1.43` | Arhitectură | Editor Diagrame Tehnice și Scheme de Rețea Offline |
+| **144** | `dozzle` | Alpine 3.24 | 1 | 48 MB | `local-lvm:2G` | `192.168.1.44` | Monitorizare | Vizualizator Live Loguri Containere |
+| **145** | `kiwix` | Alpine 3.24 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.45` | Cunoștințe | Server Offline Wikipedia, ArchWiki & StackOverflow |
+| **146** | `romm` | Alpine 3.24 | 2 | 192 MB | `local-lvm:8G` | `192.168.1.46` | Media / Jocuri | Manager Colecții Jocuri Retro & ROM-uri |
+| **147** | `emulatorjs` | Alpine 3.24 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.47` | Media / Jocuri | Rulare Jocuri Retro în Browser prin WebAssembly |
+
+### Catalog Detaliat Containere LXC (Nodul 3 — Apple M1 ARM64 UTM)
+
+| VMID | Nume Gazdă | SO Bază | vCPU | RAM Alocat | Pool Stocare | IP Static | Categorie Subsistem | Serviciu Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **104** | `scrutiny` | Debian 13 | 1 | 128 MB | `local:4G` | `192.168.64.104` | Monitorizare | Telemetrie S.M.A.R.T. Sănătate Discuri Stocare |
+| **105** | `uptimekuma` | Debian 13 | 1 | 128 MB | `local:4G` | `192.168.64.105` | Monitorizare | Monitorizare Disponibilitate Servicii & SLA |
+| **107** | `monitoring` | Debian 13 | 2 | 384 MB | `local:8G` | `192.168.64.107` | Monitorizare | Prometheus TSDB & Tablouri Grafana Centrale |
+| **109** | `gitea` | Debian 13 | 2 | 160 MB | `local:16G` | `192.168.64.109` | Dezvoltare | Forge Git Self-Hosted & Revizuire Cod |
+| **111** | `woodpecker` | Debian 13 | 2 | 192 MB | `local:8G` | `192.168.64.111` | CI/CD | Motor Build-uri Automate Woodpecker CI |
+| **118** | `tempo` | Debian 13 | 2 | 256 MB | `local:8G` | `192.168.64.118` | Monitorizare | Backend Tracing Distribuit Grafana Tempo |
+| **120** | `gatus` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.120` | Monitorizare | Tablou Automat Sănătate Servicii în Go |
+| **121** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.121` | Alerte | Hub Notificări Push Private pe Telefon |
+| **122** | `linkding` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.122` | Automatizare | Manager Marcaje Web & Căutare Tehnică |
+| **123** | `stepca` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.123` | Securitate | Autoritate PKI Internă & Automatizare ACME TLS |
+| **124** | `tailscale-arm` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.124` | VPN | Ruter Subnet Tailscale (Segment ARM64) |
+| **125** | `beszel` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.125` | Monitorizare | Telemetrie Sistem de Înaltă Rezoluție (1s) |
+| **134** | `homepage` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.134` | Dashboard | Tablou de Bord Unificat Homelab |
+| **135** | `speedtest` | Alpine 3.24 | 1 | 96 MB | `local:1G` | `192.168.64.135` | Monitorizare | Telemetrie Viteză, Jitter și Latență Internet |
+| **136** | `memos` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.136` | Note | Notițe Rapide Markdown & Micro-Jurnal |
+| **137** | `wallos` | Alpine 3.24 | 1 | 48 MB | `local:1G` | `192.168.64.137` | Finanțe | Monitorizare Cheltuieli și Abonamente Lunare |
+| **138** | `syncthing` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.138` | Stocare | Sincronizare Continuă Fișiere P2P |
+| **139** | `microbin` | Alpine 3.24 | 1 | 16 MB | `local:1G` | `192.168.64.139` | Securitate | Pastebin Criptat cu Autodistrugere în Rust |
+| **140** | `vikunja` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.140` | Sarcini | Management Sarcini & Proiecte Kanban |
+| **141** | `blackbox` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.141` | Monitorizare | Sonde Prometheus (ICMP / Porturi / Expirare SSL) |
+| **142** | `yourspotify` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.142` | Analitice | Istoric Muzical Privat & Statistici Spotify |
+| **143** | `webcheck` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.143` | OSINT | Scaner Securitate OSINT & Verificare Domenii |
+| **144** | `opengist` | Alpine 3.24 | 1 | 48 MB | `local:1G` | `192.168.64.144` | Dezvoltare | Stocare și Partajare Privată Fragmente de Cod |
+| **145** | `flatnotes` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.145` | Note | Editor Minimalist Note Markdown Fără Baze de Date |
+| **146** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.146` | Alerte | Releu Notificări Native Apple iOS |
+| **147** | `shiori` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.147` | Stocare | Arhivare Pagini Web în Text Curat |
+| **148** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.148` | Intimitate | Căutare Google Privată Fără Reclame și Fără Tracking |
+| **149** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.149` | Dashboard | Startpage Minimalist Rapid pentru Browser |
 
 ### Mașini Virtuale QEMU / KVM
 
