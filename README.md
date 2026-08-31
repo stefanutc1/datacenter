@@ -352,28 +352,89 @@ Located in `scripts/`, a consolidated suite of shell scripts, Perl/Ruby utilitie
 
 ## Cyber Proving Ground & SOC/SIEM Operations
 
-The `cyber/` directory serves as an isolated testbed and continuous security monitoring center:
+The `cyber/` directory serves as an isolated testbed, enterprise security operations center (SOC/SIEM), and digital forensics / malware analysis laboratory (DFIR):
 
 ```mermaid
 flowchart LR
-    Nodes["Workloads & Hypervisor"] -->|Log Forwarding / Syslog| Suricata["Suricata NIDS<br/>(Network Threat Detection)"]
-    Nodes -->|Wazuh Agent :1514| Wazuh["Wazuh Manager 4.8<br/>(HIDS & Compliance)"]
-    Suricata -->|EVE JSON| Loki["Grafana Loki"]
-    Wazuh -->|Security Events| Grafana["Grafana SOC Dashboards"]
-    Loki --> Grafana
-    
-    subgraph OffensiveTesting["Emulation & Defense Testing"]
-        Atomic["Atomic Red Team (T1059, T1082)"]
-        BloodHound["BloodHound AD Analysis"]
-        Semgrep["Semgrep Static Analysis"]
+    subgraph Endpoints["Endpoints & Directory Services"]
+        WinAD["Windows Server 2025<br/>Active Directory (AD DS) • Sysmon"]
+        LinuxNodes["Linux Workloads<br/>Debian • Ubuntu • Alpine • Arch"]
+        VMs["Virtual Machines (KVM / Proxmox)"]
     end
-    
-    OffensiveTesting -.->|Simulated Attacks| Nodes
+
+    subgraph Perimeter["Perimeter & Network Telemetry"]
+        OPN["OPNsense Firewall & TCP/IP Routing"]
+        NIDS["Suricata & Snort IDS/IPS"]
+        Capture["Wireshark & tcpdump (SPAN Mirror)"]
+    end
+
+    subgraph SIEM_SOC["SIEM, EDR & Log Pipelines"]
+        Wazuh["Wazuh Manager 4.8 (SIEM / XDR / EDR)"]
+        SIEMs["Splunk • Elastic (ELK) • MS Sentinel Connectors"]
+        Loki["Grafana Loki & SOC Dashboards"]
+    end
+
+    subgraph Detection["Detection Engineering & Threat Intel"]
+        Rules["Sigma Rules • YARA Signatures"]
+        Intel["MISP Threat Sharing • CyberChef"]
+    end
+
+    subgraph DFIR["Digital Forensics & Reverse Engineering"]
+        Forensics["Autopsy (Disk) • Volatility (Memory)"]
+        Reversing["Ghidra • IDA Pro • x64dbg"]
+    end
+
+    subgraph OffSec["Offensive Testing & Vulnerability Assessment"]
+        Scanners["Nmap • Nessus • OpenVAS • Burp Suite"]
+        AdTesting["Atomic Red Team (MITRE) • BloodHound"]
+    end
+
+    Endpoints -->|Sysmon / Auditd Logs| Wazuh
+    Endpoints -->|PowerShell / Python / Git| Detection
+    Perimeter -->|Packet Flow & EVE JSON| SIEM_SOC
+    Wazuh --> SIEMs
+    Wazuh --> Loki
+    OffSec -.->|Assessment & Emulation| Endpoints
+    DFIR -.->|Artifact Analysis| Detection
 ```
 
-* **Wazuh 4.8 SIEM**: Endpoint visibility, file integrity monitoring (FIM), vulnerability assessment.
-* **Suricata NIDS**: Deep packet inspection against the Emerging Threats (ET) open ruleset on OPNsense gateway.
-* **Offensive Emulation**: MITRE ATT&CK test patterns via Atomic Red Team for detection validation.
+### Comprehensive Cybersecurity & DFIR Toolchain:
+
+1. **Operating Systems & Virtualization**:
+   - **Windows Server 2025 Datacenter**: Active Directory Domain Services (AD DS), Group Policy Objects (GPO), and enterprise identity lifecycle.
+   - **Linux Ecosystem**: Hardened Debian 12, Ubuntu 24.04 LTS, Alpine Linux, and Arch Linux workloads.
+   - **Virtual Machines & Isolation**: Proxmox VE KVM, Apple Silicon UTM, and VLAN-isolated proving grounds.
+
+2. **Networking & Deep Packet Inspection**:
+   - **TCP/IP Protocol Analysis**: L2/L3 stateful routing, promiscuous SPAN port mirroring, and 802.1Q VLAN segmentation.
+   - **Packet Capture & Traffic Inspection**: `Wireshark` GUI analysis and command-line `tcpdump` automated capture ring buffers.
+   - **Network Intrusion Detection/Prevention (IDS/IPS)**: `Suricata` and `Snort` running inline on the OPNsense perimeter with Emerging Threats (ET) rulesets.
+
+3. **SIEM, EDR & Telemetry Ingestion**:
+   - **Wazuh 4.8 Manager (SIEM/XDR)**: Centralized agent event ingestion, File Integrity Monitoring (FIM), and automated remediation.
+   - **Enterprise SIEM Integration**: Log pipelines and forwarders formatted for **Splunk**, **Elastic (ELK Stack)**, and **Microsoft Sentinel**.
+   - **Endpoint Detection & Response (EDR)**: Fine-grained process trees, command-line arguments, and network socket auditing.
+
+4. **Threat Intelligence & Detection Engineering**:
+   - **Sysmon**: Microsoft System Monitor XML configs capturing process creation (EID 1), network connects (EID 3), and raw access reads.
+   - **Sigma Rules**: Generic, open signature formats converted to Wazuh and Elasticsearch queries.
+   - **YARA Rules**: Binary pattern matching and malware artifact identification across filesystem scans.
+   - **MISP & Threat Sharing**: Malware Information Sharing Platform integration for automated IoC ingestion.
+
+5. **Offensive Security & Vulnerability Assessment**:
+   - **Network & Service Reconnaissance**: `Nmap` NSE scripts for port, OS, and service fingerprinting.
+   - **Vulnerability Scanning**: `Nessus` and `OpenVAS` (Greenbone Vulnerability Management) policy audits.
+   - **Web Application Security**: `Burp Suite Professional / Community` for proxying, API assessment, and parameter fuzzing.
+   - **Identity & MITRE ATT&CK**: `BloodHound` for Active Directory attack path mapping and `Atomic Red Team` test automation.
+
+6. **Digital Forensics & Reverse Engineering (DFIR)**:
+   - **Memory Forensics**: `Volatility 3` for kernel memory dump triage, process injection detection, and mutex extraction.
+   - **Disk & Artifact Analysis**: `Autopsy` and The Sleuth Kit (TSK) for timeline reconstruction and metadata recovery.
+   - **Binary Decompilation & Disassembly**: `Ghidra` (NSA software reverse engineering framework) and `IDA Pro`.
+   - **Dynamic Debugging**: `x64dbg` for x86/x64 assembly instruction stepping and runtime breakpoint inspection.
+
+7. **Scripting, Automation & SCM**:
+   - Automated triage collectors, detection scripts, and custom tooling built with **PowerShell Core**, **Python 3.12** (`FastAPI`, `Scapy`, `pefile`), and version-controlled via **Git**.
 
 ---
 

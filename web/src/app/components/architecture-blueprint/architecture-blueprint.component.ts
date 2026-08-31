@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
           Cluster Architecture Blueprint
         </h2>
         <p class="text-sm text-sand-300 max-w-3xl font-sans">
-          Technical specifications for VLAN isolation, hypervisor RAM allocation budgets, storage routing, and AI fallback cascades.
+          Technical specifications for VLAN isolation, cyber defense toolchains, digital forensics (DFIR), hypervisor RAM allocation budgets, and AI fallback cascades.
         </p>
       </div>
 
@@ -32,6 +32,17 @@ import { CommonModule } from '@angular/common';
           class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
         >
           VLAN SEGMENTATION MATRIX
+        </button>
+        <button
+          (click)="activeTab = 'cyber'"
+          [class.bg-terracotta-500]="activeTab === 'cyber'"
+          [class.text-sand-50]="activeTab === 'cyber'"
+          [class.font-bold]="activeTab === 'cyber'"
+          [class.text-sand-300]="activeTab !== 'cyber'"
+          [class.bg-[#1c1611]]="activeTab !== 'cyber'"
+          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
+        >
+          CYBER & DFIR FORENSICS STACK
         </button>
         <button
           (click)="activeTab = 'memory'"
@@ -89,7 +100,43 @@ import { CommonModule } from '@angular/common';
         </div>
       }
 
-      <!-- TAB 2: RAM BUDGETS -->
+      <!-- TAB 2: CYBER & DFIR FORENSICS STACK -->
+      @if (activeTab === 'cyber') {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
+          @for (pillar of cyberPillars; track pillar.title) {
+            <div class="p-6 rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl space-y-3.5 flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between border-b border-clay-700/30 pb-3">
+                  <h3 class="font-sans font-bold text-sand-50 text-sm tracking-wide">
+                    {{ pillar.title }}
+                  </h3>
+                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-terracotta-500/15 text-terracotta-400 border border-terracotta-500/30 uppercase">
+                    {{ pillar.badge }}
+                  </span>
+                </div>
+
+                <p class="text-xs text-sand-300 leading-relaxed font-sans">
+                  {{ pillar.description }}
+                </p>
+
+                <!-- Tools List -->
+                <div class="space-y-1.5 pt-1">
+                  <div class="text-[10px] font-mono text-sand-400 uppercase tracking-wider">Technologies & Tooling</div>
+                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    @for (tool of pillar.tools; track tool) {
+                      <span class="px-2 py-0.5 rounded bg-[#241c15] border border-clay-700/40 text-sand-200">
+                        {{ tool }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- TAB 3: RAM BUDGETS -->
       @if (activeTab === 'memory') {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
           @for (b of memoryBudgets; track b.node) {
@@ -124,7 +171,7 @@ import { CommonModule } from '@angular/common';
         </div>
       }
 
-      <!-- TAB 3: AI CASCADE -->
+      <!-- TAB 4: AI CASCADE -->
       @if (activeTab === 'ai') {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
           @for (c of eloCascade; track c.tier) {
@@ -148,7 +195,7 @@ import { CommonModule } from '@angular/common';
   `
 })
 export class ArchitectureBlueprintComponent {
-  activeTab: 'vlan' | 'memory' | 'ai' = 'vlan';
+  activeTab: 'vlan' | 'cyber' | 'memory' | 'ai' = 'vlan';
 
   vlanMatrix = [
     {
@@ -169,10 +216,10 @@ export class ArchitectureBlueprintComponent {
     },
     {
       id: 'VLAN 30',
-      name: 'Cyber Security & Sandboxes',
+      name: 'Cyber Security & Sandboxes (CyberLab)',
       subnet: '192.168.30.0/24',
       gateway: '192.168.1.132:8443',
-      nodes: 'Wazuh XDR SIEM (1514), Suricata NIDS, Kali Offensive VM',
+      nodes: 'Wazuh XDR SIEM (1514), Suricata & Snort IDS/IPS, Kali & Remnux DFIR VMs',
       firewallPolicy: 'Promiscuous SPAN mirror port, no outbound WAN access for sandboxes'
     },
     {
@@ -185,6 +232,57 @@ export class ArchitectureBlueprintComponent {
     }
   ];
 
+  cyberPillars = [
+    {
+      title: 'Operating Systems & Virtualization',
+      badge: 'Compute & AD',
+      description: 'Bare-metal virtualization and isolated testbeds hosting enterprise domain infrastructure and offensive/defensive virtual machines.',
+      tools: ['Windows Server 2025', 'Active Directory (AD DS)', 'Group Policy (GPO)', 'Linux (Debian / Ubuntu / Alpine / Arch)', 'Virtual Machines (KVM / Proxmox / UTM)']
+    },
+    {
+      title: 'Networking & Packet Analysis',
+      badge: 'Network & DPI',
+      description: 'L2/L3 segmentation, stateful traffic filtering, promiscuous port mirroring, packet inspection, and protocol analysis.',
+      tools: ['Networking TCP/IP', 'Wireshark', 'tcpdump', 'VLAN 802.1Q', 'WireGuard VPN', 'OPNsense Firewall']
+    },
+    {
+      title: 'SIEM & Log Aggregation',
+      badge: 'SOC & Telemetry',
+      description: 'Centralized security event ingestion, real-time alert correlation, compliance monitoring, and integration with modern enterprise SIEMs.',
+      tools: ['Wazuh Manager (SIEM/XDR)', 'Splunk', 'Elastic (ELK Stack)', 'Microsoft Sentinel', 'Grafana Loki']
+    },
+    {
+      title: 'Endpoint & Perimeter Defense',
+      badge: 'EDR / IDS / IPS',
+      description: 'Host-based monitoring, process creation tracking, deep packet inspection, and real-time network anomaly blocking.',
+      tools: ['EDR Telemetry', 'Suricata IDS/IPS', 'Snort', 'Sysmon (Windows)', 'CrowdSec Agent', 'Auditd FIM']
+    },
+    {
+      title: 'Vulnerability & Web Assessment',
+      badge: 'Offensive Testing',
+      description: 'Port scanning, network vulnerability identification, web application penetration testing, and identity path mapping.',
+      tools: ['Nmap', 'Nessus', 'OpenVAS', 'Burp Suite', 'BloodHound', 'Atomic Red Team (MITRE ATT&CK)']
+    },
+    {
+      title: 'Threat Intel & Detection Rules',
+      badge: 'Detection Eng.',
+      description: 'Structured threat sharing, automated indicator of compromise (IoC) extraction, and vendor-agnostic detection signatures.',
+      tools: ['Sigma Rules', 'YARA Rules', 'MISP Threat Sharing', 'Snort Rulesets', 'CyberChef']
+    },
+    {
+      title: 'Digital Forensics & Malware Analysis',
+      badge: 'DFIR & Reverse Eng.',
+      description: 'Air-gapped triage environment for memory acquisition, disk artifact analysis, binary disassembly, and dynamic debugging.',
+      tools: ['Volatility (Memory Triage)', 'Autopsy (Disk Forensics)', 'Ghidra (NSA Decompiler)', 'IDA Pro', 'x64dbg', 'PEStudio']
+    },
+    {
+      title: 'Automation, Scripting & SCM',
+      badge: 'SecOps & DevSecOps',
+      description: 'Automated threat hunting agents, incident response playbooks, triage collectors, and version-controlled configuration.',
+      tools: ['PowerShell Core', 'Python 3.12 (FastAPI / Scapy)', 'Git', 'Ansible Hardening Playbooks', 'Woodpecker CI']
+    }
+  ];
+
   memoryBudgets = [
     {
       node: 'Node 1 — Proxmox Primary (x86_64 Core)',
@@ -192,8 +290,8 @@ export class ArchitectureBlueprintComponent {
       allocatedRam: '7,808 MB',
       usagePercent: 95,
       breakdown: [
-        { name: 'Windows Server 2025 (VM 201)', ram: '4,096 MB' },
-        { name: 'OPNsense Firewall (VM 200)', ram: '1,024 MB' },
+        { name: 'Windows Server 2025 (VM 201 · Active Directory)', ram: '4,096 MB' },
+        { name: 'OPNsense Firewall (VM 200 · Suricata/Snort)', ram: '1,024 MB' },
         { name: 'Immich Photos AI (CT 103)', ram: '896 MB' },
         { name: 'Jellyfin Media Suite (CT 109)', ram: '896 MB' },
         { name: 'Home Assistant Core (CT 106)', ram: '384 MB' },

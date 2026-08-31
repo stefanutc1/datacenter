@@ -63,7 +63,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#d06332',
     icon: 'opnsense',
     hardware: { node: 'Node 1 (x86_64)', ram: '1,024 MB', storage: '32 GB ZFS' },
-    role: 'Stateful firewall, Suricata IDS/IPS, WireGuard site-to-site & VLAN routing',
+    role: 'Stateful firewall, Suricata & Snort IDS/IPS, TCP/IP routing, tcpdump capture, WireGuard & VLAN isolation',
     connections: ['node1-pve', 'node3-arm', 'node2-omv', 'k8s-node4', 'npm-ingress', 'wazuh-siem']
   },
 
@@ -83,7 +83,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#8da3b8',
     icon: 'proxmox',
     hardware: { node: 'Intel Core i5-6500T', ram: '8,192 MB DDR4', storage: '512 GB SSD' },
-    role: 'Primary virtualization host for core services, OPNsense and Windows Server 2025',
+    role: 'Primary virtualization host for core services, OPNsense and Windows Server 2025 Active Directory VM',
     connections: ['win-server', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'n8n-auto', 'vaultwarden-core']
   },
   {
@@ -101,7 +101,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#a87db8',
     icon: 'utm',
     hardware: { node: 'Apple M1 (8 Core GPU)', ram: '4,096 MB Dedicated', storage: '256 GB NVMe' },
-    role: 'Secondary ARM64 hypervisor hosting CI/CD, Git, telemetry and utility LXCs',
+    role: 'Secondary ARM64 hypervisor hosting Linux LXCs, Git, CI/CD, Python automation and ELO telemetry',
     connections: ['gitea-forge', 'woodpecker-ci', 'grafana-dash', 'prometheus-tsdb', 'trilium-notes', 'actualbudget-app']
   },
   {
@@ -194,7 +194,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#8da3b8',
     icon: 'windows',
     hardware: { node: 'Node 1 (x86_64)', ram: '4,096 MB', storage: '64 GB' },
-    role: 'Windows Server 2025 enterprise directory testing, IIS and Group Policy sandbox',
+    role: 'Windows Server 2025 Datacenter VM, Active Directory (AD DS), GPO, PowerShell scripting & Sysmon telemetry',
     connections: ['wazuh-siem']
   },
   {
@@ -304,11 +304,11 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#a87db8',
     icon: 'python',
     hardware: { node: 'Node 3 (Apple M1)', ram: '1,024 MB', storage: '10 GB' },
-    role: 'Autonomous AI orchestration engine, multi-provider model fallback, and natural cluster assistant',
+    role: 'Autonomous AI orchestration engine, multi-provider model fallback (Gemini, Groq, Ollama), Python agent tools and cluster assistant',
     connections: ['gitea-forge', 'homeassistant-core', 'wazuh-siem', 'opnsense-gw']
   },
 
-  // TIER 6: OBSERVABILITY & SIEM
+  // TIER 6: OBSERVABILITY, SIEM & DFIR FORENSICS
   {
     id: 'wazuh-siem',
     name: 'Wazuh XDR & SIEM',
@@ -323,9 +323,26 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#d06332',
     icon: 'wazuh',
-    hardware: { node: 'Security Subnet', ram: '2,048 MB', storage: '50 GB' },
-    role: 'Host intrusion detection, log integrity verification and incident response telemetry',
+    hardware: { node: 'VLAN 30 Security Subnet', ram: '2,048 MB', storage: '50 GB' },
+    role: 'Host intrusion detection, EDR telemetry, Sysmon correlation, Sigma rule alerting, log pipelines (Splunk / Elastic / Sentinel compatible)',
     connections: ['opnsense-gw', 'win-server']
+  },
+  {
+    id: 'dfir-sandbox-node',
+    name: 'DFIR & Malware Lab',
+    sublabel: 'VLAN 30 · Forensics Sandbox',
+    ip: '192.168.30.50',
+    category: 'security',
+    tier: 6,
+    status: 'OPERATIONAL',
+    x: -120,
+    y: 220,
+    z: 130,
+    color: '#d06332',
+    icon: 'kali',
+    hardware: { node: 'Isolated KVM VM', ram: '4,096 MB', storage: '100 GB NVMe' },
+    role: 'Forensics & reverse engineering lab: Volatility, Autopsy, Ghidra, IDA Pro, x64dbg, YARA, Wireshark, tcpdump, Nmap, Nessus, OpenVAS, Burp Suite & MISP',
+    connections: ['wazuh-siem']
   },
   {
     id: 'grafana-dash',

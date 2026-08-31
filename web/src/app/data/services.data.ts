@@ -31,7 +31,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'npm.homelab.local',
     status: 'ONLINE',
     description: 'Reverse proxy management interface, SSL certificate renewal, and load balancer.',
-    color: '#00e5ff',
+    color: '#d4973b',
     icon: 'nginx-proxy-manager',
     composeCode: `services:\n  app:\n    image: 'jc21/nginx-proxy-manager:latest'\n    restart: unless-stopped\n    ports:\n      - '80:80'\n      - '81:81'\n      - '443:443'\n    volumes:\n      - ./data:/data\n      - ./letsencrypt:/etc/letsencrypt`
   },
@@ -48,7 +48,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'vault.homelab.local',
     status: 'ONLINE',
     description: 'Lightweight Rust implementation of the Bitwarden API with zero-knowledge encryption.',
-    color: '#f59e0b',
+    color: '#d06332',
     icon: 'vaultwarden',
     composeCode: `services:\n  vaultwarden:\n    image: vaultwarden/server:latest\n    restart: always\n    environment:\n      - WEBSOCKET_ENABLED=true\n    volumes:\n      - ./vw-data:/data`
   },
@@ -65,7 +65,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'photos.homelab.local',
     status: 'ONLINE',
     description: 'Self-hosted photo and video backup solution with facial recognition and CLIP search.',
-    color: '#10b981',
+    color: '#6e9e75',
     icon: 'immich',
     composeCode: `services:\n  immich-server:\n    image: ghcr.io/immich-app/immich-server:release\n    restart: always\n    volumes:\n      - /mnt/nfs/photos:/usr/src/app/upload`
   },
@@ -82,7 +82,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'cloud.homelab.local',
     status: 'ONLINE',
     description: 'Productivity platform providing file sync, CalDAV calendar, CardDAV contacts and office suite.',
-    color: '#0082c9',
+    color: '#c28b5e',
     icon: 'nextcloud',
     composeCode: `services:\n  nextcloud:\n    image: nextcloud:fpm-alpine\n    restart: always\n    volumes:\n      - nextcloud_data:/var/www/html`
   },
@@ -98,8 +98,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 80,
     domain: 'files.homelab.local',
     status: 'ONLINE',
-    description: 'Ultra-fast web-based file management interface for local and NFS mounted storage pools.',
-    color: '#38bdf8',
+    description: 'Fast web-based file management interface for local and NFS mounted storage pools.',
+    color: '#8da3b8',
     icon: 'filebrowser',
     composeCode: `services:\n  filebrowser:\n    image: filebrowser/filebrowser:v2-alpine\n    restart: always\n    volumes:\n      - /mnt/storage:/srv`
   },
@@ -116,7 +116,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'hass.homelab.local',
     status: 'ONLINE',
     description: 'Central smart home telemetry aggregator, MQTT broker and presence coordinator.',
-    color: '#03a9f4',
+    color: '#d4973b',
     icon: 'homeassistant',
     composeCode: `services:\n  homeassistant:\n    image: ghcr.io/home-assistant/home-assistant:stable\n    network_mode: host\n    restart: unless-stopped`
   },
@@ -132,8 +132,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 5678,
     domain: 'n8n.homelab.local',
     status: 'ONLINE',
-    description: 'Fair-code workflow automation tool connecting webhooks, databases, and alerting pipelines.',
-    color: '#ff6d5a',
+    description: 'Workflow automation engine connecting webhooks, databases, Python scripts, and alerting pipelines.',
+    color: '#d06332',
     icon: 'n8n',
     composeCode: `services:\n  n8n:\n    image: docker.n8n.io/n8nio/n8n\n    restart: always\n    ports:\n      - "5678:5678"`
   },
@@ -150,7 +150,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'auth.homelab.local',
     status: 'ONLINE',
     description: 'Single Sign-On authentication and multi-factor forward protection for web endpoints.',
-    color: '#f59e0b',
+    color: '#d06332',
     icon: 'authelia',
     composeCode: `services:\n  authelia:\n    image: authelia/authelia:latest\n    restart: always\n    volumes:\n      - ./config:/config`
   },
@@ -167,7 +167,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'stream.homelab.local',
     status: 'ONLINE',
     description: 'Open source media system with hardware transcoding and multi-client streaming.',
-    color: '#aa5cc3',
+    color: '#a87db8',
     icon: 'jellyfin',
     composeCode: `services:\n  jellyfin:\n    image: jellyfin/jellyfin:latest\n    restart: unless-stopped\n    volumes:\n      - /mnt/nfs/media:/media`
   },
@@ -185,8 +185,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 3000,
     domain: 'git.homelab.local',
     status: 'ONLINE',
-    description: 'Painless self-hosted Git service providing code hosting, code review, and webhook integration.',
-    color: '#609926',
+    description: 'Self-hosted Git service providing code hosting, code review, and webhook triggers for CI/CD.',
+    color: '#6e9e75',
     icon: 'gitea',
     composeCode: `services:\n  gitea:\n    image: gitea/gitea:latest-rootless\n    restart: always\n    ports:\n      - "3000:3000"\n      - "2222:22"`
   },
@@ -202,8 +202,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 8000,
     domain: 'ci.homelab.local',
     status: 'ONLINE',
-    description: 'Community fork of Drone CI executing automated build, lint, test, and release pipelines.',
-    color: '#00e5ff',
+    description: 'Continuous integration pipeline executing automated testing, linting, and release workflows.',
+    color: '#d4973b',
     icon: 'woodpecker',
     composeCode: `services:\n  woodpecker-server:\n    image: woodpeckerci/woodpecker-server:latest\n    restart: always\n    ports:\n      - "8000:8000"`
   },
@@ -219,8 +219,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 3000,
     domain: 'status.homelab.local',
     status: 'ONLINE',
-    description: 'Unified time-series metrics collection, log aggregation, and real-time visualization.',
-    color: '#f97316',
+    description: 'Unified time-series metrics collection, log aggregation, and real-time visualization dashboards.',
+    color: '#d4973b',
     icon: 'grafana',
     composeCode: `services:\n  prometheus:\n    image: prom/prometheus:latest\n    volumes:\n      - ./prometheus.yml:/etc/prometheus/prometheus.yml\n  grafana:\n    image: grafana/grafana:latest\n    ports:\n      - "3000:3000"`
   },
@@ -237,7 +237,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'budget.homelab.local',
     status: 'ONLINE',
     description: 'Privacy-focused personal finance and zero-based budgeting system.',
-    color: '#a855f7',
+    color: '#a87db8',
     icon: 'actualbudget',
     composeCode: `services:\n  actual:\n    image: actualbudget/actual-server:latest\n    restart: unless-stopped\n    ports:\n      - "5006:5006"`
   },
@@ -254,7 +254,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'notes.homelab.local',
     status: 'ONLINE',
     description: 'Hierarchical note-taking application designed for building large personal knowledge bases.',
-    color: '#00bcd4',
+    color: '#8da3b8',
     icon: 'trilium',
     composeCode: `services:\n  trilium:\n    image: zadam/trilium:latest\n    restart: always\n    ports:\n      - "8080:8080"`
   },
@@ -271,12 +271,12 @@ export const SERVICES_DATA: ServiceItem[] = [
     domain: 'watch.homelab.local',
     status: 'ONLINE',
     description: 'Automated website change detection, price tracking, and content alteration monitoring.',
-    color: '#3b82f6',
+    color: '#8da3b8',
     icon: 'changedetection',
     composeCode: `services:\n  changedetection:\n    image: ghcr.io/dgtlmoon/changedetection.io\n    restart: unless-stopped`
   },
 
-  // Cyber Security & Threat Hunting Suite
+  // Cyber Security, SOC, SIEM & DFIR Forensics Suite
   {
     id: 'wazuh',
     name: 'Wazuh XDR & SIEM',
@@ -289,14 +289,14 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 1514,
     domain: 'siem.homelab.local',
     status: 'ONLINE',
-    description: 'Host intrusion detection, log integrity checking, vulnerability detection and automated response.',
-    color: '#f59e0b',
+    description: 'Host intrusion detection, log integrity verification, vulnerability detection, Sysmon correlation, and automated incident response (compatible with Splunk, Elastic, Sentinel log pipelines).',
+    color: '#d06332',
     icon: 'wazuh',
     composeCode: `services:\n  wazuh-manager:\n    image: wazuh/wazuh-manager:latest\n    ports:\n      - "1514:1514"\n      - "55000:55000"`
   },
   {
     id: 'suricata',
-    name: 'Suricata NIDS/IPS',
+    name: 'Suricata & Snort IDS/IPS',
     category: 'cyber',
     containerName: 'suricata-engine',
     node: 'OPNsense Firewall VM',
@@ -306,10 +306,10 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 0,
     domain: 'ids.homelab.local',
     status: 'ONLINE',
-    description: 'Real-time network threat detection and inline packet inspection engine.',
-    color: '#ef4444',
+    description: 'Real-time network threat detection, deep packet inspection (DPI), Snort/ET ruleset evaluation, and inline TCP/IP traffic filtering.',
+    color: '#d06332',
     icon: 'suricata',
-    composeCode: `# Integrated as hardened daemon inside OPNsense Core Firewall`
+    composeCode: `# Suricata & Snort IDS/IPS running inline on OPNsense Core Firewall`
   },
   {
     id: 'crowdsec',
@@ -323,9 +323,43 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 8080,
     domain: 'crowdsec.homelab.local',
     status: 'ONLINE',
-    description: 'Crowd-sourced behavioral analysis and firewall IP reputation remediation engine.',
-    color: '#6366f1',
+    description: 'Crowd-sourced behavioral analysis, automated IP blocking, and firewall remediation integration.',
+    color: '#a87db8',
     icon: 'crowdsec',
     composeCode: `services:\n  crowdsec:\n    image: crowdsecurity/crowdsec:latest\n    volumes:\n      - /var/log:/var/log:ro`
+  },
+  {
+    id: 'cyberchef',
+    name: 'CyberChef Swiss Army Knife',
+    category: 'cyber',
+    containerName: 'cyberchef',
+    node: 'VLAN 30 · Security Subnet',
+    ram: '64 MB',
+    storage: '1 GB Pool',
+    ip: '192.168.30.15',
+    port: 8000,
+    domain: 'cyberchef.homelab.local',
+    status: 'ONLINE',
+    description: 'Web app for data decoding, de-obfuscation, cryptographic operations, and payload analysis.',
+    color: '#d4973b',
+    icon: 'cyberchef',
+    composeCode: `services:\n  cyberchef:\n    image: mpepping/cyberchef:latest\n    ports:\n      - "8000:80"`
+  },
+  {
+    id: 'dfir-sandbox',
+    name: 'DFIR & Malware Analysis Sandbox',
+    category: 'cyber',
+    containerName: 'forensics-suite',
+    node: 'Isolated VLAN 30 VM',
+    ram: '4,096 MB',
+    storage: '100 GB Isolated NVMe',
+    ip: '192.168.30.50',
+    port: 0,
+    domain: 'dfir.homelab.local',
+    status: 'ONLINE',
+    description: 'Digital Forensics & Reverse Engineering lab equipped with Volatility (memory triage), Autopsy (disk forensics), Ghidra, IDA Pro, x64dbg, YARA rules, Sigma rules, Wireshark, tcpdump, Nmap, Nessus, OpenVAS, Burp Suite, PowerShell, Python, and MISP threat sharing.',
+    color: '#d06332',
+    icon: 'kali',
+    composeCode: `# Air-gapped DFIR VM: Autopsy · Volatility · Ghidra · IDA · x64dbg · Wireshark · Burp Suite`
   }
 ];
