@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
+import { OverviewComponent } from './components/overview/overview.component';
 import { TopologyCanvasComponent } from './components/topology-canvas/topology-canvas.component';
 import { NodeInspectorComponent } from './components/node-inspector/node-inspector.component';
 import { ServiceMatrixComponent } from './components/service-matrix/service-matrix.component';
@@ -14,6 +15,7 @@ import { TopologyNode } from './data/topology.data';
   imports: [
     CommonModule,
     HeaderComponent,
+    OverviewComponent,
     TopologyCanvasComponent,
     NodeInspectorComponent,
     ServiceMatrixComponent,

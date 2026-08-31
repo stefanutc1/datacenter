@@ -16,10 +16,10 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
           <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
             MICROSERVICES CATALOG & WORKLOAD ROSTER
           </div>
-          <h2 class="text-3xl sm:text-4xl font-extrabold font-sans text-sand-50 tracking-tight">
+          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-sand-50 tracking-tight">
             Active Containerized Services ({{ services.length }})
           </h2>
-          <p class="text-sm text-sand-300 max-w-2xl font-sans">
+          <p class="text-sm text-sand-300 max-w-2xl font-sans font-normal leading-relaxed">
             Live microservices, databases, and sandboxes deployed across Proxmox x86_64 and ARM64 Apple M1 hypervisors with allocated RAM and storage pools.
           </p>
         </div>
@@ -43,7 +43,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
             (click)="activeCategory = cat.id"
             [class.bg-terracotta-500]="activeCategory === cat.id"
             [class.text-sand-50]="activeCategory === cat.id"
-            [class.font-bold]="activeCategory === cat.id"
+            [class.font-semibold]="activeCategory === cat.id"
             [class.text-sand-300]="activeCategory !== cat.id"
             [class.bg-[#1c1611]]="activeCategory !== cat.id"
             [class.hover:text-sand-50]="activeCategory !== cat.id"
@@ -67,7 +67,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
                     <img [src]="'icons/' + srv.icon + '.svg'" [alt]="srv.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
                   </div>
                   <div>
-                    <h3 class="font-sans font-bold text-sand-50 text-base group-hover:text-terracotta-400 transition-colors">
+                    <h3 class="font-serif font-bold text-sand-50 text-base group-hover:text-terracotta-400 transition-colors">
                       {{ srv.name }}
                     </h3>
                     <div class="text-[11px] font-mono text-sand-400">

@@ -12,59 +12,59 @@ import { CommonModule } from '@angular/common';
         <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
           ENGINEERING BLUEPRINT & NETWORK SCHEMATICS
         </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-sans text-sand-50 tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-sand-50 tracking-tight">
           Cluster Architecture Blueprint
         </h2>
-        <p class="text-sm text-sand-300 max-w-3xl font-sans">
+        <p class="text-sm text-sand-300 max-w-3xl font-sans font-normal leading-relaxed">
           Technical specifications for VLAN isolation, cyber defense toolchains, digital forensics (DFIR), hypervisor RAM allocation budgets, and AI fallback cascades.
         </p>
       </div>
 
       <!-- Blueprint Tabs -->
-      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-mono">
+      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-sans">
         <button
           (click)="activeTab = 'vlan'"
           [class.bg-terracotta-500]="activeTab === 'vlan'"
           [class.text-sand-50]="activeTab === 'vlan'"
-          [class.font-bold]="activeTab === 'vlan'"
+          [class.font-semibold]="activeTab === 'vlan'"
           [class.text-sand-300]="activeTab !== 'vlan'"
           [class.bg-[#1c1611]]="activeTab !== 'vlan'"
-          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
         >
-          VLAN SEGMENTATION MATRIX
+          VLAN Segmentation Matrix
         </button>
         <button
           (click)="activeTab = 'cyber'"
           [class.bg-terracotta-500]="activeTab === 'cyber'"
           [class.text-sand-50]="activeTab === 'cyber'"
-          [class.font-bold]="activeTab === 'cyber'"
+          [class.font-semibold]="activeTab === 'cyber'"
           [class.text-sand-300]="activeTab !== 'cyber'"
           [class.bg-[#1c1611]]="activeTab !== 'cyber'"
-          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
         >
-          CYBER & DFIR FORENSICS STACK
+          Cyber & DFIR Forensics Stack
         </button>
         <button
           (click)="activeTab = 'memory'"
           [class.bg-terracotta-500]="activeTab === 'memory'"
           [class.text-sand-50]="activeTab === 'memory'"
-          [class.font-bold]="activeTab === 'memory'"
+          [class.font-semibold]="activeTab === 'memory'"
           [class.text-sand-300]="activeTab !== 'memory'"
           [class.bg-[#1c1611]]="activeTab !== 'memory'"
-          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
         >
-          RAM ALLOCATION BUDGETS
+          RAM Allocation Budgets
         </button>
         <button
           (click)="activeTab = 'ai'"
           [class.bg-terracotta-500]="activeTab === 'ai'"
           [class.text-sand-50]="activeTab === 'ai'"
-          [class.font-bold]="activeTab === 'ai'"
+          [class.font-semibold]="activeTab === 'ai'"
           [class.text-sand-300]="activeTab !== 'ai'"
           [class.bg-[#1c1611]]="activeTab !== 'ai'"
-          class="px-4 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
         >
-          AI ROUTING CASCADE (ELO)
+          AI Routing Cascade (ELO)
         </button>
       </div>
 
@@ -107,7 +107,7 @@ import { CommonModule } from '@angular/common';
             <div class="p-6 rounded-2xl bg-[#1a140f] border border-clay-700/40 shadow-xl space-y-3.5 flex flex-col justify-between">
               <div class="space-y-3">
                 <div class="flex items-center justify-between border-b border-clay-700/30 pb-3">
-                  <h3 class="font-sans font-bold text-sand-50 text-sm tracking-wide">
+                  <h3 class="font-serif font-bold text-sand-50 text-base tracking-wide">
                     {{ pillar.title }}
                   </h3>
                   <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-terracotta-500/15 text-terracotta-400 border border-terracotta-500/30 uppercase">

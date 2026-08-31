@@ -28,10 +28,11 @@ module.exports = {
           300: '#decbb4',
           400: '#be9e7f',
           500: '#9b7b5d',
-          700: '#523e2c',
-          800: '#32251a',
-          900: '#1e160e',
-          950: '#140f09',
+          700: '#473627',
+          800: '#2b2016',
+          850: '#221911',
+          900: '#1a130d',
+          950: '#120e09',
         },
         sand: {
           50: '#faf8f5',
@@ -45,6 +46,7 @@ module.exports = {
         }
       },
       fontFamily: {
+        serif: ['Newsreader', 'Georgia', 'Cambria', 'serif'],
         sans: ['Geist', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['"Geist Mono"', '"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       }

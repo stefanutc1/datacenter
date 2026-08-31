@@ -23,7 +23,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h2 class="font-sans font-bold text-lg text-sand-50 leading-tight">
+                <h2 class="font-serif font-bold text-xl text-sand-50 leading-tight">
                   {{ node.name }}
                 </h2>
                 <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">

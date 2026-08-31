@@ -14,10 +14,10 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
         <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
           HETEROGENEOUS COMPUTE INFRASTRUCTURE
         </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-sans text-sand-50 tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-sand-50 tracking-tight">
           Physical Hardware Fleet (4 Nodes)
         </h2>
-        <p class="text-sm text-sand-300 max-w-3xl font-sans">
+        <p class="text-sm text-sand-300 max-w-3xl font-sans font-normal leading-relaxed">
           Multi-architecture bare-metal compute cluster spanning Intel x86_64 virtualization, Apple Silicon ARM64 UTM nodes, OpenMediaVault ZFS storage, and Kubernetes edge workers.
         </p>
       </div>
@@ -30,7 +30,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
               <!-- Top Row -->
               <div class="flex items-start justify-between gap-3 border-b border-clay-700/40 pb-4">
                 <div>
-                  <h3 class="text-xl font-bold font-sans text-sand-50 group-hover:text-terracotta-400 transition-colors">
+                  <h3 class="text-xl font-serif font-bold text-sand-50 group-hover:text-terracotta-400 transition-colors">
                     {{ hw.name }}
                   </h3>
                   <div class="text-xs font-mono text-sand-400 mt-0.5">

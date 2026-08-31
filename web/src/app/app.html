@@ -1,12 +1,18 @@
-<div class="min-h-screen bg-warm-bg text-warm-primary font-sans flex flex-col antialiased selection:bg-terracotta-500/30 selection:text-terracotta-200">
+<div class="min-h-screen bg-warm-bg text-warm-primary font-sans flex flex-col antialiased selection:bg-terracotta-500/25 selection:text-sand-50">
   
-  <!-- Global Enterprise Header -->
+  <!-- Global Top Header -->
   <app-header></app-header>
 
-  <!-- MAIN VIEWPORT: 3D INFRASTRUCTURE TOPOLOGY -->
+  <!-- MAIN EDITORIAL & ENGINEERING PRESENTATION -->
   <main class="flex-1 w-full flex flex-col">
     
-    <section id="topology-section" class="w-full h-[calc(100vh-4rem)] min-h-[620px] max-h-[920px] p-4 sm:p-6 max-w-7xl mx-auto flex flex-col">
+    <!-- 1. Editorial Overview & Architecture Vision -->
+    <div id="overview">
+      <app-overview></app-overview>
+    </div>
+
+    <!-- 2. Interactive 3D Spatial Topology Section -->
+    <section id="topology-section" class="w-full py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-clay-800/40">
       <app-topology-canvas
         [selectedNode]="selectedNode"
         [activeCategory]="activeCategory"
@@ -24,34 +30,36 @@
       (selectConnected)="onNodeSelected($event)"
     ></app-node-inspector>
 
-    <!-- BELOW-THE-FOLD ENTERPRISE INFRASTRUCTURE PANELS -->
-    
-    <!-- 1. All 34 Containerized Microservices -->
-    <app-service-matrix
-      (nodeFocused)="onNodeSelected($event)"
-    ></app-service-matrix>
+    <!-- 3. Physical Hardware Fleet -->
+    <div class="border-b border-clay-800/40">
+      <app-hardware-fleet
+        (nodeFocused)="onNodeSelected($event)"
+      ></app-hardware-fleet>
+    </div>
 
-    <!-- 2. Heterogeneous Physical Hardware Fleet -->
-    <app-hardware-fleet
-      (nodeFocused)="onNodeSelected($event)"
-    ></app-hardware-fleet>
+    <!-- 4. Active Microservices Catalog (34 Workloads) -->
+    <div class="border-b border-clay-800/40">
+      <app-service-matrix
+        (nodeFocused)="onNodeSelected($event)"
+      ></app-service-matrix>
+    </div>
 
-    <!-- 3. Engineering Blueprint & VLAN Schematics -->
+    <!-- 5. Engineering Blueprint, VLANs & Cyber/DFIR Stack -->
     <app-architecture-blueprint></app-architecture-blueprint>
 
   </main>
 
-  <!-- Technical Footer -->
-  <footer class="w-full py-10 px-4 sm:px-6 lg:px-8 border-t border-clay-700/40 bg-[#100c09] font-mono text-xs text-sand-400">
+  <!-- Technical Presentation Footer -->
+  <footer class="w-full py-12 px-4 sm:px-6 lg:px-8 border-t border-clay-800/60 bg-[#0e0b08] font-sans text-xs text-sand-400">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2.5 text-sand-300">
         <span class="w-2 h-2 rounded-full bg-terracotta-500"></span>
-        <span class="font-bold font-serif text-sm text-sand-50">Homelab Digital Twin</span>
-        <span>— Proxmox VE · WireGuard · Wazuh XDR · k3s · ELO</span>
+        <span class="font-serif font-bold text-sm text-sand-50">Homelab Digital Twin</span>
+        <span class="text-sand-400 text-xs">— Proxmox VE · Windows Server AD · WireGuard · Wazuh XDR · DFIR · ELO</span>
       </div>
-      <div class="flex items-center gap-6">
-        <a href="#topology-section" class="hover:text-terracotta-400 transition-colors">TOP OF MAP ↑</a>
-        <a href="https://github.com/stefanutc1/homelab" target="_blank" rel="noopener noreferrer" class="hover:text-terracotta-400 transition-colors underline">GITHUB</a>
+      <div class="flex items-center gap-6 font-mono text-xs">
+        <a href="#overview" class="hover:text-sand-50 transition-colors">TOP ↑</a>
+        <a href="https://github.com/stefanutc1/homelab" target="_blank" rel="noopener noreferrer" class="hover:text-sand-50 transition-colors underline">GITHUB REPO</a>
       </div>
     </div>
   </footer>
