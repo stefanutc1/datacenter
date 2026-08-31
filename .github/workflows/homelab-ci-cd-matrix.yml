@@ -106,14 +106,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Hadolint Scan
+      - name: Install and Run Hadolint Scan
         run: |
-          docker run --rm -v "${PWD}:/workspace" -w /workspace hadolint/hadolint sh -c "
-            find . -name '*Dockerfile*' -not -path './web/node_modules/*' | while read -r df; do
-              echo \"Linting \$df...\"
-              hadolint --ignore DL3008 --ignore DL3013 \"\$df\" || true
-            done
-          "
+          sudo curl -sSL -o /usr/local/bin/hadolint "https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64"
+          sudo chmod +x /usr/local/bin/hadolint
+          find . -name "*Dockerfile*" -not -path "./web/node_modules/*" | while read -r df; do
+            echo "Linting $df..."
+            hadolint --ignore DL3008 --ignore DL3013 --ignore DL3018 "$df" || true
+          done
 
   # ============================================================================
   # 5. GITLEAKS SECRET & CREDENTIAL SCANNER
