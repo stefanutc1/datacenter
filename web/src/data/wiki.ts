@@ -1,4 +1,23 @@
-export const homelabArticles = [
+export interface WikiArticle {
+  id: string;
+  section: string;
+  title: string;
+  category: string;
+  icon: string;
+  summary: string;
+  content: string;
+}
+
+export interface CyberTool {
+  name: string;
+  category: string;
+  port: number;
+  status: string;
+  type: string;
+  logo: string;
+}
+
+export const homelabArticles: WikiArticle[] = [
   {
     id: "overview",
     section: "homelab",
@@ -353,7 +372,7 @@ automatically executes the entire test suite on 6 native Linux containers:
   }
 ];
 
-export const cyberArticles = [
+export const cyberArticles: WikiArticle[] = [
   {
     id: "cyber-overview",
     section: "cyber",
@@ -607,7 +626,7 @@ export const homelabServices = [
   { name: "windows server 2025", logo: "icons/windows.svg", category: "virtual machines", ip: "192.168.1.132", port: 3389, ipUrl: "http://192.168.1.132:3389", domain: "winserver.lan", domainUrl: "http://winserver.lan", status: "active" }
 ];
 
-export const cyberlabTools = [
+export const cyberlabTools: CyberTool[] = [
   { name: "wazuh manager / xdr", category: "siem", port: 1514, status: "active", type: "xdr / siem", logo: "icons/wazuh.svg" },
   { name: "grafana loki", category: "siem", port: 3100, status: "active", type: "log aggregator", logo: "icons/loki.svg" },
   { name: "suricata nids", category: "detection", port: 0, status: "active", type: "packet inspection", logo: "icons/suricata.svg" },

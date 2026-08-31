@@ -1,4 +1,18 @@
-export const hardwareNodes = [
+export interface HardwareNode {
+  id: string;
+  name: string;
+  displayName: string;
+  role: string;
+  os: string;
+  virtualization: string;
+  mesh: string;
+  badgeColor: string;
+  specs: Record<string, string>;
+  capacityNotes: string[];
+  workloads: string[];
+}
+
+export const hardwareNodes: HardwareNode[] = [
   {
     id: 'proxmox-01',
     name: 'proxmox',

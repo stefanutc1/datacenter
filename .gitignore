@@ -13,6 +13,8 @@ id_rsa*
 # Node / Web App
 node_modules/
 dist/
+.next/
+web_vue_backup/
 .vite/
 npm-debug.log*
 yarn-debug.log*

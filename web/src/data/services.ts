@@ -1,19 +1,32 @@
-export const categories = [
-  { id: 'all', name: 'All Services', icon: 'layers' },
-  { id: 'ai', name: 'AI & Control', icon: 'zap' },
-  { id: 'media', name: 'Media & Streaming', icon: 'film' },
-  { id: 'iot', name: 'Smart Home & IoT', icon: 'cpu' },
-  { id: 'security', name: 'Security & Identity', icon: 'shield-check' },
-  { id: 'cloud', name: 'Storage & Cloud', icon: 'cloud' },
-  { id: 'monitoring', name: 'Observability & Metrics', icon: 'activity' },
-  { id: 'automation', name: 'Automation & Workflow', icon: 'git-branch' },
-  { id: 'devops', name: 'CI/CD & Git', icon: 'terminal' },
-  { id: 'networking', name: 'Networking & DNS', icon: 'globe' },
-  { id: 'productivity', name: 'Productivity & Notes', icon: 'file-text' },
-  { id: 'vms', name: 'Virtual Machines (VMs)', icon: 'cpu' }
-];
+export interface ServiceItem {
+  id: string;
+  logo?: string;
+  name: string;
+  category: string;
+  ip: string;
+  port: number;
+  ipUrl: string;
+  domain?: string;
+  domainUrl?: string;
+  internalUrl?: string;
+  icon: string;
+  color: string;
+  image: string;
+  containerName: string;
+  status: 'online' | 'standby' | 'alert';
+  ram: string;
+  storage: string;
+  node: string;
+  tags: string[];
+  description: string;
+  features: string[];
+  volumes: string[];
+  envVars: string[];
+  composeCode: string;
+  wikiMarkdown: string;
+}
 
-export const services = [
+export const services: ServiceItem[] = [
   {
     id: 'elo-core',
     logo: 'icons/python.svg',

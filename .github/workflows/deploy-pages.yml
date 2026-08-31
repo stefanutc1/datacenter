@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    name: Build & Deploy Frontend (Vue/Vite)
+    name: Build & Deploy Frontend (Next.js App Router)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
