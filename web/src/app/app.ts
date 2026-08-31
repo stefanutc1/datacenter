@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -7,6 +7,7 @@ import { NodeInspectorComponent } from './components/node-inspector/node-inspect
 import { ServiceMatrixComponent } from './components/service-matrix/service-matrix.component';
 import { HardwareFleetComponent } from './components/hardware-fleet/hardware-fleet.component';
 import { ArchitectureBlueprintComponent } from './components/architecture-blueprint/architecture-blueprint.component';
+import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
 import { TopologyNode } from './data/topology.data';
 import { TranslationService } from './services/translation.service';
 
@@ -21,12 +22,15 @@ import { TranslationService } from './services/translation.service';
     NodeInspectorComponent,
     ServiceMatrixComponent,
     HardwareFleetComponent,
-    ArchitectureBlueprintComponent
+    ArchitectureBlueprintComponent,
+    CommandPaletteComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
 export class App {
+  @ViewChild(CommandPaletteComponent) commandPalette!: CommandPaletteComponent;
+
   ts = inject(TranslationService);
   selectedNode: TopologyNode | null = null;
   activeCategory: string = 'all';
@@ -42,5 +46,11 @@ export class App {
 
   onPerspectiveChanged(mode: 'logical' | 'physical') {
     this.perspective = mode;
+  }
+
+  openCommandPalette() {
+    if (this.commandPalette) {
+      this.commandPalette.open();
+    }
   }
 }

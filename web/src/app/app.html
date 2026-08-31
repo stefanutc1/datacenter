@@ -1,7 +1,14 @@
 <div class="min-h-screen bg-theme-bg text-theme-primary font-sans flex flex-col antialiased selection:bg-emerald-500/25 selection:text-slate-50">
   
-  <!-- Global Top Header with RO/EN Language Switcher -->
-  <app-header></app-header>
+  <!-- Global Top Header with RO/EN Language Switcher & Cmd+K Trigger -->
+  <app-header
+    (searchTriggered)="openCommandPalette()"
+  ></app-header>
+
+  <!-- Global Command Palette Modal (Cmd+K / Ctrl+K) -->
+  <app-command-palette
+    (nodeFocused)="onNodeSelected($event)"
+  ></app-command-palette>
 
   <!-- MAIN EDITORIAL & ENGINEERING PRESENTATION -->
   <main class="flex-1 w-full flex flex-col">
@@ -44,7 +51,7 @@
       ></app-service-matrix>
     </div>
 
-    <!-- 5. Engineering Blueprint, VLANs & Cyber/DFIR Stack -->
+    <!-- 5. Engineering Blueprint, VLANs, Power & Cyber/DFIR Stack -->
     <app-architecture-blueprint></app-architecture-blueprint>
 
   </main>
@@ -59,6 +66,10 @@
         <span class="text-slate-500 text-xs hidden md:inline">{{ ts.t.footerSub }}</span>
       </div>
       <div class="flex items-center gap-6 font-mono text-xs">
+        <button (click)="openCommandPalette()" class="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1">
+          <span class="text-emerald-400">⌘K</span>
+          <span>Căutare</span>
+        </button>
         <a href="#overview" class="hover:text-slate-50 transition-colors">{{ ts.t.footerTop }}</a>
         <a href="https://github.com/stefanutc1/homelab" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors underline">{{ ts.t.footerGithub }}</a>
       </div>

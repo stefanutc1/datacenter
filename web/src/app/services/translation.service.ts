@@ -337,6 +337,10 @@ const TRANSLATIONS: Record<Language, Translations> = {
 export class TranslationService {
   currentLang = signal<Language>('ro');
 
+  get isRomanian(): boolean {
+    return this.currentLang() === 'ro';
+  }
+
   constructor() {
     const saved = localStorage.getItem('homelab_lang') as Language;
     if (saved === 'ro' || saved === 'en') {

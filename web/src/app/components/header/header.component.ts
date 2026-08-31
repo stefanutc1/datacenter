@@ -1,109 +1,97 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslationService, Language } from '../../services/translation.service';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <header class="sticky top-0 z-40 w-full bg-[#0c0e11]/95 backdrop-blur-xl border-b border-obsidian-750 font-sans text-xs">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <header class="w-full border-b border-obsidian-750 bg-[#0c0e11]/90 backdrop-blur-xl sticky top-0 z-40 font-sans">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Logo / Title (Clean Geist Sans) -->
-        <div class="flex items-center gap-3">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-          <a href="#" class="flex items-baseline gap-2.5 text-white hover:text-emerald-400 transition-colors">
-            <span class="font-sans font-bold text-lg tracking-tight">Homelab</span>
-            <span class="font-sans text-xs text-slate-400 font-normal hidden sm:inline">{{ ts.t.sublabelTag }}</span>
-          </a>
+        <!-- Left: Logo & Digital Twin Pill -->
+        <div class="flex items-center gap-3.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold text-sm shadow-sm">
+            H
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="font-sans font-bold text-base text-slate-50 tracking-tight">Homelab</span>
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                PROD
+              </span>
+            </div>
+            <span class="text-[11px] font-sans font-normal text-slate-400">
+              {{ ts.t.sublabelTag }}
+            </span>
+          </div>
         </div>
 
-        <!-- Center Nav Links (Geist Sans) -->
-        <nav class="hidden md:flex items-center gap-6 text-slate-300 font-medium text-xs tracking-normal font-sans">
-          <a href="#overview" class="hover:text-white transition-colors">{{ ts.t.navOverview }}</a>
-          <a href="#topology-section" class="hover:text-white transition-colors">{{ ts.t.navTopology }}</a>
-          <a href="#services" class="hover:text-white transition-colors">{{ ts.t.navServices }}</a>
-          <a href="#hardware" class="hover:text-white transition-colors">{{ ts.t.navHardware }}</a>
-          <a href="#blueprint" class="hover:text-white transition-colors">{{ ts.t.navBlueprint }}</a>
+        <!-- Middle: Navigation Links -->
+        <nav class="hidden md:flex items-center gap-6 font-sans text-xs font-medium text-slate-300">
+          <a href="#overview" class="hover:text-emerald-400 transition-colors">{{ ts.t.navOverview }}</a>
+          <a href="#topology-section" class="hover:text-emerald-400 transition-colors">{{ ts.t.navTopology }}</a>
+          <a href="#hardware" class="hover:text-emerald-400 transition-colors">{{ ts.t.navHardware }}</a>
+          <a href="#services" class="hover:text-emerald-400 transition-colors">{{ ts.t.navServices }}</a>
+          <a href="#blueprint" class="hover:text-emerald-400 transition-colors">{{ ts.t.navBlueprint }}</a>
         </nav>
 
-        <!-- Right Controls: Status & Language Toggle & Theme Toggle & GitHub -->
-        <div class="flex items-center gap-3 font-sans">
+        <!-- Right: Command Palette Search & Language Switcher [ RO | EN ] -->
+        <div class="flex items-center gap-3">
           
-          <!-- Language Switcher RO / EN -->
-          <div class="flex items-center p-0.5 rounded-lg bg-obsidian-850 border border-obsidian-700 font-mono text-[11px]">
+          <!-- Cmd+K Search Trigger Button -->
+          <button
+            (click)="searchTriggered.emit()"
+            class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-obsidian-900 border border-obsidian-750 hover:border-emerald-500/50 text-slate-300 text-xs font-mono transition-all shadow-inner group"
+            title="Deschide Căutarea Globală (Cmd+K)"
+          >
+            <span class="text-emerald-400 font-bold">⌘K</span>
+            <span class="text-slate-400 group-hover:text-slate-200 text-[11px]">{{ ts.isRomanian ? 'Căutare...' : 'Search...' }}</span>
+          </button>
+
+          <!-- Interactive Language Toggle -->
+          <div class="flex items-center p-0.5 rounded-xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs shadow-inner">
             <button
-              (click)="setLang('ro')"
+              (click)="ts.setLanguage('ro')"
               [class.bg-emerald-500]="ts.currentLang() === 'ro'"
               [class.text-slate-950]="ts.currentLang() === 'ro'"
               [class.font-bold]="ts.currentLang() === 'ro'"
               [class.text-slate-400]="ts.currentLang() !== 'ro'"
-              class="px-2 py-1 rounded transition-all"
+              [class.hover:text-slate-100]="ts.currentLang() !== 'ro'"
+              class="px-2.5 py-1 rounded-lg transition-all"
+              title="Comută în Limba Română"
             >
               RO
             </button>
             <button
-              (click)="setLang('en')"
+              (click)="ts.setLanguage('en')"
               [class.bg-emerald-500]="ts.currentLang() === 'en'"
               [class.text-slate-950]="ts.currentLang() === 'en'"
               [class.font-bold]="ts.currentLang() === 'en'"
               [class.text-slate-400]="ts.currentLang() !== 'en'"
-              class="px-2 py-1 rounded transition-all"
+              [class.hover:text-slate-100]="ts.currentLang() !== 'en'"
+              class="px-2.5 py-1 rounded-lg transition-all"
+              title="Switch to English"
             >
               EN
             </button>
           </div>
 
-          <div class="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-obsidian-850 border border-obsidian-700 text-slate-300 text-xs font-medium font-sans">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <!-- Live Cluster Status Pill -->
+          <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs text-slate-300 shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>{{ ts.t.statusClusterActive }}</span>
           </div>
 
-          <!-- Light / Dark Theme Toggle -->
-          <button
-            (click)="toggleTheme()"
-            class="p-2 rounded-lg bg-obsidian-850 border border-obsidian-700 text-slate-300 hover:text-white hover:border-emerald-500/50 transition-colors"
-            title="Toggle Light / Dark mode"
-            aria-label="Toggle Theme"
-          >
-            {{ isDark ? '☀' : '☾' }}
-          </button>
-
-          <a
-            href="https://github.com/stefanutc1/homelab"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="px-3.5 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 font-medium transition-all text-xs font-sans"
-          >
-            GitHub
-          </a>
         </div>
 
       </div>
     </header>
   `
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
+  @Output() searchTriggered = new EventEmitter<void>();
+
   ts = inject(TranslationService);
-  isDark = true;
-
-  ngOnInit() {
-    this.isDark = document.documentElement.classList.contains('dark');
-  }
-
-  setLang(lang: Language) {
-    this.ts.setLanguage(lang);
-  }
-
-  toggleTheme() {
-    this.isDark = !this.isDark;
-    if (this.isDark) {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-    }
-  }
 }
