@@ -65,13 +65,13 @@ module "lxc_homeassistant" {
 module "lxc_ollama_gpu" {
   source                 = "../modules/proxmox_lxc"
   target_node            = var.primary_node
-  vmid                   = 115
+  vmid                   = 110
   hostname               = "ollama-gpu"
   cores                  = 4
   memory                 = 2048
-  disk_size              = "25G"
-  ip_address             = "192.168.1.115/24"
-  gateway                = "192.168.1.132"
+  disk_size              = "16G"
+  ip_address             = "192.168.1.110/24"
+  gateway                = "192.168.1.1"
   vlan_tag               = 20
   unprivileged           = false
   passthrough_nvidia_gpu = true

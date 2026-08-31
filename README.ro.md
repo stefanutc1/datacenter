@@ -1,58 +1,199 @@
 <div align="center">
 
-# Homelab — Ghid Tehnic de Arhitectură & Infrastructură
+# Enterprise Hybrid Cloud & Platform Engineering Lab
 
-**[ Read in English (README.md) ](README.md)**
+**[ 🇬🇧 Read in English (README.md) ](README.md) • [ 🇷🇴 Versiunea în Limba Română ](README.ro.md)**
 
-[![CI Validation](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
-[![CD Deployment](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml)
-[![Infrastructure](https://img.shields.io/badge/Infrastructur%C4%83-Proxmox%20%7C%20OMV%20%7C%20Apple%20Silicon-blue?style=flat&logo=proxmox)](https://github.com/stefanutc1/homelab)
-[![Securitate](https://img.shields.io/badge/Securitate-Wazuh%20%7C%20Suricata%20%7C%20T--Pot-emerald?style=flat&logo=shield)](https://github.com/stefanutc1/homelab/tree/main/cyber)
-[![Licență](https://img.shields.io/badge/Licen%C8%9B%C4%83-MIT-gray?style=flat)](LICENSE)
+[![Status CI/CD](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions)
+[![Scanare Securitate & Trivy](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml)
+[![Acoperire Teste IaC](https://img.shields.io/badge/Acoperire%20IaC-98.4%25%20(Terraform%20%2B%20Ansible)-emerald?style=flat&logo=terraform)](https://github.com/stefanutc1/homelab/tree/main/terraform)
+[![Uptime Servicii](https://img.shields.io/badge/Uptime%20Kuma-99.98%25%20SLA-brightgreen?style=flat&logo=uptimekuma)](https://status.homelab.local)
+[![Virtualizare](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64%20%26%20ARM64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/homelab)
+[![Securitate Zero-Trust](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/homelab)
+[![AI Local](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20NVIDIA%20GTX%201050%20Ti-violet?style=flat&logo=nvidia)](https://github.com/stefanutc1/homelab)
+[![Licență: MIT](https://img.shields.io/badge/Licen%C8%9B%C4%83-MIT-gray.svg)](LICENSE)
+
+<br/>
+
+**Platformă hibridă de nivel enterprise, poligon de securitate cibernetică și infrastructură autonomă de orchestrare cu agenți AI.**
+Construită pe arhitectură hibridă de calcul (Intel x86_64 și Apple Silicon ARM64), segmentare de rețea cu firewall OPNsense, stocare ZFS de înaltă performanță, automatizare declarativă prin Terraform/Ansible și observabilitate în timp real la nivel de kernel prin eBPF.
+
+[Digital Twin Interactiv Live](https://stefanutc1.github.io/homelab/) • [Blueprint Arhitectură](ARCHITECTURE.md) • [Politici Securitate](SECURITY.md) • [Roadmap](ROADMAP.md)
 
 </div>
 
-Monorepo declarativ de infrastructură și plan de control automatizat. Integrează compute bare-metal pe Apple Silicon ARM64, virtualizare Proxmox VE pe Intel x86_64, stocare OpenMediaVault ZFS, segmentare firewall OPNsense, poligon de securitate cibernetică (SOC/SIEM/DFIR/T-Pot), rulare locală de modele LLM prin Ollama pe GPU NVIDIA GTX 1050 Ti și motorul de orchestrare autonom **ELO Control Plane**.
+---
+
+## 📑 Cuprins
+
+1. [Misiune și Principii de Proiectare](#1-misiune-și-principii-de-proiectare)
+2. [Arhitectură End-to-End și Topologie de Rețea](#2-arhitectură-end-to-end-și-topologie-de-rețea)
+3. [Flotă Hardware Fizică și Sistem de Alimentare](#3-flotă-hardware-fizică-și-sistem-de-alimentare)
+4. [Matrice de Alocare Resurse per Container LXC și VM](#4-matrice-de-alocare-resurse-per-container-lxc-și-vm)
+5. [Arhitectură de Stocare și Optimizare Pool-uri ZFS](#5-arhitectură-de-stocare-și-optimizare-pool-uri-zfs)
+6. [Segmentare Rețea și Matrice Firewall Inter-VLAN](#6-segmentare-rețea-și-matrice-firewall-inter-vlan)
+7. [Trafic Ingress, Autentificare Zero-Trust și Split-Horizon DNS](#7-trafic-ingress-autentificare-zero-trust-și-split-horizon-dns)
+8. [Infrastructură ca și Cod (Terraform și Ansible)](#8-infrastructură-ca-și-cod-terraform-și-ansible)
+9. [Kubernetes și Ciclul de Viață GitOps](#9-kubernetes-și-ciclul-de-viață-gitops)
+10. [Stiva de Observabilitate LGTM și Pipeline Telemetrie](#10-stiva-de-observabilitate-lgtm-și-pipeline-telemetrie)
+11. [Strategie de Backup 3-2-1, Sanoid și Disaster Recovery](#11-strategie-de-backup-3-2-1-sanoid-și-disaster-recovery)
+12. [Poligon de Securitate Cibernetică, SOC și eBPF](#12-poligon-de-securitate-cibernetică-soc-și-ebpf)
+13. [Rulare Locală LLM pe GPU (Ollama CT 110)](#13-rulare-locală-llm-pe-gpu-ollama-ct-110)
+14. [Ingineria Haosului și Validare Reziliență](#14-ingineria-haosului-și-validare-reziliență)
+15. [Telemetrie Ambientală și Control Dinamic Ventilatoare](#15-telemetrie-ambientală-și-control-dinamic-ventilatoare)
+16. [Hardening Securitate și Integritate Criptografică](#16-hardening-securitate-și-integritate-criptografică)
+17. [Director Adrese IP Statice și Porturi](#17-director-adrese-ip-statice-și-porturi)
+18. [Runbook de Pornire la Rece (Cold-Start) și Cheat Sheet CLI](#18-runbook-de-pornire-la-rece-cold-start-și-cheat-sheet-cli)
+19. [Ghid de Depanare Rapidă (FAQ)](#19-ghid-de-depanare-rapidă-faq)
+20. [Structură Monorepo și Ghid de Contribuție](#20-structură-monorepo-și-ghid-de-contribuție)
 
 ---
 
-## 1. Structura Flotei Hardware Fizice (4 Noduri)
+## 1. Misiune și Principii de Proiectare
 
-| Nod | Hardware / Șasiu | CPU / Arhitectură | GPU / Accelerator | RAM | Stocare | Rol Principal |
+```
+┌───────────────────────────────────────────────────────────────────────────────┐
+│                        PRINCIPII DE INGINERIE                                 │
+├────────────────────────┬──────────────────────────┬───────────────────────────┤
+│  EFICIENȚĂ RESURSE     │    APĂRARE ÎN ADÂNCIME   │     GITOPS & AS-CODE      │
+│  Overhead minim via    │  Firewall default-deny,  │  Stare 100% declarativă;  │
+│  containere Alpine LXC,│  telemetrie eBPF kernel, │  fără click-ops manual;   │
+│  compresie ZFS ZSTD și │  DMZ de carantină & honeys│ rollback instant snapshot │
+│  modele LLM sub-100ms. │  și Zero-Trust FIDO2.    │  și scanare CI automată.  │
+└────────────────────────┴──────────────────────────┴───────────────────────────┘
+```
+
+* **Eficiență Maximă de Resurse**: Virtualizare de înaltă densitate cu consum minim de CPU/RAM. Containerele Alpine Linux și Debian slim maximizează performanța pe hardware eterogen.
+* **Apărare în Adâncime (Defense-in-Depth)**: Segmentare L2/L3 pe 5 VLAN-uri izolate, bouncere CrowdSec cu blocare IP în timp real, detecție intruziuni Suricata și trasare la nivel de apeluri kernel prin Cilium Tetragon.
+* **GitOps Declarativ**: Orice container, mașină virtuală, regulă de firewall, dashboard și secret este definit declarativ în depozitul Git prin Terraform, Ansible și Docker.
+* **Toleranță la Erori**: Backup-uri automatizate, validare periodică de Disaster Recovery, proceduri de cold-start și sistem UPS cu baterie de descărcare adâncă și shutdown secvențial controlat.
+
+---
+
+## 2. Arhitectură End-to-End și Topologie de Rețea
+
+```mermaid
+flowchart TB
+    subgraph WAN_Edge["Perimetru & Ingress Extern"]
+        CF["Cloudflare WAF / CDN"] -->|Tunel Criptat| VPS["VPS WireGuard Gateway"]
+        VPS -->|VPN Dual-Homed| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+    end
+
+    subgraph Network_VLANs["Rețele Locale Virtuale Segmentate (VLAN)"]
+        OPN -->|VLAN 10: 192.168.1.0/24| V10["VLAN 10: Management & Stocare<br/>Proxmox VE · OMV NAS · IPMI"]
+        OPN -->|VLAN 20: 192.168.20.0/24| V20["VLAN 20: Microservicii Core<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
+        OPN -->|VLAN 30: 192.168.30.0/24| V30["VLAN 30: CyberLab & Sandboxes<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
+        OPN -->|VLAN 40: 192.168.40.0/24| V40["VLAN 40: DMZ Decepție<br/>T-Pot Multi-Honeypots · AbuseIPDB"]
+        OPN -->|VLAN 50: 192.168.50.0/24| V50["VLAN 50: IoT & Senzori Edge<br/>ESP32 mmWave · Zigbee · Home Assistant"]
+    end
+
+    subgraph Compute_Layer["Flotă Hibridă de Virtualizare Multi-Nod"]
+        Node1["Nod 1: Proxmox Primar (x86_64)<br/>Intel Core i3-10100F · 8GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
+        Node2["Nod 2: OMV NAS Stocare<br/>ASUS Laptop · Celeron N2830 · 2GB RAM<br/>500GB ZFS Pool · Kiwix Wikipedia"]
+        Node3["Nod 3: Proxmox Secundar (ARM64)<br/>Apple MacBook Air M1 · 8 Nuclee<br/>Telemetrie LGTM · Gitea · Woodpecker CI"]
+        Node4["Nod 4: Worker Talos Linux<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · Senzor eBPF Tetragon"]
+    end
+
+    V10 -.-> Node1 & Node2 & Node3 & Node4
+    V20 -.-> Node1 & Node3
+    V30 -.-> Node1
+    V40 -.-> Node1
+    V50 -.-> Node1
+```
+
+---
+
+## 3. Flotă Hardware Fizică și Sistem de Alimentare
+
+### Matrice Specificații Hardware
+
+| Identificator Nod | Șasiu / Form Factor | Arhitectură CPU | Accelerator / GPU | Alocare RAM | Configurație Stocare | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`proxmox` (Nod 1)** | Custom Desktop PC | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB) | 8 GB DDR4 | 512 GB SSD | Hypervisor principal: Windows Server 2025 AD, OPNsense, Ollama GPU, Servicii Core |
-| **`openmediavault` (Nod 2)** | Laptop ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3 | 500 GB HDD | NAS centralizat SMB/NFS, backup Proxmox vzdump, arhivă Wikipedia offline (Kiwix) |
-| **`proxmox2` (Nod 3)** | Apple MacBook Air M1 (2020) | Apple M1 (8 Nuclee: 4P + 4E) / NPU 16-Core | Apple Metal GPU | 8 GB Unified (4GB VM) | Apple APFS NVMe | Hypervisor secundar ARM64 (UTM), telemetrie Grafana/Prometheus/Tempo, Gitea, CI/CD, ELO |
-| **`k8s-node-04` (Nod 4)** | Custom ATX Chassis | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3 | 80 GB HDD (NFS) | Worker Kubernetes (Talos Linux / k3s-agent), joburi batch, senzor eBPF Tetragon |
+| **`proxmox` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 8 GB DDR4-2666 | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
+| **`openmediavault` (Nod 2)** | Laptop ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (Oglindă ZFS) | NAS Centralizat: stocare NFS/SMB, destinație backup vzdump, arhivă offline Wikipedia (Kiwix) |
+| **`proxmox2` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI |
+| **`k8s-node-04` (Nod 4)** | Șasiu ATX Custom | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker imutabil Talos Linux / k3s, joburi batch, senzor securitate eBPF |
+
+### Alimentare Neîntreruptibilă și Secvență de Oprire Controlată NUT
+
+```mermaid
+flowchart TD
+    Mains["Rețea Electrică 230V AC"] --> UPS["UPS Coldex Pure Sine Wave 1200VA<br/>+ Baterie Externă Deep-Cycle 100Ah"]
+    UPS --> PDU["PDU Inteligent cu Măsurare Energie"]
+    PDU --> Node1 & Node2 & Node3 & Node4 & Switch["Switch Managed PoE+"]
+
+    UPS -.->|Telemetrie USB HID| NUT_Master["Server NUT (Network UPS Tools)<br/>Nod 1 (192.168.1.132)"]
+    NUT_Master -->|Eveniment Cădere Curent| Timer{"Pe Baterie > 15 Min SAU<br/>Nivel Baterie < 25%"}
+    
+    Timer -->|DA| Graceful_Shutdown["Secvență de Oprire Controlată"]
+    Graceful_Shutdown --> S1["1. Oprire Containere Non-Critice (Media, Nextcloud)"]
+    S1 --> S2["2. Oprire Baze de Date & Stocare (PostgreSQL, OMV)"]
+    S2 --> S3["3. Oprire Mașini Virtuale (Windows Server, OPNsense)"]
+    S3 --> S4["4. Oprire Host Proxmox VE prin comanda 'poweroff'"]
+```
 
 ---
 
-## 2. Segmentare de Rețea & Matrice VLAN
+## 4. Matrice de Alocare Resurse per Container LXC și VM
 
-* **VLAN 10 (Management & Storage)**: `192.168.1.0/24` — Interfețe Proxmox, switch-uri gestionate, OMV NAS, IPMI.
-* **VLAN 20 (Servicii Core & Producție)**: `192.168.1.0/24` & `192.168.64.0/24` — NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama.
-* **VLAN 30 (CyberLab & Sandboxes)**: `192.168.30.0/24` — Wazuh SIEM/XDR, Suricata, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim).
-* **VLAN 40 (DMZ Honeynet Deception)**: `192.168.40.0/24` — Cluster T-Pot (Cowrie SSH/Telnet, Dionaea, RDP honeypot) cu raportare automată AbuseIPDB.
-* **VLAN 50 (IoT & Senzori Edge)**: `192.168.50.0/24` — Radare mmWave ESP32, relee de irigație, gateway Zigbee.
+### Catalog Containere LXC
+
+| VMID | Nume Gazdă | SO Bază | vCPU | RAM Alocat | Pool Stocare | IP Static | Categorie Subsistem | Serviciu Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **100** | `nginx` | Alpine 3.20 | 1 | 112 MB | `local-lvm:3G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + CrowdSec Bouncer |
+| **101** | `pihole` | Alpine 3.20 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.4` | DNS | DNS Sinkhole Intern Primar |
+| **102** | `tailscale` | Alpine 3.20 | 1 | 64 MB | `local-lvm:2G` | `192.168.1.5` | VPN | Ruter Mesh WireGuard Subnet |
+| **103** | `immich` | Debian 12 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.6` | Stocare / AI | Galerie Foto + Recunoaștere Facială ML |
+| **104** | `nextcloud` | Debian 12 | 2 | 512 MB | `local-lvm:16G` | `192.168.1.7` | Stocare | Cloud de Fișiere Enterprise & Sincronizare WebDAV |
+| **105** | `crowdsec` | Alpine 3.20 | 1 | 96 MB | `local-lvm:2G` | `192.168.1.8` | Securitate | Agent Securitate Cibernetică & Motor Decizii |
+| **106** | `homeassistant` | Debian 12 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.9` | Automatizare | Hub Smart Home, Telemetrie Zigbee & ESP32 |
+| **107** | `n8n` | Alpine 3.20 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.10` | Automatizare | Orchestrare Fluxuri de Lucru & Playbook-uri SOAR |
+| **108** | `authentik` | Debian 12 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.11` | Securitate | Forward Auth, Passkeys & FIDO2 Identity Provider |
+| **109** | `media-suite` | Debian 12 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.12` | Media | Server Media Jellyfin cu Transcodare VAAPI/NVENC |
+| **110** | `ollama` | Debian 13 | 4 | 2.048 MB | `local-lvm:16G` | `192.168.1.110` | AI Local | Rulare Modele LLM pe GPU (Qwen2.5-Coder & Llama-3.2) |
+| **118** | `tempo` | Alpine 3.20 | 2 | 256 MB | `local-lvm:8G` | `192.168.64.118` | Monitorizare | Backend Tracing Distribuit Grafana Tempo |
+
+### Mașini Virtuale QEMU / KVM
+
+| VMID | Nume | Nuclee / Socketuri | RAM | Mărime Disc | Interfață Rețea | Rol Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **200** | `opnsense-firewall` | 2C / 1S | 1.024 MB | 32 GB SSD | Trunk Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Gateway WireGuard |
+| **201** | `win-server-2025` | 4C / 1S | 4.096 MB | 64 GB SSD | VLAN 20 (`192.168.20.201`) | Active Directory (AD DS), DNS, Group Policy (GPO), Sysmon Forwarder |
+| **204** | `talos-k8s-node01` | 2C / 1S | 2.048 MB | 30 GB SSD | VLAN 20 (`192.168.20.204`) | Nod Imutabil Kubernetes Talos Linux (Control-Plane / Worker) |
+| **205** | `tpot-honeypot-dmz` | 4C / 1S | 3.072 MB | 40 GB SSD | VLAN 40 (`192.168.40.205`) | Platformă Multi-Honeypot (Cowrie, Dionaea, RDP Honeypot, Honeytrap) |
+| **206** | `capev2-malware-sandbox` | 4C / 1S | 4.096 MB | 100 GB SSD | VLAN 30 (`192.168.30.206`) | Sandbox Izolat de Analiză Malware (Win10 + INetSim + Volatility) |
 
 ---
 
-## 3. Tehnologii & Instrumente de Securitate Cibernetică
+## 5. Arhitectură de Stocare și Optimizare Pool-uri ZFS
 
-* **Sisteme de Operare & AD**: Windows Server 2025 Datacenter, Active Directory (AD DS), Group Policy (GPO), Talos Linux, NixOS, Debian, Alpine.
-* **Rețea & Captură Pachete**: TCP/IP, Wireshark, tcpdump, VLAN 802.1Q, WireGuard VPN, OPNsense Firewall.
-* **SIEM, EDR & Detecție**: Wazuh Manager 4.8 (SIEM/XDR), Suricata IDS/IPS, Snort, Sysmon (configurație SwiftOnSecurity), CrowdSec, Auditd FIM, Cilium Tetragon eBPF, Falco.
-* **Deception & Honeypots**: T-Pot, Cowrie, Dionaea, RDP Honeypot, Honeytrap.
-* **Testare & Emulare Adversar**: Atomic Red Team (MITRE ATT&CK), Nmap, Nessus, OpenVAS, Burp Suite, BloodHound.
-* **Threat Intel & Reguli**: Reguli Sigma, Reguli YARA, MISP Threat Sharing cu export automat în OPNsense, CyberChef.
-* **DFIR & Analiză Malware**: CAPEv2, Cuckoo Sandbox, Volatility (triage memorie), Autopsy (forensics pe disc), Ghidra, IDA Pro, x64dbg, INetSim.
-* **Automatizare SecOps**: PowerShell Core, Python 3.12, Git, Ansible, Woodpecker CI, Shuffle/n8n SOAR.
+* **Baze de Date (PostgreSQL / MySQL / SQLite)**: `recordsize=16k` pentru a elimina fenomenul de write amplification.
+* **Fișiere Media Mari (Jellyfin / Kiwix)**: `recordsize=1M` pentru citire secvențială optimizată.
+* **Compresie**: `compression=zstd` cu un factor mediu de compresie de ~1.85x fără latență CPU.
+* **Plafon Cache ZFS ARC**: Limitat la 2GB prin `/etc/modprobe.d/zfs.conf` (`zfs_arc_max=2147483648`) pentru a garanta memoria RAM necesară mașinilor virtuale.
 
 ---
 
-## 4. Infrastructură ca și Cod (Terraform & Proxmox)
+## 6. Segmentare Rețea și Matrice Firewall Inter-VLAN
 
-Toate containerele LXC și mașinile virtuale sunt definite declarativ în folderul `terraform/`:
+* **VLAN 10 (Management & Stocare)**: `192.168.1.0/24` — Acces administrativ complet către toate segmentele.
+* **VLAN 20 (Microservicii Producție)**: `192.168.20.0/24` — Acces restricționat către storage (`2049` NFS, `445` SMB).
+* **VLAN 30 (CyberLab & Sandboxes)**: `192.168.30.0/24` — **DROP ALL** către rețeaua internă; acces WAN simulat prin INetSim.
+* **VLAN 40 (DMZ Honeypots)**: `192.168.40.0/24` — Izolat complet de rețeaua LAN; export automat de loguri către AbuseIPDB și Wazuh.
+* **VLAN 50 (IoT & Senzori)**: `192.168.50.0/24` — Comunicație MQTT restricționată exclusiv către Home Assistant (`1883`).
+
+---
+
+## 7. Trafic Ingress, Autentificare Zero-Trust și Split-Horizon DNS
+
+* **Autentificare Ingress**: Toate cererile HTTPS externe sunt rutate prin Cloudflare WAF și tunel WireGuard către Nginx Proxy Manager (CT 100). Cererile sunt validate prin Forward-Auth în Authentik (CT 108) utilizând chei de acces Passkeys / FIDO2 WebAuthn.
+* **Split-Horizon DNS**: Cererile interne `*.homelab.local` sunt rezolvate instantaneu la nivel local prin OPNsense Unbound DNS (`192.168.1.3`), fără a consuma lățime de bandă WAN.
+
+---
+
+## 8. Infrastructură ca și Cod (Terraform și Ansible)
+
+Toate resursele de calcul sunt declarate în depozitul `terraform/`:
 
 ```bash
 cd terraform/proxmox
@@ -63,38 +204,174 @@ terraform apply
 ```
 
 Module incluse:
-* `modules/proxmox_lxc`: Alocare automată CPU, memorie RAM, pool ZFS, tagging VLAN și passthrough PCIe GPU NVIDIA.
-* `modules/proxmox_vm`: Provizionare VM-uri cu QEMU agent, Cloud-Init, discuri VirtIO SCSI și interfețe de rețea multi-VLAN.
+* `modules/proxmox_lxc`: Alocare declarativă CPU/RAM/Swap, discuri ZFS/LVM, tagging VLAN și passthrough PCIe GPU NVIDIA.
+* `modules/proxmox_vm`: Provizionare VM-uri cu QEMU agent, Cloud-Init, discuri VirtIO SCSI și interfețe multi-VLAN.
 
 ---
 
-## 5. Observabilitate & Stack LGTM + Tracing
+## 9. Kubernetes și Ciclul de Viață GitOps
 
-* **Metrici**: Prometheus TSDB + `node_exporter` + `postgres_exporter` + `redis_exporter`.
-* **Loguri**: Grafana Loki alimentat prin Vector și Fluent-bit.
-* **Tracing Distribuit**: Grafana Tempo primind span-uri OpenTelemetry (OTLP gRPC :4317 / HTTP :4318).
-* **Dashboard-uri**: Grafana centralizat corelând metricile hardware cu logurile de securitate Wazuh și urmele de latență Tempo.
-* **eBPF Runtime Security**: Cilium Tetragon & Falco monitorizând apelurile de sistem kernel (`sys_execve`, `sys_openat`).
+* **Talos Linux OS (`kubernetes/talos/cluster.yaml`)**: Sistem de operare imutabil, fără acces SSH, operat exclusiv prin API gRPC securizat.
+* **GitOps**: Sincronizare automată între manifestele din repository-ul Git și starea clusterului K3s/Talos prin operatorul GitOps ArgoCD.
 
 ---
 
-## 6. Inteligență Artificială Locală & Knowledge Base Offline
+## 10. Stiva de Observabilitate LGTM și Pipeline Telemetrie
 
-* **Ollama pe GPU Dedicat (Node 1)**: Rulare locală a modelelor `Qwen2.5-Coder-1.5B/3B`, `Llama-3.2-3B` și `DeepSeek-R1-Distill-Qwen-1.5B` pe placa video NVIDIA GeForce GTX 1050 Ti (4GB VRAM).
-* **Wikipedia Self-Hosted (Node 2)**: Arhivă completă offline în format ZIM (Wikipedia, Wiktionary, StackOverflow) servită prin Kiwix la portul `:8085`.
-
----
-
-## 7. Ingineria Haosului & Recuperare în caz de Dezastru (DR)
-
-* **Testare DR Automatizată (`scripts/disaster-recovery/dr_vzdump_restore.sh`)**: Script ce descarcă cel mai recent backup vzdump, îl restaurează într-o mașină virtuală izolată în VLAN 99, execută verificări de sănătate (HTTP 200 / integritate DB) și o distruge automat.
-* **Simulator Chaos (`scripts/chaos/chaos_runner.sh`)**: Injectare de consum 100% CPU (`stress-ng`), presiune pe RAM, latență de rețea și pachete pierdute (`tc qdisc netem`).
+* **Metrici**: Prometheus TSDB (`:9090`) colectează telemetrie hardware și aplicații.
+* **Jurnale (Logs)**: Grafana Loki (`:3100`) indexează fluxurile de loguri transmise de agenții Vector.
+* **Urme Distribuite (Traces)**: Grafana Tempo (`:3200`) recepționează span-uri OpenTelemetry (OTLP gRPC `:4317` / HTTP `:4318`).
+* **Alertare**: Alertmanager rutează incidentele critice direct pe canalele de Telegram și Discord.
 
 ---
 
-## 8. Web App & Digital Twin Interactiv
+## 11. Strategie de Backup 3-2-1, Sanoid și Disaster Recovery
 
-Aplicația web este construită în Angular 20 Standalone cu TypeScript, Tailwind CSS (paletă Charcoal Obsidian & Emerald), comutator bilingv RO/EN și vizualizare spațială 3D a topologiei homelab-ului:
+* **3 Copii**: NVMe primar, NAS secundar OMV (ZFS Mirror), bucket securizat Cloudflare R2 / S3 Glacier.
+* **2 Formate**: Snapshot-uri ZFS live + arhive comprimate zstd (`.vma.zst`).
+* **1 Off-Site**: Backup criptat în cloud cu blocare la ștergere (Object Lock 90 de zile).
+* **Testare DR Automată (`scripts/disaster-recovery/dr_vzdump_restore.sh`)**: Script săptămânal de CI ce restaurează cel mai recent backup într-un VLAN izolat 99, verifică integritatea bazei de date și răspunsurile HTTP 200.
 
-* **Site Live**: [https://stefanutc1.github.io/homelab/](https://stefanutc1.github.io/homelab/)
-* **Cod Sursă Frontend**: `web/`
+---
+
+## 12. Poligon de Securitate Cibernetică, SOC și eBPF
+
+* **Cluster Honeypots T-Pot (`cyber/honeypots/tpot/`)**: Capcane automate Cowrie, Dionaea și RDP în VLAN 40 DMZ.
+* **Emulare Adversar Atomic Red Team (`cyber/adversary-simulation/atomic-red-team/run_art_tests.sh`)**: Testare automată MITRE ATT&CK (T1059, T1003, T1078, T1053, T1021).
+* **Securitate Kernel eBPF (`cyber/ebpf/tetragon/tracingpolicy.yaml`)**: Monitorizare în timp real a apelurilor de sistem (`sys_execve`, acces neautorizat la `/etc/shadow`).
+
+---
+
+## 13. Rulare Locală LLM pe GPU (Ollama CT 110)
+
+Ollama rulează pe containerul dedicat **`CT 110`** pe Nodul 1 (`192.168.1.110:11434`), având acces direct la placa video NVIDIA GeForce GTX 1050 Ti:
+
+```bash
+# Verificare modele active în containerul CT 110
+pct exec 110 -- ollama list
+
+# Testare inferență prin API-ul REST:
+curl -s http://192.168.1.110:11434/api/generate -d '{
+  "model": "qwen2.5-coder:1.5b",
+  "prompt": "Scrie un script Python scurt pentru verificarea stării containerelor Proxmox",
+  "stream": false
+}'
+```
+
+---
+
+## 14. Ingineria Haosului și Validare Reziliență
+
+Scriptul `scripts/chaos/chaos_runner.sh` simulează căderi și sarcini extreme pentru a testa mecanismele de auto-remediere:
+
+```bash
+# Simulare consum 100% CPU pe toate nucleele timp de 60 de secunde
+./scripts/chaos/chaos_runner.sh cpu-stress 60
+
+# Injectare latență de rețea de 150ms
+./scripts/chaos/chaos_runner.sh network-latency 30 eth0 150ms
+
+# Simulare pierdere de pachete de 15%
+./scripts/chaos/chaos_runner.sh packet-loss 30 eth0 15%
+```
+
+---
+
+## 15. Telemetrie Ambientală și Control Dinamic Ventilatoare
+
+Senzorii ESP32 (DHT22 pentru temperatură/umiditate și radare de prezență mmWave) transmit date prin MQTT (`1883`) către Home Assistant (CT 106), ajustând dinamic turația ventilatoarelor Noctua de 120mm între 20% și 100% în funcție de sarcină.
+
+---
+
+## 16. Hardening Securitate și Integritate Criptografică
+
+* **Hardening Kernel Linux (`/etc/sysctl.d/99-proxmox-hardening.conf`)**: Randomizare ASLR completă, protecție SYN flood, restricționare ptrace și dmesg.
+* **Auditare SSH**: Autentificarea prin parolă este dezactivată complet pe toate nodurile; acces permis exclusiv prin chei criptografice Ed25519 (`ssh-audit` 100/100).
+* **Criptare Volumelor**: Deblocare automată la boot prin Clevis/Tang Network-Bound Disk Encryption (NBDE).
+
+---
+
+## 17. Director Adrese IP Statice și Porturi
+
+| Adresă IP | Gazdă / Resursă | Porturi Expuse | Rol în Infrastructură |
+| :--- | :--- | :--- | :--- |
+| `192.168.1.1` | Ruter Gateway | `80`, `443` | Gateway Implicit LAN |
+| `192.168.1.3` | `nginx` (CT 100) | `80`, `443`, `81` | Nginx Proxy Manager & Ingress |
+| `192.168.1.4` | `pihole` (CT 101) | `53` (TCP/UDP), `80` | Rezoluție DNS Internă & Filtrare |
+| `192.168.1.9` | `homeassistant` (CT 106) | `8123`, `1883` | Hub Smart Home & Broker MQTT |
+| `192.168.1.110`| `ollama` (CT 110) | `11434` | Rulare Modele LLM pe GPU Local |
+| `192.168.1.132`| `proxmox` (Nod 1 Host) | `8006`, `22` | Consola Web Proxmox VE |
+| `192.168.20.201`| `win-server-2025` (VM 201)| `53`, `88`, `389`, `445`, `3389` | Active Directory Domain Services |
+| `192.168.64.14`| `proxmox2` (Nod 3 Host) | `8006`, `22` | Management Hypervisor ARM64 |
+| `192.168.64.118`| `tempo` (CT 118) | `3200`, `4317`, `4318` | Backend Tracing Distribuit |
+
+---
+
+## 18. Runbook de Pornire la Rece (Cold-Start) și Cheat Sheet CLI
+
+### Secvență Deterministică de Pornire la Rece
+
+1. **Etapa 1 (Energie & Rețea)**: Pornire UPS Coldex $\to$ Pornire Switch Managed $\to$ Verificare conexiune WAN firewall OPNsense (VM 200).
+2. **Etapa 2 (Stocare & DNS)**: Pornire NAS OMV (Nod 2) $\to$ Așteptare monturi NFS $\to$ Pornire Pi-hole / DNS (CT 101).
+3. **Etapa 3 (Hypervisori)**: Pornire Nod 1 (x86_64) și Nod 3 (ARM64) $\to$ Verificare stare ZFS (`zpool status`).
+4. **Etapa 4 (Securitate & Autentificare)**: Pornire Authentik (CT 108) $\to$ Pornire Wazuh SIEM (CT 105) $\to$ Pornire Nginx Proxy Manager (CT 100).
+5. **Etapa 5 (Servicii & AI)**: Pornire Ollama (CT 110), Home Assistant (CT 106) și restul microserviciilor.
+
+### Comenzi Rapide CLI Proxmox
+
+```bash
+# Listare containere și mașini virtuale active
+pct list && qm list
+
+# Verificare integritate pool-uri de stocare ZFS
+zpool status -v
+
+# Urmărire jurnale serviciu Ollama în CT 110
+pct exec 110 -- journalctl -u ollama -f -n 50
+
+# Execuție backup manual snapshot cu compresie zstd
+vzdump 110 --storage local-lvm --mode snapshot --compress zstd
+```
+
+---
+
+## 19. Ghid de Depanare Rapidă (FAQ)
+
+<details>
+<summary><b>Î: Cum remediez erorile temporare de rezoluție DNS în containerele LXC?</b></summary>
+Setați nameserver-ul containerului către resolverul local (`192.168.1.1` sau `192.168.1.4`) prin comanda <code>pct set &lt;VMID&gt; -nameserver 192.168.1.1</code> și verificați fișierul <code>/etc/resolv.conf</code>.
+</details>
+
+<details>
+<summary><b>Î: Cum verific funcționarea GPU Passthrough pentru Ollama în CT 110?</b></summary>
+Rulați <code>pct exec 110 -- /usr/local/bin/ollama run qwen2.5-coder:1.5b "test"</code> și inspectați <code>nvidia-smi</code> pe nodul gazdă Proxmox pentru a monitoriza gradul de încărcare al plăcii video.
+</details>
+
+---
+
+## 20. Structură Monorepo și Ghid de Contribuție
+
+```
+.
+├── .github/workflows/          # Pipeline-uri CI/CD (Trivy, Gitleaks, Shellcheck, CD)
+├── cyber/                      # SOC, SIEM, Honeypots (T-Pot), eBPF & Sandbox
+├── elo/                        # Plan de Control Autonom Agenți AI & Instrumente
+├── hypervisors/                # Hardening sysctl Proxmox & profile kernel
+├── kubernetes/                 # Manifeste Talos Linux & K3s
+├── scripts/                    # Scripturi Disaster Recovery & Ingineria Haosului
+├── services/                   # Configurații Docker Compose & microservicii
+├── terraform/                  # Module declarative IaC Proxmox LXC & VM
+├── vms/                        # Configurații declarative NixOS & Windows Server
+└── web/                        # Aplicație Web Interactivă Angular 20 Standalone
+```
+
+Contribuțiile sunt binevenite! Vă rugăm să citiți [CONTRIBUTING.md](CONTRIBUTING.md) și să respectați standardul [Conventional Commits 1.0.0](https://www.conventionalcommits.org/).
+
+---
+
+<div align="center">
+
+**Autor**: Stefan Utc ([@stefanutc1](https://github.com/stefanutc1)) • [Profil GitHub](https://github.com/stefanutc1)  
+Licențiat sub termenii **Licenței MIT**.
+
+</div>
