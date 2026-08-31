@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":dependencyDashboard"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non-major dependencies",
+      "automerge": false
+    },
+    {
+      "matchManagers": ["terraform"],
+      "groupName": "terraform-providers"
+    },
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "groupName": "container-images"
+    }
+  ],
+  "labels": ["dependencies", "renovate", "homelab"],
+  "timezone": "Europe/Bucharest"
+}

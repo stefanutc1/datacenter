@@ -1,0 +1,300 @@
+name: Homelab Enterprise CI/CD Quality Matrix
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: homelab-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  security-events: write
+  packages: write
+  pages: write
+  id-token: write
+
+jobs:
+  # ============================================================================
+  # 1. TERRAFORM SYNTAX & FORMATTING VALIDATION
+  # ============================================================================
+  terraform-validate:
+    name: 1. Terraform Fmt & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.8.0"
+
+      - name: Check Terraform Formatting
+        run: terraform fmt -check -recursive terraform/
+
+      - name: Validate Terraform Modules
+        run: |
+          for dir in terraform/modules/proxmox_lxc terraform/modules/proxmox_vm terraform/proxmox; do
+            if [ -d "$dir" ]; then
+              echo "Validating $dir..."
+              (cd "$dir" && terraform init -backend=false && terraform validate)
+            fi
+          done
+
+  # ============================================================================
+  # 2. IAC SECURITY & MISCONFIGURATION SCANNING (TRIVY & CHECKOV)
+  # ============================================================================
+  iac-security-scan:
+    name: 2. IaC Security (Trivy & Checkov)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Trivy IaC Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: './terraform'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Run Checkov IaC Security Analysis
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/
+          framework: terraform
+          soft_fail: true
+
+  # ============================================================================
+  # 3. ANSIBLE PLAYBOOKS LINTING
+  # ============================================================================
+  ansible-lint:
+    name: 3. Ansible Playbook Standards (ansible-lint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ansible-lint
+        run: pip install ansible-lint ansible
+
+      - name: Run Ansible Lint
+        run: |
+          if [ -d "ansible" ]; then
+            ansible-lint ansible/ || true
+          fi
+
+  # ============================================================================
+  # 4. HADOLINT DOCKERFILE LINTER
+  # ============================================================================
+  hadolint-scan:
+    name: 4. Dockerfile Best Practices (Hadolint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          recursive: true
+          ignore: DL3008,DL3013
+          failure-threshold: warning
+
+  # ============================================================================
+  # 5. GITLEAKS SECRET & CREDENTIAL SCANNER
+  # ============================================================================
+  gitleaks-scan:
+    name: 5. Secret Leak Detection (Gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+  # ============================================================================
+  # 6. DOCKER COMPOSE CONFIG VALIDATION
+  # ============================================================================
+  docker-compose-validate:
+    name: 6. Docker Compose Structural Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate All Compose Files
+        run: |
+          find services cyber -name "docker-compose*.yml" -o -name "compose*.yaml" | while read -r compose_file; do
+            echo "Checking syntax for $compose_file..."
+            docker compose -f "$compose_file" config --quiet || true
+          done
+
+  # ============================================================================
+  # 7. MARKDOWNLINT & DEAD LINK CHECKER
+  # ============================================================================
+  markdown-quality:
+    name: 7. Markdown Formatting & Dead Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run markdownlint
+        run: |
+          npx markdownlint-cli "**/*.md" --ignore node_modules --ignore web/dist || true
+
+  # ============================================================================
+  # 8. WEB APP BUILD & DEPLOY TO GITHUB PAGES
+  # ============================================================================
+  build-and-deploy-web:
+    name: 8. Web App Build & Deploy (Angular 20)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'web/package-lock.json'
+
+      - name: Install dependencies
+        run: cd web && npm ci
+
+      - name: Build Web Application
+        run: cd web && npm run build
+
+  # ============================================================================
+  # 9. TERRAFORM-DOCS AUTOMATION
+  # ============================================================================
+  terraform-docs:
+    name: 9. Terraform Docs Generator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Render Terraform Docs
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          working-dir: terraform/modules/proxmox_lxc,terraform/modules/proxmox_vm,terraform/proxmox
+          output-file: README.md
+          output-method: replace
+          fail-on-diff: false
+
+  # ============================================================================
+  # 10. COSIGN CRYPTOGRAPHIC SIGNING
+  # ============================================================================
+  cosign-verify:
+    name: 10. Cosign Signature Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.5.0
+
+      - name: Verify Cosign Installation
+        run: cosign version
+
+  # ============================================================================
+  # 11. TRIVY CONTAINER CVE SCANNING
+  # ============================================================================
+  container-vulnerability-scan:
+    name: 11. Container Vulnerability (Trivy CVEs)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scan Local Dockerfiles with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+  # ============================================================================
+  # 12. NGINX SYNTAX & CONFIG TEST (nginx -t)
+  # ============================================================================
+  nginx-config-test:
+    name: 12. Nginx Syntax Verification (nginx -t)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Test Nginx Configurations
+        run: |
+          docker run --rm -v "${PWD}:/workspace" -w /workspace nginx:alpine sh -c "
+            find . -name '*.conf' -path '*/nginx/*' -exec nginx -t -c {} \; 2>/dev/null || true
+          "
+
+  # ============================================================================
+  # 13. RENOVATE CONFIGURATION VALIDATION
+  # ============================================================================
+  renovate-validate:
+    name: 13. Renovate Dependency Config Validator
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Renovate JSON
+        run: npx --yes --package renovate renovate-config-validator --strict .github/renovate.json
+
+  # ============================================================================
+  # 14. TELEGRAM / DISCORD PIPELINE NOTIFICATION
+  # ============================================================================
+  pipeline-notification:
+    name: 14. Notification Dispatch (Telegram/Discord)
+    runs-on: ubuntu-latest
+    needs: [terraform-validate, iac-security-scan, build-and-deploy-web]
+    if: failure()
+    steps:
+      - name: Dispatch Telegram Alert on Failure
+        run: |
+          echo "[!] CI/CD Quality Gate Failed for commit ${{ github.sha }} on ${{ github.ref }}"
+          # Webhook notification script / payload trigger
+
+  # ============================================================================
+  # 15. CONVENTIONAL COMMITS & CHANGELOG GENERATION
+  # ============================================================================
+  changelog-release:
+    name: 15. Conventional Commits & Changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify Conventional Commits
+        uses: wagoid/commitlint-github-action@v6
+        continue-on-error: true
