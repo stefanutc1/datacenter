@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  microbin:
+    image: danielszabo99/microbin:latest
+    container_name: microbin
+    restart: unless-stopped
+    ports:
+      - "8089:8080"
+    environment:
+      - MICROBIN_PORT=8080
+      - MICROBIN_PUBLIC_PATH=https://bin.homelab.local/
+      - MICROBIN_EDITABLE=true
+      - MICROBIN_FOOTER_TEXT="Homelab Microbin"
+    volumes:
+      - ./data:/app/microbin_data
+    networks:
+      - arm-net
+
+networks:
+  arm-net:
+    external: true

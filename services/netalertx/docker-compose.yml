@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  netalertx:
+    image: jokobsk/netalertx:latest
+    container_name: netalertx
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - TZ=Europe/Bucharest
+      - PORT=20211
+    volumes:
+      - ./config:/app/config
+      - ./db:/app/db
+      - ./logs:/app/front/log

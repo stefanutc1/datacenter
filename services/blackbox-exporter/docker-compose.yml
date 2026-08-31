@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  blackbox-exporter:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox-exporter
+    restart: unless-stopped
+    ports:
+      - "9115:9115"
+    volumes:
+      - ./config:/etc/blackbox_exporter
+    networks:
+      - arm-net
+
+networks:
+  arm-net:
+    external: true

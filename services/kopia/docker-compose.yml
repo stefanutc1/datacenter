@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  kopia:
+    image: kopia/kopia:latest
+    container_name: kopia-server
+    restart: unless-stopped
+    ports:
+      - "5151:5151"
+    command:
+      - server
+      - start
+      - --address=0.0.0.0:5151
+      - --insecure
+    environment:
+      - KOPIA_PASSWORD=kopia_master_password_2026
+    volumes:
+      - ./config:/app/config
+      - ./cache:/app/cache
+      - ./logs:/app/logs
+      - /var/lib/vz:/data/proxmox-data:ro
+    networks:
+      - core-net
+
+networks:
+  core-net:
+    external: true
