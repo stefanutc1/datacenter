@@ -2,7 +2,7 @@
 
 # Enterprise Hybrid Cloud & Platform Engineering Lab
 
-**[ 🇷🇴 Română (README.ro.md) ](README.ro.md) • [ 🇬🇧 English ](README.md) • [ 🇫🇷 Français ](#-language-selection) • [ 🇪🇸 Español ](#-language-selection)**
+**[ 🇷🇴 Română ](README.ro.md) • [ 🇬🇧 English ](README.md) • [ 🇫🇷 Français ](README.fr.md) • [ 🇪🇸 Español ](README.es.md) • [ 🇩🇪 Deutsch ](README.de.md)**
 
 [![CI/CD Status](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions)
 [![Security & Trivy Scan](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml)
