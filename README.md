@@ -541,7 +541,7 @@ Contributions are welcome! Please review [CONTRIBUTING.md](CONTRIBUTING.md) and 
 
 <div align="center">
 
-**Author**: Stefan Utc ([@stefanutc1](https://github.com/stefanutc1)) • [GitHub Profile](https://github.com/stefanutc1)  
+**Author**: [@stefanutc1](https://github.com/stefanutc1)  
 Released under the **MIT License**.
 
 </div>

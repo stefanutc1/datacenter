@@ -32,7 +32,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m0s
-  url: https://github.com/stefannut/homelab
+  url: https://github.com/stefanutc1/homelab
   ref:
     branch: main
 ---

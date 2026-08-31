@@ -169,7 +169,7 @@ ansible-playbook playbooks/site.yml
 
 <div align="center">
 
-**Auteur** : Stefan Utc ([@stefanutc1](https://github.com/stefanutc1)) • [Profil GitHub](https://github.com/stefanutc1)  
+**Auteur** : [@stefanutc1](https://github.com/stefanutc1)  
 Publié sous la **Licence MIT**.
 
 </div>

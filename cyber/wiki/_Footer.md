@@ -1,2 +1,2 @@
 ---
-*CyberLab Security Operations Wiki · Maintained by [`@stefannut`](https://github.com/stefannut) · Licensed under MIT (2026).*
+*CyberLab Security Operations Wiki · Maintained by [`@stefanutc1`](https://github.com/stefanutc1) · Licensed under MIT (2026).*

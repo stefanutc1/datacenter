@@ -371,7 +371,7 @@ Contribuțiile sunt binevenite! Vă rugăm să citiți [CONTRIBUTING.md](CONTRIB
 
 <div align="center">
 
-**Autor**: Stefan Utc ([@stefanutc1](https://github.com/stefanutc1)) • [Profil GitHub](https://github.com/stefanutc1)  
+**Autor**: [@stefanutc1](https://github.com/stefanutc1)  
 Licențiat sub termenii **Licenței MIT**.
 
 </div>
