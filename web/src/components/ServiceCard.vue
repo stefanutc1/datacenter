@@ -65,6 +65,22 @@
       </a>
     </div>
 
+    <!-- Hardware Allocation Spec Bar -->
+    <div v-if="service.ram || service.storage || service.node" class="specs-alloc-row">
+      <span v-if="service.node" class="alloc-pill node-pill" :title="'Host Node: ' + service.node">
+        <svg class="svg-icon-nano" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+        {{ service.node.includes('·') ? service.node.split('·')[0].trim() : service.node.replace(/\(.*\)/, '').trim() }}
+      </span>
+      <span v-if="service.ram" class="alloc-pill ram-pill" :title="'Allocated RAM: ' + service.ram">
+        <svg class="svg-icon-nano" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 19v-3"/><path d="M10 19v-3"/><path d="M14 19v-3"/><path d="M18 19v-3"/><rect x="2" y="5" width="20" height="10" rx="2"/></svg>
+        {{ service.ram }}
+      </span>
+      <span v-if="service.storage" class="alloc-pill disk-pill" :title="'Allocated Storage: ' + service.storage">
+        <svg class="svg-icon-nano" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/></svg>
+        {{ service.storage }}
+      </span>
+    </div>
+
     <!-- Tags Row -->
     <div class="tags-row">
       <span v-for="tag in service.tags.slice(0, 3)" :key="tag" class="tag-pill">{{ tag }}</span>
@@ -440,4 +456,44 @@ const getLogoUrl = (logo) => {
 .svg-icon { width: 22px; height: 22px; }
 .svg-icon-sm { width: 16px; height: 16px; }
 .svg-icon-xs { width: 12px; height: 12px; }
+.svg-icon-nano { width: 11px; height: 11px; opacity: 0.85; flex-shrink: 0; }
+
+.specs-alloc-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.alloc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  padding: 0.12rem 0.45rem;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-color);
+  line-height: 1.3;
+}
+
+.node-pill {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ram-pill {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.disk-pill {
+  color: #c084fc;
+  border-color: rgba(192, 132, 252, 0.3);
+  background: rgba(192, 132, 252, 0.08);
+}
 </style>

@@ -103,20 +103,50 @@ enforces cis level 1 benchmark baselines:
   {
     id: "services",
     section: "homelab",
-    title: "services catalog",
+    title: "services catalog & hardware allocations",
     category: "catalog",
     icon: "svc",
-    summary: "comprehensive catalog of 28 self-hosted docker compose services and web endpoints.",
-    content: `# self-hosted application catalog
+    summary: "comprehensive catalog of self-hosted services with per-container ram and storage allocations across x86_64 and arm64 nodes.",
+    content: `# self-hosted application catalog & hardware allocations
 
-the platform operates 28 containerized microservices managed via \`docker-compose.yml\` configurations located in \`services/\`.
+the platform operates containerized microservices and virtual machines distributed across dual proxmox hypervisors:
 
-### key service groups:
-- **ingress & sso**: nginx proxy manager, authelia, authentik
-- **media & cloud**: immich, nextcloud, jellyfin, radarr, sonarr, prowlarr, bazarr, qbittorrent
-- **automation**: home assistant, n8n, changedetection.io
-- **developer tools**: gitea, woodpecker ci, it-tools, trilium notes
-- **observability**: prometheus, alertmanager, grafana, loki, uptime kuma, scrutiny
+---
+
+## 1. node 1 (x86_64 core · 192.168.1.132)
+
+| vmid / id | service | ram allocated | storage allocated | ip & port | domain | description |
+| :---: | :--- | :---: | :---: | :--- | :--- | :--- |
+| **vm 200** | opnsense gateway | 1024 mb (1 gb) | 16 gb ssd | \`192.168.1.132:8443\` | \`opnsense.lan\` | core stateful firewall & wireguard router |
+| **vm 201** | windows server 2025 | 4096 mb (4 gb) | 120 gb nvme | \`192.168.1.132:3389\` | \`winserver.lan\` | active directory, rdp, enterprise services |
+| **ct 100** | nginx proxy manager | 112 mb | 4 gb ssd | \`192.168.1.3:81\` | \`nginx.lan\` | reverse proxy & let's encrypt ssl certificates |
+| **ct 101** | pi-hole dns | 96 mb | 4 gb ssd | \`192.168.1.4:80\` | \`pihole.lan\` | dns sinkhole & adblock resolver |
+| **ct 102** | tailscale mesh | 96 mb | 4 gb ssd | \`192.168.1.5\` | \`tailscale.lan\` | wireguard mesh subnet router |
+| **ct 103** | immich photos & ai | 896 mb | 40 gb ssd | \`192.168.1.15:2283\` | \`immich.lan\` | photo backup & facial recognition |
+| **ct 104** | nextcloud hub | 96 mb | 20 gb ssd | \`192.168.1.8:80\` | \`nextcloud.lan\` | self-hosted cloud storage & file sync |
+| **ct 105** | crowdsec ips | 128 mb | 4 gb ssd | \`192.168.1.9:8080\` | \`crowdsec.lan\` | intrusion prevention & lapi defense |
+| **ct 106** | home assistant | 384 mb | 16 gb ssd | \`192.168.1.10:8123\` | \`ha.lan\` | smart home automation & esp32 hub |
+| **ct 107** | n8n automations | 384 mb | 8 gb ssd | \`192.168.1.13:5678\` | \`n8n.lan\` | workflow automation & webhook engine |
+| **ct 108** | scrutiny smart (x64) | 96 mb | 4 gb ssd | \`192.168.1.18:8080\` | \`scrutiny.lan\` | nvme/sata smart disk health monitor |
+| **ct 109** | media suite (jellyfin) | 896 mb | 50 gb ssd | \`192.168.1.21:8096\` | \`jellyfin.lan\` | jellyfin, radarr, sonarr, prowlarr, qbittorrent |
+
+---
+
+## 2. node 3 (arm64 utility · 192.168.64.14)
+
+| vmid / id | service | ram allocated | storage allocated | ip & port | domain | boot policy | description |
+| :---: | :--- | :---: | :---: | :--- | :--- | :---: | :--- |
+| **ct 100** | it-tools | 64 mb | 2 gb nvme | \`192.168.64.15:8080\` | \`it-tools.lan\` | on-demand | developer web tools & utilities |
+| **ct 101** | actual budget | 160 mb | 4 gb nvme | \`192.168.64.16:5006\` | \`actualbudget.lan\` | on-demand | zero-based private budgeting |
+| **ct 102** | trilium notes | 160 mb | 8 gb nvme | \`192.168.64.17:8080\` | \`trilium.lan\` | on-demand | hierarchical knowledge base |
+| **ct 103** | changedetection | 160 mb | 4 gb nvme | \`192.168.64.18:5000\` | \`changedetection.lan\` | on-demand | web page diff & restock monitor |
+| **ct 104** | scrutiny smart (arm) | 96 mb | 4 gb nvme | \`192.168.64.19:8088\` | \`scrutiny-arm.lan\` | onboot: 1 | apple silicon nvme smart health |
+| **ct 105** | uptime kuma | 80 mb | 4 gb nvme | \`192.168.64.23:3001\` | \`uptime.lan\` | onboot: 1 | real-time service status monitor |
+| **ct 106** | vaultwarden | 96 mb | 4 gb nvme | \`192.168.64.21:8080\` | \`vaultwarden.lan\` | on-demand | rust password vault |
+| **ct 107** | monitoring (grafana) | 448 mb | 16 gb nvme | \`192.168.64.24:3000\` | \`grafana.lan\` | onboot: 1 | prometheus, grafana & loki logs |
+| **ct 108** | authelia 2fa | 96 mb | 4 gb nvme | \`192.168.64.20:9091\` | \`auth.lan\` | on-demand | 2fa sso portal |
+| **ct 109** | gitea forge | 160 mb | 10 gb nvme | \`192.168.64.25:3000\` | \`git.lan\` | on-demand | git repository & actions forge |
+| **ct 110** | woodpecker ci | 192 mb | 8 gb nvme | \`192.168.64.26:8000\` | \`ci.lan\` | on-demand | container ci/cd pipeline engine |
 `
   },
   {

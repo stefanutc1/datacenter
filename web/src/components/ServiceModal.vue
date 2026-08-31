@@ -45,12 +45,20 @@
           </a>
         </div>
         <div class="metric-item">
-          <span class="metric-label">container</span>
+          <span class="metric-label">container / vm</span>
           <span class="metric-value code-font">{{ service.containerName }}</span>
         </div>
         <div class="metric-item">
-          <span class="metric-label">category</span>
-          <span class="metric-value capitalize">{{ service.category }}</span>
+          <span class="metric-label">host node</span>
+          <span class="metric-value code-font">{{ service.node || 'Node 1' }}</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">allocated ram</span>
+          <span class="metric-value code-font text-cyan">{{ service.ram || '256 MB' }}</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">allocated storage</span>
+          <span class="metric-value code-font text-purple">{{ service.storage || '4 GB' }}</span>
         </div>
       </div>
 

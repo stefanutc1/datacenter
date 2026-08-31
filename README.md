@@ -137,38 +137,38 @@ The cluster orchestrates **28 production services** distributed across dual Prox
 
 ### Primary Hypervisor Workloads (Node 1 — x86_64 · `192.168.1.132`)
 
-| VMID / ID | Service Name | Category | Direct Address | Domain | Purpose & Functionality |
-|:---|:---|:---|:---|:---|:---|
-| **`VM 200`** | **OPNsense Core Gateway** | Virtual Machines (VM) | `192.168.1.132:8443` | `opnsense.lan` | Core stateful firewall, inter-VLAN routing, and WireGuard VPN server. |
-| **`VM 201`** | **Windows Server 2025** | Virtual Machines (VM) | `192.168.1.132:3389` | `winserver.lan` | Windows Server 2025 Datacenter VM (OVMF UEFI, TPM 2.0, VirtIO, Active Directory). |
-| **`CT 100`** | **Nginx Proxy Manager** | Ingress & Networking | `192.168.1.3:81` | `npm.lan` | Reverse proxy and SSL certificate manager with Let's Encrypt automation. |
-| **`CT 101`** | **Pi-hole DNS** | Ingress & Networking | `192.168.1.4:80` | `pihole.lan` | Network-wide ad blocking, DNS sinkhole, and custom local `.lan` resolver. |
-| **`CT 102`** | **Tailscale Mesh Gateway** | Ingress & Networking | `192.168.1.5` | `tailscale.lan` | Encrypted mesh VPN subnet router with WireGuard kernel acceleration. |
-| **`CT 103`** | **Immich Photos & Video** | Storage & Cloud | `192.168.1.15:2283` | `immich.lan` | Self-hosted photo/video backup with on-premise AI facial recognition. |
-| **`CT 104`** | **Nextcloud Hub** | Storage & Cloud | `192.168.1.8:80` | `nextcloud.lan` | Collaborative productivity cloud with file sync, calendar, and WebDAV. |
-| **`CT 105`** | **CrowdSec Defense** | Security & Identity | `192.168.1.9:8080` | `crowdsec.lan` | Collaborative cyber defense engine parsing server logs to ban malicious IPs. |
-| **`CT 106`** | **Home Assistant Core** | Smart Home & IoT | `192.168.1.10:8123` | `ha.lan` | Central home automation platform integrating ESP32 nodes & Zigbee sensors. |
-| **`CT 107`** | **n8n Workflow Automation** | Automation & Workflow | `192.168.1.13:5678` | `n8n.lan` | Low-code workflow automation orchestrating webhooks, cron jobs, and alerts. |
-| **`CT 108`** | **Scrutiny SMART (x86_64)** | Storage & Cloud | `192.168.1.18:8080` | `scrutiny.lan` | Hard drive health monitor tracking SMART attributes on x86_64 storage pool. |
-| **`CT 109`** | **Media Suite (Jellyfin/Arr Stack)** | Media & Streaming | `192.168.1.21:8096` | `jellyfin.lan` | Jellyfin, Radarr, Sonarr, Prowlarr, Bazarr, and qBittorrent stack. |
+| VMID / ID | Service Name | RAM | Storage | Direct Address | Domain | Purpose & Functionality |
+|:---|:---|:---:|:---:|:---|:---|:---|
+| **`VM 200`** | **OPNsense Core Gateway** | 1024 MB | 16 GB SSD | `192.168.1.132:8443` | `opnsense.lan` | Core stateful firewall, inter-VLAN routing, and WireGuard VPN server. |
+| **`VM 201`** | **Windows Server 2025** | 4096 MB | 120 GB NVMe | `192.168.1.132:3389` | `winserver.lan` | Windows Server 2025 Datacenter VM (OVMF UEFI, TPM 2.0, VirtIO, Active Directory). |
+| **`CT 100`** | **Nginx Proxy Manager** | 112 MB | 4 GB SSD | `192.168.1.3:81` | `npm.lan` | Reverse proxy and SSL certificate manager with Let's Encrypt automation. |
+| **`CT 101`** | **Pi-hole DNS** | 96 MB | 4 GB SSD | `192.168.1.4:80` | `pihole.lan` | Network-wide ad blocking, DNS sinkhole, and custom local `.lan` resolver. |
+| **`CT 102`** | **Tailscale Mesh Gateway** | 96 MB | 4 GB SSD | `192.168.1.5` | `tailscale.lan` | Encrypted mesh VPN subnet router with WireGuard kernel acceleration. |
+| **`CT 103`** | **Immich Photos & Video** | 896 MB | 40 GB SSD | `192.168.1.15:2283` | `immich.lan` | Self-hosted photo/video backup with on-premise AI facial recognition. |
+| **`CT 104`** | **Nextcloud Hub** | 96 MB | 20 GB SSD | `192.168.1.8:80` | `nextcloud.lan` | Collaborative productivity cloud with file sync, calendar, and WebDAV. |
+| **`CT 105`** | **CrowdSec Defense** | 128 MB | 4 GB SSD | `192.168.1.9:8080` | `crowdsec.lan` | Collaborative cyber defense engine parsing server logs to ban malicious IPs. |
+| **`CT 106`** | **Home Assistant Core** | 384 MB | 16 GB SSD | `192.168.1.10:8123` | `ha.lan` | Central home automation platform integrating ESP32 nodes & Zigbee sensors. |
+| **`CT 107`** | **n8n Workflow Automation** | 384 MB | 8 GB SSD | `192.168.1.13:5678` | `n8n.lan` | Low-code workflow automation orchestrating webhooks, cron jobs, and alerts. |
+| **`CT 108`** | **Scrutiny SMART (x86_64)** | 96 MB | 4 GB SSD | `192.168.1.18:8080` | `scrutiny.lan` | Hard drive health monitor tracking SMART attributes on x86_64 storage pool. |
+| **`CT 109`** | **Media Suite (Jellyfin/Arr Stack)** | 896 MB | 50 GB SSD | `192.168.1.21:8096` | `jellyfin.lan` | Jellyfin, Radarr, Sonarr, Prowlarr, Bazarr, and qBittorrent stack. |
 
 ---
 
 ### Utility Hypervisor Workloads (Node 3 — ARM64 · `https://192.168.64.14:8006`)
 
-| VMID / ID | Service Name | Category | Direct Address | Domain | Purpose & Functionality |
-|:---|:---|:---|:---|:---|:---|
-| **`CT 100`** | **IT-Tools Web Utilities** | Productivity & Notes | `192.168.64.15:8080` | `it-tools.lan` | 70+ developer tools (JWT, regex, encoders, hashers) running on native ARM64. |
-| **`CT 101`** | **Actual Budget Server** | Productivity & Notes | `192.168.64.16:5006` | `actualbudget.lan` | Privacy-focused zero-based budgeting app with end-to-end encrypted sync. |
-| **`CT 102`** | **Trilium Personal Notes** | Productivity & Notes | `192.168.64.17:8080` | `trilium.lan` | Hierarchical knowledge base and note-taking app with SQLite backend. |
-| **`CT 103`** | **ChangeDetection.io** | Automation & Workflow | `192.168.64.18:5000` | `changedetection.lan` | Automated website change and DOM diff detection with restock alerts. |
-| **`CT 104`** | **Scrutiny SMART (ARM64)** | Storage & Cloud | `192.168.64.19:8088` | `scrutiny-arm.lan` | Native ARM64 storage health telemetry for Apple Silicon NVMe SSD endurance. |
-| **`CT 105`** | **Uptime Kuma Status Monitor** | Observability & Logs | `192.168.64.23:3001` | `uptime.lan` | Native ARM64 real-time uptime monitor and ping tracker with webhook triggers. |
-| **`CT 106`** | **Vaultwarden Password Vault** | Security & Identity | `192.168.64.21:8080` | `vaultwarden.lan` | Lightweight Rust Bitwarden backend providing zero-knowledge password vault. |
-| **`CT 107`** | **Monitoring (Grafana / Prometheus / Loki)** | Observability & Logs | `192.168.64.24:3000` | `grafana.lan` | Unified ARM64 observability suite with Grafana OSS, Prometheus TSDB & Loki logs. |
-| **`CT 108`** | **Authelia 2FA / SSO** | Security & Identity | `192.168.64.20:9091` | `auth.lan` | Multi-factor authentication provider protecting ingress paths with TOTP/FIDO2. |
-| **`CT 109`** | **Gitea Forge** | DevOps & CI/CD | `192.168.64.25:3000` | `git.lan` | Native ARM64 self-hosted Git forge with built-in actions & Webhooks. |
-| **`CT 110`** | **Woodpecker CI** | DevOps & CI/CD | `192.168.64.26:8000` | `ci.lan` | Native ARM64 container-native CI/CD pipeline automation engine. |
+| VMID / ID | Service Name | RAM | Storage | Direct Address | Domain | Purpose & Functionality |
+|:---|:---|:---:|:---:|:---|:---|:---|
+| **`CT 100`** | **IT-Tools Web Utilities** | 64 MB | 2 GB NVMe | `192.168.64.15:8080` | `it-tools.lan` | 70+ developer tools (JWT, regex, encoders, hashers) running on native ARM64. |
+| **`CT 101`** | **Actual Budget Server** | 160 MB | 4 GB NVMe | `192.168.64.16:5006` | `actualbudget.lan` | Privacy-focused zero-based budgeting app with end-to-end encrypted sync. |
+| **`CT 102`** | **Trilium Personal Notes** | 160 MB | 8 GB NVMe | `192.168.64.17:8080` | `trilium.lan` | Hierarchical knowledge base and note-taking app with SQLite backend. |
+| **`CT 103`** | **ChangeDetection.io** | 160 MB | 4 GB NVMe | `192.168.64.18:5000` | `changedetection.lan` | Automated website change and DOM diff detection with restock alerts. |
+| **`CT 104`** | **Scrutiny SMART (ARM64)** | 96 MB | 4 GB NVMe | `192.168.64.19:8088` | `scrutiny-arm.lan` | Native ARM64 storage health telemetry for Apple Silicon NVMe SSD endurance. |
+| **`CT 105`** | **Uptime Kuma Status Monitor** | 80 MB | 4 GB NVMe | `192.168.64.23:3001` | `uptime.lan` | Native ARM64 real-time uptime monitor and ping tracker with webhook triggers. |
+| **`CT 106`** | **Vaultwarden Password Vault** | 96 MB | 4 GB NVMe | `192.168.64.21:8080` | `vaultwarden.lan` | Lightweight Rust Bitwarden backend providing zero-knowledge password vault. |
+| **`CT 107`** | **Monitoring (Grafana / Prometheus / Loki)** | 448 MB | 16 GB NVMe | `192.168.64.24:3000` | `grafana.lan` | Unified ARM64 observability suite with Grafana OSS, Prometheus TSDB & Loki logs. |
+| **`CT 108`** | **Authelia 2FA / SSO** | 96 MB | 4 GB NVMe | `192.168.64.20:9091` | `auth.lan` | Multi-factor authentication provider protecting ingress paths with TOTP/FIDO2. |
+| **`CT 109`** | **Gitea Forge** | 160 MB | 10 GB NVMe | `192.168.64.25:3000` | `git.lan` | Native ARM64 self-hosted Git forge with built-in actions & Webhooks. |
+| **`CT 110`** | **Woodpecker CI** | 192 MB | 8 GB NVMe | `192.168.64.26:8000` | `ci.lan` | Native ARM64 container-native CI/CD pipeline automation engine. |
 
 ---
 

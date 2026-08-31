@@ -30,6 +30,9 @@ export const services = [
     image: 'elo-core:latest',
     containerName: 'elo_core',
     status: 'online',
+    ram: '512 MB',
+    storage: '2 GB',
+    node: 'Apple M1 (ARM64)',
     tags: ['AI Agent', 'FastAPI', 'pgvector RAG', 'ESP32 Presence', 'Automation Agents', 'Metal MPS'],
     description: 'AI control plane for Proxmox VE, OPNsense, Home Assistant, and ZFS. Features persistent pgvector memory, ESP32 room-awareness, modular automation agents, and LLM fallback routing.',
     features: [
@@ -70,6 +73,9 @@ ELO runs on the Apple Silicon M1 node (192.168.1.133) providing autonomous infra
     image: 'antigravity-mcp:latest',
     containerName: 'antigravity_mcp',
     status: 'online',
+    ram: '256 MB',
+    storage: '1 GB',
+    node: 'Apple M1 (ARM64)',
     tags: ['Model Context Protocol', 'AI Tools', 'JSON-RPC', 'Proxmox API', 'OPNsense API'],
     description: 'Model Context Protocol (MCP) server providing live homelab infrastructure inspection, container telemetry, and command execution tools to AI assistants.',
     features: [
@@ -103,6 +109,9 @@ Located in ai/, connects AI coding assistants directly to homelab runtime teleme
     image: 'bare-metal:proxmox-ve-9.2',
     containerName: 'pve_host',
     status: 'online',
+    ram: '8 GB',
+    storage: '512 GB SSD',
+    node: 'Node 1 (x86_64)',
     tags: ['Hypervisor', 'KVM', 'LXC', 'Debian 12', 'ZFS'],
     description: 'Primary bare-metal hypervisor node hosting all homelab virtual machines, LXC microservices, Frigate NVR, and ML experimentation workloads.',
     features: [
@@ -132,6 +141,9 @@ Primary compute node at 192.168.1.132.`
     image: 'bare-metal:openmediavault-7',
     containerName: 'omv_host',
     status: 'online',
+    ram: '2 GB',
+    storage: '500 GB HDD',
+    node: 'Node 2 (Storage NAS)',
     tags: ['NAS', 'ZFS', 'SMB / NFS', 'Backups', 'Debian 12'],
     description: 'Centralized NAS appliance providing SMB/NFS file shares, ZFS snapshot datasets, and secondary backup repository for all homelab VMs.',
     features: [
@@ -161,6 +173,9 @@ Central storage NAS at 192.168.1.135.`
     image: 'jc21/nginx-proxy-manager:latest',
     containerName: 'npm',
     status: 'online',
+    ram: '112 MB',
+    storage: '4 GB SSD',
+    node: 'Node 1 (x86_64 · CT 100)',
     tags: ['Reverse Proxy', 'SSL / TLS', 'Let\'s Encrypt', 'Ingress', 'Port Forwarding'],
     description: 'Reverse proxy management dashboard providing automated SSL provisioning, WebSocket proxying, and local domain routing for all homelab services.',
     features: [
@@ -201,6 +216,9 @@ NPM operates in LXC 100 as the edge reverse proxy for the entire 192.168.1.0/24 
     image: 'pihole/pihole:latest',
     containerName: 'pihole',
     status: 'online',
+    ram: '96 MB',
+    storage: '4 GB SSD',
+    node: 'Node 1 (x86_64 · CT 101)',
     tags: ['DNS', 'Adblock', 'FTL Engine', 'Local DNS', 'Wildcards'],
     description: 'Network-wide DNS sinkhole, tracker blocker, and local authoritative DNS server resolving *.lan domains to Nginx Proxy Manager.',
     features: [
@@ -244,6 +262,9 @@ Pi-hole runs inside LXC 101 on IP \`192.168.1.4\`. Its \`pihole.toml\` and dnsma
     image: 'homeassistant/home-assistant:latest',
     containerName: 'homeassistant',
     status: 'online',
+    ram: '384 MB',
+    storage: '16 GB SSD',
+    node: 'Node 1 (x86_64 · CT 106)',
     tags: ['Smart Home', 'Automations', 'IoT', 'Zigbee', 'MQTT'],
     description: 'Central open-source home automation platform integrating ESP32 nodes, Zigbee sensors, Shelly relays, and custom security scripts.',
     features: [
@@ -284,6 +305,9 @@ Home Assistant acts as the main nervous system for the homelab physical environm
     image: 'ghcr.io/immich-app/immich-server:release',
     containerName: 'immich_server',
     status: 'online',
+    ram: '896 MB',
+    storage: '40 GB SSD',
+    node: 'Node 1 (x86_64 · CT 103)',
     tags: ['Photos', 'Backup', 'Facial Recognition', 'ML / AI', 'Mobile Sync'],
     description: 'High-performance self-hosted backup and media exploration solution featuring machine learning facial clustering, CLIP search, and automated smartphone uploads.',
     features: [
@@ -322,6 +346,9 @@ Immich runs in LXC 103 on Primary Hypervisor (Node 1, x86_64) with dedicated Pos
     image: 'vaultwarden/server:latest',
     containerName: 'vaultwarden',
     status: 'online',
+    ram: '96 MB',
+    storage: '4 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 106)',
     tags: ['ARM64 Node 3', 'Bitwarden', 'Passwords', '2FA / TOTP', 'Secrets', 'Zero-Knowledge'],
     description: 'Lightweight Rust implementation of Bitwarden backend providing zero-knowledge encrypted credential storage and TOTP authenticator.',
     features: [
@@ -360,6 +387,9 @@ Vaultwarden is deployed on ARM64 Hypervisor (Node 3, LXC 106) on port 8080 and r
     image: 'nextcloud:latest',
     containerName: 'nextcloud',
     status: 'online',
+    ram: '96 MB',
+    storage: '20 GB SSD',
+    node: 'Node 1 (x86_64 · CT 104)',
     tags: ['Storage', 'WebDAV', 'Office', 'Sync', 'Calendars'],
     description: 'Self-hosted cloud platform featuring file sync, calendar/contacts sharing, collaborative document editing, and WebDAV endpoints.',
     features: [
@@ -398,6 +428,9 @@ Nextcloud is deployed on LXC 104 on Primary Hypervisor (Node 1, x86_64) and acce
     image: 'grafana/grafana-oss:latest',
     containerName: 'grafana',
     status: 'online',
+    ram: '448 MB',
+    storage: '16 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 107)',
     tags: ['ARM64 Node 3', 'Metrics', 'Dashboards', 'Prometheus', 'Loki', 'Visualizations'],
     description: 'Central visualization and analytics platform aggregating Prometheus hardware metrics, Loki logs, and Proxmox node health.',
     features: [
@@ -434,6 +467,9 @@ Grafana runs on ARM64 Hypervisor (Node 3, LXC 107) alongside Prometheus and Loki
     image: 'prom/prometheus:latest',
     containerName: 'prometheus',
     status: 'online',
+    ram: '448 MB',
+    storage: '16 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 107)',
     tags: ['ARM64 Node 3', 'Time Series', 'Metrics', 'Scraping', 'Alerting', 'Exporters'],
     description: 'High-efficiency time-series metric collector scraping node-exporter, Proxmox hypervisor telemetry, and container runtime statistics.',
     features: [
@@ -470,6 +506,9 @@ Prometheus runs on ARM64 Hypervisor (Node 3, LXC 107) and scrapes Node-Exporter 
     image: 'grafana/loki:latest',
     containerName: 'loki',
     status: 'online',
+    ram: '448 MB',
+    storage: '16 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 107)',
     tags: ['ARM64 Node 3', 'Logs', 'Promtail', 'LogQL', 'Audit', 'Aggregator'],
     description: 'Horizontally-scalable log aggregation system indexing metadata labels to ingest syslog and Docker container logs with minimal overhead.',
     features: [
@@ -505,6 +544,9 @@ Loki is deployed on ARM64 Hypervisor (Node 3, LXC 107) and accessible via \`loki
     image: 'louislam/uptime-kuma:1',
     containerName: 'uptime-kuma',
     status: 'online',
+    ram: '80 MB',
+    storage: '4 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 105)',
     tags: ['ARM64 Node 3', 'Uptime', 'Ping', 'Status Page', 'Alerts', 'Health Check'],
     description: 'Self-hosted monitoring tool tracking HTTP status, TCP ports, DNS latency, and SSL certificate validity with public status badges.',
     features: [
@@ -541,6 +583,9 @@ Uptime Kuma runs on ARM64 Hypervisor (Node 3, LXC 105) and verifies endpoints ev
     image: 'n8nio/n8n:latest',
     containerName: 'n8n',
     status: 'online',
+    ram: '384 MB',
+    storage: '8 GB SSD',
+    node: 'Node 1 (x86_64 · CT 107)',
     tags: ['No-Code', 'Automation', 'Webhooks', 'Pipelines', 'API Integrations'],
     description: 'Fair-code workflow automation platform connecting 400+ third-party APIs, local scripts, MQTT brokers, and webhooks with low-code visual nodes.',
     features: [
@@ -577,6 +622,9 @@ n8n is deployed on LXC 107 on Primary Hypervisor (Node 1, x86_64) and accessible
     image: 'gitea/gitea:latest',
     containerName: 'gitea',
     status: 'online',
+    ram: '160 MB',
+    storage: '10 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 109)',
     tags: ['ARM64 Node 3', 'Git', 'Repositories', 'Code Review', 'CI/CD', 'GitOps'],
     description: 'Lightweight self-hosted Git version control forge supporting pull requests, issue tracking, and mirror synchronization with GitHub.',
     features: [
@@ -614,6 +662,9 @@ Gitea runs on ARM64 Hypervisor (Node 3, LXC 109) and hosts internal Git reposito
     image: 'woodpeckerci/woodpecker-server:latest',
     containerName: 'woodpecker-server',
     status: 'online',
+    ram: '192 MB',
+    storage: '8 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 110)',
     tags: ['ARM64 Node 3', 'CI/CD', 'Pipelines', 'Docker in Docker', 'Linting', 'Continuous Testing'],
     description: 'Community-driven container-native continuous integration engine executing automated test suites, linting, and Docker container builds.',
     features: [
@@ -650,6 +701,9 @@ Woodpecker CI is deployed on ARM64 Hypervisor (Node 3, LXC 110) and automates bu
     image: 'authelia/authelia:latest',
     containerName: 'authelia',
     status: 'online',
+    ram: '96 MB',
+    storage: '4 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 108)',
     tags: ['ARM64 Node 3', 'SSO', '2FA', 'OpenID Connect', 'Forward Auth', 'Identity'],
     description: 'Open-source authentication server providing Single Sign-On (SSO) and multi-factor authentication (TOTP, WebAuthn/FIDO2) for reverse proxy ingress.',
     features: [
@@ -686,6 +740,9 @@ Authelia runs in LXC 108 on Utility Hypervisor (Node 3, ARM64) and acts as the g
     image: 'crowdsecurity/crowdsec:latest',
     containerName: 'crowdsec',
     status: 'online',
+    ram: '128 MB',
+    storage: '4 GB SSD',
+    node: 'Node 1 (x86_64 · CT 105)',
     tags: ['IPS / IDS', 'Firewall', 'Threat Intelligence', 'Log Analysis', 'Banning'],
     description: 'Crowd-sourced behavioral intrusion prevention system parsing reverse proxy and SSH logs to detect and neutralize brute-force attacks.',
     features: [
@@ -722,6 +779,9 @@ CrowdSec protects the homelab against automated scanning, brute-force, and explo
     image: 'jellyfin/jellyfin:latest',
     containerName: 'jellyfin',
     status: 'online',
+    ram: '896 MB',
+    storage: '50 GB SSD',
+    node: 'Node 1 (x86_64 · CT 109)',
     tags: ['Media Server', 'Streaming', 'Movies', 'TV Shows', 'DLNA'],
     description: 'Free and open-source media streaming server with multi-user profiles, metadata scraping, and hardware transcoding.',
     features: [
@@ -758,6 +818,9 @@ Jellyfin runs on LXC 109 on Primary Hypervisor (Node 1, x86_64) alongside the Se
     image: 'lscr.io/linuxserver/radarr:latest',
     containerName: 'radarr',
     status: 'online',
+    ram: '896 MB',
+    storage: '50 GB SSD',
+    node: 'Node 1 (x86_64 · CT 109)',
     tags: ['Movies', 'Servarr', 'Automated Downloads', 'Indexers', 'qBit'],
     description: 'Automated movie collection manager that monitors RSS feeds for new films, upgrades quality, and integrates with download clients.',
     features: [
@@ -794,6 +857,9 @@ Radarr is deployed in LXC 112 on Primary Hypervisor (Node 1, x86_64) and managed
     image: 'lscr.io/linuxserver/sonarr:latest',
     containerName: 'sonarr',
     status: 'online',
+    ram: '896 MB',
+    storage: '50 GB SSD',
+    node: 'Node 1 (x86_64 · CT 109)',
     tags: ['TV Shows', 'Servarr', 'Episodes', 'Indexers', 'Quality Upgrades'],
     description: 'Smart PVR for TV series newsgroup and BitTorrent users, automating episode tracking, downloading, and library renaming.',
     features: [
@@ -830,6 +896,9 @@ Sonarr runs on LXC 112 on Primary Hypervisor (Node 1, x86_64) and is accessible 
     image: 'lscr.io/linuxserver/prowlarr:latest',
     containerName: 'prowlarr',
     status: 'online',
+    ram: '896 MB',
+    storage: '50 GB SSD',
+    node: 'Node 1 (x86_64 · CT 109)',
     tags: ['Indexers', 'Torrents', 'Usenet', 'Proxy', 'Servarr'],
     description: 'Centralized indexer manager that integrates directly with Radarr and Sonarr to sync 500+ Torrent and Usenet indexers seamlessly.',
     features: [
@@ -866,6 +935,9 @@ Prowlarr is deployed in LXC 112 on Primary Hypervisor (Node 1, x86_64) and acces
     image: 'lscr.io/linuxserver/bazarr:latest',
     containerName: 'bazarr',
     status: 'online',
+    ram: '896 MB',
+    storage: '50 GB SSD',
+    node: 'Node 1 (x86_64 · CT 109)',
     tags: ['Subtitles', 'Sync', 'Multilingual', 'Servarr', 'OpenSubtitles'],
     description: 'Companion application to Sonarr and Radarr that automates the search, download, and audio-synchronization of subtitles in multiple languages.',
     features: [
@@ -902,6 +974,9 @@ Bazarr is deployed in LXC 112 on Primary Hypervisor (Node 1, x86_64) and accessi
     image: 'lscr.io/linuxserver/qbittorrent:latest',
     containerName: 'qbittorrent',
     status: 'online',
+    ram: '896 MB',
+    storage: '50 GB SSD',
+    node: 'Node 1 (x86_64 · CT 109)',
     tags: ['Torrents', 'Downloads', 'P2P', 'Bandwidth Management', 'Servarr'],
     description: 'Lightweight, high-performance BitTorrent client with feature-rich WebUI, speed scheduling, and granular category tagging.',
     features: [
@@ -938,6 +1013,9 @@ qBittorrent runs in LXC 112 on Primary Hypervisor (Node 1, x86_64) and handles a
     image: 'actualbudget/actual-server:latest',
     containerName: 'actualbudget',
     status: 'online',
+    ram: '160 MB',
+    storage: '4 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 101)',
     tags: ['ARM64 Node 3', 'Finance', 'Budgeting', 'Zero-Based', 'Privacy', 'Encrypted Sync'],
     description: 'Privacy-focused zero-based envelope budgeting application with encrypted client-side synchronization and automated bank statement parsing.',
     features: [
@@ -974,6 +1052,9 @@ Actual Budget runs on ARM64 Hypervisor (Node 3, LXC 101) and is accessible via \
     image: 'dgtlmoon/changedetection.io:latest',
     containerName: 'changedetection',
     status: 'online',
+    ram: '160 MB',
+    storage: '4 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 103)',
     tags: ['ARM64 Node 3', 'Web Monitor', 'Diff Tracker', 'Restock Alerts', 'Scraping', 'Webhooks'],
     description: 'Automated website change detection and notification tool monitoring price updates, restock alerts, API changes, and DOM element mutations.',
     features: [
@@ -1009,6 +1090,9 @@ ChangeDetection runs on ARM64 Hypervisor (Node 3, LXC 103) and monitors web page
     image: 'zadam/trilium:latest',
     containerName: 'trilium',
     status: 'online',
+    ram: '160 MB',
+    storage: '8 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 102)',
     tags: ['ARM64 Node 3', 'Notes', 'Knowledge Base', 'Markdown', 'Mind Maps', 'Encryption'],
     description: 'Hierarchical note-taking application designed for building extensive personal knowledge bases with rich text, code snippets, and mind maps.',
     features: [
@@ -1045,6 +1129,9 @@ Trilium Notes runs on ARM64 Hypervisor (Node 3, LXC 102) and is accessible via \
     image: 'ghcr.io/analogj/scrutiny:master-omnibus',
     containerName: 'scrutiny',
     status: 'online',
+    ram: '96 MB',
+    storage: '4 GB SSD',
+    node: 'Node 1 (x86_64 · CT 108)',
     tags: ['x86_64 Node 1', 'S.M.A.R.T.', 'Storage Health', 'SSD Wear', 'Drive Telemetry', 'Alerts'],
     description: 'Hard drive health dashboard tracking S.M.A.R.T. metrics, temperature trends, and failure probabilities across SSD and HDD storage devices.',
     features: [
@@ -1081,6 +1168,9 @@ Scrutiny is deployed in LXC 108 on Primary Hypervisor (Node 1, x86_64) and monit
     image: 'ghcr.io/analogj/scrutiny:master-omnibus',
     containerName: 'scrutiny_arm',
     status: 'online',
+    ram: '96 MB',
+    storage: '4 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 104)',
     tags: ['ARM64 Node 3', 'S.M.A.R.T.', 'Storage Health', 'NVMe Wear', 'Drive Telemetry'],
     description: 'ARM64 disk telemetry and storage health collector monitoring NVMe SSD endurance and performance on Apple Silicon.',
     features: [
@@ -1116,6 +1206,9 @@ Scrutiny ARM64 is deployed in LXC 104 on ARM64 Hypervisor (Node 3) and accessibl
     image: 'corentinth/it-tools:latest',
     containerName: 'it-tools',
     status: 'online',
+    ram: '64 MB',
+    storage: '2 GB NVMe',
+    node: 'Node 3 (ARM64 · CT 100)',
     tags: ['ARM64 Node 3', 'Dev Tools', 'Cheatsheets', 'Converters', 'Generators', 'Network Tools'],
     description: 'Collection of handy online tools for developers and system administrators including JWT decoders, UUID generators, subnet calculators, and hashers.',
     features: [
@@ -1152,6 +1245,9 @@ IT-Tools runs in LXC 100 on ARM64 Hypervisor (Node 3) and is accessible via \`it
     image: 'OPNsense 24.x (FreeBSD KVM)',
     containerName: 'VM 200',
     status: 'online',
+    ram: '1024 MB (1 GB)',
+    storage: '16 GB SSD',
+    node: 'Node 1 (x86_64 · VM 200)',
     tags: ['OPNsense', 'VM 200', 'Firewall', 'Gateway', 'HAProxy', 'WireGuard'],
     description: 'Virtual router and firewall appliance providing layer-3 routing, inter-VLAN isolation, HAProxy reverse proxy, and WireGuard VPN.',
     features: [
@@ -1182,6 +1278,9 @@ OPNsense runs as a dedicated KVM guest on VMID 200 routing traffic across virtua
     image: 'Windows Server 2025 x64 (UEFI/OVMF)',
     containerName: 'VM 201',
     status: 'online',
+    ram: '4096 MB (4 GB)',
+    storage: '120 GB NVMe',
+    node: 'Node 1 (x86_64 · VM 201)',
     tags: ['x86_64 Node 1', 'Windows Server 2025', 'VM 201', 'Active Directory', 'RDP', 'KVM Q35'],
     description: 'Windows Server 2025 virtual machine running with OVMF UEFI, TPM 2.0, VirtIO storage & network controllers, 4GB RAM, and 120GB NVMe disk.',
     features: [

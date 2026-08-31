@@ -25,6 +25,7 @@
             <th>local domain (.lan)</th>
             <th>direct ip endpoint</th>
             <th>service name</th>
+            <th>resources (ram / disk)</th>
             <th>category</th>
             <th>container</th>
             <th class="text-right">actions</th>
@@ -52,6 +53,14 @@
                 <img v-if="svc.logo" :src="getLogoUrl(svc.logo)" :alt="svc.name" class="matrix-logo-img" />
                 <span v-else class="svc-name-dot" :style="{ backgroundColor: svc.color }"></span>
                 <span class="svc-name-text">{{ svc.name }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="res-cell code-font">
+                <span v-if="svc.ram" class="ram-text">{{ svc.ram }}</span>
+                <span v-if="svc.ram && svc.storage" class="text-muted">/</span>
+                <span v-if="svc.storage" class="disk-text">{{ svc.storage }}</span>
+                <span v-if="!svc.ram && !svc.storage" class="text-muted">-</span>
               </div>
             </td>
             <td>
@@ -246,6 +255,21 @@ function getLogoUrl(logo) {
   font-weight: 600;
   color: var(--text-primary);
   text-transform: lowercase;
+}
+
+.res-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.775rem;
+}
+
+.ram-text {
+  color: #38bdf8;
+}
+
+.disk-text {
+  color: #c084fc;
 }
 
 .cat-pill {
