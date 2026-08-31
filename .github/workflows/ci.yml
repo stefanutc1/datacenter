@@ -244,7 +244,7 @@ jobs:
   # STAGE 7: WEB FRONTEND COMPILATION
   # ==========================================
   web-frontend-build:
-    name: Web Frontend Build (Vue 3 / Vite)
+    name: Web Frontend Build (Next.js 14 App Router)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -262,7 +262,9 @@ jobs:
           cd web
           npm ci || npm install
 
-      - name: Build Production Frontend Bundle
+      - name: Build Production Frontend Bundle (Next.js SSG)
+        env:
+          GITHUB_PAGES: 'true'
         run: |
           cd web
           npm run build
@@ -270,7 +272,7 @@ jobs:
       - name: Validate Output Bundle
         run: |
           test -f web/dist/index.html
-          echo "Frontend production bundle built successfully."
+          echo "Next.js production bundle built successfully."
 
   # ==========================================
   # STAGE 8: CI QUALITY SUMMARY
