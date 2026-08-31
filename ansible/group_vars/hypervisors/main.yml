@@ -1,0 +1,29 @@
+---
+# ==============================================================================
+# PROXMOX VE HYPERVISORS GROUP VARIABLES
+# ==============================================================================
+
+# ZFS Memory Caps (ARC Limit to 2GB to protect VMs)
+zfs_arc_min_bytes: 536870912    # 512 MB
+zfs_arc_max_bytes: 2147483648   # 2 GB
+
+# Kernel sysctl tuning for virtualization
+pve_sysctl_settings:
+  - { name: "vm.swappiness", value: "10" }
+  - { name: "vm.vfs_cache_pressure", value: "50" }
+  - { name: "net.core.somaxconn", value: "4096" }
+  - { name: "net.ipv4.ip_forward", value: "1" }
+  - { name: "net.ipv4.tcp_syncookies", value: "1" }
+  - { name: "fs.file-max", value: "2097152" }
+  - { name: "fs.inotify.max_user_watches", value: "524288" }
+
+# Proxmox Enterprise Repo Removal & No-Subscription Switch
+pve_remove_enterprise_repo: true
+pve_enable_no_subscription_repo: true
+
+# Network UPS Tools (NUT) Client/Server Configuration
+nut_mode: "netserver"
+nut_ups_name: "coldex-ups"
+nut_ups_driver: "usbhid-ups"
+nut_ups_port: "auto"
+nut_battery_shutdown_threshold: 25

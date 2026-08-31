@@ -1,0 +1,18 @@
+---
+# ==============================================================================
+# LXC CONTAINERS GROUP VARIABLES
+# ==============================================================================
+
+# Container optimizations
+lxc_disable_sleep: true
+lxc_enable_docker_support: true
+
+# Docker Daemon Configuration inside LXC
+docker_log_driver: "json-file"
+docker_log_max_size: "20m"
+docker_log_max_file: "3"
+docker_storage_driver: "overlay2"
+
+# Security & Ulimits
+system_nofile_limit: 65536
+system_nproc_limit: 32768

@@ -1,91 +1,348 @@
-locals {
-  lxc_containers = {
-    100 = { name = "nginx", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    101 = { name = "pihole", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    102 = { name = "tailscale", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    103 = { name = "vaultwarden", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    104 = { name = "uptimekumah", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    105 = { name = "alpine-nextcloud", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    106 = { name = "jellyfin", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    107 = { name = "homarr", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    108 = { name = "homeassistant", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    109 = { name = "immich", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    110 = { name = "prometheus", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    111 = { name = "alpine-grafana", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    112 = { name = "alpine-gitea", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    113 = { name = "n8n", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    114 = { name = "woodpecker", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    115 = { name = "alpine-it-tools", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    116 = { name = "alpine-scrutiny", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    117 = { name = "influxdb", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" }
-  }
+# ==============================================================================
+# HOMELAB INFRASTRUCTURE AS CODE — MAIN ENTRYPOINT
+# Provider: bpg/proxmox (Proxmox VE REST API)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. NETWORK SEGMENT ABSTRACTIONS (VLAN DEFINITIONS)
+# ------------------------------------------------------------------------------
+module "vlan_10_mgmt" {
+  source                  = "./modules/network_segment"
+  vlan_id                 = 10
+  name                    = "Management & Storage Subnet"
+  cidr                    = "192.168.1.0/24"
+  gateway                 = "192.168.1.1"
+  default_firewall_policy = "PASS"
 }
 
-resource "proxmox_virtual_environment_container" "lxc" {
-  for_each = local.lxc_containers
+module "vlan_20_core" {
+  source                  = "./modules/network_segment"
+  vlan_id                 = 20
+  name                    = "Core Microservices & Ingress"
+  cidr                    = "192.168.20.0/24"
+  gateway                 = "192.168.1.132"
+  default_firewall_policy = "DROP"
+}
 
-  node_name    = "proxmox"
-  vm_id        = each.key
-  description  = "Managed by Terraform"
+module "vlan_30_cyber" {
+  source                  = "./modules/network_segment"
+  vlan_id                 = 30
+  name                    = "CyberLab & Malware Sandboxes"
+  cidr                    = "192.168.30.0/24"
+  gateway                 = "192.168.1.132"
+  default_firewall_policy = "DROP"
+}
+
+module "vlan_40_dmz" {
+  source                  = "./modules/network_segment"
+  vlan_id                 = 40
+  name                    = "DMZ Deception & Honeypots"
+  cidr                    = "192.168.40.0/24"
+  gateway                 = "192.168.1.132"
+  default_firewall_policy = "DROP"
+}
+
+module "vlan_50_iot" {
+  source                  = "./modules/network_segment"
+  vlan_id                 = 50
+  name                    = "IoT & Physical Edge Sensors"
+  cidr                    = "192.168.50.0/24"
+  gateway                 = "192.168.1.132"
+  default_firewall_policy = "DROP"
+}
+
+# ------------------------------------------------------------------------------
+# 2. PROXMOX CORE LXC CONTAINERS (NODE 1 — Intel Core i3-10100F x86_64)
+# ------------------------------------------------------------------------------
+module "lxc_nginx" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 100
+  hostname     = "nginx"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 112
+  disk_size    = "4G"
+  ip_address   = "192.168.1.3/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
   unprivileged = true
-
-  operating_system {
-    template_file_id = each.value.ostemplate
-    type             = strcontains(lower(each.value.name), "debian") ? "debian" : "alpine"
-  }
-
-  initialization {
-    hostname = each.value.name
-    user_account {
-      password = ""
-    }
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
-  }
-
-  network_interface {
-    name   = "eth0"
-    bridge = "vmbr0"
-  }
-
-  disk {
-    datastore_id = "local-lvm"
-    size         = 8
-  }
+  tags         = ["ingress", "proxy", "ssl", "terraform"]
 }
 
-resource "proxmox_virtual_environment_vm" "opnsense" {
-  node_name   = "proxmox"
-  vm_id       = 200
-  name        = "opnsense"
-  description = "Managed by Terraform - Router/Firewall"
+module "lxc_pihole" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 101
+  hostname     = "pihole"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 96
+  disk_size    = "4G"
+  ip_address   = "192.168.1.4/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["dns", "sinkhole", "terraform"]
+}
 
-  cpu {
-    cores = 2
-    type  = "host"
-  }
+module "lxc_tailscale" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 102
+  hostname     = "tailscale"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 96
+  disk_size    = "4G"
+  ip_address   = "192.168.1.5/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["vpn", "wireguard", "mesh", "terraform"]
+}
 
-  memory {
-    dedicated = 2048
-  }
+module "lxc_immich" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 103
+  hostname     = "immich"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 4
+  memory       = 896
+  disk_size    = "32G"
+  ip_address   = "192.168.1.15/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["storage", "media", "ai", "terraform"]
+}
 
-  disk {
-    datastore_id = "local-lvm"
-    file_format  = "raw"
-    size         = 20
-    interface    = "scsi0"
-  }
+module "lxc_nextcloud" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 104
+  hostname     = "nextcloud"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 512
+  disk_size    = "20G"
+  ip_address   = "192.168.1.8/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["storage", "cloud", "webdav", "terraform"]
+}
 
-  network_device {
-    bridge = "vmbr0"
-  }
+module "lxc_crowdsec" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 105
+  hostname     = "crowdsec"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 128
+  disk_size    = "4G"
+  ip_address   = "192.168.1.9/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["security", "ips", "threat-intel", "terraform"]
+}
 
-  network_device {
-    bridge = "vmbr1"
-  }
+module "lxc_homeassistant" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 106
+  hostname     = "homeassistant"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 384
+  disk_size    = "16G"
+  ip_address   = "192.168.1.10/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = false
+  tags         = ["automation", "iot", "mqtt", "terraform"]
+}
 
-  boot_order = ["scsi0"]
+module "lxc_n8n" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 107
+  hostname     = "n8n"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 384
+  disk_size    = "8G"
+  ip_address   = "192.168.1.13/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["automation", "soar", "workflows", "terraform"]
+}
+
+module "lxc_ollama_gpu" {
+  source                 = "./modules/proxmox_lxc"
+  target_node            = var.primary_node
+  vmid                   = 110
+  hostname               = "ollama"
+  ostemplate             = var.debian_template
+  ostype                 = "debian"
+  cores                  = 4
+  memory                 = 2048
+  disk_size              = "16G"
+  ip_address             = "192.168.1.110/24"
+  gateway                = var.gateway_ip
+  nameserver             = var.nameserver_ip
+  vlan_tag               = 20
+  unprivileged           = false
+  passthrough_nvidia_gpu = true
+  tags                   = ["ai", "llm", "cuda", "gtx1050ti", "local-ai", "terraform"]
+}
+
+# ------------------------------------------------------------------------------
+# 3. PROXMOX UTILITY CONTAINERS (NODE 3 — Apple MacBook Air M1 ARM64 UTM)
+# ------------------------------------------------------------------------------
+module "lxc_gitea" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 109
+  hostname     = "gitea"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 160
+  disk_size    = "16G"
+  ip_address   = "192.168.64.109/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["git", "scm", "arm64", "terraform"]
+}
+
+module "lxc_woodpecker" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 111
+  hostname     = "woodpecker"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 192
+  disk_size    = "8G"
+  ip_address   = "192.168.64.111/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["ci", "builds", "arm64", "terraform"]
+}
+
+module "lxc_tempo" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 118
+  hostname     = "tempo"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 256
+  disk_size    = "8G"
+  ip_address   = "192.168.64.118/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["observability", "tracing", "otlp", "arm64", "terraform"]
+}
+
+# ------------------------------------------------------------------------------
+# 4. PROXMOX VIRTUAL MACHINES (QEMU / KVM)
+# ------------------------------------------------------------------------------
+module "vm_opnsense" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 200
+  name         = "opnsense"
+  description  = "Perimeter Security Gateway, WireGuard VPN & Suricata/Snort DPI"
+  cores        = 2
+  memory       = 1024
+  disk_size    = 32
+  storage_pool = "local-lvm"
+  vlan_tag     = 10
+  tags         = ["network", "firewall", "ids-ips", "terraform"]
+}
+
+module "vm_windows_server_2025" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 201
+  name         = "winserver"
+  description  = "Active Directory Domain Services (AD DS), DNS, GPO & Sysmon Forwarding"
+  cores        = 4
+  memory       = 4096
+  disk_size    = 64
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["windows", "active-directory", "sysmon", "terraform"]
+}
+
+module "vm_talos_kubernetes" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 204
+  name         = "talos-k8s"
+  description  = "Zero-SSH, API-managed immutable Kubernetes control-plane/worker"
+  cores        = 2
+  memory       = 2048
+  disk_size    = 30
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["kubernetes", "talos", "immutable", "terraform"]
+}
+
+module "vm_tpot_honeypot" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 205
+  name         = "tpot-dmz"
+  description  = "Multi-honeypot platform (Cowrie, Dionaea, RDP honeypot) with AbuseIPDB"
+  cores        = 4
+  memory       = 3072
+  disk_size    = 40
+  storage_pool = "local-lvm"
+  vlan_tag     = 40
+  tags         = ["cyber", "honeypot", "tpot", "dmz", "terraform"]
+}
+
+module "vm_capev2_sandbox" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 206
+  name         = "capev2-sandbox"
+  description  = "Air-gapped malware detonation sandbox with automated snapshot restore"
+  cores        = 4
+  memory       = 4096
+  disk_size    = 100
+  storage_pool = "local-lvm"
+  vlan_tag     = 30
+  tags         = ["cyber", "sandbox", "capev2", "malware", "dfir", "terraform"]
 }

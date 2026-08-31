@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.8.0"
   required_providers {
     proxmox = {
       source  = "bpg/proxmox"
@@ -12,6 +13,7 @@ resource "proxmox_virtual_environment_container" "container" {
   vm_id        = var.vmid
   unprivileged = var.unprivileged
   tags         = var.tags
+  started      = true
 
   initialization {
     hostname = var.hostname
@@ -23,10 +25,12 @@ resource "proxmox_virtual_environment_container" "container" {
       }
     }
 
+    dns {
+      servers = [var.nameserver]
+    }
+
     user_account {
-      keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleHomelabManagementKey2026 admin@homelab"
-      ]
+      keys = var.ssh_public_keys
     }
   }
 
@@ -53,10 +57,17 @@ resource "proxmox_virtual_environment_container" "container" {
 
   operating_system {
     template_file_id = var.ostemplate
-    type             = "debian"
+    type             = var.ostype
   }
 
   features {
-    nesting = true
+    nesting = var.nesting
+  }
+
+  lifecycle {
+    prevent_destroy = false
+    ignore_changes = [
+      initialization[0].user_account[0].password
+    ]
   }
 }

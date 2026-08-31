@@ -1,0 +1,38 @@
+---
+# ==============================================================================
+# HOMELAB MASTER ORCHESTRATION PLAYBOOK (site.yml)
+# Execution: ansible-playbook playbooks/site.yml
+# ==============================================================================
+
+# 1. BASELINE CONFIGURATION ACROSS ALL NODES
+- name: Apply Base OS, Users & Hardening
+  hosts: all:!kubernetes_workers
+  become: true
+  roles:
+    - role: base
+    - role: users
+    - role: ssh
+    - role: system_hardening
+
+# 2. HYPERVISORS SPECIALIZATION (PROXMOX VE)
+- name: Configure Proxmox VE Hypervisors
+  hosts: hypervisors
+  become: true
+  roles:
+    - role: zfs_tuning
+    - role: monitoring_node
+
+# 3. CONTAINER RUNTIME & DOCKER ENGINE
+- name: Configure Container Runtimes
+  hosts: lxc_containers
+  become: true
+  roles:
+    - role: docker
+    - role: monitoring_node
+
+# 4. SPECIALIZED WORKLOADS: LOCAL GPU LLM (OLLAMA)
+- name: Configure Ollama GPU Node (CT 110)
+  hosts: ai_gpu
+  become: true
+  roles:
+    - role: ollama

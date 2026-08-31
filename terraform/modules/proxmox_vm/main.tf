@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.8.0"
   required_providers {
     proxmox = {
       source  = "bpg/proxmox"
@@ -13,6 +14,8 @@ resource "proxmox_virtual_environment_vm" "vm" {
   name        = var.name
   description = var.description
   tags        = var.tags
+  on_boot     = var.onboot
+  started     = true
 
   agent {
     enabled = true
@@ -59,5 +62,9 @@ resource "proxmox_virtual_environment_vm" "vm" {
       pcie   = true
       rombar = true
     }
+  }
+
+  lifecycle {
+    prevent_destroy = false
   }
 }

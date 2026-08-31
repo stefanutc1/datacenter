@@ -1,0 +1,35 @@
+---
+- name: Check if Ollama binary is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/ollama
+  register: ollama_bin
+
+- name: Install Ollama binary via official script
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://ollama.com/install.sh | sh
+  when: not ollama_bin.stat.exists
+
+- name: Deploy Ollama systemd unit
+  ansible.builtin.template:
+    src: ollama.service.j2
+    dest: /etc/systemd/system/ollama.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Reload systemd and start Ollama service
+  ansible.builtin.systemd:
+    daemon_reload: yes
+    name: ollama
+    enabled: yes
+    state: started
+
+- name: Verify Ollama API is listening on port 11434
+  ansible.builtin.uri:
+    url: http://127.0.0.1:11434/api/tags
+    method: GET
+    status_code: 200
+  register: api_check
+  until: api_check.status == 200
+  retries: 5
+  delay: 2

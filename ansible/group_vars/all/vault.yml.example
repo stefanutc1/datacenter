@@ -1,0 +1,14 @@
+---
+# ==============================================================================
+# SECRETS VAULT TEMPLATE (ENCRYPT WITH ANSIBLE-VAULT)
+# Usage: ansible-vault encrypt ansible/group_vars/all/vault.yml
+# ==============================================================================
+
+vault_proxmox_api_token: "root@pam!terraform=00000000-0000-0000-0000-000000000000"
+vault_vaultwarden_admin_token: "SUPER_SECRET_VAULTWARDEN_ADMIN_HASH"
+vault_nextcloud_admin_password: "SUPER_SECRET_NEXTCLOUD_PASSWORD"
+vault_postgres_root_password: "SUPER_SECRET_DB_PASSWORD"
+vault_tailscale_auth_key: "tskey-auth-kExampleKey2026"
+vault_telegram_bot_token: "0000000000:AAExampleTelegramBotTokenKey"
+vault_telegram_chat_id: "-1000000000000"
+vault_abuseipdb_api_key: "EXAMPLE_ABUSEIPDB_API_KEY"

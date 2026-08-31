@@ -1,0 +1,10 @@
+# ==============================================================================
+# ZFS ARC MEMORY CEILING TUNING
+# Managed by Ansible - Do not edit manually
+# ==============================================================================
+
+# Minimum ARC size
+options zfs zfs_arc_min={{ zfs_arc_min_bytes | default(536870912) }}
+
+# Maximum ARC size (Cap to protect VM allocations)
+options zfs zfs_arc_max={{ zfs_arc_max_bytes | default(2147483648) }}

@@ -1,0 +1,56 @@
+---
+- name: Install Docker dependencies (Debian)
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Add Docker GPG apt Key (Debian)
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Add Docker Repository (Debian)
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}] https://download.docker.com/linux/debian {{ ansible_distribution_release | default('bookworm') }} stable"
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Install Docker CE & Compose Plugin (Debian)
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+
+- name: Install Docker (Alpine)
+  community.general.apk:
+    name:
+      - docker
+      - docker-cli-compose
+    state: present
+  when: ansible_os_family == 'Alpine'
+
+- name: Configure Docker daemon.json
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart docker
+
+- name: Ensure Docker service is enabled and running
+  ansible.builtin.service:
+    name: docker
+    enabled: yes
+    state: started

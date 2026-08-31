@@ -1,0 +1,15 @@
+---
+- name: Deploy ZFS ARC memory limits configuration
+  ansible.builtin.template:
+    src: zfs.conf.j2
+    dest: /etc/modprobe.d/zfs.conf
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Configure monthly ZFS scrub systemd timer
+  ansible.builtin.systemd:
+    name: zfs-scrub-monthly.timer
+    enabled: yes
+    state: started
+  ignore_errors: yes

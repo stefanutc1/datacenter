@@ -1,0 +1,77 @@
+---
+# ==============================================================================
+# GLOBAL HOMELAB ANSIBLE VARIABLES (LAYER 1: GLOBAL CONFIG)
+# ==============================================================================
+
+# Timezone & Localization
+system_timezone: "Europe/Bucharest"
+system_locale: "en_US.UTF-8"
+
+# Network & DNS Baseline
+domain_name: "homelab.internal"
+nameservers:
+  - 192.168.1.1
+  - 192.168.1.4
+  - 1.1.1.1
+
+ntp_servers:
+  - 192.168.1.1
+  - 0.ro.pool.ntp.org
+  - 1.ro.pool.ntp.org
+  - time.cloudflare.com
+
+# Standard Administrator User & Public Keys
+admin_user: "admin"
+admin_groups:
+  - sudo
+  - wheel
+
+admin_authorized_keys:
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleHomelabManagementKey2026 admin@homelab"
+
+# Common Baseline Packages for Debian/Ubuntu/Alpine
+common_packages_debian:
+  - curl
+  - wget
+  - git
+  - htop
+  - iotop
+  - btop
+  - jq
+  - ca-certificates
+  - gnupg
+  - lsb-release
+  - unattended-upgrades
+  - fail2ban
+  - net-tools
+  - iputils-ping
+  - dnsutils
+  - traceroute
+  - rsync
+  - vim
+  - tmux
+
+common_packages_alpine:
+  - curl
+  - wget
+  - git
+  - htop
+  - jq
+  - ca-certificates
+  - tzdata
+  - bind-tools
+  - busybox-extras
+  - rsync
+
+# Observability Configuration
+node_exporter_version: "1.8.2"
+node_exporter_port: 9100
+enable_node_exporter: true
+
+# Security & SSH Defaults
+ssh_port: 22
+ssh_permit_root_login: "prohibit-password"
+ssh_password_authentication: "no"
+ssh_kex_algorithms: "curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512"
+ssh_ciphers: "chacha20-poly1305@openssh.com,aes256-gcm@openssh.com"
+ssh_macs: "hmac-sha2-512-etm@openssh.com"

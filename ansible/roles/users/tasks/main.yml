@@ -1,0 +1,35 @@
+---
+- name: Ensure admin group exists
+  ansible.builtin.group:
+    name: sudo
+    state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure wheel group exists
+  ansible.builtin.group:
+    name: wheel
+    state: present
+
+- name: Create administrative user
+  ansible.builtin.user:
+    name: "{{ admin_user }}"
+    groups: "{{ admin_groups }}"
+    append: yes
+    shell: /bin/bash
+    create_home: yes
+    state: present
+
+- name: Deploy authorized SSH keys for admin user
+  ansible.posix.authorized_key:
+    user: "{{ admin_user }}"
+    key: "{{ item }}"
+    state: present
+  loop: "{{ admin_authorized_keys }}"
+
+- name: Configure passwordless sudo for admin user
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/99-homelab-admin
+    line: "{{ admin_user }} ALL=(ALL) NOPASSWD: ALL"
+    create: yes
+    mode: '0440'
+    validate: 'visudo -cf %s'

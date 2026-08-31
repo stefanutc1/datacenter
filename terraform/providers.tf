@@ -1,15 +1,25 @@
 terraform {
-  required_version = ">= 1.5.0"
+  required_version = ">= 1.8.0"
+
   required_providers {
     proxmox = {
       source  = "bpg/proxmox"
-      version = "~> 0.68.0"
+      version = ">= 0.60.0"
     }
+  }
+
+  backend "local" {
+    path = "terraform.tfstate"
   }
 }
 
 provider "proxmox" {
-  endpoint  = "https://proxmox:8006/"
-  api_token = "terraform@pve!token-id="
-  insecure  = true
+  endpoint  = var.proxmox_endpoint
+  api_token = var.proxmox_api_token
+  insecure  = var.proxmox_insecure
+
+  ssh {
+    agent    = true
+    username = "root"
+  }
 }

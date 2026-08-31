@@ -1,0 +1,38 @@
+# ==============================================================================
+# HOMELAB HARDENED SSH DAEMON CONFIGURATION
+# Compliant with CIS Level 1 & Mozilla Modern SSH Guidelines
+# ==============================================================================
+
+Port {{ ssh_port }}
+Protocol 2
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+
+# Cryptographic Algorithms
+KexAlgorithms {{ ssh_kex_algorithms }}
+Ciphers {{ ssh_ciphers }}
+MACs {{ ssh_macs }}
+
+# Authentication Security
+PermitRootLogin {{ ssh_permit_root_login }}
+PasswordAuthentication {{ ssh_password_authentication }}
+PermitEmptyPasswords no
+PubkeyAuthentication yes
+AuthenticationMethods publickey
+
+# Session & Timeout Controls
+ClientAliveInterval 300
+ClientAliveCountMax 2
+MaxAuthTries 3
+MaxSessions 5
+LoginGraceTime 30
+
+# Disable Insecure Subsystems & Forwarding
+X11Forwarding no
+AllowAgentForwarding no
+AllowTcpForwarding yes
+PermitUserEnvironment no
+
+# Logging
+LogLevel VERBOSE
+Subsystem sftp /usr/lib/openssh/sftp-server

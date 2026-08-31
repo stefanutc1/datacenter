@@ -1,0 +1,43 @@
+---
+# ==============================================================================
+# HOMELAB ROLLING MAINTENANCE & HOUSEKEEPING PLAYBOOK
+# Execution: ansible-playbook playbooks/maintenance.yml
+# ==============================================================================
+
+- name: Rolling OS Package Updates & Maintenance
+  hosts: all:!kubernetes_workers
+  become: true
+  serial: 1
+  tasks:
+    - name: Update apt packages (Debian)
+      ansible.builtin.apt:
+        update_cache: yes
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Update apk packages (Alpine)
+      community.general.apk:
+        update_cache: yes
+        upgrade: yes
+      when: ansible_os_family == 'Alpine'
+
+    - name: Prune dangling Docker images and build caches
+      community.docker.docker_prune:
+        images: yes
+        images_filters:
+          dangling: true
+        builder_cache: yes
+      when: lxc_enable_docker_support is defined and lxc_enable_docker_support
+
+    - name: Check if system reboot is required (Debian)
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+      when: ansible_os_family == 'Debian'
+
+    - name: Report reboot required status
+      ansible.builtin.debug:
+        msg: "Host {{ inventory_hostname }} requires reboot!"
+      when: reboot_required is defined and reboot_required.stat.exists

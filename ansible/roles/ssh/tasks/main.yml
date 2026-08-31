@@ -1,0 +1,20 @@
+---
+- name: Verify host Ed25519 key exists
+  ansible.builtin.stat:
+    path: /etc/ssh/ssh_host_ed25519_key
+  register: ed25519_key
+
+- name: Generate host Ed25519 key if missing
+  ansible.builtin.command:
+    cmd: ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
+  when: not ed25519_key.stat.exists
+
+- name: Deploy hardened sshd_config
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0600'
+    validate: '/usr/sbin/sshd -t -f %s'
+  notify: Restart sshd
