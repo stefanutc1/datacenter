@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  cyberchef:
+    image: mpepping/cyberchef:latest
+    container_name: cyberchef
+    restart: unless-stopped
+    ports:
+      - "8087:8000"
+    networks:
+      - core-net
+
+networks:
+  core-net:
+    external: true

@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:latest
+    container_name: kiwix-server
+    restart: unless-stopped
+    command: "*.zim"
+    volumes:
+      - ./data:/data
+    ports:
+      - "8086:8080"
+    networks:
+      - core-net
+
+networks:
+  core-net:
+    external: true

@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  romm:
+    image: zurdi15/romm:latest
+    container_name: romm
+    restart: unless-stopped
+    environment:
+      - ROMM_AUTH_SECRET_KEY=romm_auth_secret_key_homelab_2026
+      - DB_HOST=romm-db
+      - DB_NAME=romm
+      - DB_USER=romm_user
+      - DB_PASSWD=romm_password_2026
+    volumes:
+      - ./resources:/romm/resources
+      - ./redis-data:/redis-data
+      - ./library:/romm/library
+      - ./assets:/romm/assets
+      - ./config:/romm/config
+    ports:
+      - "8089:8080"
+    depends_on:
+      - romm-db
+    networks:
+      - core-net
+
+  romm-db:
+    image: mariadb:lts
+    container_name: romm-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=mariadb_root_password_2026
+      - MYSQL_DATABASE=romm
+      - MYSQL_USER=romm_user
+      - MYSQL_PASSWORD=romm_password_2026
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - core-net
+
+networks:
+  core-net:
+    external: true
