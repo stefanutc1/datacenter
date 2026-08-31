@@ -93,13 +93,13 @@ export const InfrastructureNarrative: React.FC = () => {
       {/* Header */}
       <div className="space-y-3 mb-14 text-left">
         <div className="text-xs font-mono font-bold tracking-widest text-terracotta-500 uppercase">
-          SYSTEM ARCHITECTURE BLUEPRINT
+          SYSTEM ARCHITECTURE OVERVIEW
         </div>
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-warm-primary leading-tight">
-          Engineered for Sovereignty, Observability & Resilience.
+          System Architecture & Subsystems
         </h2>
         <p className="text-base text-warm-secondary max-w-3xl leading-relaxed">
-          The Homelab is not a collection of isolated side-projects. It is a single, interconnected, multi-architecture digital ecosystem designed with production-grade separation of concerns.
+          Technical documentation and architecture breakdown for the self-hosted cluster, storage, networking, and microservices.
         </p>
       </div>
 

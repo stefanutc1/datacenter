@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { SystemNav } from "@/components/ui/SystemNav";
 import { SubsystemDock } from "@/components/ui/SubsystemDock";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { NodeInspector } from "@/components/infrastructure/NodeInspector";
-import { BootSequence } from "@/components/boot/BootSequence";
 import { HardwareAtlas } from "@/components/sections/HardwareAtlas";
 import { ServiceDirectory } from "@/components/sections/ServiceDirectory";
 import { InfrastructureNarrative } from "@/components/sections/InfrastructureNarrative";
@@ -42,20 +41,9 @@ export default function HomelabPage() {
   const [selectedNode, setSelectedNode] = useState<TopologyNode | null>(null);
   const [isAutoRotate, setIsAutoRotate] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [showBootSequence, setShowBootSequence] = useState(false);
 
   const { state: systemState, setExploring, setInspecting, setOnline } =
     useSystemState("ONLINE");
-
-  // Check if initial boot sequence should play (once per session)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hasBooted = sessionStorage.getItem("homelab-booted");
-      if (!hasBooted) {
-        setShowBootSequence(true);
-      }
-    }
-  }, []);
 
   const handleSelectSubsystem = (subsystem: SubsystemCategory) => {
     setActiveSubsystem(subsystem);
@@ -103,11 +91,6 @@ export default function HomelabPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-warm-page text-warm-primary font-sans antialiased selection:bg-terracotta-500/20">
-      {/* Cinematic Boot Terminal Modal */}
-      {showBootSequence && (
-        <BootSequence onComplete={() => setShowBootSequence(false)} />
-      )}
-
       {/* Command Palette (⌘K) */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
@@ -123,7 +106,6 @@ export default function HomelabPage() {
         activeSubsystem={activeSubsystem}
         selectedNodeName={selectedNode?.hostname || selectedNode?.name}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-        onTriggerBoot={() => setShowBootSequence(true)}
       />
 
       {/* 3D HOMELAB TOPOLOGY VIEWPORT (THE CENTRAL NERVOUS SYSTEM) */}

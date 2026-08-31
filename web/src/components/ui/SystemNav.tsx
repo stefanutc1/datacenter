@@ -12,7 +12,6 @@ interface SystemNavProps {
   activeSubsystem: SubsystemCategory;
   selectedNodeName?: string;
   onOpenCommandPalette: () => void;
-  onTriggerBoot: () => void;
 }
 
 export const SystemNav: React.FC<SystemNavProps> = ({
@@ -20,7 +19,6 @@ export const SystemNav: React.FC<SystemNavProps> = ({
   activeSubsystem,
   selectedNodeName,
   onOpenCommandPalette,
-  onTriggerBoot,
 }) => {
   const { theme, toggleTheme } = useTheme();
 
@@ -92,16 +90,6 @@ export const SystemNav: React.FC<SystemNavProps> = ({
             <kbd className="hidden sm:inline px-1 py-0.2 rounded bg-warm-page text-[10px] border border-warm">
               ⌘K
             </kbd>
-          </button>
-
-          {/* Simulated Reboot Trigger */}
-          <button
-            onClick={onTriggerBoot}
-            className="p-2 rounded-xl bg-warm-card border border-warm hover:border-terracotta-500 text-warm-secondary hover:text-warm-primary transition-colors shadow-sm"
-            title="Trigger Linux/Proxmox Boot Sequence"
-            aria-label="Reboot Cluster Terminal"
-          >
-            <RefreshCw className="w-4 h-4" />
           </button>
 
           {/* Theme Switcher */}

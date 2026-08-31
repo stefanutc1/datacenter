@@ -137,7 +137,7 @@ the platform operates containerized microservices and virtual machines distribut
 | vmid / id | service | ram allocated | storage allocated | ip & port | domain | description |
 | :---: | :--- | :---: | :---: | :--- | :--- | :--- |
 | **vm 200** | opnsense gateway | 1024 mb (1 gb) | 16 gb ssd | \`192.168.1.132:8443\` | \`opnsense.lan\` | core stateful firewall & wireguard router |
-| **vm 201** | windows server 2025 | 4096 mb (4 gb) | 120 gb nvme | \`192.168.1.132:3389\` | \`winserver.lan\` | active directory, rdp, enterprise services |
+| **vm 201** | windows server 2025 | 4096 mb (4 gb) | 120 gb nvme | \`192.168.1.132:3389\` | \`winserver.lan\` | active directory, rdp, domain services |
 | **ct 100** | nginx proxy manager | 112 mb | 4 gb ssd | \`192.168.1.3:81\` | \`nginx.lan\` | reverse proxy & let's encrypt ssl certificates |
 | **ct 101** | pi-hole dns | 96 mb | 4 gb ssd | \`192.168.1.4:80\` | \`pihole.lan\` | dns sinkhole & adblock resolver |
 | **ct 102** | tailscale mesh | 96 mb | 4 gb ssd | \`192.168.1.5\` | \`tailscale.lan\` | wireguard mesh subnet router |
@@ -259,7 +259,7 @@ in addition to lightweight lxc containers, the homelab platform runs dedicated *
 | vmid | name | operating system | vcpus | ram | storage disk | network bridge | primary protocol | role / function |
 | :---: | :--- | :--- | :---: | :---: | :--- | :--- | :--- | :--- |
 | **200** | \`opnsense\` | freebsd 14.x / opnsense | 2 | 1024 mb | 16 gb ssd (\`local-lvm\`) | \`vmbr0\` (wan) + \`vmbr1\` (lan) | webgui (\`:8443\`) | core firewall, nat gateway, wireguard |
-| **201** | \`windows\` | windows server 2025 x64 | 2 | 4096 mb | 120 gb nvme (\`local-lvm\`) | \`vmbr0\` (management) | rdp (\`:3389\`), ovmf/tpm | active directory, enterprise services |
+| **201** | \`windows\` | windows server 2025 x64 | 2 | 4096 mb | 120 gb nvme (\`local-lvm\`) | \`vmbr0\` (management) | rdp (\`:3389\`), ovmf/tpm | active directory, domain services |
 
 ---
 
@@ -270,7 +270,7 @@ in addition to lightweight lxc containers, the homelab platform runs dedicated *
 - **access**: webgui at \`https://192.168.1.132:8443\` or \`https://opnsense.lan\`.
 
 ## 2. windows server 2025 (vm 201)
-- **base platform**: enterprise **windows server 2025 x64** running on kvm with ovmf uefi and tpm 2.0.
+- **base platform**: **windows server 2025 x64** running on kvm with ovmf uefi and tpm 2.0.
 - **hardware allocation**: **4096 mb ram**, 2 vcpus, and **120 gb virtio scsi single** storage disk.
 - **network & access**: static ip \`192.168.1.132:3389\`, rdp administration, active directory domain services (\`winserver.lan\`).
 `
@@ -348,7 +348,7 @@ located under \`ai/\`, this service implements the **Model Context Protocol (MCP
     summary: "github actions matrix pipeline across 6 linux distros, devsecops scanning, and automatic readme sync.",
     content: `# multi-distribution linux ci/cd pipeline
 
-the continuous integration and delivery architecture under \`.github/workflows/\` enforces multi-distribution compatibility and enterprise DevSecOps baselines.
+the continuous integration and delivery architecture under \`.github/workflows/\` enforces multi-distribution compatibility and DevSecOps baselines.
 
 ## 1. multi-linux compatibility matrix (\`distro-compatibility-matrix\`)
 automatically executes the entire test suite on 6 native Linux containers:
@@ -379,10 +379,10 @@ export const cyberArticles: WikiArticle[] = [
     title: "soc & security overview",
     category: "cyber architecture",
     icon: "soc",
-    summary: "high-level cyber proving ground architecture, xdr telemetry, and offensive/defensive tracks.",
+    summary: "high-level cyber testing lab architecture, xdr telemetry, and offensive/defensive tracks.",
     content: `# cyberlab security architecture overview
 
-cyberlab is a defensive proving ground and security laboratory built on **utm / qemu**, **proxmox ve**, **ansible**, **wazuh xdr 4.8**, and **grafana loki**.
+cyberlab is a defensive security laboratory built on **utm / qemu**, **proxmox ve**, **ansible**, **wazuh xdr 4.8**, and **grafana loki**.
 
 ## core engineering tracks
 

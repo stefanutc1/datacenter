@@ -53,13 +53,13 @@ export const TopologyFallback: React.FC<TopologyFallbackProps> = ({
   const tierTitles: Record<number, string> = {
     0: "Tier 0 // Perimeter & Ingress Gateways",
     1: "Tier 1 // Bare-Metal & Virtual Hypervisors",
-    2: "Tier 2 // Enterprise Virtual Machines",
+    2: "Tier 2 // Virtual Machines (KVM)",
     3: "Tier 3 // Core Production LXC Microservices",
     4: "Tier 4 // ARM64 Utility & Observability LXC",
     5: "Tier 5 // Threat Detection & SIEM Engine",
     6: "Tier 6 // ELO Autonomous AI Operating Layer",
     7: "Tier 7 // Physical World Edge Microcontrollers",
-    8: "Tier 8 // Architecture Proving Grounds",
+    8: "Tier 8 // Architecture Testing Environments",
   };
 
   return (

@@ -94,7 +94,7 @@ export const hardwareNodes: HardwareNode[] = [
     },
     capacityNotes: [
       '4 GB RAM allocated to virtualized Proxmox instance (4 GB reserved for macOS host).',
-      'Apple M1 provides exceptional energy efficiency, silent fanless compute, and high single-thread speeds.',
+      'Apple M1 provides low power draw and fanless operation.',
       'Runs Proxmox VE ARM64 nested inside UTM on macOS with Hypervisor.framework acceleration.'
     ],
     workloads: [
