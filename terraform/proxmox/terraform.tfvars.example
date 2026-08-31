@@ -1,0 +1,7 @@
+# Proxmox VE Cluster API Configuration
+proxmox_endpoint  = "https://192.168.1.132:8006/"
+proxmox_api_token = "root@pam!terraform=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+proxmox_insecure  = true
+
+primary_node   = "proxmox"
+secondary_node = "proxmox2"

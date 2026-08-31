@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopologyNode, TOPOLOGY_NODES } from '../../data/topology.data';
 import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-node-inspector',
@@ -23,7 +24,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h2 class="font-serif font-bold text-xl text-slate-50 leading-tight">
+                <h2 class="font-sans font-bold text-xl text-slate-50 leading-tight">
                   {{ node.name }}
                 </h2>
                 <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
@@ -56,7 +57,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
             [class.text-slate-400]="activeTab !== 'spec'"
             class="py-3 px-3 border-b-2 transition-colors"
           >
-            SPECIFICATION
+            {{ ts.t.inspectorSpec }}
           </button>
           <button
             (click)="activeTab = 'cascade'"
@@ -67,7 +68,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
             [class.text-slate-400]="activeTab !== 'cascade'"
             class="py-3 px-3 border-b-2 transition-colors"
           >
-            RELATIONSHIPS
+            {{ ts.t.inspectorCascade }}
           </button>
           <button
             (click)="activeTab = 'manifest'"
@@ -78,7 +79,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
             [class.text-slate-400]="activeTab !== 'manifest'"
             class="py-3 px-3 border-b-2 transition-colors"
           >
-            MANIFEST
+            {{ ts.t.inspectorManifest }}
           </button>
         </div>
 
@@ -91,7 +92,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
               <!-- System Role -->
               <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-1.5">
                 <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">
-                  FUNCTION & ARCHITECTURAL ROLE
+                  {{ ts.t.inspectorRole }}
                 </div>
                 <p class="text-xs text-slate-200 leading-relaxed font-normal">
                   {{ node.role }}
@@ -102,23 +103,23 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
               @if (node.hardware) {
                 <div class="space-y-2 font-mono">
                   <div class="text-xs uppercase tracking-wider text-slate-400">
-                    Host & Capacity Allocation
+                    {{ ts.t.inspectorHostAllocation }}
                   </div>
                   <div class="grid grid-cols-2 gap-2.5">
                     <div class="p-3 rounded-lg bg-obsidian-850 border border-obsidian-750">
-                      <div class="text-[10px] text-slate-400 uppercase">Compute Host</div>
+                      <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.inspectorComputeHost }}</div>
                       <div class="text-xs font-bold text-slate-100 truncate">{{ node.hardware.node }}</div>
                     </div>
                     <div class="p-3 rounded-lg bg-obsidian-850 border border-obsidian-750">
-                      <div class="text-[10px] text-slate-400 uppercase">RAM Ceiling</div>
+                      <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.srvRamCeiling }}</div>
                       <div class="text-xs font-bold text-emerald-400">{{ node.hardware.ram }}</div>
                     </div>
                     <div class="p-3 rounded-lg bg-obsidian-850 border border-obsidian-750">
-                      <div class="text-[10px] text-slate-400 uppercase">Storage Pool</div>
+                      <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.srvStoragePool }}</div>
                       <div class="text-xs font-bold text-slate-100 truncate">{{ node.hardware.storage }}</div>
                     </div>
                     <div class="p-3 rounded-lg bg-obsidian-850 border border-obsidian-750">
-                      <div class="text-[10px] text-slate-400 uppercase">Tier Level</div>
+                      <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.inspectorTierLevel }}</div>
                       <div class="text-xs font-bold text-slate-100">Tier {{ node.tier }} ({{ node.category }})</div>
                     </div>
                   </div>
@@ -128,21 +129,21 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
               <!-- Network Endpoints -->
               <div class="space-y-2 font-mono">
                 <div class="text-xs uppercase tracking-wider text-slate-400">
-                  Network Configuration
+                  {{ ts.t.inspectorNetworkConfig }}
                 </div>
                 <div class="p-3.5 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-2 text-xs">
                   <div class="flex items-center justify-between">
-                    <span class="text-slate-400">IP Address</span>
+                    <span class="text-slate-400">{{ ts.t.inspectorIp }}</span>
                     <span class="font-bold text-slate-100">{{ node.ip }}</span>
                   </div>
                   @if (node.port) {
                     <div class="flex items-center justify-between">
-                      <span class="text-slate-400">Exposed Port</span>
+                      <span class="text-slate-400">{{ ts.t.inspectorPort }}</span>
                       <span class="font-bold text-emerald-400">:{{ node.port }}</span>
                     </div>
                   }
                   <div class="flex items-center justify-between">
-                    <span class="text-slate-400">Subsystem</span>
+                    <span class="text-slate-400">{{ ts.t.inspectorSubsystem }}</span>
                     <span class="font-bold text-slate-300 uppercase">{{ node.category }}</span>
                   </div>
                 </div>
@@ -154,7 +155,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
           @if (activeTab === 'cascade') {
             <div class="space-y-5">
               <div class="text-xs font-mono uppercase tracking-wider text-slate-400">
-                End-to-End Relationship Chain
+                {{ ts.t.inspectorRelationshipChain }}
               </div>
 
               <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-3 font-mono text-xs">
@@ -196,7 +197,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                   <div>
                     <div class="text-[10px] text-slate-400 uppercase">Telemetry Monitoring</div>
-                    <div class="font-bold text-slate-100">Prometheus TSDB · Grafana · Wazuh SIEM</div>
+                    <div class="font-bold text-slate-100">Prometheus TSDB · Grafana · Tempo · Wazuh</div>
                   </div>
                 </div>
               </div>
@@ -204,7 +205,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
               <!-- Connected Mesh Nodes -->
               <div class="space-y-2 font-mono">
                 <div class="text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between">
-                  <span>Connected Mesh Nodes ({{ connectedNodes.length }})</span>
+                  <span>{{ ts.t.inspectorConnectedNodes }} ({{ connectedNodes.length }})</span>
                   <span class="text-[10px] text-emerald-400">CLICK TO JUMP</span>
                 </div>
 
@@ -244,7 +245,7 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
                   (click)="copyManifest()"
                   class="px-2.5 py-1 rounded bg-obsidian-800 hover:bg-emerald-500 hover:text-slate-950 text-xs text-slate-200 transition-colors font-bold"
                 >
-                  {{ isCopied ? 'COPIED!' : 'COPY SPEC' }}
+                  {{ isCopied ? ts.t.inspectorCopied : ts.t.inspectorCopySpec }}
                 </button>
               </div>
 
@@ -262,6 +263,7 @@ export class NodeInspectorComponent {
   @Output() close = new EventEmitter<void>();
   @Output() selectConnected = new EventEmitter<TopologyNode>();
 
+  ts = inject(TranslationService);
   activeTab: 'spec' | 'cascade' | 'manifest' = 'spec';
   isCopied = false;
 

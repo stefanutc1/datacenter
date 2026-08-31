@@ -7,10 +7,12 @@ import {
   EventEmitter,
   OnInit,
   OnDestroy,
-  NgZone
+  NgZone,
+  inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../../data/topology.data';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-topology-canvas',
@@ -23,14 +25,14 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div class="space-y-1">
           <div class="text-[11px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
-            SPATIAL VISUALIZATION
+            {{ ts.t.topologyTag }}
           </div>
           <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-50 tracking-tight">
-            Interactive Infrastructure Digital Twin
+            {{ ts.t.topologyTitle }}
           </h2>
         </div>
         <div class="text-xs text-slate-400 font-sans hidden sm:block">
-          Click nodes to inspect technical specs, relationships & compose manifests.
+          {{ ts.t.topologyDesc }}
         </div>
       </div>
 
@@ -42,7 +44,7 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
           
           <!-- Subsystem Layer Badges -->
           <div class="flex items-center gap-1.5 p-1.5 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 pointer-events-auto shadow-lg overflow-x-auto max-w-full">
-            @for (cat of categories; track cat.id) {
+            @for (cat of getCategories(); track cat.id) {
               <button
                 (click)="selectCategory(cat.id)"
                 [class.bg-emerald-500]="activeCategory === cat.id"
@@ -69,7 +71,7 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
                 [class.text-slate-300]="perspective !== 'logical'"
                 class="px-2.5 py-1 rounded-lg transition-colors font-mono text-[11px]"
               >
-                Logical
+                {{ ts.t.btnLogical }}
               </button>
               <button
                 (click)="setPerspective('physical')"
@@ -79,7 +81,7 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
                 [class.text-slate-300]="perspective !== 'physical'"
                 class="px-2.5 py-1 rounded-lg transition-colors font-mono text-[11px]"
               >
-                Physical
+                {{ ts.t.btnPhysical }}
               </button>
             </div>
 
@@ -92,7 +94,7 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
               title="Toggle 3D auto-rotation"
             >
               <span class="w-2 h-2 rounded-full" [class.bg-emerald-500]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
-              <span>Rotate</span>
+              <span>{{ ts.t.btnRotate }}</span>
             </button>
 
             <!-- Reset Camera -->
@@ -100,7 +102,7 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
               (click)="resetCamera()"
               class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-slate-500 text-slate-200 hover:text-slate-50 font-medium transition-all shadow-md font-mono text-xs"
             >
-              Reset
+              {{ ts.t.btnReset }}
             </button>
           </div>
         </div>
@@ -120,17 +122,17 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
         <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-mono text-xs text-slate-300">
           <div class="px-3.5 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 shadow-md flex items-center gap-2.5">
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span class="font-bold text-slate-100 text-[11px]">MESH ACTIVE</span>
+            <span class="font-bold text-slate-100 text-[11px]">{{ ts.t.meshActive }}</span>
             <span class="text-obsidian-600">|</span>
-            <span class="text-slate-200">{{ nodes.length }} NODES</span>
+            <span class="text-slate-200">{{ nodes.length }} {{ ts.t.nodesLabel }}</span>
             <span class="text-obsidian-600">|</span>
-            <span class="text-emerald-400">{{ links.length }} LIVE FLOWS</span>
+            <span class="text-emerald-400">{{ links.length }} {{ ts.t.flowsLabel }}</span>
           </div>
         </div>
 
         <!-- Instructions Hint -->
         <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-mono text-[11px] text-slate-500">
-          <span>DRAG TO ROTATE · SCROLL TO ZOOM · CLICK TO INSPECT</span>
+          <span>{{ ts.t.interactionHint }}</span>
         </div>
       </div>
     </div>
@@ -153,19 +155,23 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   @Output() categoryChanged = new EventEmitter<string>();
   @Output() perspectiveChanged = new EventEmitter<'logical' | 'physical'>();
 
+  ts = inject(TranslationService);
+
   nodes: TopologyNode[] = TOPOLOGY_NODES;
   links: TopologyLink[] = TOPOLOGY_LINKS;
 
-  categories = [
-    { id: 'all', label: 'All Layers' },
-    { id: 'compute', label: 'Compute & Hypervisors' },
-    { id: 'network', label: 'Network & Ingress' },
-    { id: 'security', label: 'Security & Cyber' },
-    { id: 'services', label: 'Core Workloads' },
-    { id: 'elo', label: 'AI Control Plane' },
-    { id: 'storage', label: 'Storage & ZFS' },
-    { id: 'edge', label: 'Edge Sensors' }
-  ];
+  getCategories() {
+    return [
+      { id: 'all', label: this.ts.t.catAll },
+      { id: 'compute', label: this.ts.t.catCompute },
+      { id: 'network', label: this.ts.t.catNetwork },
+      { id: 'security', label: this.ts.t.catSecurity },
+      { id: 'services', label: this.ts.t.catServices },
+      { id: 'elo', label: this.ts.t.catElo },
+      { id: 'storage', label: this.ts.t.catStorage },
+      { id: 'edge', label: this.ts.t.catEdge }
+    ];
+  }
 
   isAutoRotating = true;
   private animationFrameId: number | null = null;

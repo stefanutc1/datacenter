@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-architecture-blueprint',
@@ -11,13 +12,13 @@ import { CommonModule } from '@angular/common';
       <!-- Section Header -->
       <div class="space-y-2 mb-8">
         <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
-          ENGINEERING BLUEPRINT & NETWORK SCHEMATICS
+          {{ ts.t.bpTag }}
         </div>
         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-50 tracking-tight">
-          Cluster Architecture Blueprint
+          {{ ts.t.bpTitle }}
         </h2>
         <p class="text-sm text-slate-300 max-w-3xl font-sans font-normal leading-relaxed">
-          Technical specifications for VLAN isolation, cyber defense toolchains, digital forensics (DFIR), hypervisor RAM allocation budgets, and AI fallback cascades.
+          {{ ts.t.bpDesc }}
         </p>
       </div>
 
@@ -32,7 +33,7 @@ import { CommonModule } from '@angular/common';
           [class.bg-obsidian-900]="activeTab !== 'vlan'"
           class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
-          VLAN Segmentation Matrix
+          {{ ts.t.tabVlan }}
         </button>
         <button
           (click)="activeTab = 'cyber'"
@@ -43,7 +44,7 @@ import { CommonModule } from '@angular/common';
           [class.bg-obsidian-900]="activeTab !== 'cyber'"
           class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
-          Cyber & DFIR Forensics Stack
+          {{ ts.t.tabCyber }}
         </button>
         <button
           (click)="activeTab = 'memory'"
@@ -54,7 +55,7 @@ import { CommonModule } from '@angular/common';
           [class.bg-obsidian-900]="activeTab !== 'memory'"
           class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
-          RAM Allocation Budgets
+          {{ ts.t.tabMemory }}
         </button>
         <button
           (click)="activeTab = 'ai'"
@@ -65,7 +66,18 @@ import { CommonModule } from '@angular/common';
           [class.bg-obsidian-900]="activeTab !== 'ai'"
           class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
         >
-          AI Routing Cascade (ELO)
+          {{ ts.t.tabAi }}
+        </button>
+        <button
+          (click)="activeTab = 'devsecops'"
+          [class.bg-emerald-500]="activeTab === 'devsecops'"
+          [class.text-slate-950]="activeTab === 'devsecops'"
+          [class.font-bold]="activeTab === 'devsecops'"
+          [class.text-slate-300]="activeTab !== 'devsecops'"
+          [class.bg-obsidian-900]="activeTab !== 'devsecops'"
+          class="px-4 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
+        >
+          {{ ts.t.tabDevSecOps }}
         </button>
       </div>
 
@@ -192,11 +204,32 @@ import { CommonModule } from '@angular/common';
         </div>
       }
 
+      <!-- TAB 5: DEVSECOPS & IMMUTABILITY -->
+      @if (activeTab === 'devsecops') {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
+          @for (item of devSecOpsGrid; track item.title) {
+            <div class="p-6 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl space-y-3 flex flex-col justify-between">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between border-b border-obsidian-750 pb-2.5">
+                  <h3 class="font-serif font-bold text-slate-50 text-base">{{ item.title }}</h3>
+                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">{{ item.badge }}</span>
+                </div>
+                <p class="text-xs text-slate-300 font-sans leading-relaxed font-normal">{{ item.description }}</p>
+              </div>
+              <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 font-mono text-[11px] text-emerald-400">
+                {{ item.implementation }}
+              </div>
+            </div>
+          }
+        </div>
+      }
+
     </section>
   `
 })
 export class ArchitectureBlueprintComponent {
-  activeTab: 'vlan' | 'cyber' | 'memory' | 'ai' = 'vlan';
+  ts = inject(TranslationService);
+  activeTab: 'vlan' | 'cyber' | 'memory' | 'ai' | 'devsecops' = 'vlan';
 
   vlanMatrix = [
     {
@@ -212,7 +245,7 @@ export class ArchitectureBlueprintComponent {
       name: 'Core Microservices & Applications',
       subnet: '192.168.1.0/24 & 192.168.64.0/24',
       gateway: '192.168.1.132 (OPNsense)',
-      nodes: 'NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea',
+      nodes: 'NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Kiwix',
       firewallPolicy: 'Strict forward authentication via Authelia (CT 108)'
     },
     {
@@ -220,8 +253,16 @@ export class ArchitectureBlueprintComponent {
       name: 'Cyber Security & Sandboxes (CyberLab)',
       subnet: '192.168.30.0/24',
       gateway: '192.168.1.132:8443',
-      nodes: 'Wazuh XDR SIEM (1514), Suricata & Snort IDS/IPS, Kali & Remnux DFIR VMs',
+      nodes: 'Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim)',
       firewallPolicy: 'Promiscuous SPAN mirror port, no outbound WAN access for sandboxes'
+    },
+    {
+      id: 'VLAN 40',
+      name: 'DMZ Deception & Honeypots',
+      subnet: '192.168.40.0/24',
+      gateway: '192.168.1.132 (OPNsense)',
+      nodes: 'T-Pot Cluster (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap)',
+      firewallPolicy: 'Completely isolated DMZ; automated AbuseIPDB firewall blocking'
     },
     {
       id: 'VLAN 50',
@@ -238,7 +279,7 @@ export class ArchitectureBlueprintComponent {
       title: 'Operating Systems & Virtualization',
       badge: 'Compute & AD',
       description: 'Bare-metal virtualization and isolated testbeds hosting enterprise domain infrastructure and offensive/defensive virtual machines.',
-      tools: ['Windows Server 2025', 'Active Directory (AD DS)', 'Group Policy (GPO)', 'Linux (Debian / Ubuntu / Alpine / Arch)', 'Virtual Machines (KVM / Proxmox / UTM)']
+      tools: ['Windows Server 2025', 'Active Directory (AD DS)', 'Group Policy (GPO)', 'Linux (Debian / Ubuntu / Alpine / Talos)', 'Virtual Machines (KVM / Proxmox / UTM)']
     },
     {
       title: 'Networking & Packet Analysis',
@@ -247,40 +288,40 @@ export class ArchitectureBlueprintComponent {
       tools: ['Networking TCP/IP', 'Wireshark', 'tcpdump', 'VLAN 802.1Q', 'WireGuard VPN', 'OPNsense Firewall']
     },
     {
-      title: 'SIEM & Log Aggregation',
-      badge: 'SOC & Telemetry',
-      description: 'Centralized security event ingestion, real-time alert correlation, compliance monitoring, and integration with modern enterprise SIEMs.',
-      tools: ['Wazuh Manager (SIEM/XDR)', 'Splunk', 'Elastic (ELK Stack)', 'Microsoft Sentinel', 'Grafana Loki']
+      title: 'SIEM, Deception & Honeypots',
+      badge: 'SOC & Honeynet',
+      description: 'Centralized security event ingestion, real-time alert correlation, compliance monitoring, and T-Pot multi-honeypot deployment.',
+      tools: ['Wazuh Manager (SIEM/XDR)', 'T-Pot (Cowrie / Dionaea / RDP)', 'Splunk', 'Elastic (ELK Stack)', 'Microsoft Sentinel', 'Grafana Loki']
     },
     {
       title: 'Endpoint & Perimeter Defense',
       badge: 'EDR / IDS / IPS',
       description: 'Host-based monitoring, process creation tracking, deep packet inspection, and real-time network anomaly blocking.',
-      tools: ['EDR Telemetry', 'Suricata IDS/IPS', 'Snort', 'Sysmon (Windows)', 'CrowdSec Agent', 'Auditd FIM']
+      tools: ['EDR Telemetry', 'Suricata IDS/IPS', 'Snort', 'Sysmon (Windows)', 'CrowdSec Agent', 'Auditd FIM', 'Falco / Tetragon eBPF']
     },
     {
-      title: 'Vulnerability & Web Assessment',
+      title: 'Vulnerability & Adversary Emulation',
       badge: 'Offensive Testing',
-      description: 'Port scanning, network vulnerability identification, web application penetration testing, and identity path mapping.',
-      tools: ['Nmap', 'Nessus', 'OpenVAS', 'Burp Suite', 'BloodHound', 'Atomic Red Team (MITRE ATT&CK)']
+      description: 'Port scanning, network vulnerability identification, web application penetration testing, and automated adversary simulation.',
+      tools: ['Atomic Red Team (MITRE ATT&CK)', 'Nmap', 'Nessus', 'OpenVAS', 'Burp Suite', 'BloodHound']
     },
     {
       title: 'Threat Intel & Detection Rules',
       badge: 'Detection Eng.',
       description: 'Structured threat sharing, automated indicator of compromise (IoC) extraction, and vendor-agnostic detection signatures.',
-      tools: ['Sigma Rules', 'YARA Rules', 'MISP Threat Sharing', 'Snort Rulesets', 'CyberChef']
+      tools: ['Sigma Rules', 'YARA Rules', 'MISP Threat Sharing', 'Snort Rulesets', 'CyberChef', 'OPNsense IoC Exporter']
     },
     {
       title: 'Digital Forensics & Malware Analysis',
       badge: 'DFIR & Reverse Eng.',
-      description: 'Air-gapped triage environment for memory acquisition, disk artifact analysis, binary disassembly, and dynamic debugging.',
-      tools: ['Volatility (Memory Triage)', 'Autopsy (Disk Forensics)', 'Ghidra (NSA Decompiler)', 'IDA Pro', 'x64dbg', 'PEStudio']
+      description: 'Air-gapped triage environment for memory acquisition, disk artifact analysis, binary disassembly, and dynamic sandbox debugging.',
+      tools: ['CAPEv2 / Cuckoo (Win10 + INetSim)', 'Volatility (Memory Triage)', 'Autopsy (Disk Forensics)', 'Ghidra (NSA Decompiler)', 'IDA Pro', 'x64dbg']
     },
     {
       title: 'Automation, Scripting & SCM',
       badge: 'SecOps & DevSecOps',
       description: 'Automated threat hunting agents, incident response playbooks, triage collectors, and version-controlled configuration.',
-      tools: ['PowerShell Core', 'Python 3.12 (FastAPI / Scapy)', 'Git', 'Ansible Hardening Playbooks', 'Woodpecker CI']
+      tools: ['PowerShell Core', 'Python 3.12 (FastAPI / Scapy)', 'Git', 'Ansible Hardening Playbooks', 'Woodpecker CI', 'Shuffle / n8n SOAR']
     }
   ];
 
@@ -288,10 +329,11 @@ export class ArchitectureBlueprintComponent {
     {
       node: 'Node 1 — Proxmox Primary (Intel Core i3-10100F / GTX 1050 Ti)',
       totalRam: '8,192 MB DDR4',
-      allocatedRam: '7,808 MB',
-      usagePercent: 95,
+      allocatedRam: '7,936 MB',
+      usagePercent: 96,
       breakdown: [
         { name: 'Windows Server 2025 (VM 201 · Active Directory)', ram: '4,096 MB' },
+        { name: 'Ollama GPU LLM Runtime (CT 115 · GTX 1050 Ti Passthrough)', ram: '2,048 MB' },
         { name: 'OPNsense Firewall (VM 200 · Suricata/Snort)', ram: '1,024 MB' },
         { name: 'Immich Photos AI (CT 103)', ram: '896 MB' },
         { name: 'Jellyfin Media Suite (CT 109)', ram: '896 MB' },
@@ -304,10 +346,11 @@ export class ArchitectureBlueprintComponent {
     {
       node: 'Node 3 — Proxmox Secondary (Apple M1 ARM64)',
       totalRam: '4,096 MB Dedicated (8GB Unified)',
-      allocatedRam: '2,080 MB',
-      usagePercent: 51,
+      allocatedRam: '2,336 MB',
+      usagePercent: 57,
       breakdown: [
         { name: 'Monitoring Suite: Grafana / Prom / Loki (CT 107)', ram: '448 MB' },
+        { name: 'Grafana Tempo Distributed Tracing (CT 118)', ram: '256 MB' },
         { name: 'Woodpecker CI Engine (CT 110)', ram: '192 MB' },
         { name: 'Gitea Git Forge (CT 109)', ram: '160 MB' },
         { name: 'Actual Budget (CT 101)', ram: '160 MB' },
@@ -321,27 +364,66 @@ export class ArchitectureBlueprintComponent {
   eloCascade = [
     {
       tier: 'Tier 1',
+      provider: 'Local Ollama GPU (GTX 1050 Ti 4GB VRAM)',
+      latency: '35-90 ms',
+      role: 'Zero-latency, air-gapped offline execution for Qwen2.5-Coder and DeepSeek-R1.'
+    },
+    {
+      tier: 'Tier 2',
       provider: 'Google Gemini (Gemini 2.5 Flash)',
       latency: '200-400 ms',
       role: 'Primary multimodal reasoning, tool selection, and cluster diagnosis.'
     },
     {
-      tier: 'Tier 2',
+      tier: 'Tier 3',
       provider: 'Groq LPU (Llama 3.3 70B)',
       latency: '80-150 ms',
       role: 'Ultra-low-latency classification and fast automated decision trees.'
     },
     {
-      tier: 'Tier 3',
-      provider: 'OpenRouter Free Pool',
-      latency: '400-800 ms',
-      role: 'Secondary multi-model routing failover if rate limits occur.'
+      tier: 'Tier 4',
+      provider: 'Local Ollama Metal (Apple M1 GPU)',
+      latency: '50-120 ms',
+      role: 'Secondary local GPU fallback on ARM64 if primary node is saturated.'
+    }
+  ];
+
+  devSecOpsGrid = [
+    {
+      title: 'Infrastructure as Code (IaC)',
+      badge: 'Terraform & Proxmox',
+      description: 'Declarative LXC and VM provisioning via bpg/proxmox provider with Cloud-Init and strict resource quotas.',
+      implementation: 'terraform/proxmox/ (LXC + VM + Talos)'
     },
     {
-      tier: 'Tier 4',
-      provider: 'Local Ollama (Apple Metal GPU)',
-      latency: '50-120 ms',
-      role: 'Air-gapped offline fallback execution without public WAN access.'
+      title: 'Container & IaC Security Scanning',
+      badge: 'Trivy & Gitleaks',
+      description: 'Automated vulnerability scanning for Dockerfiles, SBOM generation, and secret detection on every git push.',
+      implementation: '.github/workflows/security-scan.yml'
+    },
+    {
+      title: 'Immutable Kubernetes OS',
+      badge: 'Talos Linux',
+      description: 'Zero-SSH, API-managed immutable operating system for Kubernetes nodes with encrypted rootfs.',
+      implementation: 'kubernetes/talos/cluster.yaml'
+    },
+    {
+      title: 'Disaster Recovery Validation',
+      badge: 'Cold-Start vzdump CI',
+      description: 'Automated script that restores the latest backup snapshot into an isolated DMZ VLAN to verify integrity.',
+      implementation: 'scripts/disaster-recovery/dr_vzdump_restore.sh'
+    },
+    {
+      title: 'Chaos Engineering Suite',
+      badge: 'CPU & Netem Stress',
+      description: 'Automated fault injection simulating 100% CPU spikes, packet loss, and latency to test alerting and failover.',
+      implementation: 'scripts/chaos/chaos_runner.sh'
+    },
+    {
+      title: 'Kernel-Level eBPF Observability',
+      badge: 'Cilium Tetragon & Falco',
+      description: 'Real-time detection of suspicious system calls, privilege escalation, and unauthorized network connections.',
+      implementation: 'cyber/ebpf/ (Tetragon + Falco rules)'
     }
   ];
 }

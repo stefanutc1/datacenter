@@ -172,6 +172,42 @@ export const SERVICES_DATA: ServiceItem[] = [
     composeCode: `services:\n  jellyfin:\n    image: jellyfin/jellyfin:latest\n    restart: unless-stopped\n    volumes:\n      - /mnt/nfs/media:/media`
   },
 
+  // NEW AI & Offline Knowledge Workloads (Node 1 & Node 2)
+  {
+    id: 'ollama',
+    name: 'Ollama Local LLM (GTX 1050 Ti)',
+    category: 'automation',
+    containerName: 'ollama-gpu',
+    node: 'Node 1 (Intel i3-10100F) · CT 115',
+    ram: '2,048 MB (4GB VRAM Passthrough)',
+    storage: '25 GB Model Cache',
+    ip: '192.168.1.115',
+    port: 11434,
+    domain: 'ai.homelab.local',
+    status: 'ONLINE',
+    description: 'Local GPU-accelerated LLM runtime on NVIDIA GeForce GTX 1050 Ti (4GB VRAM) executing Qwen2.5-Coder-1.5B/3B, Llama-3.2-3B, and DeepSeek-R1-Distill-Qwen-1.5B with sub-100ms inference.',
+    color: '#a78bfa',
+    icon: 'python',
+    composeCode: `services:\n  ollama:\n    image: ollama/ollama:latest\n    deploy:\n      resources:\n        reservations:\n          devices:\n            - driver: nvidia\n              count: 1\n              capabilities: [gpu]\n    ports:\n      - "11434:11434"\n    volumes:\n      - /var/lib/ollama:/root/.ollama`
+  },
+  {
+    id: 'kiwix-wiki',
+    name: 'Wikipedia Self-Hosted (Kiwix)',
+    category: 'storage',
+    containerName: 'kiwix-serve',
+    node: 'Node 2 (ASUS OMV NAS) · Port 8085',
+    ram: '128 MB',
+    storage: '110 GB ZIM Storage',
+    ip: '192.168.1.135',
+    port: 8085,
+    domain: 'wiki.homelab.local',
+    status: 'ONLINE',
+    description: 'Offline mirror of complete English & Romanian Wikipedia, Wiktionary, and StackOverflow archives served via Kiwix ZIM server without internet access.',
+    color: '#10b981',
+    icon: 'filebrowser',
+    composeCode: `services:\n  kiwix:\n    image: ghcr.io/kiwix/kiwix-serve:latest\n    command: "*.zim"\n    volumes:\n      - /srv/dev-disk-by-uuid/storage/zim:/data\n    ports:\n      - "8085:8080"`
+  },
+
   // Secondary Hypervisor Services (Node 3 - ARM64 Apple M1)
   {
     id: 'gitea',
@@ -225,6 +261,23 @@ export const SERVICES_DATA: ServiceItem[] = [
     composeCode: `services:\n  prometheus:\n    image: prom/prometheus:latest\n    volumes:\n      - ./prometheus.yml:/etc/prometheus/prometheus.yml\n  grafana:\n    image: grafana/grafana:latest\n    ports:\n      - "3000:3000"`
   },
   {
+    id: 'tempo',
+    name: 'Grafana Tempo Distributed Tracing',
+    category: 'monitoring',
+    containerName: 'tempo-tracer',
+    node: 'Node 3 (Apple M1) · CT 118',
+    ram: '256 MB',
+    storage: '8 GB NVMe',
+    ip: '192.168.64.118',
+    port: 3200,
+    domain: 'tempo.homelab.local',
+    status: 'ONLINE',
+    description: 'High-scale distributed tracing backend ingesting OpenTelemetry (OTLP gRPC/HTTP) spans from microservices, correlated directly with Grafana Loki and Prometheus.',
+    color: '#f59e0b',
+    icon: 'grafana',
+    composeCode: `services:\n  tempo:\n    image: grafana/tempo:latest\n    command: ["-config.file=/etc/tempo.yaml"]\n    ports:\n      - "3200:3200"\n      - "4317:4317"\n      - "4318:4318"`
+  },
+  {
     id: 'actualbudget',
     name: 'Actual Budget',
     category: 'core',
@@ -276,7 +329,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     composeCode: `services:\n  changedetection:\n    image: ghcr.io/dgtlmoon/changedetection.io\n    restart: unless-stopped`
   },
 
-  // Cyber Security, SOC, SIEM & DFIR Forensics Suite
+  // Cyber Security, SOC, SIEM, Honeypots & DFIR Forensics Suite
   {
     id: 'wazuh',
     name: 'Wazuh XDR & SIEM',
@@ -293,6 +346,40 @@ export const SERVICES_DATA: ServiceItem[] = [
     color: '#10b981',
     icon: 'wazuh',
     composeCode: `services:\n  wazuh-manager:\n    image: wazuh/wazuh-manager:latest\n    ports:\n      - "1514:1514"\n      - "55000:55000"`
+  },
+  {
+    id: 'tpot-honeypot',
+    name: 'T-Pot Multi-Honeypot Cluster',
+    category: 'cyber',
+    containerName: 'tpot-framework',
+    node: 'VLAN 40 (DMZ Honeynet) · VM 205',
+    ram: '3,072 MB',
+    storage: '40 GB Isolated Pool',
+    ip: '192.168.40.10',
+    port: 64297,
+    domain: 'tpot.homelab.local',
+    status: 'ONLINE',
+    description: 'Multi-honeypot deception platform running Cowrie (SSH/Telnet), Dionaea, RDP honeypot, Honeytrap, and Conpot in an isolated DMZ VLAN with automated AbuseIPDB blacklisting.',
+    color: '#fb923c',
+    icon: 'shield',
+    composeCode: `services:\n  tpot:\n    image: dtag-dev-sec/tpotinit:latest\n    network_mode: host\n    restart: always`
+  },
+  {
+    id: 'atomic-red-team',
+    name: 'Atomic Red Team Simulation',
+    category: 'cyber',
+    containerName: 'art-runner',
+    node: 'VLAN 30 (CyberLab) · CT 120',
+    ram: '512 MB',
+    storage: '10 GB NVMe',
+    ip: '192.168.30.20',
+    port: 0,
+    domain: 'art.homelab.local',
+    status: 'ONLINE',
+    description: 'Automated adversary emulation framework executing scripted MITRE ATT&CK tests to validate detection telemetry in Wazuh, Sysmon, and Suricata.',
+    color: '#fb923c',
+    icon: 'atomicredteam',
+    composeCode: `# Invoke-AtomicRedTeam automated runner & telemetry validator`
   },
   {
     id: 'suricata',
@@ -357,9 +444,9 @@ export const SERVICES_DATA: ServiceItem[] = [
     port: 0,
     domain: 'dfir.homelab.local',
     status: 'ONLINE',
-    description: 'Digital Forensics & Reverse Engineering lab equipped with Volatility (memory triage), Autopsy (disk forensics), Ghidra, IDA Pro, x64dbg, YARA rules, Sigma rules, Wireshark, tcpdump, Nmap, Nessus, OpenVAS, Burp Suite, PowerShell, Python, and MISP threat sharing.',
+    description: 'Digital Forensics & Reverse Engineering lab equipped with CAPEv2 / Cuckoo Sandbox (Windows 10 + INetSim), Volatility (memory triage), Autopsy (disk forensics), Ghidra, IDA Pro, x64dbg, YARA rules, Sigma rules, Wireshark, tcpdump, Nmap, Nessus, OpenVAS, Burp Suite, PowerShell, Python, and MISP threat sharing.',
     color: '#fb923c',
     icon: 'kali',
-    composeCode: `# Air-gapped DFIR VM: Autopsy · Volatility · Ghidra · IDA · x64dbg · Wireshark · Burp Suite`
+    composeCode: `# Air-gapped DFIR VM: CAPEv2 · Cuckoo · Autopsy · Volatility · Ghidra · IDA · x64dbg · INetSim`
   }
 ];

@@ -1,0 +1,42 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "homelab-kernel-security"
+  namespace: "kube-system"
+spec:
+  kprobes:
+    # Monitor sensitive binary execution (nmap, tcpdump, nc, socat, mimikatz emulation)
+    - call: "sys_execve"
+      syscall: true
+      args:
+        - index: 0
+          type: "string"
+      selectors:
+        - matchArgs:
+            - index: 0
+              operator: "Prefix"
+              values:
+                - "/bin/nc"
+                - "/usr/bin/ncat"
+                - "/usr/bin/socat"
+                - "/usr/bin/tcpdump"
+          matchActions:
+            - action: Sigkill
+            - action: Post
+
+    # Monitor unauthorized reads to sensitive credential stores
+    - call: "sys_openat"
+      syscall: true
+      args:
+        - index: 1
+          type: "string"
+      selectors:
+        - matchArgs:
+            - index: 1
+              operator: "Equal"
+              values:
+                - "/etc/shadow"
+                - "/etc/gshadow"
+                - "/etc/sudoers"
+          matchActions:
+            - action: Post

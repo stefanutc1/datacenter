@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslationService, Language } from '../../services/translation.service';
 
 @Component({
   selector: 'app-header',
@@ -14,24 +15,49 @@ import { CommonModule } from '@angular/common';
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
           <a href="#" class="flex items-baseline gap-2.5 text-white hover:text-emerald-400 transition-colors">
             <span class="font-sans font-bold text-lg tracking-tight">Homelab</span>
-            <span class="font-sans text-xs text-slate-400 font-normal hidden sm:inline">// Infrastructure Digital Twin</span>
+            <span class="font-sans text-xs text-slate-400 font-normal hidden sm:inline">{{ ts.t.sublabelTag }}</span>
           </a>
         </div>
 
         <!-- Center Nav Links (Geist Sans) -->
-        <nav class="hidden md:flex items-center gap-7 text-slate-300 font-medium text-xs tracking-normal font-sans">
-          <a href="#overview" class="hover:text-white transition-colors">Overview</a>
-          <a href="#topology-section" class="hover:text-white transition-colors">3D Topology</a>
-          <a href="#services" class="hover:text-white transition-colors">Services (34)</a>
-          <a href="#hardware" class="hover:text-white transition-colors">Hardware Fleet</a>
-          <a href="#blueprint" class="hover:text-white transition-colors">Cyber & Architecture</a>
+        <nav class="hidden md:flex items-center gap-6 text-slate-300 font-medium text-xs tracking-normal font-sans">
+          <a href="#overview" class="hover:text-white transition-colors">{{ ts.t.navOverview }}</a>
+          <a href="#topology-section" class="hover:text-white transition-colors">{{ ts.t.navTopology }}</a>
+          <a href="#services" class="hover:text-white transition-colors">{{ ts.t.navServices }}</a>
+          <a href="#hardware" class="hover:text-white transition-colors">{{ ts.t.navHardware }}</a>
+          <a href="#blueprint" class="hover:text-white transition-colors">{{ ts.t.navBlueprint }}</a>
         </nav>
 
-        <!-- Right Controls: Status & Theme Toggle & GitHub -->
+        <!-- Right Controls: Status & Language Toggle & Theme Toggle & GitHub -->
         <div class="flex items-center gap-3 font-sans">
+          
+          <!-- Language Switcher RO / EN -->
+          <div class="flex items-center p-0.5 rounded-lg bg-obsidian-850 border border-obsidian-700 font-mono text-[11px]">
+            <button
+              (click)="setLang('ro')"
+              [class.bg-emerald-500]="ts.currentLang() === 'ro'"
+              [class.text-slate-950]="ts.currentLang() === 'ro'"
+              [class.font-bold]="ts.currentLang() === 'ro'"
+              [class.text-slate-400]="ts.currentLang() !== 'ro'"
+              class="px-2 py-1 rounded transition-all"
+            >
+              RO
+            </button>
+            <button
+              (click)="setLang('en')"
+              [class.bg-emerald-500]="ts.currentLang() === 'en'"
+              [class.text-slate-950]="ts.currentLang() === 'en'"
+              [class.font-bold]="ts.currentLang() === 'en'"
+              [class.text-slate-400]="ts.currentLang() !== 'en'"
+              class="px-2 py-1 rounded transition-all"
+            >
+              EN
+            </button>
+          </div>
+
           <div class="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-obsidian-850 border border-obsidian-700 text-slate-300 text-xs font-medium font-sans">
             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span>Cluster Operational</span>
+            <span>{{ ts.t.statusClusterActive }}</span>
           </div>
 
           <!-- Light / Dark Theme Toggle -->
@@ -59,10 +85,15 @@ import { CommonModule } from '@angular/common';
   `
 })
 export class HeaderComponent implements OnInit {
+  ts = inject(TranslationService);
   isDark = true;
 
   ngOnInit() {
     this.isDark = document.documentElement.classList.contains('dark');
+  }
+
+  setLang(lang: Language) {
+    this.ts.setLanguage(lang);
   }
 
   toggleTheme() {

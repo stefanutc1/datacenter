@@ -1,7 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HARDWARE_NODES, HardwareNode } from '../../data/hardware.data';
 import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-hardware-fleet',
@@ -13,13 +14,13 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
       <!-- Section Header -->
       <div class="space-y-2 mb-10">
         <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
-          PHYSICAL COMPUTE ARCHITECTURE & HARDWARE INVENTORY
+          {{ ts.t.hwTag }}
         </div>
         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-50 tracking-tight">
-          Physical Hardware Fleet (4 Compute Nodes)
+          {{ ts.t.hwTitle }}
         </h2>
         <p class="text-sm text-slate-300 max-w-3xl font-sans font-normal leading-relaxed">
-          Source of truth from <code class="text-xs font-mono bg-obsidian-800 px-1.5 py-0.5 rounded border border-obsidian-700 text-slate-200">hardware/hardware.md</code> — multi-architecture bare-metal infrastructure spanning Intel Core i3 virtualization, Apple Silicon M1 ARM64 UTM nodes, ASUS Celeron ZFS storage NAS, and AMD Athlon II Kubernetes worker.
+          {{ ts.t.hwDesc }}
         </p>
       </div>
 
@@ -51,35 +52,35 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
               <div class="grid grid-cols-2 gap-2.5 font-mono text-xs">
                 
                 <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750">
-                  <div class="text-[10px] text-slate-400 uppercase">Processor (CPU)</div>
+                  <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.hwCpu }}</div>
                   <div class="text-xs font-bold text-slate-100 mt-0.5 truncate" [title]="hw.cpu">{{ hw.cpu }}</div>
                 </div>
 
                 <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750">
-                  <div class="text-[10px] text-slate-400 uppercase">Operating System</div>
+                  <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.hwOs }}</div>
                   <div class="text-xs font-bold text-slate-200 mt-0.5 truncate" [title]="hw.os">{{ hw.os }}</div>
                 </div>
 
                 <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750">
-                  <div class="text-[10px] text-slate-400 uppercase">RAM Capacity</div>
+                  <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.hwRam }}</div>
                   <div class="text-xs font-bold text-emerald-400 mt-0.5 truncate" [title]="hw.ram">{{ hw.ram }}</div>
                 </div>
 
                 <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750">
-                  <div class="text-[10px] text-slate-400 uppercase">Storage Pool</div>
+                  <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.hwStorage }}</div>
                   <div class="text-xs font-bold text-slate-100 mt-0.5 truncate" [title]="hw.storage">{{ hw.storage }}</div>
                 </div>
 
                 @if (hw.gpu) {
                   <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 col-span-2 sm:col-span-1">
-                    <div class="text-[10px] text-slate-400 uppercase">Graphics / Accelerator</div>
+                    <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.hwGpu }}</div>
                     <div class="text-xs font-bold text-slate-100 mt-0.5 truncate" [title]="hw.gpu">{{ hw.gpu }}</div>
                   </div>
                 }
 
                 @if (hw.psu) {
                   <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 col-span-2 sm:col-span-1">
-                    <div class="text-[10px] text-slate-400 uppercase">Power Supply (PSU)</div>
+                    <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.hwPsu }}</div>
                     <div class="text-xs font-bold text-slate-100 mt-0.5 truncate">{{ hw.psu }}</div>
                   </div>
                 }
@@ -89,7 +90,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
               <!-- Workloads Hosted on this Node -->
               <div class="space-y-2 pt-2 font-mono">
                 <div class="text-xs uppercase tracking-wider text-slate-400">
-                  Hosted Virtual Workloads & Services ({{ hw.workloads.length }})
+                  {{ ts.t.hwHostedWorkloads }} ({{ hw.workloads.length }})
                 </div>
                 <div class="space-y-1 text-xs">
                   @for (w of hw.workloads; track w) {
@@ -109,7 +110,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
                 (click)="focusHardwareNode(hw)"
                 class="text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1.5 transition-colors"
               >
-                <span>LOCATE IN 3D</span>
+                <span>{{ ts.t.btnLocate3D }}</span>
                 <span>→</span>
               </button>
             </div>
@@ -124,6 +125,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
 export class HardwareFleetComponent {
   @Output() nodeFocused = new EventEmitter<TopologyNode>();
 
+  ts = inject(TranslationService);
   hardware: HardwareNode[] = HARDWARE_NODES;
 
   focusHardwareNode(hw: HardwareNode) {

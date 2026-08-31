@@ -1,32 +1,63 @@
 terraform {
   required_providers {
     proxmox = {
-      source  = "telmate/proxmox"
-      version = ">= 2.9.14"
+      source  = "bpg/proxmox"
+      version = ">= 0.60.0"
     }
   }
 }
 
-resource "proxmox_vm_qemu" "vm_instance" {
-  name        = var.vm_name
-  target_node = var.target_node
-  clone       = "ubuntu-2404-cloudinit-template"
-  cores       = var.vm_cores
-  sockets     = 1
-  memory      = var.vm_memory
-  os_type     = "cloud-init"
-  scsihw      = "virtio-scsi-pci"
-  bootdisk    = "scsi0"
+resource "proxmox_virtual_environment_vm" "vm" {
+  node_name   = var.target_node
+  vm_id       = var.vmid
+  name        = var.name
+  description = var.description
+  tags        = var.tags
 
-  disk {
-    slot    = 0
-    size    = var.vm_disk_size
-    type    = "scsi"
-    storage = "local-lvm"
+  agent {
+    enabled = true
+    timeout = "10m"
   }
 
-  network {
-    model  = "virtio"
-    bridge = "vmbr0"
+  cpu {
+    cores   = var.cores
+    sockets = var.sockets
+    type    = var.cpu_type
+  }
+
+  memory {
+    dedicated = var.memory
+    floating  = var.memory
+  }
+
+  disk {
+    datastore_id = var.storage_pool
+    size         = var.disk_size
+    interface    = "scsihw0"
+    iothread     = true
+    discard      = "on"
+    ssd          = true
+  }
+
+  network_device {
+    bridge      = "vmbr0"
+    vlan_id     = var.vlan_tag
+    model       = "virtio"
+    mac_address = var.mac_address != "" ? var.mac_address : null
+    firewall    = true
+  }
+
+  operating_system {
+    type = "l26"
+  }
+
+  dynamic "hostpci" {
+    for_each = var.pci_passthrough_device != "" ? [1] : []
+    content {
+      device = "hostpci0"
+      id     = var.pci_passthrough_device
+      pcie   = true
+      rombar = true
+    }
   }
 }

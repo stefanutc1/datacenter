@@ -1,7 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
 import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-service-matrix',
@@ -14,13 +15,13 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div class="space-y-2">
           <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
-            MICROSERVICES CATALOG & WORKLOAD ROSTER
+            {{ ts.t.srvTag }}
           </div>
           <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-50 tracking-tight">
-            Active Containerized Services ({{ services.length }})
+            {{ ts.t.srvTitle }}
           </h2>
           <p class="text-sm text-slate-300 max-w-2xl font-sans font-normal leading-relaxed">
-            Live microservices, databases, and sandboxes deployed across Proxmox x86_64 and ARM64 Apple M1 hypervisors with allocated RAM and storage pools.
+            {{ ts.t.srvDesc }}
           </p>
         </div>
 
@@ -30,7 +31,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
             type="text"
             [value]="searchQuery"
             (input)="onSearch($event)"
-            placeholder="Search service, port, host..."
+            [placeholder]="ts.t.srvSearchPlaceholder"
             class="w-full px-4 py-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 placeholder:text-slate-500 font-sans text-xs outline-none focus:border-emerald-500 transition-colors shadow-inner"
           />
         </div>
@@ -38,7 +39,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
 
       <!-- Category Filter Pills -->
       <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-sans">
-        @for (cat of categories; track cat.id) {
+        @for (cat of getCategories(); track cat.id) {
           <button
             (click)="activeCategory = cat.id"
             [class.bg-emerald-500]="activeCategory === cat.id"
@@ -89,11 +90,11 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
               <!-- Hardware Allocations (IBM Plex Mono) -->
               <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
                 <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750">
-                  <div class="text-[9px] text-slate-400 uppercase">RAM Ceiling</div>
+                  <div class="text-[9px] text-slate-400 uppercase">{{ ts.t.srvRamCeiling }}</div>
                   <div class="font-bold text-emerald-400">{{ srv.ram }}</div>
                 </div>
                 <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750">
-                  <div class="text-[9px] text-slate-400 uppercase">Storage Pool</div>
+                  <div class="text-[9px] text-slate-400 uppercase">{{ ts.t.srvStoragePool }}</div>
                   <div class="font-bold text-slate-200">{{ srv.storage }}</div>
                 </div>
               </div>
@@ -112,7 +113,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
                 (click)="focusNodeInTopology(srv)"
                 class="text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1.5 transition-colors"
               >
-                <span>LOCATE IN 3D MESH</span>
+                <span>{{ ts.t.btnLocateInMesh }}</span>
                 <span>→</span>
               </button>
             </div>
@@ -127,20 +128,23 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
 export class ServiceMatrixComponent {
   @Output() nodeFocused = new EventEmitter<TopologyNode>();
 
+  ts = inject(TranslationService);
   services: ServiceItem[] = SERVICES_DATA;
   searchQuery = '';
   activeCategory = 'all';
 
-  categories = [
-    { id: 'all', label: 'All Services' },
-    { id: 'core', label: 'Core Infrastructure' },
-    { id: 'storage', label: 'Storage & Sync' },
-    { id: 'media', label: 'Media Streaming' },
-    { id: 'monitoring', label: 'Observability' },
-    { id: 'security', label: 'Security & SSO' },
-    { id: 'automation', label: 'Automation & IoT' },
-    { id: 'cyber', label: 'Cyber & DFIR' }
-  ];
+  getCategories() {
+    return [
+      { id: 'all', label: this.ts.t.srvCatAll },
+      { id: 'core', label: this.ts.t.srvCatCore },
+      { id: 'storage', label: this.ts.t.srvCatStorage },
+      { id: 'media', label: this.ts.t.srvCatMedia },
+      { id: 'monitoring', label: this.ts.t.srvCatMonitoring },
+      { id: 'security', label: this.ts.t.srvCatSecurity },
+      { id: 'automation', label: this.ts.t.srvCatAutomation },
+      { id: 'cyber', label: this.ts.t.srvCatCyber }
+    ];
+  }
 
   get filteredServices(): ServiceItem[] {
     return this.services.filter(s => {

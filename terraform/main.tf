@@ -1,23 +1,23 @@
 locals {
   lxc_containers = {
-    100 = { name = "nginx",            ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    101 = { name = "pihole",            ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    102 = { name = "tailscale",         ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    103 = { name = "vaultwarden",       ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    104 = { name = "uptimekumah",       ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    105 = { name = "alpine-nextcloud",  ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    106 = { name = "jellyfin",          ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    107 = { name = "homarr",            ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    108 = { name = "homeassistant",     ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    109 = { name = "immich",            ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    110 = { name = "prometheus",        ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    111 = { name = "alpine-grafana",    ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    112 = { name = "alpine-gitea",      ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    113 = { name = "n8n",               ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    114 = { name = "woodpecker",        ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
-    115 = { name = "alpine-it-tools",   ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    116 = { name = "alpine-scrutiny",   ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
-    117 = { name = "influxdb",          ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" }
+    100 = { name = "nginx", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    101 = { name = "pihole", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    102 = { name = "tailscale", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    103 = { name = "vaultwarden", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    104 = { name = "uptimekumah", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    105 = { name = "alpine-nextcloud", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
+    106 = { name = "jellyfin", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    107 = { name = "homarr", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    108 = { name = "homeassistant", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    109 = { name = "immich", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    110 = { name = "prometheus", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    111 = { name = "alpine-grafana", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
+    112 = { name = "alpine-gitea", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
+    113 = { name = "n8n", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    114 = { name = "woodpecker", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" },
+    115 = { name = "alpine-it-tools", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
+    116 = { name = "alpine-scrutiny", ostemplate = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz" },
+    117 = { name = "influxdb", ostemplate = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst" }
   }
 }
 
@@ -82,7 +82,7 @@ resource "proxmox_virtual_environment_vm" "opnsense" {
   network_device {
     bridge = "vmbr0"
   }
-  
+
   network_device {
     bridge = "vmbr1"
   }

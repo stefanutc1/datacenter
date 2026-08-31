@@ -64,7 +64,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     icon: 'opnsense',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '1,024 MB', storage: '32 GB SSD' },
     role: 'Stateful firewall, Suricata & Snort IDS/IPS, TCP/IP routing, tcpdump packet capture, WireGuard & VLAN isolation',
-    connections: ['node1-pve', 'node3-arm', 'node2-omv', 'k8s-node4', 'npm-ingress', 'wazuh-siem']
+    connections: ['node1-pve', 'node3-arm', 'node2-omv', 'k8s-node4', 'npm-ingress', 'wazuh-siem', 'tpot-cluster']
   },
 
   // TIER 2: PRIMARY COMPUTE HYPERVISORS & STORAGE (Concentric horizontal ring)
@@ -83,8 +83,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#94a3b8',
     icon: 'proxmox',
     hardware: { node: 'Intel Core i3-10100F (GTX 1050 Ti)', ram: '8,192 MB DDR4', storage: '512 GB SSD' },
-    role: 'Primary virtualization host for core services, OPNsense, Windows Server 2025 Active Directory VM, ML workbench and Frigate NVR',
-    connections: ['win-server', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'n8n-auto', 'vaultwarden-core']
+    role: 'Primary virtualization host for core services, OPNsense, Windows Server 2025 Active Directory VM, Ollama GPU LLM and Frigate NVR',
+    connections: ['win-server', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'n8n-auto', 'vaultwarden-core', 'ollama-gpu-node']
   },
   {
     id: 'node3-arm',
@@ -101,8 +101,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#a78bfa',
     icon: 'utm',
     hardware: { node: 'Apple M1 (8 Cores) UTM', ram: '4,096 MB Dedicated (8GB Unified)', storage: 'Apple APFS NVMe SSD' },
-    role: 'Secondary ARM64 hypervisor on Apple Silicon hosting Linux LXCs, Git, CI/CD, and ELO AI daemon',
-    connections: ['gitea-forge', 'woodpecker-ci', 'grafana-dash', 'prometheus-tsdb', 'trilium-notes', 'actualbudget-app']
+    role: 'Secondary ARM64 hypervisor on Apple Silicon hosting Linux LXCs, Git, CI/CD, Tempo distributed tracing, and ELO AI daemon',
+    connections: ['gitea-forge', 'woodpecker-ci', 'grafana-dash', 'prometheus-tsdb', 'trilium-notes', 'actualbudget-app', 'tempo-tracer-node']
   },
   {
     id: 'node2-omv',
@@ -119,8 +119,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'filebrowser',
     hardware: { node: 'Intel Celeron N2830 (ASUS Laptop)', ram: '2,048 MB DDR3', storage: '500 GB HDD Storage' },
-    role: 'Centralized SMB/NFS network storage, off-host Proxmox backup repository and media shares',
-    connections: ['immich-core', 'jellyfin-media']
+    role: 'Centralized SMB/NFS network storage, off-host Proxmox backup repository, media shares, and offline Kiwix Wikipedia mirror',
+    connections: ['immich-core', 'jellyfin-media', 'kiwix-wiki-node']
   },
   {
     id: 'k8s-node4',
@@ -137,7 +137,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#94a3b8',
     icon: 'ubuntu',
     hardware: { node: 'AMD Athlon II X2 220 (GTS 250)', ram: '4,096 MB DDR3', storage: '80 GB SATA HDD' },
-    role: 'Bare-metal Kubernetes worker (k3s-agent) for batch container workloads and cluster resilience',
+    role: 'Bare-metal Kubernetes worker (Talos / k3s-agent) for batch container workloads, Tetragon eBPF, and cluster resilience',
     connections: ['woodpecker-ci', 'prometheus-tsdb']
   },
 
@@ -158,7 +158,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     icon: 'nginx-proxy-manager',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '112 MB', storage: '4 GB' },
     role: 'SSL termination, Let’s Encrypt wildcard certificates and reverse domain routing',
-    connections: ['authelia-auth', 'vaultwarden-core', 'immich-core', 'homeassistant-core', 'nextcloud-core']
+    connections: ['authelia-auth', 'vaultwarden-core', 'immich-core', 'homeassistant-core', 'nextcloud-core', 'kiwix-wiki-node']
   },
   {
     id: 'authelia-auth',
@@ -175,8 +175,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'authelia',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '128 MB', storage: '4 GB' },
-    role: 'Single Sign-On authentication and multi-factor forward protection for web endpoints',
-    connections: ['vaultwarden-core', 'nextcloud-core', 'gitea-forge']
+    role: 'Single Sign-On authentication, WebAuthn/FIDO2 passkeys and multi-factor forward protection',
+    connections: ['vaultwarden-core', 'nextcloud-core', 'gitea-forge', 'ollama-gpu-node']
   },
 
   // TIER 4: CORE SERVICES & VIRTUAL WORKLOADS ARC
@@ -198,6 +198,24 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['wazuh-siem']
   },
   {
+    id: 'ollama-gpu-node',
+    name: 'Ollama Local LLM',
+    sublabel: 'CT 115 · GTX 1050 Ti Passthrough',
+    ip: '192.168.1.115',
+    port: 11434,
+    category: 'elo',
+    tier: 4,
+    status: 'OPERATIONAL',
+    x: -220,
+    y: 130,
+    z: -80,
+    color: '#a78bfa',
+    icon: 'python',
+    hardware: { node: 'Node 1 (GTX 1050 Ti 4GB VRAM)', ram: '2,048 MB', storage: '25 GB' },
+    role: 'Hardware-accelerated local LLM inference engine executing Qwen2.5-Coder and DeepSeek-R1-Distill',
+    connections: ['elo-core']
+  },
+  {
     id: 'vaultwarden-core',
     name: 'Vaultwarden',
     sublabel: 'CT 101 · Secrets Management',
@@ -206,7 +224,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     category: 'security',
     tier: 4,
     status: 'OPERATIONAL',
-    x: -220,
+    x: -120,
     y: 130,
     z: -120,
     color: '#10b981',
@@ -224,7 +242,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     category: 'services',
     tier: 4,
     status: 'OPERATIONAL',
-    x: -110,
+    x: 0,
     y: 130,
     z: -160,
     color: '#10b981',
@@ -234,21 +252,21 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['node2-omv']
   },
   {
-    id: 'nextcloud-core',
-    name: 'Nextcloud Hub',
-    sublabel: 'CT 104 · File Sync & CalDAV',
-    ip: '192.168.1.104',
-    port: 80,
-    category: 'services',
+    id: 'kiwix-wiki-node',
+    name: 'Wikipedia Offline (Kiwix)',
+    sublabel: 'Node 2 · ZIM Archive Server',
+    ip: '192.168.1.135',
+    port: 8085,
+    category: 'storage',
     tier: 4,
     status: 'OPERATIONAL',
-    x: 0,
+    x: 120,
     y: 130,
-    z: -180,
-    color: '#94a3b8',
-    icon: 'nextcloud',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '160 MB', storage: '32 GB' },
-    role: 'Decentralized cloud collaboration, document editing, and calendars',
+    z: -120,
+    color: '#10b981',
+    icon: 'filebrowser',
+    hardware: { node: 'Node 2 (ASUS OMV NAS)', ram: '128 MB', storage: '110 GB ZIM' },
+    role: 'Air-gapped offline encyclopedia and technical wiki repository (Wikipedia, Wiktionary, StackOverflow)',
     connections: ['node2-omv']
   },
   {
@@ -260,39 +278,21 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     category: 'services',
     tier: 4,
     status: 'OPERATIONAL',
-    x: 110,
+    x: 220,
     y: 130,
-    z: -160,
+    z: -80,
     color: '#f59e0b',
     icon: 'homeassistant',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '384 MB', storage: '16 GB' },
     role: 'Central smart home telemetry aggregator, MQTT broker and presence coordinator',
     connections: ['esp32-radar', 'esp32-irrigation', 'n8n-auto']
   },
-  {
-    id: 'jellyfin-media',
-    name: 'Jellyfin Media Server',
-    sublabel: 'CT 109 · Hardware Transcode',
-    ip: '192.168.1.109',
-    port: 8096,
-    category: 'services',
-    tier: 4,
-    status: 'OPERATIONAL',
-    x: 220,
-    y: 130,
-    z: -120,
-    color: '#a78bfa',
-    icon: 'jellyfin',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '896 MB', storage: '64 GB' },
-    role: 'Local streaming server with QuickSync hardware transcoding',
-    connections: ['node2-omv']
-  },
 
   // TIER 5: AI AUTONOMOUS CONTROL PLANE (ELO)
   {
     id: 'elo-core',
     name: 'ELO AI Autonomous Core',
-    sublabel: 'FastAPI · LLM Fallback Cascade',
+    sublabel: 'FastAPI · Multi-LLM Cascade',
     ip: '192.168.64.1',
     port: 8000,
     category: 'elo',
@@ -304,11 +304,11 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#a78bfa',
     icon: 'python',
     hardware: { node: 'Node 3 (Apple M1)', ram: '1,024 MB', storage: '10 GB' },
-    role: 'Autonomous AI orchestration engine, multi-provider model fallback (Gemini, Groq, Ollama), Python agent tools and cluster assistant',
-    connections: ['gitea-forge', 'homeassistant-core', 'wazuh-siem', 'opnsense-gw']
+    role: 'Autonomous AI orchestration engine, multi-provider model fallback (Gemini, Groq, Ollama GPU), Python agent tools and cluster assistant',
+    connections: ['gitea-forge', 'homeassistant-core', 'wazuh-siem', 'opnsense-gw', 'ollama-gpu-node']
   },
 
-  // TIER 6: OBSERVABILITY, SIEM & DFIR FORENSICS
+  // TIER 6: OBSERVABILITY, SIEM, HONEYPOTS & DFIR FORENSICS
   {
     id: 'wazuh-siem',
     name: 'Wazuh XDR & SIEM',
@@ -318,31 +318,67 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     category: 'security',
     tier: 6,
     status: 'OPERATIONAL',
-    x: -260,
-    y: 220,
+    x: -320,
+    y: 230,
     z: 110,
     color: '#10b981',
     icon: 'wazuh',
     hardware: { node: 'VLAN 30 Security Subnet', ram: '2,048 MB', storage: '50 GB' },
     role: 'Host intrusion detection, EDR telemetry, Sysmon correlation, Sigma rule alerting, log pipelines (Splunk / Elastic / Sentinel compatible)',
-    connections: ['opnsense-gw', 'win-server']
+    connections: ['opnsense-gw', 'win-server', 'tpot-cluster']
+  },
+  {
+    id: 'tpot-cluster',
+    name: 'T-Pot Honeypot Cluster',
+    sublabel: 'VLAN 40 · DMZ Deception',
+    ip: '192.168.40.10',
+    port: 64297,
+    category: 'security',
+    tier: 6,
+    status: 'OPERATIONAL',
+    x: -180,
+    y: 230,
+    z: 130,
+    color: '#fb923c',
+    icon: 'shield',
+    hardware: { node: 'VLAN 40 DMZ VM 205', ram: '3,072 MB', storage: '40 GB' },
+    role: 'Multi-honeypot platform (Cowrie SSH, Dionaea, RDP honeypot) with automated AbuseIPDB firewall blocking',
+    connections: ['wazuh-siem', 'opnsense-gw']
   },
   {
     id: 'dfir-sandbox-node',
-    name: 'DFIR & Malware Lab',
+    name: 'CAPEv2 / Cuckoo & DFIR',
     sublabel: 'VLAN 30 · Forensics Sandbox',
     ip: '192.168.30.50',
     category: 'security',
     tier: 6,
     status: 'OPERATIONAL',
-    x: -120,
-    y: 220,
-    z: 130,
+    x: -40,
+    y: 230,
+    z: 150,
     color: '#fb923c',
     icon: 'kali',
-    hardware: { node: 'Isolated KVM VM', ram: '4,096 MB', storage: '100 GB NVMe' },
-    role: 'Forensics & reverse engineering lab: Volatility, Autopsy, Ghidra, IDA Pro, x64dbg, YARA, Wireshark, tcpdump, Nmap, Nessus, OpenVAS, Burp Suite & MISP',
+    hardware: { node: 'Isolated KVM VM 206 (Win10 + INetSim)', ram: '4,096 MB', storage: '100 GB NVMe' },
+    role: 'Forensics & reverse engineering lab: CAPEv2, Cuckoo, Volatility, Autopsy, Ghidra, IDA Pro, x64dbg, YARA, Wireshark, Atomic Red Team & MISP',
     connections: ['wazuh-siem']
+  },
+  {
+    id: 'tempo-tracer-node',
+    name: 'Grafana Tempo Tracing',
+    sublabel: 'CT 118 · OTLP Spans',
+    ip: '192.168.64.118',
+    port: 3200,
+    category: 'services',
+    tier: 6,
+    status: 'OPERATIONAL',
+    x: 100,
+    y: 230,
+    z: 130,
+    color: '#f59e0b',
+    icon: 'grafana',
+    hardware: { node: 'Node 3 (Apple M1)', ram: '256 MB', storage: '8 GB' },
+    role: 'High-scale distributed tracing correlated with Grafana Loki and Prometheus',
+    connections: ['grafana-dash']
   },
   {
     id: 'grafana-dash',
@@ -353,14 +389,14 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     category: 'services',
     tier: 6,
     status: 'OPERATIONAL',
-    x: 120,
-    y: 220,
+    x: 240,
+    y: 230,
     z: 110,
     color: '#f59e0b',
     icon: 'grafana',
     hardware: { node: 'Node 3 (Apple M1)', ram: '448 MB (Shared)', storage: '10 GB' },
     role: 'Unified dashboards for system CPU/RAM, network bandwidth, SMART disk health & logs',
-    connections: ['prometheus-tsdb']
+    connections: ['prometheus-tsdb', 'tempo-tracer-node']
   },
   {
     id: 'prometheus-tsdb',
@@ -371,9 +407,9 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     category: 'services',
     tier: 6,
     status: 'OPERATIONAL',
-    x: 260,
-    y: 220,
-    z: 110,
+    x: 360,
+    y: 230,
+    z: 90,
     color: '#f59e0b',
     icon: 'prometheus',
     hardware: { node: 'Node 3 (Apple M1)', ram: 'Included in Monitoring', storage: '10 GB' },
@@ -514,26 +550,31 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'opnsense-gw', to: 'node2-omv', protocol: 'NFS/SMB Trunk', color: '#10b981' },
   { from: 'opnsense-gw', to: 'k8s-node4', protocol: 'Flannel CNI', color: '#94a3b8' },
   { from: 'opnsense-gw', to: 'wazuh-siem', protocol: 'Syslog / NetFlow', color: '#10b981' },
+  { from: 'opnsense-gw', to: 'tpot-cluster', protocol: 'DMZ Mirror / NAT', color: '#fb923c' },
   { from: 'node1-pve', to: 'win-server', protocol: 'KVM Hypervisor', color: '#94a3b8' },
+  { from: 'node1-pve', to: 'ollama-gpu-node', protocol: 'PCIe GPU Passthrough', color: '#a78bfa' },
   { from: 'win-server', to: 'wazuh-siem', protocol: 'Sysmon Event Forwarding', color: '#10b981' },
   { from: 'dfir-sandbox-node', to: 'wazuh-siem', protocol: 'Telemetry Ingestion', color: '#fb923c' },
+  { from: 'tpot-cluster', to: 'wazuh-siem', protocol: 'EVE-JSON / Syslog', color: '#fb923c' },
   { from: 'npm-ingress', to: 'authelia-auth', protocol: 'Forward Auth :9091', color: '#10b981' },
   { from: 'npm-ingress', to: 'immich-core', protocol: 'Reverse Proxy :2283', color: '#10b981' },
   { from: 'npm-ingress', to: 'vaultwarden-core', protocol: 'Reverse Proxy :8080', color: '#10b981' },
+  { from: 'npm-ingress', to: 'kiwix-wiki-node', protocol: 'Reverse Proxy :8085', color: '#10b981' },
   { from: 'npm-ingress', to: 'homeassistant-core', protocol: 'Reverse Proxy :8123', color: '#f59e0b' },
-  { from: 'npm-ingress', to: 'nextcloud-core', protocol: 'Reverse Proxy :80', color: '#94a3b8' },
   { from: 'immich-core', to: 'node2-omv', protocol: 'NFS Storage Mount', color: '#10b981' },
   { from: 'jellyfin-media', to: 'node2-omv', protocol: 'NFS Storage Mount', color: '#10b981' },
-  { from: 'vaultwarden-core', to: 'node2-omv', protocol: 'Automated ZFS Backup', color: '#10b981' },
+  { from: 'kiwix-wiki-node', to: 'node2-omv', protocol: 'Local ZFS ZIM Pool', color: '#10b981' },
   { from: 'homeassistant-core', to: 'esp32-radar', protocol: 'MQTT / ESPHome', color: '#10b981' },
   { from: 'homeassistant-core', to: 'esp32-irrigation', protocol: 'MQTT / ESPHome', color: '#10b981' },
   { from: 'homeassistant-core', to: 'n8n-auto', protocol: 'Webhook Trigger', color: '#fb923c' },
+  { from: 'elo-core', to: 'ollama-gpu-node', protocol: 'Local LLM Inference', color: '#a78bfa' },
   { from: 'elo-core', to: 'homeassistant-core', protocol: 'REST API Orchestration', color: '#a78bfa' },
   { from: 'elo-core', to: 'wazuh-siem', protocol: 'Security Alert Ingestion', color: '#a78bfa' },
   { from: 'elo-core', to: 'opnsense-gw', protocol: 'Firewall API Dynamic Rules', color: '#a78bfa' },
   { from: 'elo-core', to: 'gitea-forge', protocol: 'GitOps Webhook Dispatch', color: '#a78bfa' },
   { from: 'gitea-forge', to: 'woodpecker-ci', protocol: 'Webhook CI Trigger', color: '#f59e0b' },
   { from: 'woodpecker-ci', to: 'k8s-node4', protocol: 'Container Build Runner', color: '#94a3b8' },
+  { from: 'grafana-dash', to: 'tempo-tracer-node', protocol: 'TraceQL Engine', color: '#f59e0b' },
   { from: 'grafana-dash', to: 'prometheus-tsdb', protocol: 'PromQL Query Engine', color: '#f59e0b' },
   { from: 'prometheus-tsdb', to: 'node1-pve', protocol: 'node_exporter Metrics', color: '#94a3b8' },
   { from: 'prometheus-tsdb', to: 'node3-arm', protocol: 'node_exporter Metrics', color: '#a78bfa' },

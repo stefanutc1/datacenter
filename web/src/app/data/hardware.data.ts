@@ -3,100 +3,106 @@ export interface HardwareNode {
   name: string;
   machine: string;
   role: string;
-  ip: string;
-  os: string;
   cpu: string;
   gpu?: string;
   ram: string;
   storage: string;
   psu?: string;
-  status: 'ONLINE' | 'STANDBY';
-  color: string;
+  os: string;
+  ip: string;
+  status: 'OPERATIONAL' | 'STANDBY';
   workloads: string[];
 }
 
 export const HARDWARE_NODES: HardwareNode[] = [
   {
     id: 'node1-pve',
-    name: 'Node 1 — Primary Hypervisor (proxmox)',
-    machine: 'Custom Desktop Compute PC',
-    role: 'Primary Hypervisor, VM Host, ML Experimentation & Surveillance',
-    ip: '192.168.1.132',
+    name: 'Proxmox Primary (proxmox)',
+    machine: 'Custom Desktop Compute Chassis',
+    role: 'Primary virtualization host, OPNsense firewall, Windows Server Active Directory, Ollama GPU LLM & core LXCs',
+    cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz Turbo)',
+    gpu: 'NVIDIA GeForce GTX 1050 Ti (4GB VRAM · PCIe Passthrough to Ollama / ML Workbench & Frigate NVR)',
+    ram: '8,192 MB DDR4 (Single Channel)',
+    storage: '512 GB SSD (Single Tier Local Storage)',
+    psu: 'Coldex 350W Pure Sine Wave Power Supply',
     os: 'Proxmox VE 9.2 (Linux 7.0 pve kernel)',
-    cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz)',
-    gpu: 'NVIDIA GeForce GTX 1050 Ti (4 GB VRAM)',
-    ram: '8 GB DDR4 (7,808 MB allocated across VMs & LXCs)',
-    storage: '512 GB SSD (Single Storage Tier)',
-    psu: 'Coldex 350W Pure Sine Wave',
-    status: 'ONLINE',
-    color: '#8da3b8',
+    ip: '192.168.1.132 (OPNsense: 192.168.1.132:8443)',
+    status: 'OPERATIONAL',
     workloads: [
-      'Windows Server 2025 Datacenter (VM 201 · Active Directory & Sysmon)',
-      'OPNsense Core Gateway (VM 200 · Stateful Firewall & Suricata IDS/IPS)',
-      'Machine Learning & Dev Workspace (CUDA / PyTorch / GTX 1050 Ti Passthrough)',
-      'Home Surveillance NVR (Frigate NVR with GPU hardware acceleration)',
-      'Core LXC Fleet (Immich AI, Jellyfin, Home Assistant, n8n, NPM, Authelia)'
+      'VM 200: OPNsense Core Firewall & Suricata IDS/IPS',
+      'VM 201: Windows Server 2025 Datacenter (AD DS / GPO)',
+      'CT 115: Ollama GPU Inference (Qwen2.5-Coder / DeepSeek-R1)',
+      'CT 100: Nginx Proxy Manager (SSL Termination & Ingress)',
+      'CT 101: Vaultwarden Zero-Knowledge Password Vault',
+      'CT 103: Immich High-Res Backup & Facial Recognition',
+      'CT 104: Nextcloud Hub (File Sync & Collaboration)',
+      'CT 105: FileBrowser Quantum Storage Explorer',
+      'CT 106: Home Assistant Core Automation Engine',
+      'CT 107: n8n Workflow Automation Engine',
+      'CT 108: Authelia Single Sign-On & WebAuthn 2FA',
+      'CT 109: Jellyfin Media Server (Hardware Transcoding)'
     ]
   },
   {
     id: 'node2-omv',
-    name: 'Node 2 — Storage NAS (openmediavault)',
-    machine: 'ASUS X451MA Laptop',
-    role: 'Centralized File Storage (SMB/NFS) & Secondary Backup Target',
+    name: 'OpenMediaVault NAS (openmediavault)',
+    machine: 'ASUS X451MA Laptop Chassis',
+    role: 'Centralized network attached storage (SMB/NFS), Proxmox snapshot backup target, media archive, and offline Kiwix Wikipedia mirror',
+    cpu: 'Intel Celeron N2830 (2 Cores / 2 Threads @ 2.16 GHz, 2.41 GHz Burst)',
+    gpu: 'Intel HD Graphics (Bay Trail Integrated)',
+    ram: '2,048 MB DDR3 Low-Voltage',
+    storage: '500 GB HDD (SATA II Mechanical Pool)',
+    os: 'OpenMediaVault (OMV) / Debian Linux 12',
     ip: '192.168.1.135',
-    os: 'OpenMediaVault (OMV) / Debian Linux',
-    cpu: 'Intel Celeron N2830 (2 Cores / 2 Threads @ 2.16 GHz, burst 2.41 GHz)',
-    gpu: 'Intel HD Graphics (Bay Trail)',
-    ram: '2 GB DDR3 (Dedicated Storage Ceiling)',
-    storage: '500 GB HDD (Central Network Storage Pool)',
-    status: 'ONLINE',
-    color: '#6e9e75',
+    status: 'OPERATIONAL',
     workloads: [
-      'Centralized Storage & File Sharing (SMB / NFS Shares)',
-      'Secondary Backup Destination (Off-host repository for Proxmox backups)',
-      'Dedicated media & document storage repository for Immich & Jellyfin',
-      'Scrutiny S.M.A.R.T. Drive Health Monitoring Daemon'
+      'OpenMediaVault Core Storage Engine (ZFS / ext4)',
+      'NFS & SMB Centralized Storage Shares',
+      'Proxmox VE Daily Backup Repository (VZDump)',
+      'Kiwix Offline Wikipedia & StackOverflow ZIM Server (:8085)',
+      'Immich Photo Library & Jellyfin Media Storage Pool'
     ]
   },
   {
     id: 'node3-arm',
-    name: 'Node 3 — ARM64 Hypervisor (proxmox2)',
+    name: 'Proxmox ARM64 (proxmox2)',
     machine: 'Apple MacBook Air (M1, 2020)',
-    role: 'ARM64 Workload Validation, Multi-Arch Builds & Secondary PVE',
+    role: 'ARM64 development hypervisor, telemetry stack, Tempo distributed tracing, Git repository, and ELO AI autonomous control plane',
+    cpu: 'Apple M1 (8 Cores: 4 Performance Firestorm + 4 Efficiency Icestorm, 16-Core NPU)',
+    ram: '8,192 MB Unified Memory (4,096 MB dedicated to UTM Proxmox ARM64 VM)',
+    storage: 'Apple APFS NVMe SSD Storage Pool',
+    os: 'Proxmox VE on ARM via UTM (QEMU Apple Hypervisor.framework)',
     ip: '192.168.64.14',
-    os: 'Proxmox VE on ARM (ARM64 Port) via UTM (Hypervisor.framework)',
-    cpu: 'Apple M1 — 8 Cores (4 Performance + 4 Efficiency) / 16-Core Neural Engine',
-    ram: '8 GB Unified LPDDR4X (4 GB dedicated to Proxmox ARM64 VM)',
-    storage: 'High-speed Apple APFS NVMe SSD Pool',
-    status: 'ONLINE',
-    color: '#a87db8',
+    status: 'OPERATIONAL',
     workloads: [
-      'ARM64 Workload Validation & Native Multi-Arch Docker/Go/Rust builds',
-      'Unified Telemetry Cluster: Grafana Dashboards / Prometheus TSDB / Loki',
-      'Woodpecker CI Continuous Integration Engine & Gitea Git Forge',
-      'Actual Budget, Trilium Knowledge Base, ChangeDetection.io',
-      'ELO Autonomous AI Control Plane Daemon (Metal MPS Acceleration)'
+      'ELO Autonomous AI Orchestration Daemon (FastAPI)',
+      'CT 107: Monitoring Suite (Grafana / Prometheus TSDB / Loki)',
+      'CT 118: Grafana Tempo Distributed Tracing Engine (OTLP)',
+      'CT 109: Gitea Self-Hosted Git Forge & Review System',
+      'CT 110: Woodpecker CI/CD Automated Build Engine',
+      'CT 101: Actual Budget Local Finance Server',
+      'CT 102: Trilium Hierarchical Knowledge Notes',
+      'CT 103: ChangeDetection IO Real-Time Web Monitor'
     ]
   },
   {
     id: 'k8s-node4',
-    name: 'Node 4 — Kubernetes Worker (k8s-node-04)',
+    name: 'Kubernetes Worker (k8s-node-04)',
     machine: 'Custom ATX Compute Chassis',
-    role: 'Bare-Metal Kubernetes Worker (k3s-agent) & Stateless Compute Offloading',
-    ip: '192.168.1.18',
-    os: 'Alpine Linux / Debian Base with containerd CRI',
+    role: 'Dedicated Kubernetes cluster worker node for batch container jobs, Tetragon eBPF telemetry, and failover resilience',
     cpu: 'AMD Athlon II X2 220 (2 Cores / 2 Threads @ 2.80 GHz Regor / AM3)',
-    gpu: 'NVIDIA GeForce GTS 250 (1 GB GDDR3, 55nm / 256-bit bus)',
-    ram: '4 GB DDR3',
-    storage: '80 GB HDD (SATA II / 7200 RPM local cache; NFS remote state)',
-    psu: 'ATX Power Supply Unit',
-    status: 'ONLINE',
-    color: '#8da3b8',
+    gpu: 'NVIDIA GeForce GTS 250 (1GB GDDR3 / 256-bit Bus)',
+    ram: '4,096 MB DDR3',
+    storage: '80 GB HDD (SATA II / 7200 RPM local cache; persistență pe NFS)',
+    psu: 'Standard ATX Power Supply Unit',
+    os: 'Talos Linux / Debian Base with containerd CRI & k3s-agent',
+    ip: '192.168.1.18',
+    status: 'OPERATIONAL',
     workloads: [
-      'Kubernetes Cluster Worker (k3s-agent container runtime)',
-      'Stateless Compute Offloading (Batch processing & worker queues)',
-      'Distributed CI Build Runner Pods',
-      'Multi-Node Physical Cluster Fault Tolerance & Resilience'
+      'k3s-agent / Talos Linux Lightweight Kubernetes Node',
+      'Cilium Tetragon eBPF Kernel Runtime Security Sensor',
+      'Woodpecker CI Container Runner Agent',
+      'Prometheus node_exporter Telemetry Agent'
     ]
   }
 ];

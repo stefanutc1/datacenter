@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -8,6 +8,7 @@ import { ServiceMatrixComponent } from './components/service-matrix/service-matr
 import { HardwareFleetComponent } from './components/hardware-fleet/hardware-fleet.component';
 import { ArchitectureBlueprintComponent } from './components/architecture-blueprint/architecture-blueprint.component';
 import { TopologyNode } from './data/topology.data';
+import { TranslationService } from './services/translation.service';
 
 @Component({
   selector: 'app-root',
@@ -23,9 +24,10 @@ import { TopologyNode } from './data/topology.data';
     ArchitectureBlueprintComponent
   ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App {
+  ts = inject(TranslationService);
   selectedNode: TopologyNode | null = null;
   activeCategory: string = 'all';
   perspective: 'logical' | 'physical' = 'logical';
@@ -34,11 +36,11 @@ export class App {
     this.selectedNode = node;
   }
 
-  onCategoryChanged(category: string) {
-    this.activeCategory = category;
+  onCategoryChanged(cat: string) {
+    this.activeCategory = cat;
   }
 
-  onPerspectiveChanged(perspective: 'logical' | 'physical') {
-    this.perspective = perspective;
+  onPerspectiveChanged(mode: 'logical' | 'physical') {
+    this.perspective = mode;
   }
 }

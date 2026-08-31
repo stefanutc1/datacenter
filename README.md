@@ -2,6 +2,8 @@
 
 # Homelab
 
+**[ Versiunea în Limba Română (README.ro.md) ](README.ro.md)**
+
 [![CI Validation](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
 [![CD Deployment](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/cd.yml)
 [![Infrastructure](https://img.shields.io/badge/Infrastructure-Proxmox%20%7C%20OMV%20%7C%20Apple%20Silicon-blue?style=flat&logo=proxmox)](https://github.com/stefanutc1/homelab)

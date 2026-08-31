@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo-tracing
+    restart: always
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./tempo.yaml:/etc/tempo.yaml:ro
+      - ./data/traces:/var/tempo/traces
+      - ./data/wal:/var/tempo/wal
+    ports:
+      - "3200:3200"   # Tempo HTTP API & status
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
+    networks:
+      - telemetry-net
+
+networks:
+  telemetry-net:
+    external: true
