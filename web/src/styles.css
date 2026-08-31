@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  /* Dark Mode (Default) - Warm Deep Espresso / Clay */
   :root, html.dark {
     --warm-bg: #14100c;
     --warm-card: #1c1712;
@@ -14,7 +13,6 @@
     --warm-muted: #8a7b6c;
   }
 
-  /* Light Mode - Warm Cream / Alabaster */
   html.light {
     --warm-bg: #faf7f2;
     --warm-card: #ffffff;
@@ -28,10 +26,12 @@
   body {
     background-color: var(--warm-bg);
     color: var(--warm-primary);
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -52,12 +52,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #d06332;
-}
-
-.font-serif {
-  font-family: 'Newsreader', Georgia, serif;
-}
-
-.font-mono {
-  font-family: 'JetBrains Mono', monospace;
 }

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
         <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
           ENGINEERING BLUEPRINT & NETWORK SCHEMATICS
         </div>
-        <h2 class="text-3xl sm:text-4xl font-bold font-serif text-sand-50 tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-sans text-sand-50 tracking-tight">
           Cluster Architecture Blueprint
         </h2>
         <p class="text-sm text-sand-300 max-w-3xl font-sans">

@@ -17,7 +17,7 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="relative w-full h-full min-h-[580px] bg-gradient-to-b from-[#18130e] via-[#140f0a] to-[#0f0c08] rounded-2xl overflow-hidden border border-clay-700/40 shadow-2xl flex flex-col select-none">
+    <div class="relative w-full h-full min-h-[580px] bg-gradient-to-b from-[#18130e] via-[#140f0a] to-[#0f0c08] rounded-2xl overflow-hidden border border-clay-700/40 shadow-2xl flex flex-col select-none font-sans">
       
       <!-- Top HUD Layer Controls -->
       <div class="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
@@ -32,7 +32,7 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
               [class.font-bold]="activeCategory === cat.id"
               [class.text-sand-300]="activeCategory !== cat.id"
               [class.hover:text-sand-50]="activeCategory !== cat.id"
-              class="px-3 py-1.5 rounded-lg text-xs font-mono tracking-wider transition-all whitespace-nowrap"
+              class="px-3.5 py-1.5 rounded-lg text-xs font-sans font-medium tracking-normal transition-all whitespace-nowrap"
             >
               {{ cat.label }}
             </button>
@@ -40,18 +40,18 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
         </div>
 
         <!-- Controls (Auto-Rotate, Perspective, Reset) -->
-        <div class="flex items-center gap-2 pointer-events-auto font-mono text-xs">
+        <div class="flex items-center gap-2 pointer-events-auto font-sans text-xs">
           <!-- Logical / Physical Toggle -->
-          <div class="flex items-center p-1 rounded-xl bg-[#1e1711]/90 backdrop-blur-md border border-clay-700/50 shadow-lg">
+          <div class="flex items-center p-1 rounded-xl bg-[#1e1711]/90 backdrop-blur-md border border-clay-700/50 shadow-lg font-medium">
             <button
               (click)="setPerspective('logical')"
               [class.bg-terracotta-500]="perspective === 'logical'"
               [class.text-sand-50]="perspective === 'logical'"
               [class.font-bold]="perspective === 'logical'"
               [class.text-sand-300]="perspective !== 'logical'"
-              class="px-2.5 py-1 rounded-lg transition-colors"
+              class="px-3 py-1 rounded-lg transition-colors"
             >
-              LOGICAL
+              Logical
             </button>
             <button
               (click)="setPerspective('physical')"
@@ -59,9 +59,9 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
               [class.text-sand-50]="perspective === 'physical'"
               [class.font-bold]="perspective === 'physical'"
               [class.text-sand-300]="perspective !== 'physical'"
-              class="px-2.5 py-1 rounded-lg transition-colors"
+              class="px-3 py-1 rounded-lg transition-colors"
             >
-              PHYSICAL
+              Physical
             </button>
           </div>
 
@@ -70,19 +70,19 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
             (click)="toggleAutoRotate()"
             [class.border-terracotta-500]="isAutoRotating"
             [class.text-terracotta-400]="isAutoRotating"
-            class="px-3 py-2 rounded-xl bg-[#1e1711]/90 backdrop-blur-md border border-clay-700/50 hover:border-terracotta-400/50 text-sand-200 transition-all flex items-center gap-1.5 shadow-lg"
+            class="px-3.5 py-2 rounded-xl bg-[#1e1711]/90 backdrop-blur-md border border-clay-700/50 hover:border-terracotta-400/50 text-sand-200 font-medium transition-all flex items-center gap-2 shadow-lg"
             title="Toggle 3D auto-rotation"
           >
             <span class="w-2 h-2 rounded-full" [class.bg-terracotta-500]="isAutoRotating" [class.bg-clay-500]="!isAutoRotating"></span>
-            <span>ROTATE</span>
+            <span>Rotate</span>
           </button>
 
           <!-- Reset Camera -->
           <button
             (click)="resetCamera()"
-            class="px-3 py-2 rounded-xl bg-[#1e1711]/90 backdrop-blur-md border border-clay-700/50 hover:border-clay-400 text-sand-200 hover:text-sand-50 transition-all shadow-lg"
+            class="px-3.5 py-2 rounded-xl bg-[#1e1711]/90 backdrop-blur-md border border-clay-700/50 hover:border-clay-400 text-sand-200 hover:text-sand-50 font-medium transition-all shadow-lg"
           >
-            RESET
+            Reset
           </button>
         </div>
       </div>
@@ -99,20 +99,20 @@ import { TopologyNode, TopologyLink, TOPOLOGY_NODES, TOPOLOGY_LINKS } from '../.
       ></canvas>
 
       <!-- Bottom HUD Coordinates & Quick Stats -->
-      <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-mono text-[11px] text-sand-300">
+      <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-sans text-xs text-sand-300">
         <div class="px-3.5 py-2 rounded-xl bg-[#1e1711]/90 backdrop-blur-md border border-clay-700/50 shadow-md flex items-center gap-2.5">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="font-bold text-sand-100">CLUSTER MESH ACTIVE</span>
+          <span class="font-bold text-sand-100">Cluster Mesh Active</span>
           <span class="text-clay-500">|</span>
-          <span class="text-sand-100 font-bold">{{ nodes.length }} NODES</span>
+          <span class="text-sand-100 font-medium">{{ nodes.length }} Nodes</span>
           <span class="text-clay-500">|</span>
-          <span class="text-terracotta-400 font-bold">{{ links.length }} REALTIME PACKET FLOWS</span>
+          <span class="text-terracotta-400 font-medium">{{ links.length }} Live Packet Streams</span>
         </div>
       </div>
 
       <!-- Instructions Hint -->
-      <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-mono text-[11px] text-sand-400">
-        <span>DRAG TO ORBIT · SCROLL TO ZOOM · CLICK NODE TO INSPECT</span>
+      <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-sans text-xs text-sand-400">
+        <span>Drag to orbit · Scroll to zoom · Click node to inspect</span>
       </div>
     </div>
   `,
@@ -139,14 +139,14 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   links: TopologyLink[] = TOPOLOGY_LINKS;
 
   categories = [
-    { id: 'all', label: 'ALL INFRASTRUCTURE' },
-    { id: 'compute', label: 'COMPUTE & HYPERVISORS' },
-    { id: 'network', label: 'NETWORK & WAN' },
-    { id: 'security', label: 'SECURITY & FIREWALL' },
-    { id: 'services', label: 'SERVICES & WORKLOADS' },
-    { id: 'elo', label: 'AI CONTROL PLANE' },
-    { id: 'storage', label: 'STORAGE & ZFS' },
-    { id: 'edge', label: 'EDGE SENSORS' }
+    { id: 'all', label: 'All Infrastructure' },
+    { id: 'compute', label: 'Compute & Hypervisors' },
+    { id: 'network', label: 'Network & WAN' },
+    { id: 'security', label: 'Security & Firewall' },
+    { id: 'services', label: 'Services & Workloads' },
+    { id: 'elo', label: 'AI Control Plane' },
+    { id: 'storage', label: 'Storage & ZFS' },
+    { id: 'edge', label: 'Edge Sensors' }
   ];
 
   isAutoRotating = true;
@@ -358,29 +358,29 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Draw Clean Typography Badges
+      // Draw Clean Typography Badges with Geist / Inter
       const shouldDrawLabel = node.tier <= 2 || node.isSelected || node.isHovered || (this.activeCategory !== 'all' && node.isActive);
 
       if (shouldDrawLabel) {
-        const fontSize = Math.max(10, Math.round(12 * node.scale));
-        ctx.font = `bold ${fontSize}px "JetBrains Mono", monospace`;
+        const fontSize = Math.max(11, Math.round(13 * node.scale));
+        ctx.font = `600 ${fontSize}px "Geist", "Inter", -apple-system, sans-serif`;
         ctx.textAlign = 'center';
 
         const label = node.name;
         const textWidth = ctx.measureText(label).width;
-        const padX = 6;
-        const padY = 3;
-        const badgeY = node.py + radius + 14;
+        const padX = 8;
+        const padY = 4;
+        const badgeY = node.py + radius + 15;
 
         // Semi-transparent pill background to prevent visual overlap
-        ctx.fillStyle = 'rgba(24, 19, 14, 0.88)';
+        ctx.fillStyle = 'rgba(20, 16, 12, 0.9)';
         ctx.beginPath();
         ctx.roundRect(
           node.px - textWidth / 2 - padX,
           badgeY - fontSize / 2 - padY,
           textWidth + padX * 2,
           fontSize + padY * 2,
-          4
+          6
         );
         ctx.fill();
         ctx.strokeStyle = 'rgba(222, 203, 180, 0.2)';
@@ -389,14 +389,14 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
         // Label Text
         ctx.fillStyle = '#faf8f5';
-        ctx.fillText(label, node.px, badgeY + fontSize / 3);
+        ctx.fillText(label, node.px, badgeY + fontSize / 3.2);
 
         // Sublabel if selected or hovered
         if (node.isSelected || node.isHovered) {
-          const subFontSize = Math.max(9, Math.round(10 * node.scale));
-          ctx.font = `${subFontSize}px "JetBrains Mono", monospace`;
+          const subFontSize = Math.max(10, Math.round(11 * node.scale));
+          ctx.font = `400 ${subFontSize}px "Geist Mono", "JetBrains Mono", monospace`;
           ctx.fillStyle = '#c4b5a2';
-          ctx.fillText(node.sublabel || node.ip, node.px, badgeY + fontSize + 12);
+          ctx.fillText(node.sublabel || node.ip, node.px, badgeY + fontSize + 14);
         }
       }
 

@@ -16,7 +16,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
           <div class="text-xs font-mono font-bold tracking-widest text-terracotta-400 uppercase">
             MICROSERVICES CATALOG & WORKLOAD ROSTER
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold font-serif text-sand-50 tracking-tight">
+          <h2 class="text-3xl sm:text-4xl font-extrabold font-sans text-sand-50 tracking-tight">
             Active Containerized Services ({{ services.length }})
           </h2>
           <p class="text-sm text-sand-300 max-w-2xl font-sans">
@@ -31,13 +31,13 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
             [value]="searchQuery"
             (input)="onSearch($event)"
             placeholder="Search service, port, host..."
-            class="w-full px-4 py-2.5 rounded-xl bg-[#1c1611] border border-clay-700/50 text-sand-100 placeholder:text-sand-400 font-mono text-xs outline-none focus:border-terracotta-500 transition-colors shadow-inner"
+            class="w-full px-4 py-2.5 rounded-xl bg-[#1c1611] border border-clay-700/50 text-sand-100 placeholder:text-sand-400 font-sans text-xs outline-none focus:border-terracotta-500 transition-colors shadow-inner"
           />
         </div>
       </div>
 
       <!-- Category Filter Pills -->
-      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-mono">
+      <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-sans">
         @for (cat of categories; track cat.id) {
           <button
             (click)="activeCategory = cat.id"
@@ -47,7 +47,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
             [class.text-sand-300]="activeCategory !== cat.id"
             [class.bg-[#1c1611]]="activeCategory !== cat.id"
             [class.hover:text-sand-50]="activeCategory !== cat.id"
-            class="px-3.5 py-2 rounded-xl text-xs border border-clay-700/50 transition-all whitespace-nowrap"
+            class="px-3.5 py-2 rounded-xl text-xs font-medium border border-clay-700/50 transition-all whitespace-nowrap"
           >
             {{ cat.label }}
           </button>
@@ -67,7 +67,7 @@ import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
                     <img [src]="'icons/' + srv.icon + '.svg'" [alt]="srv.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
                   </div>
                   <div>
-                    <h3 class="font-serif font-bold text-sand-50 text-base group-hover:text-terracotta-400 transition-colors">
+                    <h3 class="font-sans font-bold text-sand-50 text-base group-hover:text-terracotta-400 transition-colors">
                       {{ srv.name }}
                     </h3>
                     <div class="text-[11px] font-mono text-sand-400">
