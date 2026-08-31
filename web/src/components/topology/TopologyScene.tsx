@@ -22,6 +22,7 @@ interface TopologySceneProps {
   onSelectNode: (node: ITopologyNode | null) => void;
   isAutoRotate?: boolean;
   onToggleAutoRotate?: () => void;
+  perspective?: "logical" | "physical";
 }
 
 export const TopologyScene: React.FC<TopologySceneProps> = ({
@@ -29,6 +30,7 @@ export const TopologyScene: React.FC<TopologySceneProps> = ({
   selectedNode,
   onSelectNode,
   isAutoRotate = false,
+  perspective = "logical",
 }) => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -140,7 +142,11 @@ export const TopologyScene: React.FC<TopologySceneProps> = ({
           {/* 3D Topology Nodes */}
           <group>
             {topologyNodes.map((node) => {
-              const isNodeHighlighted = highlightedNodeIds.has(node.id);
+              const isPhysicalNode = node.tier <= 1 || node.tier === 7 || node.id === "opnsense-gw";
+              const isNodeHighlighted =
+                perspective === "physical"
+                  ? isPhysicalNode
+                  : highlightedNodeIds.has(node.id);
               const isSelected = selectedNode?.id === node.id;
 
               return (
@@ -149,7 +155,7 @@ export const TopologyScene: React.FC<TopologySceneProps> = ({
                   node={node}
                   isSelected={isSelected}
                   isHighlighted={isNodeHighlighted}
-                  isAnyHighlighted={activeSubsystem !== "system"}
+                  isAnyHighlighted={perspective === "physical" || activeSubsystem !== "system"}
                   onSelect={onSelectNode}
                 />
               );

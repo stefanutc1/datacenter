@@ -2,13 +2,15 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { SystemNav } from "@/components/ui/SystemNav";
+import { SystemHeader } from "@/components/ui/SystemHeader";
+import { InfrastructureSidebar } from "@/components/infrastructure/InfrastructureSidebar";
 import { SubsystemDock } from "@/components/ui/SubsystemDock";
 import { CommandPalette } from "@/components/ui/CommandPalette";
-import { NodeInspector } from "@/components/infrastructure/NodeInspector";
+import { EnterpriseInspector } from "@/components/infrastructure/EnterpriseInspector";
 import { HardwareAtlas } from "@/components/sections/HardwareAtlas";
 import { ServiceDirectory } from "@/components/sections/ServiceDirectory";
 import { InfrastructureNarrative } from "@/components/sections/InfrastructureNarrative";
+import { ArchitectureBlueprint } from "@/components/sections/ArchitectureBlueprint";
 import {
   SubsystemCategory,
   TopologyNode,
@@ -16,7 +18,7 @@ import {
 } from "@/data/infrastructure";
 import { useSystemState } from "@/hooks/useSystemState";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { Compass, Sparkles, Terminal, Activity, ArrowDown } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 
 // Dynamically import TopologyScene with SSR disabled for Three.js WebGL
 const TopologyScene = dynamic(
@@ -41,6 +43,11 @@ export default function HomelabPage() {
   const [selectedNode, setSelectedNode] = useState<TopologyNode | null>(null);
   const [isAutoRotate, setIsAutoRotate] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [viewMode, setViewMode] = useState<"3d" | "blueprint">("3d");
+  const [topologyPerspective, setTopologyPerspective] = useState<
+    "logical" | "physical"
+  >("logical");
 
   const { state: systemState, setExploring, setInspecting, setOnline } =
     useSystemState("ONLINE");
@@ -87,11 +94,12 @@ export default function HomelabPage() {
     onToggleAutoRotate: () => setIsAutoRotate((prev) => !prev),
   });
 
-  const currentPreset = subsystemPresets[activeSubsystem] || subsystemPresets.system;
+  const currentPreset =
+    subsystemPresets[activeSubsystem] || subsystemPresets.system;
 
   return (
     <div className="min-h-screen flex flex-col bg-warm-page text-warm-primary font-sans antialiased selection:bg-terracotta-500/20">
-      {/* Command Palette (⌘K) */}
+      {/* Command Palette (⌘K or /) */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
@@ -100,58 +108,78 @@ export default function HomelabPage() {
         onResetView={handleResetView}
       />
 
-      {/* System Navigation Header */}
-      <SystemNav
-        systemState={systemState}
-        activeSubsystem={activeSubsystem}
-        selectedNodeName={selectedNode?.hostname || selectedNode?.name}
+      {/* Enterprise Top Header */}
+      <SystemHeader
+        viewMode={viewMode}
+        onToggleViewMode={setViewMode}
+        topologyPerspective={topologyPerspective}
+        onToggleTopologyPerspective={setTopologyPerspective}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />
 
-      {/* 3D HOMELAB TOPOLOGY VIEWPORT (THE CENTRAL NERVOUS SYSTEM) */}
+      {/* PRIMARY VIEWPORT: SPATIAL INFRASTRUCTURE CONTROL MAP */}
       <section
         id="topology"
-        className="relative w-full h-[82vh] min-h-[640px] max-h-[920px] bg-warm-page border-b border-warm overflow-hidden flex flex-col"
-        aria-label="3D Infrastructure Topology Digital Twin"
+        className="relative w-full h-[calc(100vh-3.5rem)] min-h-[640px] max-h-[960px] bg-warm-page border-b border-warm overflow-hidden flex"
+        aria-label="Enterprise Infrastructure Map"
       >
-        {/* 3D Scene Canvas */}
-        <div className="w-full h-full relative">
-          <TopologyScene
-            activeSubsystem={activeSubsystem}
-            selectedNode={selectedNode}
-            onSelectNode={handleSelectNode}
-            isAutoRotate={isAutoRotate}
-            onToggleAutoRotate={() => setIsAutoRotate((prev) => !prev)}
-          />
+        {/* Left-Hand Infrastructure & Service Index Sidebar */}
+        <InfrastructureSidebar
+          activeSubsystem={activeSubsystem}
+          selectedNode={selectedNode}
+          onSelectSubsystem={handleSelectSubsystem}
+          onSelectNode={handleSelectNode}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={() => setIsSidebarCollapsed((prev) => !prev)}
+        />
 
-          {/* Top-Left Preset Title & Narrative Overlay */}
-          <div className="absolute top-6 left-6 z-10 max-w-md pointer-events-none select-none space-y-1.5 animate-in fade-in slide-in-from-left-4 duration-300">
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-warm-card/85 backdrop-blur-md border border-warm text-[10px] font-mono text-terracotta-500 font-bold uppercase tracking-widest shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-ping" />
-              {currentPreset.label}
+        {/* Center Canvas: 3D Topology OR Architecture Blueprint */}
+        <div className="flex-1 h-full relative overflow-hidden flex flex-col">
+          {viewMode === "3d" ? (
+            <>
+              <TopologyScene
+                activeSubsystem={activeSubsystem}
+                selectedNode={selectedNode}
+                onSelectNode={handleSelectNode}
+                isAutoRotate={isAutoRotate}
+                onToggleAutoRotate={() => setIsAutoRotate((prev) => !prev)}
+                perspective={topologyPerspective}
+              />
+
+              {/* Subsystem Identifier Watermark */}
+              <div className="absolute top-5 left-5 z-10 pointer-events-none select-none space-y-1">
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-warm-card/90 backdrop-blur-md border border-warm text-[10px] font-mono text-terracotta-500 font-bold uppercase tracking-widest shadow-sm">
+                  <span>{currentPreset.label}</span>
+                  <span className="text-warm-secondary/40">·</span>
+                  <span className="text-warm-secondary">
+                    {topologyPerspective.toUpperCase()}
+                  </span>
+                </div>
+                <h1 className="text-xl sm:text-2xl font-serif font-bold text-warm-primary leading-tight drop-shadow-sm">
+                  {currentPreset.title}
+                </h1>
+              </div>
+
+              {/* Bottom Subsystem Navigator Dock */}
+              <div className="absolute bottom-5 inset-x-0 z-20 flex items-center justify-center px-4 pointer-events-auto">
+                <SubsystemDock
+                  activeSubsystem={activeSubsystem}
+                  onSelectSubsystem={handleSelectSubsystem}
+                  isAutoRotate={isAutoRotate}
+                  onToggleAutoRotate={() => setIsAutoRotate((prev) => !prev)}
+                  onResetView={handleResetView}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-full overflow-y-auto">
+              <ArchitectureBlueprint />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-warm-primary leading-tight drop-shadow-sm">
-              {currentPreset.title}
-            </h1>
-            <p className="text-xs text-warm-secondary leading-relaxed drop-shadow-sm font-sans hidden sm:block">
-              {currentPreset.summary}
-            </p>
-          </div>
+          )}
 
-          {/* Bottom Subsystem Navigator Dock */}
-          <div className="absolute bottom-6 inset-x-0 z-20 flex items-center justify-center px-4 pointer-events-auto">
-            <SubsystemDock
-              activeSubsystem={activeSubsystem}
-              onSelectSubsystem={handleSelectSubsystem}
-              isAutoRotate={isAutoRotate}
-              onToggleAutoRotate={() => setIsAutoRotate((prev) => !prev)}
-              onResetView={handleResetView}
-            />
-          </div>
-
-          {/* Slide-over Node Inspector Drawer */}
+          {/* Slide-in Enterprise Inspector */}
           {selectedNode && (
-            <NodeInspector
+            <EnterpriseInspector
               node={selectedNode}
               onClose={() => handleSelectNode(null)}
               onSelectNode={handleSelectNode}
@@ -160,28 +188,28 @@ export default function HomelabPage() {
         </div>
       </section>
 
-      {/* BELOW-FOLD EDITORIAL & INFRASTRUCTURE CATALOGS */}
+      {/* BELOW-FOLD ENTERPRISE CATALOGS & DEEP ARCHITECTURE */}
       <main className="flex-1 w-full bg-warm-grid">
-        {/* Physical Compute Fleet */}
-        <HardwareAtlas onFocusNode={handleSelectNode} />
-
-        {/* 34 Services Matrix */}
+        {/* Complete 34 Microservices Catalog */}
         <ServiceDirectory onFocusNode={handleSelectNode} />
 
-        {/* Architectural Blueprint & 6 Pillars */}
+        {/* Heterogeneous Compute Hardware Fleet */}
+        <HardwareAtlas onFocusNode={handleSelectNode} />
+
+        {/* 6 Subsystem Engineering Pillars */}
         <InfrastructureNarrative />
       </main>
 
-      {/* Editorial Footer */}
-      <footer className="w-full py-12 px-4 sm:px-6 lg:px-8 border-t border-warm bg-warm-page font-mono text-xs text-warm-secondary">
+      {/* Enterprise Technical Footer */}
+      <footer className="w-full py-10 px-4 sm:px-6 lg:px-8 border-t border-warm bg-warm-page font-mono text-xs text-warm-secondary">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-terracotta-500" />
+            <span className="w-2 h-2 rounded-full bg-terracotta-500" />
             <span className="font-serif font-bold text-warm-primary text-sm">
               HOMELAB DIGITAL TWIN
             </span>
             <span className="text-warm-secondary/50">|</span>
-            <span>PROXMOX VE · K3S · ELO AI · OPNSENSE</span>
+            <span>PROXMOX VE · WIREGUARD · WAZUH XDR · K3S · ELO</span>
           </div>
 
           <div className="flex items-center gap-6">
