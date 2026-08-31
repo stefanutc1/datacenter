@@ -31,7 +31,7 @@ import { CommonModule } from '@angular/common';
           <div class="text-[11px] font-mono text-sand-400 uppercase tracking-wider">Physical Compute</div>
           <div class="text-2xl font-serif font-bold text-sand-50">4 Nodes</div>
           <p class="text-xs text-sand-300 font-sans leading-relaxed">
-            Intel i5-6500T, Apple M1 Silicon, OpenMediaVault ZFS NAS, and k3s Kubernetes worker.
+            Intel i3-10100F (GTX 1050 Ti), Apple M1 Silicon, ASUS Celeron OMV NAS, and AMD Athlon II k3s.
           </p>
         </div>
 

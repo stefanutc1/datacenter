@@ -1,12 +1,15 @@
 export interface HardwareNode {
   id: string;
   name: string;
+  machine: string;
   role: string;
   ip: string;
   os: string;
   cpu: string;
+  gpu?: string;
   ram: string;
   storage: string;
+  psu?: string;
   status: 'ONLINE' | 'STANDBY';
   color: string;
   workloads: string[];
@@ -15,81 +18,85 @@ export interface HardwareNode {
 export const HARDWARE_NODES: HardwareNode[] = [
   {
     id: 'node1-pve',
-    name: 'Node 1 — Primary Core (x86_64)',
-    role: 'Primary Hypervisor & Security Router Host',
-    ip: '192.168.1.130',
-    os: 'Proxmox VE 8.2 (Debian 12 Bookworm)',
-    cpu: 'Intel Core i5-6500T (4 Cores, up to 3.10 GHz)',
-    ram: '8,192 MB DDR4 (Allocated: 7,808 MB)',
-    storage: '512 GB NVMe SSD Pool',
+    name: 'Node 1 — Primary Hypervisor (proxmox)',
+    machine: 'Custom Desktop Compute PC',
+    role: 'Primary Hypervisor, VM Host, ML Experimentation & Surveillance',
+    ip: '192.168.1.132',
+    os: 'Proxmox VE 9.2 (Linux 7.0 pve kernel)',
+    cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz)',
+    gpu: 'NVIDIA GeForce GTX 1050 Ti (4 GB VRAM)',
+    ram: '8 GB DDR4 (7,808 MB allocated across VMs & LXCs)',
+    storage: '512 GB SSD (Single Storage Tier)',
+    psu: 'Coldex 350W Pure Sine Wave',
     status: 'ONLINE',
-    color: '#00e5ff',
+    color: '#8da3b8',
     workloads: [
-      'Windows Server 2025 (VM 201 · 4GB RAM)',
-      'OPNsense Firewall & Router (VM 200 · 1GB RAM)',
-      'Immich Photos AI (CT 103 · 896MB RAM)',
-      'Jellyfin Media Suite (CT 109 · 896MB RAM)',
-      'Home Assistant Core (CT 106 · 384MB RAM)',
-      'n8n Automation (CT 107 · 384MB RAM)',
-      'Nginx Proxy Manager (CT 100 · 112MB RAM)',
-      'Authelia, Vaultwarden, Nextcloud, FileBrowser'
-    ]
-  },
-  {
-    id: 'node3-arm',
-    name: 'Node 3 — Secondary Proxmox (Apple M1 ARM64)',
-    role: 'ARM64 Compute Hypervisor & CI/CD Engine',
-    ip: '192.168.64.1',
-    os: 'Proxmox VE 8.x / UTM Virtualization Host',
-    cpu: 'Apple M1 Silicon (8-Core CPU / 8-Core GPU / 16-Core Neural Engine)',
-    ram: '4,096 MB Dedicated (8GB Unified)',
-    storage: '256 GB Apple NVMe SSD',
-    status: 'ONLINE',
-    color: '#a855f7',
-    workloads: [
-      'Monitoring Suite: Grafana / Prom / Loki (CT 107 · 448MB)',
-      'Woodpecker CI Engine (CT 110 · 192MB)',
-      'Gitea Git Forge (CT 109 · 160MB)',
-      'Actual Budget (CT 101 · 160MB)',
-      'Trilium Knowledge Notes (CT 102 · 160MB)',
-      'ChangeDetection IO (CT 103 · 160MB)',
-      'ELO Autonomous AI Control Plane Engine'
+      'Windows Server 2025 Datacenter (VM 201 · Active Directory & Sysmon)',
+      'OPNsense Core Gateway (VM 200 · Stateful Firewall & Suricata IDS/IPS)',
+      'Machine Learning & Dev Workspace (CUDA / PyTorch / GTX 1050 Ti Passthrough)',
+      'Home Surveillance NVR (Frigate NVR with GPU hardware acceleration)',
+      'Core LXC Fleet (Immich AI, Jellyfin, Home Assistant, n8n, NPM, Authelia)'
     ]
   },
   {
     id: 'node2-omv',
-    name: 'Node 2 — Central Storage (OMV NAS)',
-    role: 'ZFS Storage Pools, NFS / SMB Media Shares',
-    ip: '192.168.1.131',
-    os: 'OpenMediaVault 7 (Debian 12)',
-    cpu: 'Dual Core Low-Power Storage SoC',
-    ram: '4,096 MB DDR3',
-    storage: '500 GB SATA Storage Pool (ZFS Mirror)',
+    name: 'Node 2 — Storage NAS (openmediavault)',
+    machine: 'ASUS X451MA Laptop',
+    role: 'Centralized File Storage (SMB/NFS) & Secondary Backup Target',
+    ip: '192.168.1.135',
+    os: 'OpenMediaVault (OMV) / Debian Linux',
+    cpu: 'Intel Celeron N2830 (2 Cores / 2 Threads @ 2.16 GHz, burst 2.41 GHz)',
+    gpu: 'Intel HD Graphics (Bay Trail)',
+    ram: '2 GB DDR3 (Dedicated Storage Ceiling)',
+    storage: '500 GB HDD (Central Network Storage Pool)',
     status: 'ONLINE',
-    color: '#10b981',
+    color: '#6e9e75',
     workloads: [
-      'NFS Shared Mounts for Immich & Jellyfin',
-      'Automated Daily Proxmox Snapshot Backups',
-      'SMB Public & Private Document Shares',
-      'Scrutiny SMART Hard Drive Health Daemon'
+      'Centralized Storage & File Sharing (SMB / NFS Shares)',
+      'Secondary Backup Destination (Off-host repository for Proxmox backups)',
+      'Dedicated media & document storage repository for Immich & Jellyfin',
+      'Scrutiny S.M.A.R.T. Drive Health Monitoring Daemon'
+    ]
+  },
+  {
+    id: 'node3-arm',
+    name: 'Node 3 — ARM64 Hypervisor (proxmox2)',
+    machine: 'Apple MacBook Air (M1, 2020)',
+    role: 'ARM64 Workload Validation, Multi-Arch Builds & Secondary PVE',
+    ip: '192.168.64.14',
+    os: 'Proxmox VE on ARM (ARM64 Port) via UTM (Hypervisor.framework)',
+    cpu: 'Apple M1 — 8 Cores (4 Performance + 4 Efficiency) / 16-Core Neural Engine',
+    ram: '8 GB Unified LPDDR4X (4 GB dedicated to Proxmox ARM64 VM)',
+    storage: 'High-speed Apple APFS NVMe SSD Pool',
+    status: 'ONLINE',
+    color: '#a87db8',
+    workloads: [
+      'ARM64 Workload Validation & Native Multi-Arch Docker/Go/Rust builds',
+      'Unified Telemetry Cluster: Grafana Dashboards / Prometheus TSDB / Loki',
+      'Woodpecker CI Continuous Integration Engine & Gitea Git Forge',
+      'Actual Budget, Trilium Knowledge Base, ChangeDetection.io',
+      'ELO Autonomous AI Control Plane Daemon (Metal MPS Acceleration)'
     ]
   },
   {
     id: 'k8s-node4',
-    name: 'Node 4 — Container Orchestration (k3s)',
-    role: 'Lightweight Kubernetes Worker & GitOps Engine',
-    ip: '192.168.1.140',
-    os: 'Ubuntu Server 24.04 LTS (k3s v1.30)',
-    cpu: 'Quad Core x86_64 Workload Node',
-    ram: '4,096 MB DDR4',
-    storage: '120 GB SSD System Drive',
+    name: 'Node 4 — Kubernetes Worker (k8s-node-04)',
+    machine: 'Custom ATX Compute Chassis',
+    role: 'Bare-Metal Kubernetes Worker (k3s-agent) & Stateless Compute Offloading',
+    ip: '192.168.1.18',
+    os: 'Alpine Linux / Debian Base with containerd CRI',
+    cpu: 'AMD Athlon II X2 220 (2 Cores / 2 Threads @ 2.80 GHz Regor / AM3)',
+    gpu: 'NVIDIA GeForce GTS 250 (1 GB GDDR3, 55nm / 256-bit bus)',
+    ram: '4 GB DDR3',
+    storage: '80 GB HDD (SATA II / 7200 RPM local cache; NFS remote state)',
+    psu: 'ATX Power Supply Unit',
     status: 'ONLINE',
-    color: '#06b6d4',
+    color: '#8da3b8',
     workloads: [
-      'k3s MicroK8s Control Plane',
-      'FluxCD GitOps Ingress',
+      'Kubernetes Cluster Worker (k3s-agent container runtime)',
+      'Stateless Compute Offloading (Batch processing & worker queues)',
       'Distributed CI Build Runner Pods',
-      'Prometheus Node Exporter DaemonSet'
+      'Multi-Node Physical Cluster Fault Tolerance & Resilience'
     ]
   }
 ];

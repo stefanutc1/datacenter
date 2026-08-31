@@ -285,7 +285,7 @@ export class ArchitectureBlueprintComponent {
 
   memoryBudgets = [
     {
-      node: 'Node 1 — Proxmox Primary (x86_64 Core)',
+      node: 'Node 1 — Proxmox Primary (Intel Core i3-10100F / GTX 1050 Ti)',
       totalRam: '8,192 MB DDR4',
       allocatedRam: '7,808 MB',
       usagePercent: 95,
