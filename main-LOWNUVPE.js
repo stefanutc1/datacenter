@@ -52,7 +52,7 @@ ${n.map((o,r)=>`${r+1}) ${o.toString()}`).join(`
     image: jellyfin/jellyfin:latest
     restart: unless-stopped
     volumes:
-      - /mnt/nfs/media:/media`},{id:"ollama",name:"Ollama Local LLM (GTX 1050 Ti)",category:"automation",containerName:"ollama-gpu",node:"Node 1 (Intel i3-10100F) \xB7 CT 115",ram:"2,048 MB (4GB VRAM Passthrough)",storage:"25 GB Model Cache",ip:"192.168.1.115",port:11434,domain:"ai.homelab.local",status:"ONLINE",description:"Local GPU-accelerated LLM runtime on NVIDIA GeForce GTX 1050 Ti (4GB VRAM) executing Qwen2.5-Coder-1.5B/3B, Llama-3.2-3B, and DeepSeek-R1-Distill-Qwen-1.5B with sub-100ms inference.",color:"#a78bfa",icon:"python",composeCode:`services:
+      - /mnt/nfs/media:/media`},{id:"ollama",name:"Ollama Local LLM (GTX 1050 Ti)",category:"core",containerName:"ollama-gpu",node:"CT 110 \xB7 Proxmox Node 1 (GTX 1050 Ti)",ram:"2,048 MB",storage:"16 GB Local NVMe",ip:"192.168.1.110",port:11434,domain:"ollama.homelab.internal:11434",status:"ONLINE",description:"Local GPU LLM inference engine with NVIDIA GeForce GTX 1050 Ti passthrough, serving Qwen2.5-Coder and Llama 3.2.",color:"#a78bfa",icon:"python",composeCode:`services:
   ollama:
     image: ollama/ollama:latest
     deploy:
