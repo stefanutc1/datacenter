@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  gotify:
+    image: gotify/server-arm64:latest
+    container_name: gotify
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    environment:
+      - GOTIFY_DEFAULTUSER_NAME=admin
+      - GOTIFY_DEFAULTUSER_PASS=adminpassword2026
+    volumes:
+      - ./data:/app/data
+    networks:
+      - arm-net
+
+networks:
+  arm-net:
+    external: true

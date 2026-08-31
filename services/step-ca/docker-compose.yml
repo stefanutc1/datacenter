@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  step-ca:
+    image: smallstep/step-ca:latest
+    container_name: step-ca
+    restart: unless-stopped
+    environment:
+      - DOCKER_STEPCA_INIT_NAME=Homelab Private CA
+      - DOCKER_STEPCA_INIT_DNS_NAMES=ca.homelab.local,localhost
+    volumes:
+      - ./data:/home/step
+    ports:
+      - "9000:9000"
+    networks:
+      - arm-net
+
+networks:
+  arm-net:
+    external: true

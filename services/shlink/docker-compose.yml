@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  shlink:
+    image: ghcr.io/shlinkio/shlink:stable
+    container_name: shlink
+    restart: unless-stopped
+    ports:
+      - "8086:8080"
+    environment:
+      - DEFAULT_DOMAIN=s.homelab.local
+      - IS_HTTPS_ENABLED=true
+      - DB_DRIVER=sqlite
+      - MEMORY_LIMIT=128M
+    volumes:
+      - ./data:/etc/shlink/data
+    networks:
+      - arm-net
+
+networks:
+  arm-net:
+    external: true

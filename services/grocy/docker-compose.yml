@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  grocy:
+    image: lscr.io/linuxserver/grocy:latest
+    container_name: grocy
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Bucharest
+    volumes:
+      - ./config:/config
+    ports:
+      - "9283:80"
+    networks:
+      - arm-net
+
+networks:
+  arm-net:
+    external: true

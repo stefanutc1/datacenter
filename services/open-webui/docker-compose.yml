@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "3080:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://192.168.1.110:11434
+      - WEBUI_SECRET_KEY=generate_random_secret_key_here
+      - ENABLE_SIGNUP=false
+      - DEFAULT_MODELS=qwen2.5-coder:1.5b
+    volumes:
+      - ./data:/app/backend/data
+    networks:
+      - core-net
+
+networks:
+  core-net:
+    external: true

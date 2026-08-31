@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  paperless-web:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless-ngx
+    restart: unless-stopped
+    depends_on:
+      - paperless-broker
+    ports:
+      - "8005:8000"
+    environment:
+      - PAPERLESS_REDIS=redis://paperless-broker:6379
+      - PAPERLESS_URL=https://paperless.homelab.local
+      - PAPERLESS_SECRET_KEY=change_me_to_a_random_secret_string
+      - PAPERLESS_TIME_ZONE=Europe/Bucharest
+      - PAPERLESS_OCR_LANGUAGE=ron+eng
+      - PAPERLESS_OCR_LANGUAGES=ron eng
+    volumes:
+      - ./data:/usr/src/paperless/data
+      - ./media:/usr/src/paperless/media
+      - ./export:/usr/src/paperless/export
+      - ./consume:/usr/src/paperless/consume
+    networks:
+      - core-net
+
+  paperless-broker:
+    image: redis:7-alpine
+    container_name: paperless-redis
+    restart: unless-stopped
+    volumes:
+      - ./redis-data:/data
+    networks:
+      - core-net
+
+networks:
+  core-net:
+    external: true

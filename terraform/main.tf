@@ -217,6 +217,60 @@ module "lxc_ollama_gpu" {
   tags                   = ["ai", "llm", "cuda", "gtx1050ti", "local-ai", "terraform"]
 }
 
+module "lxc_open_webui" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 117
+  hostname     = "openwebui"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 384
+  disk_size    = "8G"
+  ip_address   = "192.168.1.111/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["ai", "webui", "chat", "terraform"]
+}
+
+module "lxc_paperless" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 112
+  hostname     = "paperless"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 768
+  disk_size    = "20G"
+  ip_address   = "192.168.1.16/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["dms", "ocr", "documents", "terraform"]
+}
+
+module "lxc_stirling" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 116
+  hostname     = "stirling"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 384
+  disk_size    = "8G"
+  ip_address   = "192.168.1.21/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["pdf", "tools", "ocr", "terraform"]
+}
+
 # ------------------------------------------------------------------------------
 # 3. PROXMOX UTILITY CONTAINERS (NODE 3 — Apple MacBook Air M1 ARM64 UTM)
 # ------------------------------------------------------------------------------
@@ -272,6 +326,96 @@ module "lxc_tempo" {
   vlan_tag     = 20
   unprivileged = true
   tags         = ["observability", "tracing", "otlp", "arm64", "terraform"]
+}
+
+module "lxc_gatus" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 120
+  hostname     = "gatus"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 64
+  disk_size    = "4G"
+  ip_address   = "192.168.64.120/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["monitoring", "status", "arm64", "terraform"]
+}
+
+module "lxc_ntfy" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 121
+  hostname     = "ntfy"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 64
+  disk_size    = "4G"
+  ip_address   = "192.168.64.121/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["alerts", "notifications", "arm64", "terraform"]
+}
+
+module "lxc_linkding" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 122
+  hostname     = "linkding"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 96
+  disk_size    = "4G"
+  ip_address   = "192.168.64.122/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["bookmarks", "search", "arm64", "terraform"]
+}
+
+module "lxc_step_ca" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 123
+  hostname     = "stepca"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 96
+  disk_size    = "4G"
+  ip_address   = "192.168.64.123/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["security", "pki", "tls", "arm64", "terraform"]
+}
+
+module "lxc_tailscale_arm" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.secondary_node
+  vmid         = 124
+  hostname     = "tailscale-arm"
+  ostemplate   = var.debian_arm64_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 96
+  disk_size    = "4G"
+  ip_address   = "192.168.64.124/24"
+  gateway      = "192.168.64.1"
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["vpn", "tailscale", "mesh", "arm64", "terraform"]
 }
 
 # ------------------------------------------------------------------------------
