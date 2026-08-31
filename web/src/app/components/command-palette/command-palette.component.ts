@@ -88,7 +88,7 @@ interface SearchResultItem {
               <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↑↓</kbd> Navighează</span>
               <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↵</kbd> Selectează</span>
             </div>
-            <span class="text-emerald-400">Homelab Digital Twin // Instant Query</span>
+            <span class="text-emerald-400">Homelab // Căutare Rapidă (⌘K)</span>
           </div>
 
         </div>
