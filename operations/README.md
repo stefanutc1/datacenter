@@ -33,30 +33,16 @@ operations/
 
 ## 3. Self-Healing State Machine
 
-```
-   ┌──────────┐
-   │  DETECT  │ ──► Failure observed by health check
-   └────┬─────┘
-        │
-   ┌────▼─────┐
-   │ CLASSIFY │ ──► Map failure to specific remediation playbook
-   └────┬─────┘
-        │
-   ┌────▼─────┐
-   │  VERIFY  │ ──► Secondary probe confirms issue is not transient
-   └────┬─────┘
-        │
-   ┌────▼─────┐
-   │REMEDIATE │ ──► Execute bounded restart/remediation with timeout
-   └────┬─────┘
-        │
-   ┌────▼─────┐
-   │VERIFY 2ND│ ──► Confirm service healthy post-action
-   └────┬─────┘
-        │
-   ┌────▼─────┐
-   │  REPORT  │ ──► Log structured outcome; trip circuit breaker on repeated failure
-   └──────────┘
+```mermaid
+stateDiagram-v2
+    [*] --> DETECT: Continuous Health Probing
+    DETECT --> CLASSIFY: Failure observed by health check
+    CLASSIFY --> VERIFY: Map failure to specific remediation playbook
+    VERIFY --> REMEDIATE: Secondary probe confirms persistent issue
+    REMEDIATE --> VERIFY_2ND: Execute bounded restart with timeout
+    VERIFY_2ND --> REPORT: Confirm service healthy post-action
+    REPORT --> [*]: Log structured outcome & reset circuit breaker
+    VERIFY_2ND --> DETECT: Remediation failed (Trip Circuit Breaker)
 ```
 
 ---

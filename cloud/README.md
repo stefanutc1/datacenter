@@ -2,23 +2,42 @@
 
 This directory contains production-ready Infrastructure as Code (IaC) declarations for **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** integrated with the on-premise Homelab cluster.
 
-```
-                    ┌─────────────────────────────────────────────────────────┐
-                    │               ON-PREMISE HYBRID HOMELAB                │
-                    │        OPNsense Firewall · Proxmox VE · ZFS Mirror      │
-                    └────────────────────────────┬────────────────────────────┘
-                                                 │
-                   ┌─────────────────────────────┼─────────────────────────────┐
-                   ▼ IPsec / WireGuard           ▼ OIDC Token (Keyless)        ▼ WORM / Cold Sync
-┌──────────────────────────────────────┐ ┌───────────────────────────────┐ ┌──────────────────────────────────────┐
-│           MICROSOFT AZURE            │ │     GOOGLE CLOUD PLATFORM     │ │         AMAZON WEB SERVICES          │
-├──────────────────────────────────────┤ ├───────────────────────────────┤ ├──────────────────────────────────────┤
-│ • Azure Key Vault (Cloud HSM)        │ │ • Cloud Storage Bucket WORM   │ │ • S3 Glacier Deep Archive (DR)       │
-│ • Blob Storage Archive Tier (DR)     │ │ • Workload Identity Federation│ │ • IAM OIDC Keyless CI/CD             │
-│ • Entra ID Application (Authentik)   │ │ • Cloud DNS Fallback Zone     │ │ • Object Lock Compliance Retention   │
-│ • Azure Arc (Defender for Cloud)     │ │ • Logging Sink & BigQuery SIEM│ │ • Site-to-Site VPN to OPNsense       │
-│ • VNet & VPN Gateway to OPNsense     │ │ • Cloud Router & HA VPN GW    │ │ • VPC & Routing Mesh                 │
-└──────────────────────────────────────┘ └───────────────────────────────┘ └──────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph OnPrem["🏠 ON-PREMISE HYBRID HOMELAB"]
+        direction TB
+        OPN["OPNsense Firewall (192.168.1.132:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+        PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
+        ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
+        OPN --- PVE --- ZFS
+    end
+
+    subgraph Azure["🔷 MICROSOFT AZURE"]
+        direction TB
+        AKV["Azure Key Vault (Cloud HSM)<br/>Step-CA Root CA & LUKS Escrow"]
+        ABS["Blob Storage Archive Tier<br/>Cold ZFS Disaster Recovery"]
+        EID["Entra ID SSO Federation<br/>Authentik SAML / OIDC"]
+        ARC["Azure Arc Integration<br/>Defender for Cloud Security"]
+    end
+
+    subgraph GCP["🌐 GOOGLE CLOUD PLATFORM"]
+        direction TB
+        GCS["Cloud Storage Bucket WORM<br/>Ransomware-Proof PBS Retention"]
+        WIF["Workload Identity Federation<br/>Keyless CI/CD (GitHub & Woodpecker)"]
+        DNS["Cloud DNS Managed Zone<br/>Split-Horizon DNS Fallback"]
+        BQ["BigQuery Security Sink<br/>T-Pot & Wazuh SIEM Analytics"]
+    end
+
+    subgraph AWS["🟧 AMAZON WEB SERVICES"]
+        direction TB
+        S3["S3 Glacier Deep Archive<br/>Encrypted Off-Site Cold DR"]
+        OIDC["IAM OIDC Keyless Role<br/>Least-Privilege AssumeRole"]
+        VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
+    end
+
+    OnPrem -->|IPsec / WireGuard VPN| Azure
+    OnPrem -->|OIDC Token / HA VPN| GCP
+    OnPrem -->|Glacier Sync / IPsec Tunnel| AWS
 ```
 
 ---

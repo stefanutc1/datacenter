@@ -4,20 +4,24 @@
 
 The Kubernetes layer runs a lightweight, production-tuned k3s cluster configured via Ansible in `kubernetes/ansible/`.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              k3s Single-Node / Multi-Worker             │
-│                                                         │
-│  Control Plane (k3s-server)                             │
-│  ├── Embedded SQLite / Kine datastore                   │
-│  ├── CoreDNS & Traefik disabled (handled by NPM)        │
-│  └── Flannel VXLAN overlay network                      │
-│                                                         │
-│  FluxCD Controller Layer                                │
-│  ├── Source Controller (polls stefannut/homelab @ 5m)   │
-│  ├── Kustomize Controller (evaluates manifests)         │
-│  └── Notification Controller (Discord webhooks)         │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph K8s["k3s Single-Node / Multi-Worker Cluster Architecture"]
+        subgraph CP["Control Plane (k3s-server)"]
+            DB["Embedded SQLite / Kine Datastore"]
+            NET["Flannel VXLAN Overlay Network"]
+            ING["Ingress Routing via NPM Proxy"]
+        end
+
+        subgraph Flux["FluxCD Controller & GitOps Reconciliation Layer"]
+            SRC["Source Controller<br/>(polls stefanut/homelab @ 5m)"]
+            KUST["Kustomize Controller<br/>(evaluates manifests & applies drift fix)"]
+            NOTIF["Notification Controller<br/>(Discord & Telegram webhooks)"]
+        end
+    end
+
+    SRC --> KUST --> CP
+    KUST --> NOTIF
 ```
 
 ## Continuous Reconciliation with FluxCD

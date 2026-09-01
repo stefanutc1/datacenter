@@ -35,12 +35,10 @@ terraform/
 
 Credentials must never be hardcoded into `.tf` files.
 
-```
-ENVIRONMENT (PROXMOX_API_TOKEN) / terraform.tfvars
-              ↓
-        variables.tf (sensitive = true)
-              ↓
-        providers.tf (bpg/proxmox)
+```mermaid
+flowchart TD
+    ENV["ENVIRONMENT (PROXMOX_API_TOKEN) / terraform.tfvars"] --> VAR["variables.tf (sensitive = true)"]
+    VAR --> PROV["providers.tf (bpg/proxmox)"]
 ```
 
 ```bash

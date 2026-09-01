@@ -51,17 +51,14 @@ Aufgebaut auf Bare-Metal x86_64 und Apple Silicon ARM64 Hardware, dynamischer OP
 
 ## 1. Mission & Designprinzipien
 
-```
-┌───────────────────────────────────────────────────────────────────────────────┐
-│                           INGENIEURSPRINZIPIEN                                │
-├────────────────────────┬──────────────────────────┬───────────────────────────┤
-│ RESSOURCENEFFIZIENZ    │ TIEFENGESCHÜTZTE ABWEHR  │     GITOPS & CODE-FIRST   │
-│ Minimaler Overhead mit │ Default-Deny-Firewalls,  │ 100% deklarativer Status, │
-│ Alpine LXC-Containern, │ eBPF-Kernel-Telemetrie,  │ keine manuellen Klicks,   │
-│ ZFS ZSTD-Kompression   │ DMZ-Honeypots und        │ sofortiger Snapshot-      │
-│ und GPU-LLM-Inferenz.  │ FIDO2 Zero-Trust.        │ Rollback und automatisches│
-│                        │                          │ CI-Linting.               │
-└────────────────────────┴──────────────────────────┴───────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph Principles["HOMELAB INGENIEURSPRINZIPIEN"]
+        direction LR
+        P1["⚡ RESSOURCENEFFIZIENZ<br/>• Minimaler Overhead via Alpine LXC<br/>• ZFS ZSTD & ZRAM lz4 Kompression<br/>• Sub-100ms GPU LLM Inferenz"]
+        P2["🛡️ DEFENSE-IN-DEPTH<br/>• OPNsense Default-Deny Firewall<br/>• Kernel eBPF Telemetrie Tetragon<br/>• DMZ Täuschung & Zero-Trust FIDO2"]
+        P3["🔄 GITOPS & AS-CODE<br/>• 100% deklarativer Zustand Terraform<br/>• Keine manuellen Click-Ops<br/>• Sofortiges Rollback & CI Scans"]
+    end
 ```
 
 * **Ressourceneffizienz**: Hochdichte Virtualisierung mit minimalem CPU- und RAM-Bedarf. Optimierte Alpine Linux- und Debian-Container schöpfen das Potenzial von x86_64- und ARM64-Hardware voll aus.

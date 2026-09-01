@@ -51,16 +51,14 @@ Construite sur du matériel bare-metal x86_64 et Apple Silicon ARM64, une segmen
 
 ## 1. Mission & Principes de Conception
 
-```
-┌───────────────────────────────────────────────────────────────────────────────┐
-│                          PRINCIPES D'INGÉNIERIE                               │
-├────────────────────────┬──────────────────────────┬───────────────────────────┤
-│ EFFICACITÉ RESSOURCES  │    DÉFENSE EN PROFONDEUR │     GITOPS & CODE-FIRST   │
-│ Empreinte minimale via │ Pare-feu Default-Deny,   │ État 100% déclaratif,     │
-│ conteneurs Alpine LXC, │ télémétrie eBPF,         │ zéro clic-ops manuel,     │
-│ compression ZFS ZSTD   │ pots de miel en DMZ et   │ retour instantané arrière │
-│ et modèles LLM GPU.    │ Zero-Trust FIDO2.        │ et lint CI automatisé.    │
-└────────────────────────┴──────────────────────────┴───────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph Principles["PRINCIPES D'INGÉNIERIE HOMELAB"]
+        direction LR
+        P1["⚡ EFFICACITÉ DES RESSOURCES<br/>• Empreinte minimale via Alpine LXC<br/>• Compression ZFS ZSTD & ZRAM lz4<br/>• Inférence LLM locale GPU sub-100ms"]
+        P2["🛡️ DÉFENSE EN PROFONDEUR<br/>• Pare-feu OPNsense default-deny<br/>• Télémétrie kernel eBPF Tetragon<br/>• DMZ Déception & Zero-Trust FIDO2"]
+        P3["🔄 GITOPS & AS-CODE<br/>• État 100% déclaratif Terraform<br/>• Zéro click-ops manuel<br/>• Rollback instantané & scans CI"]
+    end
 ```
 
 * **Efficacité des Ressources** : Virtualisation haute densité exploitant une empreinte processeur/mémoire minimale. Conteneurs légers Alpine Linux et Debian optimisés pour tirer parti des architectures ARM64 et x86_64.

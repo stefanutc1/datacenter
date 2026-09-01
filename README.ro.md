@@ -51,16 +51,14 @@ Construită pe arhitectură hibridă de calcul (Intel x86_64 și Apple Silicon A
 
 ## 1. Misiune și Principii de Proiectare
 
-```
-┌───────────────────────────────────────────────────────────────────────────────┐
-│                        PRINCIPII DE INGINERIE                                 │
-├────────────────────────┬──────────────────────────┬───────────────────────────┤
-│  EFICIENȚĂ RESURSE     │    APĂRARE ÎN ADÂNCIME   │     GITOPS & AS-CODE      │
-│  Overhead minim via    │  Firewall default-deny,  │  Stare 100% declarativă;  │
-│  containere Alpine LXC,│  telemetrie eBPF kernel, │  fără click-ops manual;   │
-│  compresie ZFS ZSTD și │  DMZ de carantină & honeys│ rollback instant snapshot │
-│  modele LLM sub-100ms. │  și Zero-Trust FIDO2.    │  și scanare CI automată.  │
-└────────────────────────┴──────────────────────────┴───────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph Principles["PRINCIPII DE INGINERIE HOMELAB"]
+        direction LR
+        P1["⚡ EFICIENȚĂ RESURSE<br/>• Overhead minim via Alpine LXC<br/>• Compresie ZFS ZSTD & ZRAM lz4<br/>• Modele LLM sub-100ms pe GPU"]
+        P2["🛡️ APĂRARE ÎN ADÂNCIME<br/>• Firewall OPNsense default-deny<br/>• Telemetrie eBPF kernel Tetragon<br/>• DMZ Decepție & Zero-Trust FIDO2"]
+        P3["🔄 GITOPS & AS-CODE<br/>• Stare 100% declarativă Terraform<br/>• Fără click-ops manual<br/>• Rollback instant & scanare CI"]
+    end
 ```
 
 * **Eficiență Maximă de Resurse**: Virtualizare de înaltă densitate cu consum minim de CPU/RAM. Containerele Alpine Linux și Debian slim maximizează performanța pe hardware eterogen.

@@ -57,16 +57,14 @@ Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense ne
 
 ## 1. Mission & Design Principles
 
-```
-┌───────────────────────────────────────────────────────────────────────────────┐
-│                        CORE ENGINEERING TENETS                                │
-├────────────────────────┬──────────────────────────┬───────────────────────────┤
-│  RESOURCE EFFICIENCY   │    DEFENSE-IN-DEPTH      │     GITOPS & AS-CODE      │
-│  Minimal overhead via  │  Default-deny firewalls, │  100% declarative state;  │
-│  Alpine LXC containers,│  eBPF syscall telemetry, │  no manual click-ops;     │
-│  ZFS ZSTD compression, │  quarantine DMZ & honeys,│  instant snapshot rollback│
-│  and sub-100ms LLMs.   │  and FIDO2 Zero-Trust.   │  and automated CI lint.   │
-└────────────────────────┴──────────────────────────┴───────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph Principles["HOMELAB ENGINEERING PRINCIPLES"]
+        direction LR
+        P1["⚡ RESOURCE EFFICIENCY<br/>• Minimal footprint via Alpine LXC<br/>• ZFS ZSTD & ZRAM lz4 compression<br/>• Sub-100ms GPU local LLM inference"]
+        P2["🛡️ DEFENSE-IN-DEPTH<br/>• OPNsense default-deny firewall<br/>• Kernel-level eBPF telemetry<br/>• DMZ Deception & FIDO2 Zero-Trust"]
+        P3["🔄 GITOPS & AS-CODE<br/>• 100% declarative Terraform & Ansible<br/>• Zero manual click-ops<br/>• Instant rollback & CI security scans"]
+    end
 ```
 
 * **Resource Efficiency**: High-density virtualization utilizing minimal CPU/RAM footprints. Alpine Linux and Debian slim containers maximize performance on constrained silicon.
@@ -276,22 +274,27 @@ flowchart TD
 
 ## 5. Storage Architecture & ZFS Pool Optimization
 
-```
-                               ┌─────────────────────────────┐
-                               │   ZFS STORAGE POOL TOPOLOGY │
-                               └──────────────┬──────────────┘
-                                              │
-                      ┌───────────────────────┴───────────────────────┐
-                      ▼                                               ▼
-         ┌─────────────────────────┐                     ┌─────────────────────────┐
-         │     rpool (NVMe SSD)    │                     │   datapool (ZFS Mirror) │
-         │   Proxmox Root & OS     │                     │     OpenMediaVault      │
-         ├─────────────────────────┤                     ├─────────────────────────┤
-         │ • recordsize: 128k      │                     │ • recordsize: 1M (Media)│
-         │ • compression: zstd-3   │                     │ • recordsize: 16k (DBs) │
-         │ • atime: off            │                     │ • compression: zstd     │
-         │ • autotrim: on          │                     │ • ashift: 12 (4Kn Disks)│
-         └─────────────────────────┘                     └─────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph ZFSTopology["🗄️ ZFS STORAGE POOL TOPOLOGY"]
+        direction TB
+        Pools["ZFS Storage Architecture"]
+        
+        subgraph RPool["rpool (NVMe SSD · Proxmox Root & OS)"]
+            R1["• recordsize: 128k"]
+            R2["• compression: zstd-3"]
+            R3["• atime: off · autotrim: on"]
+        end
+
+        subgraph DataPool["datapool (ZFS Mirror · OpenMediaVault)"]
+            D1["• recordsize: 1M (Media Streams)"]
+            D2["• recordsize: 16k (Databases)"]
+            D3["• compression: zstd · ashift: 12"]
+        end
+
+        Pools --> RPool
+        Pools --> DataPool
+    end
 ```
 
 ### Granular ZFS Filesystem Tuning Rules

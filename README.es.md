@@ -51,16 +51,14 @@ Construida sobre hardware bare-metal x86_64 y Apple Silicon ARM64, segmentación
 
 ## 1. Misión & Principios de Diseño
 
-```
-┌───────────────────────────────────────────────────────────────────────────────┐
-│                          PRINCIPIOS DE INGENIERÍA                             │
-├────────────────────────┬──────────────────────────┬───────────────────────────┤
-│ EFICIENCIA EN RECURSOS │   DEFENSA EN PROFUNDIDAD │    GITOPS Y CODE-FIRST    │
-│ Mínimo consumo con     │ Firewall Default-Deny,   │ Estado 100% declarativo,  │
-│ contenedores Alpine,   │ telemetría kernel eBPF,  │ sin cambios manuales,     │
-│ compresión ZFS ZSTD    │ honeypots en DMZ y       │ rollback inmediato y      │
-│ y modelos LLM en GPU.  │ Zero-Trust con FIDO2.    │ validación CI automática. │
-└────────────────────────┴──────────────────────────┴───────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph Principles["PRINCIPIOS DE INGENIERÍA HOMELAB"]
+        direction LR
+        P1["⚡ EFICIENCIA DE RECURSOS<br/>• Mínima sobrecarga con Alpine LXC<br/>• Compresión ZFS ZSTD y ZRAM lz4<br/>• Modelos LLM sub-100ms en GPU"]
+        P2["🛡️ DEFENSA EN PROFUNDIDAD<br/>• Cortafuegos OPNsense default-deny<br/>• Telemetría kernel eBPF Tetragon<br/>• DMZ Decepción y Zero-Trust FIDO2"]
+        P3["🔄 GITOPS Y AS-CODE<br/>• Estado 100% declarativo Terraform<br/>• Sin click-ops manuales<br/>• Rollback instantáneo y escaneo CI"]
+    end
 ```
 
 * **Eficiencia de Recursos**: Virtualización de alta densidad utilizando mínima memoria y procesador. Contenedores optimizados de Alpine Linux y Debian para exprimir al máximo el hardware x86_64 y ARM64.
