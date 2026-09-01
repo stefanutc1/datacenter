@@ -25,6 +25,17 @@ import { TranslationService } from '../../services/translation.service';
 
       <!-- Interactive Blueprint Tabs -->
       <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-sans">
+                <button
+          (click)="activeTab = 'cloud'"
+          [class.bg-emerald-500]="activeTab === 'cloud'"
+          [class.text-slate-950]="activeTab === 'cloud'"
+          [class.font-bold]="activeTab === 'cloud'"
+          [class.text-slate-300]="activeTab !== 'cloud'"
+          [class.bg-obsidian-900]="activeTab !== 'cloud'"
+          class="px-3.5 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
+        >
+          {{ ts.isRomanian ? 'Multi-Cloud Hibrid & CI/CD (9 Fluxuri)' : 'Hybrid Multi-Cloud & CI/CD (9 Workflows)' }}
+        </button>
         <button
           (click)="activeTab = 'vlan'"
           [class.bg-emerald-500]="activeTab === 'vlan'"
@@ -125,6 +136,152 @@ import { TranslationService } from '../../services/translation.service';
           {{ ts.isRomanian ? 'Glosar Tehnic' : 'Technical Glossary' }}
         </button>
       </div>
+
+      <!-- TAB: MULTI-CLOUD & CI/CD QUALITY MATRIX -->
+      @if (activeTab === 'cloud') {
+        <div class="space-y-8">
+          
+          <!-- Cloud Providers Grid -->
+          <div class="space-y-3">
+            <h3 class="text-base font-serif font-bold text-slate-100 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              {{ ts.isRomanian ? 'Infrastructură Multi-Cloud Hibridă (Terraform Declarativ)' : 'Hybrid Multi-Cloud Infrastructure (Declarative Terraform)' }}
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              
+              <!-- Azure -->
+              <div class="p-5 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 space-y-3 hover:border-blue-500/50 transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-mono font-bold text-blue-400">MICROSOFT AZURE</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-950/60 text-blue-300 border border-blue-800">Archive Tier / HSM</span>
+                </div>
+                <div class="text-sm font-semibold text-slate-100">Key Vault HSM & Disaster Recovery</div>
+                <ul class="text-xs text-slate-300 space-y-1.5 font-sans">
+                  <li>• <strong>Azure Key Vault</strong>: Cloud HSM backup pentru Step-CA Root CA & chei LUKS Tang/Clevis.</li>
+                  <li>• <strong>Blob Storage Archive Tier</strong>: Snapshot-uri ZFS criptate cu cost aproape de zero.</li>
+                  <li>• <strong>Entra ID Application</strong>: SAML/OIDC federat cu Authentik pentru SSO Enterprise.</li>
+                  <li>• <strong>Azure Arc</strong>: Onboarding nod fizic în Microsoft Defender for Cloud.</li>
+                </ul>
+              </div>
+
+              <!-- GCP -->
+              <div class="p-5 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 space-y-3 hover:border-emerald-500/50 transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-mono font-bold text-emerald-400">GOOGLE CLOUD (GCP)</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/60 text-emerald-300 border border-emerald-800">WORM / OIDC Keyless</span>
+                </div>
+                <div class="text-sm font-semibold text-slate-100">WORM Storage & Workload Identity</div>
+                <ul class="text-xs text-slate-300 space-y-1.5 font-sans">
+                  <li>• <strong>GCS Object Locking (WORM)</strong>: Backup imutabil anti-ransomware pentru PBS și Restic.</li>
+                  <li>• <strong>Workload Identity Federation</strong>: CI/CD keyless fără fișiere credentials.json statice.</li>
+                  <li>• <strong>Cloud DNS Managed Zone</strong>: Fallback extern split-horizon cu suport DNSSEC.</li>
+                  <li>• <strong>BigQuery Security Sink</strong>: Export telemetrie honeypots T-Pot & Wazuh SIEM.</li>
+                </ul>
+              </div>
+
+              <!-- AWS -->
+              <div class="p-5 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 space-y-3 hover:border-amber-500/50 transition-colors">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-mono font-bold text-amber-400">AMAZON WEB SERVICES</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-950/60 text-amber-300 border border-amber-800">Glacier Deep Archive</span>
+                </div>
+                <div class="text-sm font-semibold text-slate-100">Cold Storage & IAM AssumeRole</div>
+                <ul class="text-xs text-slate-300 space-y-1.5 font-sans">
+                  <li>• <strong>S3 Glacier Deep Archive</strong>: Retenție 365 zile pentru arhive reci criptate.</li>
+                  <li>• <strong>Object Lock Compliance</strong>: Blocare strictă la ștergere pe perioada de retenție.</li>
+                  <li>• <strong>IAM OIDC Provider</strong>: Autentificare GitHub Actions cu roluri least-privilege.</li>
+                  <li>• <strong>Site-to-Site VPN Gateway</strong>: Conexiune IPsec dedicată cu firewall-ul OPNsense.</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CI/CD Workflows Table -->
+          <div class="space-y-3">
+            <h3 class="text-base font-serif font-bold text-slate-100 flex items-center justify-between">
+              <span class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                {{ ts.isRomanian ? 'Matrice CI/CD Enterprise (9 Fluxuri Automate · 36+ Verificări Paralele)' : 'Enterprise CI/CD Matrix (9 Automated Workflows · 36+ Parallel Checks)' }}
+              </span>
+              <span class="text-xs font-mono text-emerald-400">GitHub Actions CI/CD</span>
+            </h3>
+            
+            <div class="rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl overflow-hidden font-mono text-xs">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="border-b border-obsidian-750 bg-obsidian-900 text-slate-300 text-[11px] uppercase tracking-wider">
+                      <th class="p-4">Flux GitHub Actions</th>
+                      <th class="p-4">Tip Pipeline</th>
+                      <th class="p-4">Garanții de Calitate & Verificări</th>
+                      <th class="p-4">Frecvență / Trigger</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-obsidian-750/70">
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">homelab-ci-cd-matrix.yml</td>
+                      <td class="p-4 text-slate-200">Quality Matrix</td>
+                      <td class="p-4 text-slate-300">Terraform Fmt & Validate, Checkov IaC, Trivy, Docker Compose, ShellCheck, Secret Leakage, ELO Matrix (3.9-3.13)</td>
+                      <td class="p-4 text-slate-400">Push / PR / Dispatch</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">ci.yml</td>
+                      <td class="p-4 text-slate-200">Core CI Pipeline</td>
+                      <td class="p-4 text-slate-300">Gitleaks & TruffleHog Secrets, Ruff Lint, MyPy Types, Bandit SAST, Semgrep, Ansible Syntax, Kubeconform</td>
+                      <td class="p-4 text-slate-400">Push / PR</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">cd.yml</td>
+                      <td class="p-4 text-slate-200">Continuous Deploy</td>
+                      <td class="p-4 text-slate-300">GitOps Synchronization, Container Image Packaging (GHCR), Rollback Verification</td>
+                      <td class="p-4 text-slate-400">Push to main</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">container-scan.yml</td>
+                      <td class="p-4 text-slate-200">Security / CVE</td>
+                      <td class="p-4 text-slate-300">Trivy & Dockle Container Image Vulnerability & CIS Benchmark Scanning</td>
+                      <td class="p-4 text-slate-400">Push / Scheduled</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">security-scan.yml</td>
+                      <td class="p-4 text-slate-200">SAST Security</td>
+                      <td class="p-4 text-slate-300">GitHub CodeQL Engine, Advanced Security Static Analysis (Python & TypeScript)</td>
+                      <td class="p-4 text-slate-400">Weekly / Push</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">security-scheduled.yml</td>
+                      <td class="p-4 text-slate-200">Nightly Audit</td>
+                      <td class="p-4 text-slate-300">Nightly Dependency Vulnerability Audits (Pip-Audit, NPM Audit, Trivy FS)</td>
+                      <td class="p-4 text-slate-400">Cron (02:00 UTC)</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">deploy-pages.yml</td>
+                      <td class="p-4 text-slate-200">Static Pages CD</td>
+                      <td class="p-4 text-slate-300">Angular 19 Production Build & GitHub Pages Zero-Downtime Deployment</td>
+                      <td class="p-4 text-slate-400">Push to main</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">desktop-macos-release.yml</td>
+                      <td class="p-4 text-slate-200">Binary Release</td>
+                      <td class="p-4 text-slate-300">C# .NET 10 Native macOS Universal App Compilation, Signing & DMG Packaging</td>
+                      <td class="p-4 text-slate-400">Tag / Release</td>
+                    </tr>
+                    <tr class="hover:bg-obsidian-750/40 transition-colors">
+                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">readme-sync.yml</td>
+                      <td class="p-4 text-slate-200">Docs Automation</td>
+                      <td class="p-4 text-slate-300">Multilingual Documentation Sync & Badge Verification across 5 Languages</td>
+                      <td class="p-4 text-slate-400">Push to main</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      }
 
       <!-- TAB 1: VLAN MATRIX -->
       @if (activeTab === 'vlan') {
@@ -585,7 +742,7 @@ import { TranslationService } from '../../services/translation.service';
 })
 export class ArchitectureBlueprintComponent {
   ts = inject(TranslationService);
-  activeTab: 'vlan' | 'power' | 'storage' | 'cyber' | 'zerotrust' | 'generator' | 'chaos' | 'observability' | 'glossary' = 'vlan';
+  activeTab: 'cloud' | 'vlan' | 'power' | 'storage' | 'cyber' | 'zerotrust' | 'generator' | 'chaos' | 'observability' | 'glossary' = 'cloud';
 
   genHostname = 'custom-app';
   genVmid = 120;

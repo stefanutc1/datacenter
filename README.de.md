@@ -101,7 +101,77 @@ flowchart TB
 
 ---
 
-## 3. Physische Hardware-Flotte & Stromversorgung
+## 3. Hybride Multi-Cloud-Architektur (Azure, GCP, AWS)
+
+The on-premise cluster is extended into a true hybrid multi-cloud topology across **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** using declarative, modular Infrastructure as Code (IaC) located in [`cloud/`](cloud/README.md) and [`terraform/`](terraform/):
+
+```mermaid
+flowchart TB
+    subgraph OnPrem["🏠 ON-PREMISE HYBRID HOMELAB"]
+        direction TB
+        OPN["OPNsense Firewall (192.168.1.132:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+        PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
+        ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
+        OPN --- PVE --- ZFS
+    end
+
+    subgraph Azure["🔷 MICROSOFT AZURE (cloud/azure/)"]
+        direction TB
+        AKV["Azure Key Vault (Cloud HSM)<br/>Step-CA Root CA & LUKS Escrow"]
+        ABS["Blob Storage Archive Tier<br/>Cold ZFS Disaster Recovery"]
+        EID["Entra ID SSO Federation<br/>Authentik SAML / OIDC"]
+        ARC["Azure Arc Integration<br/>Defender for Cloud Security"]
+    end
+
+    subgraph GCP["🌐 GOOGLE CLOUD PLATFORM (cloud/gcp/)"]
+        direction TB
+        GCS["Cloud Storage Bucket WORM<br/>Ransomware-Proof PBS Retention"]
+        WIF["Workload Identity Federation<br/>Keyless CI/CD (GitHub & Woodpecker)"]
+        DNS["Cloud DNS Managed Zone<br/>Split-Horizon DNS Fallback"]
+        BQ["BigQuery Security Sink<br/>T-Pot & Wazuh SIEM Analytics"]
+    end
+
+    subgraph AWS["🟧 AMAZON WEB SERVICES (cloud/aws/)"]
+        direction TB
+        S3["S3 Glacier Deep Archive<br/>Encrypted Off-Site Cold DR"]
+        OIDC["IAM OIDC Keyless Role<br/>Least-Privilege AssumeRole"]
+        VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
+    end
+
+    OnPrem -->|IPsec / WireGuard VPN| Azure
+    OnPrem -->|OIDC Token / HA VPN| GCP
+    OnPrem -->|Glacier Sync / IPsec Tunnel| AWS
+```
+
+### Cloud Integration & Zero-Cost Tiering Matrix
+
+| Cloud Provider | IaC Directory | Core Declarative Resources | Cost Optimization Tier |
+| :--- | :--- | :--- | :--- |
+| **Microsoft Azure** | [`cloud/azure/`](cloud/azure/) | `azurerm_key_vault` (Cloud HSM Root CA & LUKS), `azurerm_storage_blob` (Archive Tier DR), `azuread_application` (SSO Authentik), `azurerm_arc_machine` (Defender for Cloud) | Archive Tier + Free Tier HSM |
+| **Google Cloud (GCP)** | [`cloud/gcp/`](cloud/gcp/) | `google_storage_bucket` (WORM Object Lock PBS/Restic), `google_iam_workload_identity_pool` (Keyless OIDC), `google_dns_managed_zone` (DNSSEC fallback), `google_logging_project_sink` (BigQuery SIEM) | Coldline / Archive + BigQuery Free |
+| **Amazon Web Services** | [`cloud/aws/`](cloud/aws/) | `aws_s3_bucket` (Glacier Deep Archive 365d), `aws_iam_openid_connect_provider` (Keyless CI/CD AssumeRole), `aws_vpn_connection` (Site-to-Site IPsec OPNsense) | Glacier Deep Archive + Free STS |
+
+---
+
+## 4. Enterprise CI/CD-Qualitätsmatrix (9 automatisierte Workflows)
+
+Infrastructure and application code are validated continuously across **9 GitHub Actions CI/CD workflows** running **36+ parallel automated quality gates**:
+
+| # | Workflow File | Pipeline Name | Automated Quality Guarantees & Checks |
+| :---: | :--- | :--- | :--- |
+| 1 | [`.github/workflows/homelab-ci-cd-matrix.yml`](.github/workflows/homelab-ci-cd-matrix.yml) | **Enterprise Quality Matrix** | `terraform fmt` & `validate` (on-prem + multi-cloud), Checkov IaC Security, Trivy Misconfig, Docker Compose validation, ShellCheck, Secret Leakage, ELO Matrix (Python 3.9-3.13) |
+| 2 | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | **Core CI Pipeline** | Gitleaks & TruffleHog (Secrets Scan), Ruff Lint, MyPy Static Types, Bandit SAST, Semgrep, Ansible Syntax Check on all playbooks, Kubeconform Kubernetes validation |
+| 3 | [`.github/workflows/cd.yml`](.github/workflows/cd.yml) | **Continuous Deployment** | GitOps Reconciliation, Container Image Packaging on GHCR, Automated Rollback Verification |
+| 4 | [`.github/workflows/container-scan.yml`](.github/workflows/container-scan.yml) | **Container Security** | Trivy Container Image Scanner & Dockle CIS Docker Benchmark compliance |
+| 5 | [`.github/workflows/security-scan.yml`](.github/workflows/security-scan.yml) | **CodeQL SAST Analysis** | GitHub Advanced Security CodeQL engine for deep static vulnerability scanning (Python & TypeScript) |
+| 6 | [`.github/workflows/security-scheduled.yml`](.github/workflows/security-scheduled.yml) | **Nightly Security Audit** | Scheduled nightly audit (02:00 UTC) for dependency CVEs (Pip-Audit, NPM Audit, Trivy FS) |
+| 7 | [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) | **Deploy GitHub Pages** | Angular 19 production build & zero-downtime deployment to GitHub Pages |
+| 8 | [`.github/workflows/desktop-macos-release.yml`](.github/workflows/desktop-macos-release.yml) | **macOS Native Release** | C# .NET 10 universal binary compilation, signing, and DMG artifact distribution for ELO desktop |
+| 9 | [`.github/workflows/readme-sync.yml`](.github/workflows/readme-sync.yml) | **Documentation Sync** | Automated documentation sync and badge validation across all 5 supported languages |
+
+---
+
+## 9. Physische Hardware-Flotte & Stromversorgung
 
 ### Hardware-Spezifikationen
 
@@ -114,7 +184,7 @@ flowchart TB
 
 ---
 
-## 4. LXC-Container & VM-Ressourcenmatrix
+## 10. LXC-Container & VM-Ressourcenmatrix
 
 ### Detaillierter LXC-Container-Katalog (Knoten 1 — x86_64 Primär)
 
@@ -242,7 +312,7 @@ flowchart TB
 
 ---
 
-## 5. Infrastructure as Code (Terraform & Ansible)
+## 9. Infrastructure as Code (Terraform & Ansible)
 
 ```bash
 # 1. Repository klonen

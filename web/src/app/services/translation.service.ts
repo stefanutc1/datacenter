@@ -136,13 +136,13 @@ const TRANSLATIONS: Record<Language, Translations> = {
     metricVirtCount: '2 Hypervisori',
     metricVirtDesc: 'Proxmox VE x86_64 (55 workloads) & ARM64 (46 workloads) găzduind OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s și 95 LXC-uri.',
     
-    metricServicesTitle: 'SERVICII ACTIVE',
-    metricServicesCount: '101 Workload-uri',
-    metricServicesDesc: '95 de containere LXC optimizate + 6 mașini virtuale QEMU/KVM pe ambele hypervisoare x86_64 și ARM64.',
+    metricServicesTitle: 'SERVICII ACTIVE & MULTI-CLOUD',
+    metricServicesCount: '101 Servicii · 3 Clouds',
+    metricServicesDesc: '101 servicii on-premise (95 LXC + 6 VM) integrate hibrid cu Azure Key Vault, GCP WORM GCS & AWS Glacier.',
     
-    metricCyberTitle: 'SECURITATE & DFIR',
-    metricCyberCount: 'SOC & Honeynet',
-    metricCyberDesc: 'Wazuh SIEM/XDR, T-Pot DMZ, Suricata/Snort IDS, Sysmon, Atomic Red Team, Cuckoo/CAPEv2 și Volatility.',
+    metricCyberTitle: 'SECURITATE, DFIR & CI/CD',
+    metricCyberCount: 'SOC · 9 Fluxuri CI/CD',
+    metricCyberDesc: 'Wazuh SIEM, T-Pot DMZ + Matrice CI/CD Enterprise cu 9 fluxuri automate și peste 36 de verificări paralele.',
 
     topologyTag: 'TOPOLOGIE DE REȚEA',
     topologyTitle: 'Vizualizare Spațială 3D a Rețelei',
@@ -243,13 +243,13 @@ const TRANSLATIONS: Record<Language, Translations> = {
     metricVirtCount: '2 Hypervisors',
     metricVirtDesc: 'Proxmox VE x86_64 (55 workloads) & ARM64 (46 workloads) hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and 95 LXCs.',
     
-    metricServicesTitle: 'ACTIVE SERVICES',
-    metricServicesCount: '101 Workloads',
-    metricServicesDesc: '95 optimized LXC containers + 6 QEMU/KVM virtual machines across x86_64 and ARM64 hypervisors.',
+    metricServicesTitle: 'ACTIVE SERVICES & MULTI-CLOUD',
+    metricServicesCount: '101 Services · 3 Clouds',
+    metricServicesDesc: '101 on-prem workloads (95 LXC + 6 VMs) federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
     
-    metricCyberTitle: 'SECURITY & DFIR',
-    metricCyberCount: 'SOC & Honeynet',
-    metricCyberDesc: 'Wazuh SIEM/XDR, T-Pot DMZ, Suricata/Snort IDS, Sysmon, Atomic Red Team, Cuckoo/CAPEv2, and Volatility.',
+    metricCyberTitle: 'SECURITY, DFIR & CI/CD',
+    metricCyberCount: 'SOC · 9 Fluxuri CI/CD',
+    metricCyberDesc: 'Wazuh SIEM, T-Pot DMZ + Enterprise CI/CD Matrix featuring 9 automated workflows with 36+ parallel quality checks.',
 
     topologyTag: 'NETWORK TOPOLOGY',
     topologyTitle: 'Spatial 3D Topology Visualization',
