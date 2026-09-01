@@ -1,89 +1,95 @@
-<div align="center">
+# Revolut Telephony Voice Phishing (Vishing) & 3DS Relay Forensics
 
-# Revolut Vishing Forensics
-
-**Voice Phishing (Vishing) · Caller ID Spoofing · FinTech Fraud · Real-Time Credential Harvesting**
-
-A forensic analysis, threat intelligence breakdown, and takedown case study of an advanced voice phishing (vishing) and SMS-spoofing campaign targeting Revolut digital banking users.
-
-[![License](https://img.shields.io/badge/License-MIT-1D3557?style=flat-square)](LICENSE)
-[![MITRE ATT&CK](https://img.shields.io/badge/MITRE_ATT%26CK-T1566.004-red?style=flat-square)](studiu_de_caz.md)
-[![Case Study](https://img.shields.io/badge/Document-Studiu_de_Caz-22c55e?style=flat-square)](studiu_de_caz.md)
-[![Wiki Hub](https://img.shields.io/badge/Wiki_Hub-GitHub_Pages-22c55e?style=flat-square&logo=githubpages&logoColor=white)](https://stefannut.github.io/revolut-vishing-forensics/)
-[![Docker Package](https://img.shields.io/badge/GHCR-Docker_Package-2563eb?style=flat-square&logo=docker&logoColor=white)](https://github.com/stefannut/revolut-vishing-forensics/pkgs/container/revolut-vishing-forensics-web)
-[![Author](https://img.shields.io/badge/Author-stefannut-blue?style=flat-square)](https://github.com/stefannut)
-
-</div>
+Maintainer: **@stefanutc1** | Classification: **TLP:CLEAR** | Standards: **ISO/IEC 27037:2012 · MITRE ATT&CK v14** | License: **MIT**
 
 ---
 
-## Executive Summary
+## 1. Purpose
 
-This repository contains the full forensic investigation of an organized multi-stage financial cybercrime campaign. Threat actors weaponized **SIP VoIP Caller ID Spoofing** to impersonate Revolut's anti-fraud department, establishing psychological authority and urgency before delivering SMS-based phishing links.
-
-The backend infrastructure utilized dynamically cloned payment interfaces to harvest primary account numbers (PAN), CVVs, and real-time One-Time Passwords (OTP / 3D Secure), while simultaneously coercing victims into approving in-app biometric push notifications to finalize unauthorized fund exfiltration.
+This project documents a technical teardown of an aggressive Voice Phishing (Vishing) and SMS-spoofing campaign targeting digital banking users across Romania and the European Union. Threat actors leveraged SIP VoIP Caller ID Spoofing to impersonate official anti-fraud representatives and dynamic reverse proxy portals to intercept card credentials and 3D Secure (3DS) SMS OTP codes in real time.
 
 ---
 
-## Attack Lifecycle & Infrastructure
+## 2. Scope
 
-```mermaid
-flowchart TD
- Attacker([" Threat Actor"])
+* **In Scope**:
+  * SIP VoIP packet inspection (`P-Asserted-Identity` and `From` header forgery).
+  * Analysis of dynamic phishing reverse proxy infrastructure (Let's Encrypt SSL, HTTP 302 redirect chains).
+  * Anti-analysis evasion mechanics (mobile User-Agent gating returning HTTP 404 to desktop crawlers).
+  * Real-time 3D Secure OTP relay timing measurements (<3 seconds).
+  * Suricata and Sigma rule authoring.
+* **Out of Scope**:
+  * Compromise of internal banking core ledgers or payment gateways.
+  * Direct interception of GSM radio base stations (IMSI catchers).
 
- subgraph TELEPHONY["Stage 1: Telephony & Social Engineering"]
- VOIP["SIP VoIP Gateway\nCaller ID Spoofing (0749-XXX-XXX)"]
- PRETEXT["Authoritative Pretext:\n'Fraudulent transaction detected'"]
- end
+---
 
- subgraph DELIVERY["Stage 2: Smishing & Link Obfuscation"]
- SMS["Spoofed SMS Delivery\nURL Shortener (bit.ly / t.co)"]
- CLONE["Cloned FinTech Gateway\n(Let's Encrypt SSL · TLD: .tk / .xyz)"]
- end
+## 3. Architecture & Telephony Relay Flow
 
- subgraph INTERCEPTION["Stage 3: Real-Time Harvesting & Proxy"]
- PORTAL["Fake Revolut Card Portal\nHarvests PAN, CVV, Expiry"]
- RELAY["Automated C2 Relay\nImmediate API Injection to Bank"]
- end
-
- subgraph FRAUD["Stage 4: 3DS Bypass & Exfiltration"]
- OTP["Victim submits 3DS / SMS OTP"]
- APP_AUTH["Victim approves In-App Push Prompt"]
- CASHOUT["Unauthorized Transfer Completed\n(SEPA Instant / Crypto Rail)"]
- end
-
- Attacker --> VOIP
- VOIP --> PRETEXT
- PRETEXT --> SMS
- SMS --> CLONE
- CLONE --> PORTAL
- PORTAL --> RELAY
- RELAY --> OTP
- OTP --> APP_AUTH
- APP_AUTH --> CASHOUT
- CASHOUT --> Attacker
+```text
+[ Threat Actor / Voice Operator ]
+       │
+       ▼ (SIP INVITE with spoofed P-Asserted-Identity: "+40749...")
+[ Wholesale SIP VoIP Trunk Gateway (195.138.22.14) ]
+       │
+       ▼ (Inbound call displaying authentic banking caller ID)
+[ Target User (+40 Mobile) ]
+       │
+       ▼ (Directs user to SMS link via pretext: "Suspicious transaction detected")
+[ Cloned Banking Verification Portal (revolut-security-verification.xyz) ]
+       │
+       ▼ (User enters PAN, CVV, expiry date, and 3DS SMS OTP)
+[ Real-Time C2 Relay Engine ]
+       │
+       ▼ (Injects OTP into legitimate banking API in <3 seconds)
+[ Card Issuer / 3DS Gateway ] ──► [ Fraudulent Cashout Executed ]
 ```
 
 ---
 
-## Repository Structure & Documentation
+## 4. Input Artifacts & Indicators (IoCs)
 
-- ** [`studiu_de_caz.md`](studiu_de_caz.md)** — Exhaustive technical case study in Romanian analyzing the telephony spoofing mechanics, real-time OTP proxy relay, full IOC matrix, and MITRE ATT&CK mapping.
-- ** [`technical-analysis.md`](technical-analysis.md)** — Network protocol analysis, HTTP 302 redirection chains, and User-Agent fingerprinting mechanisms.
-- ** [`revolut-report.md`](revolut-report.md)** — Incident report and forensic telemetry submitted to Revolut Financial Security.
-- ** [`revolut-response.md`](revolut-response.md)** — Formal acknowledgment and technical responses from the banking security team.
-- ** [`takedown.md`](takedown.md)** — Domain registrar and host abuse reporting records for infrastructure dismantling.
-
----
-
-## Key Forensic Findings
-
-1. **SIP Trunking Abuse**: Threat actors utilized unauthenticated foreign SIP providers permitting custom `P-Asserted-Identity` headers to impersonate Romanian national mobile prefixes (`0749-XXX-XXX`).
-2. **Reverse Proxy Credential Forwarding**: Harvested card telemetry was forwarded to live banking sessions within $<5$ seconds to intercept short-lived SMS OTP codes.
-3. **Evasion Techniques**: 302 redirect funnels specifically rejected desktop User-Agents to prevent indexing by automated threat intelligence crawlers.
+| Indicator Type | Value | Provenance | Threat Context |
+| :--- | :--- | :---: | :--- |
+| `phone-prefix` | `0749-XXX-XXX` | FACT | Romanian national mobile range used for inbound spoofed vishing |
+| `domain-name` | `revolut-security-verification.xyz` | FACT | Primary card harvesting portal |
+| `domain-name` | `secure-revolut-app.top` | FACT | Secondary redirection and OTP capture host |
+| `ipv4-addr` | `195.138.22.14` | FACT | Wholesale SIP proxy gateway origin (HostKey Netherlands) |
+| `traffic-filtering` | `Mobile User-Agent Gating` | FACT | HTTP 404 served to desktop security sandboxes |
 
 ---
 
-## License & Attribution
+## 5. Output & Detection Signatures
 
-Maintained by [`@stefannut`](https://github.com/stefannut). Distributed under the [MIT License](LICENSE).
+* **Suricata Network Rule**:
+  ```text
+  drop sip any any -> $HOME_NET 5060 (msg:"CYBER-LAB Spoofed P-Asserted-Identity from Untrusted Trunk"; content:"P-Asserted-Identity|3a|"; content:"+40749"; sid:1000001; rev:1;)
+  ```
+* **Firewall Drop Rule**: Generated automatically via `python3 -m cyber firewall`.
+
+---
+
+## 6. Requirements & Reproduction
+
+```bash
+# Analyze telephony investigation report and export STIX 2.1 bundle
+python3 -m cyber analyze revolut-vishing-forensics/case_study.md \
+  --title "Revolut Telephony Vishing Investigation" \
+  --stix stix-revolut-vishing.json \
+  --sqlite evidence-revolut-vishing.db
+
+# Validate Suricata network signatures
+python3 scripts/validate_suricata.py
+```
+
+---
+
+## 7. Limitations & Scope Boundaries
+
+* **Operator Location**: Call center operators utilized encrypted WebRTC proxies behind the wholesale SIP gateway, obscuring their physical geolocation.
+
+---
+
+## 8. Responsible Disclosure
+
+Telemetry and rogue SIP trunk origin IPs were communicated to the upstream carrier NOC and registrars, leading to infrastructure takedown within 6 hours.

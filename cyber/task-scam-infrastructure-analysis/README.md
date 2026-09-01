@@ -1,87 +1,96 @@
-<div align="center">
+# Task Scam Platform API Exposure & TRC-20 Drainage Teardown
 
-# Task Scam Infrastructure Analysis
-
-**Pig Butchering · Fake Job Platform · API Reverse Engineering · Vulnerability Assessment · Crypto Drainage**
-
-A comprehensive technical teardown, API disclosure analysis, and threat intelligence study of a fraudulent "Task Scam" / Pig Butchering web platform engineered to drain cryptocurrency deposits from victims.
-
-[![License](https://img.shields.io/badge/License-MIT-1D3557?style=flat-square)](LICENSE)
-[![MITRE ATT&CK](https://img.shields.io/badge/MITRE_ATT%26CK-T1499-red?style=flat-square)](studiu_de_caz.md)
-[![Case Study](https://img.shields.io/badge/Document-Studiu_de_Caz-22c55e?style=flat-square)](studiu_de_caz.md)
-[![Wiki Hub](https://img.shields.io/badge/Wiki_Hub-GitHub_Pages-22c55e?style=flat-square&logo=githubpages&logoColor=white)](https://stefannut.github.io/Task-Scam-Infrastructure-Analysis/)
-[![Docker Package](https://img.shields.io/badge/GHCR-Docker_Package-2563eb?style=flat-square&logo=docker&logoColor=white)](https://github.com/stefannut/Task-Scam-Infrastructure-Analysis/pkgs/container/task-scam-infrastructure-analysis-web)
-[![Author](https://img.shields.io/badge/Author-stefannut-blue?style=flat-square)](https://github.com/stefannut)
-
-</div>
+Maintainer: **@stefanutc1** | Classification: **TLP:CLEAR** | Standards: **ISO/IEC 27037:2012 · MITRE ATT&CK v14** | License: **MIT**
 
 ---
 
-## Executive Summary
+## 1. Purpose
 
-This repository documents the forensic analysis and security evaluation of an active **Task Scam** platform (a hybrid high-yield investment fraud / Pig Butchering scheme). Victims were recruited via WhatsApp/Telegram under the pretext of remote part-time jobs reviewing e-commerce items.
-
-Through traffic interception (Burp Suite) and API endpoint interrogation, the investigation revealed definitive backend evidence of deliberate financial deception, including a **hardcoded withdrawal kill-switch**, simulated fake profits, geographic campaign locks, and systemic backend injection vulnerabilities.
+This project documents the comprehensive forensic reverse engineering of an active Task Scam platform (a hybrid Pig Butchering investment fraud operation). Through traffic interception and backend API analysis, this investigation exposed hard technical proof of premeditated financial theft: an unauthenticated `/api/v1/site/config` endpoint disclosing hardcoded fiat withdrawal kill-switches (`withdrawMethodBank: false`, `withdrawMethodRevolut: false`), confirming that all fiat payout UI elements were cosmetic decoys.
 
 ---
 
-## Architecture & Fraud Mechanism
+## 2. Scope
 
-```mermaid
-flowchart TD
- Victim([" Victim User"])
- Admin([" Threat Actor Admin Panel"])
+* **In Scope**:
+  * Interception and decoding of Vue.js frontend REST API calls via Burp Suite.
+  * Audit of backend configuration endpoints (`/api/v1/site/config`) and authentication routes (`/api/v1/user/auth/*`).
+  * SQL Injection vulnerability assessment on `invite_code` and `username` input fields.
+  * Tracking of cryptocurrency deposit consolidation on the TRON blockchain (TRC-20 USDT).
+* **Out of Scope**:
+  * Unauthenticated remote code execution on the backend production server.
+  * Seizure of threat actor multi-signature cryptocurrency wallets.
 
- subgraph FRONTEND["Frontend Presentation Layer"]
- UI["Vue.js Web Application\nSimulated Task Dashboard & Fake Balance"]
- FEED["Fabricated Activity & News Feed\n(/api/v1/site/config data)"]
- end
+---
 
- subgraph BACKEND["Backend & API Layer"]
- API_CONFIG["/api/v1/site/config\nWithdrawal Kill-Switch: false\nCountry Code Lock: +40"]
- API_AUTH["/api/v1/user/auth/*\nSQL Injection Surface on invite_code"]
- DB[(Target Database & Campaign Ledger)]
- end
+## 3. Architecture & Data Flow
 
- subgraph TRAP["Financial Drain Trap"]
- DEPOSIT["USDT TRC-20 Deposit\nMandatory 'VIP Task Unlock'"]
- WALLET["Attacker Consolidation Wallet\n(Laundering through Mixers/Bridges)"]
- BLOCK["Withdrawal Blocked\n'Tax / Verification Fee Required'"]
- end
-
- Victim -->|Registers via invite_code: 888888| UI
- UI <--> API_CONFIG
- UI <--> API_AUTH
- API_AUTH <--> DB
- Admin -->|Alters task rewards & margins| DB
- UI -->|Displays fake earnings| FEED
- FEED -->|Lured into depositing funds| DEPOSIT
- DEPOSIT --> WALLET
- Victim -.->|Attempts withdrawal| BLOCK
- BLOCK -->|Funds permanently locked| Admin
+```text
+[ Victim User ]
+       │
+       ▼ (Registers via invite code: 888888)
+[ Vue.js Frontend Application ]
+       │
+       ├─► Queries unauthenticated /api/v1/site/config
+       │   (Discloses: withdrawMethodBank: false, defaultCountryCode: "+40")
+       │
+       ▼ (Lured by fabricated earnings into funding account)
+[ USDT TRC-20 Deposit Requirement ]
+       │
+       ▼ (Victim transfers cryptocurrency)
+[ Attacker Consolidation Wallet ] ──► [ Laundering via Mixers / Bridges ]
+       │
+       ▼ (Victim attempts fiat withdrawal)
+[ Permanent Block ] ──► "Compliance tax / VIP unlock required"
 ```
 
 ---
 
-## Repository Structure & Documentation
+## 4. Input Artifacts & Indicators (IoCs)
 
-- ** [`studiu_de_caz.md`](studiu_de_caz.md)** — Exhaustive technical case study in Romanian analyzing the business model, API config kill-switches, SQL injection surface, crypto flows, and MITRE ATT&CK mapping.
-- ** [`API_exposure.md`](API_exposure.md)** — In-depth breakdown of the `/api/v1/site/config` endpoint disclosure and hardcoded withdrawal restrictions.
-- ** [`SQLI.md`](SQLI.md)** — Vulnerability audit of input sanitization across the `username` and `invite_code` fields.
-- ** [`ui_manipulation.md`](ui_manipulation.md)** — Analysis of client-side cosmetic manipulation techniques and fake WebSocket transactions.
-- ** [`fingerprinting.md`](fingerprinting.md)** — Tech stack profiling (PHP/Laravel backend, Vue.js SPA, Cloudflare configuration).
-- ** [`investigation.md`](investigation.md)** — Lab setup and traffic capture methodology.
-
----
-
-## Key Technical Discoveries
-
-1. **The "Withdrawal Kill-Switch"**: In `/api/v1/site/config`, `withdrawMethodBank` and `withdrawMethodRevolut` are hardcoded to `false`. While the UI displays bank and card withdrawal options, the backend silently rejects all fiat cashout requests.
-2. **Geographic Campaign Targeting**: The platform enforced `defaultCountryCode: "+40"` to isolate and target Romanian mobile numbers.
-3. **Insecure Backend Query Logic**: The registration endpoint lacked server-side input validation and prepared statements, creating exposure to blind SQL injection.
+| Indicator Type | Value | Provenance | Description |
+| :--- | :--- | :---: | :--- |
+| `api-endpoint` | `/api/v1/site/config` | FACT | Unauthenticated operational configuration leak |
+| `api-endpoint` | `/api/v1/user/auth/register` | FACT | Account creation endpoint requiring invite code |
+| `api-endpoint` | `/api/v1/task/submit` | FACT | Simulated review submission handler |
+| `invite-code` | `888888` | FACT | Operator recruitment tracking identifier |
+| `country-lock` | `+40` | FACT | Geographic segmentation parameter targeting Romania |
 
 ---
 
-## License & Attribution
+## 5. Output & Detection Signatures
 
-Maintained by [`@stefannut`](https://github.com/stefannut). Distributed under the [MIT License](LICENSE).
+* **YARA Detection Signature**:
+  ```text
+  rule Web_TaskScam_Config_Leak {
+    meta:
+      description = "Matches task scam configuration patterns"
+    strings:
+      $s1 = "withdrawMethodBank" ascii
+      $s2 = "withdrawMethodRevolut" ascii
+      $s3 = "minDepositUSDT" ascii
+    condition:
+      all of them
+  }
+  ```
+
+---
+
+## 6. Requirements & Reproduction
+
+```bash
+# Analyze task scam evidence and generate STIX 2.1 bundle
+python3 -m cyber analyze task-scam-infrastructure-analysis/case_study.md \
+  --title "Task Scam Infrastructure Investigation" \
+  --stix stix-task-scam.json \
+  --sqlite evidence-task-scam.db
+
+# Validate YARA signature syntax
+python3 scripts/validate_yara.py
+```
+
+---
+
+## 7. Limitations & Scope Boundaries
+
+* **Mixer Transactions**: Subsequent on-chain cryptocurrency movements utilized nested mixer transactions and cross-chain bridges, obscuring final off-ramp exchange identities.
