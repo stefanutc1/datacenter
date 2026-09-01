@@ -18,6 +18,144 @@ export interface ServiceItem {
 }
 
 export const SERVICES_DATA: ServiceItem[] = [
+{
+    "id": "opnsense-core",
+    "name": "OPNsense Perimeter Firewall",
+    "category": "security",
+    "containerName": "opnsense-core",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "2,048 MB",
+    "storage": "16 GB Pool",
+    "ip": "192.168.1.134",
+    "port": 8443,
+    "domain": "opnsense.homelab.local",
+    "status": "ONLINE",
+    "description": "Perimeter stateful packet filtering, inter-VLAN routing, and security policy enforcement across all 5 isolated network zones.",
+    "tags": [
+        "Perimeter Firewall",
+        "Stateful Filter",
+        "Inter-VLAN Routing",
+        "Security Core"
+    ],
+    "color": "#10b981",
+    "icon": "opnsense",
+    "composeCode": "# OPNsense FreeBSD 14 Virtual Machine running on Proxmox VE (VM 200)\n# Memory: 2048 MB (VirtIO Ballooning: 1024 MB) \u00b7 Storage: 16 GB"
+},
+{
+    "id": "opnsense-suricata",
+    "name": "Suricata NIDS/IPS Engine",
+    "category": "security",
+    "containerName": "suricata-daemon",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "512 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 8443,
+    "domain": "suricata.homelab.local",
+    "status": "ONLINE",
+    "description": "High-performance network intrusion detection and prevention system inspecting live packet streams against Emerging Threats (ET) rulesets.",
+    "tags": [
+        "Suricata IDS/IPS",
+        "Packet Inspection",
+        "Threat Detection",
+        "ET Rules"
+    ],
+    "color": "#ef4444",
+    "icon": "shield",
+    "composeCode": "# Suricata 7.0 native daemon on OPNsense\n# Generates structured eve.json telemetry forwarded to Wazuh SIEM"
+},
+{
+    "id": "opnsense-crowdsec",
+    "name": "CrowdSec Firewall Remediation Bouncer",
+    "category": "security",
+    "containerName": "crowdsec-bouncer",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "128 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 8080,
+    "domain": "crowdsec.homelab.local",
+    "status": "ONLINE",
+    "description": "Collaborative IP reputation engine and packet filter (pf) bouncer blocking automated attacks, scanners, and brute-force attempts in real time.",
+    "tags": [
+        "CrowdSec",
+        "Firewall Bouncer",
+        "IP Blacklist",
+        "Active Defense"
+    ],
+    "color": "#6366f1",
+    "icon": "shield",
+    "composeCode": "# CrowdSec os-crowdsec plugin on OPNsense\n# Manages dynamic pf tables (crowdsec_blacklists) for zero-latency drops"
+},
+{
+    "id": "opnsense-unbound",
+    "name": "Unbound Recursive DNS & DNSSEC",
+    "category": "core",
+    "containerName": "unbound-dns",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "64 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 53,
+    "domain": "unbound.homelab.local",
+    "status": "ONLINE",
+    "description": "Validating recursive DNS resolver with DNS-over-TLS (DoT), split-horizon routing for internal cluster domains, and DNSSEC cryptographic verification.",
+    "tags": [
+        "Unbound DNS",
+        "DNSSEC",
+        "Split-Horizon",
+        "DNS over TLS"
+    ],
+    "color": "#0ea5e9",
+    "icon": "pihole",
+    "composeCode": "# Unbound DNS Core Resolver on OPNsense\n# Authoritative for .homelab.local with upstream encrypted DoT"
+},
+{
+    "id": "opnsense-wireguard",
+    "name": "WireGuard Kernel VPN Gateway",
+    "category": "core",
+    "containerName": "wireguard-kernel",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "64 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 51820,
+    "domain": "vpn.homelab.local",
+    "status": "ONLINE",
+    "description": "Kernel-mode WireGuard tunnel providing line-rate encrypted site-to-site mesh with the Apple M1 node and secure roadwarrior remote admin access.",
+    "tags": [
+        "WireGuard",
+        "Kernel VPN",
+        "Site-to-Site",
+        "Curve25519"
+    ],
+    "color": "#a855f7",
+    "icon": "wireguard",
+    "composeCode": "# WireGuard FreeBSD Kernel Module on OPNsense\n# Interface wg0 listening on :51820 UDP with automated key rotation"
+},
+{
+    "id": "opnsense-netflow",
+    "name": "NetFlow / IPFIX Flow Exporter",
+    "category": "monitoring",
+    "containerName": "netflow-exporter",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "32 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 2055,
+    "domain": "netflow.homelab.local",
+    "status": "ONLINE",
+    "description": "Generates continuous NetFlow v9 and IPFIX telemetry for all VLAN traffic, exporting flow records to Wazuh SIEM for deep network behavior analysis.",
+    "tags": [
+        "NetFlow",
+        "IPFIX",
+        "Traffic Analytics",
+        "Flow Records"
+    ],
+    "color": "#f59e0b",
+    "icon": "opnsense",
+    "composeCode": "# NetFlow v9 Exporter on OPNsense\n# Continuously streams flow metadata across all 5 VLAN interfaces"
+},
   {
     "id": "npm",
     "name": "Nginx Proxy Manager",
