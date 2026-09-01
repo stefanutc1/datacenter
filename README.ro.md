@@ -559,18 +559,26 @@ Toate componentele hardware, mașinile virtuale și containerele rulează live p
 | :---: | :---: |
 | ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
 
-| 🖥️ Proxmox VE 9.2 Datacenter (192.168.1.132:8006) | 🚨 OPNsense Suricata 8 NIDS/IPS Engine (192.168.1.134:8443) |
+| 🖥️ Proxmox VE 9.2 x86_64 (192.168.1.132:8006) | 🍎 Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
 | :---: | :---: |
-| ![Proxmox VE Dashboard](photos/proxmox_ve_dashboard.png) | ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) |
+| ![Proxmox VE x64](photos/proxmox_ve_dashboard.png) | ![Proxmox VE ARM64](photos/proxmox_arm64_dashboard.png) |
 
-| 🔒 OPNsense · Politici Filtrare VLAN (pf rules) | ⚡ OPNsense · WireGuard Kernel VPN Mesh |
+| 🛡️ Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | 🏠 Home Assistant Automation Hub (192.168.1.10:8123) |
 | :---: | :---: |
-| ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) |
+| ![Pi-hole Admin](photos/pihole_admin_dashboard.png) | ![Home Assistant](photos/homeassistant_dashboard.png) |
+
+| 🚨 OPNsense Suricata 8 NIDS/IPS (192.168.1.134:8443) | 🔒 OPNsense · Politici Filtrare VLAN (pf rules) |
+| :---: | :---: |
+| ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) | ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) |
+
+| ⚡ OPNsense · WireGuard Kernel VPN Mesh | 🌐 OPNsense · Unbound DNS-over-TLS (DoT) |
+| :---: | :---: |
+| ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
 
 ---
 
 ## 👨‍💻 Despre Autor (About Me)
 
 Proiect conceput, configurat și operat de **[@stefanutc1](https://github.com/stefanutc1)**.
-- **Specializare**: Inginerie de Infrastructură, Virtualizare Hibridă (Proxmox VE x86_64 & Apple Silicon ARM64), Securitate Rețea & Zero-Trust (OPNsense, Suricata, CrowdSec, WireGuard), GitOps & IaC (Terraform, Ansible, CI/CD).
+- **Specializare**: Inginerie de Infrastructură, Virtualizare Hibridă (Proxmox VE x86_64 & Apple Silicon ARM64), Securitate Rețea & Zero-Trust (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
 - **Scop**: Portofoliu tehnic enterprise demonstrând bune practici în arhitectura de sisteme on-premise și cloud hibrid.

@@ -23,7 +23,7 @@ interface PhotoItem {
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono mb-3">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>{{ ts.isRomanian ? 'PORTFOLIO & LIVE LAB GALLERY' : 'PORTFOLIO & LIVE LAB GALLERY' }}</span>
+            <span>PORTFOLIO & LIVE LAB GALLERY</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal">
             {{ ts.isRomanian ? 'Despre Mine & Capturi Reale din Homelab' : 'About Me & Real Live Infrastructure' }}
@@ -31,8 +31,8 @@ interface PhotoItem {
         </div>
         <p class="text-xs sm:text-sm text-slate-400 font-sans max-w-xl leading-relaxed">
           {{ ts.isRomanian 
-            ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de producție de către @stefanutc1. Mai jos sunt capturile din panourile reale de management Grafana, Proxmox VE și OPNsense.' 
-            : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Below are real-time captures from the live management interfaces.' }}
+            ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de producție de către @stefanutc1. Mai jos sunt capturile din panourile reale de management Grafana, Proxmox VE (x86_64 și ARM64 Apple M1), Pi-hole, Home Assistant și OPNsense.' 
+            : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Below are real-time captures from the live management interfaces across x86_64, ARM64 Apple Silicon, and key services.' }}
         </p>
       </div>
 
@@ -57,12 +57,12 @@ interface PhotoItem {
                 : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 and Apple Silicon ARM64), and GitOps automation. This homelab powers live microservices, bare-metal telemetry, and real-time observability.' }}
             </p>
             <div class="flex flex-wrap gap-2 pt-2">
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Proxmox VE 9.2</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">OPNsense 24.7</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Grafana Enterprise</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Prometheus TSDB</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Suricata 8.0</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">WireGuard Kernel Mesh</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Proxmox VE 9.2 (x64 & ARM64)</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">OPNsense 24.7 Hardened</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Grafana Enterprise & Prometheus</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Pi-hole DNS Sinkhole</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Home Assistant Core</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Suricata 8.0 & CrowdSec</span>
             </div>
           </div>
 
@@ -73,16 +73,24 @@ interface PhotoItem {
               <a href="http://192.168.1.132:3000" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:3000</a>
             </div>
             <div class="flex justify-between items-center text-slate-300">
-              <span class="text-slate-400">Proxmox VE:</span>
+              <span class="text-slate-400">PVE x86_64:</span>
               <a href="https://192.168.1.132:8006" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:8006</a>
             </div>
             <div class="flex justify-between items-center text-slate-300">
-              <span class="text-slate-400">OPNsense Core:</span>
+              <span class="text-slate-400">PVE ARM64:</span>
+              <a href="https://192.168.64.14:8006" target="_blank" class="text-emerald-400 hover:underline">192.168.64.14:8006</a>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="text-slate-400">OPNsense:</span>
               <a href="https://192.168.1.134:8443" target="_blank" class="text-emerald-400 hover:underline">192.168.1.134:8443</a>
             </div>
             <div class="flex justify-between items-center text-slate-300">
-              <span class="text-slate-400">Prometheus:</span>
-              <a href="http://192.168.1.132:9090" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:9090</a>
+              <span class="text-slate-400">Pi-hole:</span>
+              <a href="http://192.168.1.4:8080" target="_blank" class="text-emerald-400 hover:underline">192.168.1.4:8080</a>
+            </div>
+            <div class="flex justify-between items-center text-slate-300">
+              <span class="text-slate-400">Home Assistant:</span>
+              <a href="http://192.168.1.10:8123" target="_blank" class="text-emerald-400 hover:underline">192.168.1.10:8123</a>
             </div>
           </div>
 
@@ -179,49 +187,73 @@ export class AboutGalleryComponent {
   photos: PhotoItem[] = [
     {
       src: 'photos/grafana_nodes_dashboard.png',
-      title: 'Grafana · Noduri Homelab (x64 & ARM64)',
+      title: 'Grafana · Multi-Architecture Nodes (x86_64 & ARM64)',
       category: 'OBSERVABILITY & METRICS',
-      description: 'Panou centralizat Grafana Enterprise dedicat hypervisorilor Proxmox VE (Intel i3-10100F și Apple Silicon M1), telemetrie CPU pe 8 thread-uri, consum ZRAM și flota de containere LXC.',
+      description: 'Unified Grafana Enterprise dashboard tracking Proxmox VE hypervisors (Intel i3-10100F and Apple Silicon M1), 8-thread CPU timeline, ZRAM compression, and LXC container counts in English.',
       endpoint: '192.168.1.132:3000',
       badge: 'GRAFANA LIVE'
     },
     {
       src: 'photos/grafana_opnsense_dashboard.png',
-      title: 'Grafana · OPNsense Core Perimeter Defense',
+      title: 'Grafana · OPNsense Perimeter Firewall & Threat Intel',
       category: 'OBSERVABILITY & SECURITY',
-      description: 'Dashboard în timp real pentru OPNsense: status motor Suricata 8.0 NIDS/IPS, bouncer CrowdSec pf, rezolvitor Unbound DNS-over-TLS Quad9 și throughput WAN/Inter-VLAN.',
+      description: 'Real-time security telemetry: Suricata 8.0 NIDS/IPS engine status, CrowdSec LAPI bouncer packet filter drops, Unbound DNS-over-TLS Quad9 resolver, and WAN/Inter-VLAN throughput.',
       endpoint: '192.168.1.132:3000',
       badge: 'SECURITY LIVE'
     },
     {
       src: 'photos/proxmox_ve_dashboard.png',
-      title: 'Proxmox VE 9.2.10 Management Datacenter',
+      title: 'Proxmox VE 9.2.10 · Primary x86_64 Hypervisor',
       category: 'VIRTUALIZATION & HYPERVISOR',
-      description: 'Interfața de administrare nativă Proxmox VE de pe Node 1 x86_64, ilustrând mașinile virtuale KVM (VM 200 OPNsense) și containerele LXC (100-121).',
+      description: 'Native Proxmox VE management interface on Node 1 (Intel i3-10100F, 8GB DDR4, 512GB SSD), managing KVM virtual machines (VM 200 OPNsense) and active LXC containers.',
       endpoint: '192.168.1.132:8006',
-      badge: 'PVE CORE'
+      badge: 'PVE X86_64'
+    },
+    {
+      src: 'photos/proxmox_arm64_dashboard.png',
+      title: 'Proxmox VE 9.2.9 · Secondary ARM64 Node (Apple Silicon M1)',
+      category: 'VIRTUALIZATION & ARM64',
+      description: 'Proxmox VE running on Apple Silicon M1 ARM64 UTM, orchestrating 48 microservice LXC containers (it-tools, gitea, woodpecker-ci, authelia, vaultwarden, stepca, ntfy, etc.).',
+      endpoint: '192.168.64.14:8006',
+      badge: 'PVE ARM64'
+    },
+    {
+      src: 'photos/pihole_admin_dashboard.png',
+      title: 'Pi-hole · DNS Sinkhole & Network Ad-Blocking',
+      category: 'DNS & NETWORK PRIVACY',
+      description: 'Network-wide DNS filter blocking telemetry and malware domains with FTL engine, tracking query statistics, client activity, and 89,947 gravity blocked domains.',
+      endpoint: '192.168.1.4:8080',
+      badge: 'PI-HOLE DNS'
+    },
+    {
+      src: 'photos/homeassistant_dashboard.png',
+      title: 'Home Assistant · IoT Automation & Control Hub',
+      category: 'HOME AUTOMATION & IOT',
+      description: 'Centralized home automation and smart IoT controller running in containerized environment on Node 1 with Lovelace user interface and multi-room management.',
+      endpoint: '192.168.1.10:8123',
+      badge: 'HOME ASSISTANT'
     },
     {
       src: 'photos/opnsense_suricata_defense.png',
       title: 'OPNsense · Suricata 8.0 NIDS/IPS Engine',
       category: 'CYBERSECURITY & THREAT DETECTION',
-      description: 'Configurația motorului de detecție a intruziunilor Suricata în mod promiscuu PCAP live pe interfețele WAN și VLAN cu reguli ET Open active.',
+      description: 'Suricata Intrusion Detection System running in promiscuous PCAP live mode across WAN and VLAN interfaces with ET Open rules active.',
       endpoint: '192.168.1.134:8443',
       badge: 'SURICATA IDS'
     },
     {
       src: 'photos/opnsense_stats_dashboard.png',
-      title: 'OPNsense Core Firewall Administration',
+      title: 'OPNsense · Core Firewall Administration',
       category: 'SECURITY & GATEWAY',
-      description: 'Panoul de control OPNsense bazat pe FreeBSD Hardened Kernel la adresa securizată 192.168.1.134.',
+      description: 'FreeBSD Hardened perimeter gateway management interface providing routing, firewalling, and packet inspection at 192.168.1.134.',
       endpoint: '192.168.1.134:8443',
       badge: 'FIREWALL CORE'
     },
     {
       src: 'photos/opnsense_firewall_rules.png',
-      title: 'OPNsense · Politici Firewall & Izolare VLAN',
+      title: 'OPNsense · VLAN Micro-Segmentation Policies (pf)',
       category: 'NETWORK SECURITY',
-      description: 'Reguli stricte de filtrare packet filter (pf) pentru micro-segmentarea rețelei între VLAN 10 (Management), 20 (Services), 30 (IoT), 40 (DMZ), 50 (Storage).',
+      description: 'Strict packet filter (pf) rules enforcing zero-trust isolation between VLAN 10 (Management), 20 (Services), 30 (IoT), 40 (DMZ), and 50 (Storage).',
       endpoint: '192.168.1.134:8443',
       badge: 'PF RULES'
     },
@@ -229,7 +261,7 @@ export class AboutGalleryComponent {
       src: 'photos/opnsense_wireguard_vpn.png',
       title: 'OPNsense · WireGuard Kernel VPN Mesh',
       category: 'ZERO-TRUST NETWORKING',
-      description: 'Tunel criptografic WireGuard de mare viteză direct în spațiul nucleului FreeBSD pentru acces de la distanță la resursele homelab.',
+      description: 'High-speed in-kernel WireGuard cryptographic tunnel providing remote zero-trust access into the homelab private subnet.',
       endpoint: '192.168.1.134:8443',
       badge: 'WIREGUARD VPN'
     },
@@ -237,7 +269,7 @@ export class AboutGalleryComponent {
       src: 'photos/opnsense_unbound_dns.png',
       title: 'OPNsense · Unbound DNS-over-TLS (DoT)',
       category: 'PRIVACY & DNSSEC',
-      description: 'Rezolvitor DNS intern securizat cu criptare strictă TLS pe portul 853 către Quad9 și Cloudflare cu validare DNSSEC.',
+      description: 'Encrypted recursive DNS resolver forwarding port 853 queries to Quad9 and Cloudflare with strict DNSSEC validation.',
       endpoint: '192.168.1.134:8443',
       badge: 'DOT QUAD9'
     }
