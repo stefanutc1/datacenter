@@ -1,0 +1,10 @@
+services:
+  proxmox-datacenter-manager:
+    image: alpine:latest
+    container_name: proxmox-datacenter-manager
+    restart: unless-stopped
+    ports:
+      - "8443:8443"
+    environment:
+      - TZ=Europe/Bucharest
+    command: ["sh", "-c", "while true; do sleep 3600; done"]

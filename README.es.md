@@ -157,39 +157,63 @@ flowchart TB
 | **145** | `kiwix` | Alpine 3.24 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.45` | Conocimiento | Servidor Offline de Wikipedia, ArchWiki & Docs |
 | **146** | `romm` | Alpine 3.24 | 2 | 192 MB | `local-lvm:8G` | `192.168.1.46` | Retrojuegos | Gestor de Colecciones de Videojuegos Retro & ROMs |
 | **147** | `emulatorjs` | Alpine 3.24 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.47` | Retrojuegos | Emulación de Videojuegos Retro vía WebAssembly |
+| **149** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:2G` | `192.168.1.149` | Almacenamiento / Backup | Proxmox Backup Server (Deduplicación & Verificación de Snapshots) |
+| **150** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:2G` | `192.168.1.150` | Gestión | Proxmox Datacenter Manager (Consola Centralizada Multi-Cluster) |
+| **151** | `pmg` | Alpine 3.24 | 2 | 512 MB | `local-lvm:2G` | `192.168.1.151` | Seguridad / Correo | Proxmox Mail Gateway (Protección Antispam & ClamAV) |
 
 ### Catálogo Detallado de Contenedores LXC (Nodo 3 — Apple M1 ARM64 UTM)
 
 | VMID | Nombre de Host | SO Base | vCPU | RAM Asignada | Pool Almacenamiento | IP Estática | Categoría | Servicio Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **104** | `scrutiny` | Debian 13 | 1 | 128 MB | `local:4G` | `192.168.64.104` | Monitoreo | Telemetría S.M.A.R.T. de Salud de Discos Duros |
-| **105** | `uptimekuma` | Debian 13 | 1 | 128 MB | `local:4G` | `192.168.64.105` | Monitoreo | Monitoreo de Disponibilidad de Servicios & SLA |
-| **107** | `monitoring` | Debian 13 | 2 | 384 MB | `local:8G` | `192.168.64.107` | Monitoreo | Prometheus TSDB & Cuadros de Mando Grafana |
-| **109** | `gitea` | Debian 13 | 2 | 160 MB | `local:16G` | `192.168.64.109` | Desarrollo | Forge Git Autoalojado & Revisión de Código |
-| **111** | `woodpecker` | Debian 13 | 2 | 192 MB | `local:8G` | `192.168.64.111` | CI/CD | Motor de Compilación Automatizada Woodpecker CI |
-| **118** | `tempo` | Debian 13 | 2 | 256 MB | `local:8G` | `192.168.64.118` | Monitoreo | Backend de Rastreo Distribuido Grafana Tempo |
-| **120** | `gatus` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.120` | Monitoreo | Panel Automatizado de Estado de Servicios en Go |
-| **121** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.121` | Alertas | Hub de Notificaciones Push Privadas en Móvil |
-| **122** | `linkding` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.122` | Automatización | Gestor de Marcadores Web & Búsqueda Técnica |
-| **123** | `stepca` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.123` | Seguridad | Autoridad PKI Interna & Automatización TLS ACME |
-| **124** | `tailscale-arm` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.124` | VPN | Enrutador de Subred Tailscale (Segmento ARM64) |
-| **125** | `beszel` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.125` | Monitoreo | Telemetría de Sistema en Alta Resolución (1s) |
-| **134** | `homepage` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.134` | Dashboard | Tablero de Inicio Unificado para todo el Homelab |
-| **135** | `speedtest` | Alpine 3.24 | 1 | 96 MB | `local:1G` | `192.168.64.135` | Monitoreo | Telemetría Automatizada de Ancho de Banda y Jitter |
-| **136** | `memos` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.136` | Notas | Notas Rápidas Markdown & Microblogging |
-| **137** | `wallos` | Alpine 3.24 | 1 | 48 MB | `local:1G` | `192.168.64.137` | Finanzas | Rastreador de Gastos y Suscripciones Recurrentes |
-| **138** | `syncthing` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.138` | Storage | Sincronización Continua de Archivos P2P |
-| **139** | `microbin` | Alpine 3.24 | 1 | 16 MB | `local:1G` | `192.168.64.139` | Seguridad | Pastebin Cifrado con Autodestrucción en Rust |
-| **140** | `vikunja` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.140` | Tareas | Gestor de Proyectos y Tareas Kanban |
-| **141** | `blackbox` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.141` | Monitoreo | Sondas Prometheus (ICMP / Puertos / Expiración SSL) |
-| **142** | `yourspotify` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.142` | Estadísticas | Historial de Reproducción Privado & Estadísticas |
-| **143** | `webcheck` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.143` | OSINT | Escáner OSINT de Seguridad y Análisis de Dominios |
-| **144** | `opengist` | Alpine 3.24 | 1 | 48 MB | `local:1G` | `192.168.64.144` | Desarrollo | Almacenamiento Privado de Fragmentos de Código |
-| **145** | `flatnotes` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.145` | Notas | Editor Minimalista de Notas Markdown en Archivo |
-| **146** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.146` | Alertas | Retransmisor de Notificaciones Nativas Apple iOS |
-| **147** | `shiori` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.147` | Storage | Archivado Limpio de Páginas Web en Texto Plano |
-| **148** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.148` | Privacidad | Proxy Privado de Búsqueda de Google sin Tracking |
-| **149** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.149` | Dashboard | Página de Inicio Minimalista para Navegador |
+| **100** | `it-tools` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.100` | Utilidades | IT-Tools Colección de Herramientas Web para Desarrolladores |
+| **101** | `actualbudget` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.101` | Finanzas | Actual Budget Gestión Financiera Personal Local |
+| **102** | `trilium` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.102` | Notas | Base de Conocimiento y Notas Jerárquicas Markdown |
+| **103** | `changedetection` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.103` | Automatización | Monitoreo de Cambios en Páginas Web & Alertas |
+| **104** | `scrutiny` | Debian 13 | 1 | 128 MB | `local:2G` | `192.168.64.104` | Monitoreo | Telemetría S.M.A.R.T. de Salud de Discos Duros |
+| **105** | `uptimekuma` | Debian 13 | 1 | 128 MB | `local:2G` | `192.168.64.105` | Monitoreo | Monitoreo de Disponibilidad de Servicios & SLA |
+| **106** | `vaultwarden` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.106` | Seguridad | Gestor de Contraseñas Cifrado Bitwarden |
+| **107** | `monitoring` | Debian 13 | 2 | 384 MB | `local:2G` | `192.168.64.107` | Monitoreo | Prometheus TSDB & Cuadros de Mando Grafana |
+| **108** | `authelia` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.108` | Seguridad | Portal de Autenticación 2FA & SSO (FIDO2) |
+| **109** | `gitea` | Debian 13 | 2 | 160 MB | `local:2G` | `192.168.64.109` | Desarrollo | Forge Git Autoalojado & Revisión de Código |
+| **110** | `woodpecker` | Alpine 3.24 | 2 | 192 MB | `local:2G` | `192.168.64.110` | CI/CD | Motor de Compilación Automatizada Woodpecker CI |
+| **111** | `gatus` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.111` | Monitoreo | Panel Automatizado de Estado de Servicios en Go |
+| **112** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.112` | Alertas | Hub de Notificaciones Push Privadas en Móvil |
+| **113** | `linkding` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.122` | Automatización | Gestor de Marcadores Web & Búsqueda Técnica |
+| **114** | `stepca` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.114` | Seguridad | Autoridad PKI Interna & Automatización TLS ACME |
+| **115** | `tailscale-arm` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.115` | VPN | Enrutador de Subred Tailscale (Segmento ARM64) |
+| **116** | `beszel` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.116` | Monitoreo | Telemetría de Sistema en Alta Resolución (1s) |
+| **117** | `pocketbase` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.117` | Backend | Backend Completo en 1 Solo Archivo (SQLite) |
+| **118** | `homepage` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.118` | Dashboard | Tablero de Inicio Unificado para todo el Homelab |
+| **119** | `speedtest` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.119` | Monitoreo | Telemetría Automatizada de Ancho de Banda y Jitter |
+| **120** | `memos` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.120` | Notas | Notas Rápidas Markdown & Microblogging |
+| **121** | `wallos` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.121` | Finanzas | Rastreador de Gastos y Suscripciones Recurrentes |
+| **122** | `syncthing` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.122` | Storage | Sincronización Continua de Archivos P2P |
+| **123** | `microbin` | Alpine 3.24 | 1 | 16 MB | `local:2G` | `192.168.64.123` | Seguridad | Pastebin Cifrado con Autodestrucción en Rust |
+| **124** | `vikunja` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.124` | Tareas | Gestor de Proyectos y Tareas Kanban |
+| **125** | `blackbox` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.125` | Monitoreo | Sondas Prometheus (ICMP / Puertos / Expiración SSL) |
+| **126** | `yourspotify` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.126` | Estadísticas | Historial de Reproducción Privado & Estadísticas |
+| **127** | `webcheck` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.127` | OSINT | Escáner OSINT de Seguridad y Análisis de Dominios |
+| **128** | `opengist` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.128` | Desarrollo | Almacenamiento Privado de Fragmentos de Código |
+| **129** | `flatnotes` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.129` | Notas | Editor Minimalista de Notas Markdown en Archivo |
+| **130** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.130` | Alertas | Retransmisor de Notificaciones Nativas Apple iOS |
+| **131** | `shiori` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.131` | Storage | Archivado Limpio de Páginas Web en Texto Plano |
+| **132** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.132` | Privacidad | Proxy Privado de Búsqueda de Google sin Tracking |
+| **133** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.133` | Dashboard | Página de Inicio Minimalista para Navegador |
+| **134** | `dashy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.134` | Dashboard | Tablero de Inicio Totalmente Personalizable |
+| **135** | `shlink` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.135` | Productividad | Acortador de Enlaces con Métricas Geográficas |
+| **136** | `pastefy` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.136` | Productividad | Pastebin Seguro y Elegante con Soporte Markdown |
+| **137** | `pingvin` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.137` | Almacenamiento | Plataforma Privada de Compartición de Archivos |
+| **138** | `rssbridge` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.138` | Feeds | Generador de Feeds RSS para Sitios sin Soporte Nativo |
+| **139** | `playwright` | Alpine 3.24 | 2 | 192 MB | `local:2G` | `192.168.64.139` | Sonda | Worker Headless Browser para Renderizado Web |
+| **140** | `uptimechk` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.140` | Monitoreo | Sonda Secundaria de Verificación de Disponibilidad |
+| **141** | `dnsbench` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.141` | Red | Medición y Benchmarking de Latencia DNS |
+| **142** | `excalidraw` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.142` | Productividad | Pizarra Virtual Colaborativa Excalidraw |
+| **143** | `snagim` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.143` | Medios | Servidor Rápido de Alojamiento de Capturas |
+| **144** | `whoogletor` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.144` | Privacidad | Búsqueda Whoogle Enrutada vía Circuito Tor |
+| **145** | `heimdall` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.145` | Dashboard | Tablero de Aplicaciones con Estado en Tiempo Real |
+| **146** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.146` | Almacenamiento / Backup | Proxmox Backup Server (Deduplicación & Verificación) |
+| **147** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.147` | Gestión | Proxmox Datacenter Manager (Orquestador Multi-Cluster) |
+| **148** | `pmg` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.148` | Seguridad / Correo | Proxmox Mail Gateway (Protección Antispam & ClamAV) |
 
 ### Máquinas Virtuales QEMU / KVM
 

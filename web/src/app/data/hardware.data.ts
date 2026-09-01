@@ -39,7 +39,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 110-119: Ollama LLM, Open-WebUI, Paperless-ngx, MinIO S3, Transmission, Kavita, Stirling-PDF, Meilisearch, Vector, Faster-Whisper',
       'CT 120-129: SearXNG, Flowise, NetAlertX, RustDesk, Audiobookshelf, TubeArchivist, Kopia, WG-Easy, Calibre-Web, Code-Server IDE',
       'CT 130-139: pgAdmin4, CyberChef, Draw.io, Dozzle, Kiwix Wiki, RomM, EmulatorJS, HedgeDoc, Glances, Dufs',
-      'CT 140-148: Gotify, Miniflux, Grocy, Paperless-AI, Chrony NTP, Linkwarden, Beszel-Agent, SNMP Collector, SearXNG-Redis'
+      'CT 140-148: Gotify, Miniflux, Grocy, Paperless-AI, Chrony NTP, Linkwarden, Beszel-Agent, SNMP Collector, SearXNG-Redis',
+      'CT 149-151: Proxmox Backup Server (PBS), Proxmox Datacenter Manager (PDM), Proxmox Mail Gateway (PMG)'
     ]
   },
   {
@@ -69,7 +70,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     role: 'ARM64 development hypervisor, telemetry stack, Tempo distributed tracing, Homepage dashboard, Gatus health, and Go/Rust microservices',
     cpu: 'Apple M1 (8 Cores: 4 Performance Firestorm + 4 Efficiency Icestorm, 16-Core NPU)',
     ram: '8,192 MB Unified Memory (4,096 MB dedicated to UTM Proxmox ARM64 VM)',
-    storage: 'Apple APFS NVMe SSD Storage Pool',
+    storage: '55 GB NVMe SSD Pool (41 GB rootfs LVM Thin · 30 GB Available)',
     os: 'Proxmox VE on ARM via UTM (QEMU Apple Hypervisor.framework)',
     ip: '192.168.64.14',
     status: 'OPERATIONAL',
@@ -78,7 +79,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 110-119: Woodpecker CI, Gatus Health, ntfy Push, Linkding, Step-CA PKI, Tailscale ARM, Beszel Telemetry, PocketBase, Homepage, Speedtest-Tracker',
       'CT 120-129: Memos, Wallos, SyncThing, Microbin, Vikunja, Blackbox Exporter, YourSpotify, Web-Check OSINT, Opengist, Flatnotes',
       'CT 130-139: Bark Server, Shiori, Whoogle, Flame, Dashy, Shlink, Pastefy, Pingvin-Share, RSS-Bridge, Playwright-Probe',
-      'CT 140-145: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall'
+      'CT 140-148: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall, Proxmox Backup Server (PBS), Proxmox Datacenter Manager (PDM), Proxmox Mail Gateway (PMG)'
     ]
   },
   {
