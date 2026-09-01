@@ -7,4 +7,11 @@ services:
       - "8443:8443"
     environment:
       - TZ=Europe/Bucharest
-    command: ["sh", "-c", "while true; do sleep 3600; done"]
+      - PDM_HTTP_PORT=8443
+      - CLUSTER_PVE1=192.168.1.132:8006
+      - CLUSTER_PVE2=192.168.64.14:8006
+      - STORAGE_PBS1=192.168.1.149:8007
+      - STORAGE_PBS2=192.168.64.146:8007
+    volumes:
+      - ./data:/etc/proxmox-datacenter-manager
+
