@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../services/translation.service';
+import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
 
 interface PhotoItem {
   src: string;
@@ -26,13 +27,13 @@ interface PhotoItem {
             <span>PORTFOLIO & LIVE LAB GALLERY</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal">
-            {{ ts.isRomanian ? 'Despre Mine & Capturi Reale din Homelab' : 'About Me & Real Live Infrastructure' }}
+            {{ ts.isRomanian ? 'Despre Mine & Galeria Completă a Serviciilor' : 'About Me & Complete Services Fleet Gallery' }}
           </h2>
         </div>
         <p class="text-xs sm:text-sm text-slate-400 font-sans max-w-xl leading-relaxed">
           {{ ts.isRomanian 
-            ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de producție de către @stefanutc1. Mai jos sunt capturile din panourile reale de management Grafana, Proxmox VE (x86_64 și ARM64 Apple M1), Pi-hole, Home Assistant și OPNsense.' 
-            : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Below are real-time captures from the live management interfaces across x86_64, ARM64 Apple Silicon, and key services.' }}
+            ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale și a tuturor celor 83 de microservicii active cu capturi reale.' 
+            : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels and all 83 microservices.' }}
         </p>
       </div>
 
@@ -97,47 +98,118 @@ interface PhotoItem {
         </div>
       </div>
 
-      <!-- Photo Gallery Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (photo of photos; track photo.src) {
-          <div 
-            (click)="selectedPhoto.set(photo)"
-            class="group cursor-pointer rounded-2xl bg-[#0c0e11] border border-obsidian-750 overflow-hidden hover:border-emerald-500/50 transition-all duration-300 shadow-xl flex flex-col"
+      <!-- Tab Switcher: Core Panels (11) vs All Services (83) -->
+      <div class="flex items-center justify-between gap-4 mb-8">
+        <div class="flex items-center gap-2 font-mono text-xs">
+          <button
+            (click)="galleryTab.set('core')"
+            [class.bg-emerald-500]="galleryTab() === 'core'"
+            [class.text-slate-950]="galleryTab() === 'core'"
+            [class.font-bold]="galleryTab() === 'core'"
+            [class.bg-obsidian-900]="galleryTab() !== 'core'"
+            [class.text-slate-300]="galleryTab() !== 'core'"
+            class="px-4 py-2 rounded-xl border border-obsidian-700 transition-all shadow"
           >
-            <!-- Image Thumbnail -->
-            <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
-              <img 
-                [src]="photo.src" 
-                [alt]="photo.title"
-                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
-              
-              <!-- Badge -->
-              <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-emerald-400 shadow">
-                {{ photo.badge }}
-              </span>
-            </div>
-
-            <!-- Content -->
-            <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-              <div>
-                <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">{{ photo.category }}</span>
-                <h4 class="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors mt-0.5">
-                  {{ photo.title }}
-                </h4>
-                <p class="text-xs text-slate-300 font-sans mt-1.5 line-clamp-2 leading-relaxed">
-                  {{ photo.description }}
-                </p>
-              </div>
-              <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
-                <span>{{ photo.endpoint }}</span>
-                <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
-              </div>
-            </div>
-          </div>
-        }
+            {{ ts.isRomanian ? 'Panouri Principale Live' : 'Core Live Panels' }} ({{ photos.length }})
+          </button>
+          
+          <button
+            (click)="galleryTab.set('all')"
+            [class.bg-emerald-500]="galleryTab() === 'all'"
+            [class.text-slate-950]="galleryTab() === 'all'"
+            [class.font-bold]="galleryTab() === 'all'"
+            [class.bg-obsidian-900]="galleryTab() !== 'all'"
+            [class.text-slate-300]="galleryTab() !== 'all'"
+            class="px-4 py-2 rounded-xl border border-obsidian-700 transition-all shadow"
+          >
+            {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 83 Services Fleet' }} ({{ allServices.length }})
+          </button>
+        </div>
+        
+        <div class="hidden sm:block text-xs font-mono text-slate-400">
+          {{ galleryTab() === 'core' ? '11 Panouri Live Capturate' : '83 Servicii Documentate & Capturate' }}
+        </div>
       </div>
+
+      <!-- Core Panels Gallery Grid -->
+      @if (galleryTab() === 'core') {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (photo of photos; track photo.src) {
+            <div 
+              (click)="selectedPhoto.set(photo)"
+              class="group cursor-pointer rounded-2xl bg-[#0c0e11] border border-obsidian-750 overflow-hidden hover:border-emerald-500/50 transition-all duration-300 shadow-xl flex flex-col"
+            >
+              <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
+                <img 
+                  [src]="photo.src" 
+                  [alt]="photo.title"
+                  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
+                <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-emerald-400 shadow">
+                  {{ photo.badge }}
+                </span>
+              </div>
+
+              <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                <div>
+                  <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">{{ photo.category }}</span>
+                  <h4 class="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors mt-0.5">
+                    {{ photo.title }}
+                  </h4>
+                  <p class="text-xs text-slate-300 font-sans mt-1.5 line-clamp-2 leading-relaxed">
+                    {{ photo.description }}
+                  </p>
+                </div>
+                <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
+                  <span>{{ photo.endpoint }}</span>
+                  <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- All 83 Services Fleet Gallery Grid -->
+      @if (galleryTab() === 'all') {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (s of allServices; track s.id) {
+            <div 
+              (click)="openServiceModal(s)"
+              class="group cursor-pointer rounded-2xl bg-[#0c0e11] border border-obsidian-750 overflow-hidden hover:border-emerald-500/50 transition-all duration-300 shadow-xl flex flex-col"
+            >
+              <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
+                <img 
+                  [src]="'photos/services/' + s.id + '.png'" 
+                  [alt]="s.name"
+                  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
+                <span class="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-emerald-400 shadow">
+                  {{ s.category.toUpperCase() }}
+                </span>
+              </div>
+
+              <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                <div>
+                  <span class="text-[10px] font-mono text-slate-400">{{ s.node }}</span>
+                  <h4 class="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors mt-0.5">
+                    {{ s.name }}
+                  </h4>
+                  <p class="text-xs text-slate-300 font-sans mt-1.5 line-clamp-2 leading-relaxed">
+                    {{ s.description }}
+                  </p>
+                </div>
+                <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
+                  <span>{{ s.ip }}:{{ s.port }}</span>
+                  <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">Panou HD ↗</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
 
       <!-- Lightbox Zoom Modal -->
       @if (selectedPhoto(); as p) {
@@ -182,7 +254,9 @@ interface PhotoItem {
 })
 export class AboutGalleryComponent {
   ts = inject(TranslationService);
+  galleryTab = signal<'core' | 'all'>('core');
   selectedPhoto = signal<PhotoItem | null>(null);
+  allServices = SERVICES_DATA;
 
   photos: PhotoItem[] = [
     {
@@ -274,4 +348,15 @@ export class AboutGalleryComponent {
       badge: 'DOT QUAD9'
     }
   ];
+
+  openServiceModal(s: ServiceItem) {
+    this.selectedPhoto.set({
+      src: 'photos/services/' + s.id + '.png',
+      title: s.name,
+      category: s.category.toUpperCase() + ' · ' + s.node,
+      description: s.description,
+      endpoint: s.ip + ':' + s.port + ' | ' + s.domain,
+      badge: s.status
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
 import { TOPOLOGY_NODES, TopologyNode } from '../../data/topology.data';
@@ -21,7 +21,9 @@ import { TranslationService } from '../../services/translation.service';
             {{ ts.t.srvTitle }}
           </h2>
           <p class="text-sm text-slate-300 max-w-2xl font-sans font-normal leading-relaxed">
-            {{ ts.t.srvDesc }}
+            {{ ts.isRomanian 
+              ? 'Catalogul complet cu toate cele 83 de microservicii și componente de infrastructură. Fiecare serviciu include captură HD de interfață, telemetrie în timp real și alocare hardware.' 
+              : 'Complete catalog of all 83 active homelab microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.' }}
           </p>
         </div>
 
@@ -50,21 +52,40 @@ import { TranslationService } from '../../services/translation.service';
             [class.hover:text-slate-50]="activeCategory !== cat.id"
             class="px-3.5 py-2 rounded-xl text-xs font-medium border border-obsidian-700 transition-all whitespace-nowrap"
           >
-            {{ cat.label }}
+            {{ cat.label }} ({{ getCategoryCount(cat.id) }})
           </button>
         }
       </div>
 
       <!-- Services Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-sans">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
         @for (srv of filteredServices; track srv.id) {
-          <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 hover:border-obsidian-600 transition-all flex flex-col justify-between group shadow-lg">
+          <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 hover:border-emerald-500/40 transition-all flex flex-col justify-between group shadow-xl">
             
             <div class="space-y-3.5">
+              
+              <!-- Screenshot Thumbnail Preview with Lightbox Trigger -->
+              <div 
+                (click)="selectedServicePhoto.set(srv)"
+                class="relative aspect-video w-full rounded-xl overflow-hidden bg-obsidian-950 border border-obsidian-750 cursor-pointer group-hover:border-emerald-500/30 transition-all shadow-inner"
+              >
+                <img 
+                  [src]="'photos/services/' + srv.id + '.png'" 
+                  [alt]="srv.name" 
+                  class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  (error)="onScreenshotError($event)"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 via-transparent to-transparent"></div>
+                <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian-900/90 border border-obsidian-700 font-mono text-[10px] text-emerald-400 font-bold flex items-center gap-1 shadow">
+                  <span>Screenshot HD</span>
+                  <span>↗</span>
+                </div>
+              </div>
+
               <!-- Top Row: Icon & Status -->
-              <div class="flex items-start justify-between gap-3">
+              <div class="flex items-start justify-between gap-3 pt-1">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-xl bg-obsidian-900 border border-obsidian-750 p-2 flex items-center justify-center">
+                  <div class="w-10 h-10 rounded-xl bg-obsidian-900 border border-obsidian-750 p-2 flex items-center justify-center shrink-0">
                     <img [src]="'icons/' + srv.icon + '.svg'" [alt]="srv.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
                   </div>
                   <div>
@@ -77,13 +98,13 @@ import { TranslationService } from '../../services/translation.service';
                   </div>
                 </div>
 
-                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
                   {{ srv.status }}
                 </span>
               </div>
 
               <!-- Description -->
-              <p class="text-xs text-slate-300 leading-relaxed font-sans font-normal">
+              <p class="text-xs text-slate-300 leading-relaxed font-sans font-normal line-clamp-2">
                 {{ srv.description }}
               </p>
 
@@ -98,7 +119,7 @@ import { TranslationService } from '../../services/translation.service';
                 </div>
               }
 
-              <!-- Hardware Allocations (IBM Plex Mono) -->
+              <!-- Hardware Allocations -->
               <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
                 <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750">
                   <div class="text-[9px] text-slate-400 uppercase">{{ ts.t.srvRamCeiling }}</div>
@@ -118,8 +139,15 @@ import { TranslationService } from '../../services/translation.service';
               </div>
             </div>
 
-            <!-- Focus in 3D Button -->
+            <!-- Actions Row -->
             <div class="pt-4 mt-4 border-t border-obsidian-750 flex items-center justify-between font-mono">
+              <button
+                (click)="selectedServicePhoto.set(srv)"
+                class="text-xs text-slate-300 hover:text-emerald-400 flex items-center gap-1 transition-colors"
+              >
+                <span>🔍 Panou HD</span>
+              </button>
+              
               <button
                 (click)="focusNodeInTopology(srv)"
                 class="text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1.5 transition-colors"
@@ -133,6 +161,53 @@ import { TranslationService } from '../../services/translation.service';
         }
       </div>
 
+      <!-- Service Screenshot Lightbox Modal -->
+      @if (selectedServicePhoto(); as s) {
+        <div 
+          (click)="selectedServicePhoto.set(null)"
+          class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200"
+        >
+          <div 
+            (click)="$event.stopPropagation()"
+            class="max-w-5xl w-full bg-obsidian-900 border border-obsidian-750 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+          >
+            <!-- Modal Header -->
+            <div class="p-4 sm:p-5 border-b border-obsidian-750 flex items-center justify-between bg-obsidian-950 font-sans">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-obsidian-900 border border-obsidian-750 p-2 flex items-center justify-center">
+                  <img [src]="'icons/' + s.icon + '.svg'" [alt]="s.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
+                </div>
+                <div>
+                  <span class="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">{{ s.category }} · {{ s.node }}</span>
+                  <h3 class="text-lg font-bold text-slate-100">{{ s.name }}</h3>
+                </div>
+              </div>
+              <button 
+                (click)="selectedServicePhoto.set(null)"
+                class="w-8 h-8 rounded-full bg-obsidian-800 hover:bg-obsidian-700 text-slate-300 flex items-center justify-center text-sm font-mono transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            <!-- Modal Image -->
+            <div class="flex-1 overflow-auto p-2 bg-black flex items-center justify-center">
+              <img [src]="'photos/services/' + s.id + '.png'" [alt]="s.name" class="max-w-full max-h-[65vh] object-contain rounded-lg" />
+            </div>
+
+            <!-- Modal Footer Details -->
+            <div class="p-4 sm:p-5 border-t border-obsidian-750 bg-obsidian-950 font-sans text-xs text-slate-300 flex flex-col sm:flex-row justify-between gap-3">
+              <p class="leading-relaxed max-w-2xl">{{ s.description }}</p>
+              <div class="font-mono text-emerald-400 self-start sm:self-auto flex items-center gap-2">
+                <span>{{ s.ip }}:{{ s.port }}</span>
+                <span class="text-slate-500">|</span>
+                <span class="text-slate-400">{{ s.domain }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
     </section>
   `
 })
@@ -143,6 +218,7 @@ export class ServiceMatrixComponent {
   services: ServiceItem[] = SERVICES_DATA;
   searchQuery = '';
   activeCategory = 'all';
+  selectedServicePhoto = signal<ServiceItem | null>(null);
 
   getCategories() {
     return [
@@ -155,6 +231,11 @@ export class ServiceMatrixComponent {
       { id: 'automation', label: this.ts.t.srvCatAutomation },
       { id: 'cyber', label: this.ts.t.srvCatCyber }
     ];
+  }
+
+  getCategoryCount(catId: string): number {
+    if (catId === 'all') return this.services.length;
+    return this.services.filter(s => s.category === catId).length;
   }
 
   get filteredServices(): ServiceItem[] {
@@ -177,6 +258,10 @@ export class ServiceMatrixComponent {
   }
 
   onImgError(e: Event) {
+    (e.target as HTMLElement).style.display = 'none';
+  }
+
+  onScreenshotError(e: Event) {
     (e.target as HTMLElement).style.display = 'none';
   }
 
