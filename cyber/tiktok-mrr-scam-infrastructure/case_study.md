@@ -4,7 +4,7 @@
 | :--- | :--- |
 | **Case ID** | `SEC-2025-MRR-001` |
 | **Target Infrastructure** | TikTok In-App Browsers, Link-in-Bio Funnels, Stan.store, Stripe Connect, PayPal API |
-| **Primary Incident Date** | 2025-06-14 (Abuse Report Dispatched: 2025-04-18 21:22:00 EEST) |
+| **Primary Incident Date** | 2025-06-14 (Abuse Report Dispatched: 2026-04-18 21:22:00 EEST) |
 | **Evidence Custody Hash** | `4b91f0c2a83e1679901d8e1245ba890123ef456789abcdef0123456789abcdef` (SHA-256) |
 | **Classification** | `TLP:CLEAR` |
 | **Author** | `@stefanutc1` |
@@ -13,7 +13,7 @@
 
 ## 1. Threat Narrative & Incident Context
 
-Between April and June 2025, an extensive forensic evaluation was conducted into automated "faceless" digital marketing funnels operating across social media platforms, with a primary focus on TikTok algorithmic feeds targeting users in Romania, Eastern Europe, and the Balkan region.
+Between June 2025 and April 2026, an extensive forensic evaluation was conducted into automated "faceless" digital marketing funnels operating across social media platforms, with a primary focus on TikTok algorithmic feeds targeting users in Romania, Eastern Europe, and the Balkan region.
 
 On June 14, 2025, a real-world incident was documented involving an acquaintance who was persuaded by targeted TikTok short-form video hooks to purchase a $497 "Digital Wealth & Marketing Accelerator" course hosted on a `stan.store` merchant landing page.
 
@@ -29,7 +29,7 @@ This model constitutes a classic recursive pyramid scheme disguised as digital e
 
 Prior to public research archiving, formal abuse notifications were transmitted to the hosting platform's Trust & Safety infrastructure, the underlying payment acquirers, and consumer protection bodies.
 
-### Official Abuse Notice Dispatched (Dispatched: Sat, 18 Apr 2025, 21:22:00 EEST)
+### Official Abuse Notice Dispatched (Dispatched: Sat, 18 Apr 2026, 21:22:00 EEST)
 
 ```text
 To: abuse@stan.store, compliance@stan.store

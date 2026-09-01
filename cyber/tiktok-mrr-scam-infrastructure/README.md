@@ -5,7 +5,7 @@
 | **Classification** | `TLP:CLEAR` |
 | **Standards Compliance** | ISO/IEC 27037:2012 (Digital Evidence Handling), RFC 9116 |
 | **Investigation Timeline** | 19 sequential investigation commits spanning 14.06.2025 to 19.04.2026 |
-| **Primary Incident Date** | 2025-06-14 (Abuse Escalation Dispatched: 2025-04-18) |
+| **Primary Incident Date** | 2025-06-14 (Abuse Escalation Dispatched: 2026-04-18) |
 | **Target Demographics** | Romania, Eastern Europe, and Balkan Regional Userbase |
 | **Primary Platforms** | TikTok (Algorithmic Funnels), Stan.store (Hosting), Stripe / PayPal (Settlement) |
 | **MITRE ATT&CK Mapping** | T1566.002 (Spearphishing Link), T1583.008 (Financial Intermediary Abuse) |
