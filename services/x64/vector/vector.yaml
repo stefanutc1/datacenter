@@ -1,0 +1,12 @@
+sources:
+  syslog:
+    type: syslog
+    address: 0.0.0.0:514
+    mode: udp
+
+sinks:
+  console:
+    type: console
+    inputs: ['syslog']
+    encoding:
+      codec: json

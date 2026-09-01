@@ -1,0 +1,38 @@
+services:
+  tubearchivist:
+    image: bbilly1/tubearchivist:latest
+    container_name: tubearchivist
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    environment:
+      - ES_URL=http://archivist-es:9200
+      - REDIS_HOST=archivist-redis
+      - HOST_UID=1000
+      - HOST_GID=1000
+      - TA_USERNAME=admin
+      - TA_PASSWORD=tubearchivist_password
+    volumes:
+      - ./media:/youtube
+      - ./cache:/cache
+    depends_on:
+      - archivist-es
+      - archivist-redis
+
+  archivist-redis:
+    image: redis/redis-stack-server:latest
+    container_name: archivist-redis
+    restart: unless-stopped
+    volumes:
+      - ./redis:/data
+
+  archivist-es:
+    image: bbilly1/tubearchivist-es:latest
+    container_name: archivist-es
+    restart: unless-stopped
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+    volumes:
+      - ./es:/usr/share/elasticsearch/data

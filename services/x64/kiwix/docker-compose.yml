@@ -1,0 +1,10 @@
+services:
+  kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:latest
+    container_name: kiwix
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    volumes:
+      - ./zim:/data
+    command: "*.zim"

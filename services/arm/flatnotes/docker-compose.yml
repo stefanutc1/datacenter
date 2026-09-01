@@ -1,0 +1,11 @@
+services:
+  flatnotes:
+    image: dullage/flatnotes:latest
+    container_name: flatnotes
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    environment:
+      - FLATNOTES_AUTH_TYPE=none
+    volumes:
+      - ./data:/data

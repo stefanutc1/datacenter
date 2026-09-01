@@ -1,0 +1,10 @@
+services:
+  wallos:
+    image: bellis/wallos:latest
+    container_name: wallos
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./data:/var/www/html/db
+      - ./logos:/var/www/html/images/uploads/logos

@@ -1,0 +1,9 @@
+services:
+  vikunja:
+    image: vikunja/vikunja:latest
+    container_name: vikunja
+    restart: unless-stopped
+    ports:
+      - '3456:3456'
+    volumes:
+      - ./files:/app/vikunja/files

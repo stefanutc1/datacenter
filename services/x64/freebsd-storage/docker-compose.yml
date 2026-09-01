@@ -1,0 +1,3 @@
+# FreeBSD 14.1-RELEASE (VM 203)
+# ZFS & Unix Storage Lab: Native ZFS Pool Replication, BSD Jails, bhyve Virtualization
+# Managed via /etc/rc.conf, ezjail, and ZFS CLI

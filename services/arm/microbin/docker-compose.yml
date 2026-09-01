@@ -1,0 +1,12 @@
+services:
+  microbin:
+    image: danielszabo99/microbin:latest
+    container_name: microbin
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    environment:
+      - MICROBIN_HIGHLIGHTSYNTAX=true
+      - MICROBIN_EDITABLE=true
+    volumes:
+      - ./microbin_data:/app/microbin_data

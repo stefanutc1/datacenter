@@ -1,0 +1,21 @@
+services:
+  your_spotify_server:
+    image: yooooomi/your_spotify_server:latest
+    container_name: your_spotify_server
+    restart: unless-stopped
+    environment:
+      - API_ENDPOINT=http://192.168.64.142:8080
+      - CLIENT_ENDPOINT=http://192.168.64.142:3000
+      - SPOTIFY_PUBLIC=dummy_public_key
+      - SPOTIFY_SECRET=dummy_secret_key
+    ports:
+      - '8080:8080'
+
+  your_spotify_web:
+    image: yooooomi/your_spotify_client:latest
+    container_name: your_spotify_client
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - API_ENDPOINT=http://192.168.64.142:8080

@@ -1,0 +1,9 @@
+services:
+  speedtest-tracker:
+    image: linuxserver/speedtest-tracker:latest
+    container_name: speedtest-tracker
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./config:/config

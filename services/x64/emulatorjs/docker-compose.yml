@@ -1,0 +1,15 @@
+services:
+  emulatorjs:
+    image: lscr.io/linuxserver/emulatorjs:latest
+    container_name: emulatorjs
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Bucharest
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    ports:
+      - '80:80'
+      - '3000:3000'

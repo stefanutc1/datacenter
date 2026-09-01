@@ -1,0 +1,13 @@
+services:
+  kopia:
+    image: kopia/kopia:latest
+    container_name: kopia
+    restart: unless-stopped
+    ports:
+      - '51515:51515'
+    volumes:
+      - ./config:/app/config
+      - ./cache:/app/cache
+      - ./logs:/app/logs
+      - /mnt/storage:/data:ro
+    command: server --insecure --address=0.0.0.0:51515

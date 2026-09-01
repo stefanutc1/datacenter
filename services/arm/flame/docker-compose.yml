@@ -1,0 +1,9 @@
+services:
+  flame:
+    image: pawelmalak/flame:latest
+    container_name: flame
+    restart: unless-stopped
+    ports:
+      - '5005:5005'
+    volumes:
+      - ./data:/app/data

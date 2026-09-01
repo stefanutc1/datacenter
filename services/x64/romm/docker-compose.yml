@@ -1,0 +1,33 @@
+services:
+  romm:
+    image: zurdi15/romm:latest
+    container_name: romm
+    restart: unless-stopped
+    environment:
+      - DB_HOST=romm-db
+      - DB_NAME=romm
+      - DB_USER=romm-user
+      - DB_PASSWD=romm-password
+      - ROMM_AUTH_SECRET_KEY=secret_romm_key
+    volumes:
+      - ./resources:/romm/resources
+      - ./redis-data:/redis-data
+      - ./library:/romm/library
+      - ./assets:/romm/assets
+      - ./config:/romm/config
+    ports:
+      - '8080:8080'
+    depends_on:
+      - romm-db
+
+  romm-db:
+    image: mariadb:latest
+    container_name: romm-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root-secret-password
+      - MYSQL_DATABASE=romm
+      - MYSQL_USER=romm-user
+      - MYSQL_PASSWORD=romm-password
+    volumes:
+      - ./mysql-data:/var/lib/mysql
