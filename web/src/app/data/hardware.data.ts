@@ -37,7 +37,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     storage: '512 GB SSD (Local LVM Thin Pool · 310 GB Available)',
     psu: 'Coldex 350W Pure Sine Wave Power Supply',
     os: 'Proxmox VE 9.2 (Linux 7.0 pve kernel · zram-tools enabled)',
-    ip: '192.168.1.132 (OPNsense: 192.168.1.132:8443)',
+    ip: '192.168.1.132 (OPNsense: 192.168.1.134:8443)',
     status: 'OPERATIONAL',
     tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'ZRAM lz4 (3.8GB)', 'PCIe GPU Passthrough', 'VirtIO Ballooning', 'Enterprise VMs'],
     ballooningTable: [

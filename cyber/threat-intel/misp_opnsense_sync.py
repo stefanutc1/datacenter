@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 
 MISP_URL = os.getenv("MISP_URL", "https://misp.homelab.local")
 MISP_API_KEY = os.getenv("MISP_API_KEY", "")
-OPNSENSE_URL = os.getenv("OPNSENSE_URL", "https://192.168.1.132:8443")
+OPNSENSE_URL = os.getenv("OPNSENSE_URL", "https://192.168.1.134:8443")
 OPNSENSE_KEY = os.getenv("OPNSENSE_KEY", "")
 OPNSENSE_SECRET = os.getenv("OPNSENSE_SECRET", "")
 

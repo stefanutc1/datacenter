@@ -61,7 +61,7 @@ graph TB
 
 ```mermaid
 graph LR
-    WAN["Internet Uplink"] --> OPNsense["OPNsense Firewall (192.168.1.132:8443)"]
+    WAN["Internet Uplink"] --> OPNsense["OPNsense Firewall (192.168.1.134:8443)"]
 
     OPNsense --> VLAN1["VLAN 1: Management (192.168.1.0/24)<br/>Proxmox VE · NAS · Switches · IPMI"]
     OPNsense --> VLAN10["VLAN 10: Ingress & Core (192.168.10.0/24)<br/>NPM Reverse Proxy · Authelia SSO · Pi-hole DNS"]
@@ -122,7 +122,7 @@ ELO delegates background operational tasks to modular scripts and agents:
 
 1.  **SecOps Threat-Hunter Agent (`elo_core.agents.secops_agent`)**:
    - Correlates Wazuh XDR and Suricata NIDS event streams.
-   - Automatically isolates brute-force attackers by injecting stateful blacklist rules on OPNsense (`192.168.1.132:8443`).
+   - Automatically isolates brute-force attackers by injecting stateful blacklist rules on OPNsense (`192.168.1.134:8443`).
 2.  **SysAdmin Optimizer Agent (`elo_core.agents.sysadmin_agent`)**:
    - Monitors cluster memory utilization across nodes.
    - Triggers Kernel Samepage Merging (KSM) deduplication and purges dangling container image caches.

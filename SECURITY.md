@@ -26,7 +26,7 @@ graph TD
     end
 
     subgraph EDGE["Perimeter & Edge Defense"]
-        OPNsense["OPNsense Firewall (192.168.1.132:8443)"]
+        OPNsense["OPNsense Firewall (192.168.1.134:8443)"]
         CrowdSec["CrowdSec LAPI & Remediation Bouncer"]
         Suricata["Suricata NIDS Deep Packet Inspection"]
     end

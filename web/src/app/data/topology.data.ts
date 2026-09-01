@@ -54,7 +54,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     id: 'opnsense-gw',
     name: 'OPNsense Firewall',
     sublabel: 'VM 200 · Hardened FreeBSD',
-    ip: '192.168.1.132',
+    ip: '192.168.1.134',
     port: 8443,
     category: 'security',
     tier: 1,

@@ -115,7 +115,7 @@ The on-premise cluster is extended into a true hybrid multi-cloud topology acros
 flowchart TB
     subgraph OnPrem["🏠 ON-PREMISE HYBRID HOMELAB"]
         direction TB
-        OPN["OPNsense Firewall (192.168.1.132:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+        OPN["OPNsense Firewall (192.168.1.134:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
         PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
         ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
         OPN --- PVE --- ZFS
