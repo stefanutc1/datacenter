@@ -47,7 +47,7 @@ graph TD
         ZFS["ZFS Dataset Snapshots & Predictive Healer"]
     end
 
-    WAN -->|Stateful Inspection| OPNsense
+    WAN -->|"Stateful Inspection"| OPNsense
     OPNsense --> CrowdSec
     OPNsense --> Suricata
     OPNsense --> NPM

@@ -64,7 +64,7 @@ MQTT to Home Assistant"]
     OPN --> VPN
     OBS --> PLATFORM
     K8S --> PLATFORM
-    EDGE -.->|Telemetry / MQTT| PLATFORM
+    EDGE -.->|"Telemetry / MQTT"| PLATFORM
 ```
 
 ---

@@ -42,14 +42,14 @@ flowchart TD
         REVERSING["Ghidra • IDA Pro • x64dbg"]
     end
 
-    CTRL -->|SSH / WinRM| WIN & NODE1 & NODE2
-    WIN -->|Sysmon Logs| WAZUH
-    NODE1 -->|Auditd & Promtail| LOKI
-    NODE2 -->|Traffic Mirror| WIRESHARK & SURICATA
-    SURICATA -->|EVE JSON| LOKI
+    CTRL -->|"SSH / WinRM"| WIN & NODE1 & NODE2
+    WIN -->|"Sysmon Logs"| WAZUH
+    NODE1 -->|"Auditd & Promtail"| LOKI
+    NODE2 -->|"Traffic Mirror"| WIRESHARK & SURICATA
+    SURICATA -->|"EVE JSON"| LOKI
     WAZUH --> SIEMS
     WAZUH --> INTEL
-    DFIR_LAB -.->|Isolated Artifact Analysis| INTEL
+    DFIR_LAB -.->|"Isolated Artifact Analysis"| INTEL
 ```
 
 ## Technology Matrix & Tooling Inventory

@@ -48,11 +48,11 @@ graph TB
         ESP_SERVER["ESP32: Server Room (Temp / Humidity)"]
     end
 
-    NODE1 <-->|1 Gbps Ethernet + Tailscale Mesh| NODE2
-    NODE1 <-->|1 Gbps Ethernet + Wireguard| NODE3
-    NODE1 <-->|1 Gbps Ethernet| NODE4
-    EDGE -->|MQTT Telemetry| LXC_STACK
-    LXC_STACK <-->|Control Plane Rest API| ELO_ENGINE
+    NODE1 <-->|"1 Gbps Ethernet + Tailscale Mesh"| NODE2
+    NODE1 <-->|"1 Gbps Ethernet + Wireguard"| NODE3
+    NODE1 <-->|"1 Gbps Ethernet"| NODE4
+    EDGE -->|"MQTT Telemetry"| LXC_STACK
+    LXC_STACK <-->|"Control Plane Rest API"| ELO_ENGINE
 ```
 
 ---
@@ -108,10 +108,10 @@ ELO implements an automated failover router across available LLM providers:
 ```mermaid
 graph TD
     Request["Incoming AI Request"] --> T1["Tier 1: Google Gemini (Gemini 2.5 Flash)"]
-    T1 -->|Rate Limit / 429| T2["Tier 2: Groq (Llama 3.3 70B)"]
-    T2 -->|Rate Limit / Quota| T3["Tier 3: OpenRouter Hub"]
-    T3 -->|Offline / No WAN| T4["Tier 4: Local Ollama (Apple M1)"]
-    T4 -->|Daemon Offline| T5["Tier 5: Deterministic Fallback"]
+    T1 -->|"Rate Limit / 429"| T2["Tier 2: Groq (Llama 3.3 70B)"]
+    T2 -->|"Rate Limit / Quota"| T3["Tier 3: OpenRouter Hub"]
+    T3 -->|"Offline / No WAN"| T4["Tier 4: Local Ollama (Apple M1)"]
+    T4 -->|"Daemon Offline"| T5["Tier 5: Deterministic Fallback"]
 ```
 
 ---

@@ -35,9 +35,9 @@ flowchart TB
         VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
     end
 
-    OnPrem -->|IPsec / WireGuard VPN| Azure
-    OnPrem -->|OIDC Token / HA VPN| GCP
-    OnPrem -->|Glacier Sync / IPsec Tunnel| AWS
+    OnPrem -->|"IPsec / WireGuard VPN"| Azure
+    OnPrem -->|"OIDC Token / HA VPN"| GCP
+    OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
 ```
 
 ---

@@ -73,16 +73,16 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph WAN_Edge["Périmètre & Ingress Externe"]
-        CF["Cloudflare WAF / CDN"] -->|Tunnel Chiffré| VPS["Passerelle VPS WireGuard"]
-        VPS -->|VPN Multi-Homed| OPN["Pare-feu OPNsense (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+        CF["Cloudflare WAF / CDN"] -->|"Tunnel Chiffré"| VPS["Passerelle VPS WireGuard"]
+        VPS -->|"VPN Multi-Homed"| OPN["Pare-feu OPNsense (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
     end
 
     subgraph Network_VLANs["Réseaux Virtuels Segmentés (VLANs)"]
-        OPN -->|VLAN 10: 192.168.1.0/24| V10["VLAN 10: Gestion & Stockage<br/>Proxmox VE · NAS OMV · IPMI"]
-        OPN -->|VLAN 20: 192.168.20.0/24| V20["VLAN 20: Microservices Core<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
-        OPN -->|VLAN 30: 192.168.30.0/24| V30["VLAN 30: CyberLab & Bacs à Sable<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
-        OPN -->|VLAN 40: 192.168.40.0/24| V40["VLAN 40: DMZ Leurre<br/>Pots de Miel T-Pot · AbuseIPDB"]
-        OPN -->|VLAN 50: 192.168.50.0/24| V50["VLAN 50: IoT & Capteurs Edge<br/>ESP32 mmWave · Zigbee · Home Assistant"]
+        OPN -->|"VLAN 10: 192.168.1.0/24"| V10["VLAN 10: Gestion & Stockage<br/>Proxmox VE · NAS OMV · IPMI"]
+        OPN -->|"VLAN 20: 192.168.20.0/24"| V20["VLAN 20: Microservices Core<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
+        OPN -->|"VLAN 30: 192.168.30.0/24"| V30["VLAN 30: CyberLab & Bacs à Sable<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
+        OPN -->|"VLAN 40: 192.168.40.0/24"| V40["VLAN 40: DMZ Leurre<br/>Pots de Miel T-Pot · AbuseIPDB"]
+        OPN -->|"VLAN 50: 192.168.50.0/24"| V50["VLAN 50: IoT & Capteurs Edge<br/>ESP32 mmWave · Zigbee · Home Assistant"]
     end
 
     subgraph Compute_Layer["Parc de Virtualisation Multi-Nœuds"]
@@ -138,9 +138,9 @@ flowchart TB
         VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
     end
 
-    OnPrem -->|IPsec / WireGuard VPN| Azure
-    OnPrem -->|OIDC Token / HA VPN| GCP
-    OnPrem -->|Glacier Sync / IPsec Tunnel| AWS
+    OnPrem -->|"IPsec / WireGuard VPN"| Azure
+    OnPrem -->|"OIDC Token / HA VPN"| GCP
+    OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
 ```
 
 ### Cloud Integration & Zero-Cost Tiering Matrix

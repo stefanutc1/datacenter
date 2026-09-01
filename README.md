@@ -79,16 +79,16 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph WAN_Edge["Perimeter & External Ingress"]
-        CF["Cloudflare WAF / CDN"] -->|Encrypted Tunnel| VPS["VPS WireGuard Gateway"]
-        VPS -->|Dual-Homed VPN| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+        CF["Cloudflare WAF / CDN"] -->|"Encrypted Tunnel"| VPS["VPS WireGuard Gateway"]
+        VPS -->|"Dual-Homed VPN"| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
     end
 
     subgraph Network_VLANs["Segmented Virtual Local Area Networks"]
-        OPN -->|VLAN 10: 192.168.1.0/24| V10["VLAN 10: Management & Storage<br/>Proxmox VE · OMV NAS · IPMI"]
-        OPN -->|VLAN 20: 192.168.20.0/24| V20["VLAN 20: Core Microservices<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
-        OPN -->|VLAN 30: 192.168.30.0/24| V30["VLAN 30: CyberLab & Sandboxes<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
-        OPN -->|VLAN 40: 192.168.40.0/24| V40["VLAN 40: DMZ Deception<br/>T-Pot Multi-Honeypots · AbuseIPDB"]
-        OPN -->|VLAN 50: 192.168.50.0/24| V50["VLAN 50: IoT & Edge Sensors<br/>ESP32 mmWave · Zigbee · Home Assistant"]
+        OPN -->|"VLAN 10: 192.168.1.0/24"| V10["VLAN 10: Management & Storage<br/>Proxmox VE · OMV NAS · IPMI"]
+        OPN -->|"VLAN 20: 192.168.20.0/24"| V20["VLAN 20: Core Microservices<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
+        OPN -->|"VLAN 30: 192.168.30.0/24"| V30["VLAN 30: CyberLab & Sandboxes<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
+        OPN -->|"VLAN 40: 192.168.40.0/24"| V40["VLAN 40: DMZ Deception<br/>T-Pot Multi-Honeypots · AbuseIPDB"]
+        OPN -->|"VLAN 50: 192.168.50.0/24"| V50["VLAN 50: IoT & Edge Sensors<br/>ESP32 mmWave · Zigbee · Home Assistant"]
     end
 
     subgraph Compute_Layer["Hybrid Multi-Node Virtualization Fleet"]
@@ -184,9 +184,9 @@ flowchart TB
         VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
     end
 
-    OnPrem -->|IPsec / WireGuard VPN| Azure
-    OnPrem -->|OIDC Token / HA VPN| GCP
-    OnPrem -->|Glacier Sync / IPsec Tunnel| AWS
+    OnPrem -->|"IPsec / WireGuard VPN"| Azure
+    OnPrem -->|"OIDC Token / HA VPN"| GCP
+    OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
 ```
 
 ### Cloud Integration & Zero-Cost Tiering Matrix
@@ -236,10 +236,10 @@ flowchart TD
     UPS --> PDU["Smart Energy Metered PDU"]
     PDU --> Node1 & Node2 & Node3 & Node4 & Switch["Managed PoE+ Switch"]
 
-    UPS -.->|USB HID Telemetry| NUT_Master["NUT Server (Network UPS Tools)<br/>Node 1 (192.168.1.132)"]
-    NUT_Master -->|Power Outage Event| Timer{"On Battery > 15 Mins OR<br/>Battery Charge < 25%"}
+    UPS -.->|"USB HID Telemetry"| NUT_Master["NUT Server (Network UPS Tools)<br/>Node 1 (192.168.1.132)"]
+    NUT_Master -->|"Power Outage Event"| Timer{"On Battery > 15 Mins OR<br/>Battery Charge < 25%"}
     
-    Timer -->|YES| Graceful_Shutdown["Controlled Sequential Shutdown Sequence"]
+    Timer -->|"YES"| Graceful_Shutdown["Controlled Sequential Shutdown Sequence"]
     Graceful_Shutdown --> S1["1. Stop Non-Critical LXCs (Media, Nextcloud)"]
     S1 --> S2["2. Stop Core Databases & Storage (PostgreSQL, OMV)"]
     S2 --> S3["3. Gracefully Stop VMs (Windows Server, OPNsense)"]
@@ -426,11 +426,11 @@ flowchart LR
     VLAN40["VLAN 40: DMZ Deception<br/>192.168.40.0/24"]
     VLAN50["VLAN 50: IoT Sensors<br/>192.168.50.0/24"]
 
-    VLAN10 -->|Full Admin Access| VLAN20 & VLAN30 & VLAN40 & VLAN50
-    VLAN20 -->|Restricted Ports: 53, 443| VLAN10
-    VLAN30 -->|NO OUTBOUND WAN / Isolated| VLAN10 & VLAN20
-    VLAN40 -->|DROP ALL Traffic to LAN| VLAN10 & VLAN20 & VLAN30
-    VLAN50 -->|MQTT Only :1883| VLAN20
+    VLAN10 -->|"Full Admin Access"| VLAN20 & VLAN30 & VLAN40 & VLAN50
+    VLAN20 -->|"Restricted Ports: 53, 443"| VLAN10
+    VLAN30 -->|"NO OUTBOUND WAN / Isolated"| VLAN10 & VLAN20
+    VLAN40 -->|"DROP ALL Traffic to LAN"| VLAN10 & VLAN20 & VLAN30
+    VLAN50 -->|"MQTT Only :1883"| VLAN20
 ```
 
 ### Inter-VLAN Firewall Policy Table (Default-Deny)
@@ -524,11 +524,11 @@ terraform apply tfplan.binary
 
 ```mermaid
 flowchart LR
-    Dev["Engineer Commit"] -->|Push to main| GH["GitHub Repository"]
-    GH -->|Trigger| CI["GitHub Actions / Woodpecker CI<br/>Trivy · Gitleaks · Hadolint · tfsec"]
-    CI -->|Pass Quality Gates| Argo["ArgoCD / Flux GitOps Operator"]
-    Argo -->|Continuous Reconciliation| K3s["Talos Linux / K3s Cluster"]
-    K3s -->|Deploy Pods| Workloads["Distroless Microservices & Agents"]
+    Dev["Engineer Commit"] -->|"Push to main"| GH["GitHub Repository"]
+    GH -->|"Trigger"| CI["GitHub Actions / Woodpecker CI<br/>Trivy · Gitleaks · Hadolint · tfsec"]
+    CI -->|"Pass Quality Gates"| Argo["ArgoCD / Flux GitOps Operator"]
+    Argo -->|"Continuous Reconciliation"| K3s["Talos Linux / K3s Cluster"]
+    K3s -->|"Deploy Pods"| Workloads["Distroless Microservices & Agents"]
 ```
 
 * **Talos Linux OS (`kubernetes/talos/cluster.yaml`)**: Immutable, zero-SSH operating system managed strictly via gRPC APIs.
@@ -565,7 +565,7 @@ flowchart TD
 
     PROM & LOKI & TEMPO --> GRAF
     PROM --> ALARM
-    ALARM -->|High Severity Alert| TG["Telegram / Discord Webhook Channel"]
+    ALARM -->|"High Severity Alert"| TG["Telegram / Discord Webhook Channel"]
 ```
 
 ---
@@ -574,9 +574,9 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    PVE["Proxmox VE (Node 1 NVMe)"] -->|Hourly ZFS Snapshots| Sanoid["Sanoid / Syncoid Policy Engine"]
-    Sanoid -->|Daily vzdump Archive| PBS["OpenMediaVault NAS (Node 2 ZFS Mirror)"]
-    PBS -->|Nightly Encrypted Restic/Rclone| R2["Off-Site Cloudflare R2 / AWS S3 Glacier"]
+    PVE["Proxmox VE (Node 1 NVMe)"] -->|"Hourly ZFS Snapshots"| Sanoid["Sanoid / Syncoid Policy Engine"]
+    Sanoid -->|"Daily vzdump Archive"| PBS["OpenMediaVault NAS (Node 2 ZFS Mirror)"]
+    PBS -->|"Nightly Encrypted Restic/Rclone"| R2["Off-Site Cloudflare R2 / AWS S3 Glacier"]
 ```
 
 * **3 Copies**: Primary NVMe SSD, Secondary OMV NAS ZFS Mirror, Remote Cloudflare R2 Bucket.
@@ -590,15 +590,15 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    Attacker["Threat Actor / Internet Scanners"] -->|Probing Port 2222, 445, 3389| TPot["T-Pot DMZ Cluster (VLAN 40)<br/>Cowrie · Dionaea · Honeytrap"]
-    TPot -->|Log Stream| Wazuh["Wazuh SIEM / XDR Manager (CT 105)"]
+    Attacker["Threat Actor / Internet Scanners"] -->|"Probing Port 2222, 445, 3389"| TPot["T-Pot DMZ Cluster (VLAN 40)<br/>Cowrie · Dionaea · Honeytrap"]
+    TPot -->|"Log Stream"| Wazuh["Wazuh SIEM / XDR Manager (CT 105)"]
     
-    Subsys["Cluster Containers & VMs"] -->|Syscalls (execve, openat)| Tetra["Cilium Tetragon eBPF Sensor"]
-    Tetra -->|Kernel Anomaly Trigger| Wazuh
+    Subsys["Cluster Containers & VMs"] -->|"Syscalls (execve, openat)"| Tetra["Cilium Tetragon eBPF Sensor"]
+    Tetra -->|"Kernel Anomaly Trigger"| Wazuh
     
-    Wazuh -->|High-Severity Correlated Event| SOAR["SOAR Playbook (Shuffle / n8n)"]
-    SOAR -->|1. Push Firewall Drop Rule| OPNsense["OPNsense Firewall API"]
-    SOAR -->|2. Report Malicious IP| Abuse["AbuseIPDB Threat Intelligence API"]
+    Wazuh -->|"High-Severity Correlated Event"| SOAR["SOAR Playbook (Shuffle / n8n)"]
+    SOAR -->|"1. Push Firewall Drop Rule"| OPNsense["OPNsense Firewall API"]
+    SOAR -->|"2. Report Malicious IP"| Abuse["AbuseIPDB Threat Intelligence API"]
 ```
 
 * **Adversary Simulation**: Automated Atomic Red Team runner (`cyber/adversary-simulation/atomic-red-team/run_art_tests.sh`) testing MITRE ATT&CK techniques (T1059, T1003, T1078, T1053, T1021).
@@ -650,9 +650,9 @@ The automated Chaos Runner (`scripts/chaos/chaos_runner.sh`) validates system al
 
 ```mermaid
 flowchart LR
-    ESP["ESP32 Sensors<br/>DHT22 Temp · mmWave Radar"] -->|MQTT :1883| HA["Home Assistant (CT 106)"]
-    HA -->|Thermal Threshold Calculation| PWM["ESP32 PWM Fan Controller"]
-    PWM -->|Dynamic Duty Cycle: 20% - 100%| Fans["Noctua 120mm Server Rack Cooling"]
+    ESP["ESP32 Sensors<br/>DHT22 Temp · mmWave Radar"] -->|"MQTT :1883"| HA["Home Assistant (CT 106)"]
+    HA -->|"Thermal Threshold Calculation"| PWM["ESP32 PWM Fan Controller"]
+    PWM -->|"Dynamic Duty Cycle: 20% - 100%"| Fans["Noctua 120mm Server Rack Cooling"]
 ```
 
 * **Rack Tamper Monitoring**: Optical microswitch on server chassis logs physical cabinet door state; triggers snapshot on security cameras if opened unexpectedly.
