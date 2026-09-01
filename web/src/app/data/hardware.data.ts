@@ -11,6 +11,7 @@ export interface HardwareNode {
   os: string;
   ip: string;
   status: 'OPERATIONAL' | 'STANDBY';
+  tags: string[];
   workloads: string[];
 }
 
@@ -19,7 +20,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node1-pve',
     name: 'Proxmox Primary (proxmox)',
     machine: 'Custom Desktop Compute Chassis',
-    role: 'Primary virtualization host, OPNsense firewall, Windows Server AD, Red Hat Enterprise Linux, FreeBSD, OpenBSD, Talos Linux Kubernetes, Ollama GPU LLM, Paperless DMS & core fleet',
+    role: 'Serves as the primary x86_64 virtualization hypervisor for the entire homelab. It runs the perimeter OPNsense firewall, core enterprise virtual machines, and dedicated GPU-accelerated local AI inference workloads.',
     cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz Turbo)',
     gpu: 'NVIDIA GeForce GTX 1050 Ti (4GB VRAM · PCIe Passthrough to Ollama / ML Workbench & Faster-Whisper)',
     ram: '8,192 MB DDR4 (Upgrading to 12,288 MB DDR4)',
@@ -28,6 +29,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     os: 'Proxmox VE 9.2 (Linux 7.0 pve kernel)',
     ip: '192.168.1.132 (OPNsense: 192.168.1.132:8443)',
     status: 'OPERATIONAL',
+    tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'PCIe GPU Passthrough', 'OPNsense Perimeter', 'Enterprise VMs'],
     workloads: [
       'VM 200: OPNsense Core Firewall & Suricata IDS/IPS',
       'VM 201: Windows Server 2025 Datacenter (AD DS / GPO)',
@@ -47,7 +49,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node2-omv',
     name: 'OpenMediaVault NAS (openmediavault)',
     machine: 'ASUS X451MA Laptop Chassis',
-    role: 'Centralized network attached storage (SMB/NFS), Proxmox snapshot backup target, media archive, and offline Kiwix Wikipedia mirror',
+    role: 'Provides centralized network-attached storage using resilient ZFS mirror pools. It hosts high-capacity SMB and NFS file shares, stores daily hypervisor snapshot backups, and serves offline knowledge archives.',
     cpu: 'Intel Celeron N2830 (2 Cores / 2 Threads @ 2.16 GHz, 2.41 GHz Burst)',
     gpu: 'Intel HD Graphics (Bay Trail Integrated)',
     ram: '2,048 MB DDR3 Low-Voltage',
@@ -55,6 +57,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     os: 'OpenMediaVault (OMV) / Debian Linux 12',
     ip: '192.168.1.135',
     status: 'OPERATIONAL',
+    tags: ['ZFS Storage Pool', 'Centralized NAS', 'NFS / SMB Shares', 'Proxmox VZDump Target', 'Offline Wikipedia'],
     workloads: [
       'OpenMediaVault Core Storage Engine (ZFS / ext4)',
       'NFS & SMB Centralized Storage Shares',
@@ -67,13 +70,14 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node3-arm',
     name: 'Proxmox ARM64 (proxmox2)',
     machine: 'Apple MacBook Air (M1, 2020)',
-    role: 'ARM64 development hypervisor, telemetry stack, Tempo distributed tracing, Homepage dashboard, Gatus health, and Go/Rust microservices',
+    role: 'Acts as an energy-efficient ARM64 development and observability hypervisor. It runs full-stack telemetry pipelines, continuous integration runners, private identity authorities, and lightweight microservices.',
     cpu: 'Apple M1 (8 Cores: 4 Performance Firestorm + 4 Efficiency Icestorm, 16-Core NPU)',
     ram: '8,192 MB Unified Memory (4,096 MB dedicated to UTM Proxmox ARM64 VM)',
     storage: '55 GB NVMe SSD Pool (41 GB rootfs LVM Thin · 30 GB Available)',
     os: 'Proxmox VE on ARM via UTM (QEMU Apple Hypervisor.framework)',
     ip: '192.168.64.14',
     status: 'OPERATIONAL',
+    tags: ['Apple Silicon ARM64', 'High Efficiency', 'LGTM Observability', 'Gitea & Woodpecker CI', 'Distributed Tracing'],
     workloads: [
       'CT 100-109: IT-Tools, Actual Budget, Trilium, ChangeDetection, Scrutiny, Uptime Kuma, Vaultwarden, Prometheus/Grafana, Authelia, Gitea',
       'CT 110-119: Woodpecker CI, Gatus Health, ntfy Push, Linkding, Step-CA PKI, Tailscale ARM, Beszel Telemetry, PocketBase, Homepage, Speedtest-Tracker',
@@ -86,7 +90,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'k8s-node4',
     name: 'Kubernetes Worker (k8s-node-04)',
     machine: 'Custom ATX Compute Chassis',
-    role: 'Dedicated Kubernetes cluster worker node for batch container jobs, Tetragon eBPF telemetry, and failover resilience',
+    role: 'Operates as a dedicated bare-metal Kubernetes worker node for batch jobs and container execution. It runs kernel-level eBPF security sensors and continuous telemetry agents to maintain cluster resilience.',
     cpu: 'AMD Athlon II X2 220 (2 Cores / 2 Threads @ 2.80 GHz Regor / AM3)',
     gpu: 'NVIDIA GeForce GTS 250 (1GB GDDR3 / 256-bit Bus)',
     ram: '4,096 MB DDR3',
@@ -95,6 +99,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     os: 'Talos Linux / Debian Base with containerd CRI & k3s-agent',
     ip: '192.168.1.18',
     status: 'OPERATIONAL',
+    tags: ['Kubernetes Worker', 'Talos Linux / k3s', 'eBPF Security', 'Cilium Tetragon', 'Batch Workloads'],
     workloads: [
       'k3s-agent / Talos Linux Lightweight Kubernetes Node',
       'Cilium Tetragon eBPF Kernel Runtime Security Sensor',

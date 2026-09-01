@@ -17,6 +17,7 @@ export interface TopologyNode {
     ram: string;
     storage: string;
   };
+  tags?: string[];
   role: string;
   connections: string[];
 }
@@ -43,7 +44,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -140,
     color: '#f59e0b',
     icon: 'opnsense',
-    role: 'Primary Gigabit WAN Uplink and external network perimeter',
+    tags: ['WAN Ingress', 'Fiber Optic', 'Demarcation', 'Network Boundary'],
+    role: 'Provides the primary Gigabit fiber optic uplink and establishes the external perimeter demarcation for all inbound and outbound traffic.',
     connections: ['opnsense-gw']
   },
 
@@ -63,7 +65,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'opnsense',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '1,024 MB', storage: '32 GB SSD' },
-    role: 'Stateful firewall, Suricata & Snort IDS/IPS, TCP/IP routing, tcpdump packet capture, WireGuard & VLAN isolation',
+    tags: ['Perimeter Firewall', 'Suricata IDS/IPS', 'Inter-VLAN Routing', 'Stateful Filter'],
+    role: 'Enforces stateful packet filtering, Suricata IDS/IPS intrusion prevention, and isolated VLAN segment routing across all cluster nodes.',
     connections: ['node1-pve', 'node3-arm', 'node2-omv', 'k8s-node4', 'npm-ingress', 'wazuh-siem', 'tpot-cluster']
   },
 
@@ -83,7 +86,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#94a3b8',
     icon: 'proxmox',
     hardware: { node: 'Intel Core i3-10100F (GTX 1050 Ti)', ram: '8,192 MB DDR4', storage: '512 GB SSD' },
-    role: 'Primary virtualization host for core services, OPNsense, Windows Server 2025 Active Directory VM, Ollama GPU LLM and Frigate NVR',
+    tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'PCIe GPU Passthrough', 'Enterprise VMs'],
+    role: 'Hosts primary x86_64 virtualization workloads including enterprise virtual machines, core containers, and GPU-accelerated local AI inference.',
     connections: ['win-server', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'n8n-auto', 'vaultwarden-core', 'ollama-gpu-node']
   },
   {
@@ -101,7 +105,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#a78bfa',
     icon: 'utm',
     hardware: { node: 'Apple M1 (8 Cores) UTM', ram: '4,096 MB Dedicated (8GB Unified)', storage: 'Apple APFS NVMe SSD' },
-    role: 'Secondary ARM64 hypervisor on Apple Silicon hosting Linux LXCs, Git, CI/CD, Tempo distributed tracing, and ELO AI daemon',
+    tags: ['ARM64 Hypervisor', 'Apple Silicon', 'Observability Stack', 'DevOps CI/CD'],
+    role: 'Runs full-stack telemetry pipelines, continuous integration runners, and lightweight ARM64 microservices on an energy-efficient platform.',
     connections: ['gitea-forge', 'woodpecker-ci', 'grafana-dash', 'prometheus-tsdb', 'trilium-notes', 'actualbudget-app', 'tempo-tracer-node']
   },
   {
@@ -119,7 +124,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'filebrowser',
     hardware: { node: 'Intel Celeron N2830 (ASUS Laptop)', ram: '2,048 MB DDR3', storage: '500 GB HDD Storage' },
-    role: 'Centralized SMB/NFS network storage, off-host Proxmox backup repository, media shares, and offline Kiwix Wikipedia mirror',
+    tags: ['Centralized NAS', 'ZFS Pools', 'NFS / SMB Shares', 'Backup Target'],
+    role: 'Provides resilient ZFS storage pools, serving high-capacity SMB/NFS file shares and storing daily hypervisor snapshot backups.',
     connections: ['immich-core', 'jellyfin-media', 'kiwix-wiki-node']
   },
   {
@@ -137,7 +143,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#94a3b8',
     icon: 'ubuntu',
     hardware: { node: 'AMD Athlon II X2 220 (GTS 250)', ram: '4,096 MB DDR3', storage: '80 GB SATA HDD' },
-    role: 'Bare-metal Kubernetes worker (Talos / k3s-agent) for batch container workloads, Tetragon eBPF, and cluster resilience',
+    tags: ['Kubernetes Worker', 'Talos / k3s', 'eBPF Security', 'Batch Computing'],
+    role: 'Executes distributed container workloads within the Kubernetes cluster while running kernel-level eBPF security telemetry sensors.',
     connections: ['woodpecker-ci', 'prometheus-tsdb']
   },
 
@@ -157,7 +164,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#f59e0b',
     icon: 'nginx-proxy-manager',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '112 MB', storage: '4 GB' },
-    role: 'SSL termination, Let’s Encrypt wildcard certificates and reverse domain routing',
+    tags: ['Reverse Proxy', 'SSL / TLS', 'Ingress Router', 'Certificate Manager'],
+    role: "Terminates SSL/TLS connections, automatically provisions Let's Encrypt wildcard certificates, and routes HTTP/HTTPS requests to internal hosts.",
     connections: ['authelia-auth', 'vaultwarden-core', 'immich-core', 'homeassistant-core', 'nextcloud-core', 'kiwix-wiki-node']
   },
   {
@@ -175,7 +183,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'authelia',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '128 MB', storage: '4 GB' },
-    role: 'Single Sign-On authentication, WebAuthn/FIDO2 passkeys and multi-factor forward protection',
+    tags: ['Single Sign-On', 'Two-Factor 2FA', 'FIDO2 WebAuthn', 'Access Gate'],
+    role: 'Enforces two-factor authentication and single sign-on (SSO) protection across internal web services using FIDO2 WebAuthn security keys.',
     connections: ['vaultwarden-core', 'nextcloud-core', 'gitea-forge', 'ollama-gpu-node']
   },
 
@@ -194,7 +203,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#94a3b8',
     icon: 'windows',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '4,096 MB', storage: '64 GB' },
-    role: 'Windows Server 2025 Datacenter VM, Active Directory (AD DS), GPO, PowerShell scripting & Sysmon telemetry',
+    tags: ['Active Directory', 'Windows Server', 'Group Policy GPO', 'Identity Provider'],
+    role: 'Provides centralized enterprise identity management, Active Directory domain services, group policies, and Sysmon security telemetry.',
     connections: ['wazuh-siem']
   },
   {
@@ -212,7 +222,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#a78bfa',
     icon: 'python',
     hardware: { node: 'Node 1 (GTX 1050 Ti 4GB VRAM)', ram: '2,048 MB', storage: '25 GB' },
-    role: 'Hardware-accelerated local LLM inference engine executing Qwen2.5-Coder and DeepSeek-R1-Distill',
+    tags: ['Local LLM', 'GPU Passthrough', 'CUDA Acceleration', 'Neural Inference'],
+    role: 'Executes quantized neural models directly on the dedicated NVIDIA GTX 1050 Ti GPU for private code completion and agentic reasoning.',
     connections: ['elo-core']
   },
   {
@@ -230,7 +241,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'vaultwarden',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '64 MB', storage: '4 GB' },
-    role: 'Bitwarden-compatible zero-knowledge password and credentials vault',
+    tags: ['Password Vault', 'Zero-Knowledge', 'Credential Sync', 'Secrets Manager'],
+    role: 'Maintains an encrypted, zero-knowledge credential vault for passwords, API tokens, and two-factor authenticator secrets.',
     connections: ['node2-omv']
   },
   {
@@ -248,7 +260,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'immich',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '896 MB', storage: '64 GB' },
-    role: 'High-performance self-hosted photo backup, facial recognition & machine learning',
+    tags: ['Photo Gallery', 'Facial Recognition', 'Media Backup', 'Semantic Search'],
+    role: 'Backs up and indexes high-resolution photos and videos with automated on-device facial recognition and semantic AI search.',
     connections: ['node2-omv']
   },
   {
@@ -266,7 +279,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'filebrowser',
     hardware: { node: 'Node 2 (ASUS OMV NAS)', ram: '128 MB', storage: '110 GB ZIM' },
-    role: 'Air-gapped offline encyclopedia and technical wiki repository (Wikipedia, Wiktionary, StackOverflow)',
+    tags: ['Offline Wikipedia', 'Knowledge Archive', 'ZIM Server', 'Disaster Recovery'],
+    role: 'Serves complete offline ZIM archives of Wikipedia, Wiktionary, and Stack Overflow to ensure knowledge access during outages.',
     connections: ['node2-omv']
   },
   {
@@ -284,7 +298,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#f59e0b',
     icon: 'homeassistant',
     hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '384 MB', storage: '16 GB' },
-    role: 'Central smart home telemetry aggregator, MQTT broker and presence coordinator',
+    tags: ['Home Automation', 'Zigbee Gateway', 'Sensor Hub', 'Presence Logic'],
+    role: 'Orchestrates smart home automation rules, sensor telemetry aggregation, and environmental controls across Zigbee and Wi-Fi networks.',
     connections: ['esp32-radar', 'esp32-irrigation', 'n8n-auto']
   },
 
@@ -304,7 +319,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#a78bfa',
     icon: 'python',
     hardware: { node: 'Node 3 (Apple M1)', ram: '1,024 MB', storage: '10 GB' },
-    role: 'Autonomous AI orchestration engine, multi-provider model fallback (Gemini, Groq, Ollama GPU), Python agent tools and cluster assistant',
+    tags: ['Autonomous Agent', 'LLM Cascade', 'FastAPI Core', 'Decision Engine'],
+    role: 'Orchestrates multi-model AI reasoning chains, dynamic LLM fallback cascades, and autonomous homelab operations.',
     connections: ['gitea-forge', 'homeassistant-core', 'wazuh-siem', 'opnsense-gw', 'ollama-gpu-node']
   },
 
@@ -324,7 +340,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'wazuh',
     hardware: { node: 'VLAN 30 Security Subnet', ram: '2,048 MB', storage: '50 GB' },
-    role: 'Host intrusion detection, EDR telemetry, Sysmon correlation, Sigma rule alerting, log pipelines (Splunk / Elastic / Sentinel compatible)',
+    tags: ['SIEM / XDR', 'Log Analytics', 'FIM Integrity', 'Threat Detection'],
+    role: 'Aggregates endpoint event logs to provide centralized SIEM monitoring, file integrity verification (FIM), and automated threat response.',
     connections: ['opnsense-gw', 'win-server', 'tpot-cluster']
   },
   {
@@ -342,7 +359,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#fb923c',
     icon: 'shield',
     hardware: { node: 'VLAN 40 DMZ VM 205', ram: '3,072 MB', storage: '40 GB' },
-    role: 'Multi-honeypot platform (Cowrie SSH, Dionaea, RDP honeypot) with automated AbuseIPDB firewall blocking',
+    tags: ['Honeynet Cluster', 'Threat Intelligence', 'Cowrie Deception', 'Attack Telemetry'],
+    role: 'Lures external cyber attackers into isolated emulation honeypots to capture exploit payloads and map adversary tactics.',
     connections: ['wazuh-siem', 'opnsense-gw']
   },
   {
@@ -377,7 +395,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#f59e0b',
     icon: 'grafana',
     hardware: { node: 'Node 3 (Apple M1)', ram: '256 MB', storage: '8 GB' },
-    role: 'High-scale distributed tracing correlated with Grafana Loki and Prometheus',
+    tags: ['Distributed Tracing', 'OpenTelemetry', 'Latency Profiling', 'APM Telemetry'],
+    role: 'Collects and correlates high-volume distributed tracing spans across microservices to pinpoint execution bottlenecks.',
     connections: ['grafana-dash']
   },
   {
@@ -395,7 +414,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#f59e0b',
     icon: 'grafana',
     hardware: { node: 'Node 3 (Apple M1)', ram: '448 MB (Shared)', storage: '10 GB' },
-    role: 'Unified dashboards for system CPU/RAM, network bandwidth, SMART disk health & logs',
+    tags: ['Observability UI', 'Data Visualizer', 'Fleet Metrics', 'Alert Management'],
+    role: 'Visualizes infrastructure telemetry, security event dashboards, and real-time operational status across all physical nodes.',
     connections: ['prometheus-tsdb', 'tempo-tracer-node']
   },
   {
@@ -413,7 +433,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#f59e0b',
     icon: 'prometheus',
     hardware: { node: 'Node 3 (Apple M1)', ram: 'Included in Monitoring', storage: '10 GB' },
-    role: 'Time-series metrics scraping from node_exporter across all hypervisors and LXCs',
+    tags: ['Time Series TSDB', 'Metrics Storage', 'PromQL Engine', 'Alert Triggers'],
+    role: 'Ingests and stores high-frequency performance time-series metrics from hypervisors, containers, and hardware sensors.',
     connections: ['node1-pve', 'node3-arm', 'node2-omv']
   },
 
@@ -433,7 +454,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'gitea',
     hardware: { node: 'Node 3 (Apple M1)', ram: '160 MB', storage: '16 GB' },
-    role: 'Self-hosted private Git forge with webhook CI triggers and code review',
+    tags: ['Git Forge', 'Code Repositories', 'Version Control', 'DevOps Platform'],
+    role: 'Hosts private Git repositories, code reviews, and automated deployment webhooks with minimal memory overhead.',
     connections: ['woodpecker-ci']
   },
   {
@@ -451,7 +473,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#f59e0b',
     icon: 'woodpecker',
     hardware: { node: 'Node 3 (Apple M1)', ram: '192 MB', storage: '8 GB' },
-    role: 'Continuous integration runner for linting, security scans, and auto-deployments',
+    tags: ['CI/CD Engine', 'Build Pipelines', 'Container Runner', 'Automated Testing'],
+    role: 'Runs automated containerized CI/CD build pipelines and test suites upon code commits pushed to internal Git repositories.',
     connections: ['k8s-node4']
   },
   {

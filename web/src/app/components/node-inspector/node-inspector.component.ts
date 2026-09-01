@@ -90,13 +90,22 @@ import { TranslationService } from '../../services/translation.service';
           @if (activeTab === 'spec') {
             <div class="space-y-4 font-sans">
               <!-- System Role -->
-              <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-1.5">
+              <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-2">
                 <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">
                   {{ ts.t.inspectorRole }}
                 </div>
                 <p class="text-xs text-slate-200 leading-relaxed font-normal">
                   {{ node.role }}
                 </p>
+                @if (node.tags && node.tags.length > 0) {
+                  <div class="flex flex-wrap gap-1.5 pt-1 border-t border-obsidian-750/60">
+                    @for (tag of node.tags; track tag) {
+                      <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-obsidian-900 border border-obsidian-700 text-emerald-400">
+                        #{{ tag }}
+                      </span>
+                    }
+                  </div>
+                }
               </div>
 
               <!-- Hardware Allocations -->

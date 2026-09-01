@@ -87,6 +87,17 @@ import { TranslationService } from '../../services/translation.service';
                 {{ srv.description }}
               </p>
 
+              <!-- Tags -->
+              @if (srv.tags && srv.tags.length > 0) {
+                <div class="flex flex-wrap gap-1.5 pt-0.5">
+                  @for (tag of srv.tags; track tag) {
+                    <span class="text-[10px] font-sans px-2 py-0.5 rounded-md bg-obsidian-900/90 border border-obsidian-750 text-slate-400 font-medium">
+                      #{{ tag }}
+                    </span>
+                  }
+                </div>
+              }
+
               <!-- Hardware Allocations (IBM Plex Mono) -->
               <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
                 <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750">
