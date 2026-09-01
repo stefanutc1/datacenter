@@ -20,13 +20,13 @@ variable "proxmox_insecure" {
 variable "primary_node" {
   type        = string
   description = "Primary x86_64 Proxmox node name"
-  default     = "proxmox"
+  default     = "pve"
 }
 
 variable "secondary_node" {
   type        = string
   description = "Secondary ARM64 Apple M1 Proxmox node name"
-  default     = "proxmox2"
+  default     = "pve"
 }
 
 variable "gateway_ip" {
@@ -62,7 +62,7 @@ variable "alpine_template" {
 variable "utility_node" {
   type        = string
   description = "Utility ARM64 Apple M1 Proxmox node name"
-  default     = "proxmox2"
+  default     = "pve"
 }
 
 variable "alpine_template_arm" {

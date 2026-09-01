@@ -91,7 +91,7 @@ flowchart TB
         Node1["Nod 1: Proxmox Primar (x86_64)<br/>Intel Core i3-10100F · 8GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
         Node2["Nod 2: OMV NAS Stocare<br/>ASUS Laptop · Celeron N2830 · 2GB RAM<br/>500GB ZFS Pool · Kiwix Wikipedia"]
         Node3["Nod 3: Proxmox Secundar (ARM64)<br/>Apple MacBook Air M1 · 8 Nuclee<br/>Telemetrie LGTM · Gitea · Woodpecker CI"]
-        Node4["Nod 4: Worker Talos Linux<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · Senzor eBPF Tetragon"]
+        Node4["Nod 4: Worker Kubernetes (Talos Linux)<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · Senzor eBPF Tetragon"]
     end
 
     V10 -.-> Node1 & Node2 & Node3 & Node4
@@ -109,10 +109,10 @@ flowchart TB
 
 | Identificator Nod | Șasiu / Form Factor | Arhitectură CPU | Accelerator / GPU | Alocare RAM | Configurație Stocare | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`proxmox` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 8 GB DDR4-2666 | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
+| **`pve` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 8 GB DDR4-2666 | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
 | **`openmediavault` (Nod 2)** | Laptop ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (Oglindă ZFS) | NAS Centralizat: stocare NFS/SMB, destinație backup vzdump, arhivă offline Wikipedia (Kiwix) |
-| **`proxmox2` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI |
-| **`k8s-node-04` (Nod 4)** | Șasiu ATX Custom | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker imutabil Talos Linux / k3s, joburi batch, senzor securitate eBPF |
+| **`pve` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI |
+| **`kubernetes` (Nod 4)** | Șasiu ATX Custom | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker imutabil Talos Linux / k3s, joburi batch, senzor securitate eBPF |
 
 ### Alimentare Neîntreruptibilă și Secvență de Oprire Controlată NUT
 
@@ -405,9 +405,9 @@ Senzorii ESP32 (DHT22 pentru temperatură/umiditate și radare de prezență mmW
 | `192.168.1.4` | `pihole` (CT 101) | `53` (TCP/UDP), `80` | Rezoluție DNS Internă & Filtrare |
 | `192.168.1.9` | `homeassistant` (CT 106) | `8123`, `1883` | Hub Smart Home & Broker MQTT |
 | `192.168.1.110`| `ollama` (CT 110) | `11434` | Rulare Modele LLM pe GPU Local |
-| `192.168.1.132`| `proxmox` (Nod 1 Host) | `8006`, `22` | Consola Web Proxmox VE |
+| `192.168.1.132`| `pve` (Nod 1 Host) | `8006`, `22` | Consola Web Proxmox VE |
 | `192.168.20.201`| `win-server-2025` (VM 201)| `53`, `88`, `389`, `445`, `3389` | Active Directory Domain Services |
-| `192.168.64.14`| `proxmox2` (Nod 3 Host) | `8006`, `22` | Management Hypervisor ARM64 |
+| `192.168.64.14`| `pve` (Nod 3 Host) | `8006`, `22` | Management Hypervisor ARM64 |
 | `192.168.64.118`| `tempo` (CT 118) | `3200`, `4317`, `4318` | Backend Tracing Distribuit |
 
 ---

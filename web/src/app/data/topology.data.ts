@@ -64,16 +64,16 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -70,
     color: '#10b981',
     icon: 'opnsense',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '1,024 MB', storage: '32 GB SSD' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '1,024 MB', storage: '32 GB SSD' },
     tags: ['Perimeter Firewall', 'Suricata IDS/IPS', 'Inter-VLAN Routing', 'Stateful Filter'],
     role: 'Enforces stateful packet filtering, Suricata IDS/IPS intrusion prevention, and isolated VLAN segment routing across all cluster nodes.',
-    connections: ['node1-pve', 'node3-arm', 'node2-omv', 'k8s-node4', 'npm-ingress', 'wazuh-siem', 'tpot-cluster']
+    connections: ['node1-pve', 'node3-arm', 'node2-omv', 'kubernetes-node', 'npm-ingress', 'wazuh-siem', 'tpot-cluster']
   },
 
   // TIER 2: PRIMARY COMPUTE HYPERVISORS & STORAGE (Concentric horizontal ring)
   {
     id: 'node1-pve',
-    name: 'Proxmox Primary (proxmox)',
+    name: 'PVE Primary (pve)',
     sublabel: 'Node 1 · Core Hypervisor',
     ip: '192.168.1.132',
     port: 8006,
@@ -92,7 +92,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   },
   {
     id: 'node3-arm',
-    name: 'Proxmox ARM64 (proxmox2)',
+    name: 'PVE Secondary (pve)',
     sublabel: 'Node 3 · Apple MacBook Air',
     ip: '192.168.64.14',
     port: 8006,
@@ -129,8 +129,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['immich-core', 'jellyfin-media', 'kiwix-wiki-node']
   },
   {
-    id: 'k8s-node4',
-    name: 'Kubernetes Worker (k8s-node-04)',
+    id: 'kubernetes-node',
+    name: 'Kubernetes Worker (kubernetes)',
     sublabel: 'Node 4 · AMD Athlon II X2',
     ip: '192.168.1.18',
     port: 6443,
@@ -163,7 +163,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -40,
     color: '#f59e0b',
     icon: 'nginx-proxy-manager',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '112 MB', storage: '4 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '112 MB', storage: '4 GB' },
     tags: ['Reverse Proxy', 'SSL / TLS', 'Ingress Router', 'Certificate Manager'],
     role: "Terminates SSL/TLS connections, automatically provisions Let's Encrypt wildcard certificates, and routes HTTP/HTTPS requests to internal hosts.",
     connections: ['authelia-auth', 'vaultwarden-core', 'immich-core', 'homeassistant-core', 'nextcloud-core', 'kiwix-wiki-node']
@@ -182,7 +182,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -40,
     color: '#10b981',
     icon: 'authelia',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '128 MB', storage: '4 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '128 MB', storage: '4 GB' },
     tags: ['Single Sign-On', 'Two-Factor 2FA', 'FIDO2 WebAuthn', 'Access Gate'],
     role: 'Enforces two-factor authentication and single sign-on (SSO) protection across internal web services using FIDO2 WebAuthn security keys.',
     connections: ['vaultwarden-core', 'nextcloud-core', 'gitea-forge', 'ollama-gpu-node']
@@ -202,7 +202,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -30,
     color: '#94a3b8',
     icon: 'windows',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '4,096 MB', storage: '64 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '4,096 MB', storage: '64 GB' },
     tags: ['Active Directory', 'Windows Server', 'Group Policy GPO', 'Identity Provider'],
     role: 'Provides centralized enterprise identity management, Active Directory domain services, group policies, and Sysmon security telemetry.',
     connections: ['wazuh-siem']
@@ -240,7 +240,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -120,
     color: '#10b981',
     icon: 'vaultwarden',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '64 MB', storage: '4 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '64 MB', storage: '4 GB' },
     tags: ['Password Vault', 'Zero-Knowledge', 'Credential Sync', 'Secrets Manager'],
     role: 'Maintains an encrypted, zero-knowledge credential vault for passwords, API tokens, and two-factor authenticator secrets.',
     connections: ['node2-omv']
@@ -259,7 +259,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -160,
     color: '#10b981',
     icon: 'immich',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '896 MB', storage: '64 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '896 MB', storage: '64 GB' },
     tags: ['Photo Gallery', 'Facial Recognition', 'Media Backup', 'Semantic Search'],
     role: 'Backs up and indexes high-resolution photos and videos with automated on-device facial recognition and semantic AI search.',
     connections: ['node2-omv']
@@ -297,7 +297,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -80,
     color: '#f59e0b',
     icon: 'homeassistant',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '384 MB', storage: '16 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '384 MB', storage: '16 GB' },
     tags: ['Home Automation', 'Zigbee Gateway', 'Sensor Hub', 'Presence Logic'],
     role: 'Orchestrates smart home automation rules, sensor telemetry aggregation, and environmental controls across Zigbee and Wi-Fi networks.',
     connections: ['esp32-radar', 'esp32-irrigation', 'n8n-auto']
@@ -318,7 +318,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 0,
     color: '#a78bfa',
     icon: 'python',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '1,024 MB', storage: '10 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '1,024 MB', storage: '10 GB' },
     tags: ['Autonomous Agent', 'LLM Cascade', 'FastAPI Core', 'Decision Engine'],
     role: 'Orchestrates multi-model AI reasoning chains, dynamic LLM fallback cascades, and autonomous homelab operations.',
     connections: ['gitea-forge', 'homeassistant-core', 'wazuh-siem', 'opnsense-gw', 'ollama-gpu-node']
@@ -394,7 +394,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 130,
     color: '#f59e0b',
     icon: 'grafana',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '256 MB', storage: '8 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '256 MB', storage: '8 GB' },
     tags: ['Distributed Tracing', 'OpenTelemetry', 'Latency Profiling', 'APM Telemetry'],
     role: 'Collects and correlates high-volume distributed tracing spans across microservices to pinpoint execution bottlenecks.',
     connections: ['grafana-dash']
@@ -413,7 +413,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#f59e0b',
     icon: 'grafana',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '448 MB (Shared)', storage: '10 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '448 MB (Shared)', storage: '10 GB' },
     tags: ['Observability UI', 'Data Visualizer', 'Fleet Metrics', 'Alert Management'],
     role: 'Visualizes infrastructure telemetry, security event dashboards, and real-time operational status across all physical nodes.',
     connections: ['prometheus-tsdb', 'tempo-tracer-node']
@@ -432,7 +432,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 90,
     color: '#f59e0b',
     icon: 'prometheus',
-    hardware: { node: 'Node 3 (Apple M1)', ram: 'Included in Monitoring', storage: '10 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: 'Included in Monitoring', storage: '10 GB' },
     tags: ['Time Series TSDB', 'Metrics Storage', 'PromQL Engine', 'Alert Triggers'],
     role: 'Ingests and stores high-frequency performance time-series metrics from hypervisors, containers, and hardware sensors.',
     connections: ['node1-pve', 'node3-arm', 'node2-omv']
@@ -453,7 +453,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -70,
     color: '#10b981',
     icon: 'gitea',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '160 MB', storage: '16 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '160 MB', storage: '16 GB' },
     tags: ['Git Forge', 'Code Repositories', 'Version Control', 'DevOps Platform'],
     role: 'Hosts private Git repositories, code reviews, and automated deployment webhooks with minimal memory overhead.',
     connections: ['woodpecker-ci']
@@ -472,10 +472,10 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -90,
     color: '#f59e0b',
     icon: 'woodpecker',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '192 MB', storage: '8 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '192 MB', storage: '8 GB' },
     tags: ['CI/CD Engine', 'Build Pipelines', 'Container Runner', 'Automated Testing'],
     role: 'Runs automated containerized CI/CD build pipelines and test suites upon code commits pushed to internal Git repositories.',
-    connections: ['k8s-node4']
+    connections: ['kubernetes-node']
   },
   {
     id: 'n8n-auto',
@@ -491,7 +491,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -100,
     color: '#fb923c',
     icon: 'n8n',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '384 MB', storage: '10 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '384 MB', storage: '10 GB' },
     role: 'Workflow automation node coordinating webhooks, scheduled jobs, and alerts',
     connections: ['homeassistant-core']
   },
@@ -509,7 +509,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -90,
     color: '#94a3b8',
     icon: 'trilium',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '160 MB', storage: '8 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '160 MB', storage: '8 GB' },
     role: 'Hierarchical personal knowledge base and engineering documentation store',
     connections: ['node3-arm']
   },
@@ -527,7 +527,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -70,
     color: '#a78bfa',
     icon: 'actualbudget',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '160 MB', storage: '4 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '160 MB', storage: '4 GB' },
     role: 'Zero-based budgeting system with local sync and privacy encryption',
     connections: ['node3-arm']
   },
@@ -577,7 +577,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -80,
     color: '#10b981',
     icon: 'shield',
-    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '256 MB', storage: '10 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '256 MB', storage: '10 GB' },
     tags: ['Secret Management', 'OpenBao', 'PKI Engine', 'Zero-Trust'],
     role: 'Centralizes secrets management, dynamic database credentials, and automated token injection for Terraform and Ansible.',
     connections: ['gitea-forge', 'woodpecker-ci', 'opnsense-gw']
@@ -595,7 +595,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -70,
     color: '#0ea5e9',
     icon: 'terminal',
-    hardware: { node: 'Node 3 (Apple M1)', ram: '192 MB', storage: '4 GB' },
+    hardware: { node: 'pve (Apple M1)', ram: '192 MB', storage: '4 GB' },
     tags: ['GitOps', 'Dependency Scanner', 'Automated PRs', 'DevOps'],
     role: 'Continuously scans internal Gitea repositories and files automated Pull Requests for new Docker images and Terraform modules.',
     connections: ['gitea-forge', 'woodpecker-ci']
@@ -679,7 +679,7 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'opnsense-gw', to: 'node1-pve', protocol: 'Management Bridge', color: '#94a3b8' },
   { from: 'opnsense-gw', to: 'node3-arm', protocol: 'Tailscale / Bridge', color: '#a78bfa' },
   { from: 'opnsense-gw', to: 'node2-omv', protocol: 'NFS/SMB Trunk', color: '#10b981' },
-  { from: 'opnsense-gw', to: 'k8s-node4', protocol: 'Flannel CNI', color: '#94a3b8' },
+  { from: 'opnsense-gw', to: 'kubernetes-node', protocol: 'Flannel CNI', color: '#94a3b8' },
   { from: 'opnsense-gw', to: 'wazuh-siem', protocol: 'Syslog / NetFlow', color: '#10b981' },
   { from: 'opnsense-gw', to: 'tpot-cluster', protocol: 'DMZ Mirror / NAT', color: '#fb923c' },
   { from: 'node1-pve', to: 'win-server', protocol: 'KVM Hypervisor', color: '#94a3b8' },
@@ -708,7 +708,7 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'elo-core', to: 'gitea-forge', protocol: 'GitOps Webhook Dispatch', color: '#a78bfa' },
   { from: 'gitea-forge', to: 'woodpecker-ci', protocol: 'Webhook CI Trigger', color: '#f59e0b' },
   { from: 'renovate-gitops', to: 'gitea-forge', protocol: 'Automated Pull Requests', color: '#0ea5e9' },
-  { from: 'woodpecker-ci', to: 'k8s-node4', protocol: 'Container Build Runner', color: '#94a3b8' },
+  { from: 'woodpecker-ci', to: 'kubernetes-node', protocol: 'Container Build Runner', color: '#94a3b8' },
   { from: 'grafana-dash', to: 'tempo-tracer-node', protocol: 'TraceQL Engine', color: '#f59e0b' },
   { from: 'grafana-dash', to: 'prometheus-tsdb', protocol: 'PromQL Query Engine', color: '#f59e0b' },
   { from: 'prometheus-tsdb', to: 'node1-pve', protocol: 'node_exporter Metrics', color: '#94a3b8' },

@@ -27,7 +27,7 @@ export interface HardwareNode {
 export const HARDWARE_NODES: HardwareNode[] = [
   {
     id: 'node1-pve',
-    name: 'Proxmox Primary (proxmox)',
+    name: 'Proxmox Primary (pve)',
     machine: 'Custom Desktop Compute Chassis',
     role: 'Serves as the primary x86_64 virtualization hypervisor for the entire homelab. It runs the perimeter OPNsense firewall, core enterprise virtual machines with active VirtIO ballooning, and dedicated GPU-accelerated local AI inference workloads.',
     cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz Turbo)',
@@ -86,7 +86,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
   },
   {
     id: 'node3-arm',
-    name: 'Proxmox ARM64 (proxmox2)',
+    name: 'Proxmox ARM64 (pve)',
     machine: 'Apple MacBook Air (M1, 2020)',
     role: 'Acts as an energy-efficient ARM64 development and observability hypervisor. It runs full-stack telemetry pipelines, continuous integration runners, private identity authorities, and lightweight microservices.',
     cpu: 'Apple M1 (8 Cores: 4 Performance Firestorm + 4 Efficiency Icestorm, 16-Core NPU)',
@@ -106,8 +106,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
     ]
   },
   {
-    id: 'k8s-node4',
-    name: 'Kubernetes Worker (k8s-node-04)',
+    id: 'kubernetes-node',
+    name: 'Kubernetes Worker (kubernetes)',
     machine: 'Custom ATX Compute Chassis',
     role: 'Operates as a dedicated bare-metal Kubernetes worker node for batch jobs and container execution. It runs kernel-level eBPF security sensors and continuous telemetry agents to maintain cluster resilience.',
     cpu: 'AMD Athlon II X2 220 (2 Cores / 2 Threads @ 2.80 GHz Regor / AM3)',
