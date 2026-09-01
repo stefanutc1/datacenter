@@ -1049,18 +1049,18 @@ module "vm_openbsd_75" {
   tags         = ["openbsd", "bsd", "security", "bastion", "pf", "terraform"]
 }
 
-module "vm_tpot_honeypot" {
+module "vm_talos_linux" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 205
-  name         = "tpot-dmz"
-  description  = "Multi-honeypot platform (Cowrie, Dionaea, RDP honeypot) with AbuseIPDB"
-  cores        = 4
-  memory       = 3072
-  disk_size    = 40
+  name         = "talos"
+  description  = "Talos Linux 1.7 (Immutable, Minimal, Security-Hardened API-Driven Kubernetes Node)"
+  cores        = 2
+  memory       = 2048
+  disk_size    = 32
   storage_pool = "local-lvm"
-  vlan_tag     = 40
-  tags         = ["cyber", "honeypot", "tpot", "dmz", "terraform"]
+  vlan_tag     = 20
+  tags         = ["talos", "kubernetes", "k8s", "immutable", "api", "terraform"]
 }
 
 module "vm_capev2_sandbox" {

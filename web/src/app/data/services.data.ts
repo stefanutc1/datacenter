@@ -1029,5 +1029,22 @@ export const SERVICES_DATA: ServiceItem[] = [
     color: '#eab308',
     icon: 'openbsd',
     composeCode: `# QEMU KVM Virtual Machine: OpenBSD 7.5 (Hardened Bastion, Packet Filter PF, unveil/pledge sandboxing)`
+  },
+  {
+    id: 'vm-talos',
+    name: 'Talos Linux 1.7 (Kubernetes)',
+    category: 'core',
+    containerName: 'talos-k8s-node',
+    node: 'Node 1 (Intel i3-10100F) · VM 205',
+    ram: '2,048 MB',
+    storage: '32 GB NVMe',
+    ip: '192.168.1.205',
+    port: 6443,
+    domain: 'talos.homelab.local',
+    status: 'ONLINE',
+    description: 'Modern, immutable, minimal, and security-hardened Linux distribution built purely for running Kubernetes via gRPC declarative API without SSH or console access.',
+    color: '#3b82f6',
+    icon: 'kubernetes',
+    composeCode: `# QEMU KVM Virtual Machine: Talos Linux 1.7 (Immutable API-Driven Kubernetes Node, containerd CRI, Cilium CNI)`
   }
 ];

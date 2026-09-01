@@ -220,7 +220,7 @@ flowchart TD
 | **202** | `rhel-enterprise` | 2C / 1S | 2.048 MB | 50 GB SSD | VLAN 20 (`192.168.1.202`) | Red Hat Enterprise Linux 9 (SELinux Enforcing, Podman, Enterprise Stack) |
 | **203** | `freebsd-storage` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.203`) | FreeBSD 14.1-RELEASE (Stocare Nativă OpenZFS, BSD Jails & Laborator Rețea) |
 | **204** | `openbsd-bastion` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.204`) | OpenBSD 7.5 (Bastion Securizat Jump Host, Filtru Pachete PF, pledge/unveil) |
-| **205** | `tpot-honeypot-dmz` | 4C / 1S | 3.072 MB | 40 GB SSD | VLAN 40 (`192.168.40.205`) | Platformă Multi-Honeypot (Cowrie, Dionaea, RDP Honeypot, Honeytrap) |
+| **205** | `talos-k8s-node` | 2C / 1S | 2.048 MB | 32 GB SSD | VLAN 20 (`192.168.1.205`) | Talos Linux 1.7 (OS Imutabil Minimal, Control Declarativ gRPC API, Kubernetes) |
 | **206** | `capev2-malware-sandbox` | 4C / 1S | 4.096 MB | 100 GB SSD | VLAN 30 (`192.168.30.206`) | Sandbox Izolat de Analiză Malware (Win10 + INetSim + Volatility) |
 
 ---

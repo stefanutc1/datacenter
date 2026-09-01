@@ -1,0 +1,12 @@
+# Talos Linux 1.7 (VM 205)
+# Immutable, minimal, and security-hardened Linux distribution for Kubernetes
+# Managed via talosctl gRPC API (Port 50000) and Kubernetes API (Port 6443)
+# No SSH, no systemd, no console shell — 100% declarative API control plane
+services:
+  talos-node:
+    image: ghcr.io/siderolabs/talosctl:v1.7.0
+    container_name: talos-controller
+    restart: unless-stopped
+    command: talosctl -n 192.168.1.205 health
+    volumes:
+      - ./talosconfig:/root/.talos/config:ro
