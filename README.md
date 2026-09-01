@@ -760,3 +760,29 @@ This repository serves as a **production-grade engineering portfolio and persona
 Released under the **MIT License**.
 
 </div>
+
+---
+
+## 📸 Photo Gallery · Real Live Homelab Management Panels
+
+All physical hardware, virtual machines, and container workloads run live on production equipment. Below are real captures from active management and observability interfaces:
+
+| 📊 Grafana · Homelab Nodes (x64 & ARM64) | 🛡️ Grafana · OPNsense Perimeter Defense |
+| :---: | :---: |
+| ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
+
+| 🖥️ Proxmox VE 9.2 Datacenter (192.168.1.132:8006) | 🚨 OPNsense Suricata 8 NIDS/IPS Engine (192.168.1.134:8443) |
+| :---: | :---: |
+| ![Proxmox VE Dashboard](photos/proxmox_ve_dashboard.png) | ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) |
+
+| 🔒 OPNsense · VLAN Firewall Filtering (pf rules) | ⚡ OPNsense · WireGuard Kernel VPN Mesh |
+| :---: | :---: |
+| ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) |
+
+---
+
+## 👨‍💻 About the Author (About Me)
+
+Designed, engineered, and operated by **[@stefanutc1](https://github.com/stefanutc1)**.
+- **Focus**: Infrastructure Engineering, Multi-Architecture Virtualization (Proxmox VE x86_64 & Apple Silicon ARM64), Zero-Trust Perimeter Security (OPNsense, Suricata, CrowdSec, WireGuard), GitOps & IaC (Terraform, Ansible, CI/CD).
+- **Purpose**: Enterprise-grade portfolio showcasing modern on-premise and hybrid cloud systems architecture.

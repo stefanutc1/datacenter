@@ -7,6 +7,7 @@ import { NodeInspectorComponent } from './components/node-inspector/node-inspect
 import { ServiceMatrixComponent } from './components/service-matrix/service-matrix.component';
 import { HardwareFleetComponent } from './components/hardware-fleet/hardware-fleet.component';
 import { ArchitectureBlueprintComponent } from './components/architecture-blueprint/architecture-blueprint.component';
+import { AboutGalleryComponent } from './components/about-gallery/about-gallery.component';
 import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
 import { TopologyNode } from './data/topology.data';
 import { TranslationService } from './services/translation.service';
@@ -23,6 +24,7 @@ import { TranslationService } from './services/translation.service';
     ServiceMatrixComponent,
     HardwareFleetComponent,
     ArchitectureBlueprintComponent,
+    AboutGalleryComponent,
     CommandPaletteComponent
   ],
   templateUrl: './app.html',

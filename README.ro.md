@@ -548,3 +548,29 @@ Acest depozit este un **proiect de portofoliu tehnic și laborator de inginerie 
 Licențiat sub termenii **Licenței MIT**.
 
 </div>
+
+---
+
+## 📸 Galerie Foto · Panouri Reale de Management din Homelab
+
+Toate componentele hardware, mașinile virtuale și containerele rulează live pe echipamente fizice. Mai jos sunt capturi reale din instanțele active de management și observabilitate:
+
+| 📊 Grafana · Noduri Homelab (x64 & ARM64) | 🛡️ Grafana · OPNsense Perimeter Defense |
+| :---: | :---: |
+| ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
+
+| 🖥️ Proxmox VE 9.2 Datacenter (192.168.1.132:8006) | 🚨 OPNsense Suricata 8 NIDS/IPS Engine (192.168.1.134:8443) |
+| :---: | :---: |
+| ![Proxmox VE Dashboard](photos/proxmox_ve_dashboard.png) | ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) |
+
+| 🔒 OPNsense · Politici Filtrare VLAN (pf rules) | ⚡ OPNsense · WireGuard Kernel VPN Mesh |
+| :---: | :---: |
+| ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) |
+
+---
+
+## 👨‍💻 Despre Autor (About Me)
+
+Proiect conceput, configurat și operat de **[@stefanutc1](https://github.com/stefanutc1)**.
+- **Specializare**: Inginerie de Infrastructură, Virtualizare Hibridă (Proxmox VE x86_64 & Apple Silicon ARM64), Securitate Rețea & Zero-Trust (OPNsense, Suricata, CrowdSec, WireGuard), GitOps & IaC (Terraform, Ansible, CI/CD).
+- **Scop**: Portofoliu tehnic enterprise demonstrând bune practici în arhitectura de sisteme on-premise și cloud hibrid.

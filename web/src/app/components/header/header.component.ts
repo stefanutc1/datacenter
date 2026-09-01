@@ -31,6 +31,7 @@ import { TranslationService } from '../../services/translation.service';
           <a href="#topology-section" class="hover:text-emerald-400 transition-colors">{{ ts.t.navTopology }}</a>
           <a href="#hardware" class="hover:text-emerald-400 transition-colors">{{ ts.t.navHardware }}</a>
           <a href="#services" class="hover:text-emerald-400 transition-colors">{{ ts.t.navServices }}</a>
+          <a href="#about" class="hover:text-emerald-400 transition-colors">{{ ts.isRomanian ? 'Despre & Galerie' : 'About & Gallery' }}</a>
           <a href="#blueprint" class="hover:text-emerald-400 transition-colors">{{ ts.t.navBlueprint }}</a>
         </nav>
 
