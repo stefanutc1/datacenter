@@ -19,6 +19,76 @@ export interface ServiceItem {
 
 export const SERVICES_DATA: ServiceItem[] = [
 {
+    "id": "grafana",
+    "name": "Grafana Enterprise Dashboard",
+    "category": "monitoring",
+    "containerName": "grafana-server",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 Core Service",
+    "ram": "128 MB",
+    "storage": "8 GB Pool",
+    "ip": "192.168.1.132",
+    "port": 3000,
+    "domain": "grafana.homelab.local",
+    "status": "ONLINE",
+    "description": "Centralized visualization and alerting platform with pre-provisioned Prometheus & Loki data sources and multi-node infrastructure telemetry dashboards.",
+    "tags": [
+        "Grafana",
+        "Visualization",
+        "LGTM Stack",
+        "Dashboards",
+        "Alerting"
+    ],
+    "color": "#f97316",
+    "icon": "monitoring",
+    "composeCode": "# Grafana Enterprise v11.5.2 running on Node 1 (192.168.1.132:3000)\n# Credentials: root:Stefanut"
+},
+{
+    "id": "prometheus",
+    "name": "Prometheus Time-Series TSDB",
+    "category": "monitoring",
+    "containerName": "prometheus",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 Core Service",
+    "ram": "128 MB",
+    "storage": "16 GB Pool",
+    "ip": "192.168.1.132",
+    "port": 9090,
+    "domain": "prometheus.homelab.local",
+    "status": "ONLINE",
+    "description": "High-throughput metric collector scraping all homelab targets: x86_64 PVE, Apple M1 ARM64 PVE, OPNsense Telegraf, OMV NAS, and Kubernetes worker.",
+    "tags": [
+        "Prometheus",
+        "TSDB",
+        "Metrics Scraper",
+        "Node Exporter"
+    ],
+    "color": "#ef4444",
+    "icon": "monitoring",
+    "composeCode": "# Prometheus v2.53.3 listening on :9090\n# Active jobs: node1-pve, node3-arm, opnsense-gw, omv-nas, k8s-worker, loki"
+},
+{
+    "id": "loki",
+    "name": "Grafana Loki Log Aggregator",
+    "category": "monitoring",
+    "containerName": "grafana-loki",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 Core Service",
+    "ram": "64 MB",
+    "storage": "16 GB Pool",
+    "ip": "192.168.1.132",
+    "port": 3100,
+    "domain": "loki.homelab.local",
+    "status": "ONLINE",
+    "description": "Horizontally scalable, multi-tenant log aggregation system indexing metadata and log streams across all containers, hypervisors, and OPNsense.",
+    "tags": [
+        "Loki",
+        "Log Aggregation",
+        "LogQL",
+        "Observability"
+    ],
+    "color": "#eab308",
+    "icon": "monitoring",
+    "composeCode": "# Grafana Loki v3.4.2 listening on :3100\n# Structured TSDB schema with filesystem storage"
+},
+{
     "id": "opnsense-core",
     "name": "OPNsense Perimeter Firewall",
     "category": "security",

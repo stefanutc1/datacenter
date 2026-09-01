@@ -1,0 +1,48 @@
+# Prometheus Global Cluster Scrape Configuration
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+  external_labels:
+    cluster: 'homelab-enterprise'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node1-pve-x64'
+    static_configs:
+      - targets: ['192.168.1.132:9100']
+        labels:
+          node: 'pve-primary'
+          arch: 'x86_64'
+
+  - job_name: 'node3-arm64'
+    static_configs:
+      - targets: ['192.168.64.14:9100']
+        labels:
+          node: 'pve-secondary'
+          arch: 'arm64'
+
+  - job_name: 'opnsense-firewall'
+    static_configs:
+      - targets: ['192.168.1.134:9273']
+        labels:
+          node: 'opnsense-gw'
+          role: 'perimeter-firewall'
+
+  - job_name: 'omv-nas'
+    static_configs:
+      - targets: ['192.168.1.135:9100']
+        labels:
+          node: 'omv-storage'
+
+  - job_name: 'kubernetes-worker'
+    static_configs:
+      - targets: ['192.168.1.18:9100']
+        labels:
+          node: 'kubernetes-node'
+
+  - job_name: 'loki'
+    static_configs:
+      - targets: ['localhost:3100']
