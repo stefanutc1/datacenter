@@ -34,12 +34,12 @@ output "lxc_x64_summary" {
 output "lxc_arm64_summary" {
   description = "Summary of Node 3 ARM64 LXC containers"
   value = {
-    monitoring    = { vmid = module.lxc_arm_monitoring.vm_id, ip = module.lxc_arm_monitoring.ip_address, node = module.lxc_arm_monitoring.node }
-    gitea         = { vmid = module.lxc_arm_gitea.vm_id, ip = module.lxc_arm_gitea.ip_address, node = module.lxc_arm_gitea.node }
-    woodpecker    = { vmid = module.lxc_arm_woodpecker_ci.vm_id, ip = module.lxc_arm_woodpecker_ci.ip_address, node = module.lxc_arm_woodpecker_ci.node }
-    vaultwarden   = { vmid = module.lxc_arm_vaultwarden.vm_id, ip = module.lxc_arm_vaultwarden.ip_address, node = module.lxc_arm_vaultwarden.node }
-    authelia      = { vmid = module.lxc_arm_authelia.vm_id, ip = module.lxc_arm_authelia.ip_address, node = module.lxc_arm_authelia.node }
-    stepca        = { vmid = module.lxc_arm_stepca.vm_id, ip = module.lxc_arm_stepca.ip_address, node = module.lxc_arm_stepca.node }
-    renovate      = { vmid = module.lxc_arm_renovate_gitops.vm_id, ip = module.lxc_arm_renovate_gitops.ip_address, node = module.lxc_arm_renovate_gitops.node }
+    monitoring  = { vmid = module.lxc_arm_monitoring.vm_id, ip = module.lxc_arm_monitoring.ip_address, node = module.lxc_arm_monitoring.node }
+    gitea       = { vmid = module.lxc_arm_gitea.vm_id, ip = module.lxc_arm_gitea.ip_address, node = module.lxc_arm_gitea.node }
+    woodpecker  = { vmid = module.lxc_arm_woodpecker_ci.vm_id, ip = module.lxc_arm_woodpecker_ci.ip_address, node = module.lxc_arm_woodpecker_ci.node }
+    vaultwarden = { vmid = module.lxc_arm_vaultwarden.vm_id, ip = module.lxc_arm_vaultwarden.ip_address, node = module.lxc_arm_vaultwarden.node }
+    authelia    = { vmid = module.lxc_arm_authelia.vm_id, ip = module.lxc_arm_authelia.ip_address, node = module.lxc_arm_authelia.node }
+    stepca      = { vmid = module.lxc_arm_stepca.vm_id, ip = module.lxc_arm_stepca.ip_address, node = module.lxc_arm_stepca.node }
+    renovate    = { vmid = module.lxc_arm_renovate_gitops.vm_id, ip = module.lxc_arm_renovate_gitops.ip_address, node = module.lxc_arm_renovate_gitops.node }
   }
 }

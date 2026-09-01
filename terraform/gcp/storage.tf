@@ -11,7 +11,7 @@ resource "google_storage_bucket" "pbs_worm_backups" {
 
   # WORM (Write Once Read Many) Retention Policy for Ransomware Protection
   retention_policy {
-    is_locked        = false # Set to true for irreversible immutable lock
+    is_locked        = false   # Set to true for irreversible immutable lock
     retention_period = 2592000 # 30 Days immutable retention in seconds
   }
 

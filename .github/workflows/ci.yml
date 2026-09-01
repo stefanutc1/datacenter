@@ -130,12 +130,14 @@ jobs:
 
       - name: Validate Terraform Modules
         run: |
-          if [ -d terraform ]; then
-            for dir in $(find terraform -type f -name "*.tf" -exec dirname {} + | sort -u); do
-              echo "Validating Terraform in $dir..."
-              (cd "$dir" && terraform init -backend=false && terraform validate) || true
-            done
-          fi
+          for root_dir in terraform cloud; do
+            if [ -d "$root_dir" ]; then
+              for dir in $(find "$root_dir" -type f -name "*.tf" -exec dirname {} + | sort -u); do
+                echo "Validating Terraform in $dir..."
+                (cd "$dir" && terraform init -backend=false && terraform validate) || true
+              done
+            fi
+          done
 
       - name: Set up Python 3.12 for Ansible
         uses: actions/setup-python@v5

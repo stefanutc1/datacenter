@@ -35,11 +35,13 @@ jobs:
           terraform_version: "1.8.0"
 
       - name: Check Terraform Formatting
-        run: terraform fmt -check -recursive terraform/
-
-      - name: Validate Terraform Modules
         run: |
-          for dir in terraform/modules/proxmox_lxc terraform/modules/proxmox_vm terraform/proxmox; do
+          terraform fmt -check -recursive terraform/
+          terraform fmt -check -recursive cloud/
+
+      - name: Validate Terraform Modules & Cloud Providers
+        run: |
+          for dir in terraform terraform/modules/proxmox_lxc terraform/modules/proxmox_vm terraform/proxmox cloud/azure cloud/gcp cloud/aws; do
             if [ -d "$dir" ]; then
               echo "Validating $dir..."
               (cd "$dir" && terraform init -backend=false && terraform validate)
