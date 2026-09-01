@@ -1,0 +1,12 @@
+---
+- name: Configure Proxmox VE Hypervisors (x86_64 & ARM64)
+  hosts: hypervisors
+  become: true
+  roles:
+    - base
+    - ssh
+    - system_hardening
+    - zfs_tuning
+    - zram
+    - pbs_client
+    - monitoring_node

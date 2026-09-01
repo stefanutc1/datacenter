@@ -1,28 +1,45 @@
-output "lxc_inventory" {
-  description = "Machine-readable map of all provisioned LXC containers"
-  value = {
-    nginx         = { vmid = module.lxc_nginx.vm_id, ip = module.lxc_nginx.ip_address, node = module.lxc_nginx.node },
-    pihole        = { vmid = module.lxc_pihole.vm_id, ip = module.lxc_pihole.ip_address, node = module.lxc_pihole.node },
-    tailscale     = { vmid = module.lxc_tailscale.vm_id, ip = module.lxc_tailscale.ip_address, node = module.lxc_tailscale.node },
-    immich        = { vmid = module.lxc_immich.vm_id, ip = module.lxc_immich.ip_address, node = module.lxc_immich.node },
-    nextcloud     = { vmid = module.lxc_nextcloud.vm_id, ip = module.lxc_nextcloud.ip_address, node = module.lxc_nextcloud.node },
-    crowdsec      = { vmid = module.lxc_crowdsec.vm_id, ip = module.lxc_crowdsec.ip_address, node = module.lxc_crowdsec.node },
-    homeassistant = { vmid = module.lxc_homeassistant.vm_id, ip = module.lxc_homeassistant.ip_address, node = module.lxc_homeassistant.node },
-    n8n           = { vmid = module.lxc_n8n.vm_id, ip = module.lxc_n8n.ip_address, node = module.lxc_n8n.node },
-    ollama_gpu    = { vmid = module.lxc_ollama_gpu.vm_id, ip = module.lxc_ollama_gpu.ip_address, node = module.lxc_ollama_gpu.node },
-    gitea         = { vmid = module.lxc_gitea.vm_id, ip = module.lxc_gitea.ip_address, node = module.lxc_gitea.node },
-    woodpecker    = { vmid = module.lxc_woodpecker.vm_id, ip = module.lxc_woodpecker.ip_address, node = module.lxc_woodpecker.node },
-    tempo         = { vmid = module.lxc_tempo.vm_id, ip = module.lxc_tempo.ip_address, node = module.lxc_tempo.node }
-  }
-}
-
 output "vm_inventory" {
   description = "Machine-readable map of all provisioned Virtual Machines"
   value = {
-    opnsense          = { vmid = module.vm_opnsense.vm_id, name = module.vm_opnsense.name, node = module.vm_opnsense.node },
-    windows_server_ad = { vmid = module.vm_windows_server_2025.vm_id, name = module.vm_windows_server_2025.name, node = module.vm_windows_server_2025.node },
-    talos_k8s         = { vmid = module.vm_talos_kubernetes.vm_id, name = module.vm_talos_kubernetes.name, node = module.vm_talos_kubernetes.node },
-    tpot_honeynet     = { vmid = module.vm_tpot_honeypot.vm_id, name = module.vm_tpot_honeypot.name, node = module.vm_tpot_honeypot.node },
-    capev2_sandbox    = { vmid = module.vm_capev2_sandbox.vm_id, name = module.vm_capev2_sandbox.name, node = module.vm_capev2_sandbox.node }
+    opnsense          = { vmid = module.vm_opnsense_200.vm_id, name = module.vm_opnsense_200.name, node = module.vm_opnsense_200.node }
+    windows_server_ad = { vmid = module.vm_win_server_201.vm_id, name = module.vm_win_server_201.name, node = module.vm_win_server_201.node }
+    rhel_enterprise   = { vmid = module.vm_rhel_202.vm_id, name = module.vm_rhel_202.name, node = module.vm_rhel_202.node }
+    freebsd_storage   = { vmid = module.vm_freebsd_203.vm_id, name = module.vm_freebsd_203.name, node = module.vm_freebsd_203.node }
+    openbsd_bastion   = { vmid = module.vm_openbsd_204.vm_id, name = module.vm_openbsd_204.name, node = module.vm_openbsd_204.node }
+    talos_k8s         = { vmid = module.vm_talos_205.vm_id, name = module.vm_talos_205.name, node = module.vm_talos_205.node }
+    capev2_sandbox    = { vmid = module.vm_capev2_206.vm_id, name = module.vm_capev2_206.name, node = module.vm_capev2_206.node }
+  }
+}
+
+output "lxc_x64_summary" {
+  description = "Summary of Node 1 x86_64 LXC containers"
+  value = {
+    nginx         = { vmid = module.lxc_nginx.vm_id, ip = module.lxc_nginx.ip_address, node = module.lxc_nginx.node }
+    pihole        = { vmid = module.lxc_pihole.vm_id, ip = module.lxc_pihole.ip_address, node = module.lxc_pihole.node }
+    tailscale     = { vmid = module.lxc_tailscale.vm_id, ip = module.lxc_tailscale.ip_address, node = module.lxc_tailscale.node }
+    immich        = { vmid = module.lxc_immich.vm_id, ip = module.lxc_immich.ip_address, node = module.lxc_immich.node }
+    nextcloud     = { vmid = module.lxc_nextcloud.vm_id, ip = module.lxc_nextcloud.ip_address, node = module.lxc_nextcloud.node }
+    crowdsec      = { vmid = module.lxc_crowdsec.vm_id, ip = module.lxc_crowdsec.ip_address, node = module.lxc_crowdsec.node }
+    homeassistant = { vmid = module.lxc_homeassistant.vm_id, ip = module.lxc_homeassistant.ip_address, node = module.lxc_homeassistant.node }
+    n8n           = { vmid = module.lxc_n8n.vm_id, ip = module.lxc_n8n.ip_address, node = module.lxc_n8n.node }
+    ollama        = { vmid = module.lxc_ollama.vm_id, ip = module.lxc_ollama.ip_address, node = module.lxc_ollama.node }
+    paperless     = { vmid = module.lxc_paperless.vm_id, ip = module.lxc_paperless.ip_address, node = module.lxc_paperless.node }
+    vault         = { vmid = module.lxc_vault.vm_id, ip = module.lxc_vault.ip_address, node = module.lxc_vault.node }
+    pbs           = { vmid = module.lxc_pbs.vm_id, ip = module.lxc_pbs.ip_address, node = module.lxc_pbs.node }
+    pdm           = { vmid = module.lxc_pdm.vm_id, ip = module.lxc_pdm.ip_address, node = module.lxc_pdm.node }
+    pmg           = { vmid = module.lxc_pmg.vm_id, ip = module.lxc_pmg.ip_address, node = module.lxc_pmg.node }
+  }
+}
+
+output "lxc_arm64_summary" {
+  description = "Summary of Node 3 ARM64 LXC containers"
+  value = {
+    monitoring    = { vmid = module.lxc_arm_monitoring.vm_id, ip = module.lxc_arm_monitoring.ip_address, node = module.lxc_arm_monitoring.node }
+    gitea         = { vmid = module.lxc_arm_gitea.vm_id, ip = module.lxc_arm_gitea.ip_address, node = module.lxc_arm_gitea.node }
+    woodpecker    = { vmid = module.lxc_arm_woodpecker_ci.vm_id, ip = module.lxc_arm_woodpecker_ci.ip_address, node = module.lxc_arm_woodpecker_ci.node }
+    vaultwarden   = { vmid = module.lxc_arm_vaultwarden.vm_id, ip = module.lxc_arm_vaultwarden.ip_address, node = module.lxc_arm_vaultwarden.node }
+    authelia      = { vmid = module.lxc_arm_authelia.vm_id, ip = module.lxc_arm_authelia.ip_address, node = module.lxc_arm_authelia.node }
+    stepca        = { vmid = module.lxc_arm_stepca.vm_id, ip = module.lxc_arm_stepca.ip_address, node = module.lxc_arm_stepca.node }
+    renovate      = { vmid = module.lxc_arm_renovate_gitops.vm_id, ip = module.lxc_arm_renovate_gitops.ip_address, node = module.lxc_arm_renovate_gitops.node }
   }
 }

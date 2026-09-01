@@ -1,0 +1,6 @@
+---
+- name: Configure GitOps & Dependency Scanning (Gitea, Woodpecker, RenovateBot)
+  hosts: hypervisors:lxc_arm64
+  become: true
+  roles:
+    - renovatebot

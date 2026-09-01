@@ -5,7 +5,7 @@
 # ==============================================================================
 
 - name: Rolling OS Package Updates & Maintenance
-  hosts: all:!kubernetes_workers
+  hosts: hypervisors:storage_nodes:lxc_x64:lxc_arm64
   become: true
   serial: 1
   tasks:

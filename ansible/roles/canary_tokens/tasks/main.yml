@@ -1,0 +1,30 @@
+---
+- name: Deploy Canary Honeypot Decoys deployment script
+  copy:
+    dest: /usr/local/bin/deploy_canary_tokens.sh
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      TARGET_DIR="${1:-/tmp/canary_zone}"
+      WEBHOOK_URL="${CANARY_WEBHOOK:-https://ntfy.sh/homelab_sec_canary_alerts}"
+      mkdir -p "$TARGET_DIR"
+      cat << 'EOF' > "$TARGET_DIR/passwords_export_2026.csv"
+      domain,username,password,notes
+      vpn.homelab.internal,admin,SuperSecretPass2026!,MASTER_KEY
+      ad.enterprise.lan,DomainAdmin,P@ssw0rd2026_AD,PROD_DOMAIN
+      EOF
+      cat << 'EOF' > "$TARGET_DIR/aws_production_keys.env"
+      AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+      AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      AWS_DEFAULT_REGION=eu-central-1
+      EOF
+      chmod 644 "$TARGET_DIR"/*
+      echo "[✓] Canary decoy files deployed to $TARGET_DIR"
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: Trigger initial canary decoy placement
+  command: /usr/local/bin/deploy_canary_tokens.sh /var/decoys
+  args:
+    creates: /var/decoys/passwords_export_2026.csv

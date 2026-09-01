@@ -30,7 +30,7 @@ resource "proxmox_virtual_environment_vm" "vm" {
 
   memory {
     dedicated = var.memory
-    floating  = var.memory
+    floating  = var.balloon > 0 ? var.balloon : var.memory
   }
 
   disk {

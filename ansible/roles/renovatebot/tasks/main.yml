@@ -1,0 +1,49 @@
+---
+- name: Ensure RenovateBot configuration directory exists
+  file:
+    path: /opt/renovate
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: Deploy RenovateBot configuration file
+  copy:
+    dest: /opt/renovate/config.js
+    content: |
+      module.exports = {
+        platform: 'gitea',
+        endpoint: 'http://192.168.64.109:3000/api/v1',
+        token: process.env.RENOVATE_TOKEN || 'renovate_gitea_token',
+        autodiscover: true,
+        onboarding: true,
+        labels: ['dependencies', 'automated-pr', 'gitops']
+      };
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Deploy RenovateBot Docker Compose file
+  copy:
+    dest: /opt/renovate/docker-compose.yml
+    content: |
+      services:
+        renovate:
+          image: renovate/renovate:latest
+          container_name: renovatebot-gitops
+          restart: "no"
+          volumes:
+            - /opt/renovate/config.js:/usr/src/app/config.js:ro
+          environment:
+            LOG_LEVEL: info
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Schedule RenovateBot daily scanning cron
+  cron:
+    name: "RenovateBot On-Premise GitOps Dependency Scan"
+    minute: "30"
+    hour: "4"
+    job: "cd /opt/renovate && docker compose run --rm renovate >> /var/log/renovate.log 2>&1"
+    user: root

@@ -63,8 +63,8 @@ variable "memory" {
   default     = 512
 
   validation {
-    condition     = var.memory >= 64 && var.memory <= 32768
-    error_message = "Memory must be between 64 MB and 32,768 MB (32GB)."
+    condition     = var.memory >= 16 && var.memory <= 32768
+    error_message = "Memory must be between 16 MB and 32,768 MB (32GB)."
   }
 }
 

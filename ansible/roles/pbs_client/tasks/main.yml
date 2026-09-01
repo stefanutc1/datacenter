@@ -1,0 +1,15 @@
+---
+- name: Install proxmox-backup-client on Proxmox node
+  apt:
+    name: proxmox-backup-client
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Configure daily PBS backup job
+  cron:
+    name: "Automated Host PBS Backup"
+    minute: "0"
+    hour: "2"
+    job: "proxmox-backup-client backup root.pxar:/ --repository root@pam@192.168.1.149:8007:local-backup-store >> /var/log/pbs-backup.log 2>&1"
+    user: root

@@ -1,38 +1,77 @@
 ---
 # ==============================================================================
 # HOMELAB MASTER ORCHESTRATION PLAYBOOK (site.yml)
-# Execution: ansible-playbook playbooks/site.yml
+# Execution: ansible-playbook -i inventories/homelab/hosts.yml playbooks/site.yml
 # ==============================================================================
 
-# 1. BASELINE CONFIGURATION ACROSS ALL NODES
-- name: Apply Base OS, Users & Hardening
-  hosts: all:!kubernetes_workers
-  become: true
-  roles:
-    - role: base
-    - role: users
-    - role: ssh
-    - role: system_hardening
-
-# 2. HYPERVISORS SPECIALIZATION (PROXMOX VE)
-- name: Configure Proxmox VE Hypervisors
+# STAGE 1: HYPERVISORS & PHYSICAL HOSTS BASELINE
+- name: "Stage 1: Proxmox VE Hypervisors Hardening & ZRAM Acceleration"
   hosts: hypervisors
   become: true
   roles:
-    - role: zfs_tuning
-    - role: monitoring_node
+    - base
+    - ssh
+    - system_hardening
+    - zfs_tuning
+    - zram
+    - pbs_client
+    - monitoring_node
 
-# 3. CONTAINER RUNTIME & DOCKER ENGINE
-- name: Configure Container Runtimes
-  hosts: lxc_containers
+# STAGE 2: STORAGE NODE (OMV ZFS NAS)
+- name: "Stage 2: Central Storage & Backup Target (OMV NAS)"
+  hosts: storage_nodes
   become: true
   roles:
-    - role: docker
-    - role: monitoring_node
+    - base
+    - ssh
+    - zfs_tuning
+    - monitoring_node
 
-# 4. SPECIALIZED WORKLOADS: LOCAL GPU LLM (OLLAMA)
-- name: Configure Ollama GPU Node (CT 110)
-  hosts: ai_gpu
+# STAGE 3: SECURITY & ZERO-TRUST CORE (VAULT, MTLS, WIREGUARD)
+- name: "Stage 3: Zero-Trust Security, Secret Management & Key Rotation"
+  hosts: hypervisors:lxc_x64
+  become: true
+  tasks:
+    - name: Include Vault role on secret engine hosts
+      include_role:
+        name: vault
+      when: inventory_hostname in ['pve_primary_x64', 'vault']
+
+    - name: Include WireGuard Key Rotator
+      include_role:
+        name: wireguard_rotator
+      when: inventory_hostname in ['pve_primary_x64', 'opnsense_router']
+
+    - name: Include Canary Honeypot Decoys
+      include_role:
+        name: canary_tokens
+      when: inventory_hostname in ['pve_primary_x64']
+
+# STAGE 4: GITOPS & CI/CD PIPELINES (RENOVATEBOT)
+- name: "Stage 4: GitOps & Automated Dependency Engine"
+  hosts: hypervisors:lxc_arm64
+  become: true
+  tasks:
+    - name: Include RenovateBot GitOps scanner
+      include_role:
+        name: renovatebot
+      when: inventory_hostname in ['pve_utility_arm64', 'arm_renovate_gitops']
+
+# STAGE 5: DOCKER CONTAINER RUNTIMES
+- name: "Stage 5: Docker Engine & Container Daemon Baseline"
+  hosts: lxc_x64:lxc_arm64
   become: true
   roles:
-    - role: ollama
+    - base
+    - docker
+    - monitoring_node
+
+# STAGE 6: LOCAL GPU AI & LLM ACCELERATION
+- name: "Stage 6: Ollama GPU CUDA Acceleration (CT 110)"
+  hosts: lxc_x64
+  become: true
+  tasks:
+    - name: Include Ollama GPU role
+      include_role:
+        name: ollama
+      when: inventory_hostname == 'ollama'

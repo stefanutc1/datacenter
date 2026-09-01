@@ -1,0 +1,8 @@
+---
+- name: Deploy Zero-Trust Security Suite
+  hosts: hypervisors:lxc_x64
+  become: true
+  roles:
+    - vault
+    - wireguard_rotator
+    - canary_tokens

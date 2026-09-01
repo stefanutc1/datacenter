@@ -1,0 +1,11 @@
+---
+- name: Provision QEMU Virtual Machines Baseline
+  hosts: virtual_machines
+  become: true
+  tasks:
+    - name: Ensure QEMU guest agent is active
+      service:
+        name: qemu-guest-agent
+        state: started
+        enabled: yes
+      ignore_errors: yes

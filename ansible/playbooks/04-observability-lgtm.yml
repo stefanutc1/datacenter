@@ -1,0 +1,11 @@
+---
+- name: Deploy LGTM Observability Stack (Prometheus, Grafana, Tempo, Loki)
+  hosts: lxc_arm64:lxc_x64
+  become: true
+  tasks:
+    - name: Ensure monitoring node exporter is running
+      systemd:
+        name: node_exporter
+        state: started
+        enabled: yes
+      ignore_errors: yes

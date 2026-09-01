@@ -1,6 +1,6 @@
 ---
 - name: Proxmox VE ZRAM / ZSWAP Fast RAM Compression Tuning
-  hosts: proxmox_nodes
+  hosts: hypervisors
   become: true
   tasks:
     - name: Install zram-tools package

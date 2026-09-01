@@ -121,3 +121,10 @@ variable "onboot" {
   description = "Start VM on host boot"
   default     = true
 }
+
+variable "balloon" {
+  type        = number
+  description = "Minimum VirtIO dynamic memory balloon in MB (0 to disable)"
+  default     = 0
+}
+

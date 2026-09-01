@@ -31,12 +31,28 @@ ansible/
 │   ├── users/                 # Admin users, sudoers, wheel, authorized keys
 │   ├── ssh/                   # Hardened sshd_config (Ed25519 only, no root password)
 │   ├── system_hardening/      # Kernel sysctl parameters, umask, security limits
+│   ├── zram/                  # High-speed lz4 RAM swap compression & swappiness tuning
+│   ├── vault/                 # HashiCorp Vault / OpenBao automated secret injection engine
+│   ├── wireguard_rotator/     # Curve25519 automated cryptographic keypair rotation
+│   ├── canary_tokens/         # Deception honeytoken deployment & inotify alert triggers
+│   ├── renovatebot/           # On-premise GitOps dependency scanning & PR generator
+│   ├── pbs_client/            # Proxmox Backup Server client & automated verification
 │   ├── docker/                # Docker CE & Compose V2 with daemon.json limits
 │   ├── monitoring_node/       # Prometheus Node Exporter systemd unit & metrics
 │   ├── ollama/                # Ollama GPU service on CT 110 with API verification
 │   └── zfs_tuning/            # ZFS ARC memory ceilings and monthly scrub timers
 ├── playbooks/
 │   ├── site.yml               # Master cluster configuration orchestration
+│   ├── 00-hypervisors-setup.yml  # Proxmox VE hypervisors hardening & ZRAM
+│   ├── 01-vms-provision.yml   # QEMU virtual machines baseline & guest agents
+│   ├── 02-core-ingress-dns.yml   # Nginx Proxy Manager, Pi-hole & WireGuard mesh
+│   ├── 03-zerotrust-security.yml # Vault, mTLS, WireGuard Rotator & Canary Tokens
+│   ├── 04-observability-lgtm.yml # LGTM Telemetry stack (Prometheus, Grafana, Tempo, Loki)
+│   ├── 05-ai-local-gpu.yml    # Ollama GPU CUDA acceleration, Open-WebUI & Whisper
+│   ├── 06-storage-backup.yml  # PBS backup targets, PDM datacenter, PMG & MinIO
+│   ├── 07-gitops-devops.yml   # Gitea, Woodpecker CI & RenovateBot PR scanner
+│   ├── 08-media-entertainment.yml # Immich, Jellyfin, Kiwix offline Wikipedia
+│   ├── zram-tuning.yml        # Standalone ZRAM lz4 compression activator
 │   └── maintenance.yml        # Rolling package updates, docker pruning, reboot checks
 └── README.md
 ```

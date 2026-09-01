@@ -1,0 +1,6 @@
+---
+- name: Deploy Local GPU LLM & AI Services
+  hosts: lxc_x64
+  become: true
+  roles:
+    - ollama

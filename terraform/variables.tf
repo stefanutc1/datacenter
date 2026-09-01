@@ -58,3 +58,34 @@ variable "alpine_template" {
   description = "Alpine 3.24 x86_64 OS template"
   default     = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz"
 }
+
+variable "utility_node" {
+  type        = string
+  description = "Utility ARM64 Apple M1 Proxmox node name"
+  default     = "proxmox2"
+}
+
+variable "alpine_template_arm" {
+  type        = string
+  description = "Alpine 3.24 ARM64 OS template"
+  default     = "local:vztmpl/alpine-3.24-default_20260228_arm64.tar.xz"
+}
+
+variable "debian_template_arm" {
+  type        = string
+  description = "Debian 13 ARM64 OS template"
+  default     = "local:vztmpl/debian-13-standard_13.6-1_arm64.tar.zst"
+}
+
+variable "gateway_ip_arm" {
+  type        = string
+  description = "ARM64 Subnet Gateway IP"
+  default     = "192.168.64.1"
+}
+
+variable "nameserver_ip_arm" {
+  type        = string
+  description = "ARM64 Subnet DNS Nameserver IP"
+  default     = "192.168.64.1"
+}
+

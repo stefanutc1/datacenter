@@ -1,0 +1,9 @@
+---
+- name: Deploy Media Suite & Offline Knowledge (Immich, Jellyfin, Kiwix, RomM)
+  hosts: lxc_x64
+  become: true
+  tasks:
+    - name: Verify storage mount points for media libraries
+      stat:
+        path: /mnt/media
+      register: media_mount

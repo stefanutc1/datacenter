@@ -1,0 +1,61 @@
+---
+- name: Ensure Vault directory structure exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  loop:
+    - /opt/vault
+    - /opt/vault/config
+    - /opt/vault/data
+
+- name: Deploy Vault server configuration (OpenBao / HashiCorp Vault)
+  copy:
+    dest: /opt/vault/config/vault.hcl
+    content: |
+      # Managed by Ansible — Homelab Central Secret Engine
+      storage "file" {
+        path = "/vault/data"
+      }
+      listener "tcp" {
+        address       = "0.0.0.0:8200"
+        tls_disable   = 1
+      }
+      ui = true
+      api_addr = "http://127.0.0.1:8200"
+      cluster_addr = "http://127.0.0.1:8201"
+      disable_mlock = true
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Deploy Vault Docker Compose manifest
+  copy:
+    dest: /opt/vault/docker-compose.yml
+    content: |
+      services:
+        vault:
+          image: hashicorp/vault:latest
+          container_name: vault-engine
+          restart: unless-stopped
+          cap_add:
+            - IPC_LOCK
+          environment:
+            VAULT_ADDR: 'http://127.0.0.1:8200'
+          ports:
+            - '8200:8200'
+          volumes:
+            - /opt/vault/config/vault.hcl:/vault/config/vault.hcl:ro
+            - /opt/vault/data:/vault/data:rw
+          command: server -config=/vault/config/vault.hcl
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Start Vault service via Docker Compose
+  command: docker compose up -d
+  args:
+    chdir: /opt/vault
+  changed_when: false

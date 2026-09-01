@@ -1,0 +1,33 @@
+---
+- name: Deploy WireGuard automated key rotation script
+  copy:
+    dest: /usr/local/bin/wireguard_key_rotation.sh
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      echo "[*] WireGuard automated key rotation initiated: $(date -u)"
+      WG_DIR="/etc/wireguard"
+      mkdir -p "$WG_DIR"
+      NEW_PRIVKEY=$(wg genkey)
+      NEW_PUBKEY=$(echo "$NEW_PRIVKEY" | wg pubkey)
+      NEW_PSK=$(wg genpsk)
+      echo "$NEW_PRIVKEY" > "$WG_DIR/privatekey.new"
+      echo "$NEW_PUBKEY" > "$WG_DIR/publickey.new"
+      echo "$NEW_PSK" > "$WG_DIR/preshared.new"
+      chmod 600 "$WG_DIR"/*.new
+      mv "$WG_DIR/privatekey.new" "$WG_DIR/private.key"
+      mv "$WG_DIR/publickey.new" "$WG_DIR/public.key"
+      mv "$WG_DIR/preshared.new" "$WG_DIR/preshared.key"
+      echo "[✓] WireGuard key rotation complete."
+    owner: root
+    group: root
+    mode: '0750'
+
+- name: Schedule weekly WireGuard key rotation cron job
+  cron:
+    name: "WireGuard Weekly Key Rotation"
+    minute: "0"
+    hour: "3"
+    weekday: "0"
+    job: "/usr/local/bin/wireguard_key_rotation.sh >> /var/log/wireguard_rotation.log 2>&1"
+    user: root
