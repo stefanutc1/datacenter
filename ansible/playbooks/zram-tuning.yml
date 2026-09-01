@@ -1,0 +1,40 @@
+---
+- name: Proxmox VE ZRAM / ZSWAP Fast RAM Compression Tuning
+  hosts: proxmox_nodes
+  become: true
+  tasks:
+    - name: Install zram-tools package
+      apt:
+        name: zram-tools
+        state: present
+        update_cache: yes
+
+    - name: Configure zramswap with lz4 algorithm and 50% RAM allocation
+      copy:
+        dest: /etc/default/zramswap
+        content: |
+          ALGO=lz4
+          PERCENT=50
+          PRIORITY=100
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart zramswap
+
+    - name: Configure sysctl swappiness and cache pressure
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+        sysctl_file: /etc/sysctl.d/99-zram.conf
+      loop:
+        - { name: 'vm.swappiness', value: '60' }
+        - { name: 'vm.vfs_cache_pressure', value: '50' }
+
+  handlers:
+    - name: Restart zramswap
+      systemd:
+        name: zramswap
+        state: restarted
+        enabled: yes

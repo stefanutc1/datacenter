@@ -6,6 +6,7 @@ export interface HardwareNode {
   cpu: string;
   gpu?: string;
   ram: string;
+  zram?: string;
   storage: string;
   psu?: string;
   os: string;
@@ -13,6 +14,14 @@ export interface HardwareNode {
   status: 'OPERATIONAL' | 'STANDBY';
   tags: string[];
   workloads: string[];
+  ballooningTable?: {
+    vmid: number;
+    name: string;
+    os: string;
+    allocatedMb: number;
+    balloonMinMb: number;
+    purpose: string;
+  }[];
 }
 
 export const HARDWARE_NODES: HardwareNode[] = [
@@ -20,23 +29,32 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node1-pve',
     name: 'Proxmox Primary (proxmox)',
     machine: 'Custom Desktop Compute Chassis',
-    role: 'Serves as the primary x86_64 virtualization hypervisor for the entire homelab. It runs the perimeter OPNsense firewall, core enterprise virtual machines, and dedicated GPU-accelerated local AI inference workloads.',
+    role: 'Serves as the primary x86_64 virtualization hypervisor for the entire homelab. It runs the perimeter OPNsense firewall, core enterprise virtual machines with active VirtIO ballooning, and dedicated GPU-accelerated local AI inference workloads.',
     cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz Turbo)',
     gpu: 'NVIDIA GeForce GTX 1050 Ti (4GB VRAM · PCIe Passthrough to Ollama / ML Workbench & Faster-Whisper)',
     ram: '8,192 MB DDR4 (Upgrading to 12,288 MB DDR4)',
+    zram: '3.8 GB /dev/zram0 (lz4 compression, swappiness 60, priority 100 · Protects NVMe disk endurance)',
     storage: '512 GB SSD (Local LVM Thin Pool · 310 GB Available)',
     psu: 'Coldex 350W Pure Sine Wave Power Supply',
-    os: 'Proxmox VE 9.2 (Linux 7.0 pve kernel)',
+    os: 'Proxmox VE 9.2 (Linux 7.0 pve kernel · zram-tools enabled)',
     ip: '192.168.1.132 (OPNsense: 192.168.1.132:8443)',
     status: 'OPERATIONAL',
-    tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'PCIe GPU Passthrough', 'OPNsense Perimeter', 'Enterprise VMs'],
+    tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'ZRAM lz4 (3.8GB)', 'PCIe GPU Passthrough', 'VirtIO Ballooning', 'Enterprise VMs'],
+    ballooningTable: [
+      { vmid: 200, name: 'opnsense', os: 'Hardened FreeBSD 14', allocatedMb: 2048, balloonMinMb: 1024, purpose: 'Core Perimeter Firewall & Suricata IDS/IPS' },
+      { vmid: 201, name: 'windows', os: 'Windows Server 2025', allocatedMb: 4096, balloonMinMb: 2048, purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough' },
+      { vmid: 202, name: 'rhel', os: 'RHEL 9.8 Enterprise', allocatedMb: 2048, balloonMinMb: 1024, purpose: 'SELinux Enforcing, Enterprise Services & Podman Engine' },
+      { vmid: 203, name: 'freebsd', os: 'FreeBSD 15.1-RELEASE', allocatedMb: 1536, balloonMinMb: 768, purpose: 'OpenZFS Storage Pool & BSD Jails Lab' },
+      { vmid: 204, name: 'openbsd', os: 'OpenBSD 7.9 Bastion', allocatedMb: 1536, balloonMinMb: 768, purpose: 'Hardened Jump Host, Packet Filter PF & unveil/pledge' },
+      { vmid: 205, name: 'talos', os: 'Talos Linux 1.7', allocatedMb: 2048, balloonMinMb: 1024, purpose: 'Immutable API-Driven Kubernetes Node & Cilium CNI' }
+    ],
     workloads: [
-      'VM 200: OPNsense Core Firewall & Suricata IDS/IPS',
-      'VM 201: Windows Server 2025 Datacenter (AD DS / GPO)',
-      'VM 202: Red Hat Enterprise Linux 9.4 (RHEL Enterprise Workload)',
-      'VM 203: FreeBSD 14.1-RELEASE (ZFS Storage & BSD Network Lab)',
-      'VM 204: OpenBSD 7.5 (PF Packet Filter & Hardened Bastion)',
-      'VM 205: Talos Linux 1.7 (Immutable, Hardened API-Driven Kubernetes Node)',
+      'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB)',
+      'VM 201: Windows Server 2025 Datacenter (4096 MB / Balloon: 2048 MB · GPU Passthrough)',
+      'VM 202: Red Hat Enterprise Linux 9.8 (2048 MB / Balloon: 1024 MB)',
+      'VM 203: FreeBSD 15.1-RELEASE (1536 MB / Balloon: 768 MB)',
+      'VM 204: OpenBSD 7.9 (1536 MB / Balloon: 768 MB)',
+      'VM 205: Talos Linux 1.7 (2048 MB / Balloon: 1024 MB)',
       'CT 100-109: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-119: Ollama LLM, Open-WebUI, Paperless-ngx, MinIO S3, Transmission, Kavita, Stirling-PDF, Meilisearch, Vector, Faster-Whisper',
       'CT 120-129: SearXNG, Flowise, NetAlertX, RustDesk, Audiobookshelf, TubeArchivist, Kopia, WG-Easy, Calibre-Web, Code-Server IDE',
@@ -73,17 +91,18 @@ export const HARDWARE_NODES: HardwareNode[] = [
     role: 'Acts as an energy-efficient ARM64 development and observability hypervisor. It runs full-stack telemetry pipelines, continuous integration runners, private identity authorities, and lightweight microservices.',
     cpu: 'Apple M1 (8 Cores: 4 Performance Firestorm + 4 Efficiency Icestorm, 16-Core NPU)',
     ram: '8,192 MB Unified Memory (4,096 MB dedicated to UTM Proxmox ARM64 VM)',
+    zram: '1.9 GB /dev/zram0 (lz4 compression, swappiness 20, priority 100 · High-speed memory compression)',
     storage: '55 GB NVMe SSD Pool (41 GB rootfs LVM Thin · 30 GB Available)',
-    os: 'Proxmox VE on ARM via UTM (QEMU Apple Hypervisor.framework)',
+    os: 'Proxmox VE on ARM via UTM (QEMU Apple Hypervisor.framework · zram-tools enabled)',
     ip: '192.168.64.14',
     status: 'OPERATIONAL',
-    tags: ['Apple Silicon ARM64', 'High Efficiency', 'LGTM Observability', 'Gitea & Woodpecker CI', 'Distributed Tracing'],
+    tags: ['Apple Silicon ARM64', 'High Efficiency', 'ZRAM lz4 (1.9GB)', 'LGTM Observability', 'Gitea & Woodpecker CI', 'RenovateBot GitOps'],
     workloads: [
       'CT 100-109: IT-Tools, Actual Budget, Trilium, ChangeDetection, Scrutiny, Uptime Kuma, Vaultwarden, Prometheus/Grafana, Authelia, Gitea',
       'CT 110-119: Woodpecker CI, Gatus Health, ntfy Push, Linkding, Step-CA PKI, Tailscale ARM, Beszel Telemetry, PocketBase, Homepage, Speedtest-Tracker',
       'CT 120-129: Memos, Wallos, SyncThing, Microbin, Vikunja, Blackbox Exporter, YourSpotify, Web-Check OSINT, Opengist, Flatnotes',
       'CT 130-139: Bark Server, Shiori, Whoogle, Flame, Dashy, Shlink, Pastefy, Pingvin-Share, RSS-Bridge, Playwright-Probe',
-      'CT 140-148: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall, Proxmox Backup Server (PBS), Proxmox Datacenter Manager (PDM), Proxmox Mail Gateway (PMG)'
+      'CT 140-149: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall, PBS, PDM, PMG, RenovateBot GitOps Engine'
     ]
   },
   {

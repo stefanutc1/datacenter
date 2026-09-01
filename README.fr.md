@@ -215,17 +215,32 @@ flowchart TB
 | **147** | `pdm` | Alpine 3.24 | 2 | 512 Mo | `local:2G` | `192.168.64.147` | Gestion | Proxmox Datacenter Manager (Orchestrateur Multi-Cluster) |
 | **148** | `pmg` | Alpine 3.24 | 2 | 512 Mo | `local:2G` | `192.168.64.148` | Sécurité / Mail | Proxmox Mail Gateway (Protection Antispam & ClamAV) |
 
-### Machines Virtuelles QEMU / KVM
+### Machines Virtuelles QEMU / KVM & VirtIO Memory Ballooning
 
-| VMID | Nom | Cœurs / Sockets | RAM | Taille Disque | Interface Réseau | Rôle Principal |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense-firewall` | 2C / 1S | 1 024 Mo | 16 Go SSD | Trunk Multi-VLAN | Pare-feu Périmétrique, Suricata IDS/IPS, Passerelle WireGuard |
-| **201** | `win-server-2025` | 4C / 1S | 4 096 Mo | 120 Go SSD | VLAN 20 (`192.168.20.201`) | Active Directory (AD DS), DNS, Stratégies de Groupe (GPO), Sysmon |
-| **202** | `rhel-enterprise` | 2C / 1S | 2 048 Mo | 50 Go SSD | VLAN 20 (`192.168.1.202`) | Red Hat Enterprise Linux 9 (SELinux Enforcing, Podman, Stack Entreprise) |
-| **203** | `freebsd-storage` | 2C / 1S | 1 536 Mo | 25 Go SSD | VLAN 20 (`192.168.1.203`) | FreeBSD 14.1-RELEASE (Stockage Natif OpenZFS, BSD Jails & Lab Réseau) |
-| **204** | `openbsd-bastion` | 2C / 1S | 1 536 Mo | 25 Go SSD | VLAN 20 (`192.168.1.204`) | OpenBSD 7.5 (Bastion Sécurisé Jump Host, Filtre de Paquets PF, pledge/unveil) |
-| **205** | `talos-k8s-node` | 2C / 1S | 2 048 Mo | 32 Go SSD | VLAN 20 (`192.168.1.205`) | Talos Linux 1.7 (OS Immuable Minimaliste, API Déclarative gRPC, Kubernetes) |
-| **206** | `capev2-malware-sandbox` | 4C / 1S | 4 096 Mo | 100 Go SSD | VLAN 30 (`192.168.30.206`) | Bac à Sable Isolé d'Analyse Malware (Win10 + INetSim + Volatility) |
+| VMID | Nom VM | Système d'Exploitation | vCPU | RAM Max | Balloon Min | Passthrough / Matériel | Rôle Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Coeurs | 2.048 Mo | **1.024 Mo** | VirtIO Net Multi-VLAN | Pare-feu Périmétrique, Suricata IDS/IPS, Rotation Clés WireGuard |
+| **201** | `windows` | Windows Server 2025 | 2 Coeurs | 4.096 Mo | **2.048 Mo** | **GTX 1050 Ti PCIe Passthrough** | Active Directory (AD DS), GPO, DNS, Télémetrie Sysmon |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Coeurs | 2.048 Mo | **1.024 Mo** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Services Entreprise |
+| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Coeurs | 1.536 Mo | **768 Mo** | VirtIO SCSI Single | Stockage Natif OpenZFS, FreeBSD Jails & Laboratoire Réseau |
+| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Coeurs | 1.536 Mo | **768 Mo** | VirtIO SCSI Single | Bastion Sécurisé Jump Host, Filtre PF, pledge/unveil |
+| **205** | `talos` | Talos Linux 1.7 | 2 Coeurs | 2.048 Mo | **1.024 Mo** | VirtIO Single + Cilium CNI | OS Immuable Minimaliste, API Déclarative gRPC, Kubernetes |
+| **206** | `capev2` | Sandbox Win10 / Linux | 4 Coeurs | 4.096 Mo | **2.048 Mo** | Isolation Complète (Air-Gap) | Sandbox d'Analyse Malware Dynamique, Volatility & Cuckoo |
+
+### Optimisation Mémoire Hôte: ZRAM / ZSWAP Fast RAM Compression
+
+* **Algorithme**: `lz4` ultra-rapide avec overhead CPU < 1%.
+* **Nœud 1 (x86_64) ZRAM**: `/dev/zram0` (3.8 Go RAM compressé swap, priorité 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
+* **Nœud 3 (ARM64) ZRAM**: `/dev/zram0` (1.9 Go RAM compressé swap, priorité 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
+* **Protection NVMe**: Les pages de mémoire swap sont compressées directement en RAM, éliminant l'usure des disques SSD NVMe.
+
+### Sécurité Zero-Trust & Proving Ground Entreprise
+
+1. **HashiCorp Vault / OpenBao**: Gestion centralisée des secrets sans fichiers `.env` locaux exposés.
+2. **Module Kernel WireGuard sur OPNsense avec Rotation Automatique des Clés**: Rotation périodique des clés Curve25519 et PSK via Ansible/cron.
+3. **mTLS (Mutual TLS) Inter-Services**: Authentification mutuelle par certificats clients entre proxies et backends critiques du VLAN 20.
+4. **Canary Honeytokens & Fichiers Pièges**: Fichiers leurres (`passwords.csv`, `aws_keys.env`) en DMZ déclenchant des alertes Telegram/ntfy.
+5. **RenovateBot GitOps On-Premise**: Mises à jour automatisées des conteneurs et modules Terraform via Pull Requests Gitea.
 
 ---
 

@@ -70,6 +70,17 @@ import { TranslationService } from '../../services/translation.service';
           {{ ts.t.tabCyber }}
         </button>
         <button
+          (click)="activeTab = 'zerotrust'"
+          [class.bg-emerald-500]="activeTab === 'zerotrust'"
+          [class.text-slate-950]="activeTab === 'zerotrust'"
+          [class.font-bold]="activeTab === 'zerotrust'"
+          [class.text-slate-300]="activeTab !== 'zerotrust'"
+          [class.bg-obsidian-900]="activeTab !== 'zerotrust'"
+          class="px-3.5 py-2 rounded-xl text-xs font-medium border border-obsidian-750 transition-all whitespace-nowrap"
+        >
+          {{ ts.isRomanian ? 'Zero-Trust & GitOps Proving Ground' : 'Zero-Trust & GitOps Proving Ground' }}
+        </button>
+        <button
           (click)="activeTab = 'generator'"
           [class.bg-emerald-500]="activeTab === 'generator'"
           [class.text-slate-950]="activeTab === 'generator'"
@@ -291,6 +302,161 @@ import { TranslationService } from '../../services/translation.service';
         </div>
       }
 
+      <!-- TAB: ZERO-TRUST & GITOPS PROVING GROUND -->
+      @if (activeTab === 'zerotrust') {
+        <div class="space-y-6 font-mono text-xs">
+          
+          <!-- Grid 1: Vault / OpenBao & WireGuard Key Rotation -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Vault / OpenBao Secret Automation -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
+                <div>
+                  <div class="text-[10px] text-emerald-400 font-bold uppercase">Secret Injection Pipeline</div>
+                  <h3 class="font-bold text-sm text-slate-50 mt-0.5">HashiCorp Vault / OpenBao</h3>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">ZERO .ENV ON DISK</span>
+              </div>
+              <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                Centralized secrets engine providing automated dynamic token generation and ephemeral credentials for Terraform, Ansible, and Woodpecker CI runners.
+              </p>
+              <div class="space-y-2 text-[11px]">
+                <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
+                  <span>KV v2 Secret Backend:</span>
+                  <span class="text-emerald-400 font-bold">secret/data/homelab/*</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
+                  <span>Dynamic DB Credential TTL:</span>
+                  <span class="text-slate-100 font-bold">1 Hour Lease (Auto-Revoke)</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
+                  <span>Transit Encryption:</span>
+                  <span class="text-emerald-400 font-bold">AES-256-GCM / Ed25519</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- WireGuard Kernel Key Rotation -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
+                <div>
+                  <div class="text-[10px] text-emerald-400 font-bold uppercase">Automated Cryptographic Rotation</div>
+                  <h3 class="font-bold text-sm text-slate-50 mt-0.5">WireGuard Kernel Key Rotator</h3>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">ZERO DOWNTIME</span>
+              </div>
+              <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                Automated periodic rotation of Curve25519 keypairs and pre-shared keys (PSK) directly on the OPNsense WireGuard kernel module.
+              </p>
+              <div class="space-y-2 text-[11px]">
+                <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
+                  <span>Rotation Schedule:</span>
+                  <span class="text-emerald-400 font-bold">Weekly Automated Cron</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
+                  <span>Key Algorithm:</span>
+                  <span class="text-slate-100 font-bold">Curve25519 + ChaCha20-Poly1305</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
+                  <span>Peer Handshake Status:</span>
+                  <span class="text-emerald-400 font-bold">Synchronized via Vault API</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Grid 2: mTLS & Canary Honeytokens & RenovateBot -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- mTLS Inter-Service -->
+            <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                <h4 class="font-bold text-sm text-slate-50">mTLS Inter-Service Gateway</h4>
+                <span class="text-[10px] text-emerald-400 font-bold">VLAN 20</span>
+              </div>
+              <p class="text-slate-300 font-sans text-xs">
+                Mandatory mutual client certificate verification between ingress proxies and backend databases or secret stores.
+              </p>
+              <div class="text-[11px] p-2 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200 space-y-1">
+                <div>• Mode: <span class="text-emerald-400 font-bold">require_and_verify</span></div>
+                <div>• Root CA: <span class="text-slate-100">Step-CA Automated PKI</span></div>
+                <div>• Cipher: <span class="text-slate-100">TLS_AES_256_GCM_SHA384</span></div>
+              </div>
+            </div>
+
+            <!-- Canary Honeytokens -->
+            <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                <h4 class="font-bold text-sm text-slate-50">Canary Honeytokens</h4>
+                <span class="text-[10px] text-rose-400 font-bold">DECEPTION</span>
+              </div>
+              <p class="text-slate-300 font-sans text-xs">
+                Deceptive honeypot files (<code class="text-amber-300">passwords.csv</code>, <code class="text-amber-300">aws_keys.env</code>) in DMZ and SMB shares that trigger instant alerts when accessed.
+              </p>
+              <div class="text-[11px] p-2 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200 space-y-1">
+                <div>• Trigger: <span class="text-rose-400 font-bold">Linux Inotify + Webhook</span></div>
+                <div>• Alert Target: <span class="text-slate-100">Telegram & ntfy Push</span></div>
+                <div>• Response: <span class="text-emerald-400 font-bold">Automatic IP Ban via CrowdSec</span></div>
+              </div>
+            </div>
+
+            <!-- RenovateBot GitOps -->
+            <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                <h4 class="font-bold text-sm text-slate-50">RenovateBot GitOps</h4>
+                <span class="text-[10px] text-sky-400 font-bold">AUTOMATION</span>
+              </div>
+              <p class="text-slate-300 font-sans text-xs">
+                On-premise dependency scanning engine inspecting internal Gitea repositories and filing automated Pull Requests for new releases.
+              </p>
+              <div class="text-[11px] p-2 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200 space-y-1">
+                <div>• Target: <span class="text-sky-400 font-bold">Docker, Terraform & Go</span></div>
+                <div>• Forge: <span class="text-slate-100">Gitea Internal API v1</span></div>
+                <div>• Verification: <span class="text-emerald-400 font-bold">Woodpecker CI Automated Test</span></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Grid 3: ZRAM & VirtIO Dynamic Memory Ballooning Engine -->
+          <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
+            <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
+              <div>
+                <div class="text-[10px] text-emerald-400 font-bold uppercase">Memory Acceleration & Lifespan Protection</div>
+                <h3 class="font-bold text-sm text-slate-50 mt-0.5">ZRAM Hardware Compression & Dynamic Ballooning Engine</h3>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">LZ4 COMPRESSION ACTIVE</span>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-[11px]">
+              <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
+                <div class="text-[9px] text-slate-400 uppercase">Node 1 (x86_64) ZRAM</div>
+                <div class="font-bold text-emerald-400 text-sm">3.8 GB /dev/zram0</div>
+                <div class="text-[10px] text-slate-400">ALGO=lz4 · Swappiness 60</div>
+              </div>
+              <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
+                <div class="text-[9px] text-slate-400 uppercase">Node 3 (ARM64) ZRAM</div>
+                <div class="font-bold text-emerald-400 text-sm">1.9 GB /dev/zram0</div>
+                <div class="text-[10px] text-slate-400">ALGO=lz4 · Swappiness 20</div>
+              </div>
+              <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
+                <div class="text-[9px] text-slate-400 uppercase">NVMe Lifespan Protection</div>
+                <div class="font-bold text-slate-100 text-sm">99.1% Remaining</div>
+                <div class="text-[10px] text-emerald-400">Zero SSD Swap Wear</div>
+              </div>
+              <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
+                <div class="text-[9px] text-slate-400 uppercase">VirtIO Ballooning VMs</div>
+                <div class="font-bold text-slate-100 text-sm">6 QEMU VMs</div>
+                <div class="text-[10px] text-emerald-400">Dynamic 768MB → 4096MB</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      }
+
       <!-- TAB 5: IAC GENERATOR & RUNBOOKS -->
       @if (activeTab === 'generator') {
         <div class="space-y-6 font-mono text-xs">
@@ -419,7 +585,7 @@ import { TranslationService } from '../../services/translation.service';
 })
 export class ArchitectureBlueprintComponent {
   ts = inject(TranslationService);
-  activeTab: 'vlan' | 'power' | 'storage' | 'cyber' | 'generator' | 'chaos' | 'observability' | 'glossary' = 'vlan';
+  activeTab: 'vlan' | 'power' | 'storage' | 'cyber' | 'zerotrust' | 'generator' | 'chaos' | 'observability' | 'glossary' = 'vlan';
 
   genHostname = 'custom-app';
   genVmid = 120;

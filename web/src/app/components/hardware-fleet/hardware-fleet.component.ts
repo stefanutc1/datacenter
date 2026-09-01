@@ -78,6 +78,13 @@ import { TranslationService } from '../../services/translation.service';
                   </div>
                 }
 
+                @if (hw.zram) {
+                  <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 col-span-2">
+                    <div class="text-[10px] text-emerald-400 uppercase font-bold">⚡ ZRAM / ZSWAP Fast RAM Compression</div>
+                    <div class="text-xs font-bold text-slate-100 mt-0.5 truncate" [title]="hw.zram">{{ hw.zram }}</div>
+                  </div>
+                }
+
                 @if (hw.psu) {
                   <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 col-span-2 sm:col-span-1">
                     <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.hwPsu }}</div>
@@ -86,6 +93,47 @@ import { TranslationService } from '../../services/translation.service';
                 }
 
               </div>
+
+              <!-- Tags -->
+              @if (hw.tags && hw.tags.length > 0) {
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  @for (t of hw.tags; track t) {
+                    <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-obsidian-900 border border-obsidian-700 text-slate-300">
+                      #{{ t }}
+                    </span>
+                  }
+                </div>
+              }
+
+              <!-- VM Ballooning Table (Node 1) -->
+              @if (hw.ballooningTable && hw.ballooningTable.length > 0) {
+                <div class="space-y-2 pt-2 font-mono">
+                  <div class="text-xs uppercase tracking-wider text-emerald-400 font-bold flex items-center justify-between">
+                    <span>QEMU VirtIO Ballooning (6 VMs)</span>
+                    <span class="text-[10px] text-slate-400 font-normal">Min → Max Dynamic RAM</span>
+                  </div>
+                  <div class="overflow-x-auto rounded-xl border border-obsidian-750 bg-obsidian-900/90 p-2">
+                    <table class="w-full text-left text-[11px]">
+                      <thead>
+                        <tr class="border-b border-obsidian-750 text-slate-400 text-[10px] uppercase">
+                          <th class="pb-1.5">VM</th>
+                          <th class="pb-1.5">OS / Purpose</th>
+                          <th class="pb-1.5 text-right">Balloon (Min → Max)</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-obsidian-750/50">
+                        @for (vm of hw.ballooningTable; track vm.vmid) {
+                          <tr>
+                            <td class="py-1.5 font-bold text-emerald-400">VM {{ vm.vmid }} ({{ vm.name }})</td>
+                            <td class="py-1.5 text-slate-300 truncate max-w-[160px]">{{ vm.purpose }}</td>
+                            <td class="py-1.5 text-right font-mono text-slate-100">{{ vm.balloonMinMb }} MB → {{ vm.allocatedMb }} MB</td>
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              }
 
               <!-- Workloads Hosted on this Node -->
               <div class="space-y-2 pt-2 font-mono">

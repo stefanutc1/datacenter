@@ -239,17 +239,38 @@ flowchart TD
 | **147** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.147` | Management | Proxmox Datacenter Manager (Multi-Cluster Management) |
 | **148** | `pmg` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.148` | Security / Mail | Proxmox Mail Gateway (SpamAssassin & ClamAV Protection) |
 
-### QEMU / KVM Virtual Machines
+### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning Matrix
 
-| VMID | Name | Cores / Sockets | RAM | Disk Size | Network Interface | Primary Operating Role |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense-firewall` | 2C / 1S | 1,024 MB | 16 GB SSD | Multi-VLAN Trunk | Perimeter Stateful Firewall, Suricata IDS/IPS, WireGuard Gateway |
-| **201** | `win-server-2025` | 4C / 1S | 4,096 MB | 120 GB SSD | VLAN 20 (`192.168.20.201`) | Active Directory (AD DS), DNS, Group Policy (GPO), Sysmon Forwarder |
-| **202** | `rhel-enterprise` | 2C / 1S | 2,048 MB | 50 GB SSD | VLAN 20 (`192.168.1.202`) | Red Hat Enterprise Linux 9 (SELinux Enforcing, Podman, Enterprise Stack) |
-| **203** | `freebsd-storage` | 2C / 1S | 1,536 MB | 25 GB SSD | VLAN 20 (`192.168.1.203`) | FreeBSD 14.1-RELEASE (OpenZFS Native Storage, BSD Jails & Network Lab) |
-| **204** | `openbsd-bastion` | 2C / 1S | 1,536 MB | 25 GB SSD | VLAN 20 (`192.168.1.204`) | OpenBSD 7.5 (Hardened Bastion Jump Host, Packet Filter PF, pledge/unveil) |
-| **205** | `talos-k8s-node` | 2C / 1S | 2,048 MB | 32 GB SSD | VLAN 20 (`192.168.1.205`) | Talos Linux 1.7 (Immutable Minimal OS, Declarative gRPC API, Kubernetes) |
-| **206** | `capev2-malware-sandbox` | 4C / 1S | 4,096 MB | 100 GB SSD | VLAN 30 (`192.168.30.206`) | Isolated Malware Analysis Sandbox (Win10 + INetSim + Volatility) |
+| VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware Tech | Primary Architecture Role |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Net Multi-VLAN | Perimeter Stateful Firewall, Suricata IDS/IPS, WireGuard Key Rotator |
+| **201** | `windows` | Windows Server 2025 | 2 Cores | 4,096 MB | **2,048 MB** | **GTX 1050 Ti PCIe Passthrough** | Active Directory Domain Services (AD DS), Group Policy (GPO), Sysmon |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless Containers, Enterprise Services |
+| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1,536 MB | **768 MB** | VirtIO SCSI Single | Native OpenZFS Storage Pool, FreeBSD Jails & BSD Network Lab |
+| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1,536 MB | **768 MB** | VirtIO SCSI Single | Ultra-Hardened Jump Bastion, Packet Filter (PF), pledge/unveil sandboxing |
+| **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, Declarative gRPC Control, Kubernetes Worker Node |
+| **206** | `capev2` | Win10 / Linux Sandbox | 4 Cores | 4,096 MB | **2,048 MB** | Air-Gapped Quarantine | Dynamic Malware Analysis Sandbox, Volatility Forensics & Cuckoo |
+
+### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
+
+* **Compression Algorithm**: Ultra-fast `lz4` with < 1% CPU overhead.
+* **Node 1 (x86_64) ZRAM**: `/dev/zram0` (3.8 GB RAM compressed swap, priority 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
+* **Node 3 (ARM64) ZRAM**: `/dev/zram0` (1.9 GB RAM compressed swap, priority 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
+* **NVMe Lifespan Protection**: High-frequency memory pages are compressed directly in RAM before touching NVMe storage, eliminating SSD wear and IO blocking.
+
+### Zero-Trust Security & Enterprise Proving Ground
+
+1. **HashiCorp Vault / OpenBao**:
+   - Centralized secret management with zero `.env` files stored on local disks.
+   - Automated dynamic token generation and ephemeral credential injection for Terraform, Ansible, and Woodpecker CI.
+2. **WireGuard Kernel Module on OPNsense with Automated Key Rotation**:
+   - Zero-downtime periodic rotation of Curve25519 cryptographic keypairs and pre-shared keys (PSK) via Ansible and cron.
+3. **Mutual TLS (mTLS) Inter-Service Communication**:
+   - Mandatory cryptographic client-certificate verification between ingress gateways and critical backend services in VLAN 20.
+4. **Canary Honeytokens & Directory Decoys**:
+   - Deceptive decoy files (`passwords.csv`, `aws_keys.env`, `id_rsa_backup`) placed in DMZ containers and SMB shares that trigger instant Telegram/ntfy webhooks upon access.
+5. **RenovateBot On-Premise GitOps Automation**:
+   - Continuous dependency scanning engine inspecting internal Gitea repositories and filing automated Pull Requests for new Docker images and Terraform modules.
 
 ---
 

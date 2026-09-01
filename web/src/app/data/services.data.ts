@@ -1443,5 +1443,120 @@ export const SERVICES_DATA: ServiceItem[] = [
     "color": "#d97706",
     "icon": "proxmox",
     "composeCode": "services:\n  pmg:\n    image: alpine:latest\n    restart: unless-stopped\n    ports:\n      - \"8006:8006\"\n      - \"25:25\""
+  },
+  {
+    "id": "vault",
+    "name": "HashiCorp Vault / OpenBao",
+    "category": "security",
+    "containerName": "vault-secrets",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 CT 149 / Node 3",
+    "ram": "256 MB",
+    "storage": "10 GB Pool",
+    "ip": "192.168.1.132 / 192.168.64.14",
+    "port": 8200,
+    "domain": "vault.homelab.local",
+    "status": "ONLINE",
+    "description": "Provides centralized secret storage, dynamic database credentials, and automated secret injection for Terraform and Ansible without exposing environment variables.",
+    "tags": [
+      "Secret Management",
+      "OpenBao",
+      "PKI Engine",
+      "Zero-Trust"
+    ],
+    "color": "#10b981",
+    "icon": "shield",
+    "composeCode": "services:\n  vault:\n    image: hashicorp/vault:latest\n    ports:\n      - \"8200:8200\"\n    environment:\n      - VAULT_ADDR=http://0.0.0.0:8200"
+  },
+  {
+    "id": "renovate",
+    "name": "RenovateBot GitOps Engine",
+    "category": "automation",
+    "containerName": "renovatebot",
+    "node": "Node 3 (Apple M1 ARM64) \u00b7 CT 149",
+    "ram": "192 MB",
+    "storage": "4 GB Pool",
+    "ip": "192.168.64.149",
+    "port": 80,
+    "domain": "renovate.homelab.local",
+    "status": "ONLINE",
+    "description": "Scans internal Gitea repositories continuously to detect outdated Docker container images and Terraform modules, automatically opening Pull Requests.",
+    "tags": [
+      "GitOps",
+      "Dependency Scanner",
+      "Automated PRs",
+      "DevOps"
+    ],
+    "color": "#0ea5e9",
+    "icon": "terminal",
+    "composeCode": "services:\n  renovate:\n    image: renovate/renovate:latest\n    environment:\n      - RENOVATE_PLATFORM=gitea\n      - RENOVATE_AUTODISCOVER=true"
+  },
+  {
+    "id": "wireguard-rotator",
+    "name": "WireGuard Kernel Key Rotator",
+    "category": "security",
+    "containerName": "wireguard-rotator",
+    "node": "Node 1 OPNsense \u00b7 VM 200",
+    "ram": "64 MB",
+    "storage": "1 GB Pool",
+    "ip": "192.168.1.132:8443",
+    "port": 51820,
+    "domain": "wg-rotator.homelab.local",
+    "status": "ONLINE",
+    "description": "Automates periodic Curve25519 cryptographic keypair rotation on the OPNsense WireGuard kernel module with zero downtime.",
+    "tags": [
+      "WireGuard",
+      "Key Rotation",
+      "Zero-Downtime",
+      "Kernel Module"
+    ],
+    "color": "#6366f1",
+    "icon": "wireguard",
+    "composeCode": "# Automated Curve25519 Key Rotation Daemon via Ansible and OPNsense REST API"
+  },
+  {
+    "id": "caddy-mtls",
+    "name": "mTLS Inter-Service Gateway",
+    "category": "security",
+    "containerName": "caddy-mtls-proxy",
+    "node": "VLAN 20 Security Subnet",
+    "ram": "64 MB",
+    "storage": "2 GB Pool",
+    "ip": "192.168.20.15",
+    "port": 8443,
+    "domain": "mtls.homelab.local",
+    "status": "ONLINE",
+    "description": "Enforces strict cryptographic mutual TLS (mTLS) verification between ingress proxies and critical backend database and secret engines.",
+    "tags": [
+      "Mutual TLS",
+      "mTLS",
+      "Client Certificates",
+      "Zero-Trust Core"
+    ],
+    "color": "#14b8a6",
+    "icon": "shield",
+    "composeCode": "https://backend.internal:8443 {\n  tls {\n    client_auth {\n      mode require_and_verify\n    }\n  }\n}"
+  },
+  {
+    "id": "canary-decoys",
+    "name": "Canary Honeytokens & Decoys",
+    "category": "cyber",
+    "containerName": "canary-agent",
+    "node": "DMZ & Public Share Decoy Mesh",
+    "ram": "32 MB",
+    "storage": "1 GB Pool",
+    "ip": "192.168.40.50",
+    "port": 80,
+    "domain": "canary.homelab.local",
+    "status": "ONLINE",
+    "description": "Deploys deceptive decoy files across DMZ containers and storage shares that trigger immediate security alert webhooks upon unauthorized access.",
+    "tags": [
+      "Honeypot Decoys",
+      "Canary Tokens",
+      "Instant Alerts",
+      "Deception"
+    ],
+    "color": "#f43f5e",
+    "icon": "shield",
+    "composeCode": "# Deception Decoy Mesh: Inotify triggers -> ntfy / Telegram instant webhooks"
   }
 ];

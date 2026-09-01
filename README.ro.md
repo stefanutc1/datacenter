@@ -235,17 +235,38 @@ flowchart TD
 | **147** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.147` | Management | Proxmox Datacenter Manager (Orchestrare Multi-Cluster) |
 | **148** | `pmg` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.148` | Securitate / Mail | Proxmox Mail Gateway (Filtrare Spam & ClamAV) |
 
-### Mașini Virtuale QEMU / KVM
+### Mașini Virtuale QEMU / KVM & VirtIO Memory Ballooning
 
-| VMID | Nume | Nuclee / Socketuri | RAM | Mărime Disc | Interfață Rețea | Rol Principal |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense-firewall` | 2C / 1S | 1.024 MB | 16 GB SSD | Trunk Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Gateway WireGuard |
-| **201** | `win-server-2025` | 4C / 1S | 4.096 MB | 120 GB SSD | VLAN 20 (`192.168.20.201`) | Active Directory (AD DS), DNS, Group Policy (GPO), Sysmon Forwarder |
-| **202** | `rhel-enterprise` | 2C / 1S | 2.048 MB | 50 GB SSD | VLAN 20 (`192.168.1.202`) | Red Hat Enterprise Linux 9 (SELinux Enforcing, Podman, Enterprise Stack) |
-| **203** | `freebsd-storage` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.203`) | FreeBSD 14.1-RELEASE (Stocare Nativă OpenZFS, BSD Jails & Laborator Rețea) |
-| **204** | `openbsd-bastion` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.204`) | OpenBSD 7.5 (Bastion Securizat Jump Host, Filtru Pachete PF, pledge/unveil) |
-| **205** | `talos-k8s-node` | 2C / 1S | 2.048 MB | 32 GB SSD | VLAN 20 (`192.168.1.205`) | Talos Linux 1.7 (OS Imutabil Minimal, Control Declarativ gRPC API, Kubernetes) |
-| **206** | `capev2-malware-sandbox` | 4C / 1S | 4.096 MB | 100 GB SSD | VLAN 30 (`192.168.30.206`) | Sandbox Izolat de Analiză Malware (Win10 + INetSim + Volatility) |
+| VMID | Nume VM | Sistem de Operare | vCPU | RAM Max | Balloon Min | Passthrough / Tehnologie | Rol Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Rotație Chei WireGuard |
+| **201** | `windows` | Windows Server 2025 | 2 Cores | 4.096 MB | **2.048 MB** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Forwarder Telemetrie Sysmon |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2.048 MB | **1.024 MB** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Suită Enterprise |
+| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1.536 MB | **768 MB** | VirtIO SCSI Single | Stocare Nativă OpenZFS, BSD Jails & Laborator Rețea |
+| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1.536 MB | **768 MB** | VirtIO SCSI Single | Bastion Securizat Jump Host, Filtru Pachete PF, pledge/unveil |
+| **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2.048 MB | **1.024 MB** | VirtIO Single + Cilium CNI | OS Imutabil Minimalist, API Declarativ gRPC, Nod Kubernetes |
+| **206** | `capev2` | Win10 / Linux Sandbox | 4 Cores | 4.096 MB | **2.048 MB** | Izolare Aeriană (Air-Gap) | Sandbox Analiză Dinamică Malware, Volatility & Cuckoo |
+
+### Optimizare Memorie Gazdă: ZRAM / ZSWAP Fast RAM Compression
+
+* **Algoritm Compresie**: `lz4` ultra-rapid cu overhead CPU sub 1%.
+* **Alocare ZRAM Nod 1 (x86_64)**: `/dev/zram0` (3.8 GB RAM comprimat, prioritate 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
+* **Alocare ZRAM Nod 3 (ARM64)**: `/dev/zram0` (1.9 GB RAM comprimat, prioritate 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
+* **Protecție NVMe**: Paginile de memorie swap sunt comprimate direct în RAM, eliminând complet ciclurile de scriere uzuală pe drive-urile SSD NVMe.
+
+### Securitate Zero-Trust & Proving Ground Enterprise
+
+1. **HashiCorp Vault / OpenBao**:
+   - Management centralizat al secretelor fără fișiere `.env` expuse local pe disc.
+   - Generare dinamică de token-uri și injectare automată în Terraform, Ansible și Woodpecker CI.
+2. **Modul Kernel WireGuard pe OPNsense cu Rotație Automată de Chei**:
+   - Generare periodică automată a perechilor de chei criptografice Curve25519 și pre-shared keys (PSK) via Ansible/cron cu zero-downtime.
+3. **mTLS (Mutual TLS) Inter-Service**:
+   - Autentificare criptografică mutuală pe bază de certificate client între proxy-urile de ingress și backend-urile critice din VLAN 20 (Vault, PostgreSQL, API-uri).
+4. **Canary Tokens & Fisiere Capcană (Deception Decoys)**:
+   - Fisiere capcană (`passwords.csv`, `aws_keys.env`, `id_rsa_backup`) plasate în DMZ și partajări SMB care declanșează alerte instant pe Telegram/ntfy la orice acces neautorizat.
+5. **RenovateBot GitOps On-Premise**:
+   - Scaner continuu de dependențe care inspectează depozitul intern Gitea și deschide automat Pull Requests când apar versiuni noi de imagini Docker sau module Terraform.
 
 ---
 
