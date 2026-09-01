@@ -538,7 +538,7 @@ Rulați <code>pct exec 110 -- /usr/local/bin/ollama run qwen2.5-coder:1.5b "test
 └── web/                        # Aplicație Web Interactivă Angular 20 Standalone
 ```
 
-Contribuțiile sunt binevenite! Vă rugăm să citiți [CONTRIBUTING.md](CONTRIBUTING.md) și să respectați standardul [Conventional Commits 1.0.0](https://www.conventionalcommits.org/).
+Acest depozit este un **proiect de portofoliu tehnic și laborator de inginerie personal**, creat și întreținut de [@stefanutc1](https://github.com/stefanutc1) pentru a demonstra arhitectura de infrastructură hibridă, SecOps, GitOps și sisteme de înaltă disponibilitate.
 
 ---
 

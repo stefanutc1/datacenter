@@ -51,7 +51,7 @@ Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense ne
 17. [Static IP & Ports Directory](#17-static-ip--ports-directory)
 18. [Cold-Start Runbook & Operational Cheat Sheet](#18-cold-start-runbook--operational-cheat-sheet)
 19. [Troubleshooting FAQ](#19-troubleshooting-faq)
-20. [Monorepo Layout & Contributing](#20-monorepo-layout--contributing)
+20. [Monorepo Layout & Engineering Portfolio](#20-monorepo-layout--contributing)
 
 ---
 
@@ -694,7 +694,7 @@ Execute the automated Disaster Recovery script: <code>./scripts/disaster-recover
 
 ---
 
-## 20. Monorepo Layout & Contributing
+## 20. Monorepo Layout & Engineering Portfolio
 
 ```
 .
@@ -710,7 +710,7 @@ Execute the automated Disaster Recovery script: <code>./scripts/disaster-recover
 └── web/                        # Angular 20 Standalone Interactive Web App
 ```
 
-Contributions are welcome! Please review [CONTRIBUTING.md](CONTRIBUTING.md) and adhere to [Conventional Commits 1.0.0](https://www.conventionalcommits.org/).
+This repository serves as a **production-grade engineering portfolio and personal infrastructure lab**, designed and maintained by [@stefanutc1](https://github.com/stefanutc1) to showcase hybrid cloud architecture, SecOps, GitOps, and resilient self-hosted platforms.
 
 ---
 

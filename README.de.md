@@ -45,7 +45,7 @@ Aufgebaut auf Bare-Metal x86_64 und Apple Silicon ARM64 Hardware, dynamischer OP
 17. [Statische IP- und Port-Übersicht](#17-statische-ip--und-port-übersicht)
 18. [Kaltstart-Runbook & Tägliche Befehle](#18-kaltstart-runbook--tägliche-befehle)
 19. [Häufige Fragen (FAQ)](#19-häufige-fragen-faq)
-20. [Monorepo-Struktur & Mitwirken](#20-monorepo-struktur--mitwirken)
+20. [Monorepo-Struktur & Engineering-Portfolio](#20-monorepo-struktur--mitwirken)
 
 ---
 

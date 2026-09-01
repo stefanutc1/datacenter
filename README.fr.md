@@ -45,7 +45,7 @@ Construite sur du matériel bare-metal x86_64 et Apple Silicon ARM64, une segmen
 17. [Annuaire des Adresses IP Statiques & Ports](#17-annuaire-des-adresses-ip-statiques--ports)
 18. [Procédure de Démarrage à Froid & Commandes Utiles](#18-procédure-de-démarrage-à-froid--commandes-utiles)
 19. [FAQ & Dépannage](#19-faq--dépannage)
-20. [Structure du Monorepo & Contribution](#20-structure-du-monorepo--contribution)
+20. [Structure du Monorepo & Portfolio d'Ingénierie](#20-structure-du-monorepo--contribution)
 
 ---
 
