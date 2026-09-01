@@ -107,6 +107,46 @@ flowchart TB
 
 ---
 
+
+### 🛡️ 2.3 OPNsense Enterprise Architecture (5 Security Pillars)
+
+The perimeter firewall **OPNsense (VM 200 · 192.168.1.134)** implements a unified enterprise defense suite running in the FreeBSD kernel (`pf`):
+
+```mermaid
+flowchart TB
+    subgraph OPN["🛡️ OPNsense Enterprise Security Core (192.168.1.134)"]
+        direction TB
+        subgraph P1["1. Threat Intel & Perimeter"]
+            SURI["Suricata NIDS/IPS (v8.0)<br/>• ET Open Rules & Promiscuous"]
+            CS["CrowdSec LAPI Bouncer<br/>• Dynamic pf table drops"]
+            GEO["GeoIP Kernel Drop<br/>• Ingress block for high-risk zones"]
+        end
+        subgraph P2["2. Observability & Health"]
+            TELE["Telegraf Prometheus Exporter<br/>• pf state table telemetry (:9273)"]
+            MONIT["Monit Self-Healing Watchdog<br/>• Daemon auto-restart & ntfy alerts"]
+        end
+        subgraph P3["3. GitOps & Disaster Recovery"]
+            GIT["os-git-backup<br/>• GPG encrypted config.xml snapshots"]
+        end
+        subgraph P4["4. Privacy & DNS"]
+            DOT["Unbound DNS-over-TLS<br/>• Quad9 (9.9.9.9:853) & DNSSEC"]
+            DHCP["Kea DHCP Auto DynDNS<br/>• Auto registration of *.homelab.local"]
+        end
+        subgraph P5["5. Zero-Trust & Kubernetes"]
+            BGP["FRRouting BGP Peering<br/>• MetalLB & Cilium LoadBalancers"]
+            TS["Tailscale Subnet Router<br/>• Encrypted mesh across all VLANs"]
+        end
+    end
+```
+
+| Strategic Pillar | Technology & Module | Cluster Role & Functionality | Port / Protocol |
+| :--- | :--- | :--- | :--- |
+| **Threat Intel** | Suricata 8.0 + CrowdSec + GeoIP | Deep packet inspection, collaborative IP reputation, and GeoIP drop | WAN / VLAN Promisc |
+| **Observability** | Telegraf + Monit Auto-Healing | Live Prometheus telemetry in Grafana and watchdog daemon recovery | `:9273 TCP` / 30s Poll |
+| **GitOps & DR** | `os-git-backup` (GPG Encrypted) | Automatic Git versioning of `config.xml` on every administrative change | Git SSH Hook |
+| **Privacy & DNS** | Unbound DoT + Kea DynDNS | Encrypted DNS over TLS (Port 853) to Quad9 and dynamic host naming | `:853 TLS` / `:53 UDP` |
+| **Zero-Trust Mesh** | FRRouting BGP + Tailscale Subnet | Dynamic K8s MetalLB routing and remote mesh access without open ports | `:179 BGP` / Mesh |
+
 ## 3. Hybrid Multi-Cloud Architecture (Azure, GCP, AWS)
 
 The on-premise cluster is extended into a true hybrid multi-cloud topology across **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** using declarative, modular Infrastructure as Code (IaC) located in [`cloud/`](cloud/README.md) and [`terraform/`](terraform/):

@@ -101,6 +101,38 @@ flowchart TB
 
 ---
 
+
+### 🛡️ 2.3 OPNsense Enterprise-Architektur (5 Sicherheitssäulen)
+
+Die Perimeter-Firewall **OPNsense (VM 200 · 192.168.1.134)** implementiert eine gehärtete Enterprise-Sicherheitsarchitektur im FreeBSD-Kernel (`pf`):
+
+```mermaid
+flowchart TB
+    subgraph OPN["🛡️ OPNsense Enterprise Security Core (192.168.1.134)"]
+        direction TB
+        subgraph P1["1. Bedrohungsabwehr & Perimeter"]
+            SURI["Suricata NIDS/IPS (v8.0)<br/>• ET Open Regeln & Promiscuous"]
+            CS["CrowdSec LAPI Bouncer<br/>• Dynamische pf-Tabellensperre"]
+            GEO["GeoIP-Kernel-Sperre<br/>• Automatisches Verwerfen von Risikozonen"]
+        end
+        subgraph P2["2. Observability & Selbstheilung"]
+            TELE["Telegraf Prometheus Exporter<br/>• pf-Status-Telemetrie (:9273)"]
+            MONIT["Monit Auto-Healing Watchdog<br/>• Automatischer Neustart & ntfy-Alarm"]
+        end
+        subgraph P3["3. GitOps & Desaster-Recovery"]
+            GIT["os-git-backup<br/>• GPG-verschlüsselte config.xml-Snapshots"]
+        end
+        subgraph P4["4. Datenschutz & DNS"]
+            DOT["Unbound DNS-over-TLS<br/>• Quad9 (9.9.9.9:853) & DNSSEC"]
+            DHCP["Kea DHCP Auto DynDNS<br/>• Automatische *.homelab.local-Registrierung"]
+        end
+        subgraph P5["5. Zero-Trust & Kubernetes"]
+            BGP["FRRouting BGP-Peering<br/>• MetalLB & Cilium LoadBalancer"]
+            TS["Tailscale Subnet-Router<br/>• Verschlüsseltes Mesh über alle VLANs"]
+        end
+    end
+```
+
 ## 3. Hybride Multi-Cloud-Architektur (Azure, GCP, AWS)
 
 The on-premise cluster is extended into a true hybrid multi-cloud topology across **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** using declarative, modular Infrastructure as Code (IaC) located in [`cloud/`](cloud/README.md) and [`terraform/`](terraform/):

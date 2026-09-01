@@ -49,7 +49,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       { vmid: 205, name: 'talos', os: 'Talos Linux 1.7', allocatedMb: 2048, balloonMinMb: 1024, purpose: 'Immutable API-Driven Kubernetes Node & Cilium CNI' }
     ],
     workloads: [
-      'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB · Suricata IDS/IPS, CrowdSec Bouncer, WireGuard Kernel, Unbound DNS, NetFlow)',
+      'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB · Suricata IDS/IPS, CrowdSec Bouncer, GeoIP Drop, DoT Quad9, Telegraf, Monit, GitOps, FRR BGP, Tailscale, NetFlow)',
       'VM 201: Windows Server 2025 Datacenter (4096 MB / Balloon: 2048 MB · GPU Passthrough)',
       'VM 202: Red Hat Enterprise Linux 9.8 (2048 MB / Balloon: 1024 MB)',
       'VM 203: FreeBSD 15.1-RELEASE (1536 MB / Balloon: 768 MB)',

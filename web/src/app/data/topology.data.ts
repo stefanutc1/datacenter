@@ -65,8 +65,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#10b981',
     icon: 'opnsense',
     hardware: { node: 'pve (Intel i3-10100F)', ram: '1,024 MB', storage: '32 GB SSD' },
-    tags: ['Perimeter Firewall', 'Suricata IDS/IPS', 'Inter-VLAN Routing', 'Stateful Filter'],
-    role: 'Enforces stateful packet filtering, Suricata IDS/IPS intrusion prevention, and isolated VLAN segment routing across all cluster nodes.',
+    tags: ['Perimeter Firewall', 'Suricata IDS/IPS', 'CrowdSec LAPI', 'GeoIP Drop', 'DNS over TLS', 'FRR BGP', 'Tailscale Mesh'],
+    role: 'Enforces stateful packet filtering, Suricata NIDS/IPS, CrowdSec active defense, GeoIP blocking, Unbound DNS-over-TLS (Quad9), Monit self-healing, and FRRouting BGP peering with Kubernetes.',
     connections: ['node1-pve', 'node3-arm', 'node2-omv', 'kubernetes-node', 'npm-ingress', 'wazuh-siem', 'tpot-cluster']
   },
 

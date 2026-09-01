@@ -62,7 +62,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#ef4444",
     "icon": "shield",
-    "composeCode": "# Suricata 7.0 native daemon on OPNsense\n# Generates structured eve.json telemetry forwarded to Wazuh SIEM"
+    "composeCode": "# Suricata 8.0 native daemon on OPNsense\n# Generates structured eve.json telemetry forwarded to Wazuh SIEM"
 },
 {
     "id": "opnsense-crowdsec",
@@ -86,6 +86,167 @@ export const SERVICES_DATA: ServiceItem[] = [
     "color": "#6366f1",
     "icon": "shield",
     "composeCode": "# CrowdSec os-crowdsec plugin on OPNsense\n# Manages dynamic pf tables (crowdsec_blacklists) for zero-latency drops"
+},
+{
+    "id": "opnsense-geoip",
+    "name": "GeoIP Threat Ingress Blocker",
+    "category": "security",
+    "containerName": "geoip-blocker",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "32 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 443,
+    "domain": "geoip.homelab.local",
+    "status": "ONLINE",
+    "description": "Kernel-level stateful drop for high-risk geopolitical threat origins and malicious ASNs using automated MaxMind/DB-IP intelligence.",
+    "tags": [
+        "GeoIP Blocking",
+        "Ingress Filter",
+        "Threat Intelligence",
+        "Kernel Drop"
+    ],
+    "color": "#e11d48",
+    "icon": "shield",
+    "composeCode": "# MaxMind GeoLite2 / DB-IP Country Lite Kernel Table in pf\n# Blocks inbound traffic from high-risk geopolitical zones on WAN"
+},
+{
+    "id": "opnsense-dot",
+    "name": "Unbound DNS-over-TLS (DoT)",
+    "category": "core",
+    "containerName": "unbound-dot",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "64 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 853,
+    "domain": "dot.homelab.local",
+    "status": "ONLINE",
+    "description": "Validating recursive DNS resolver with strict DNS-over-TLS (DoT) forwarding to Quad9 (9.9.9.9) and Cloudflare, QNAME minimisation, and DNSSEC.",
+    "tags": [
+        "DNS over TLS",
+        "DoT",
+        "DNSSEC",
+        "Quad9 Secure"
+    ],
+    "color": "#0ea5e9",
+    "icon": "pihole",
+    "composeCode": "# Unbound DNS-over-TLS Upstream Forwarding on Port 853\n# Strict TLS verification against Quad9 (dns.quad9.net) & Cloudflare"
+},
+{
+    "id": "opnsense-telegraf",
+    "name": "Telegraf / Prometheus Metrics Exporter",
+    "category": "monitoring",
+    "containerName": "telegraf-exporter",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "48 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 9273,
+    "domain": "telegraf.homelab.local",
+    "status": "ONLINE",
+    "description": "Exports kernel telemetry, CPU/RAM utilization, interface packet rates, and pf state table metrics to Prometheus and Grafana dashboards.",
+    "tags": [
+        "Telegraf",
+        "Prometheus Metrics",
+        "State Tables",
+        "Observability"
+    ],
+    "color": "#f59e0b",
+    "icon": "monitoring",
+    "composeCode": "# Telegraf Agent on OPNsense exporting on :9273 TCP\n# Scraped by Prometheus on Node 1 (192.168.1.132)"
+},
+{
+    "id": "opnsense-monit",
+    "name": "Monit Auto-Healing Watchdog",
+    "category": "automation",
+    "containerName": "monit-daemon",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "32 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 2812,
+    "domain": "monit.homelab.local",
+    "status": "ONLINE",
+    "description": "Continuous process and gateway health guardian auto-restarting crashed daemons (Suricata, Unbound) and triggering instant alert webhooks.",
+    "tags": [
+        "Monit Watchdog",
+        "Auto-Healing",
+        "Service Guardian",
+        "Alerting"
+    ],
+    "color": "#10b981",
+    "icon": "shield",
+    "composeCode": "# Monit Watchdog polling every 30s with instant ntfy webhook triggers"
+},
+{
+    "id": "opnsense-gitbackup",
+    "name": "GitOps Encrypted Config Backup",
+    "category": "automation",
+    "containerName": "git-backup-daemon",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "16 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 22,
+    "domain": "gitbackup.homelab.local",
+    "status": "ONLINE",
+    "description": "Automated GPG-encrypted commit and push of config.xml snapshots to Gitea and GitHub on every administrative configuration change.",
+    "tags": [
+        "GitOps Backup",
+        "GPG Encrypted",
+        "Disaster Recovery",
+        "Config Versioning"
+    ],
+    "color": "#8b5cf6",
+    "icon": "gitea",
+    "composeCode": "# os-git-backup plugin encrypting config.xml -> Gitea repository"
+},
+{
+    "id": "opnsense-frr",
+    "name": "FRRouting (FRR) Dynamic BGP Peering",
+    "category": "core",
+    "containerName": "frr-bgpd",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "64 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 179,
+    "domain": "frr.homelab.local",
+    "status": "ONLINE",
+    "description": "Dynamic BGP route advertisement exchanging VIPs with Kubernetes MetalLB and Cilium LoadBalancers for zero-touch service routing.",
+    "tags": [
+        "FRRouting",
+        "BGP Peering",
+        "Kubernetes Ingress",
+        "Dynamic Routing"
+    ],
+    "color": "#06b6d4",
+    "icon": "kubernetes",
+    "composeCode": "# FRRouting BGP AS 64512 peering with Kubernetes Bare-Metal Worker AS 64513"
+},
+{
+    "id": "opnsense-tailscale",
+    "name": "Tailscale Zero-Trust Subnet Router",
+    "category": "security",
+    "containerName": "tailscale-router",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
+    "ram": "64 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 41641,
+    "domain": "tailscale-router.homelab.local",
+    "status": "ONLINE",
+    "description": "Encrypted WireGuard mesh subnet router advertising all 5 homelab VLANs to authenticated devices without opening WAN ports.",
+    "tags": [
+        "Tailscale",
+        "Subnet Router",
+        "Zero-Trust Mesh",
+        "WireGuard"
+    ],
+    "color": "#3b82f6",
+    "icon": "wireguard",
+    "composeCode": "# os-tailscale plugin advertising 192.168.1.0/24, 192.168.10-50.0/24"
 },
 {
     "id": "opnsense-unbound",
