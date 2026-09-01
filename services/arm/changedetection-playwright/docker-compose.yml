@@ -1,0 +1,12 @@
+services:
+  playwright-chrome:
+    image: browserless/chrome:latest
+    container_name: playwright-chrome
+    restart: unless-stopped
+    environment:
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1024
+      - SCREEN_DEPTH=16
+      - ENABLE_DEBUGGER=false
+    ports:
+      - '3000:3000'

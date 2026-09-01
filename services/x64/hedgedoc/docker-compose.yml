@@ -1,0 +1,17 @@
+services:
+  hedgedoc:
+    image: lscr.io/linuxserver/hedgedoc:latest
+    container_name: hedgedoc
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Bucharest
+      - CMD_DB_URL=sqlite:///data/hedgedoc.sqlite
+      - CMD_DOMAIN=notes.homelab.local
+      - CMD_URL_ADDPORT=false
+    volumes:
+      - ./data:/data
+      - ./uploads:/uploads
+    ports:
+      - '3000:3000'

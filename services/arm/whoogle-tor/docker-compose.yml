@@ -1,0 +1,9 @@
+services:
+  whoogle-tor:
+    image: benbusby/whoogle-search:latest
+    container_name: whoogle-tor
+    restart: unless-stopped
+    ports:
+      - '5001:5000'
+    environment:
+      - WHOOGLE_CONFIG_TOR=1

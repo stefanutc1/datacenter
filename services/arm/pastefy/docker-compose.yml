@@ -1,0 +1,11 @@
+services:
+  pastefy:
+    image: pastefy/pastefy:latest
+    container_name: pastefy
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - PASTEFY_DB_TYPE=sqlite
+    volumes:
+      - ./data:/data

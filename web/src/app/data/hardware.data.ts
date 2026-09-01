@@ -38,7 +38,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 100-109: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-119: Ollama LLM, Open-WebUI, Paperless-ngx, MinIO S3, Transmission, Kavita, Stirling-PDF, Meilisearch, Vector, Faster-Whisper',
       'CT 130-138: SearXNG, Flowise, NetAlertX, RustDesk, Audiobookshelf, TubeArchivist, Kopia, WG-Easy, Calibre-Web',
-      'CT 140-147: Code-Server IDE, pgAdmin4, CyberChef, Draw.io, Dozzle, Kiwix Wiki, RomM, EmulatorJS'
+      'CT 140-147: Code-Server IDE, pgAdmin4, CyberChef, Draw.io, Dozzle, Kiwix Wiki, RomM, EmulatorJS',
+      'CT 150-161: HedgeDoc, Glances, Dufs, Gotify, Miniflux, Grocy, Paperless-AI, Chrony NTP, Linkwarden, Beszel-Agent, SNMP Collector, SearXNG-Redis'
     ]
   },
   {
@@ -76,7 +77,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 100-110: IT-Tools, Actual Budget, Trilium, ChangeDetection, Scrutiny, Uptime Kuma, Vaultwarden, Prometheus/Grafana, Authelia, Gitea, Woodpecker CI',
       'CT 120-126: Gatus Health, ntfy Push, Linkding, Step-CA PKI, Tailscale ARM, Beszel Telemetry, PocketBase',
       'CT 134-142: Homepage, Speedtest-Tracker, Memos, Wallos, SyncThing, Microbin, Vikunja, Blackbox Exporter, YourSpotify',
-      'CT 143-149: Web-Check OSINT, Opengist, Flatnotes, Bark Server, Shiori, Whoogle, Flame'
+      'CT 143-149: Web-Check OSINT, Opengist, Flatnotes, Bark Server, Shiori, Whoogle, Flame',
+      'CT 150-161: Dashy, Shlink, Pastefy, Pingvin-Share, RSS-Bridge, Playwright-Probe, Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall'
     ]
   },
   {

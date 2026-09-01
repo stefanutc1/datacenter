@@ -1,0 +1,7 @@
+services:
+  dns-bench:
+    image: prom/blackbox-exporter:latest
+    container_name: dns-bench-probe
+    restart: unless-stopped
+    ports:
+      - '9117:9115'

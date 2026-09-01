@@ -1,0 +1,9 @@
+services:
+  uptime-probe:
+    image: louislam/uptime-kuma:1-alpine
+    container_name: uptime-probe
+    restart: unless-stopped
+    ports:
+      - '3002:3001'
+    volumes:
+      - ./data:/app/data

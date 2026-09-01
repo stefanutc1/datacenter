@@ -1,0 +1,13 @@
+services:
+  linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:latest
+    container_name: linkwarden
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgrespass@postgres:5432/linkwarden
+      - NEXTAUTH_SECRET=linkwarden_secret_key
+      - NEXTAUTH_URL=http://links.homelab.local:3000
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./data:/data/data

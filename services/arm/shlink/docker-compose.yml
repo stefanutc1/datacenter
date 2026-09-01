@@ -1,0 +1,13 @@
+services:
+  shlink:
+    image: shlinkio/shlink:latest
+    container_name: shlink
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    environment:
+      - DEFAULT_DOMAIN=s.homelab.local
+      - IS_HTTPS_ENABLED=false
+      - DB_DRIVER=sqlite
+    volumes:
+      - ./data:/etc/shlink/data

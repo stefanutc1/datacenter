@@ -118,7 +118,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
   ro: {
     navOverview: 'Prezentare',
     navTopology: 'Topologie 3D',
-    navServices: 'Servicii (77)',
+    navServices: 'Servicii (101)',
     navHardware: 'Flotă Hardware',
     navBlueprint: 'Arhitectură & Cyber',
     statusClusterActive: '4 noduri online',
@@ -134,11 +134,11 @@ const TRANSLATIONS: Record<Language, Translations> = {
     
     metricVirtTitle: 'VIRTUALIZARE',
     metricVirtCount: '2 Hypervisori',
-    metricVirtDesc: 'Proxmox VE x86_64 (43 workloads) & ARM64 (34 workloads) găzduind OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s și LXC.',
+    metricVirtDesc: 'Proxmox VE x86_64 (55 workloads) & ARM64 (46 workloads) găzduind OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s și 95 LXC-uri.',
     
     metricServicesTitle: 'SERVICII ACTIVE',
-    metricServicesCount: '77 Workload-uri',
-    metricServicesDesc: '71 containere LXC optimizate + 6 mașini virtuale QEMU/KVM pe ambele hypervisoare x86_64 și ARM64.',
+    metricServicesCount: '101 Workload-uri',
+    metricServicesDesc: '95 de containere LXC optimizate + 6 mașini virtuale QEMU/KVM pe ambele hypervisoare x86_64 și ARM64.',
     
     metricCyberTitle: 'SECURITATE & DFIR',
     metricCyberCount: 'SOC & Honeynet',
@@ -177,8 +177,8 @@ const TRANSLATIONS: Record<Language, Translations> = {
     btnLocate3D: 'LOCALIZEAZĂ ÎN 3D',
 
     srvTag: 'CATALOG SERVICII',
-    srvTitle: 'Servicii & Workload-uri Active (77)',
-    srvDesc: '77 de servicii containerizate LXC și mașini virtuale QEMU/KVM împărțite pe nodurile x86_64 (43) și ARM64 (34).',
+    srvTitle: 'Servicii & Workload-uri Active (101)',
+    srvDesc: '101 servicii containerizate LXC și mașini virtuale QEMU/KVM împărțite pe nodurile x86_64 (55) și ARM64 (46).',
     srvSearchPlaceholder: 'Caută serviciu, port, gazdă, categorie...',
     srvRamCeiling: 'Plafon RAM',
     srvStoragePool: 'Pool Stocare',
@@ -225,7 +225,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
   en: {
     navOverview: 'Overview',
     navTopology: '3D Topology',
-    navServices: 'Services (77)',
+    navServices: 'Services (101)',
     navHardware: 'Hardware Fleet',
     navBlueprint: 'Architecture & Cyber',
     statusClusterActive: '4 nodes online',
@@ -241,11 +241,11 @@ const TRANSLATIONS: Record<Language, Translations> = {
     
     metricVirtTitle: 'VIRTUALIZATION',
     metricVirtCount: '2 Hypervisors',
-    metricVirtDesc: 'Proxmox VE x86_64 (43 workloads) & ARM64 (34 workloads) hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and LXC containers.',
+    metricVirtDesc: 'Proxmox VE x86_64 (55 workloads) & ARM64 (46 workloads) hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and 95 LXCs.',
     
     metricServicesTitle: 'ACTIVE SERVICES',
-    metricServicesCount: '77 Workloads',
-    metricServicesDesc: '71 optimized LXC containers + 6 QEMU/KVM virtual machines across x86_64 and ARM64 hypervisors.',
+    metricServicesCount: '101 Workloads',
+    metricServicesDesc: '95 optimized LXC containers + 6 QEMU/KVM virtual machines across x86_64 and ARM64 hypervisors.',
     
     metricCyberTitle: 'SECURITY & DFIR',
     metricCyberCount: 'SOC & Honeynet',
@@ -284,8 +284,8 @@ const TRANSLATIONS: Record<Language, Translations> = {
     btnLocate3D: 'LOCATE IN 3D',
 
     srvTag: 'SERVICES CATALOG',
-    srvTitle: 'Active Services & Workloads (77)',
-    srvDesc: '77 containerized LXC services and QEMU/KVM virtual machines distributed across x86_64 (43) and ARM64 (34) nodes.',
+    srvTitle: 'Active Services & Workloads (101)',
+    srvDesc: '101 containerized LXC services and QEMU/KVM virtual machines distributed across x86_64 (55) and ARM64 (46) nodes.',
     srvSearchPlaceholder: 'Search service, port, host, category...',
     srvRamCeiling: 'RAM Ceiling',
     srvStoragePool: 'Storage Pool',
