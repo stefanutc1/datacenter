@@ -192,6 +192,18 @@ flowchart TB
 | **148** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.148` | Privatsphäre | Anonymisierte Google-Suche ohne Werbung |
 | **149** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.149` | Dashboard | Minimalistische Startseite für den Browser |
 
+### Virtuelle Maschinen (QEMU / KVM)
+
+| VMID | Name | Kerne / Sockets | RAM | Festplattengröße | Netzwerkschnittstelle | Primäre Rolle |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **200** | `opnsense-firewall` | 2C / 1S | 1.024 MB | 16 GB SSD | Multi-VLAN Trunk | Perimeter-Stateful-Firewall, Suricata IDS/IPS, WireGuard Gateway |
+| **201** | `win-server-2025` | 4C / 1S | 4.096 MB | 120 GB SSD | VLAN 20 (`192.168.20.201`) | Active Directory (AD DS), DNS, Gruppenrichtlinien (GPO), Sysmon |
+| **202** | `rhel-enterprise` | 2C / 1S | 2.048 MB | 50 GB SSD | VLAN 20 (`192.168.1.202`) | Red Hat Enterprise Linux 9 (SELinux Enforcing, Podman, Enterprise Stack) |
+| **203** | `freebsd-storage` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.203`) | FreeBSD 14.1-RELEASE (Nativer OpenZFS Speicher, BSD Jails & Netzwerk-Lab) |
+| **204** | `openbsd-bastion` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.204`) | OpenBSD 7.5 (Gehärteter Bastion Jump Host, Paketfilter PF, pledge/unveil) |
+| **205** | `tpot-honeypot-dmz` | 4C / 1S | 3.072 MB | 40 GB SSD | VLAN 40 (`192.168.40.205`) | Multi-Honeypot Plattform (Cowrie, Dionaea, RDP Honeypot, Honeytrap) |
+| **206** | `capev2-malware-sandbox` | 4C / 1S | 4.096 MB | 100 GB SSD | VLAN 30 (`192.168.30.206`) | Isolierte Malware-Analyse Sandbox (Win10 + INetSim + Volatility) |
+
 ---
 
 ## 5. Infrastructure as Code (Terraform & Ansible)

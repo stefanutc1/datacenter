@@ -215,9 +215,11 @@ flowchart TD
 
 | VMID | Nume | Nuclee / Socketuri | RAM | Mărime Disc | Interfață Rețea | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense-firewall` | 2C / 1S | 1.024 MB | 32 GB SSD | Trunk Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Gateway WireGuard |
-| **201** | `win-server-2025` | 4C / 1S | 4.096 MB | 64 GB SSD | VLAN 20 (`192.168.20.201`) | Active Directory (AD DS), DNS, Group Policy (GPO), Sysmon Forwarder |
-| **204** | `talos-k8s-node01` | 2C / 1S | 2.048 MB | 30 GB SSD | VLAN 20 (`192.168.20.204`) | Nod Imutabil Kubernetes Talos Linux (Control-Plane / Worker) |
+| **200** | `opnsense-firewall` | 2C / 1S | 1.024 MB | 16 GB SSD | Trunk Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Gateway WireGuard |
+| **201** | `win-server-2025` | 4C / 1S | 4.096 MB | 120 GB SSD | VLAN 20 (`192.168.20.201`) | Active Directory (AD DS), DNS, Group Policy (GPO), Sysmon Forwarder |
+| **202** | `rhel-enterprise` | 2C / 1S | 2.048 MB | 50 GB SSD | VLAN 20 (`192.168.1.202`) | Red Hat Enterprise Linux 9 (SELinux Enforcing, Podman, Enterprise Stack) |
+| **203** | `freebsd-storage` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.203`) | FreeBSD 14.1-RELEASE (Stocare Nativă OpenZFS, BSD Jails & Laborator Rețea) |
+| **204** | `openbsd-bastion` | 2C / 1S | 1.536 MB | 25 GB SSD | VLAN 20 (`192.168.1.204`) | OpenBSD 7.5 (Bastion Securizat Jump Host, Filtru Pachete PF, pledge/unveil) |
 | **205** | `tpot-honeypot-dmz` | 4C / 1S | 3.072 MB | 40 GB SSD | VLAN 40 (`192.168.40.205`) | Platformă Multi-Honeypot (Cowrie, Dionaea, RDP Honeypot, Honeytrap) |
 | **206** | `capev2-malware-sandbox` | 4C / 1S | 4.096 MB | 100 GB SSD | VLAN 30 (`192.168.30.206`) | Sandbox Izolat de Analiză Malware (Win10 + INetSim + Volatility) |
 

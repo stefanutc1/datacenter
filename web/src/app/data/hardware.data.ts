@@ -19,7 +19,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node1-pve',
     name: 'Proxmox Primary (proxmox)',
     machine: 'Custom Desktop Compute Chassis',
-    role: 'Primary virtualization host, OPNsense firewall, Windows Server AD, Ollama GPU LLM, Paperless DMS, Open-WebUI & enterprise core LXCs',
+    role: 'Primary virtualization host, OPNsense firewall, Windows Server AD, Red Hat Enterprise Linux, OpenBSD & FreeBSD security lab, Ollama GPU LLM, Paperless DMS & core fleet',
     cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz Turbo)',
     gpu: 'NVIDIA GeForce GTX 1050 Ti (4GB VRAM · PCIe Passthrough to Ollama / ML Workbench & Faster-Whisper)',
     ram: '8,192 MB DDR4 (Upgrading to 12,288 MB DDR4)',
@@ -31,6 +31,9 @@ export const HARDWARE_NODES: HardwareNode[] = [
     workloads: [
       'VM 200: OPNsense Core Firewall & Suricata IDS/IPS',
       'VM 201: Windows Server 2025 Datacenter (AD DS / GPO)',
+      'VM 202: Red Hat Enterprise Linux 9 (RHEL Enterprise Workload)',
+      'VM 203: FreeBSD 14.1-RELEASE (ZFS Storage & BSD Network Lab)',
+      'VM 204: OpenBSD 7.5 (PF Packet Filter & Hardened Bastion)',
       'CT 110: Ollama GPU LLM Engine (Qwen2.5-Coder / DeepSeek-R1)',
       'CT 111: Open-WebUI AI ChatGPT Interface (:3080)',
       'CT 112: Paperless-ngx Document OCR & DMS (:8005)',

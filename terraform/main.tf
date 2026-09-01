@@ -1001,24 +1001,52 @@ module "vm_windows_server_2025" {
   description  = "Active Directory Domain Services (AD DS), DNS, GPO & Sysmon Forwarding"
   cores        = 4
   memory       = 4096
-  disk_size    = 64
+  disk_size    = 120
   storage_pool = "local-lvm"
   vlan_tag     = 20
   tags         = ["windows", "active-directory", "sysmon", "terraform"]
 }
 
-module "vm_talos_kubernetes" {
+module "vm_rhel_9" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 202
+  name         = "rhel"
+  description  = "Red Hat Enterprise Linux 9 (SELinux Enforcing, Podman Containers, Enterprise Workload)"
+  cores        = 2
+  memory       = 2048
+  disk_size    = 50
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["rhel", "redhat", "enterprise", "selinux", "terraform"]
+}
+
+module "vm_freebsd_14" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 203
+  name         = "freebsd"
+  description  = "FreeBSD 14.1-RELEASE (OpenZFS Native Storage, BSD Jails, bhyve Virtualization)"
+  cores        = 2
+  memory       = 1536
+  disk_size    = 25
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["freebsd", "bsd", "zfs", "jails", "terraform"]
+}
+
+module "vm_openbsd_75" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 204
-  name         = "talos-k8s"
-  description  = "Zero-SSH, API-managed immutable Kubernetes control-plane/worker"
+  name         = "openbsd"
+  description  = "OpenBSD 7.5 (Hardened Bastion Jump Host, Packet Filter PF, pledge/unveil sandboxing)"
   cores        = 2
-  memory       = 2048
-  disk_size    = 30
+  memory       = 1536
+  disk_size    = 25
   storage_pool = "local-lvm"
   vlan_tag     = 20
-  tags         = ["kubernetes", "talos", "immutable", "terraform"]
+  tags         = ["openbsd", "bsd", "security", "bastion", "pf", "terraform"]
 }
 
 module "vm_tpot_honeypot" {
