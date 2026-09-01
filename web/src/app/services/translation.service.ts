@@ -118,7 +118,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
   ro: {
     navOverview: 'Prezentare',
     navTopology: 'Topologie 3D',
-    navServices: 'Servicii (36)',
+    navServices: 'Servicii (76)',
     navHardware: 'Flotă Hardware',
     navBlueprint: 'Arhitectură & Cyber',
     statusClusterActive: '4 noduri online',
@@ -134,11 +134,11 @@ const TRANSLATIONS: Record<Language, Translations> = {
     
     metricVirtTitle: 'VIRTUALIZARE',
     metricVirtCount: '2 Hypervisori',
-    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 găzduind OPNsense, Windows Server 2025, Ollama și containere LXC.',
+    metricVirtDesc: 'Proxmox VE x86_64 (42 workloads) & ARM64 (34 workloads) găzduind OPNsense, Windows AD, RHEL, BSD și containere LXC.',
     
     metricServicesTitle: 'SERVICII ACTIVE',
-    metricServicesCount: '36 Workload-uri',
-    metricServicesDesc: 'Servicii containerizate: stocare ZFS, media streaming, CI/CD Woodpecker, Git, Wikipedia și telemetrie.',
+    metricServicesCount: '76 Workload-uri',
+    metricServicesDesc: '71 containere LXC optimizate + 5 mașini virtuale QEMU/KVM pe ambele hypervisoare x86_64 și ARM64.',
     
     metricCyberTitle: 'SECURITATE & DFIR',
     metricCyberCount: 'SOC & Honeynet',
@@ -177,8 +177,8 @@ const TRANSLATIONS: Record<Language, Translations> = {
     btnLocate3D: 'LOCALIZEAZĂ ÎN 3D',
 
     srvTag: 'CATALOG SERVICII',
-    srvTitle: 'Servicii Active (36)',
-    srvDesc: 'Microservicii containerizate, baze de date, modele LLM locale pe GPU, Wikipedia offline și instrumente de securitate.',
+    srvTitle: 'Servicii & Workload-uri Active (76)',
+    srvDesc: '76 de servicii containerizate LXC și mașini virtuale QEMU/KVM împărțite pe nodurile x86_64 (42) și ARM64 (34).',
     srvSearchPlaceholder: 'Caută serviciu, port, gazdă, categorie...',
     srvRamCeiling: 'Plafon RAM',
     srvStoragePool: 'Pool Stocare',
@@ -225,7 +225,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
   en: {
     navOverview: 'Overview',
     navTopology: '3D Topology',
-    navServices: 'Services (36)',
+    navServices: 'Services (76)',
     navHardware: 'Hardware Fleet',
     navBlueprint: 'Architecture & Cyber',
     statusClusterActive: '4 nodes online',
@@ -241,11 +241,11 @@ const TRANSLATIONS: Record<Language, Translations> = {
     
     metricVirtTitle: 'VIRTUALIZATION',
     metricVirtCount: '2 Hypervisors',
-    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows Server 2025, Ollama, and LXC containers.',
+    metricVirtDesc: 'Proxmox VE x86_64 (42 workloads) & ARM64 (34 workloads) hosting OPNsense, Windows AD, RHEL, BSD, and LXC containers.',
     
     metricServicesTitle: 'ACTIVE SERVICES',
-    metricServicesCount: '36 Workloads',
-    metricServicesDesc: 'Containerized services: ZFS storage, media streaming, Woodpecker CI/CD, Git, Wikipedia, and telemetry.',
+    metricServicesCount: '76 Workloads',
+    metricServicesDesc: '71 optimized LXC containers + 5 QEMU/KVM virtual machines across x86_64 and ARM64 hypervisors.',
     
     metricCyberTitle: 'SECURITY & DFIR',
     metricCyberCount: 'SOC & Honeynet',
@@ -284,8 +284,8 @@ const TRANSLATIONS: Record<Language, Translations> = {
     btnLocate3D: 'LOCATE IN 3D',
 
     srvTag: 'SERVICES CATALOG',
-    srvTitle: 'Active Services (36)',
-    srvDesc: 'Containerized microservices, databases, local GPU LLMs, offline Wikipedia, and security tooling.',
+    srvTitle: 'Active Services & Workloads (76)',
+    srvDesc: '76 containerized LXC services and QEMU/KVM virtual machines distributed across x86_64 (42) and ARM64 (34) nodes.',
     srvSearchPlaceholder: 'Search service, port, host, category...',
     srvRamCeiling: 'RAM Ceiling',
     srvStoragePool: 'Storage Pool',
