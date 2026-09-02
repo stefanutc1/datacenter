@@ -1930,7 +1930,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "node": "Node 1 OPNsense \u00b7 VM 200",
     "ram": "64 MB",
     "storage": "1 GB Pool",
-    "ip": "192.168.1.132:8443",
+    "ip": "192.168.1.134:8443",
     "port": 51820,
     "domain": "wg-rotator.homelab.local",
     "status": "ONLINE",

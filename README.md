@@ -156,10 +156,10 @@ The perimeter firewall OPNsense (VM 200 · 192.168.1.134) enforces zero-trust 80
 | VLAN ID | Network Segment | Subnet CIDR | Gateway | Attached Workloads | Security Policy |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **VLAN 10** | Management & Storage Subnet | `192.168.1.0/24` | `192.168.1.1` | Proxmox Core (x86_64), OMV NAS, Managed Switches | Isolated from IoT & Guest subnets |
-| **VLAN 20** | Core Microservices & Applications | `192.168.1.0/24` & `192.168.64.0/24` | `192.168.1.132` (OPNsense) | NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110) | Strict forward authentication via Authentik (CT 108) |
-| **VLAN 30** | Cyber Security & Sandboxes (CyberLab) | `192.168.30.0/24` | `192.168.1.132:8443` | Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim) | Promiscuous SPAN mirror port, no outbound WAN access for sandboxes |
-| **VLAN 40** | DMZ Deception & Honeypots | `192.168.40.0/24` | `192.168.1.132` (OPNsense) | T-Pot Cluster (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap) | Completely isolated DMZ; automated AbuseIPDB firewall blocking |
-| **VLAN 50** | IoT & Physical Edge Devices | `192.168.50.0/24` | `192.168.1.132` | ESP32 mmWave Radar, ESP32 Irrigation Relays, Zigbee Gateway | MQTT communication strictly restricted to Home Assistant (CT 106) |
+| **VLAN 20** | Core Microservices & Applications | `192.168.1.0/24` & `192.168.64.0/24` | `192.168.1.134` (OPNsense) | NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110) | Strict forward authentication via Authentik (CT 108) |
+| **VLAN 30** | Cyber Security & Sandboxes (CyberLab) | `192.168.30.0/24` | `192.168.1.134:8443` | Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim) | Promiscuous SPAN mirror port, no outbound WAN access for sandboxes |
+| **VLAN 40** | DMZ Deception & Honeypots | `192.168.40.0/24` | `192.168.1.134` (OPNsense) | T-Pot Cluster (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap) | Completely isolated DMZ; automated AbuseIPDB firewall blocking |
+| **VLAN 50** | IoT & Physical Edge Devices | `192.168.50.0/24` | `192.168.1.134 (OPNsense)` | ESP32 mmWave Radar, ESP32 Irrigation Relays, Zigbee Gateway | MQTT communication strictly restricted to Home Assistant (CT 106) |
 
 ---
 
@@ -695,7 +695,7 @@ flowchart LR
 | `192.168.1.4` | `pihole` (CT 101) | `53` (TCP/UDP), `80` | Internal DNS Resolver |
 | `192.168.1.9` | `homeassistant` (CT 106) | `8123`, `1883` | Home Automation & MQTT Broker |
 | `192.168.1.110` | `ollama` (CT 110) | `11434` | Local GPU LLM Runtime |
-| `192.168.1.132` | `pve` (Node 1 Host) | `8006`, `22` | Proxmox VE Web Management |
+| `192.168.1.134 (OPNsense)` | `pve` (Node 1 Host) | `8006`, `22` | Proxmox VE Web Management |
 | `192.168.20.201` | `win-server-2025` (VM 201) | `53`, `88`, `389`, `445`, `3389` | Active Directory Domain Services |
 | `192.168.64.14` | `pve` (Node 3 Host) | `8006`, `22` | ARM64 Hypervisor Management |
 | `192.168.64.118` | `tempo` (CT 118) | `3200`, `4317`, `4318` | Distributed Tracing Backend |

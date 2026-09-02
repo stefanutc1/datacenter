@@ -809,7 +809,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 20',
       name: 'Core Microservices & Applications',
       subnet: '192.168.1.0/24 & 192.168.64.0/24',
-      gateway: '192.168.1.132 (OPNsense)',
+      gateway: '192.168.1.134 (OPNsense)',
       nodes: 'NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110)',
       firewallPolicy: 'Strict forward authentication via Authentik (CT 108)'
     },
@@ -817,7 +817,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 30',
       name: 'Cyber Security & Sandboxes (CyberLab)',
       subnet: '192.168.30.0/24',
-      gateway: '192.168.1.132:8443',
+      gateway: '192.168.1.134:8443',
       nodes: 'Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim)',
       firewallPolicy: 'Promiscuous SPAN mirror port, no outbound WAN access for sandboxes'
     },
@@ -825,7 +825,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 40',
       name: 'DMZ Deception & Honeypots',
       subnet: '192.168.40.0/24',
-      gateway: '192.168.1.132 (OPNsense)',
+      gateway: '192.168.1.134 (OPNsense)',
       nodes: 'T-Pot Cluster (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap)',
       firewallPolicy: 'Completely isolated DMZ; automated AbuseIPDB firewall blocking'
     },
@@ -833,7 +833,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 50',
       name: 'IoT & Physical Edge Devices',
       subnet: '192.168.50.0/24',
-      gateway: '192.168.1.132',
+      gateway: '192.168.1.134',
       nodes: 'ESP32 mmWave Radar, ESP32 Irrigation Relays, Zigbee Gateway',
       firewallPolicy: 'MQTT communication strictly restricted to Home Assistant (CT 106)'
     }
@@ -852,7 +852,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 20',
       name: 'Microservicii Core & Aplicații',
       subnet: '192.168.1.0/24 & 192.168.64.0/24',
-      gateway: '192.168.1.132 (OPNsense)',
+      gateway: '192.168.1.134 (OPNsense)',
       nodes: 'NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110)',
       firewallPolicy: 'Autentificare strictă înainte de acces via Authentik (CT 108)'
     },
@@ -860,7 +860,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 30',
       name: 'Securitate Cibernetică & Sandboxes (CyberLab)',
       subnet: '192.168.30.0/24',
-      gateway: '192.168.1.132:8443',
+      gateway: '192.168.1.134:8443',
       nodes: 'Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim)',
       firewallPolicy: 'Port mirror SPAN promiscuu, fără acces WAN outbound pentru sandbox-uri'
     },
@@ -868,7 +868,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 40',
       name: 'DMZ Decepție & Honeypots',
       subnet: '192.168.40.0/24',
-      gateway: '192.168.1.132 (OPNsense)',
+      gateway: '192.168.1.134 (OPNsense)',
       nodes: 'Cluster T-Pot (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap)',
       firewallPolicy: 'DMZ complet izolat; blocare automată a atacatorilor prin AbuseIPDB'
     },
@@ -876,7 +876,7 @@ export class ArchitectureBlueprintComponent {
       id: 'VLAN 50',
       name: 'IoT & Dispozitive Fizice Edge',
       subnet: '192.168.50.0/24',
-      gateway: '192.168.1.132',
+      gateway: '192.168.1.134',
       nodes: 'Radar mmWave ESP32, Relee Irigații ESP32, Gateway Zigbee',
       firewallPolicy: 'Comunicație MQTT restricționată strict la Home Assistant (CT 106)'
     }

@@ -137,7 +137,7 @@ sequenceDiagram
     participant Suricata as Suricata NIDS / Wazuh SIEM
     participant SecOps as ELO SecOps Threat-Hunter
     participant Gatekeeper as Security Gatekeeper
-    participant OPNsense as OPNsense Gateway (192.168.1.132:8443)
+    participant OPNsense as OPNsense Gateway (192.168.1.134:8443)
     participant Admin as Telegram Administrator
 
     Suricata->>SecOps: Detects SSH Brute-Force from Malicious IP
