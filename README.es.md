@@ -101,6 +101,22 @@ flowchart TB
 
 ---
 
+### 2.4 Micro-Segmentación 802.1Q VLAN & Políticas de Firewall (OPNsense)
+
+El firewall perimetral OPNsense (VM 200 · 192.168.1.134) aplica micro-segmentación 802.1Q en 5 VLANs aisladas mediante reglas estrictas de Packet Filter (`pf`):
+
+![OPNsense 802.1Q VLAN Micro-Segmentation](photos/opnsense_vlan_segmentation.png)
+
+| VLAN ID | Segmento de Red | Subnet CIDR | Puerta de Enlace | Cargas de Trabajo Asociadas | Política de Seguridad |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **VLAN 10** | Management & Storage Subnet | `192.168.1.0/24` | `192.168.1.1` | Proxmox Core (x86_64), OMV NAS, Switches Gestionados | Aislado de subredes IoT e Invitados |
+| **VLAN 20** | Core Microservices & Applications | `192.168.1.0/24` & `192.168.64.0/24` | `192.168.1.132` (OPNsense) | NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110) | Autenticación estricta previa via Authentik (CT 108) |
+| **VLAN 30** | Cyber Security & Sandboxes (CyberLab) | `192.168.30.0/24` | `192.168.1.132:8443` | Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox | Puerto espejo SPAN promiscuo, sin acceso WAN saliente para sandboxes |
+| **VLAN 40** | DMZ Deception & Honeypots | `192.168.40.0/24` | `192.168.1.132` (OPNsense) | Cluster T-Pot (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap) | DMZ completamente aislado; bloqueo automático de IPs vía AbuseIPDB |
+| **VLAN 50** | IoT & Dispositivos Físicos Edge | `192.168.50.0/24` | `192.168.1.132` | Radar mmWave ESP32, Relés de Riego ESP32, Gateway Zigbee | Comunicación MQTT estrictamente restringida a Home Assistant (CT 106) |
+
+---
+
 ## 3. Arquitectura Multi-Cloud Híbrida (Azure, GCP, AWS)
 
 The on-premise cluster is extended into a true hybrid multi-cloud topology across **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** using declarative, modular Infrastructure as Code (IaC) located in [`cloud/`](cloud/README.md) and [`terraform/`](terraform/):

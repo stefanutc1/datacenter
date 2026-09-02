@@ -590,7 +590,7 @@ import { TranslationService } from '../../services/translation.service';
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-[11px]">
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">Node 1 (x86_64) ZRAM</div>
-                <div class="font-bold text-emerald-400 text-sm">3.8 GB /dev/zram0</div>
+                <div class="font-bold text-emerald-400 text-sm">6.0 GB /dev/zram0</div>
                 <div class="text-[10px] text-slate-400">ALGO=lz4 · Swappiness 60</div>
               </div>
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
@@ -606,7 +606,7 @@ import { TranslationService } from '../../services/translation.service';
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">VirtIO Ballooning VMs</div>
                 <div class="font-bold text-slate-100 text-sm">6 QEMU VMs</div>
-                <div class="text-[10px] text-emerald-400">Dynamic 768MB → 4096MB</div>
+                <div class="text-[10px] text-emerald-400">Dynamic 512MB → 8192MB</div>
               </div>
             </div>
           </div>

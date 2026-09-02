@@ -147,6 +147,22 @@ flowchart TB
 | **Privacy & DNS** | Unbound DoT + Kea DynDNS | Encrypted DNS over TLS (Port 853) to Quad9 and dynamic host naming | `:853 TLS` / `:53 UDP` |
 | **Zero-Trust Mesh** | FRRouting BGP + Tailscale Subnet | Dynamic K8s MetalLB routing and remote mesh access without open ports | `:179 BGP` / Mesh |
 
+### 2.4 OPNsense 802.1Q VLAN Micro-Segmentation & Security Policies
+
+The perimeter firewall OPNsense (VM 200 · 192.168.1.134) enforces zero-trust 802.1Q micro-segmentation across 5 isolated VLANs using strict Packet Filter (`pf`) rules:
+
+![OPNsense 802.1Q VLAN Micro-Segmentation](photos/opnsense_vlan_segmentation.png)
+
+| VLAN ID | Network Segment | Subnet CIDR | Gateway | Attached Workloads | Security Policy |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **VLAN 10** | Management & Storage Subnet | `192.168.1.0/24` | `192.168.1.1` | Proxmox Core (x86_64), OMV NAS, Managed Switches | Isolated from IoT & Guest subnets |
+| **VLAN 20** | Core Microservices & Applications | `192.168.1.0/24` & `192.168.64.0/24` | `192.168.1.132` (OPNsense) | NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110) | Strict forward authentication via Authentik (CT 108) |
+| **VLAN 30** | Cyber Security & Sandboxes (CyberLab) | `192.168.30.0/24` | `192.168.1.132:8443` | Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim) | Promiscuous SPAN mirror port, no outbound WAN access for sandboxes |
+| **VLAN 40** | DMZ Deception & Honeypots | `192.168.40.0/24` | `192.168.1.132` (OPNsense) | T-Pot Cluster (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap) | Completely isolated DMZ; automated AbuseIPDB firewall blocking |
+| **VLAN 50** | IoT & Physical Edge Devices | `192.168.50.0/24` | `192.168.1.132` | ESP32 mmWave Radar, ESP32 Irrigation Relays, Zigbee Gateway | MQTT communication strictly restricted to Home Assistant (CT 106) |
+
+---
+
 ## 3. Hybrid Multi-Cloud Architecture (Azure, GCP, AWS)
 
 The on-premise cluster is extended into a true hybrid multi-cloud topology across **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** using declarative, modular Infrastructure as Code (IaC) located in [`cloud/`](cloud/README.md) and [`terraform/`](terraform/):

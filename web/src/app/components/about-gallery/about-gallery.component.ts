@@ -358,6 +358,14 @@ export class AboutGalleryComponent {
       badge: 'HOME ASSISTANT'
     },
     {
+      src: 'photos/opnsense_vlan_segmentation.png',
+      title: 'OPNsense · 802.1Q VLAN Micro-Segmentation',
+      category: 'ZERO-TRUST NETWORKING & VLANS',
+      description: 'Interfaces: Other Types: VLAN overview configuring 5 isolated 802.1Q subnets (Management 10, Services 20, CyberLab 30, DMZ 40, IoT 50) with default-deny pf packet filtering.',
+      endpoint: '192.168.1.134:8443',
+      badge: '802.1Q VLANS'
+    },
+    {
       src: 'photos/opnsense_suricata_defense.png',
       title: 'OPNsense · Suricata 8.0 NIDS/IPS Engine',
       category: 'CYBERSECURITY & THREAT DETECTION',

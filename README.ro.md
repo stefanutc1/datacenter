@@ -101,6 +101,22 @@ flowchart TB
 
 ---
 
+### 2.4 Micro-Segmentare 802.1Q VLAN & Politici Firewall (OPNsense)
+
+Perimetrul OPNsense (VM 200 · 192.168.1.134) enforcează o arhitectură zero-trust de micro-segmentare pe 5 VLAN-uri 802.1Q izolate prin reguli de Packet Filter (`pf`):
+
+![OPNsense 802.1Q VLAN Micro-Segmentation](photos/opnsense_vlan_segmentation.png)
+
+| VLAN ID | Segment Retea | Subnet CIDR | Gateway | Sarcini de Lucru Atasate | Politica de Securitate |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **VLAN 10** | Management & Storage Subnet | `192.168.1.0/24` | `192.168.1.1` | Proxmox Core (x86_64), OMV NAS, Switch-uri Administrabile | Izolat strict de subretelele IoT si Guest |
+| **VLAN 20** | Core Microservices & Applications | `192.168.1.0/24` & `192.168.64.0/24` | `192.168.1.132` (OPNsense) | NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110) | Autentificare stricta inainte de acces via Authentik (CT 108) |
+| **VLAN 30** | Cyber Security & Sandboxes (CyberLab) | `192.168.30.0/24` | `192.168.1.132:8443` | Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim) | Port mirror SPAN promiscuu, fara acces WAN outbound pentru sandbox-uri |
+| **VLAN 40** | DMZ Deception & Honeypots | `192.168.40.0/24` | `192.168.1.132` (OPNsense) | Cluster T-Pot (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap) | DMZ complet izolat; blocare automata a atacatorilor prin AbuseIPDB |
+| **VLAN 50** | IoT & Dispozitive Fizice Edge | `192.168.50.0/24` | `192.168.1.132` | Radar mmWave ESP32, Relee Irigatii ESP32, Gateway Zigbee | Comunicatie MQTT restrictionata strict la Home Assistant (CT 106) |
+
+---
+
 ## 3. Arhitectură Multi-Cloud Hibridă (Azure, GCP, AWS)
 
 Clusterul on-premise este extins hibrid cu cei trei mari furnizori cloud publici (**Microsoft Azure**, **Google Cloud Platform**, **Amazon Web Services**) prin declarații Infrastructure as Code (IaC) modulare în directorul [`cloud/`](cloud/README.md) și [`terraform/`](terraform/):
