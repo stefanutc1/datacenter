@@ -85,7 +85,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -60,
     color: '#94a3b8',
     icon: 'proxmox',
-    hardware: { node: 'Intel Core i3-10100F (GTX 1050 Ti)', ram: '8,192 MB DDR4', storage: '512 GB SSD' },
+    hardware: { node: 'Intel Core i3-10100F (GTX 1050 Ti)', ram: '12,288 MB DDR4 (2133 MHz)', storage: '512 GB SSD' },
     tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'PCIe GPU Passthrough', 'Enterprise VMs'],
     role: 'Hosts primary x86_64 virtualization workloads including enterprise virtual machines, core containers, and GPU-accelerated local AI inference.',
     connections: ['win-server', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'n8n-auto', 'vaultwarden-core', 'ollama-gpu-node']

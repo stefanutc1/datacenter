@@ -32,7 +32,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     role: 'Serves as the primary x86_64 virtualization hypervisor for the entire homelab. It runs the perimeter OPNsense firewall, core enterprise virtual machines with active VirtIO ballooning, and dedicated GPU-accelerated local AI inference workloads.',
     cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz Turbo)',
     gpu: 'NVIDIA GeForce GTX 1050 Ti (4GB VRAM · PCIe Passthrough to Ollama / ML Workbench & Faster-Whisper)',
-    ram: '12,288 MB DDR4 (12 GB DDR4-2666)',
+    ram: '12,288 MB DDR4 (12 GB DDR4-2133)',
     zram: '6.0 GB /dev/zram0 (lz4 compression, swappiness 60, priority 100 · Protects NVMe disk endurance)',
     storage: '512 GB SSD (Local LVM Thin Pool · 310 GB Available)',
     psu: 'Coldex 350W Pure Sine Wave Power Supply',

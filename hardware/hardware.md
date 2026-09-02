@@ -14,7 +14,7 @@ This file describes hardware and host-level virtualization only. Service definit
 | --- | --- |
 | CPU | Intel Core i3-10100F — 4 cores / 8 threads @ 4.30 GHz |
 | GPU | NVIDIA GeForce GTX 1050 Ti — 4 GB VRAM |
-| RAM | 12 GB DDR4 |
+| RAM | 12 GB DDR4-2133 (12,288 MB) |
 | Storage | 512 GB SSD |
 | PSU | Coldex 350W Pure Sine Wave |
 
