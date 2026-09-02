@@ -7,20 +7,20 @@ import { TranslationService } from '../../services/translation.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section class="w-full pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-obsidian-750 font-sans">
+    <section class="w-full pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-obsidian-750 font-sans text-center">
       
       <!-- Main Headline (Newsreader Serif) -->
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-normal text-slate-50 tracking-tight leading-[1.15] max-w-5xl mb-6">
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-normal text-slate-50 tracking-tight leading-[1.15] max-w-5xl mx-auto mb-6">
         {{ ts.t.heroTitle }}
       </h1>
 
       <!-- Description (Geist Sans) -->
-      <p class="text-base sm:text-lg text-slate-300 font-sans leading-relaxed max-w-3xl mb-10 font-normal">
+      <p class="text-base sm:text-lg text-slate-300 font-sans leading-relaxed max-w-3xl mx-auto mb-12 font-normal">
         {{ ts.t.heroDescription }}
       </p>
 
       <!-- 4 Architectural Highlight Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans text-left">
         
         <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
           <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricComputeTitle }}</div>

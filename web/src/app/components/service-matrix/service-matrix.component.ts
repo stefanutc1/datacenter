@@ -135,27 +135,9 @@ import { TranslationService } from '../../services/translation.service';
          <span class="text-slate-200 font-semibold">:{{ srv.port }}</span>
         }
        </div>
-      </div>
+       </div>
 
-      <!-- Actions Row -->
-      <div class="pt-4 mt-4 border-t border-obsidian-750 flex items-center justify-between font-mono">
-       <button
-        (click)="selectedServicePhoto.set(srv)"
-        class="text-xs text-slate-300 hover:text-slate-100 flex items-center gap-1 transition-colors"
-       >
-        <span>{{ ts.isRomanian ? ' Panou HD' : ' HD Panel' }}</span>
-       </button>
-       
-       <button
-        (click)="focusNodeInTopology(srv)"
-        class="text-xs text-slate-300 hover:text-slate-100 font-medium flex items-center gap-1.5 transition-colors"
-       >
-        <span>{{ ts.t.btnLocateInMesh }}</span>
-        <span>→</span>
-       </button>
       </div>
-
-     </div>
     }
    </div>
 
