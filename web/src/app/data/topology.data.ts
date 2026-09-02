@@ -506,7 +506,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#0284c7',
     icon: 'proxmox',
-    hardware: { node: 'Node 1 (x86_64)', ram: '8,192 MB (Balloon: 4096 MB)', storage: '64 GB' },
+    hardware: { node: 'Node 1 (x86_64)', ram: '7,168 MB (Balloon: 4096 MB)', storage: '64 GB' },
     tags: ['Active Directory', 'Domain Controller', 'Group Policy', 'Kerberos SSO'],
     role: 'Manages enterprise centralized identity, domain policies, user authentication, and workstation management.',
     connections: ['node1-pve']

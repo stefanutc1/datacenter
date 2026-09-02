@@ -77,7 +77,7 @@ module "vm_win_server_201" {
   name                   = "windows"
   description            = "Windows Server 2025 Datacenter (AD DS, GPO, DNS, Sysmon Forwarder & GTX 1050 Ti Passthrough)"
   cores                  = 2
-  memory                 = 8192
+  memory                 = 7168
   balloon                = 4096
   disk_size              = 120
   storage_pool           = "local-lvm"

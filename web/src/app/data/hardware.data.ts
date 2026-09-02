@@ -61,10 +61,10 @@ export const HARDWARE_NODES: HardwareNode[] = [
         vmid: 201, 
         name: 'windows', 
         os: 'Windows Server 2025', 
-        allocatedMb: 8192, 
+        allocatedMb: 7168, 
         balloonMinMb: 4096, 
-        purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4 GB - 8 GB)',
-        purposeRo: 'Active Directory DS, GPO & GPU Passthrough GTX 1050 Ti (Balonare: 4 GB - 8 GB)'
+        purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4096 MB - 7168 MB)',
+        purposeRo: 'Active Directory DS, GPO & GPU Passthrough GTX 1050 Ti (Balonare: 4096 MB - 7168 MB)'
       },
       { 
         vmid: 202, 
@@ -105,7 +105,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     ],
     workloads: [
       'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB · Suricata IDS/IPS, CrowdSec Bouncer, GeoIP Drop, DoT Quad9, Telegraf, Monit, GitOps, FRR BGP, Tailscale, NetFlow)',
-      'VM 201: Windows Server 2025 Datacenter (8192 MB / Balloon: 4096 MB [4-8 GB] · GPU Passthrough)',
+      'VM 201: Windows Server 2025 Datacenter (7168 MB / Balloon: 4096 MB [4-7 GB] · GPU Passthrough)',
       'VM 202: Red Hat Enterprise Linux 9.8 (2048 MB / Balloon: 1024 MB [1-2 GB])',
       'VM 203: FreeBSD 15.1-RELEASE (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
       'VM 204: OpenBSD 7.9 (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
