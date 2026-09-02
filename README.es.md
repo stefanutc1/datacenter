@@ -86,7 +86,7 @@ flowchart TB
     end
 
     subgraph Compute_Layer["Flota de Virtualización Multi-Nodo"]
-        Node1["Nodo 1: Proxmox Principal (x86_64)<br/>Intel Core i3-10100F · 8 GB RAM<br/>GPU NVIDIA GTX 1050 Ti (Passthrough)"]
+        Node1["Nodo 1: Proxmox Principal (x86_64)<br/>Intel Core i3-10100F · 12 GB RAM<br/>GPU NVIDIA GTX 1050 Ti (Passthrough)"]
         Node2["Nodo 2: Almacenamiento NAS OMV<br/>Portátil ASUS · Celeron N2830 · 2 GB RAM<br/>Pool ZFS 500 GB · Wikipedia Kiwix"]
         Node3["Nodo 3: Proxmox Secundario (ARM64)<br/>Apple MacBook Air M1 · 8 Núcleos<br/>Telemetría LGTM · Gitea · Woodpecker CI"]
         Node4["Nodo 4: Worker Talos Linux<br/>AMD Athlon II X2 · 4 GB RAM<br/>k3s-agent · Sensor eBPF Tetragon"]
@@ -177,7 +177,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 | Identificador Nodo | Factor de Forma / Chasis | Arquitectura CPU | Acelerador / GPU | Memoria RAM | Configuración Almacenamiento | Propósito Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`pve` (Nodo 1)** | Torre ATX Personalizada | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4 GB VRAM) | 8 GB DDR4-2666 | 512 GB NVMe SSD (`local-lvm`) | Hipervisor Principal: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
+| **`pve` (Nodo 1)** | Torre ATX Personalizada | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4 GB VRAM) | 12 GB DDR4-2666 | 512 GB NVMe SSD (`local-lvm`) | Hipervisor Principal: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
 | **`openmediavault` (Nodo 2)** | Portátil ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (Espejo ZFS) | NAS Centralizado: Recursos NFS/SMB, destino de respaldos vzdump, Wikipedia offline Kiwix |
 | **`pve` (Nodo 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Neural Engine / Metal | 8 GB Unificada (4 GB VM dedicada) | 256 GB Apple APFS NVMe | Hipervisor Secundario ARM64 (UTM): Telemetría Grafana/Prometheus/Tempo, Gitea, Woodpecker CI |
 | **`kubernetes` (Nodo 4)** | Chasis ATX Personalizado | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1 GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker inmutable Talos Linux / k3s, tareas batch programadas, sensor de seguridad eBPF |
@@ -298,7 +298,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 ### Optimisation Mémoire Hôte: ZRAM / ZSWAP Fast RAM Compression
 
 * **Algorithme**: `lz4` ultra-rapide avec overhead CPU < 1%.
-* **Nœud 1 (x86_64) ZRAM**: `/dev/zram0` (3.8 Go RAM compressé swap, priorité 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
+* **Nœud 1 (x86_64) ZRAM**: `/dev/zram0` (6.0 Go RAM compressé swap, priorité 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
 * **Nœud 3 (ARM64) ZRAM**: `/dev/zram0` (1.9 Go RAM compressé swap, priorité 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
 * **Protection NVMe**: Les pages de mémoire swap sont compressées directement en RAM, éliminant l'usure des disques SSD NVMe.
 

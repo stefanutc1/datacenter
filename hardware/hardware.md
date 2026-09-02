@@ -14,13 +14,13 @@ This file describes hardware and host-level virtualization only. Service definit
 | --- | --- |
 | CPU | Intel Core i3-10100F — 4 cores / 8 threads @ 4.30 GHz |
 | GPU | NVIDIA GeForce GTX 1050 Ti — 4 GB VRAM |
-| RAM | 8 GB DDR4 |
+| RAM | 12 GB DDR4 |
 | Storage | 512 GB SSD |
 | PSU | Coldex 350W Pure Sine Wave |
 
 **Capacity notes:**
 
-* 8 GB of RAM is the primary constraint on this host. It sets a hard ceiling on how many concurrent LXC containers/VMs are practical, particularly with an ML workload (PyTorch/CUDA) in the mix — memory headroom, not CPU, is the first thing to check before adding a new service here.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
 * The GTX 1050 Ti's 4 GB VRAM limits model size/batch size for ML experimentation and is shared with Frigate if GPU-accelerated detection is enabled for the NVR — these two workloads compete for the same VRAM budget and shouldn't be assumed to coexist at full load without checking.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 

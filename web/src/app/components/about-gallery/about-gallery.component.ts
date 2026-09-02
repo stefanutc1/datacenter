@@ -279,7 +279,7 @@ export class AboutGalleryComponent {
       src: 'photos/proxmox_ve_dashboard.png',
       title: 'Proxmox VE 9.2.10 · Primary x86_64 Hypervisor',
       category: 'VIRTUALIZATION & HYPERVISOR',
-      description: 'Native Proxmox VE management interface on Node 1 (Intel i3-10100F, 8GB DDR4, 512GB SSD), managing KVM virtual machines (VM 200 OPNsense) and active LXC containers.',
+      description: 'Native Proxmox VE management interface on Node 1 (Intel i3-10100F, 12GB DDR4, 512GB SSD), managing KVM virtual machines (VM 200 OPNsense) and active LXC containers.',
       endpoint: '192.168.1.132:8006',
       badge: 'PVE X86_64'
     },

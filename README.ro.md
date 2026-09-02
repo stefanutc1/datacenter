@@ -86,7 +86,7 @@ flowchart TB
     end
 
     subgraph Compute_Layer["Flotă Hibridă de Virtualizare Multi-Nod"]
-        Node1["Nod 1: Proxmox Primar (x86_64)<br/>Intel Core i3-10100F · 8GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
+        Node1["Nod 1: Proxmox Primar (x86_64)<br/>Intel Core i3-10100F · 12GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
         Node2["Nod 2: OMV NAS Stocare<br/>ASUS Laptop · Celeron N2830 · 2GB RAM<br/>500GB ZFS Pool · Kiwix Wikipedia"]
         Node3["Nod 3: Proxmox Secundar (ARM64)<br/>Apple MacBook Air M1 · 8 Nuclee<br/>Telemetrie LGTM · Gitea · Woodpecker CI"]
         Node4["Nod 4: Worker Kubernetes (Talos Linux)<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · Senzor eBPF Tetragon"]
@@ -177,7 +177,7 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 
 | Identificator Nod | Șasiu / Form Factor | Arhitectură CPU | Accelerator / GPU | Alocare RAM | Configurație Stocare | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`pve` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 8 GB DDR4-2666 | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
+| **`pve` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 12 GB DDR4-2666 | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
 | **`openmediavault` (Nod 2)** | Laptop ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (Oglindă ZFS) | NAS Centralizat: stocare NFS/SMB, destinație backup vzdump, arhivă offline Wikipedia (Kiwix) |
 | **`pve` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI |
 | **`kubernetes` (Nod 4)** | Șasiu ATX Custom | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker imutabil Talos Linux / k3s, joburi batch, senzor securitate eBPF |
@@ -318,7 +318,7 @@ flowchart TD
 ### Optimizare Memorie Gazdă: ZRAM / ZSWAP Fast RAM Compression
 
 * **Algoritm Compresie**: `lz4` ultra-rapid cu overhead CPU sub 1%.
-* **Alocare ZRAM Nod 1 (x86_64)**: `/dev/zram0` (3.8 GB RAM comprimat, prioritate 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
+* **Alocare ZRAM Nod 1 (x86_64)**: `/dev/zram0` (6.0 GB RAM comprimat, prioritate 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
 * **Alocare ZRAM Nod 3 (ARM64)**: `/dev/zram0` (1.9 GB RAM comprimat, prioritate 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
 * **Protecție NVMe**: Paginile de memorie swap sunt comprimate direct în RAM, eliminând complet ciclurile de scriere uzuală pe drive-urile SSD NVMe.
 
