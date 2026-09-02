@@ -14,7 +14,7 @@ import { TranslationService } from '../../services/translation.service';
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div class="space-y-2">
-          <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
+          <div class="hidden">
             {{ ts.t.srvTag }}
           </div>
           <h2 class="text-3xl sm:text-4xl font-sans font-bold text-slate-50 tracking-tight">
@@ -76,7 +76,7 @@ import { TranslationService } from '../../services/translation.service';
                   (error)="onScreenshotError($event)"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian-900/90 border border-obsidian-700 font-mono text-[10px] text-emerald-400 font-bold flex items-center gap-1 shadow">
+                <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian-900/90 border border-obsidian-700 font-mono text-[10px] text-slate-200 font-semibold flex items-center gap-1 shadow">
                   <span>Screenshot HD</span>
                   <span>↗</span>
                 </div>
@@ -89,7 +89,7 @@ import { TranslationService } from '../../services/translation.service';
                     <img [src]="'icons/' + srv.icon + '.svg'" [alt]="srv.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
                   </div>
                   <div>
-                    <h3 class="font-sans font-bold text-slate-50 text-base group-hover:text-emerald-400 transition-colors">
+                    <h3 class="font-sans font-bold text-slate-50 text-base group-hover:text-slate-200 transition-colors">
                       {{ srv.name }}
                     </h3>
                     <div class="text-[11px] font-mono text-slate-400">
@@ -118,10 +118,10 @@ import { TranslationService } from '../../services/translation.service';
               }
 
               <!-- Hardware Allocations -->
-              <div class="grid grid-cols-2 gap-2 pt-1 font-mono text-[11px]">
+              <div class="grid grid-cols-2 gap-2 pt-1 font-sans text-[11px]">
                 <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750">
                   <div class="text-[9px] text-slate-400 uppercase">{{ ts.t.srvRamCeiling }}</div>
-                  <div class="font-bold text-emerald-400">{{ srv.ram }}</div>
+                  <div class="font-semibold text-slate-100">{{ srv.ram }}</div>
                 </div>
                 <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750">
                   <div class="text-[9px] text-slate-400 uppercase">{{ ts.t.srvStoragePool }}</div>
@@ -129,10 +129,10 @@ import { TranslationService } from '../../services/translation.service';
                 </div>
               </div>
 
-              <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750 font-mono text-[11px] text-slate-300 flex items-center justify-between">
+              <div class="p-2 rounded-lg bg-obsidian-900 border border-obsidian-750 font-sans text-[11px] text-slate-300 flex items-center justify-between">
                 <span class="truncate">{{ srv.node }}</span>
                 @if (srv.port > 0) {
-                  <span class="text-emerald-400 font-bold">:{{ srv.port }}</span>
+                  <span class="text-slate-200 font-semibold">:{{ srv.port }}</span>
                 }
               </div>
             </div>
@@ -148,7 +148,7 @@ import { TranslationService } from '../../services/translation.service';
               
               <button
                 (click)="focusNodeInTopology(srv)"
-                class="text-xs text-emerald-400 hover:text-emerald-300 font-bold flex items-center gap-1.5 transition-colors"
+                class="text-xs text-slate-300 hover:text-slate-100 font-medium flex items-center gap-1.5 transition-colors"
               >
                 <span>{{ ts.t.btnLocateInMesh }}</span>
                 <span>→</span>

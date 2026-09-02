@@ -10,23 +10,8 @@ import { TranslationService } from '../../services/translation.service';
     <header class="w-full border-b border-obsidian-750 bg-[#0c0e11]/90 backdrop-blur-xl sticky top-0 z-40 font-sans">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Left: Logo & Subtitle -->
-        <div class="flex items-center gap-3.5">
-          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold text-sm shadow-sm">
-            H
-          </div>
-          <div class="flex flex-col">
-            <div class="flex items-center gap-2">
-              <span class="font-sans font-bold text-base text-slate-50 tracking-tight">Homelab</span>
-            </div>
-            <span class="text-[11px] font-sans font-normal text-slate-400">
-              {{ ts.t.sublabelTag }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Middle: Navigation Links -->
-        <nav class="hidden md:flex items-center gap-6 font-sans text-xs font-medium text-slate-300">
+        <!-- Left: Navigation Links -->
+        <nav class="flex items-center gap-6 font-sans text-xs font-medium text-slate-300">
           <a href="#overview" class="hover:text-emerald-400 transition-colors">{{ ts.t.navOverview }}</a>
           <a href="#topology-section" class="hover:text-emerald-400 transition-colors">{{ ts.t.navTopology }}</a>
           <a href="#hardware" class="hover:text-emerald-400 transition-colors">{{ ts.t.navHardware }}</a>
