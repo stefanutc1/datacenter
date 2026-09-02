@@ -35,19 +35,9 @@ import { TranslationService } from '../../services/translation.service';
           <a href="#blueprint" class="hover:text-emerald-400 transition-colors">{{ ts.t.navBlueprint }}</a>
         </nav>
 
-        <!-- Right: Command Palette Search & Language Switcher [ RO | EN ] -->
+        <!-- Right: Language Switcher [ RO | EN ] -->
         <div class="flex items-center gap-3">
           
-          <!-- Cmd+K Search Trigger Button -->
-          <button
-            (click)="searchTriggered.emit()"
-            class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-obsidian-900 border border-obsidian-750 hover:border-emerald-500/50 text-slate-300 text-xs font-mono transition-all shadow-inner group"
-            title="Deschide Căutarea Globală (Cmd+K)"
-          >
-            <span class="text-emerald-400 font-bold">⌘K</span>
-            <span class="text-slate-400 group-hover:text-slate-200 text-[11px]">{{ ts.isRomanian ? 'Căutare...' : 'Search...' }}</span>
-          </button>
-
           <!-- Interactive Language Toggle -->
           <div class="flex items-center p-0.5 rounded-xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs shadow-inner">
             <button
@@ -74,12 +64,6 @@ import { TranslationService } from '../../services/translation.service';
             >
               EN
             </button>
-          </div>
-
-          <!-- Live Cluster Status Pill -->
-          <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs text-slate-300 shadow-inner">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>{{ ts.t.statusClusterActive }}</span>
           </div>
 
         </div>

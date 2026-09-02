@@ -9,12 +9,6 @@ import { TranslationService } from '../../services/translation.service';
   template: `
     <section class="w-full pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-obsidian-750 font-sans">
       
-      <!-- Top Tag (Geist Sans) -->
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-obsidian-850 border border-obsidian-700 text-xs font-sans font-medium text-emerald-400 mb-6">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>{{ ts.t.heroTag }}</span>
-      </div>
-
       <!-- Main Headline (Newsreader Serif) -->
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-normal text-slate-50 tracking-tight leading-[1.15] max-w-5xl mb-6">
         {{ ts.t.heroTitle }}

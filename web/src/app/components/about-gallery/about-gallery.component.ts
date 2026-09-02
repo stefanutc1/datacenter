@@ -26,10 +26,6 @@ interface PhotoItem {
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono mb-3">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>{{ ts.isRomanian ? 'PORTOFOLIU & GALERIE LIVE' : 'PORTFOLIO & LIVE LAB GALLERY' }}</span>
-          </div>
           <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal">
             {{ ts.isRomanian ? 'Despre Mine & Galeria Completă a Serviciilor' : 'About Me & Complete Services Fleet Gallery' }}
           </h2>
