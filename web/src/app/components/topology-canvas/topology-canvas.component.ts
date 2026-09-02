@@ -25,14 +25,14 @@ import { TranslationService } from '../../services/translation.service';
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div class="space-y-1">
           <div class="text-xs font-sans font-semibold tracking-wider text-slate-400 uppercase">
-            NETWORK TOPOLOGY
+            {{ ts.t.topologyTag }}
           </div>
           <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal tracking-tight">
-            Spatial 3D Network Visualization
+            {{ ts.t.topologyTitle }}
           </h2>
         </div>
         <div class="text-xs text-slate-400 font-sans max-w-sm text-right leading-relaxed hidden sm:block">
-          Click on nodes to inspect technical specifications, network relations, and configuration manifests.
+          {{ ts.t.topologyDesc }}
         </div>
       </div>
 
@@ -75,7 +75,7 @@ import { TranslationService } from '../../services/translation.service';
                 [class.text-slate-400]="perspective !== 'logical'"
                 class="px-3 py-1 rounded-lg transition-all border border-transparent"
               >
-                Logical
+                {{ ts.t.btnLogical }}
               </button>
               <button
                 (click)="setPerspective('physical')"
@@ -85,7 +85,7 @@ import { TranslationService } from '../../services/translation.service';
                 [class.text-slate-400]="perspective !== 'physical'"
                 class="px-3 py-1 rounded-lg transition-all border border-transparent"
               >
-                Physical
+                {{ ts.t.btnPhysical }}
               </button>
             </div>
 
@@ -99,7 +99,7 @@ import { TranslationService } from '../../services/translation.service';
               class="px-3.5 py-1.5 rounded-xl bg-obsidian-950/90 backdrop-blur-md border hover:border-slate-500 transition-all flex items-center gap-2 shadow-xl font-sans"
             >
               <span class="w-2 h-2 rounded-full" [class.bg-slate-300]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
-              <span>Rotate</span>
+              <span>{{ ts.t.btnRotate }}</span>
             </button>
 
             <!-- Reset -->
@@ -107,7 +107,7 @@ import { TranslationService } from '../../services/translation.service';
               (click)="resetCamera()"
               class="px-3.5 py-1.5 rounded-xl bg-obsidian-950/90 backdrop-blur-md border border-obsidian-750 hover:border-slate-500 text-slate-300 hover:text-slate-100 transition-all shadow-xl"
             >
-              Reset
+              {{ ts.t.btnReset }}
             </button>
           </div>
         </div>
@@ -127,11 +127,11 @@ import { TranslationService } from '../../services/translation.service';
         <div class="absolute bottom-4 left-4 right-4 z-20 pointer-events-none flex items-center justify-between font-sans text-xs">
           <div class="flex items-center gap-2 text-slate-300 font-medium">
             <span class="w-2 h-2 rounded-full bg-slate-400"></span>
-            <span class="tracking-wide">ACTIVE NETWORK | {{ nodes.length }} NODES | {{ links.length }} LINKS</span>
+            <span class="tracking-wide">{{ ts.t.meshActive }} | {{ nodes.length }} {{ ts.t.nodesLabel }} | {{ links.length }} {{ ts.t.flowsLabel }}</span>
           </div>
 
           <div class="text-slate-500 text-[11px] uppercase tracking-wider hidden sm:block font-sans font-normal">
-            DRAG TO ROTATE · SCROLL TO ZOOM · CLICK FOR DETAILS
+            {{ ts.t.interactionHint }}
           </div>
         </div>
 
@@ -163,14 +163,14 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
   getCategories() {
     return [
-      { id: 'all', label: 'All Layers' },
-      { id: 'compute', label: 'Compute & Hypervisors' },
-      { id: 'network', label: 'Network & Ingress' },
-      { id: 'security', label: 'Security & Cyber' },
-      { id: 'services', label: 'Core Services' },
-      { id: 'elo', label: 'AI Control Plane' },
-      { id: 'storage', label: 'Storage & ZFS' },
-      { id: 'edge', label: 'Edge Sensors' }
+      { id: 'all', label: this.ts.t.catAll },
+      { id: 'compute', label: this.ts.t.catCompute },
+      { id: 'network', label: this.ts.t.catNetwork },
+      { id: 'security', label: this.ts.t.catSecurity },
+      { id: 'services', label: this.ts.t.catServices },
+      { id: 'elo', label: this.ts.t.catElo },
+      { id: 'storage', label: this.ts.t.catStorage },
+      { id: 'edge', label: this.ts.t.catEdge }
     ];
   }
 

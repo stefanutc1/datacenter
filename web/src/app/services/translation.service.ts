@@ -248,7 +248,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
     metricServicesDesc: '83 active on-prem microservices and KVM/BSD enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
     
     metricCyberTitle: 'SECURITY, DFIR & CI/CD',
-    metricCyberCount: 'SOC · 9 Fluxuri CI/CD',
+    metricCyberCount: 'SOC · 9 CI/CD Workflows',
     metricCyberDesc: 'Wazuh SIEM, T-Pot DMZ + Enterprise CI/CD Matrix featuring 9 automated workflows with 36+ parallel quality checks.',
 
     topologyTag: 'NETWORK TOPOLOGY',
