@@ -77,8 +77,8 @@ module "vm_win_server_201" {
   name                   = "windows"
   description            = "Windows Server 2025 Datacenter (AD DS, GPO, DNS, Sysmon Forwarder & GTX 1050 Ti Passthrough)"
   cores                  = 2
-  memory                 = 4096
-  balloon                = 2048
+  memory                 = 8192
+  balloon                = 4096
   disk_size              = 120
   storage_pool           = "local-lvm"
   vlan_tag               = 20
@@ -108,8 +108,8 @@ module "vm_freebsd_203" {
   name         = "freebsd"
   description  = "FreeBSD 15.1-RELEASE (Native OpenZFS Storage Pool, FreeBSD Jails & Network Lab)"
   cores        = 2
-  memory       = 1536
-  balloon      = 768
+  memory       = 1024
+  balloon      = 512
   disk_size    = 25
   storage_pool = "local-lvm"
   vlan_tag     = 20
@@ -123,8 +123,8 @@ module "vm_openbsd_204" {
   name         = "openbsd"
   description  = "OpenBSD 7.9 Bastion (Hardened Jump Host, Packet Filter PF, pledge/unveil sandboxing)"
   cores        = 2
-  memory       = 1536
-  balloon      = 768
+  memory       = 1024
+  balloon      = 512
   disk_size    = 25
   storage_pool = "local-lvm"
   vlan_tag     = 20

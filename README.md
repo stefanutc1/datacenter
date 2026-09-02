@@ -1,7 +1,7 @@
 <div align="center">
 
 # Homelab
-**[ 🇷🇴 Română ](README.ro.md) • [ 🇬🇧 English ](README.md) • [ 🇫🇷 Français ](README.fr.md) • [ 🇪🇸 Español ](README.es.md) • [ 🇩🇪 Deutsch ](README.de.md)**
+**[ Română ](README.ro.md) • [ English ](README.md) • [ Français ](README.fr.md) • [ Español ](README.es.md) • [ Deutsch ](README.de.md)**
 
 [![CI/CD Status](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions)
 [![Security & Trivy Scan](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml)
@@ -14,10 +14,10 @@
 
 <br/>
 
-**Production-grade hybrid cloud platform, cyber defense proving ground, and autonomous multi-agent orchestration infrastructure.**
+**Production-grade hybrid cloud platform, cybersecurity test environment, and autonomous multi-agent orchestration infrastructure.**
 Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense network segmentation, ZFS storage arrays, declarative Terraform/Ansible automation, and real-time eBPF runtime observability.
 
-[Live Interactive Digital Twin](https://stefanutc1.github.io/homelab/) • [Architecture Blueprint](ARCHITECTURE.md) • [Security Policy](SECURITY.md) • [Roadmap](ROADMAP.md)
+[Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/homelab/) • [Architecture Blueprint](ARCHITECTURE.md) • [Security Policy](SECURITY.md) • [Roadmap](ROADMAP.md)
 
 
 <!-- AUTO-METRICS-START -->
@@ -30,7 +30,7 @@ Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense ne
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Mission & Design Principles](#1-mission--design-principles)
 2. [End-to-End Architecture & Network Topology](#2-end-to-end-architecture--network-topology)
@@ -43,7 +43,7 @@ Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense ne
 9. [Kubernetes & GitOps Deployment Lifecycle](#9-kubernetes--gitops-deployment-lifecycle)
 10. [LGTM Observability Stack & Telemetry Pipeline](#10-lgtm-observability-stack--telemetry-pipeline)
 11. [3-2-1 Backup Strategy, Sanoid & Disaster Recovery](#11-3-2-1-backup-strategy-sanoid--disaster-recovery)
-12. [Cyber Defense Proving Ground, SOC & eBPF Security](#12-cyber-defense-proving-ground-soc--ebpf-security)
+12. [Cybersecurity Test Environment, SOC & eBPF Security](#12-cyber-defense-proving-ground-soc--ebpf-security)
 13. [Local GPU AI LLM Runtime (Ollama CT 110)](#13-local-gpu-ai-llm-runtime-ollama-ct-110)
 14. [Chaos Engineering & Resiliency Validation](#14-chaos-engineering--resiliency-validation)
 15. [Environmental Telemetry & Closed-Loop Fan Control](#15-environmental-telemetry--closed-loop-fan-control)
@@ -59,12 +59,12 @@ Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense ne
 
 ```mermaid
 flowchart LR
-    subgraph Principles["HOMELAB ENGINEERING PRINCIPLES"]
-        direction LR
-        P1["⚡ RESOURCE EFFICIENCY<br/>• Minimal footprint via Alpine LXC<br/>• ZFS ZSTD & ZRAM lz4 compression<br/>• Sub-100ms GPU local LLM inference"]
-        P2["🛡️ DEFENSE-IN-DEPTH<br/>• OPNsense default-deny firewall<br/>• Kernel-level eBPF telemetry<br/>• DMZ Deception & FIDO2 Zero-Trust"]
-        P3["🔄 GITOPS & AS-CODE<br/>• 100% declarative Terraform & Ansible<br/>• Zero manual click-ops<br/>• Instant rollback & CI security scans"]
-    end
+ subgraph Principles["HOMELAB ENGINEERING PRINCIPLES"]
+ direction LR
+ P1["RESOURCE EFFICIENCY<br/>• Minimal footprint via Alpine LXC<br/>• ZFS ZSTD & ZRAM lz4 compression<br/>• Sub-100ms GPU local LLM inference"]
+ P2["DEFENSE-IN-DEPTH<br/>• OPNsense default-deny firewall<br/>• Kernel-level eBPF telemetry<br/>• DMZ Deception & FIDO2 Zero-Trust"]
+ P3["GITOPS & AS-CODE<br/>• 100% declarative Terraform & Ansible<br/>• Zero manual click-ops<br/>• Instant rollback & CI security scans"]
+ end
 ```
 
 * **Resource Efficiency**: High-density virtualization utilizing minimal CPU/RAM footprints. Alpine Linux and Debian slim containers maximize performance on constrained silicon.
@@ -78,65 +78,65 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    subgraph WAN_Edge["Perimeter & External Ingress"]
-        CF["Cloudflare WAF / CDN"] -->|"Encrypted Tunnel"| VPS["VPS WireGuard Gateway"]
-        VPS -->|"Dual-Homed VPN"| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
-    end
+ subgraph WAN_Edge["Perimeter & External Ingress"]
+ CF["Cloudflare WAF / CDN"] -->|"Encrypted Tunnel"| VPS["VPS WireGuard Gateway"]
+ VPS -->|"Dual-Homed VPN"| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+ end
 
-    subgraph Network_VLANs["Segmented Virtual Local Area Networks"]
-        OPN -->|"VLAN 10: 192.168.1.0/24"| V10["VLAN 10: Management & Storage<br/>Proxmox VE · OMV NAS · IPMI"]
-        OPN -->|"VLAN 20: 192.168.20.0/24"| V20["VLAN 20: Core Microservices<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
-        OPN -->|"VLAN 30: 192.168.30.0/24"| V30["VLAN 30: CyberLab & Sandboxes<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
-        OPN -->|"VLAN 40: 192.168.40.0/24"| V40["VLAN 40: DMZ Deception<br/>T-Pot Multi-Honeypots · AbuseIPDB"]
-        OPN -->|"VLAN 50: 192.168.50.0/24"| V50["VLAN 50: IoT & Edge Sensors<br/>ESP32 mmWave · Zigbee · Home Assistant"]
-    end
+ subgraph Network_VLANs["Segmented Virtual Local Area Networks"]
+ OPN -->|"VLAN 10: 192.168.1.0/24"| V10["VLAN 10: Management & Storage<br/>Proxmox VE · OMV NAS · IPMI"]
+ OPN -->|"VLAN 20: 192.168.20.0/24"| V20["VLAN 20: Core Microservices<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
+ OPN -->|"VLAN 30: 192.168.30.0/24"| V30["VLAN 30: CyberLab & Sandboxes<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
+ OPN -->|"VLAN 40: 192.168.40.0/24"| V40["VLAN 40: DMZ Deception<br/>T-Pot Multi-Honeypots · AbuseIPDB"]
+ OPN -->|"VLAN 50: 192.168.50.0/24"| V50["VLAN 50: IoT & Edge Sensors<br/>ESP32 mmWave · Zigbee · Home Assistant"]
+ end
 
-    subgraph Compute_Layer["Hybrid Multi-Node Virtualization Fleet"]
-        Node1["Node 1: Proxmox Primary (x86_64)<br/>Intel Core i3-10100F · 12GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
-        Node2["Node 2: OMV NAS Storage<br/>ASUS Laptop · Celeron N2830 · 2GB RAM<br/>500GB ZFS Pool · Kiwix Wikipedia"]
-        Node3["Node 3: Proxmox Secondary (ARM64)<br/>Apple MacBook Air M1 · 8-Core<br/>LGTM Telemetry · Gitea · Woodpecker CI"]
-        Node4["Node 4: Talos Linux Worker<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · eBPF Tetragon Sensor"]
-    end
+ subgraph Compute_Layer["Hybrid Multi-Node Virtualization Fleet"]
+ Node1["Node 1: Proxmox Primary (x86_64)<br/>Intel Core i3-10100F · 12GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
+ Node2["Node 2: OMV NAS Storage<br/>ASUS Laptop · Celeron N2830 · 2GB RAM<br/>500GB ZFS Pool · Kiwix Wikipedia"]
+ Node3["Node 3: Proxmox Secondary (ARM64)<br/>Apple MacBook Air M1 · 8-Core<br/>LGTM Telemetry · Gitea · Woodpecker CI"]
+ Node4["Node 4: Talos Linux Worker<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · eBPF Tetragon Sensor"]
+ end
 
-    V10 -.-> Node1 & Node2 & Node3 & Node4
-    V20 -.-> Node1 & Node3
-    V30 -.-> Node1
-    V40 -.-> Node1
-    V50 -.-> Node1
+ V10 -.-> Node1 & Node2 & Node3 & Node4
+ V20 -.-> Node1 & Node3
+ V30 -.-> Node1
+ V40 -.-> Node1
+ V50 -.-> Node1
 ```
 
 ---
 
 
-### 🛡️ 2.3 OPNsense Enterprise Architecture (5 Security Pillars)
+### 2.3 OPNsense Enterprise Architecture (5 Security Pillars)
 
 The perimeter firewall **OPNsense (VM 200 · 192.168.1.134)** implements a unified enterprise defense suite running in the FreeBSD kernel (`pf`):
 
 ```mermaid
 flowchart TB
-    subgraph OPN["🛡️ OPNsense Enterprise Security Core (192.168.1.134)"]
-        direction TB
-        subgraph P1["1. Threat Intel & Perimeter"]
-            SURI["Suricata NIDS/IPS (v8.0)<br/>• ET Open Rules & Promiscuous"]
-            CS["CrowdSec LAPI Bouncer<br/>• Dynamic pf table drops"]
-            GEO["GeoIP Kernel Drop<br/>• Ingress block for high-risk zones"]
-        end
-        subgraph P2["2. Observability & Health"]
-            TELE["Telegraf Prometheus Exporter<br/>• pf state table telemetry (:9273)"]
-            MONIT["Monit Self-Healing Watchdog<br/>• Daemon auto-restart & ntfy alerts"]
-        end
-        subgraph P3["3. GitOps & Disaster Recovery"]
-            GIT["os-git-backup<br/>• GPG encrypted config.xml snapshots"]
-        end
-        subgraph P4["4. Privacy & DNS"]
-            DOT["Unbound DNS-over-TLS<br/>• Quad9 (9.9.9.9:853) & DNSSEC"]
-            DHCP["Kea DHCP Auto DynDNS<br/>• Auto registration of *.homelab.local"]
-        end
-        subgraph P5["5. Zero-Trust & Kubernetes"]
-            BGP["FRRouting BGP Peering<br/>• MetalLB & Cilium LoadBalancers"]
-            TS["Tailscale Subnet Router<br/>• Encrypted mesh across all VLANs"]
-        end
-    end
+ subgraph OPN["OPNsense Enterprise Security Core (192.168.1.134)"]
+ direction TB
+ subgraph P1["1. Threat Intel & Perimeter"]
+ SURI["Suricata NIDS/IPS (v8.0)<br/>• ET Open Rules & Promiscuous"]
+ CS["CrowdSec LAPI Bouncer<br/>• Dynamic pf table drops"]
+ GEO["GeoIP Kernel Drop<br/>• Ingress block for high-risk zones"]
+ end
+ subgraph P2["2. Observability & Health"]
+ TELE["Telegraf Prometheus Exporter<br/>• pf state table telemetry (:9273)"]
+ MONIT["Monit Self-Healing Watchdog<br/>• Daemon auto-restart & ntfy alerts"]
+ end
+ subgraph P3["3. GitOps & Disaster Recovery"]
+ GIT["os-git-backup<br/>• GPG encrypted config.xml snapshots"]
+ end
+ subgraph P4["4. Privacy & DNS"]
+ DOT["Unbound DNS-over-TLS<br/>• Quad9 (9.9.9.9:853) & DNSSEC"]
+ DHCP["Kea DHCP Auto DynDNS<br/>• Auto registration of *.homelab.local"]
+ end
+ subgraph P5["5. Zero-Trust & Kubernetes"]
+ BGP["FRRouting BGP Peering<br/>• MetalLB & Cilium LoadBalancers"]
+ TS["Tailscale Subnet Router<br/>• Encrypted mesh across all VLANs"]
+ end
+ end
 ```
 
 | Strategic Pillar | Technology & Module | Cluster Role & Functionality | Port / Protocol |
@@ -153,40 +153,40 @@ The on-premise cluster is extended into a true hybrid multi-cloud topology acros
 
 ```mermaid
 flowchart TB
-    subgraph OnPrem["🏠 ON-PREMISE HYBRID HOMELAB"]
-        direction TB
-        OPN["OPNsense Firewall (192.168.1.134:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
-        PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
-        ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
-        OPN --- PVE --- ZFS
-    end
+ subgraph OnPrem["ON-PREMISE HYBRID HOMELAB"]
+ direction TB
+ OPN["OPNsense Firewall (192.168.1.134:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+ PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
+ ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
+ OPN --- PVE --- ZFS
+ end
 
-    subgraph Azure["🔷 MICROSOFT AZURE (cloud/azure/)"]
-        direction TB
-        AKV["Azure Key Vault (Cloud HSM)<br/>Step-CA Root CA & LUKS Escrow"]
-        ABS["Blob Storage Archive Tier<br/>Cold ZFS Disaster Recovery"]
-        EID["Entra ID SSO Federation<br/>Authentik SAML / OIDC"]
-        ARC["Azure Arc Integration<br/>Defender for Cloud Security"]
-    end
+ subgraph Azure["MICROSOFT AZURE (cloud/azure/)"]
+ direction TB
+ AKV["Azure Key Vault (Cloud HSM)<br/>Step-CA Root CA & LUKS Escrow"]
+ ABS["Blob Storage Archive Tier<br/>Cold ZFS Disaster Recovery"]
+ EID["Entra ID SSO Federation<br/>Authentik SAML / OIDC"]
+ ARC["Azure Arc Integration<br/>Defender for Cloud Security"]
+ end
 
-    subgraph GCP["🌐 GOOGLE CLOUD PLATFORM (cloud/gcp/)"]
-        direction TB
-        GCS["Cloud Storage Bucket WORM<br/>Ransomware-Proof PBS Retention"]
-        WIF["Workload Identity Federation<br/>Keyless CI/CD (GitHub & Woodpecker)"]
-        DNS["Cloud DNS Managed Zone<br/>Split-Horizon DNS Fallback"]
-        BQ["BigQuery Security Sink<br/>T-Pot & Wazuh SIEM Analytics"]
-    end
+ subgraph GCP["GOOGLE CLOUD PLATFORM (cloud/gcp/)"]
+ direction TB
+ GCS["Cloud Storage Bucket WORM<br/>Ransomware-Proof PBS Retention"]
+ WIF["Workload Identity Federation<br/>Keyless CI/CD (GitHub & Woodpecker)"]
+ DNS["Cloud DNS Managed Zone<br/>Split-Horizon DNS Fallback"]
+ BQ["BigQuery Security Sink<br/>T-Pot & Wazuh SIEM Analytics"]
+ end
 
-    subgraph AWS["🟧 AMAZON WEB SERVICES (cloud/aws/)"]
-        direction TB
-        S3["S3 Glacier Deep Archive<br/>Encrypted Off-Site Cold DR"]
-        OIDC["IAM OIDC Keyless Role<br/>Least-Privilege AssumeRole"]
-        VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
-    end
+ subgraph AWS["AMAZON WEB SERVICES (cloud/aws/)"]
+ direction TB
+ S3["S3 Glacier Deep Archive<br/>Encrypted Off-Site Cold DR"]
+ OIDC["IAM OIDC Keyless Role<br/>Least-Privilege AssumeRole"]
+ VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
+ end
 
-    OnPrem -->|"IPsec / WireGuard VPN"| Azure
-    OnPrem -->|"OIDC Token / HA VPN"| GCP
-    OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
+ OnPrem -->|"IPsec / WireGuard VPN"| Azure
+ OnPrem -->|"OIDC Token / HA VPN"| GCP
+ OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
 ```
 
 ### Cloud Integration & Zero-Cost Tiering Matrix
@@ -232,18 +232,18 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 ```mermaid
 flowchart TD
-    Mains["Mains Utility Power 230V AC"] --> UPS["Coldex Pure Sine Wave 1200VA UPS<br/>+ External 100Ah Deep-Cycle Battery"]
-    UPS --> PDU["Smart Energy Metered PDU"]
-    PDU --> Node1 & Node2 & Node3 & Node4 & Switch["Managed PoE+ Switch"]
+ Mains["Mains Utility Power 230V AC"] --> UPS["Coldex Pure Sine Wave 1200VA UPS<br/>+ External 100Ah Deep-Cycle Battery"]
+ UPS --> PDU["Smart Energy Metered PDU"]
+ PDU --> Node1 & Node2 & Node3 & Node4 & Switch["Managed PoE+ Switch"]
 
-    UPS -.->|"USB HID Telemetry"| NUT_Master["NUT Server (Network UPS Tools)<br/>Node 1 (192.168.1.132)"]
-    NUT_Master -->|"Power Outage Event"| Timer{"On Battery > 15 Mins OR<br/>Battery Charge < 25%"}
-    
-    Timer -->|"YES"| Graceful_Shutdown["Controlled Sequential Shutdown Sequence"]
-    Graceful_Shutdown --> S1["1. Stop Non-Critical LXCs (Media, Nextcloud)"]
-    S1 --> S2["2. Stop Core Databases & Storage (PostgreSQL, OMV)"]
-    S2 --> S3["3. Gracefully Stop VMs (Windows Server, OPNsense)"]
-    S3 --> S4["4. Proxmox VE Host Poweroff via 'poweroff'"]
+ UPS -.->|"USB HID Telemetry"| NUT_Master["NUT Server (Network UPS Tools)<br/>Node 1 (192.168.1.132)"]
+ NUT_Master -->|"Power Outage Event"| Timer{"On Battery > 15 Mins OR<br/>Battery Charge < 25%"}
+ 
+ Timer -->|"YES"| Graceful_Shutdown["Controlled Sequential Shutdown Sequence"]
+ Graceful_Shutdown --> S1["1. Stop Non-Critical LXCs (Media, Nextcloud)"]
+ S1 --> S2["2. Stop Core Databases & Storage (PostgreSQL, OMV)"]
+ S2 --> S3["3. Gracefully Stop VMs (Windows Server, OPNsense)"]
+ S3 --> S4["4. Proxmox VE Host Poweroff via 'poweroff'"]
 ```
 
 ---
@@ -347,17 +347,17 @@ flowchart TD
 | **147** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.147` | Management | Proxmox Datacenter Manager (Multi-Cluster Management) |
 | **148** | `pmg` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.148` | Security / Mail | Proxmox Mail Gateway (SpamAssassin & ClamAV Protection) |
 
-### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning Matrix
+### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning
 
-| VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware Tech | Primary Architecture Role |
+| VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Net Multi-VLAN | Perimeter Stateful Firewall, Suricata IDS/IPS, WireGuard Key Rotator |
-| **201** | `windows` | Windows Server 2025 | 2 Cores | 4,096 MB | **2,048 MB** | **GTX 1050 Ti PCIe Passthrough** | Active Directory Domain Services (AD DS), Group Policy (GPO), Sysmon |
-| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless Containers, Enterprise Services |
-| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1,536 MB | **768 MB** | VirtIO SCSI Single | Native OpenZFS Storage Pool, FreeBSD Jails & BSD Network Lab |
-| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1,536 MB | **768 MB** | VirtIO SCSI Single | Ultra-Hardened Jump Bastion, Packet Filter (PF), pledge/unveil sandboxing |
-| **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, Declarative gRPC Control, Kubernetes Worker Node |
-| **206** | `capev2` | Win10 / Linux Sandbox | 4 Cores | 4,096 MB | **2,048 MB** | Air-Gapped Quarantine | Dynamic Malware Analysis Sandbox, Volatility Forensics & Cuckoo |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Suricata IDS/IPS, WireGuard Key Rotator |
+| **201** | `windows` | Windows Server 2025 | 2 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Ballooning: 4-8 GB) |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) |
+| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Native OpenZFS Storage Pool, BSD Jails & Network Lab (512MB-1GB) |
+| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Hardened Jump Host, Packet Filter PF, unveil/pledge (512MB-1GB) |
+| **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, gRPC API, Kubernetes Worker Node (1-2 GB) |
+| **206** | `capev2` | Win10 / Linux Sandbox | 4 Cores | 4,096 MB | **2,048 MB** | Hardware Isolated (Air-Gap) | Automated Malware Detonation Sandbox, Volatility Memory DFIR |
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
@@ -366,19 +366,19 @@ flowchart TD
 * **Node 3 (ARM64) ZRAM**: `/dev/zram0` (1.9 GB RAM compressed swap, priority 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
 * **NVMe Lifespan Protection**: High-frequency memory pages are compressed directly in RAM before touching NVMe storage, eliminating SSD wear and IO blocking.
 
-### Zero-Trust Security & Enterprise Proving Ground
+### Zero-Trust Security & Enterprise Test Environment
 
 1. **HashiCorp Vault / OpenBao**:
-   - Centralized secret management with zero `.env` files stored on local disks.
-   - Automated dynamic token generation and ephemeral credential injection for Terraform, Ansible, and Woodpecker CI.
+ - Centralized secret management with zero `.env` files stored on local disks.
+ - Automated dynamic token generation and ephemeral credential injection for Terraform, Ansible, and Woodpecker CI.
 2. **WireGuard Kernel Module on OPNsense with Automated Key Rotation**:
-   - Zero-downtime periodic rotation of Curve25519 cryptographic keypairs and pre-shared keys (PSK) via Ansible and cron.
+ - Zero-downtime periodic rotation of Curve25519 cryptographic keypairs and pre-shared keys (PSK) via Ansible and cron.
 3. **Mutual TLS (mTLS) Inter-Service Communication**:
-   - Mandatory cryptographic client-certificate verification between ingress gateways and critical backend services in VLAN 20.
+ - Mandatory cryptographic client-certificate verification between ingress gateways and critical backend services in VLAN 20.
 4. **Canary Honeytokens & Directory Decoys**:
-   - Deceptive decoy files (`passwords.csv`, `aws_keys.env`, `id_rsa_backup`) placed in DMZ containers and SMB shares that trigger instant Telegram/ntfy webhooks upon access.
+ - Deceptive decoy files (`passwords.csv`, `aws_keys.env`, `id_rsa_backup`) placed in DMZ containers and SMB shares that trigger instant Telegram/ntfy webhooks upon access.
 5. **RenovateBot On-Premise GitOps Automation**:
-   - Continuous dependency scanning engine inspecting internal Gitea repositories and filing automated Pull Requests for new Docker images and Terraform modules.
+ - Continuous dependency scanning engine inspecting internal Gitea repositories and filing automated Pull Requests for new Docker images and Terraform modules.
 
 ---
 
@@ -386,25 +386,25 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    subgraph ZFSTopology["🗄️ ZFS STORAGE POOL TOPOLOGY"]
-        direction TB
-        Pools["ZFS Storage Architecture"]
-        
-        subgraph RPool["rpool (NVMe SSD · Proxmox Root & OS)"]
-            R1["• recordsize: 128k"]
-            R2["• compression: zstd-3"]
-            R3["• atime: off · autotrim: on"]
-        end
+ subgraph ZFSTopology["ZFS STORAGE POOL TOPOLOGY"]
+ direction TB
+ Pools["ZFS Storage Architecture"]
+ 
+ subgraph RPool["rpool (NVMe SSD · Proxmox Root & OS)"]
+ R1["• recordsize: 128k"]
+ R2["• compression: zstd-3"]
+ R3["• atime: off · autotrim: on"]
+ end
 
-        subgraph DataPool["datapool (ZFS Mirror · OpenMediaVault)"]
-            D1["• recordsize: 1M (Media Streams)"]
-            D2["• recordsize: 16k (Databases)"]
-            D3["• compression: zstd · ashift: 12"]
-        end
+ subgraph DataPool["datapool (ZFS Mirror · OpenMediaVault)"]
+ D1["• recordsize: 1M (Media Streams)"]
+ D2["• recordsize: 16k (Databases)"]
+ D3["• compression: zstd · ashift: 12"]
+ end
 
-        Pools --> RPool
-        Pools --> DataPool
-    end
+ Pools --> RPool
+ Pools --> DataPool
+ end
 ```
 
 ### Granular ZFS Filesystem Tuning Rules
@@ -420,17 +420,17 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    VLAN10["VLAN 10: Mgmt & Storage<br/>192.168.1.0/24"]
-    VLAN20["VLAN 20: Core Microservices<br/>192.168.20.0/24"]
-    VLAN30["VLAN 30: CyberLab & Sandboxes<br/>192.168.30.0/24"]
-    VLAN40["VLAN 40: DMZ Deception<br/>192.168.40.0/24"]
-    VLAN50["VLAN 50: IoT Sensors<br/>192.168.50.0/24"]
+ VLAN10["VLAN 10: Mgmt & Storage<br/>192.168.1.0/24"]
+ VLAN20["VLAN 20: Core Microservices<br/>192.168.20.0/24"]
+ VLAN30["VLAN 30: CyberLab & Sandboxes<br/>192.168.30.0/24"]
+ VLAN40["VLAN 40: DMZ Deception<br/>192.168.40.0/24"]
+ VLAN50["VLAN 50: IoT Sensors<br/>192.168.50.0/24"]
 
-    VLAN10 -->|"Full Admin Access"| VLAN20 & VLAN30 & VLAN40 & VLAN50
-    VLAN20 -->|"Restricted Ports: 53, 443"| VLAN10
-    VLAN30 -->|"NO OUTBOUND WAN / Isolated"| VLAN10 & VLAN20
-    VLAN40 -->|"DROP ALL Traffic to LAN"| VLAN10 & VLAN20 & VLAN30
-    VLAN50 -->|"MQTT Only :1883"| VLAN20
+ VLAN10 -->|"Full Admin Access"| VLAN20 & VLAN30 & VLAN40 & VLAN50
+ VLAN20 -->|"Restricted Ports: 53, 443"| VLAN10
+ VLAN30 -->|"NO OUTBOUND WAN / Isolated"| VLAN10 & VLAN20
+ VLAN40 -->|"DROP ALL Traffic to LAN"| VLAN10 & VLAN20 & VLAN30
+ VLAN50 -->|"MQTT Only :1883"| VLAN20
 ```
 
 ### Inter-VLAN Firewall Policy Table (Default-Deny)
@@ -442,7 +442,7 @@ flowchart LR
 | **VLAN 20 (Core Services)** | VLAN 50 (IoT) | `1883` (MQTT Broker) | TCP | **PASS** |
 | **VLAN 30 (CyberLab)** | ANY Internal VLAN | NONE | ANY | **DROP & LOG** |
 | **VLAN 30 (CyberLab)** | WAN | HTTP `:8080` via INetSim Fake Gateway | TCP | **PASS (Simulated)** |
-| **VLAN 40 (DMZ Honeypots)**| ALL Internal VLANs | NONE | ANY | **DROP & ALARM** |
+| **VLAN 40 (DMZ Honeypots)** | ALL Internal VLANs | NONE | ANY | **DROP & ALARM** |
 | **VLAN 50 (IoT)** | ANY Internal VLAN | `1883` (Home Assistant MQTT Only) | TCP | **PASS** |
 | **VLAN 50 (IoT)** | WAN | NTP `:123` | UDP | **PASS** |
 
@@ -454,27 +454,27 @@ flowchart LR
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    actor Client as External User
-    participant CF as Cloudflare WAF
-    participant NPM as Nginx Proxy Manager (CT 100)
-    participant Auth as Authentik / Authelia (CT 108)
-    participant Srv as Target Internal Service
+ autonumber
+ actor Client as External User
+ participant CF as Cloudflare WAF
+ participant NPM as Nginx Proxy Manager (CT 100)
+ participant Auth as Authentik / Authelia (CT 108)
+ participant Srv as Target Internal Service
 
-    Client->>CF: HTTPS Request (https://service.homelab.local)
-    CF->>NPM: Forwarded through WireGuard Tunnel
-    NPM->>Auth: Auth Subrequest (/api/verify)
-    alt No Valid Session Cookie
-        Auth-->>NPM: 401 Unauthorized / Redirect to Login
-        NPM-->>Client: 302 Redirect to Authentik Login
-        Client->>Auth: Authenticate with FIDO2 WebAuthn / Passkey
-        Auth-->>Client: Set Secure HttpOnly Session Token
-    else Valid Session & 2FA Confirmed
-        Auth-->>NPM: 200 OK + Remote-User Headers
-        NPM->>Srv: Reverse Proxy HTTP Request
-        Srv-->>NPM: 200 Response Payload
-        NPM-->>Client: Protected Application Data
-    end
+ Client->>CF: HTTPS Request (https://service.homelab.local)
+ CF->>NPM: Forwarded through WireGuard Tunnel
+ NPM->>Auth: Auth Subrequest (/api/verify)
+ alt No Valid Session Cookie
+ Auth-->>NPM: 401 Unauthorized / Redirect to Login
+ NPM-->>Client: 302 Redirect to Authentik Login
+ Client->>Auth: Authenticate with FIDO2 WebAuthn / Passkey
+ Auth-->>Client: Set Secure HttpOnly Session Token
+ else Valid Session & 2FA Confirmed
+ Auth-->>NPM: 200 OK + Remote-User Headers
+ NPM->>Srv: Reverse Proxy HTTP Request
+ Srv-->>NPM: 200 Response Payload
+ NPM-->>Client: Protected Application Data
+ end
 ```
 
 ### Split-Horizon DNS Schema
@@ -490,15 +490,15 @@ All infrastructure is provisioned declaratively using Terraform with the `bpg/pr
 
 ```
 terraform/
-├── main.tf                    # Root composition
-├── providers.tf               # Proxmox VE provider configuration
-├── variables.tf               # Cluster endpoints & credentials
-├── terraform.tfvars.example   # Template variables
-├── lxc_services.tf            # Declarative LXC container definitions
-├── vm_workloads.tf            # Declarative VM definitions
+├── main.tf # Root composition
+├── providers.tf # Proxmox VE provider configuration
+├── variables.tf # Cluster endpoints & credentials
+├── terraform.tfvars.example # Template variables
+├── lxc_services.tf # Declarative LXC container definitions
+├── vm_workloads.tf # Declarative VM definitions
 └── modules/
-    ├── proxmox_lxc/           # Reusable LXC container module
-    └── proxmox_vm/            # Reusable QEMU VM module
+ ├── proxmox_lxc/ # Reusable LXC container module
+ └── proxmox_vm/ # Reusable QEMU VM module
 ```
 
 ### Quick Bootstrap Runbook
@@ -524,11 +524,11 @@ terraform apply tfplan.binary
 
 ```mermaid
 flowchart LR
-    Dev["Engineer Commit"] -->|"Push to main"| GH["GitHub Repository"]
-    GH -->|"Trigger"| CI["GitHub Actions / Woodpecker CI<br/>Trivy · Gitleaks · Hadolint · tfsec"]
-    CI -->|"Pass Quality Gates"| Argo["ArgoCD / Flux GitOps Operator"]
-    Argo -->|"Continuous Reconciliation"| K3s["Talos Linux / K3s Cluster"]
-    K3s -->|"Deploy Pods"| Workloads["Distroless Microservices & Agents"]
+ Dev["Engineer Commit"] -->|"Push to main"| GH["GitHub Repository"]
+ GH -->|"Trigger"| CI["GitHub Actions / Woodpecker CI<br/>Trivy · Gitleaks · Hadolint · tfsec"]
+ CI -->|"Pass Quality Gates"| Argo["ArgoCD / Flux GitOps Operator"]
+ Argo -->|"Continuous Reconciliation"| K3s["Talos Linux / K3s Cluster"]
+ K3s -->|"Deploy Pods"| Workloads["Distroless Microservices & Agents"]
 ```
 
 * **Talos Linux OS (`kubernetes/talos/cluster.yaml`)**: Immutable, zero-SSH operating system managed strictly via gRPC APIs.
@@ -540,32 +540,32 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    subgraph Collectors["Telemetry Collectors"]
-        NE["node_exporter (Host Hardware)"]
-        PE["postgres_exporter"]
-        RE["redis_exporter"]
-        VB["Vector Log Forwarder"]
-        OTEL["OpenTelemetry SDKs"]
-    end
+ subgraph Collectors["Telemetry Collectors"]
+ NE["node_exporter (Host Hardware)"]
+ PE["postgres_exporter"]
+ RE["redis_exporter"]
+ VB["Vector Log Forwarder"]
+ OTEL["OpenTelemetry SDKs"]
+ end
 
-    subgraph LGTM_Backend["LGTM Backend Storing & Indexing"]
-        PROM["Prometheus TSDB (:9090)<br/>High-resolution metrics"]
-        LOKI["Grafana Loki (:3100)<br/>Indexed log streams"]
-        TEMPO["Grafana Tempo (:3200)<br/>OTLP distributed traces"]
-    end
+ subgraph LGTM_Backend["LGTM Backend Storing & Indexing"]
+ PROM["Prometheus TSDB (:9090)<br/>High-resolution metrics"]
+ LOKI["Grafana Loki (:3100)<br/>Indexed log streams"]
+ TEMPO["Grafana Tempo (:3200)<br/>OTLP distributed traces"]
+ end
 
-    subgraph Visualization["Unified Glass Pane"]
-        GRAF["Grafana Core Dashboard (:3000)"]
-        ALARM["Alertmanager Routing"]
-    end
+ subgraph Visualization["Unified Glass Pane"]
+ GRAF["Grafana Core Dashboard (:3000)"]
+ ALARM["Alertmanager Routing"]
+ end
 
-    NE & PE & RE --> PROM
-    VB --> LOKI
-    OTEL --> TEMPO
+ NE & PE & RE --> PROM
+ VB --> LOKI
+ OTEL --> TEMPO
 
-    PROM & LOKI & TEMPO --> GRAF
-    PROM --> ALARM
-    ALARM -->|"High Severity Alert"| TG["Telegram / Discord Webhook Channel"]
+ PROM & LOKI & TEMPO --> GRAF
+ PROM --> ALARM
+ ALARM -->|"High Severity Alert"| TG["Telegram / Discord Webhook Channel"]
 ```
 
 ---
@@ -574,9 +574,9 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    PVE["Proxmox VE (Node 1 NVMe)"] -->|"Hourly ZFS Snapshots"| Sanoid["Sanoid / Syncoid Policy Engine"]
-    Sanoid -->|"Daily vzdump Archive"| PBS["OpenMediaVault NAS (Node 2 ZFS Mirror)"]
-    PBS -->|"Nightly Encrypted Restic/Rclone"| R2["Off-Site Cloudflare R2 / AWS S3 Glacier"]
+ PVE["Proxmox VE (Node 1 NVMe)"] -->|"Hourly ZFS Snapshots"| Sanoid["Sanoid / Syncoid Policy Engine"]
+ Sanoid -->|"Daily vzdump Archive"| PBS["OpenMediaVault NAS (Node 2 ZFS Mirror)"]
+ PBS -->|"Nightly Encrypted Restic/Rclone"| R2["Off-Site Cloudflare R2 / AWS S3 Glacier"]
 ```
 
 * **3 Copies**: Primary NVMe SSD, Secondary OMV NAS ZFS Mirror, Remote Cloudflare R2 Bucket.
@@ -586,19 +586,19 @@ flowchart LR
 
 ---
 
-## 12. Cyber Defense Proving Ground, SOC & eBPF Security
+## 12. Cybersecurity Test Environment, SOC & eBPF Security
 
 ```mermaid
 flowchart TD
-    Attacker["Threat Actor / Internet Scanners"] -->|"Probing Port 2222, 445, 3389"| TPot["T-Pot DMZ Cluster (VLAN 40)<br/>Cowrie · Dionaea · Honeytrap"]
-    TPot -->|"Log Stream"| Wazuh["Wazuh SIEM / XDR Manager (CT 105)"]
-    
-    Subsys["Cluster Containers & VMs"] -->|"Syscalls (execve, openat)"| Tetra["Cilium Tetragon eBPF Sensor"]
-    Tetra -->|"Kernel Anomaly Trigger"| Wazuh
-    
-    Wazuh -->|"High-Severity Correlated Event"| SOAR["SOAR Playbook (Shuffle / n8n)"]
-    SOAR -->|"1. Push Firewall Drop Rule"| OPNsense["OPNsense Firewall API"]
-    SOAR -->|"2. Report Malicious IP"| Abuse["AbuseIPDB Threat Intelligence API"]
+ Attacker["Threat Actor / Internet Scanners"] -->|"Probing Port 2222, 445, 3389"| TPot["T-Pot DMZ Cluster (VLAN 40)<br/>Cowrie · Dionaea · Honeytrap"]
+ TPot -->|"Log Stream"| Wazuh["Wazuh SIEM / XDR Manager (CT 105)"]
+ 
+ Subsys["Cluster Containers & VMs"] -->|"Syscalls (execve, openat)"| Tetra["Cilium Tetragon eBPF Sensor"]
+ Tetra -->|"Kernel Anomaly Trigger"| Wazuh
+ 
+ Wazuh -->|"High-Severity Correlated Event"| SOAR["SOAR Playbook (Shuffle / n8n)"]
+ SOAR -->|"1. Push Firewall Drop Rule"| OPNsense["OPNsense Firewall API"]
+ SOAR -->|"2. Report Malicious IP"| Abuse["AbuseIPDB Threat Intelligence API"]
 ```
 
 * **Adversary Simulation**: Automated Atomic Red Team runner (`cyber/adversary-simulation/atomic-red-team/run_art_tests.sh`) testing MITRE ATT&CK techniques (T1059, T1003, T1078, T1053, T1021).
@@ -615,15 +615,14 @@ Ollama is running inside container **`CT 110`** on Proxmox Node 1 (`192.168.1.11
 pct exec 110 -- ollama list
 
 # Output:
-# NAME                  ID              SIZE      MODIFIED      
-# llama3.2:1b           baf6a787fdff    1.3 GB    Active    
-# qwen2.5-coder:1.5b    d7372fd82851    986 MB    Active    
+# NAME ID SIZE MODIFIED 
+# llama3.2:1b baf6a787fdff 1.3 GB Active 
+# qwen2.5-coder:1.5b d7372fd82851 986 MB Active 
 
 # Execute instant test query via REST API:
-curl -s http://192.168.1.110:11434/api/generate -d '{
-  "model": "qwen2.5-coder:1.5b",
-  "prompt": "Write a Python script to check Proxmox container status",
-  "stream": false
+curl -s http://192.168.1.110:11434/api/generate -d '{"model": "qwen2.5-coder:1.5b",
+ "prompt": "Write a Python script to check Proxmox container status",
+ "stream": false
 }'
 ```
 
@@ -650,9 +649,9 @@ The automated Chaos Runner (`scripts/chaos/chaos_runner.sh`) validates system al
 
 ```mermaid
 flowchart LR
-    ESP["ESP32 Sensors<br/>DHT22 Temp · mmWave Radar"] -->|"MQTT :1883"| HA["Home Assistant (CT 106)"]
-    HA -->|"Thermal Threshold Calculation"| PWM["ESP32 PWM Fan Controller"]
-    PWM -->|"Dynamic Duty Cycle: 20% - 100%"| Fans["Noctua 120mm Server Rack Cooling"]
+ ESP["ESP32 Sensors<br/>DHT22 Temp · mmWave Radar"] -->|"MQTT :1883"| HA["Home Assistant (CT 106)"]
+ HA -->|"Thermal Threshold Calculation"| PWM["ESP32 PWM Fan Controller"]
+ PWM -->|"Dynamic Duty Cycle: 20% - 100%"| Fans["Noctua 120mm Server Rack Cooling"]
 ```
 
 * **Rack Tamper Monitoring**: Optical microswitch on server chassis logs physical cabinet door state; triggers snapshot on security cameras if opened unexpectedly.
@@ -662,10 +661,10 @@ flowchart LR
 ## 16. Security Hardening & Cryptographic Integrity
 
 * **Linux Kernel Hardening (`/etc/sysctl.d/99-proxmox-hardening.conf`)**:
-  * Complete ASLR randomization (`kernel.randomize_va_space=2`).
-  * Strict memory restriction (`kernel.kptr_restrict=2`, `kernel.dmesg_restrict=1`).
-  * SYN flood cookies enabled (`net.ipv4.tcp_syncookies=1`).
-  * Source routing and ICMP redirects disabled.
+ * Complete ASLR randomization (`kernel.randomize_va_space=2`).
+ * Strict memory restriction (`kernel.kptr_restrict=2`, `kernel.dmesg_restrict=1`).
+ * SYN flood cookies enabled (`net.ipv4.tcp_syncookies=1`).
+ * Source routing and ICMP redirects disabled.
 * **SSH Hardening**: Password authentication disabled across all nodes; SSH restricted to Ed25519 cryptographic keys only (`ssh-audit` rated 100/100).
 * **Storage Encryption**: LUKS encrypted data volumes unlocked automatically via Clevis/Tang Network-Bound Disk Encryption (NBDE).
 
@@ -679,11 +678,11 @@ flowchart LR
 | `192.168.1.3` | `nginx` (CT 100) | `80`, `443`, `81` | Nginx Proxy Manager & Ingress |
 | `192.168.1.4` | `pihole` (CT 101) | `53` (TCP/UDP), `80` | Internal DNS Resolver |
 | `192.168.1.9` | `homeassistant` (CT 106) | `8123`, `1883` | Home Automation & MQTT Broker |
-| `192.168.1.110`| `ollama` (CT 110) | `11434` | Local GPU LLM Runtime |
-| `192.168.1.132`| `pve` (Node 1 Host) | `8006`, `22` | Proxmox VE Web Management |
-| `192.168.20.201`| `win-server-2025` (VM 201)| `53`, `88`, `389`, `445`, `3389` | Active Directory Domain Services |
-| `192.168.64.14`| `pve` (Node 3 Host) | `8006`, `22` | ARM64 Hypervisor Management |
-| `192.168.64.118`| `tempo` (CT 118) | `3200`, `4317`, `4318` | Distributed Tracing Backend |
+| `192.168.1.110` | `ollama` (CT 110) | `11434` | Local GPU LLM Runtime |
+| `192.168.1.132` | `pve` (Node 1 Host) | `8006`, `22` | Proxmox VE Web Management |
+| `192.168.20.201` | `win-server-2025` (VM 201) | `53`, `88`, `389`, `445`, `3389` | Active Directory Domain Services |
+| `192.168.64.14` | `pve` (Node 3 Host) | `8006`, `22` | ARM64 Hypervisor Management |
+| `192.168.64.118` | `tempo` (CT 118) | `3200`, `4317`, `4318` | Distributed Tracing Backend |
 
 ---
 
@@ -738,16 +737,16 @@ Execute the automated Disaster Recovery script: <code>./scripts/disaster-recover
 
 ```
 .
-├── .github/workflows/          # CI/CD pipelines (Trivy, Gitleaks, Shellcheck, CD)
-├── cyber/                      # SOC, SIEM, Honeypots (T-Pot), eBPF & Sandbox
-├── elo/                        # Autonomous AI Agent Control Plane & Tools
-├── hypervisors/                # Proxmox sysctl hardening & kernel profiles
-├── kubernetes/                 # Talos Linux & K3s manifests
-├── scripts/                    # Disaster Recovery & Chaos Engineering runners
-├── services/                   # Docker Compose & container configurations
-├── terraform/                  # Declarative Proxmox LXC & VM IaC modules
-├── vms/                        # NixOS & Windows Server configurations
-└── web/                        # Angular 20 Standalone Interactive Web App
+├── .github/workflows/ # CI/CD pipelines (Trivy, Gitleaks, Shellcheck, CD)
+├── cyber/ # SOC, SIEM, Honeypots (T-Pot), eBPF & Sandbox
+├── elo/ # Autonomous AI Agent Control Plane & Tools
+├── hypervisors/ # Proxmox sysctl hardening & kernel profiles
+├── kubernetes/ # Talos Linux & K3s manifests
+├── scripts/ # Disaster Recovery & Chaos Engineering runners
+├── services/ # Docker Compose & container configurations
+├── terraform/ # Declarative Proxmox LXC & VM IaC modules
+├── vms/ # NixOS & Windows Server configurations
+└── web/ # Angular 20 Standalone Interactive Web App
 ```
 
 This repository serves as a **production-grade engineering portfolio and personal infrastructure lab**, designed and maintained by [@stefanutc1](https://github.com/stefanutc1) to showcase hybrid cloud architecture, SecOps, GitOps, and resilient self-hosted platforms.
@@ -756,69 +755,199 @@ This repository serves as a **production-grade engineering portfolio and persona
 
 <div align="center">
 
-**Author**: [@stefanutc1](https://github.com/stefanutc1)  
+**Author**: [@stefanutc1](https://github.com/stefanutc1) 
 Released under the **MIT License**.
 
 </div>
 
 ---
 
-## 📸 Photo Gallery · Live Panels, Enterprise VMs (KVM) & Services
+## Photo Gallery: Management Panels, Services & Loki Telemetry
 
-All physical hardware, virtual machines, and container workloads run live on production equipment. The homelab repository includes a complete collection of screenshots for **all 83 microservices, KVM/BSD virtual machines, and management panels** inside [`photos/services/`](photos/services/):
+All hardware nodes, virtual machines, and containers execute live on physical infrastructure. Below are direct interface captures of core control planes, running microservices, and centralized Grafana Loki log aggregation streams.
 
-### 📊 Core Management Panels
-| 📊 Grafana · Homelab Nodes (12GB x64 & ARM64) | 🛡️ Grafana · OPNsense Perimeter Defense |
+### Core Management Panels
+| Grafana: Homelab Nodes (12GB x64 & ARM64) | Grafana: OPNsense Perimeter Defense |
 | :---: | :---: |
 | ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
 
-| 🖥️ Proxmox VE 9.2 x86_64 (12GB RAM · 192.168.1.132:8006) | 🍎 Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
+| Proxmox VE 9.2 x86_64 (12GB RAM · 192.168.1.132:8006) | Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
 | :---: | :---: |
 | ![Proxmox VE x64](photos/proxmox_ve_dashboard.png) | ![Proxmox VE ARM64](photos/proxmox_arm64_dashboard.png) |
 
-| 🛡️ Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | 🏠 Home Assistant Automation Hub (192.168.1.10:8123) |
+| Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | Home Assistant Automation Hub (192.168.1.10:8123) |
 | :---: | :---: |
 | ![Pi-hole Admin](photos/pihole_admin_dashboard.png) | ![Home Assistant](photos/homeassistant_dashboard.png) |
 
-| 🚨 OPNsense Suricata 8 NIDS/IPS (192.168.1.134:8443) | 🔒 OPNsense · VLAN Firewall Filtering (pf rules) |
+| OPNsense Suricata 8 NIDS/IPS (192.168.1.134:8443) | OPNsense: VLAN Filtering Policies (pf rules) |
 | :---: | :---: |
 | ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) | ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) |
 
-| ⚡ OPNsense · WireGuard Kernel VPN Mesh | 🌐 OPNsense · Unbound DNS-over-TLS (DoT) |
+| OPNsense: WireGuard Kernel VPN Mesh | OPNsense: Unbound DNS-over-TLS (DoT) |
 | :---: | :---: |
 | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
 
 ---
 
-### 🖥️ Specialized Enterprise Virtual Machines (KVM) & BSD Nodes
-| 🪟 Windows Server 2025 Datacenter (VM 201) | 🔴 Red Hat Enterprise Linux 9.8 (VM 202) |
+### Core & Networking
+| Nginx Proxy Manager | Pi-hole DNS Sinkhole |
 | :---: | :---: |
-| ![Windows Server 2025 AD](photos/services/vm-windows.png) | ![RHEL 9.8 Enterprise](photos/services/vm-rhel.png) |
+| ![Nginx Proxy Manager](photos/services/npm.png) | ![Pi-hole DNS](photos/services/pihole.png) |
 
-| 😈 FreeBSD 15.1-RELEASE · OpenZFS (VM 203) | 🐡 OpenBSD 7.9 Bastion · Packet Filter (VM 204) |
+| Tailscale Mesh | WireGuard Easy |
 | :---: | :---: |
-| ![FreeBSD 15.1](photos/services/vm-freebsd.png) | ![OpenBSD 7.9](photos/services/vm-openbsd.png) |
+| ![Tailscale Mesh](photos/services/tailscale-x64.png) | ![WireGuard Easy](photos/services/wgeasy.png) |
 
-| ☸️ Talos Linux 1.7 · Immutable K8s (VM 205) | 🛡️ OPNsense 26.1 Hardened · Console (VM 200) |
+| OPNsense Core Gateway | OPNsense Unbound DoT |
 | :---: | :---: |
-| ![Talos Linux Kubernetes](photos/services/vm-talos.png) | ![OPNsense Core Console](photos/services/opnsense.png) |
+| ![OPNsense Core Gateway](photos/services/opnsense-core.png) | ![OPNsense Unbound DoT](photos/services/opnsense-unbound.png) |
+
+| OPNsense FRR Dynamic Routing | Caddy Ingress mTLS |
+| :---: | :---: |
+| ![OPNsense FRR](photos/services/opnsense-frr.png) | ![Caddy mTLS](photos/services/caddy-mtls.png) |
 
 ---
 
-### 📂 Complete Per-Service Screenshot Catalog (`photos/services/`)
-Every single service from the 83 workloads has a dedicated screenshot:
-- **Core & Networking**: [`npm.png`](photos/services/npm.png), [`pihole.png`](photos/services/pihole.png), [`tailscale-x64.png`](photos/services/tailscale-x64.png), [`wgeasy.png`](photos/services/wgeasy.png), [`opnsense-core.png`](photos/services/opnsense-core.png), [`opnsense-unbound.png`](photos/services/opnsense-unbound.png), [`opnsense-frr.png`](photos/services/opnsense-frr.png), [`caddy-mtls.png`](photos/services/caddy-mtls.png)
-- **Storage & Backup**: [`nextcloud.png`](photos/services/nextcloud.png), [`paperless.png`](photos/services/paperless.png), [`minio.png`](photos/services/minio.png), [`kopia.png`](photos/services/kopia.png), [`syncthing.png`](photos/services/syncthing.png), [`proxmox-backup-server.png`](photos/services/proxmox-backup-server.png)
-- **Automation & AI**: [`ollama.png`](photos/services/ollama.png), [`openwebui.png`](photos/services/openwebui.png), [`whisper.png`](photos/services/whisper.png), [`flowise.png`](photos/services/flowise.png), [`homeassistant.png`](photos/services/homeassistant.png), [`renovate.png`](photos/services/renovate.png)
-- **Observability & Monitoring**: [`grafana.png`](photos/services/grafana.png), [`prometheus.png`](photos/services/prometheus.png), [`loki.png`](photos/services/loki.png), [`uptimekuma.png`](photos/services/uptimekuma.png), [`gatus.png`](photos/services/gatus.png), [`beszel.png`](photos/services/beszel.png), [`blackbox.png`](photos/services/blackbox.png), [`vector.png`](photos/services/vector.png), [`dozzle.png`](photos/services/dozzle.png)
-- **Security & Cyber Lab**: [`opnsense-suricata.png`](photos/services/opnsense-suricata.png), [`opnsense-crowdsec.png`](photos/services/opnsense-crowdsec.png), [`wazuh.png`](photos/services/wazuh.png), [`tpot-honeypot.png`](photos/services/tpot-honeypot.png), [`cyberchef.png`](photos/services/cyberchef.png), [`dfir-sandbox.png`](photos/services/dfir-sandbox.png), [`vault.png`](photos/services/vault.png), [`canary-decoys.png`](photos/services/canary-decoys.png)
-- **Media & Utilities**: [`stirling.png`](photos/services/stirling.png), [`kavita.png`](photos/services/kavita.png), [`audiobookshelf.png`](photos/services/audiobookshelf.png), [`tubearchivist.png`](photos/services/tubearchivist.png), [`transmission.png`](photos/services/transmission.png), [`calibreweb.png`](photos/services/calibreweb.png), [`romm.png`](photos/services/romm.png), [`emulatorjs.png`](photos/services/emulatorjs.png), [`codeserver.png`](photos/services/codeserver.png), [`drawio.png`](photos/services/drawio.png), [`it-tools.png`](photos/services/it-tools.png), [`actualbudget.png`](photos/services/actualbudget.png), [`trillium.png`](photos/services/trillium.png), [`changedetection.png`](photos/services/changedetection.png), [`microbin.png`](photos/services/microbin.png), [`vikunja.png`](photos/services/vikunja.png), [`memos.png`](photos/services/memos.png), [`wallos.png`](photos/services/wallos.png), [`speedtest.png`](photos/services/speedtest.png), [`homepage.png`](photos/services/homepage.png), [`flame.png`](photos/services/flame.png)
-- **Specialized Operating Systems (KVM)**: [`vm-windows.png`](photos/services/vm-windows.png), [`vm-rhel.png`](photos/services/vm-rhel.png), [`vm-freebsd.png`](photos/services/vm-freebsd.png), [`vm-openbsd.png`](photos/services/vm-openbsd.png), [`vm-talos.png`](photos/services/vm-talos.png), [`proxmox-datacenter-manager.png`](photos/services/proxmox-datacenter-manager.png), [`proxmox-mail-gateway.png`](photos/services/proxmox-mail-gateway.png)
+### Storage & Backup
+| Nextcloud Hub | Paperless-ngx Document OCR |
+| :---: | :---: |
+| ![Nextcloud Hub](photos/services/nextcloud.png) | ![Paperless-ngx](photos/services/paperless.png) |
+
+| MinIO S3 Object Storage | Kopia Snapshot Backup |
+| :---: | :---: |
+| ![MinIO S3](photos/services/minio.png) | ![Kopia Backup](photos/services/kopia.png) |
+
+| Syncthing File Sync | Proxmox Backup Server (PBS) |
+| :---: | :---: |
+| ![Syncthing](photos/services/syncthing.png) | ![Proxmox Backup Server](photos/services/proxmox-backup-server.png) |
 
 ---
 
-## 👨‍💻 About the Author (About Me)
+### Automation & AI
+| Ollama LLM Runtime | Open-WebUI AI Interface |
+| :---: | :---: |
+| ![Ollama LLM](photos/services/ollama.png) | ![Open-WebUI](photos/services/openwebui.png) |
+
+| Faster-Whisper Voice Transcription | Flowise LLM Orchestrator |
+| :---: | :---: |
+| ![Faster-Whisper](photos/services/whisper.png) | ![Flowise Orchestrator](photos/services/flowise.png) |
+
+| Home Assistant Automation Hub | RenovateBot GitOps Engine |
+| :---: | :---: |
+| ![Home Assistant](photos/services/homeassistant.png) | ![RenovateBot](photos/services/renovate.png) |
+
+---
+
+### Observability & Monitoring
+| Grafana Enterprise Dashboard | Prometheus Metrics Engine |
+| :---: | :---: |
+| ![Grafana Enterprise](photos/services/grafana.png) | ![Prometheus Metrics](photos/services/prometheus.png) |
+
+| Loki Distributed Log Aggregator | Uptime Kuma SLA Monitor |
+| :---: | :---: |
+| ![Loki Log Aggregator](photos/services/loki.png) | ![Uptime Kuma Monitor](photos/services/uptimekuma.png) |
+
+| Gatus Status Healthchecker | Beszel Lightweight Metrics |
+| :---: | :---: |
+| ![Gatus Status](photos/services/gatus.png) | ![Beszel Metrics](photos/services/beszel.png) |
+
+| Blackbox Network Exporter | Vector High-Throughput Aggregator |
+| :---: | :---: |
+| ![Blackbox Exporter](photos/services/blackbox.png) | ![Vector Aggregator](photos/services/vector.png) |
+
+| Dozzle Real-Time Log Viewer |  |
+| :---: | :---: |
+| ![Dozzle Log Viewer](photos/services/dozzle.png) |  |
+
+---
+
+### Security & Cyber Lab
+| OPNsense Suricata 8 NIDS/IPS | OPNsense CrowdSec LAPI Bouncer |
+| :---: | :---: |
+| ![Suricata IDS/IPS](photos/services/opnsense-suricata.png) | ![CrowdSec Bouncer](photos/services/opnsense-crowdsec.png) |
+
+| Wazuh SIEM / XDR Manager | T-Pot Honeypot Multi-Sensor |
+| :---: | :---: |
+| ![Wazuh SIEM](photos/services/wazuh.png) | ![T-Pot Honeypots](photos/services/tpot-honeypot.png) |
+
+| CyberChef Cryptographic Utility | DFIR Dynamic Malware Sandbox |
+| :---: | :---: |
+| ![CyberChef](photos/services/cyberchef.png) | ![DFIR Sandbox](photos/services/dfir-sandbox.png) |
+
+| HashiCorp Vault Secrets Engine | Deception Canary Tokens & Decoys |
+| :---: | :---: |
+| ![HashiCorp Vault](photos/services/vault.png) | ![Canary Decoys](photos/services/canary-decoys.png) |
+
+---
+
+### Media & Utilities
+| Stirling-PDF Manipulation Suite | Kavita Digital Library |
+| :---: | :---: |
+| ![Stirling-PDF](photos/services/stirling.png) | ![Kavita Library](photos/services/kavita.png) |
+
+| Audiobookshelf Streaming Server | TubeArchivist YouTube Archive |
+| :---: | :---: |
+| ![Audiobookshelf](photos/services/audiobookshelf.png) | ![TubeArchivist](photos/services/tubearchivist.png) |
+
+| Transmission BitTorrent Client | Calibre-Web E-Book Manager |
+| :---: | :---: |
+| ![Transmission](photos/services/transmission.png) | ![Calibre-Web](photos/services/calibreweb.png) |
+
+| RomM Retro Game Rom Manager | EmulatorJS Browser Arcade |
+| :---: | :---: |
+| ![RomM Game Manager](photos/services/romm.png) | ![EmulatorJS](photos/services/emulatorjs.png) |
+
+| Code-Server VS Code Cloud IDE | Draw.io Architecture Designer |
+| :---: | :---: |
+| ![Code-Server](photos/services/codeserver.png) | ![Draw.io Designer](photos/services/drawio.png) |
+
+| IT-Tools Network & Developer Toolkit | Actual Budget Local Accounting |
+| :---: | :---: |
+| ![IT-Tools Suite](photos/services/it-tools.png) | ![Actual Budget](photos/services/actualbudget.png) |
+
+| Trillium Structured Knowledge Base | ChangeDetection Web Monitor |
+| :---: | :---: |
+| ![Trillium Knowledge Base](photos/services/trillium.png) | ![ChangeDetection](photos/services/changedetection.png) |
+
+| MicroBin Encrypted Pastebin | Vikunja Task Management |
+| :---: | :---: |
+| ![MicroBin Pastebin](photos/services/microbin.png) | ![Vikunja Tasks](photos/services/vikunja.png) |
+
+| Memos Lightweight Note Stream | Wallos Subscription Tracker |
+| :---: | :---: |
+| ![Memos Note Stream](photos/services/memos.png) | ![Wallos Subscriptions](photos/services/wallos.png) |
+
+| Speedtest Tracker Continuous Bench | Homepage Dashboard |
+| :---: | :---: |
+| ![Speedtest Tracker](photos/services/speedtest.png) | ![Homepage Dashboard](photos/services/homepage.png) |
+
+| Flame Application Launcher |  |
+| :---: | :---: |
+| ![Flame Launcher](photos/services/flame.png) |  |
+
+---
+
+### Specialized Operating Systems & Telemetry (Loki Telemetry & Runtime Logs)
+| Windows Server 2025 (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) |
+| :---: | :---: |
+| ![Windows Server 2025 Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
+
+| FreeBSD 15.1-RELEASE (VM 203 · Loki Telemetry) | OpenBSD 7.9 Bastion (VM 204 · Loki Telemetry) |
+| :---: | :---: |
+| ![FreeBSD 15.1 Telemetry](photos/services/vm-freebsd.png) | ![OpenBSD 7.9 Telemetry](photos/services/vm-openbsd.png) |
+
+| Talos Linux 1.7 (VM 205 · Loki Telemetry) | Proxmox Datacenter Manager (CT 147 · Loki Telemetry) |
+| :---: | :---: |
+| ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) |
+
+| Proxmox Mail Gateway (CT 148 · Loki Telemetry) |  |
+| :---: | :---: |
+| ![Proxmox Mail Gateway](photos/services/proxmox-mail-gateway.png) |  |
+
+---
+
+## About the Author
 
 Designed, engineered, and operated by **[@stefanutc1](https://github.com/stefanutc1)**.
-- **Focus**: Infrastructure Engineering, Multi-Architecture Virtualization (Proxmox VE x86_64 12GB DDR4-2133 & Apple Silicon ARM64), Zero-Trust Perimeter Security (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
-- **Purpose**: Enterprise-grade portfolio showcasing modern on-premise and hybrid cloud systems architecture.
+* **Focus**: Infrastructure Engineering, Multi-Architecture Virtualization (Proxmox VE x86_64 12GB DDR4-2133 & Apple Silicon ARM64), Zero-Trust Network Defense (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
+* **Purpose**: Production-grade engineering portfolio showcasing on-premise and hybrid systems architecture.

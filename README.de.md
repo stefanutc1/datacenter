@@ -2,7 +2,7 @@
 
 # Enterprise Hybrid Cloud & Platform Engineering Lab (Homelab)
 
-**[ 🇷🇴 Română ](README.ro.md) • [ 🇬🇧 English ](README.md) • [ 🇫🇷 Français ](README.fr.md) • [ 🇪🇸 Español ](README.es.md) • [ 🇩🇪 Deutsch ](README.de.md)**
+**[ Română ](README.ro.md) • [ English ](README.md) • [ Français ](README.fr.md) • [ Español ](README.es.md) • [ Deutsch ](README.de.md)**
 
 [![CI/CD Status](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions)
 [![Sicherheits-Scan & Trivy](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml)
@@ -24,7 +24,7 @@ Aufgebaut auf Bare-Metal x86_64 und Apple Silicon ARM64 Hardware, dynamischer OP
 
 ---
 
-## 📑 Inhaltsverzeichnis
+## Inhaltsverzeichnis
 
 1. [Mission & Designprinzipien](#1-mission--designprinzipien)
 2. [Gesamtarchitektur & Netzwerktopologie](#2-gesamtarchitektur--netzwerktopologie)
@@ -53,12 +53,12 @@ Aufgebaut auf Bare-Metal x86_64 und Apple Silicon ARM64 Hardware, dynamischer OP
 
 ```mermaid
 flowchart LR
-    subgraph Principles["HOMELAB INGENIEURSPRINZIPIEN"]
-        direction LR
-        P1["⚡ RESSOURCENEFFIZIENZ<br/>• Minimaler Overhead via Alpine LXC<br/>• ZFS ZSTD & ZRAM lz4 Kompression<br/>• Sub-100ms GPU LLM Inferenz"]
-        P2["🛡️ DEFENSE-IN-DEPTH<br/>• OPNsense Default-Deny Firewall<br/>• Kernel eBPF Telemetrie Tetragon<br/>• DMZ Täuschung & Zero-Trust FIDO2"]
-        P3["🔄 GITOPS & AS-CODE<br/>• 100% deklarativer Zustand Terraform<br/>• Keine manuellen Click-Ops<br/>• Sofortiges Rollback & CI Scans"]
-    end
+ subgraph Principles["HOMELAB INGENIEURSPRINZIPIEN"]
+ direction LR
+ P1["RESSOURCENEFFIZIENZ<br/>• Minimaler Overhead via Alpine LXC<br/>• ZFS ZSTD & ZRAM lz4 Kompression<br/>• Sub-100ms GPU LLM Inferenz"]
+ P2["DEFENSE-IN-DEPTH<br/>• OPNsense Default-Deny Firewall<br/>• Kernel eBPF Telemetrie Tetragon<br/>• DMZ Täuschung & Zero-Trust FIDO2"]
+ P3["GITOPS & AS-CODE<br/>• 100% deklarativer Zustand Terraform<br/>• Keine manuellen Click-Ops<br/>• Sofortiges Rollback & CI Scans"]
+ end
 ```
 
 * **Ressourceneffizienz**: Hochdichte Virtualisierung mit minimalem CPU- und RAM-Bedarf. Optimierte Alpine Linux- und Debian-Container schöpfen das Potenzial von x86_64- und ARM64-Hardware voll aus.
@@ -72,65 +72,65 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    subgraph WAN_Edge["Perimeter & Externer Ingress"]
-        CF["Cloudflare WAF / CDN"] -->|"Verschlüsselter Tunnel"| VPS["VPS WireGuard Gateway"]
-        VPS -->|"Dual-Homed VPN"| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
-    end
+ subgraph WAN_Edge["Perimeter & Externer Ingress"]
+ CF["Cloudflare WAF / CDN"] -->|"Verschlüsselter Tunnel"| VPS["VPS WireGuard Gateway"]
+ VPS -->|"Dual-Homed VPN"| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+ end
 
-    subgraph Network_VLANs["Segmentierte Virtuelle Netzwerke (VLANs)"]
-        OPN -->|"VLAN 10: 192.168.1.0/24"| V10["VLAN 10: Management & Speicher<br/>Proxmox VE · OMV NAS · IPMI"]
-        OPN -->|"VLAN 20: 192.168.20.0/24"| V20["VLAN 20: Core Microservices<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
-        OPN -->|"VLAN 30: 192.168.30.0/24"| V30["VLAN 30: CyberLab & Sandboxes<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
-        OPN -->|"VLAN 40: 192.168.40.0/24"| V40["VLAN 40: DMZ Täuschung<br/>T-Pot Honeypots · AbuseIPDB"]
-        OPN -->|"VLAN 50: 192.168.50.0/24"| V50["VLAN 50: IoT & Edge-Sensoren<br/>ESP32 mmWave · Zigbee · Home Assistant"]
-    end
+ subgraph Network_VLANs["Segmentierte Virtuelle Netzwerke (VLANs)"]
+ OPN -->|"VLAN 10: 192.168.1.0/24"| V10["VLAN 10: Management & Speicher<br/>Proxmox VE · OMV NAS · IPMI"]
+ OPN -->|"VLAN 20: 192.168.20.0/24"| V20["VLAN 20: Core Microservices<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
+ OPN -->|"VLAN 30: 192.168.30.0/24"| V30["VLAN 30: CyberLab & Sandboxes<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
+ OPN -->|"VLAN 40: 192.168.40.0/24"| V40["VLAN 40: DMZ Täuschung<br/>T-Pot Honeypots · AbuseIPDB"]
+ OPN -->|"VLAN 50: 192.168.50.0/24"| V50["VLAN 50: IoT & Edge-Sensoren<br/>ESP32 mmWave · Zigbee · Home Assistant"]
+ end
 
-    subgraph Compute_Layer["Hybride Multi-Node Virtualisierungsflotte"]
-        Node1["Node 1: Proxmox Primär (x86_64)<br/>Intel Core i3-10100F · 12 GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
-        Node2["Node 2: OMV NAS Speicher<br/>ASUS Laptop · Celeron N2830 · 2 GB RAM<br/>500 GB ZFS-Pool · Offline-Wikipedia Kiwix"]
-        Node3["Node 3: Proxmox Sekundär (ARM64)<br/>Apple MacBook Air M1 · 8 Kerne<br/>LGTM Telemetrie · Gitea · Woodpecker CI"]
-        Node4["Node 4: Talos Linux Worker<br/>AMD Athlon II X2 · 4 GB RAM<br/>k3s-agent · eBPF Tetragon Sensor"]
-    end
+ subgraph Compute_Layer["Hybride Multi-Node Virtualisierungsflotte"]
+ Node1["Node 1: Proxmox Primär (x86_64)<br/>Intel Core i3-10100F · 12 GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
+ Node2["Node 2: OMV NAS Speicher<br/>ASUS Laptop · Celeron N2830 · 2 GB RAM<br/>500 GB ZFS-Pool · Offline-Wikipedia Kiwix"]
+ Node3["Node 3: Proxmox Sekundär (ARM64)<br/>Apple MacBook Air M1 · 8 Kerne<br/>LGTM Telemetrie · Gitea · Woodpecker CI"]
+ Node4["Node 4: Talos Linux Worker<br/>AMD Athlon II X2 · 4 GB RAM<br/>k3s-agent · eBPF Tetragon Sensor"]
+ end
 
-    V10 -.-> Node1 & Node2 & Node3 & Node4
-    V20 -.-> Node1 & Node3
-    V30 -.-> Node1
-    V40 -.-> Node1
-    V50 -.-> Node1
+ V10 -.-> Node1 & Node2 & Node3 & Node4
+ V20 -.-> Node1 & Node3
+ V30 -.-> Node1
+ V40 -.-> Node1
+ V50 -.-> Node1
 ```
 
 ---
 
 
-### 🛡️ 2.3 OPNsense Enterprise-Architektur (5 Sicherheitssäulen)
+### 2.3 OPNsense Enterprise-Architektur (5 Sicherheitssäulen)
 
 Die Perimeter-Firewall **OPNsense (VM 200 · 192.168.1.134)** implementiert eine gehärtete Enterprise-Sicherheitsarchitektur im FreeBSD-Kernel (`pf`):
 
 ```mermaid
 flowchart TB
-    subgraph OPN["🛡️ OPNsense Enterprise Security Core (192.168.1.134)"]
-        direction TB
-        subgraph P1["1. Bedrohungsabwehr & Perimeter"]
-            SURI["Suricata NIDS/IPS (v8.0)<br/>• ET Open Regeln & Promiscuous"]
-            CS["CrowdSec LAPI Bouncer<br/>• Dynamische pf-Tabellensperre"]
-            GEO["GeoIP-Kernel-Sperre<br/>• Automatisches Verwerfen von Risikozonen"]
-        end
-        subgraph P2["2. Observability & Selbstheilung"]
-            TELE["Telegraf Prometheus Exporter<br/>• pf-Status-Telemetrie (:9273)"]
-            MONIT["Monit Auto-Healing Watchdog<br/>• Automatischer Neustart & ntfy-Alarm"]
-        end
-        subgraph P3["3. GitOps & Desaster-Recovery"]
-            GIT["os-git-backup<br/>• GPG-verschlüsselte config.xml-Snapshots"]
-        end
-        subgraph P4["4. Datenschutz & DNS"]
-            DOT["Unbound DNS-over-TLS<br/>• Quad9 (9.9.9.9:853) & DNSSEC"]
-            DHCP["Kea DHCP Auto DynDNS<br/>• Automatische *.homelab.local-Registrierung"]
-        end
-        subgraph P5["5. Zero-Trust & Kubernetes"]
-            BGP["FRRouting BGP-Peering<br/>• MetalLB & Cilium LoadBalancer"]
-            TS["Tailscale Subnet-Router<br/>• Verschlüsseltes Mesh über alle VLANs"]
-        end
-    end
+ subgraph OPN["OPNsense Enterprise Security Core (192.168.1.134)"]
+ direction TB
+ subgraph P1["1. Bedrohungsabwehr & Perimeter"]
+ SURI["Suricata NIDS/IPS (v8.0)<br/>• ET Open Regeln & Promiscuous"]
+ CS["CrowdSec LAPI Bouncer<br/>• Dynamische pf-Tabellensperre"]
+ GEO["GeoIP-Kernel-Sperre<br/>• Automatisches Verwerfen von Risikozonen"]
+ end
+ subgraph P2["2. Observability & Selbstheilung"]
+ TELE["Telegraf Prometheus Exporter<br/>• pf-Status-Telemetrie (:9273)"]
+ MONIT["Monit Auto-Healing Watchdog<br/>• Automatischer Neustart & ntfy-Alarm"]
+ end
+ subgraph P3["3. GitOps & Desaster-Recovery"]
+ GIT["os-git-backup<br/>• GPG-verschlüsselte config.xml-Snapshots"]
+ end
+ subgraph P4["4. Datenschutz & DNS"]
+ DOT["Unbound DNS-over-TLS<br/>• Quad9 (9.9.9.9:853) & DNSSEC"]
+ DHCP["Kea DHCP Auto DynDNS<br/>• Automatische *.homelab.local-Registrierung"]
+ end
+ subgraph P5["5. Zero-Trust & Kubernetes"]
+ BGP["FRRouting BGP-Peering<br/>• MetalLB & Cilium LoadBalancer"]
+ TS["Tailscale Subnet-Router<br/>• Verschlüsseltes Mesh über alle VLANs"]
+ end
+ end
 ```
 
 ## 3. Hybride Multi-Cloud-Architektur (Azure, GCP, AWS)
@@ -139,40 +139,40 @@ The on-premise cluster is extended into a true hybrid multi-cloud topology acros
 
 ```mermaid
 flowchart TB
-    subgraph OnPrem["🏠 ON-PREMISE HYBRID HOMELAB"]
-        direction TB
-        OPN["OPNsense Firewall (192.168.1.134:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
-        PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
-        ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
-        OPN --- PVE --- ZFS
-    end
+ subgraph OnPrem["ON-PREMISE HYBRID HOMELAB"]
+ direction TB
+ OPN["OPNsense Firewall (192.168.1.134:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+ PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
+ ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
+ OPN --- PVE --- ZFS
+ end
 
-    subgraph Azure["🔷 MICROSOFT AZURE (cloud/azure/)"]
-        direction TB
-        AKV["Azure Key Vault (Cloud HSM)<br/>Step-CA Root CA & LUKS Escrow"]
-        ABS["Blob Storage Archive Tier<br/>Cold ZFS Disaster Recovery"]
-        EID["Entra ID SSO Federation<br/>Authentik SAML / OIDC"]
-        ARC["Azure Arc Integration<br/>Defender for Cloud Security"]
-    end
+ subgraph Azure["MICROSOFT AZURE (cloud/azure/)"]
+ direction TB
+ AKV["Azure Key Vault (Cloud HSM)<br/>Step-CA Root CA & LUKS Escrow"]
+ ABS["Blob Storage Archive Tier<br/>Cold ZFS Disaster Recovery"]
+ EID["Entra ID SSO Federation<br/>Authentik SAML / OIDC"]
+ ARC["Azure Arc Integration<br/>Defender for Cloud Security"]
+ end
 
-    subgraph GCP["🌐 GOOGLE CLOUD PLATFORM (cloud/gcp/)"]
-        direction TB
-        GCS["Cloud Storage Bucket WORM<br/>Ransomware-Proof PBS Retention"]
-        WIF["Workload Identity Federation<br/>Keyless CI/CD (GitHub & Woodpecker)"]
-        DNS["Cloud DNS Managed Zone<br/>Split-Horizon DNS Fallback"]
-        BQ["BigQuery Security Sink<br/>T-Pot & Wazuh SIEM Analytics"]
-    end
+ subgraph GCP["GOOGLE CLOUD PLATFORM (cloud/gcp/)"]
+ direction TB
+ GCS["Cloud Storage Bucket WORM<br/>Ransomware-Proof PBS Retention"]
+ WIF["Workload Identity Federation<br/>Keyless CI/CD (GitHub & Woodpecker)"]
+ DNS["Cloud DNS Managed Zone<br/>Split-Horizon DNS Fallback"]
+ BQ["BigQuery Security Sink<br/>T-Pot & Wazuh SIEM Analytics"]
+ end
 
-    subgraph AWS["🟧 AMAZON WEB SERVICES (cloud/aws/)"]
-        direction TB
-        S3["S3 Glacier Deep Archive<br/>Encrypted Off-Site Cold DR"]
-        OIDC["IAM OIDC Keyless Role<br/>Least-Privilege AssumeRole"]
-        VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
-    end
+ subgraph AWS["AMAZON WEB SERVICES (cloud/aws/)"]
+ direction TB
+ S3["S3 Glacier Deep Archive<br/>Encrypted Off-Site Cold DR"]
+ OIDC["IAM OIDC Keyless Role<br/>Least-Privilege AssumeRole"]
+ VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
+ end
 
-    OnPrem -->|"IPsec / WireGuard VPN"| Azure
-    OnPrem -->|"OIDC Token / HA VPN"| GCP
-    OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
+ OnPrem -->|"IPsec / WireGuard VPN"| Azure
+ OnPrem -->|"OIDC Token / HA VPN"| GCP
+ OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
 ```
 
 ### Cloud Integration & Zero-Cost Tiering Matrix
@@ -277,7 +277,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **109** | `gitea` | Debian 13 | 2 | 160 MB | `local:2G` | `192.168.64.109` | Entwicklung | Self-Hosted Git-Forge & Code-Review |
 | **110** | `woodpecker` | Alpine 3.24 | 2 | 192 MB | `local:2G` | `192.168.64.110` | CI/CD | Woodpecker CI Automatisierungs-Engine |
 | **111** | `gatus` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.111` | Monitoring | Automatisches Status-Dashboard in Go |
-| **112** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.112` | Benachrichtigung| Private Push-Benachrichtigungen aufs Smartphone |
+| **112** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.112` | Benachrichtigung | Private Push-Benachrichtigungen aufs Smartphone |
 | **113** | `linkding` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.122` | Automation | Lesezeichen-Manager & Technische Suche |
 | **114** | `stepca` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.114` | Sicherheit | Private PKI-Zertifizierungsstelle & ACME TLS |
 | **115** | `tailscale-arm` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.115` | VPN | Tailscale Subnetz-Router (ARM64-Segment) |
@@ -295,7 +295,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **127** | `webcheck` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.127` | OSINT | OSINT-Sicherheitsscanner & Domänen-Prüfung |
 | **128** | `opengist` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.128` | Entwicklung | Privater Code-Snippet & Gist-Speicher |
 | **129** | `flatnotes` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.129` | Notizen | Minimalistischer Flat-File Markdown Notiz-Editor |
-| **130** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.130` | Benachrichtigung| Apple iOS Native Push-Benachrichtigungen |
+| **130** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.130` | Benachrichtigung | Apple iOS Native Push-Benachrichtigungen |
 | **131** | `shiori` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.131` | Storage | Webseiten-Archivierung in Reintext in Go |
 | **132** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.132` | Privatsphäre | Anonymisierte Google-Suche ohne Werbung |
 | **133** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.133` | Dashboard | Minimalistische Startseite für den Browser |
@@ -315,26 +315,26 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **147** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.147` | Management | Proxmox Datacenter Manager (Flotten-Orchestrierung) |
 | **148** | `pmg` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.148` | Sicherheit / Mail | Proxmox Mail Gateway (Spam-Schutz & ClamAV) |
 
-### Machines Virtuelles QEMU / KVM & VirtIO Memory Ballooning
+### QEMU / KVM Virtuelle Maschinen & VirtIO Memory Ballooning
 
-| VMID | Nom VM | Système d'Exploitation | vCPU | RAM Max | Balloon Min | Passthrough / Matériel | Rôle Principal |
+| VMID | VM-Name | Betriebssystem | vCPU | Max RAM | Min Balloon | Passthrough / Hardware | Hauptrolle |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Coeurs | 2.048 Mo | **1.024 Mo** | VirtIO Net Multi-VLAN | Pare-feu Périmétrique, Suricata IDS/IPS, Rotation Clés WireGuard |
-| **201** | `windows` | Windows Server 2025 | 2 Coeurs | 4.096 Mo | **2.048 Mo** | **GTX 1050 Ti PCIe Passthrough** | Active Directory (AD DS), GPO, DNS, Télémetrie Sysmon |
-| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Coeurs | 2.048 Mo | **1.024 Mo** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Services Entreprise |
-| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Coeurs | 1.536 Mo | **768 Mo** | VirtIO SCSI Single | Stockage Natif OpenZFS, FreeBSD Jails & Laboratoire Réseau |
-| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Coeurs | 1.536 Mo | **768 Mo** | VirtIO SCSI Single | Bastion Sécurisé Jump Host, Filtre PF, pledge/unveil |
-| **205** | `talos` | Talos Linux 1.7 | 2 Coeurs | 2.048 Mo | **1.024 Mo** | VirtIO Single + Cilium CNI | OS Immuable Minimaliste, API Déclarative gRPC, Kubernetes |
-| **206** | `capev2` | Sandbox Win10 / Linux | 4 Coeurs | 4.096 Mo | **2.048 Mo** | Isolation Complète (Air-Gap) | Sandbox d'Analyse Malware Dynamique, Volatility & Cuckoo |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Perimeter-Firewall, Suricata IDS/IPS, WireGuard-Rotator |
+| **201** | `windows` | Windows Server 2025 | 2 Cores | 8.192 MB (8 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Ballooning: 4-8 GB) |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) |
+| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Nativer OpenZFS Storage Pool, BSD Jails & Labor (512MB-1GB) |
+| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Gehärteter Jump Host Bastion, PF, pledge/unveil (512MB-1GB) |
+| **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | Unveränderliches OS, Deklaratives gRPC API, K8s (1-2 GB) |
+| **206** | `capev2` | Win10 / Linux Sandbox | 4 Cores | 4.096 MB | **2.048 MB** | Air-Gap Isolation | Automatische Malware-Analyse-Sandbox, Volatility DFIR |
 
 ### Optimisation Mémoire Hôte: ZRAM / ZSWAP Fast RAM Compression
 
-* **Algorithme**: `lz4` ultra-rapide avec overhead CPU < 1%.
+* **Algorithme**: `lz4` optimizate avec overhead CPU < 1%.
 * **Nœud 1 (x86_64) ZRAM**: `/dev/zram0` (6.0 Go RAM compressé swap, priorité 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
 * **Nœud 3 (ARM64) ZRAM**: `/dev/zram0` (1.9 Go RAM compressé swap, priorité 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
 * **Protection NVMe**: Les pages de mémoire swap sont compressées directement en RAM, éliminant l'usure des disques SSD NVMe.
 
-### Sécurité Zero-Trust & Proving Ground Entreprise
+### Sécurité Zero-Trust & Test Environment Entreprise
 
 1. **HashiCorp Vault / OpenBao**: Gestion centralisée des secrets sans fichiers `.env` locaux exposés.
 2. **Module Kernel WireGuard sur OPNsense avec Rotation Automatique des Clés**: Rotation périodique des clés Curve25519 et PSK via Ansible/cron.
@@ -366,56 +366,56 @@ ansible-playbook playbooks/site.yml
 
 <div align="center">
 
-**Autor**: [@stefanutc1](https://github.com/stefanutc1)  
+**Autor**: [@stefanutc1](https://github.com/stefanutc1) 
 Veröffentlicht unter der **MIT-Lizenz**.
 
 </div>
 
 ---
 
-## 📸 Photo Gallery · Live Panels, Enterprise VMs (KVM) & Services
+## Photo Gallery · Live Panels, Enterprise VMs (KVM) & Services
 
 All physical hardware, virtual machines, and container workloads run live on production equipment. The homelab repository includes a complete collection of screenshots for **all 83 microservices, KVM/BSD virtual machines, and management panels** inside [`photos/services/`](photos/services/):
 
-### 📊 Core Management Panels
-| 📊 Grafana · Homelab Nodes (12GB x64 & ARM64) | 🛡️ Grafana · OPNsense Perimeter Defense |
+### Core Management Panels
+| Grafana · Homelab Nodes (12GB x64 & ARM64) | Grafana · OPNsense Perimeter Defense |
 | :---: | :---: |
 | ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
 
-| 🖥️ Proxmox VE 9.2 x86_64 (12GB RAM · 192.168.1.132:8006) | 🍎 Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
+| Proxmox VE 9.2 x86_64 (12GB RAM · 192.168.1.132:8006) | Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
 | :---: | :---: |
 | ![Proxmox VE x64](photos/proxmox_ve_dashboard.png) | ![Proxmox VE ARM64](photos/proxmox_arm64_dashboard.png) |
 
-| 🛡️ Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | 🏠 Home Assistant Automation Hub (192.168.1.10:8123) |
+| Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | Home Assistant Automation Hub (192.168.1.10:8123) |
 | :---: | :---: |
 | ![Pi-hole Admin](photos/pihole_admin_dashboard.png) | ![Home Assistant](photos/homeassistant_dashboard.png) |
 
-| 🚨 OPNsense Suricata 8 NIDS/IPS (192.168.1.134:8443) | 🔒 OPNsense · VLAN Firewall Filtering (pf rules) |
+| OPNsense Suricata 8 NIDS/IPS (192.168.1.134:8443) | OPNsense · VLAN Firewall Filtering (pf rules) |
 | :---: | :---: |
 | ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) | ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) |
 
-| ⚡ OPNsense · WireGuard Kernel VPN Mesh | 🌐 OPNsense · Unbound DNS-over-TLS (DoT) |
+| OPNsense · WireGuard Kernel VPN Mesh | OPNsense · Unbound DNS-over-TLS (DoT) |
 | :---: | :---: |
 | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
 
 ---
 
-### 🖥️ Specialized Enterprise Virtual Machines (KVM) & BSD Nodes
-| 🪟 Windows Server 2025 Datacenter (VM 201) | 🔴 Red Hat Enterprise Linux 9.8 (VM 202) |
+### Specialized Enterprise Virtual Machines (KVM) & BSD Nodes
+| Windows Server 2025 Datacenter (VM 201) | Red Hat Enterprise Linux 9.8 (VM 202) |
 | :---: | :---: |
 | ![Windows Server 2025 AD](photos/services/vm-windows.png) | ![RHEL 9.8 Enterprise](photos/services/vm-rhel.png) |
 
-| 😈 FreeBSD 15.1-RELEASE · OpenZFS (VM 203) | 🐡 OpenBSD 7.9 Bastion · Packet Filter (VM 204) |
+| FreeBSD 15.1-RELEASE · OpenZFS (VM 203) | OpenBSD 7.9 Bastion · Packet Filter (VM 204) |
 | :---: | :---: |
 | ![FreeBSD 15.1](photos/services/vm-freebsd.png) | ![OpenBSD 7.9](photos/services/vm-openbsd.png) |
 
-| ☸️ Talos Linux 1.7 · Immutable K8s (VM 205) | 🛡️ OPNsense 26.1 Hardened · Console (VM 200) |
+| Talos Linux 1.7 · Immutable K8s (VM 205) | OPNsense 26.1 Hardened · Console (VM 200) |
 | :---: | :---: |
 | ![Talos Linux Kubernetes](photos/services/vm-talos.png) | ![OPNsense Core Console](photos/services/opnsense.png) |
 
 ---
 
-### 📂 Complete Per-Service Screenshot Catalog (`photos/services/`)
+### Complete Per-Service Screenshot Catalog (`photos/services/`)
 Every single service from the 83 workloads has a dedicated screenshot:
 - **Core & Networking**: [`npm.png`](photos/services/npm.png), [`pihole.png`](photos/services/pihole.png), [`tailscale-x64.png`](photos/services/tailscale-x64.png), [`wgeasy.png`](photos/services/wgeasy.png), [`opnsense-core.png`](photos/services/opnsense-core.png), [`opnsense-unbound.png`](photos/services/opnsense-unbound.png), [`opnsense-frr.png`](photos/services/opnsense-frr.png), [`caddy-mtls.png`](photos/services/caddy-mtls.png)
 - **Storage & Backup**: [`nextcloud.png`](photos/services/nextcloud.png), [`paperless.png`](photos/services/paperless.png), [`minio.png`](photos/services/minio.png), [`kopia.png`](photos/services/kopia.png), [`syncthing.png`](photos/services/syncthing.png), [`proxmox-backup-server.png`](photos/services/proxmox-backup-server.png)
@@ -427,8 +427,200 @@ Every single service from the 83 workloads has a dedicated screenshot:
 
 ---
 
-## 👨‍💻 About the Author (About Me)
+## About the Author (About Me)
 
 Designed, engineered, and operated by **[@stefanutc1](https://github.com/stefanutc1)**.
 - **Focus**: Infrastructure Engineering, Multi-Architecture Virtualization (Proxmox VE x86_64 12GB DDR4-2133 & Apple Silicon ARM64), Zero-Trust Perimeter Security (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
 - **Purpose**: Enterprise-grade portfolio showcasing modern on-premise and hybrid cloud systems architecture.
+
+---
+
+## Fotogalerie: Management-Panels, Dienste und Loki-Telemetrie
+
+Alle Hardware-Knoten, virtuellen Maschinen und Container laufen auf physischer Infrastruktur. Nachfolgend sind direkte Schnittstellenaufnahmen der Verwaltungsebenen, aktiven Dienste und zentralen Grafana-Loki-Protokolldatenströme aufgeführt.
+
+### Zentrale Management-Panels
+| Grafana: Homelab-Knoten (12GB x64 & ARM64) | Grafana: OPNsense Perimeter-Verteidigung |
+| :---: | :---: |
+| ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
+
+| Proxmox VE 9.2 x86_64 (12GB RAM · 192.168.1.132:8006) | Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
+| :---: | :---: |
+| ![Proxmox VE x64](photos/proxmox_ve_dashboard.png) | ![Proxmox VE ARM64](photos/proxmox_arm64_dashboard.png) |
+
+| Pi-hole DNS-Filter & FTL (192.168.1.4:8080) | Home Assistant Automations-Hub (192.168.1.10:8123) |
+| :---: | :---: |
+| ![Pi-hole Admin](photos/pihole_admin_dashboard.png) | ![Home Assistant](photos/homeassistant_dashboard.png) |
+
+| OPNsense Suricata 8 NIDS/IPS (192.168.1.134:8443) | OPNsense: VLAN-Filterrichtlinien (pf-Regeln) |
+| :---: | :---: |
+| ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) | ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) |
+
+| OPNsense: WireGuard Kernel VPN Mesh | OPNsense: Unbound DNS-over-TLS (DoT) |
+| :---: | :---: |
+| ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
+
+---
+
+### Core & Netzwerk
+| Nginx Proxy Manager | Pi-hole DNS Sinkhole |
+| :---: | :---: |
+| ![Nginx Proxy Manager](photos/services/npm.png) | ![Pi-hole DNS](photos/services/pihole.png) |
+
+| Tailscale Mesh | WireGuard Easy |
+| :---: | :---: |
+| ![Tailscale Mesh](photos/services/tailscale-x64.png) | ![WireGuard Easy](photos/services/wgeasy.png) |
+
+| OPNsense Core Gateway | OPNsense Unbound DoT |
+| :---: | :---: |
+| ![OPNsense Core Gateway](photos/services/opnsense-core.png) | ![OPNsense Unbound DoT](photos/services/opnsense-unbound.png) |
+
+| OPNsense FRR Dynamisches Routing | Caddy Ingress mTLS |
+| :---: | :---: |
+| ![OPNsense FRR](photos/services/opnsense-frr.png) | ![Caddy mTLS](photos/services/caddy-mtls.png) |
+
+---
+
+### Speicher & Backup
+| Nextcloud Hub | Paperless-ngx Dokumenten-OCR |
+| :---: | :---: |
+| ![Nextcloud Hub](photos/services/nextcloud.png) | ![Paperless-ngx](photos/services/paperless.png) |
+
+| MinIO S3 Objektspeicher | Kopia Snapshot-Sicherung |
+| :---: | :---: |
+| ![MinIO S3](photos/services/minio.png) | ![Kopia Backup](photos/services/kopia.png) |
+
+| Syncthing Datei-Synchronisation | Proxmox Backup Server (PBS) |
+| :---: | :---: |
+| ![Syncthing](photos/services/syncthing.png) | ![Proxmox Backup Server](photos/services/proxmox-backup-server.png) |
+
+---
+
+### Automation & KI
+| Ollama LLM-Laufzeitumgebung | Open-WebUI KI-Oberfläche |
+| :---: | :---: |
+| ![Ollama LLM](photos/services/ollama.png) | ![Open-WebUI](photos/services/openwebui.png) |
+
+| Faster-Whisper Sprachtranskription | Flowise LLM-Orchestrator |
+| :---: | :---: |
+| ![Faster-Whisper](photos/services/whisper.png) | ![Flowise Orchestrator](photos/services/flowise.png) |
+
+| Home Assistant Automations-Zentrale | RenovateBot GitOps-Engine |
+| :---: | :---: |
+| ![Home Assistant](photos/services/homeassistant.png) | ![RenovateBot](photos/services/renovate.png) |
+
+---
+
+### Observability & Überwachung
+| Grafana Enterprise Dashboard | Prometheus Metriken-Engine |
+| :---: | :---: |
+| ![Grafana Enterprise](photos/services/grafana.png) | ![Prometheus Metrics](photos/services/prometheus.png) |
+
+| Loki Verteilter Protokoll-Aggregator | Uptime Kuma SLA-Monitor |
+| :---: | :---: |
+| ![Loki Log Aggregator](photos/services/loki.png) | ![Uptime Kuma Monitor](photos/services/uptimekuma.png) |
+
+| Gatus Status-Prüfer | Beszel Schlanke Metriken |
+| :---: | :---: |
+| ![Gatus Status](photos/services/gatus.png) | ![Beszel Metrics](photos/services/beszel.png) |
+
+| Blackbox Netzwerk-Exporter | Vector Hochleistungs-Aggregator |
+| :---: | :---: |
+| ![Blackbox Exporter](photos/services/blackbox.png) | ![Vector Aggregator](photos/services/vector.png) |
+
+| Dozzle Echtzeit-Protokollbetrachter |  |
+| :---: | :---: |
+| ![Dozzle Log Viewer](photos/services/dozzle.png) |  |
+
+---
+
+### Sicherheit & Cyber Lab
+| OPNsense Suricata 8 NIDS/IPS | OPNsense CrowdSec LAPI Bouncer |
+| :---: | :---: |
+| ![Suricata IDS/IPS](photos/services/opnsense-suricata.png) | ![CrowdSec Bouncer](photos/services/opnsense-crowdsec.png) |
+
+| Wazuh SIEM / XDR Manager | T-Pot Multi-Honeypot Sensoren |
+| :---: | :---: |
+| ![Wazuh SIEM](photos/services/wazuh.png) | ![T-Pot Honeypots](photos/services/tpot-honeypot.png) |
+
+| CyberChef Kryptografisches Werkzeug | DFIR Malware-Sandbox |
+| :---: | :---: |
+| ![CyberChef](photos/services/cyberchef.png) | ![DFIR Sandbox](photos/services/dfir-sandbox.png) |
+
+| HashiCorp Vault Geheimnisverwaltung | Täuschungs-Canary-Tokens & Köderdateien |
+| :---: | :---: |
+| ![HashiCorp Vault](photos/services/vault.png) | ![Canary Decoys](photos/services/canary-decoys.png) |
+
+---
+
+### Medien & Dienstprogramme
+| Stirling-PDF Werkzeugsuite | Kavita Digitale Bibliothek |
+| :---: | :---: |
+| ![Stirling-PDF](photos/services/stirling.png) | ![Kavita Library](photos/services/kavita.png) |
+
+| Audiobookshelf Hörbuch-Server | TubeArchivist YouTube-Archiv |
+| :---: | :---: |
+| ![Audiobookshelf](photos/services/audiobookshelf.png) | ![TubeArchivist](photos/services/tubearchivist.png) |
+
+| Transmission BitTorrent-Client | Calibre-Web E-Book-Verwaltung |
+| :---: | :---: |
+| ![Transmission](photos/services/transmission.png) | ![Calibre-Web](photos/services/calibreweb.png) |
+
+| RomM Retro-ROM-Manager | EmulatorJS Browser-Emulator |
+| :---: | :---: |
+| ![RomM Game Manager](photos/services/romm.png) | ![EmulatorJS](photos/services/emulatorjs.png) |
+
+| Code-Server VS Code Cloud-IDE | Draw.io Architektur-Designer |
+| :---: | :---: |
+| ![Code-Server](photos/services/codeserver.png) | ![Draw.io Designer](photos/services/drawio.png) |
+
+| IT-Tools Entwickler-Werkzeuge | Actual Budget Lokale Buchhaltung |
+| :---: | :---: |
+| ![IT-Tools Suite](photos/services/it-tools.png) | ![Actual Budget](photos/services/actualbudget.png) |
+
+| Trillium Strukturierte Wissensdatenbank | ChangeDetection Web-Überwachung |
+| :---: | :---: |
+| ![Trillium Knowledge Base](photos/services/trillium.png) | ![ChangeDetection](photos/services/changedetection.png) |
+
+| MicroBin Verschlüsseltes Pastebin | Vikunja Aufgabenverwaltung |
+| :---: | :---: |
+| ![MicroBin Pastebin](photos/services/microbin.png) | ![Vikunja Tasks](photos/services/vikunja.png) |
+
+| Memos Schnelle Notizen | Wallos Abonnement-Tracker |
+| :---: | :---: |
+| ![Memos Note Stream](photos/services/memos.png) | ![Wallos Subscriptions](photos/services/wallos.png) |
+
+| Speedtest Tracker Kontinuierliche Messung | Homepage Dashboard |
+| :---: | :---: |
+| ![Speedtest Tracker](photos/services/speedtest.png) | ![Homepage Dashboard](photos/services/homepage.png) |
+
+| Flame Anwendungsstarter |  |
+| :---: | :---: |
+| ![Flame Launcher](photos/services/flame.png) |  |
+
+---
+
+### Spezialisierte Betriebssysteme & Telemetrie (Loki Telemetry & Runtime Logs)
+| Windows Server 2025 (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) |
+| :---: | :---: |
+| ![Windows Server 2025 Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
+
+| FreeBSD 15.1-RELEASE (VM 203 · Loki Telemetry) | OpenBSD 7.9 Bastion (VM 204 · Loki Telemetry) |
+| :---: | :---: |
+| ![FreeBSD 15.1 Telemetry](photos/services/vm-freebsd.png) | ![OpenBSD 7.9 Telemetry](photos/services/vm-openbsd.png) |
+
+| Talos Linux 1.7 (VM 205 · Loki Telemetry) | Proxmox Datacenter Manager (CT 147 · Loki Telemetry) |
+| :---: | :---: |
+| ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) |
+
+| Proxmox Mail Gateway (CT 148 · Loki Telemetry) |  |
+| :---: | :---: |
+| ![Proxmox Mail Gateway](photos/services/proxmox-mail-gateway.png) |  |
+
+---
+
+## Über den Autor
+
+Entwickelt, bereitgestellt und betrieben von **[@stefanutc1](https://github.com/stefanutc1)**.
+* **Schwerpunkt**: Infrastruktur-Engineering, hybride Virtualisierung (Proxmox VE x86_64 12GB DDR4-2133 und Apple Silicon ARM64), Zero-Trust-Netzwerksicherheit (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS-Filterung (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
+* **Zweck**: Technisches Portfolio zur Veranschaulichung moderner On-Premise- und Hybrid-Systemarchitekturen.

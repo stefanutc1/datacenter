@@ -202,7 +202,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: -30,
     color: '#94a3b8',
     icon: 'windows',
-    hardware: { node: 'pve (Intel i3-10100F)', ram: '4,096 MB', storage: '64 GB' },
+    hardware: { node: 'pve (Intel i3-10100F)', ram: '8,192 MB (Balloon: 4,096 MB)', storage: '120 GB' },
     tags: ['Active Directory', 'Windows Server', 'Group Policy GPO', 'Identity Provider'],
     role: 'Provides centralized enterprise identity management, Active Directory domain services, group policies, and Sysmon security telemetry.',
     connections: ['wazuh-siem']
