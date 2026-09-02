@@ -44,13 +44,15 @@ import { TranslationService } from '../../services/translation.service';
     @for (cat of getCategories(); track cat.id) {
      <button
       (click)="activeCategory = cat.id"
-      [class.bg-slate-200 text-slate-950 font-semibold]="activeCategory === cat.id"
+      [class.bg-slate-200]="activeCategory === cat.id"
       [class.text-slate-950]="activeCategory === cat.id"
-      [class.font-bold]="activeCategory === cat.id"
+      [class.font-semibold]="activeCategory === cat.id"
+      [class.border-slate-300]="activeCategory === cat.id"
       [class.text-slate-300]="activeCategory !== cat.id"
       [class.bg-obsidian-900]="activeCategory !== cat.id"
+      [class.border-obsidian-750]="activeCategory !== cat.id"
       [class.hover:text-slate-50]="activeCategory !== cat.id"
-      class="px-3.5 py-2 rounded-xl text-xs font-medium border border-obsidian-700 transition-all whitespace-nowrap"
+      class="px-3.5 py-2 rounded-xl text-xs font-medium border transition-all whitespace-nowrap"
      >
       {{ cat.label }} ({{ getCategoryCount(cat.id) }})
      </button>
