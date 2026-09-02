@@ -40,10 +40,10 @@ interface SearchResultItem {
 
           <!-- Quick Filters -->
           <div class="flex items-center gap-1.5 px-4 py-2 bg-obsidian-950/60 border-b border-obsidian-750 text-xs font-mono overflow-x-auto no-scrollbar">
-            <button (click)="activeFilter = 'all'" [class.text-emerald-400]="activeFilter === 'all'" [class.bg-emerald-500/10]="activeFilter === 'all'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">All</button>
-            <button (click)="activeFilter = 'service'" [class.text-emerald-400]="activeFilter === 'service'" [class.bg-emerald-500/10]="activeFilter === 'service'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">Services ({{ services.length }})</button>
+            <button (click)="activeFilter = 'all'" [class.text-emerald-400]="activeFilter === 'all'" [class.bg-emerald-500/10]="activeFilter === 'all'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">{{ ts.isRomanian ? "Toate" : "All" }}</button>
+            <button (click)="activeFilter = 'service'" [class.text-emerald-400]="activeFilter === 'service'" [class.bg-emerald-500/10]="activeFilter === 'service'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">{{ ts.isRomanian ? "Servicii" : "Services" }} ({{ services.length }})</button>
             <button (click)="activeFilter = 'hardware'" [class.text-emerald-400]="activeFilter === 'hardware'" [class.bg-emerald-500/10]="activeFilter === 'hardware'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">Hardware ({{ hardware.length }})</button>
-            <button (click)="activeFilter = 'command'" [class.text-emerald-400]="activeFilter === 'command'" [class.bg-emerald-500/10]="activeFilter === 'command'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">CLI Commands</button>
+            <button (click)="activeFilter = 'command'" [class.text-emerald-400]="activeFilter === 'command'" [class.bg-emerald-500/10]="activeFilter === 'command'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">{{ ts.isRomanian ? "Comenzi CLI" : "CLI Commands" }}</button>
           </div>
 
           <!-- Results List -->
@@ -85,10 +85,10 @@ interface SearchResultItem {
           <!-- Palette Footer -->
           <div class="p-3 bg-obsidian-950 border-t border-obsidian-750 text-[11px] font-mono text-slate-400 flex items-center justify-between">
             <div class="flex items-center gap-3">
-              <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↑↓</kbd> Navighează</span>
-              <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↵</kbd> Selectează</span>
+              <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↑↓</kbd> {{ ts.isRomanian ? "Navighează" : "Navigate" }}</span>
+              <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↵</kbd> {{ ts.isRomanian ? "Selectează" : "Select" }}</span>
             </div>
-            <span class="text-emerald-400">Homelab // Căutare Rapidă (⌘K)</span>
+            <span class="text-emerald-400">{{ ts.isRomanian ? "Homelab // Căutare Rapidă (⌘K)" : "Homelab // Quick Search (⌘K)" }}</span>
           </div>
 
         </div>

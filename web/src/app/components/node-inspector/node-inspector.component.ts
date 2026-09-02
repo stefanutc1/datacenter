@@ -172,7 +172,7 @@ import { TranslationService } from '../../services/translation.service';
                 <div class="flex items-center gap-3">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                   <div>
-                    <div class="text-[10px] text-slate-400 uppercase">Workload Node</div>
+                    <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? "Nod Workload" : "Workload Node" }}</div>
                     <div class="font-bold text-slate-100">{{ node.name }}</div>
                   </div>
                 </div>
@@ -183,7 +183,7 @@ import { TranslationService } from '../../services/translation.service';
                 <div class="flex items-center gap-3">
                   <span class="w-2.5 h-2.5 rounded-full bg-violet-500"></span>
                   <div>
-                    <div class="text-[10px] text-slate-400 uppercase">Virtualization Host</div>
+                    <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? "Gazdă Virtualizare" : "Virtualization Host" }}</div>
                     <div class="font-bold text-slate-100">{{ node.hardware?.node || 'Proxmox Core' }}</div>
                   </div>
                 </div>
@@ -194,7 +194,7 @@ import { TranslationService } from '../../services/translation.service';
                 <div class="flex items-center gap-3">
                   <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
                   <div>
-                    <div class="text-[10px] text-slate-400 uppercase">Security Boundary</div>
+                    <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? "Perimetru Securitate" : "Security Boundary" }}</div>
                     <div class="font-bold text-slate-100">OPNsense · Suricata IPS · Authelia</div>
                   </div>
                 </div>

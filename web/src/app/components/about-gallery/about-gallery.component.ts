@@ -6,10 +6,14 @@ import { SERVICES_DATA, ServiceItem } from '../../data/services.data';
 interface PhotoItem {
   src: string;
   title: string;
+  titleRo: string;
   category: string;
+  categoryRo: string;
   description: string;
+  descriptionRo: string;
   endpoint: string;
   badge: string;
+  badgeRo: string;
 }
 
 @Component({
@@ -24,7 +28,7 @@ interface PhotoItem {
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono mb-3">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span>PORTFOLIO & LIVE LAB GALLERY</span>
+            <span>{{ ts.isRomanian ? 'PORTOFOLIU & GALERIE LIVE' : 'PORTFOLIO & LIVE LAB GALLERY' }}</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal">
             {{ ts.isRomanian ? 'Despre Mine & Galeria Completă a Serviciilor' : 'About Me & Complete Services Fleet Gallery' }}
@@ -69,8 +73,11 @@ interface PhotoItem {
             </div>
           </div>
 
-          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs space-y-2.5 shadow-inner">
-            <div class="text-slate-400 uppercase text-[10px] tracking-wider font-bold mb-1">Endpoints Rețea Locală</div>
+          <!-- Quick Access Endpoints Box -->
+          <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs space-y-2.5">
+            <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider pb-1 border-b border-obsidian-800">
+              {{ ts.isRomanian ? 'Acces Rapid Panouri Web' : 'Quick Access Web Dashboards' }}
+            </div>
             <div class="flex justify-between items-center text-slate-300">
               <span class="text-slate-400">Grafana:</span>
               <a href="http://192.168.1.132:3000" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:3000</a>
@@ -100,7 +107,7 @@ interface PhotoItem {
         </div>
       </div>
 
-      <!-- Tab Switcher: Core Panels (16) vs All Services (83) -->
+      <!-- Tab Switcher: Core Panels (17) vs All Services (83) -->
       <div class="flex items-center justify-between gap-4 mb-8">
         <div class="flex items-center gap-2 font-mono text-xs">
           <button
@@ -129,7 +136,9 @@ interface PhotoItem {
         </div>
         
         <div class="hidden sm:block text-xs font-mono text-slate-400">
-          {{ galleryTab() === 'core' ? '16 Capturi Live (Hypervisori, VM-uri, Securitate)' : '83 Servicii Documentate & Capturate' }}
+          {{ galleryTab() === 'core' 
+            ? (ts.isRomanian ? '17 Capturi Live (Hypervisori, VM-uri, Securitate)' : '17 Live Captures (Hypervisors, Enterprise VMs, Security)') 
+            : (ts.isRomanian ? '83 Servicii Documentate & Capturate' : '83 Services Documented & Screened') }}
         </div>
       </div>
 
@@ -144,23 +153,23 @@ interface PhotoItem {
               <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
                 <img 
                   [src]="photo.src" 
-                  [alt]="photo.title"
+                  [alt]="ts.isRomanian ? photo.titleRo : photo.title"
                   class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
                 <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-emerald-400 shadow">
-                  {{ photo.badge }}
+                  {{ ts.isRomanian ? photo.badgeRo : photo.badge }}
                 </span>
               </div>
 
               <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
                 <div>
-                  <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">{{ photo.category }}</span>
+                  <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">{{ ts.isRomanian ? photo.categoryRo : photo.category }}</span>
                   <h4 class="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors mt-0.5">
-                    {{ photo.title }}
+                    {{ ts.isRomanian ? photo.titleRo : photo.title }}
                   </h4>
                   <p class="text-xs text-slate-300 font-sans mt-1.5 line-clamp-2 leading-relaxed">
-                    {{ photo.description }}
+                    {{ ts.isRomanian ? photo.descriptionRo : photo.description }}
                   </p>
                 </div>
                 <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
@@ -205,7 +214,7 @@ interface PhotoItem {
                 </div>
                 <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
                   <span>{{ s.ip }}:{{ s.port }}</span>
-                  <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">Panou HD ↗</span>
+                  <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
                 </div>
               </div>
             </div>
@@ -221,13 +230,13 @@ interface PhotoItem {
         >
           <div 
             (click)="$event.stopPropagation()"
-            class="max-w-5xl w-full bg-obsidian-900 border border-obsidian-750 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+            class="max-w-6xl w-full bg-obsidian-900 border border-obsidian-750 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
           >
             <!-- Modal Header -->
             <div class="p-4 sm:p-5 border-b border-obsidian-750 flex items-center justify-between bg-obsidian-950 font-sans">
               <div>
-                <span class="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">{{ p.category }}</span>
-                <h3 class="text-lg font-bold text-slate-100">{{ p.title }}</h3>
+                <span class="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">{{ ts.isRomanian ? p.categoryRo : p.category }}</span>
+                <h3 class="text-lg font-bold text-slate-100">{{ ts.isRomanian ? p.titleRo : p.title }}</h3>
               </div>
               <button 
                 (click)="selectedPhoto.set(null)"
@@ -239,13 +248,16 @@ interface PhotoItem {
 
             <!-- Modal Image -->
             <div class="flex-1 overflow-auto p-2 bg-black flex items-center justify-center">
-              <img [src]="p.src" [alt]="p.title" class="max-w-full max-h-[65vh] object-contain rounded-lg" />
+              <img [src]="p.src" [alt]="ts.isRomanian ? p.titleRo : p.title" class="max-w-full max-h-[70vh] object-contain rounded-lg" />
             </div>
 
-            <!-- Modal Footer Details -->
+            <!-- Modal Footer -->
             <div class="p-4 sm:p-5 border-t border-obsidian-750 bg-obsidian-950 font-sans text-xs text-slate-300 flex flex-col sm:flex-row justify-between gap-3">
-              <p class="leading-relaxed max-w-2xl">{{ p.description }}</p>
-              <div class="font-mono text-emerald-400 self-start sm:self-auto">{{ p.endpoint }}</div>
+              <p class="leading-relaxed max-w-3xl">{{ ts.isRomanian ? p.descriptionRo : p.description }}</p>
+              <div class="font-mono text-emerald-400 self-start sm:self-auto flex items-center gap-2">
+                <span>{{ p.endpoint }}</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-[10px]">{{ ts.isRomanian ? p.badgeRo : p.badge }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -264,138 +276,206 @@ export class AboutGalleryComponent {
     {
       src: 'photos/grafana_nodes_dashboard.png',
       title: 'Grafana · Multi-Architecture Nodes (12GB x86_64 & ARM64)',
+      titleRo: 'Grafana · Noduri Multi-Arhitectură (12GB x86_64 & ARM64)',
       category: 'OBSERVABILITY & METRICS',
-      description: 'Unified Grafana Enterprise dashboard tracking Proxmox VE hypervisors (Intel i3-10100F with 12GB DDR4-2133 and Apple Silicon M1), 8-thread CPU timeline, ZRAM compression (6.0GB), and container telemetry in English.',
+      categoryRo: 'OBSERVABILITATE & METRICI',
+      description: 'Unified Grafana Enterprise dashboard tracking Proxmox VE hypervisors (Intel i3-10100F with 12GB DDR4-2133 and Apple Silicon M1), 8-thread CPU timeline, ZRAM compression (6.0GB), and container telemetry.',
+      descriptionRo: 'Dashboard unificat Grafana Enterprise ce monitorizează hypervisorii Proxmox VE (Intel i3-10100F cu 12GB DDR4-2133 și Apple Silicon M1), cronologie CPU 8 fire, compresie ZRAM (6.0GB) și telemetrie containere.',
       endpoint: '192.168.1.132:3000',
-      badge: 'GRAFANA LIVE'
+      badge: 'GRAFANA LIVE',
+      badgeRo: 'GRAFANA LIVE'
     },
     {
       src: 'photos/grafana_opnsense_dashboard.png',
       title: 'Grafana · OPNsense Perimeter Firewall & Threat Intel',
+      titleRo: 'Grafana · Firewall Perimetral OPNsense & Threat Intel',
       category: 'OBSERVABILITY & SECURITY',
+      categoryRo: 'OBSERVABILITATE & SECURITATE',
       description: 'Real-time security telemetry: Suricata 8.0 NIDS/IPS engine status, CrowdSec LAPI bouncer packet filter drops, Unbound DNS-over-TLS Quad9 resolver, and WAN/Inter-VLAN throughput.',
+      descriptionRo: 'Telemetrie de securitate în timp real: status motor NIDS/IPS Suricata 8.0, blocări packet filter prin bouncerul CrowdSec LAPI, resolver Unbound DNS-over-TLS Quad9 și debit WAN/Inter-VLAN.',
       endpoint: '192.168.1.132:3000',
-      badge: 'SECURITY LIVE'
+      badge: 'SECURITY LIVE',
+      badgeRo: 'SECURITATE LIVE'
     },
     {
       src: 'photos/proxmox_ve_dashboard.png',
       title: 'Proxmox VE 9.2.10 · Primary x86_64 Hypervisor (12GB RAM)',
+      titleRo: 'Proxmox VE 9.2.10 · Hypervisor Primar x86_64 (12GB RAM)',
       category: 'VIRTUALIZATION & HYPERVISOR',
+      categoryRo: 'VIRTUALIZARE & HYPERVISOR',
       description: 'Native Proxmox VE Node Summary on Node 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), managing KVM virtual machines (VM 200-205) and active LXC containers.',
+      descriptionRo: 'Panoul nativ Proxmox VE Node Summary pe Nodul 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), administrând mașinile virtuale KVM (VM 200-205) și containerele LXC active.',
       endpoint: '192.168.1.132:8006',
-      badge: 'PVE 12GB RAM'
+      badge: 'PVE 12GB RAM',
+      badgeRo: 'PVE 12GB RAM'
     },
     {
       src: 'photos/proxmox_arm64_dashboard.png',
       title: 'Proxmox VE 9.2.9 · Secondary ARM64 Node (Apple Silicon M1)',
+      titleRo: 'Proxmox VE 9.2.9 · Nod Secundar ARM64 (Apple Silicon M1)',
       category: 'VIRTUALIZATION & ARM64',
+      categoryRo: 'VIRTUALIZARE & ARM64',
       description: 'Proxmox VE running on Apple Silicon M1 ARM64 UTM, orchestrating 48 microservice LXC containers (it-tools, gitea, woodpecker-ci, authelia, vaultwarden, stepca, ntfy, etc.).',
+      descriptionRo: 'Proxmox VE rulat pe Apple Silicon M1 ARM64 UTM, orchestrând 48 de containere LXC de microservicii (it-tools, gitea, woodpecker-ci, authelia, vaultwarden, stepca, ntfy etc.).',
       endpoint: '192.168.64.14:8006',
-      badge: 'PVE ARM64'
+      badge: 'PVE ARM64',
+      badgeRo: 'PVE ARM64'
     },
     {
       src: 'photos/services/vm-windows.png',
       title: 'Windows Server 2025 Datacenter · Active Directory & GPU (VM 201)',
+      titleRo: 'Windows Server 2025 Datacenter · Active Directory & GPU (VM 201)',
       category: 'ENTERPRISE VIRTUALIZATION & KVM',
-      description: 'Windows Server 2025 Datacenter running Server Manager Dashboard with Active Directory Domain Services, Group Policies, and GTX 1050 Ti PCIe Passthrough acceleration.',
+      categoryRo: 'VIRTUALIZARE ENTERPRISE & KVM',
+      description: 'Windows Server 2025 Datacenter running Server Manager Dashboard with Active Directory Domain Services, Group Policies, and GTX 1050 Ti PCIe Passthrough acceleration (Ballooning: 4-8 GB).',
+      descriptionRo: 'Windows Server 2025 Datacenter rulând Server Manager Dashboard cu Active Directory Domain Services, Group Policies și accelerare GTX 1050 Ti prin PCIe Passthrough (Ballooning: 4-8 GB).',
       endpoint: '192.168.1.201 (RDP 3389 / KVM)',
-      badge: 'WIN SERVER 2025'
+      badge: 'WIN SERVER 2025',
+      badgeRo: 'WIN SERVER 2025'
     },
     {
       src: 'photos/services/vm-rhel.png',
       title: 'Red Hat Enterprise Linux 9.8 · SELinux & Podman (VM 202)',
+      titleRo: 'Red Hat Enterprise Linux 9.8 · SELinux & Podman (VM 202)',
       category: 'ENTERPRISE VIRTUALIZATION & LINUX',
-      description: 'RHEL 9.8 running in SELinux Enforcing mode with Podman quadlet containers and enterprise workload isolation under VirtIO ballooning memory optimization.',
+      categoryRo: 'VIRTUALIZARE ENTERPRISE & LINUX',
+      description: 'RHEL 9.8 running in SELinux Enforcing mode with Podman quadlet containers and enterprise workload isolation under VirtIO ballooning memory optimization (1-2 GB).',
+      descriptionRo: 'RHEL 9.8 rulând în mod SELinux Enforcing cu containere Podman quadlet și izolare a serviciilor enterprise sub optimizare de memorie prin VirtIO ballooning (1-2 GB).',
       endpoint: '192.168.1.202 (SSH 22 / KVM)',
-      badge: 'RHEL 9.8'
+      badge: 'RHEL 9.8',
+      badgeRo: 'RHEL 9.8'
     },
     {
       src: 'photos/services/vm-freebsd.png',
       title: 'FreeBSD 15.1-RELEASE · OpenZFS Storage & Jails (VM 203)',
+      titleRo: 'FreeBSD 15.1-RELEASE · Stocare OpenZFS & Jails (VM 203)',
       category: 'UNIX VIRTUALIZATION & BSD',
-      description: 'FreeBSD 15.1-RELEASE kernel running an OpenZFS storage pool, VNET jail network sandboxes, and POSIX-compliant microservices.',
+      categoryRo: 'VIRTUALIZARE UNIX & BSD',
+      description: 'FreeBSD 15.1-RELEASE kernel running an OpenZFS storage pool, VNET jail network sandboxes, and POSIX-compliant microservices (Ballooning: 512 MB - 1 GB).',
+      descriptionRo: 'Kernel FreeBSD 15.1-RELEASE ce rulează un pool de stocare OpenZFS, sandbox-uri de rețea VNET jail și microservicii POSIX conforme (Ballooning: 512 MB - 1 GB).',
       endpoint: '192.168.1.203 (SSH 22 / KVM)',
-      badge: 'FREEBSD 15.1'
+      badge: 'FREEBSD 15.1',
+      badgeRo: 'FREEBSD 15.1'
     },
     {
       src: 'photos/services/vm-openbsd.png',
       title: 'OpenBSD 7.9 Bastion · Packet Filter & unveil/pledge (VM 204)',
+      titleRo: 'OpenBSD 7.9 Bastion · Packet Filter & unveil/pledge (VM 204)',
       category: 'CYBERSECURITY & BASTION HOST',
-      description: 'Ultra-secure OpenBSD 7.9 hardened bastion gateway utilizing Packet Filter (pf), kernel unveil/pledge system call restrictions, and SSH certificate-based authentication.',
+      categoryRo: 'SECURITATE CIBERNETICĂ & BASTION',
+      description: 'Ultra-secure OpenBSD 7.9 hardened bastion gateway utilizing Packet Filter (pf), kernel unveil/pledge system call restrictions, and SSH certificate-based authentication (Ballooning: 512 MB - 1 GB).',
+      descriptionRo: 'Gateway bastion ultra-securizat OpenBSD 7.9 cu Packet Filter (pf), restricții pe apeluri kernel unveil/pledge și autentificare SSH pe bază de certificate (Ballooning: 512 MB - 1 GB).',
       endpoint: '192.168.1.204 (SSH 22 / KVM)',
-      badge: 'OPENBSD 7.9'
+      badge: 'OPENBSD 7.9',
+      badgeRo: 'OPENBSD 7.9'
     },
     {
       src: 'photos/services/vm-talos.png',
       title: 'Talos Linux 1.7 · Immutable API-Driven Kubernetes Node (VM 205)',
+      titleRo: 'Talos Linux 1.7 · Nod Kubernetes Imutabil Gestionat prin API (VM 205)',
       category: 'KUBERNETES & CLOUD-NATIVE',
-      description: 'Production-ready immutable minimal OS designed exclusively for Kubernetes with no SSH access, purely managed via talosctl and Cilium eBPF CNI.',
+      categoryRo: 'KUBERNETES & CLOUD-NATIVE',
+      description: 'Production-ready immutable minimal OS designed exclusively for Kubernetes with no SSH access, purely managed via talosctl and Cilium eBPF CNI (Ballooning: 1-2 GB).',
+      descriptionRo: 'Sistem de operare imutabil minimal proiectat dedicat pentru Kubernetes fără acces SSH, administrat exclusiv prin talosctl și Cilium eBPF CNI (Ballooning: 1-2 GB).',
       endpoint: '192.168.1.140:50000 (talosctl / K8s)',
-      badge: 'TALOS LINUX'
+      badge: 'TALOS LINUX',
+      badgeRo: 'TALOS LINUX'
     },
     {
       src: 'photos/services/opnsense.png',
       title: 'OPNsense 26.1 Hardened · Core Firewall Console (VM 200)',
+      titleRo: 'OPNsense 26.1 Hardened · Consolă Firewall Central (VM 200)',
       category: 'FIREWALL & CORE GATEWAY',
+      categoryRo: 'FIREWALL & GATEWAY CENTRAL',
       description: 'Live text console of OPNsense FreeBSD perimeter firewall managing WAN DHCP (192.168.1.134), inter-VLAN routing, and hardware interface bindings.',
+      descriptionRo: 'Consola text în timp real a firewall-ului perimetral OPNsense FreeBSD ce gestionează WAN DHCP (192.168.1.134), rutarea inter-VLAN și legăturile hardware de rețea.',
       endpoint: '192.168.1.134:8443 (Console / Web)',
-      badge: 'OPNSENSE CORE'
+      badge: 'OPNSENSE CORE',
+      badgeRo: 'OPNSENSE CORE'
     },
     {
       src: 'photos/pihole_admin_dashboard.png',
       title: 'Pi-hole · DNS Sinkhole & Network Ad-Blocking',
+      titleRo: 'Pi-hole · Filtrare DNS & Blocare Reclame la Nivel de Rețea',
       category: 'DNS & NETWORK PRIVACY',
+      categoryRo: 'DNS & CONFIDENȚIALITATE REȚEA',
       description: 'Network-wide DNS filter blocking telemetry and malware domains with FTL engine, tracking query statistics, client activity, and 89,947 gravity blocked domains.',
+      descriptionRo: 'Filtru DNS la nivelul întregii rețele ce blochează domeniile de telemetrie și malware cu motorul FTL, urmărind statisticile interogărilor și 89.947 domenii blocate în gravity.',
       endpoint: '192.168.1.4:8080',
-      badge: 'PI-HOLE DNS'
+      badge: 'PI-HOLE DNS',
+      badgeRo: 'PI-HOLE DNS'
     },
     {
       src: 'photos/homeassistant_dashboard.png',
       title: 'Home Assistant · IoT Automation & Control Hub',
+      titleRo: 'Home Assistant · Hub de Automatizare & Control IoT',
       category: 'HOME AUTOMATION & IOT',
+      categoryRo: 'AUTOMATIZARE LOCUINȚĂ & IOT',
       description: 'Centralized home automation and smart IoT controller running in containerized environment on Node 1 with Lovelace user interface and multi-room management.',
+      descriptionRo: 'Controler centralizat de automatizare și IoT inteligent rulat în mediu containerizat pe Nodul 1 cu interfață Lovelace și administrare multi-cameră.',
       endpoint: '192.168.1.10:8123',
-      badge: 'HOME ASSISTANT'
+      badge: 'HOME ASSISTANT',
+      badgeRo: 'HOME ASSISTANT'
     },
     {
       src: 'photos/opnsense_vlan_segmentation.png',
       title: 'OPNsense · 802.1Q VLAN Micro-Segmentation',
+      titleRo: 'OPNsense · Micro-Segmentare VLAN 802.1Q',
       category: 'ZERO-TRUST NETWORKING & VLANS',
+      categoryRo: 'REȚELE ZERO-TRUST & VLANS',
       description: 'Interfaces: Other Types: VLAN overview configuring 5 isolated 802.1Q subnets (Management 10, Services 20, CyberLab 30, DMZ 40, IoT 50) with default-deny pf packet filtering.',
+      descriptionRo: 'Panoul Interfaces: Other Types: VLAN ce configurează 5 subrețele izolate 802.1Q (Management 10, Servicii 20, CyberLab 30, DMZ 40, IoT 50) cu filtrare implicită default-deny.',
       endpoint: '192.168.1.134:8443',
-      badge: '802.1Q VLANS'
+      badge: '802.1Q VLANS',
+      badgeRo: '802.1Q VLANS'
     },
     {
       src: 'photos/opnsense_suricata_defense.png',
       title: 'OPNsense · Suricata 8.0 NIDS/IPS Engine',
+      titleRo: 'OPNsense · Motor NIDS/IPS Suricata 8.0',
       category: 'CYBERSECURITY & THREAT DETECTION',
+      categoryRo: 'SECURITATE CIBERNETICĂ & DETECȚIE AMENINȚĂRI',
       description: 'Suricata Intrusion Detection System running in promiscuous PCAP live mode across WAN and VLAN interfaces with ET Open rules active.',
+      descriptionRo: 'Sistemul de detecție a intruziunilor Suricata rulând în mod promiscuu PCAP live pe interfețele WAN și VLAN cu setul de reguli ET Open activ.',
       endpoint: '192.168.1.134:8443',
-      badge: 'SURICATA IDS'
+      badge: 'SURICATA IDS',
+      badgeRo: 'SURICATA IDS'
     },
     {
       src: 'photos/opnsense_firewall_rules.png',
       title: 'OPNsense · VLAN Micro-Segmentation Policies (pf)',
+      titleRo: 'OPNsense · Politici Micro-Segmentare VLAN (pf)',
       category: 'NETWORK SECURITY',
-      description: 'Strict packet filter (pf) rules enforcing zero-trust isolation between VLAN 10 (Management), 20 (Services), 30 (IoT), 40 (DMZ), and 50 (Storage).',
+      categoryRo: 'SECURITATE DE REȚEA',
+      description: 'Strict packet filter (pf) rules enforcing zero-trust isolation between VLAN 10 (Management), 20 (Services), 30 (CyberLab), 40 (DMZ), and 50 (IoT).',
+      descriptionRo: 'Reguli stricte de packet filter (pf) ce impun izolarea zero-trust între VLAN 10 (Management), 20 (Servicii), 30 (CyberLab), 40 (DMZ) și 50 (IoT).',
       endpoint: '192.168.1.134:8443',
-      badge: 'PF RULES'
+      badge: 'PF RULES',
+      badgeRo: 'REGULI PF'
     },
     {
       src: 'photos/opnsense_wireguard_vpn.png',
       title: 'OPNsense · WireGuard Kernel VPN Mesh',
+      titleRo: 'OPNsense · Tunel Criptografic WireGuard Kernel Mesh',
       category: 'ZERO-TRUST NETWORKING',
+      categoryRo: 'REȚELE ZERO-TRUST',
       description: 'High-speed in-kernel WireGuard cryptographic tunnel providing remote zero-trust access into the homelab private subnet.',
+      descriptionRo: 'Tunel criptografic de mare viteză direct în kernelul FreeBSD WireGuard ce oferă acces securizat zero-trust în subrețeaua privată a homelab-ului.',
       endpoint: '192.168.1.134:8443',
-      badge: 'WIREGUARD VPN'
+      badge: 'WIREGUARD VPN',
+      badgeRo: 'WIREGUARD VPN'
     },
     {
       src: 'photos/opnsense_unbound_dns.png',
       title: 'OPNsense · Unbound DNS-over-TLS (DoT)',
+      titleRo: 'OPNsense · Unbound DNS-over-TLS (DoT)',
       category: 'PRIVACY & DNSSEC',
+      categoryRo: 'CONFIDENȚIALITATE & DNSSEC',
       description: 'Encrypted recursive DNS resolver forwarding port 853 queries to Quad9 and Cloudflare with strict DNSSEC validation.',
+      descriptionRo: 'Resolver DNS recursiv criptat ce redirecționează interogările pe portul 853 către Quad9 și Cloudflare cu validare strictă DNSSEC.',
       endpoint: '192.168.1.134:8443',
-      badge: 'DOT QUAD9'
+      badge: 'DOT QUAD9',
+      badgeRo: 'DOT QUAD9'
     }
   ];
 
@@ -403,10 +483,14 @@ export class AboutGalleryComponent {
     this.selectedPhoto.set({
       src: 'photos/services/' + s.id + '.png',
       title: s.name,
+      titleRo: s.name,
       category: s.category.toUpperCase() + ' · ' + s.node,
+      categoryRo: s.category.toUpperCase() + ' · ' + s.node,
       description: s.description,
+      descriptionRo: s.description,
       endpoint: s.ip + ':' + s.port + ' | ' + s.domain,
-      badge: s.status
+      badge: s.status,
+      badgeRo: s.status
     });
   }
 }

@@ -105,7 +105,7 @@ import { TranslationService } from '../../services/translation.service';
 
               <!-- Description -->
               <p class="text-xs text-slate-300 leading-relaxed font-sans font-normal line-clamp-2">
-                {{ srv.description }}
+                {{ (ts.isRomanian && srv.descriptionRo) ? srv.descriptionRo : srv.description }}
               </p>
 
               <!-- Tags -->
@@ -145,7 +145,7 @@ import { TranslationService } from '../../services/translation.service';
                 (click)="selectedServicePhoto.set(srv)"
                 class="text-xs text-slate-300 hover:text-emerald-400 flex items-center gap-1 transition-colors"
               >
-                <span>🔍 Panou HD</span>
+                <span>{{ ts.isRomanian ? '🔍 Panou HD' : '🔍 HD Panel' }}</span>
               </button>
               
               <button
@@ -197,7 +197,7 @@ import { TranslationService } from '../../services/translation.service';
 
             <!-- Modal Footer Details -->
             <div class="p-4 sm:p-5 border-t border-obsidian-750 bg-obsidian-950 font-sans text-xs text-slate-300 flex flex-col sm:flex-row justify-between gap-3">
-              <p class="leading-relaxed max-w-2xl">{{ s.description }}</p>
+              <p class="leading-relaxed max-w-2xl">{{ (ts.isRomanian && s.descriptionRo) ? s.descriptionRo : s.description }}</p>
               <div class="font-mono text-emerald-400 self-start sm:self-auto flex items-center gap-2">
                 <span>{{ s.ip }}:{{ s.port }}</span>
                 <span class="text-slate-500">|</span>

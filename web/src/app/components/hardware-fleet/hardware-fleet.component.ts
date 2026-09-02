@@ -34,13 +34,13 @@ import { TranslationService } from '../../services/translation.service';
               <div class="flex items-start justify-between gap-3 border-b border-obsidian-750 pb-4">
                 <div>
                   <div class="text-[11px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
-                    {{ hw.machine }}
+                    {{ (ts.isRomanian && hw.machineRo) ? hw.machineRo : hw.machine }}
                   </div>
                   <h3 class="text-xl font-serif font-bold text-slate-50 group-hover:text-emerald-400 transition-colors mt-0.5">
                     {{ hw.name }}
                   </h3>
                   <div class="text-xs text-slate-300 font-sans mt-1">
-                    {{ hw.role }}
+                    {{ (ts.isRomanian && hw.roleRo) ? hw.roleRo : hw.role }}
                   </div>
                 </div>
                 <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex-shrink-0">
@@ -80,7 +80,7 @@ import { TranslationService } from '../../services/translation.service';
 
                 @if (hw.zram) {
                   <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 col-span-2">
-                    <div class="text-[10px] text-emerald-400 uppercase font-bold">⚡ ZRAM / ZSWAP Fast RAM Compression</div>
+                    <div class="text-[10px] text-emerald-400 uppercase font-bold">{{ ts.isRomanian ? "⚡ Compresie Rapidă RAM ZRAM / ZSWAP" : "⚡ ZRAM / ZSWAP Fast RAM Compression" }}</div>
                     <div class="text-xs font-bold text-slate-100 mt-0.5 truncate" [title]="hw.zram">{{ hw.zram }}</div>
                   </div>
                 }
@@ -97,7 +97,7 @@ import { TranslationService } from '../../services/translation.service';
               <!-- Tags -->
               @if (hw.tags && hw.tags.length > 0) {
                 <div class="flex flex-wrap gap-1.5 pt-1">
-                  @for (t of hw.tags; track t) {
+                  @for (t of (ts.isRomanian && hw.tagsRo ? hw.tagsRo : hw.tags); track t) {
                     <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-obsidian-900 border border-obsidian-700 text-slate-300">
                       #{{ t }}
                     </span>
@@ -109,23 +109,23 @@ import { TranslationService } from '../../services/translation.service';
               @if (hw.ballooningTable && hw.ballooningTable.length > 0) {
                 <div class="space-y-2 pt-2 font-mono">
                   <div class="text-xs uppercase tracking-wider text-emerald-400 font-bold flex items-center justify-between">
-                    <span>QEMU VirtIO Ballooning (6 VMs)</span>
-                    <span class="text-[10px] text-slate-400 font-normal">Min → Max Dynamic RAM</span>
+                    <span>{{ ts.isRomanian ? "Balonare Dinamică VirtIO QEMU (6 VM-uri)" : "QEMU VirtIO Ballooning (6 VMs)" }}</span>
+                    <span class="text-[10px] text-slate-400 font-normal">{{ ts.isRomanian ? "RAM Dinamic (Min → Max)" : "Min → Max Dynamic RAM" }}</span>
                   </div>
                   <div class="overflow-x-auto rounded-xl border border-obsidian-750 bg-obsidian-900/90 p-2">
                     <table class="w-full text-left text-[11px]">
                       <thead>
                         <tr class="border-b border-obsidian-750 text-slate-400 text-[10px] uppercase">
                           <th class="pb-1.5">VM</th>
-                          <th class="pb-1.5">OS / Purpose</th>
-                          <th class="pb-1.5 text-right">Balloon (Min → Max)</th>
+                          <th class="pb-1.5">{{ ts.isRomanian ? "Sistem de Operare / Scop" : "OS / Purpose" }}</th>
+                          <th class="pb-1.5 text-right">{{ ts.isRomanian ? "Alocare Balon (Min → Max)" : "Balloon (Min → Max)" }}</th>
                         </tr>
                       </thead>
                       <tbody class="divide-y divide-obsidian-750/50">
                         @for (vm of hw.ballooningTable; track vm.vmid) {
                           <tr>
                             <td class="py-1.5 font-bold text-emerald-400">VM {{ vm.vmid }} ({{ vm.name }})</td>
-                            <td class="py-1.5 text-slate-300 truncate max-w-[160px]">{{ vm.purpose }}</td>
+                            <td class="py-1.5 text-slate-300 truncate max-w-[160px]">{{ (ts.isRomanian && vm.purposeRo) ? vm.purposeRo : vm.purpose }}</td>
                             <td class="py-1.5 text-right font-mono text-slate-100">{{ vm.balloonMinMb }} MB → {{ vm.allocatedMb }} MB</td>
                           </tr>
                         }

@@ -11,6 +11,7 @@ export interface ServiceItem {
   domain: string;
   status: 'ONLINE' | 'STANDBY';
   description: string;
+  descriptionRo?: string;
   tags: string[];
   color: string;
   icon: string;
@@ -31,6 +32,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "grafana.homelab.local",
     "status": "ONLINE",
     "description": "Centralized visualization and alerting platform with pre-provisioned Prometheus & Loki data sources and multi-node infrastructure telemetry dashboards.",
+    "descriptionRo": "Platformă centralizată de vizualizare și alertare cu surse de date pre-configurate Prometheus & Loki și dashboard-uri de telemetrie multi-nod.",
     "tags": [
         "Grafana",
         "Visualization",
@@ -55,6 +57,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "prometheus.homelab.local",
     "status": "ONLINE",
     "description": "High-throughput metric collector scraping all homelab targets: x86_64 PVE, Apple M1 ARM64 PVE, OPNsense Telegraf, OMV NAS, and Kubernetes worker.",
+    "descriptionRo": "Bază de date time-series de înaltă performanță pentru colectarea metricilor de infrastructură, praguri de alertare și telemetrie a containerelor.",
     "tags": [
         "Prometheus",
         "TSDB",
@@ -78,6 +81,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "loki.homelab.local",
     "status": "ONLINE",
     "description": "Horizontally scalable, multi-tenant log aggregation system indexing metadata and log streams across all containers, hypervisors, and OPNsense.",
+    "descriptionRo": "Sistem distribuit de agregare a logurilor optimizat pentru containere LXC și evenimente kernel, integrat nativ cu Grafana.",
     "tags": [
         "Loki",
         "Log Aggregation",
@@ -101,6 +105,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "opnsense.homelab.local",
     "status": "ONLINE",
     "description": "Perimeter stateful packet filtering, inter-VLAN routing, and security policy enforcement across all 5 isolated network zones.",
+    "descriptionRo": "Firewall central de perimetru bazat pe FreeBSD cu rutare inter-VLAN, stateful packet filtering și inspecție avansată.",
     "tags": [
         "Perimeter Firewall",
         "Stateful Filter",
@@ -124,6 +129,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "suricata.homelab.local",
     "status": "ONLINE",
     "description": "High-performance network intrusion detection and prevention system inspecting live packet streams against Emerging Threats (ET) rulesets.",
+    "descriptionRo": "Motor de detecție și prevenire a intruziunilor NIDS/IPS Suricata 8.0 ce analizează pachetele de rețea în timp real.",
     "tags": [
         "Suricata IDS/IPS",
         "Packet Inspection",
@@ -147,6 +153,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "crowdsec.homelab.local",
     "status": "ONLINE",
     "description": "Collaborative IP reputation engine and packet filter (pf) bouncer blocking automated attacks, scanners, and brute-force attempts in real time.",
+    "descriptionRo": "Sistem de securitate colaborativă ce blochează automat adresele IP malițioase direct în tabela de filtrare packet filter.",
     "tags": [
         "CrowdSec",
         "Firewall Bouncer",
@@ -285,6 +292,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "frr.homelab.local",
     "status": "ONLINE",
     "description": "Dynamic BGP route advertisement exchanging VIPs with Kubernetes MetalLB and Cilium LoadBalancers for zero-touch service routing.",
+    "descriptionRo": "Daemon de rutare dinamică BGP/OSPF pentru orchestrarea IP-urilor LoadBalancer din clusterul Kubernetes.",
     "tags": [
         "FRRouting",
         "BGP Peering",
@@ -331,6 +339,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "unbound.homelab.local",
     "status": "ONLINE",
     "description": "Validating recursive DNS resolver with DNS-over-TLS (DoT), split-horizon routing for internal cluster domains, and DNSSEC cryptographic verification.",
+    "descriptionRo": "Resolver DNS recursiv criptat prin DNS-over-TLS (DoT) către Quad9 cu suport complet DNSSEC.",
     "tags": [
         "Unbound DNS",
         "DNSSEC",
@@ -400,6 +409,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "npm.homelab.local",
     "status": "ONLINE",
     "description": "Routes incoming web traffic across internal services while automatically provisioning and renewing Let's Encrypt SSL/TLS certificates.",
+    "descriptionRo": "Ingress reverse proxy bazat pe Nginx cu generare automată a certificatelor Let's Encrypt SSL/TLS și redirecționare WebSocket.",
     "tags": [
       "Reverse Proxy",
       "SSL / TLS",
@@ -423,6 +433,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "pihole.homelab.local",
     "status": "ONLINE",
     "description": "Protects the entire local network by blocking advertising and tracking domains at the DNS level before they reach client devices.",
+    "descriptionRo": "Filtru DNS de rețea ce blochează reclamele, telemetria și domeniile malware folosind motorul FTL și liste actualizate Gravity.",
     "tags": [
       "DNS Sinkhole",
       "Ad Blocking",
@@ -446,6 +457,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "tailscale.homelab.local",
     "status": "ONLINE",
     "description": "Establishes an encrypted peer-to-peer WireGuard mesh overlay that allows secure remote access to internal subnets without opening public ports.",
+    "descriptionRo": "Nod Mesh VPN WireGuard zero-configurație pe nodul x86_64 ce oferă rutare securizată pentru toate subrețelele interne.",
     "tags": [
       "Mesh VPN",
       "WireGuard",
@@ -469,6 +481,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "vpn.homelab.local",
     "status": "ONLINE",
     "description": "Provides an intuitive dashboard for quickly generating WireGuard client profiles, downloading QR codes, and monitoring active tunnel connections.",
+    "descriptionRo": "Interfață web simplă și sigură pentru administrarea clienților și a tunelurilor VPN WireGuard la nivel de kernel.",
     "tags": [
       "VPN Server",
       "WireGuard",
@@ -492,6 +505,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "cloud.homelab.local",
     "status": "ONLINE",
     "description": "Hosts a private productivity workspace for cross-device file synchronization, calendar management, and collaborative document editing.",
+    "descriptionRo": "Platformă completă de cloud privat self-hosted pentru sincronizare fișiere, calendar, contacte și colaborare securizată.",
     "tags": [
       "Cloud Storage",
       "File Sync",
@@ -515,6 +529,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "docs.homelab.local",
     "status": "ONLINE",
     "description": "Digitizes and indexes physical documents by applying automated optical character recognition (OCR) and machine learning classification.",
+    "descriptionRo": "Sistem avansat de management al documentelor digitale cu scanare OCR automată, taguri inteligente și indexare Meilisearch.",
     "tags": [
       "Document Archive",
       "OCR Recognition",
@@ -538,6 +553,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "s3.homelab.local",
     "status": "ONLINE",
     "description": "Delivers high-throughput S3-compatible object storage for application backups, media assets, and persistent container buckets.",
+    "descriptionRo": "Stocare de obiecte compatibilă cu API-ul Amazon S3 de înaltă performanță pentru backup-uri și fișiere media.",
     "tags": [
       "Object Storage",
       "S3 Protocol",
@@ -561,6 +577,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "backup.homelab.local",
     "status": "ONLINE",
     "description": "Creates encrypted point-in-time snapshots with client-side deduplication and automated replication to off-site repositories.",
+    "descriptionRo": "Utilitar de backup rapid și securizat cu criptare client-side, deduplicare la nivel de bloc și snapshot-uri incrementale.",
     "tags": [
       "Encrypted Backups",
       "Deduplication",
@@ -584,6 +601,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "ollama.homelab.local",
     "status": "ONLINE",
     "description": "Executes localized open-weights large language models directly on the dedicated NVIDIA GTX 1050 Ti GPU for private reasoning and code generation.",
+    "descriptionRo": "Motor de inferență LLM local accelerat pe GPU NVIDIA GTX 1050 Ti, ce rulează modele deschise precum Qwen2.5 și Llama-3.2.",
     "tags": [
       "Local AI",
       "GPU Acceleration",
@@ -607,6 +625,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "chat.homelab.local",
     "status": "ONLINE",
     "description": "Provides a clean, conversational web frontend for interacting with local Ollama models and organizing customized AI prompts.",
+    "descriptionRo": "Interfață web completă și prietenoasă pentru modelele Ollama, cu suport pentru documente RAG, web search și multi-turn chat.",
     "tags": [
       "AI Interface",
       "Chatbot UI",
@@ -630,6 +649,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "whisper.homelab.local",
     "status": "ONLINE",
     "description": "Converts voice recordings and audio streams into accurate text transcripts using hardware-accelerated OpenAI Whisper neural networks.",
+    "descriptionRo": "Motor ultra-rapid de transcriere automată voce-în-text (Faster-Whisper) accelerat pe placa grafică GTX 1050 Ti.",
     "tags": [
       "Speech-to-Text",
       "Audio Transcription",
@@ -653,6 +673,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "flowise.homelab.local",
     "status": "ONLINE",
     "description": "Enables visual drag-and-drop construction of autonomous multi-agent systems, document search chains, and custom LangChain flows.",
+    "descriptionRo": "Constructor vizual low-code pentru crearea de agenți AI, fluxuri LangChain și automatizări bazate pe modele de limbaj.",
     "tags": [
       "AI Agents",
       "Visual Workflow",
@@ -676,6 +697,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "pdf.homelab.local",
     "status": "ONLINE",
     "description": "Offers an offline, privacy-first web utility suite for merging, splitting, converting, signing, and running OCR on PDF documents.",
+    "descriptionRo": "Suită completă de instrumente PDF locale pentru divizare, combinare, conversie, semnare și OCR securizat.",
     "tags": [
       "PDF Utilities",
       "Document Conversion",
@@ -699,6 +721,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "kavita.homelab.local",
     "status": "ONLINE",
     "description": "Organizes and serves digital books, manga series, and comic archives with progress tracking across desktop and mobile devices.",
+    "descriptionRo": "Server modern și elegant de cărți electronice, benzi desenate (manga/comics) și documente PDF cu cititor integrat.",
     "tags": [
       "E-Book Reader",
       "Manga Archive",
@@ -722,6 +745,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "audio.homelab.local",
     "status": "ONLINE",
     "description": "Streams self-hosted audiobooks and podcast episodes while synchronizing playback position and user listening statistics across devices.",
+    "descriptionRo": "Server dedicat pentru streaming de cărți audio și podcasturi cu sincronizare a poziției de ascultare pe dispozitive mobile.",
     "tags": [
       "Audiobooks",
       "Podcasts",
@@ -745,6 +769,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "tube.homelab.local",
     "status": "ONLINE",
     "description": "Automatically archives selected YouTube channels, playlists, and subtitles to maintain a private offline video collection.",
+    "descriptionRo": "Sistem complet de arhivare și redare a canalelor YouTube locale cu extragere automată a subtitrărilor și metadatelor.",
     "tags": [
       "Video Archiving",
       "YouTube Backup",
@@ -768,6 +793,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "torrents.homelab.local",
     "status": "ONLINE",
     "description": "Handles automated P2P file downloads in a network-isolated environment with bandwidth scheduling and RPC automation support.",
+    "descriptionRo": "Client BitTorrent securizat și ultra-ușor cu interfață web curată, limitare a vitezei și izolare pe rețeaua VPN.",
     "tags": [
       "BitTorrent",
       "P2P Downloads",
@@ -791,6 +817,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "books.homelab.local",
     "status": "ONLINE",
     "description": "Provides an elegant digital bookshelf for browsing, reading, and sending eBooks directly to e-reader devices from a Calibre database.",
+    "descriptionRo": "Interfață web curată și prietenoasă pentru navigarea și citirea cărților din biblioteca Calibre pe orice dispozitiv.",
     "tags": [
       "E-Book Library",
       "Calibre Sync",
@@ -814,6 +841,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "romm.homelab.local",
     "status": "ONLINE",
     "description": "Catalogs vintage gaming ROM collections by automatically pulling cover art, release metadata, and system requirements from online databases.",
+    "descriptionRo": "Manager de jocuri retro și ROM-uri cu descărcare automată a coperților, metadatelor și salvare a progresului.",
     "tags": [
       "Retro Gaming",
       "ROM Library",
@@ -837,6 +865,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "retro.homelab.local",
     "status": "ONLINE",
     "description": "Runs classic console video games directly inside any modern web browser using client-side WebAssembly emulation cores.",
+    "descriptionRo": "Emulator complet de jocuri clasice rulat direct în browserul web pentru diverse console retro.",
     "tags": [
       "WebAssembly",
       "Retro Emulation",
@@ -860,6 +889,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "code.homelab.local",
     "status": "ONLINE",
     "description": "Hosts a fully featured Visual Studio Code environment in the browser with terminal access and persistent local workspace storage.",
+    "descriptionRo": "Mediu complet de dezvoltare VS Code (Visual Studio Code) accesibil securizat direct din orice browser web.",
     "tags": [
       "Cloud IDE",
       "VS Code",
@@ -883,6 +913,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "pgadmin.homelab.local",
     "status": "ONLINE",
     "description": "Provides a comprehensive web management interface for inspecting schemas, running SQL queries, and optimizing PostgreSQL database instances.",
+    "descriptionRo": "Interfață grafică de administrare a bazelor de date relaționale PostgreSQL cu editor SQL și planuri de execuție.",
     "tags": [
       "PostgreSQL",
       "Database Admin",
@@ -906,6 +937,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "draw.homelab.local",
     "status": "ONLINE",
     "description": "Enables offline creation of complex network topology diagrams, software architecture schematics, and technical flowcharts.",
+    "descriptionRo": "Instrument avansat de creare a diagramelor arhitecturale, schemelor de rețea și fluxurilor tehnice.",
     "tags": [
       "Diagram Editor",
       "Architecture Blueprint",
@@ -929,6 +961,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "dozzle.homelab.local",
     "status": "ONLINE",
     "description": "Streams live container stdout/stderr logs with instant keyword searching, regex filtering, and zero persistent storage overhead.",
+    "descriptionRo": "Vizualizator în timp real al logurilor containerelor Docker și LXC direct din browser, fără baze de date intermediare.",
     "tags": [
       "Log Streaming",
       "Docker Telemetry",
@@ -975,6 +1008,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "search-engine.homelab.local",
     "status": "ONLINE",
     "description": "Powers ultra-fast, typo-tolerant full-text search indexing for internal knowledge bases and custom applications.",
+    "descriptionRo": "Motor de căutare ultra-rapid cu toleranță la greșeli de tastare, folosit ca backend de indexare pentru Paperless-ngx.",
     "tags": [
       "Search Engine",
       "Full-Text Index",
@@ -998,6 +1032,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "vector.homelab.local",
     "status": "ONLINE",
     "description": "Collects, transforms, and routes system logs and performance metrics from all nodes to centralized storage backends in real time.",
+    "descriptionRo": "Colector și procesator de date de observabilitate de înaltă performanță pentru rutarea logurilor către Loki și SIEM.",
     "tags": [
       "Log Pipeline",
       "Telemetry Collector",
@@ -1021,6 +1056,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "search.homelab.local",
     "status": "ONLINE",
     "description": "Aggregates search results from over 70 search engines while stripping away user tracking scripts and targeted advertising.",
+    "descriptionRo": "Motor de căutare meta privat ce agregă rezultate din multiple surse fără a urmări sau salva căutările utilizatorilor.",
     "tags": [
       "Metasearch",
       "Privacy Search",
@@ -1044,6 +1080,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "netalert.homelab.local",
     "status": "ONLINE",
     "description": "Scans local network segments continuously to identify new devices, detect unauthorized connections, and trigger instant security alerts.",
+    "descriptionRo": "Scaner de securitate de rețea ce detectează dispozitive noi, modificări de adrese MAC și porturi deschise neautorizate.",
     "tags": [
       "Intruder Detection",
       "Network Scanner",
@@ -1067,6 +1104,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "remote.homelab.local",
     "status": "ONLINE",
     "description": "Maintains an end-to-end encrypted remote desktop relay and rendezvous server for secure workstation support and maintenance.",
+    "descriptionRo": "Server privat de acces la distanță și control desktop la distanță, o alternativă deschisă și securizată la TeamViewer.",
     "tags": [
       "Remote Desktop",
       "Encrypted Relay",
@@ -1090,6 +1128,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "dash.homelab.local",
     "status": "ONLINE",
     "description": "Serves as the main command dashboard, displaying real-time service indicators, weather metrics, and quick navigation links.",
+    "descriptionRo": "Tablou de bord curat și rapid pentru homelab integrat cu API-urile containerelor Docker și Proxmox.",
     "tags": [
       "Startpage",
       "Dashboard Portal",
@@ -1113,6 +1152,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "status-go.homelab.local",
     "status": "ONLINE",
     "description": "Continuously validates HTTP endpoints, DNS lookups, and TCP response latencies with a lightweight Go-based status dashboard.",
+    "descriptionRo": "Tablou de bord automat pentru verificarea stării de sănătate a endpoint-urilor HTTP, ICMP, TCP și a certificatelor TLS.",
     "tags": [
       "Health Prober",
       "Endpoint Monitoring",
@@ -1136,6 +1176,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "ntfy.homelab.local",
     "status": "ONLINE",
     "description": "Relays instant push notifications from backup scripts, security sensors, and CI/CD pipelines directly to mobile devices via HTTP.",
+    "descriptionRo": "Serviciu privat de trimitere a notificărilor push pe telefon și desktop prin cereri simple HTTP/HTTPS.",
     "tags": [
       "Push Notifications",
       "Mobile Alerts",
@@ -1159,6 +1200,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "links.homelab.local",
     "status": "ONLINE",
     "description": "Organizes technical bookmarks and web research with automatic title fetching, tags, and archived web page snapshots.",
+    "descriptionRo": "Manager minimalist de marcaje web optimizat pentru viteză și simplitate în utilizare.",
     "tags": [
       "Bookmark Manager",
       "Web Archiving",
@@ -1182,6 +1224,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "ca.homelab.local",
     "status": "ONLINE",
     "description": "Functions as an internal automated certificate authority (CA), issuing local TLS certificates via the ACME protocol.",
+    "descriptionRo": "Autoritate de certificare privată internă (PKI) ce emite automat certificate TLS X.509 prin protocoalele ACME și SCEP.",
     "tags": [
       "Certificate Authority",
       "ACME TLS",
@@ -1205,6 +1248,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "beszel.homelab.local",
     "status": "ONLINE",
     "description": "Aggregates real-time CPU, memory, network, and disk performance metrics harvested by lightweight agents across the cluster.",
+    "descriptionRo": "Monitorizare ultra-ușoară a resurselor hardware (CPU, RAM, Discuri, Rețea) cu agenți nativi pe toate nodurile din cluster.",
     "tags": [
       "System Telemetry",
       "1s Resolution",
@@ -1251,6 +1295,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "memos.homelab.local",
     "status": "ONLINE",
     "description": "Provides an instant, privacy-focused microblogging platform for capturing fleeting thoughts and Markdown notes with tag filtering.",
+    "descriptionRo": "Platformă simplă și rapidă de notițe scurte și jurnal de bord, cu suport pentru taguri și formatare Markdown.",
     "tags": [
       "Micro-Notes",
       "Markdown Journal",
@@ -1274,6 +1319,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "wallos.homelab.local",
     "status": "ONLINE",
     "description": "Tracks recurring monthly subscriptions, hardware amortizations, and household service bills in a secure personal finance ledger.",
+    "descriptionRo": "Platformă intuitivă de urmărire a abonamentelor lunare și anuale cu rapoarte financiare și notificări înainte de reînnoire.",
     "tags": [
       "Subscription Tracker",
       "Personal Finance",
@@ -1297,6 +1343,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "sync.homelab.local",
     "status": "ONLINE",
     "description": "Synchronizes folders and configuration files across workstations and mobile devices continuously using peer-to-peer encryption.",
+    "descriptionRo": "Sincronizare continuă și descentralizată de fișiere peer-to-peer (P2P) între nodurile clusterului și dispozitivele mobile.",
     "tags": [
       "P2P Sync",
       "Decentralized",
@@ -1320,6 +1367,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "paste.homelab.local",
     "status": "ONLINE",
     "description": "Stores encrypted code snippets and configuration files with automatic self-destruction, burn-after-reading, and QR code sharing.",
+    "descriptionRo": "Serviciu securizat și ultra-ușor de partajare securizată a fragmentelor de text (pastebin) și a fișierelor criptate.",
     "tags": [
       "Encrypted Pastebin",
       "Self-Destruct",
@@ -1343,6 +1391,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "tasks.homelab.local",
     "status": "ONLINE",
     "description": "Manages project roadmaps, Kanban task boards, and team deadlines with full CalDAV synchronization and subtask delegation.",
+    "descriptionRo": "Manager complet de sarcini și proiecte (To-Do) cu vizualizări Kanban, liste, tabele și diagrame Gantt.",
     "tags": [
       "Task Manager",
       "Kanban Board",
@@ -1366,6 +1415,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "blackbox.homelab.local",
     "status": "ONLINE",
     "description": "Probes internal and external endpoints via ICMP ping, HTTP status codes, and TLS certificate expiry to feed Prometheus alerts.",
+    "descriptionRo": "Colector de probe externe pentru Prometheus ce monitorizează latența DNS, conexiunile TCP, certificatele SSL/TLS și endpoint-urile HTTP.",
     "tags": [
       "Blackbox Prober",
       "ICMP & HTTP",
@@ -1389,6 +1439,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "spotify.homelab.local",
     "status": "ONLINE",
     "description": "Records continuous music streaming history from Spotify into a private database to generate interactive listening trends and genre charts.",
+    "descriptionRo": "Platformă self-hosted de analiză a istoricului de ascultare de pe Spotify cu statistici detaliate și grafice.",
     "tags": [
       "Music Analytics",
       "Spotify Data",
@@ -1435,6 +1486,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "gist.homelab.local",
     "status": "ONLINE",
     "description": "Stores and shares syntax-highlighted code snippets and terminal outputs with Git version control and secret visibility options.",
+    "descriptionRo": "Serviciu privat de partajare a fragmentelor de cod (Gist) bazat pe Git cu evidențiere avansată a sintaxei.",
     "tags": [
       "Code Gists",
       "Syntax Highlight",
@@ -1458,6 +1510,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "flatnotes.homelab.local",
     "status": "ONLINE",
     "description": "Edits and searches plain Markdown files directly on the filesystem without requiring database dependencies or proprietary formats.",
+    "descriptionRo": "Editor curat și minimalist de notițe Markdown salvate direct în fișiere text pe disc, fără baze de date.",
     "tags": [
       "Flat-File Notes",
       "Plain Markdown",
@@ -1504,6 +1557,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "shiori.homelab.local",
     "status": "ONLINE",
     "description": "Saves clean, readable offline copies of articles and web pages in an organized library written in lightweight Go.",
+    "descriptionRo": "Manager simplu și rapid de marcaje web (bookmarks) cu salvare a textului paginii pentru citire offline.",
     "tags": [
       "Web Archiver",
       "Read-Later",
@@ -1527,6 +1581,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "whoogle.homelab.local",
     "status": "ONLINE",
     "description": "Proxies Google search queries anonymously to return standard web results while eliminating advertisements and fingerprinting cookies.",
+    "descriptionRo": "Interfață curată pentru căutări Google fără reclame, tracking sau colectare de date personale.",
     "tags": [
       "Private Search",
       "Google Proxy",
@@ -1550,6 +1605,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "start.homelab.local",
     "status": "ONLINE",
     "description": "Offers an ultra-minimalist browser homepage for accessing internal service URLs with integrated weather and Docker status widgets.",
+    "descriptionRo": "Tablou de bord de start (startpage) cu scurtături către toate serviciile homelab-ului și integrare de căutare.",
     "tags": [
       "Browser Startpage",
       "Fast Launcher",
@@ -1573,6 +1629,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "wazuh.homelab.local",
     "status": "ONLINE",
     "description": "Collects security telemetry across all endpoints to perform real-time log analysis, file integrity monitoring (FIM), and automated threat containment.",
+    "descriptionRo": "Platformă unificată XDR & SIEM pentru monitorizarea securității endpoint-urilor, detectarea amenințărilor și conformitate.",
     "tags": [
       "SIEM / XDR",
       "Threat Detection",
@@ -1596,6 +1653,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "tpot.homelab.local",
     "status": "ONLINE",
     "description": "Deploys deception honeypots including Cowrie, Dionaea, and Honeytrap to trap adversary exploits and feed real-time attack data to the SOC.",
+    "descriptionRo": "Cluster modular multi-honeypot (Cowrie SSH, Dionaea, RDP) amplasat în DMZ pentru atragerea și analiza atacatorilor.",
     "tags": [
       "Honeynet DMZ",
       "Threat Deception",
@@ -1619,6 +1677,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "cyberchef.homelab.local",
     "status": "ONLINE",
     "description": "Performs complex cryptographic operations, data format decodings, regex extractions, and binary malware deobfuscations directly in the browser.",
+    "descriptionRo": "Aplicație web completă pentru analiză cibernetică, decodare criptografică, conversie hex și deobfuscare de payload-uri.",
     "tags": [
       "Crypto Analysis",
       "Data Deobfuscation",
@@ -1642,6 +1701,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "cape.homelab.local",
     "status": "ONLINE",
     "description": "Executes suspicious binaries inside an air-gapped virtual machine with memory dumping and network simulation to analyze malware behavior.",
+    "descriptionRo": "Mediu izolat de criminalistică digitală și analiză dinamică a mostrelor malware (CAPEv2 / Cuckoo Sandbox).",
     "tags": [
       "Malware Sandbox",
       "Dynamic Analysis",
@@ -1757,6 +1817,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "pbs.homelab.local",
     "status": "ONLINE",
     "description": "Backs up all virtual machines and containers incrementally with client-side AES encryption, chunk deduplication, and automated verification.",
+    "descriptionRo": "Server enterprise de backup dedicat pentru deduplicare globală, backup incremental și restaurare rapidă a VM-urilor.",
     "tags": [
       "Enterprise Backup",
       "Deduplication 2.84x",
@@ -1826,6 +1887,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "vault.homelab.local",
     "status": "ONLINE",
     "description": "Provides centralized secret storage, dynamic database credentials, and automated secret injection for Terraform and Ansible without exposing environment variables.",
+    "descriptionRo": "Manager centralizat de secrete HashiCorp Vault / OpenBao pentru injectarea securizată a credențialelor și a token-urilor.",
     "tags": [
       "Secret Management",
       "OpenBao",
@@ -1849,6 +1911,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "renovate.homelab.local",
     "status": "ONLINE",
     "description": "Scans internal Gitea repositories continuously to detect outdated Docker container images and Terraform modules, automatically opening Pull Requests.",
+    "descriptionRo": "Motor GitOps autonom de actualizare a dependențelor din repo-urile Gitea ce creează automat Pull Requests pentru noi versiuni.",
     "tags": [
       "GitOps",
       "Dependency Scanner",
@@ -1895,6 +1958,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "mtls.homelab.local",
     "status": "ONLINE",
     "description": "Enforces strict cryptographic mutual TLS (mTLS) verification between ingress proxies and critical backend database and secret engines.",
+    "descriptionRo": "Server web modern și reverse proxy automatizat cu suport nativ pentru mTLS (Mutual TLS) și certificate interne Step-CA.",
     "tags": [
       "Mutual TLS",
       "mTLS",
@@ -1918,6 +1982,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "canary.homelab.local",
     "status": "ONLINE",
     "description": "Deploys deceptive decoy files across DMZ containers and storage shares that trigger immediate security alert webhooks upon unauthorized access.",
+    "descriptionRo": "Fișiere și credențiale capcană (honeytokens) plasate strategic pentru alertarea imediată la orice tentativă de intruziune.",
     "tags": [
       "Honeypot Decoys",
       "Canary Tokens",

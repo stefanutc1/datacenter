@@ -2,7 +2,9 @@ export interface HardwareNode {
   id: string;
   name: string;
   machine: string;
+  machineRo?: string;
   role: string;
+  roleRo?: string;
   cpu: string;
   gpu?: string;
   ram: string;
@@ -13,6 +15,7 @@ export interface HardwareNode {
   ip: string;
   status: 'OPERATIONAL' | 'STANDBY';
   tags: string[];
+  tagsRo?: string[];
   workloads: string[];
   ballooningTable?: {
     vmid: number;
@@ -21,6 +24,7 @@ export interface HardwareNode {
     allocatedMb: number;
     balloonMinMb: number;
     purpose: string;
+    purposeRo?: string;
   }[];
 }
 
@@ -29,7 +33,9 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node1-pve',
     name: 'Proxmox Primary (pve)',
     machine: 'Custom Desktop Compute Chassis',
+    machineRo: 'Șasiu Desktop Compute Custom',
     role: 'Serves as the primary x86_64 virtualization hypervisor for the entire homelab. It runs the perimeter OPNsense firewall, core enterprise virtual machines with active VirtIO ballooning, and dedicated GPU-accelerated local AI inference workloads.',
+    roleRo: 'Servește drept hypervisor primar de virtualizare x86_64 pentru întregul homelab. Rulează firewall-ul perimetral OPNsense, mașinile virtuale enterprise cu balonare activă VirtIO și sarcinile de inferență AI locală accelerate pe GPU.',
     cpu: 'Intel Core i3-10100F (4 Cores / 8 Threads @ 4.30 GHz Turbo)',
     gpu: 'NVIDIA GeForce GTX 1050 Ti (4GB VRAM · PCIe Passthrough to Ollama / ML Workbench & Faster-Whisper)',
     ram: '12,288 MB DDR4 (12 GB DDR4-2133)',
@@ -40,13 +46,62 @@ export const HARDWARE_NODES: HardwareNode[] = [
     ip: '192.168.1.132 (OPNsense: 192.168.1.134:8443)',
     status: 'OPERATIONAL',
     tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'ZRAM lz4 (6.0GB)', 'PCIe GPU Passthrough', 'VirtIO Ballooning', 'Enterprise VMs'],
+    tagsRo: ['Hypervisor Primar', 'x86_64 Bare-Metal', 'ZRAM lz4 (6.0GB)', 'GPU PCIe Passthrough', 'Balonare VirtIO', 'VM-uri Enterprise'],
     ballooningTable: [
-      { vmid: 200, name: 'opnsense', os: 'Hardened FreeBSD 14', allocatedMb: 2048, balloonMinMb: 1024, purpose: 'Core Perimeter Firewall & Suricata IDS/IPS' },
-      { vmid: 201, name: 'windows', os: 'Windows Server 2025', allocatedMb: 8192, balloonMinMb: 4096, purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4 GB - 8 GB)' },
-      { vmid: 202, name: 'rhel', os: 'RHEL 9.8 Enterprise', allocatedMb: 2048, balloonMinMb: 1024, purpose: 'SELinux Enforcing, Enterprise Services & Podman Engine (Ballooning: 1 GB - 2 GB)' },
-      { vmid: 203, name: 'freebsd', os: 'FreeBSD 15.1-RELEASE', allocatedMb: 1024, balloonMinMb: 512, purpose: 'OpenZFS Storage Pool & BSD Jails Lab (Ballooning: 512 MB - 1 GB)' },
-      { vmid: 204, name: 'openbsd', os: 'OpenBSD 7.9 Bastion', allocatedMb: 1024, balloonMinMb: 512, purpose: 'Hardened Jump Host, Packet Filter PF & unveil/pledge (Ballooning: 512 MB - 1 GB)' },
-      { vmid: 205, name: 'talos', os: 'Talos Linux 1.7', allocatedMb: 2048, balloonMinMb: 1024, purpose: 'Immutable API-Driven Kubernetes Node & Cilium CNI (Ballooning: 1 GB - 2 GB)' }
+      { 
+        vmid: 200, 
+        name: 'opnsense', 
+        os: 'Hardened FreeBSD 14', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Core Perimeter Firewall & Suricata IDS/IPS',
+        purposeRo: 'Firewall Central Perimetral & IDS/IPS Suricata'
+      },
+      { 
+        vmid: 201, 
+        name: 'windows', 
+        os: 'Windows Server 2025', 
+        allocatedMb: 8192, 
+        balloonMinMb: 4096, 
+        purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4 GB - 8 GB)',
+        purposeRo: 'Active Directory DS, GPO & GPU Passthrough GTX 1050 Ti (Balonare: 4 GB - 8 GB)'
+      },
+      { 
+        vmid: 202, 
+        name: 'rhel', 
+        os: 'RHEL 9.8 Enterprise', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'SELinux Enforcing, Enterprise Services & Podman Engine (Ballooning: 1 GB - 2 GB)',
+        purposeRo: 'SELinux Enforcing, Servicii Enterprise & Podman Engine (Balonare: 1 GB - 2 GB)'
+      },
+      { 
+        vmid: 203, 
+        name: 'freebsd', 
+        os: 'FreeBSD 15.1-RELEASE', 
+        allocatedMb: 1024, 
+        balloonMinMb: 512, 
+        purpose: 'OpenZFS Storage Pool & BSD Jails Lab (Ballooning: 512 MB - 1 GB)',
+        purposeRo: 'Pool Stocare OpenZFS & Laborator BSD Jails (Balonare: 512 MB - 1 GB)'
+      },
+      { 
+        vmid: 204, 
+        name: 'openbsd', 
+        os: 'OpenBSD 7.9 Bastion', 
+        allocatedMb: 1024, 
+        balloonMinMb: 512, 
+        purpose: 'Hardened Jump Host, Packet Filter PF & unveil/pledge (Ballooning: 512 MB - 1 GB)',
+        purposeRo: 'Jump Host Bastion Securizat, Packet Filter PF & unveil/pledge (Balonare: 512 MB - 1 GB)'
+      },
+      { 
+        vmid: 205, 
+        name: 'talos', 
+        os: 'Talos Linux 1.7', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Immutable API-Driven Kubernetes Node & Cilium CNI (Ballooning: 1 GB - 2 GB)',
+        purposeRo: 'Nod Kubernetes Imutabil Gestionat prin API & Cilium CNI (Balonare: 1 GB - 2 GB)'
+      }
     ],
     workloads: [
       'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB · Suricata IDS/IPS, CrowdSec Bouncer, GeoIP Drop, DoT Quad9, Telegraf, Monit, GitOps, FRR BGP, Tailscale, NetFlow)',
@@ -67,7 +122,9 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node2-omv',
     name: 'OpenMediaVault NAS (openmediavault)',
     machine: 'ASUS X451MA Laptop Chassis',
+    machineRo: 'Șasiu Laptop ASUS X451MA',
     role: 'Provides centralized network-attached storage using resilient ZFS mirror pools. It hosts high-capacity SMB and NFS file shares, stores daily hypervisor snapshot backups, and serves offline knowledge archives.',
+    roleRo: 'Furnizează stocare centralizată atașată în rețea (NAS) folosind pool-uri redundante ZFS mirror. Găzduiește partajări SMB și NFS de mare capacitate, stochează backup-urile zilnice ale hypervisorilor și servește arhive offline de cunoștințe.',
     cpu: 'Intel Celeron N2830 (2 Cores / 2 Threads @ 2.16 GHz, 2.41 GHz Burst)',
     gpu: 'Intel HD Graphics (Bay Trail Integrated)',
     ram: '2,048 MB DDR3 Low-Voltage',
@@ -76,6 +133,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     ip: '192.168.1.135',
     status: 'OPERATIONAL',
     tags: ['ZFS Storage Pool', 'Centralized NAS', 'NFS / SMB Shares', 'Proxmox VZDump Target', 'Offline Wikipedia'],
+    tagsRo: ['Pool Stocare ZFS', 'NAS Centralizat', 'Partajări NFS / SMB', 'Țintă Backup VZDump', 'Wikipedia Offline'],
     workloads: [
       'OpenMediaVault Core Storage Engine (ZFS / ext4)',
       'NFS & SMB Centralized Storage Shares',
@@ -88,7 +146,9 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'node3-arm',
     name: 'Proxmox ARM64 (pve)',
     machine: 'Apple MacBook Air (M1, 2020)',
+    machineRo: 'Apple MacBook Air (M1, 2020)',
     role: 'Acts as an energy-efficient ARM64 development and observability hypervisor. It runs full-stack telemetry pipelines, continuous integration runners, private identity authorities, and lightweight microservices.',
+    roleRo: 'Funcționează ca un hypervisor ARM64 ultra-eficient din punct de vedere energetic pentru dezvoltare și observabilitate. Rulează stiva completă de telemetrie LGTM, runneri de integrare continuă, autorități private de identitate și microservicii.',
     cpu: 'Apple M1 (8 Cores: 4 Performance Firestorm + 4 Efficiency Icestorm, 16-Core NPU)',
     ram: '8,192 MB Unified Memory (4,096 MB dedicated to UTM Proxmox ARM64 VM)',
     zram: '1.9 GB /dev/zram0 (lz4 compression, swappiness 20, priority 100 · High-speed memory compression)',
@@ -97,6 +157,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     ip: '192.168.64.14',
     status: 'OPERATIONAL',
     tags: ['Apple Silicon ARM64', 'High Efficiency', 'ZRAM lz4 (1.9GB)', 'LGTM Observability', 'Gitea & Woodpecker CI', 'RenovateBot GitOps'],
+    tagsRo: ['Apple Silicon ARM64', 'Eficiență Energetică Ridicată', 'ZRAM lz4 (1.9GB)', 'Observabilitate LGTM', 'Gitea & Woodpecker CI', 'RenovateBot GitOps'],
     workloads: [
       'CT 100-109: IT-Tools, Actual Budget, Trilium, ChangeDetection, Scrutiny, Uptime Kuma, Vaultwarden, Prometheus/Grafana, Authelia, Gitea',
       'CT 110-119: Woodpecker CI, Gatus Health, ntfy Push, Linkding, Step-CA PKI, Tailscale ARM, Beszel Telemetry, PocketBase, Homepage, Speedtest-Tracker',
@@ -109,7 +170,9 @@ export const HARDWARE_NODES: HardwareNode[] = [
     id: 'kubernetes-node',
     name: 'Kubernetes Worker (kubernetes)',
     machine: 'Custom ATX Compute Chassis',
+    machineRo: 'Șasiu ATX Compute Custom',
     role: 'Operates as a dedicated bare-metal Kubernetes worker node for batch jobs and container execution. It runs kernel-level eBPF security sensors and continuous telemetry agents to maintain cluster resilience.',
+    roleRo: 'Funcționează ca un nod worker Kubernetes bare-metal dedicat pentru sarcini batch și execuție de containere. Rulează senzori de securitate eBPF la nivel de kernel și agenți de telemetrie continuă.',
     cpu: 'AMD Athlon II X2 220 (2 Cores / 2 Threads @ 2.80 GHz Regor / AM3)',
     gpu: 'NVIDIA GeForce GTS 250 (1GB GDDR3 / 256-bit Bus)',
     ram: '4,096 MB DDR3',
@@ -119,6 +182,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
     ip: '192.168.1.18',
     status: 'OPERATIONAL',
     tags: ['Kubernetes Worker', 'Talos Linux / k3s', 'eBPF Security', 'Cilium Tetragon', 'Batch Workloads'],
+    tagsRo: ['Worker Kubernetes', 'Talos Linux / k3s', 'Securitate eBPF', 'Cilium Tetragon', 'Sarcini de Lucru Batch'],
     workloads: [
       'k3s-agent / Talos Linux Lightweight Kubernetes Node',
       'Cilium Tetragon eBPF Kernel Runtime Security Sensor',
