@@ -16,7 +16,7 @@ import { TranslationService } from '../../services/translation.service';
         <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
           {{ ts.t.hwTag }}
         </div>
-        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-50 tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-sans font-bold text-slate-50 tracking-tight">
           {{ ts.t.hwTitle }}
         </h2>
         <p class="text-sm text-slate-300 max-w-3xl font-sans font-normal leading-relaxed">
@@ -33,19 +33,17 @@ import { TranslationService } from '../../services/translation.service';
               <!-- Top Row: Name, Machine & Status -->
               <div class="flex items-start justify-between gap-3 border-b border-obsidian-750 pb-4">
                 <div>
-                  <div class="text-[11px] font-mono text-emerald-400 font-bold uppercase tracking-wider">
+                  <div class="text-xs font-sans text-emerald-400 font-semibold">
                     {{ (ts.isRomanian && hw.machineRo) ? hw.machineRo : hw.machine }}
                   </div>
-                  <h3 class="text-xl font-serif font-bold text-slate-50 group-hover:text-emerald-400 transition-colors mt-0.5">
+                  <h3 class="text-xl font-sans font-bold text-slate-50 group-hover:text-emerald-400 transition-colors mt-0.5">
                     {{ hw.name }}
                   </h3>
                   <div class="text-xs text-slate-300 font-sans mt-1">
                     {{ (ts.isRomanian && hw.roleRo) ? hw.roleRo : hw.role }}
                   </div>
                 </div>
-                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex-shrink-0">
-                  {{ hw.status }}
-                </span>
+                
               </div>
 
               <!-- Technical Specs Grid (IBM Plex Mono) -->

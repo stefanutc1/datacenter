@@ -10,7 +10,7 @@ import { TranslationService } from '../../services/translation.service';
     <section class="w-full pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-obsidian-750 font-sans">
       
       <!-- Main Headline (Newsreader Serif) -->
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-normal text-slate-50 tracking-tight leading-[1.15] max-w-5xl mb-6">
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-sans font-normal text-slate-50 tracking-tight leading-[1.15] max-w-5xl mb-6">
         {{ ts.t.heroTitle }}
       </h1>
 
@@ -24,7 +24,7 @@ import { TranslationService } from '../../services/translation.service';
         
         <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
           <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricComputeTitle }}</div>
-          <div class="text-2xl font-serif font-bold text-slate-50">{{ ts.t.metricComputeCount }}</div>
+          <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricComputeCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricComputeDesc }}
           </p>
@@ -32,7 +32,7 @@ import { TranslationService } from '../../services/translation.service';
 
         <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
           <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricVirtTitle }}</div>
-          <div class="text-2xl font-serif font-bold text-slate-50">{{ ts.t.metricVirtCount }}</div>
+          <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricVirtCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricVirtDesc }}
           </p>
@@ -40,7 +40,7 @@ import { TranslationService } from '../../services/translation.service';
 
         <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
           <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricServicesTitle }}</div>
-          <div class="text-2xl font-serif font-bold text-slate-50">{{ ts.t.metricServicesCount }}</div>
+          <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricServicesCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricServicesDesc }}
           </p>
@@ -48,7 +48,7 @@ import { TranslationService } from '../../services/translation.service';
 
         <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
           <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricCyberTitle }}</div>
-          <div class="text-2xl font-serif font-bold text-slate-50">{{ ts.t.metricCyberCount }}</div>
+          <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricCyberCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricCyberDesc }}
           </p>

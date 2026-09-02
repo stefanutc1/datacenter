@@ -24,7 +24,7 @@ import { TranslationService } from '../../services/translation.service';
       <!-- Section Title Header -->
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div class="space-y-1">
-          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-50 tracking-tight">
+          <h2 class="text-2xl sm:text-3xl font-sans font-bold text-slate-50 tracking-tight">
             {{ ts.t.topologyTitle }}
           </h2>
         </div>

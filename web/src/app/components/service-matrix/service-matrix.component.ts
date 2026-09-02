@@ -17,7 +17,7 @@ import { TranslationService } from '../../services/translation.service';
           <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
             {{ ts.t.srvTag }}
           </div>
-          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-50 tracking-tight">
+          <h2 class="text-3xl sm:text-4xl font-sans font-bold text-slate-50 tracking-tight">
             {{ ts.t.srvTitle }}
           </h2>
           <p class="text-sm text-slate-300 max-w-2xl font-sans font-normal leading-relaxed">
@@ -89,7 +89,7 @@ import { TranslationService } from '../../services/translation.service';
                     <img [src]="'icons/' + srv.icon + '.svg'" [alt]="srv.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
                   </div>
                   <div>
-                    <h3 class="font-serif font-bold text-slate-50 text-base group-hover:text-emerald-400 transition-colors">
+                    <h3 class="font-sans font-bold text-slate-50 text-base group-hover:text-emerald-400 transition-colors">
                       {{ srv.name }}
                     </h3>
                     <div class="text-[11px] font-mono text-slate-400">
@@ -98,9 +98,7 @@ import { TranslationService } from '../../services/translation.service';
                   </div>
                 </div>
 
-                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shrink-0">
-                  {{ srv.status }}
-                </span>
+                
               </div>
 
               <!-- Description -->

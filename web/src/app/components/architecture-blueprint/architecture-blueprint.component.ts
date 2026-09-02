@@ -15,7 +15,7 @@ import { TranslationService } from '../../services/translation.service';
         <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
           {{ ts.t.bpTag }}
         </div>
-        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-slate-50 tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-sans font-bold text-slate-50 tracking-tight">
           {{ ts.t.bpTitle }}
         </h2>
         <p class="text-sm text-slate-300 max-w-3xl font-sans font-normal leading-relaxed">
@@ -143,7 +143,7 @@ import { TranslationService } from '../../services/translation.service';
           
           <!-- Cloud Providers Grid -->
           <div class="space-y-3">
-            <h3 class="text-base font-serif font-bold text-slate-100 flex items-center gap-2">
+            <h3 class="text-base font-sans font-bold text-slate-100 flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
               {{ ts.isRomanian ? 'Infrastructură Multi-Cloud Hibridă (Terraform Declarativ)' : 'Hybrid Multi-Cloud Infrastructure (Declarative Terraform)' }}
             </h3>
@@ -205,7 +205,7 @@ import { TranslationService } from '../../services/translation.service';
 
           <!-- CI/CD Workflows Table -->
           <div class="space-y-3">
-            <h3 class="text-base font-serif font-bold text-slate-100 flex items-center justify-between">
+            <h3 class="text-base font-sans font-bold text-slate-100 flex items-center justify-between">
               <span class="flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                 {{ ts.isRomanian ? 'Matrice CI/CD Enterprise (9 Fluxuri Automate · 36+ Verificări Paralele)' : 'Enterprise CI/CD Matrix (9 Automated Workflows · 36+ Parallel Checks)' }}
@@ -352,7 +352,7 @@ import { TranslationService } from '../../services/translation.service';
 
           <!-- NUT Graceful Shutdown Sequence -->
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
-            <h3 class="font-serif font-bold text-slate-50 text-base">
+            <h3 class="font-sans font-bold text-slate-50 text-base">
               {{ ts.isRomanian ? 'Oprire Secvențială Controlată prin Network UPS Tools (NUT)' : 'Network UPS Tools (NUT) Graceful Sequential Shutdown' }}
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-3 font-mono text-xs">
@@ -439,7 +439,7 @@ import { TranslationService } from '../../services/translation.service';
             <div class="p-6 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl space-y-3.5 flex flex-col justify-between">
               <div class="space-y-3">
                 <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
-                  <h3 class="font-serif font-bold text-slate-50 text-base tracking-wide">
+                  <h3 class="font-sans font-bold text-slate-50 text-base tracking-wide">
                     {{ pillar.title }}
                   </h3>
                   <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase">
@@ -636,7 +636,7 @@ import { TranslationService } from '../../services/translation.service';
       @if (activeTab === 'generator') {
         <div class="space-y-6 font-mono text-xs">
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
-            <h3 class="font-bold text-sm text-slate-50 font-serif">
+            <h3 class="font-bold text-sm text-slate-50 font-sans">
               {{ ts.isRomanian ? 'Generator Declarativ Module Terraform & Proxmox LXC' : 'Declarative Terraform & Proxmox LXC Module Generator' }}
             </h3>
             <p class="text-slate-300 font-sans text-xs">
