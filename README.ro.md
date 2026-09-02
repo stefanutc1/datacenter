@@ -551,16 +551,16 @@ Licențiat sub termenii **Licenței MIT**.
 
 ---
 
-## 📸 Galerie Foto · Panouri Live & Capturi per Serviciu
+## 📸 Galerie Foto · Panouri Live, Mașini Virtuale (KVM) & Servicii
 
-Toate componentele hardware, mașinile virtuale și containerele rulează live pe echipamente fizice. Homelab-ul include o colecție completă de capturi de ecran pentru **toate cele 83 de microservicii și panouri de management** în folderul [`photos/services/`](photos/services/):
+Toate componentele hardware, mașinile virtuale și containerele rulează live pe echipamente fizice. Homelab-ul include o colecție completă de capturi de ecran pentru **toate cele 83 de microservicii, mașini virtuale KVM/BSD și panouri de management** în folderul [`photos/services/`](photos/services/):
 
-### Panouri Principale de Management
-| 📊 Grafana · Noduri Homelab (x64 & ARM64) | 🛡️ Grafana · OPNsense Perimeter Defense |
+### 📊 Panouri Principale de Management
+| 📊 Grafana · Noduri Homelab (12GB x64 & ARM64) | 🛡️ Grafana · OPNsense Perimeter Defense |
 | :---: | :---: |
 | ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
 
-| 🖥️ Proxmox VE 9.2 x86_64 (192.168.1.132:8006) | 🍎 Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
+| 🖥️ Proxmox VE 9.2 x86_64 (12GB RAM · 192.168.1.132:8006) | 🍎 Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
 | :---: | :---: |
 | ![Proxmox VE x64](photos/proxmox_ve_dashboard.png) | ![Proxmox VE ARM64](photos/proxmox_arm64_dashboard.png) |
 
@@ -576,6 +576,23 @@ Toate componentele hardware, mașinile virtuale și containerele rulează live p
 | :---: | :---: |
 | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
 
+---
+
+### 🖥️ Mașini Virtuale Specializate Enterprise (KVM) & Noduri BSD
+| 🪟 Windows Server 2025 Datacenter (VM 201) | 🔴 Red Hat Enterprise Linux 9.8 (VM 202) |
+| :---: | :---: |
+| ![Windows Server 2025 AD](photos/services/vm-windows.png) | ![RHEL 9.8 Enterprise](photos/services/vm-rhel.png) |
+
+| 😈 FreeBSD 15.1-RELEASE · OpenZFS (VM 203) | 🐡 OpenBSD 7.9 Bastion · Packet Filter (VM 204) |
+| :---: | :---: |
+| ![FreeBSD 15.1](photos/services/vm-freebsd.png) | ![OpenBSD 7.9](photos/services/vm-openbsd.png) |
+
+| ☸️ Talos Linux 1.7 · Immutable K8s (VM 205) | 🛡️ OPNsense 26.1 Hardened · Console (VM 200) |
+| :---: | :---: |
+| ![Talos Linux Kubernetes](photos/services/vm-talos.png) | ![OPNsense Core Console](photos/services/opnsense.png) |
+
+---
+
 ### 📂 Catalogul Complet de Capturi per Serviciu (`photos/services/`)
 Fiecare serviciu din cele 83 de sarcini de lucru beneficiază de screenshot dedicat:
 - **Core & Networking**: [`npm.png`](photos/services/npm.png), [`pihole.png`](photos/services/pihole.png), [`tailscale-x64.png`](photos/services/tailscale-x64.png), [`wgeasy.png`](photos/services/wgeasy.png), [`opnsense-core.png`](photos/services/opnsense-core.png), [`opnsense-unbound.png`](photos/services/opnsense-unbound.png), [`opnsense-frr.png`](photos/services/opnsense-frr.png), [`caddy-mtls.png`](photos/services/caddy-mtls.png)
@@ -584,12 +601,12 @@ Fiecare serviciu din cele 83 de sarcini de lucru beneficiază de screenshot dedi
 - **Observabilitate & Monitorizare**: [`grafana.png`](photos/services/grafana.png), [`prometheus.png`](photos/services/prometheus.png), [`loki.png`](photos/services/loki.png), [`uptimekuma.png`](photos/services/uptimekuma.png), [`gatus.png`](photos/services/gatus.png), [`beszel.png`](photos/services/beszel.png), [`blackbox.png`](photos/services/blackbox.png), [`vector.png`](photos/services/vector.png), [`dozzle.png`](photos/services/dozzle.png)
 - **Securitate & Cyber Lab**: [`opnsense-suricata.png`](photos/services/opnsense-suricata.png), [`opnsense-crowdsec.png`](photos/services/opnsense-crowdsec.png), [`wazuh.png`](photos/services/wazuh.png), [`tpot-honeypot.png`](photos/services/tpot-honeypot.png), [`cyberchef.png`](photos/services/cyberchef.png), [`dfir-sandbox.png`](photos/services/dfir-sandbox.png), [`vault.png`](photos/services/vault.png), [`canary-decoys.png`](photos/services/canary-decoys.png)
 - **Media & Utilitare**: [`stirling.png`](photos/services/stirling.png), [`kavita.png`](photos/services/kavita.png), [`audiobookshelf.png`](photos/services/audiobookshelf.png), [`tubearchivist.png`](photos/services/tubearchivist.png), [`transmission.png`](photos/services/transmission.png), [`calibreweb.png`](photos/services/calibreweb.png), [`romm.png`](photos/services/romm.png), [`emulatorjs.png`](photos/services/emulatorjs.png), [`codeserver.png`](photos/services/codeserver.png), [`drawio.png`](photos/services/drawio.png), [`it-tools.png`](photos/services/it-tools.png), [`actualbudget.png`](photos/services/actualbudget.png), [`trillium.png`](photos/services/trillium.png), [`changedetection.png`](photos/services/changedetection.png), [`microbin.png`](photos/services/microbin.png), [`vikunja.png`](photos/services/vikunja.png), [`memos.png`](photos/services/memos.png), [`wallos.png`](photos/services/wallos.png), [`speedtest.png`](photos/services/speedtest.png), [`homepage.png`](photos/services/homepage.png), [`flame.png`](photos/services/flame.png)
-- **Sisteme de Operare Specializate (KVM)**: [`vm-rhel.png`](photos/services/vm-rhel.png), [`vm-freebsd.png`](photos/services/vm-freebsd.png), [`vm-openbsd.png`](photos/services/vm-openbsd.png), [`vm-talos.png`](photos/services/vm-talos.png), [`proxmox-datacenter-manager.png`](photos/services/proxmox-datacenter-manager.png), [`proxmox-mail-gateway.png`](photos/services/proxmox-mail-gateway.png)
+- **Sisteme de Operare Specializate (KVM)**: [`vm-windows.png`](photos/services/vm-windows.png), [`vm-rhel.png`](photos/services/vm-rhel.png), [`vm-freebsd.png`](photos/services/vm-freebsd.png), [`vm-openbsd.png`](photos/services/vm-openbsd.png), [`vm-talos.png`](photos/services/vm-talos.png), [`proxmox-datacenter-manager.png`](photos/services/proxmox-datacenter-manager.png), [`proxmox-mail-gateway.png`](photos/services/proxmox-mail-gateway.png)
 
 ---
 
 ## 👨‍💻 Despre Autor (About Me)
 
 Proiect conceput, configurat și operat de **[@stefanutc1](https://github.com/stefanutc1)**.
-- **Specializare**: Inginerie de Infrastructură, Virtualizare Hibridă (Proxmox VE x86_64 & Apple Silicon ARM64), Securitate Rețea & Zero-Trust (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
+- **Specializare**: Inginerie de Infrastructură, Virtualizare Hibridă (Proxmox VE x86_64 12GB DDR4-2133 & Apple Silicon ARM64), Securitate Rețea & Zero-Trust (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
 - **Scop**: Portofoliu tehnic enterprise demonstrând bune practici în arhitectura de sisteme on-premise și cloud hibrid.

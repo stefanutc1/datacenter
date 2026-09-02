@@ -32,8 +32,8 @@ interface PhotoItem {
         </div>
         <p class="text-xs sm:text-sm text-slate-400 font-sans max-w-xl leading-relaxed">
           {{ ts.isRomanian 
-            ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale și a tuturor celor 83 de microservicii active cu capturi reale.' 
-            : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels and all 83 microservices.' }}
+            ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 83 de microservicii active cu capturi reale.' 
+            : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 83 microservices.' }}
         </p>
       </div>
 
@@ -54,16 +54,18 @@ interface PhotoItem {
             </div>
             <p class="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
               {{ ts.isRomanian
-                ? 'Pasionat de sisteme distribuite, securitate zero-trust, virtualizare hibridă (x86_64 și ARM64 Apple Silicon) și automatizare GitOps (Terraform, Ansible, CI/CD). Acest homelab servește drept mediu sandbox enterprise pentru testarea stivelor complexe de microservicii, kernel hardening (FreeBSD / Linux) și observabilitate în timp real.'
-                : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 and Apple Silicon ARM64), and GitOps automation. This homelab powers live microservices, bare-metal telemetry, and real-time observability.' }}
+                ? 'Pasionat de sisteme distribuite, securitate zero-trust, virtualizare hibridă (x86_64 cu 12 GB DDR4-2133 și ARM64 Apple Silicon) și automatizare GitOps (Terraform, Ansible, CI/CD). Acest homelab servește drept mediu sandbox enterprise pentru testarea stivelor complexe de microservicii, kernel hardening (FreeBSD / Linux) și observabilitate în timp real.'
+                : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 with 12 GB DDR4-2133 and Apple Silicon ARM64), and GitOps automation. This homelab powers live microservices, bare-metal telemetry, and real-time observability.' }}
             </p>
             <div class="flex flex-wrap gap-2 pt-2">
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Proxmox VE 9.2 (x64 & ARM64)</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Proxmox VE 9.2 (12GB x64 & ARM64)</span>
               <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">OPNsense 24.7 Hardened</span>
               <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Grafana Enterprise & Prometheus</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Pi-hole DNS Sinkhole</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Home Assistant Core</span>
-              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Suricata 8.0 & CrowdSec</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Windows Server 2025 AD (VM 201)</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">RHEL 9.8 Enterprise (VM 202)</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">FreeBSD 15.1 ZFS (VM 203)</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">OpenBSD 7.9 Bastion (VM 204)</span>
+              <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Talos Linux K8s (VM 205)</span>
             </div>
           </div>
 
@@ -74,7 +76,7 @@ interface PhotoItem {
               <a href="http://192.168.1.132:3000" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:3000</a>
             </div>
             <div class="flex justify-between items-center text-slate-300">
-              <span class="text-slate-400">PVE x86_64:</span>
+              <span class="text-slate-400">PVE x86_64 (12GB):</span>
               <a href="https://192.168.1.132:8006" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:8006</a>
             </div>
             <div class="flex justify-between items-center text-slate-300">
@@ -98,7 +100,7 @@ interface PhotoItem {
         </div>
       </div>
 
-      <!-- Tab Switcher: Core Panels (11) vs All Services (83) -->
+      <!-- Tab Switcher: Core Panels (16) vs All Services (83) -->
       <div class="flex items-center justify-between gap-4 mb-8">
         <div class="flex items-center gap-2 font-mono text-xs">
           <button
@@ -110,7 +112,7 @@ interface PhotoItem {
             [class.text-slate-300]="galleryTab() !== 'core'"
             class="px-4 py-2 rounded-xl border border-obsidian-700 transition-all shadow"
           >
-            {{ ts.isRomanian ? 'Panouri Principale Live' : 'Core Live Panels' }} ({{ photos.length }})
+            {{ ts.isRomanian ? 'Panouri Principale & VM-uri Live' : 'Core Live Panels & Enterprise VMs' }} ({{ photos.length }})
           </button>
           
           <button
@@ -127,7 +129,7 @@ interface PhotoItem {
         </div>
         
         <div class="hidden sm:block text-xs font-mono text-slate-400">
-          {{ galleryTab() === 'core' ? '11 Panouri Live Capturate' : '83 Servicii Documentate & Capturate' }}
+          {{ galleryTab() === 'core' ? '16 Capturi Live (Hypervisori, VM-uri, Securitate)' : '83 Servicii Documentate & Capturate' }}
         </div>
       </div>
 
@@ -261,9 +263,9 @@ export class AboutGalleryComponent {
   photos: PhotoItem[] = [
     {
       src: 'photos/grafana_nodes_dashboard.png',
-      title: 'Grafana · Multi-Architecture Nodes (x86_64 & ARM64)',
+      title: 'Grafana · Multi-Architecture Nodes (12GB x86_64 & ARM64)',
       category: 'OBSERVABILITY & METRICS',
-      description: 'Unified Grafana Enterprise dashboard tracking Proxmox VE hypervisors (Intel i3-10100F and Apple Silicon M1), 8-thread CPU timeline, ZRAM compression, and LXC container counts in English.',
+      description: 'Unified Grafana Enterprise dashboard tracking Proxmox VE hypervisors (Intel i3-10100F with 12GB DDR4-2133 and Apple Silicon M1), 8-thread CPU timeline, ZRAM compression (6.0GB), and container telemetry in English.',
       endpoint: '192.168.1.132:3000',
       badge: 'GRAFANA LIVE'
     },
@@ -277,11 +279,11 @@ export class AboutGalleryComponent {
     },
     {
       src: 'photos/proxmox_ve_dashboard.png',
-      title: 'Proxmox VE 9.2.10 · Primary x86_64 Hypervisor',
+      title: 'Proxmox VE 9.2.10 · Primary x86_64 Hypervisor (12GB RAM)',
       category: 'VIRTUALIZATION & HYPERVISOR',
-      description: 'Native Proxmox VE management interface on Node 1 (Intel i3-10100F, 12GB DDR4, 512GB SSD), managing KVM virtual machines (VM 200 OPNsense) and active LXC containers.',
+      description: 'Native Proxmox VE Node Summary on Node 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), managing KVM virtual machines (VM 200-205) and active LXC containers.',
       endpoint: '192.168.1.132:8006',
-      badge: 'PVE X86_64'
+      badge: 'PVE 12GB RAM'
     },
     {
       src: 'photos/proxmox_arm64_dashboard.png',
@@ -290,6 +292,54 @@ export class AboutGalleryComponent {
       description: 'Proxmox VE running on Apple Silicon M1 ARM64 UTM, orchestrating 48 microservice LXC containers (it-tools, gitea, woodpecker-ci, authelia, vaultwarden, stepca, ntfy, etc.).',
       endpoint: '192.168.64.14:8006',
       badge: 'PVE ARM64'
+    },
+    {
+      src: 'photos/services/vm-windows.png',
+      title: 'Windows Server 2025 Datacenter · Active Directory & GPU (VM 201)',
+      category: 'ENTERPRISE VIRTUALIZATION & KVM',
+      description: 'Windows Server 2025 Datacenter running Server Manager Dashboard with Active Directory Domain Services, Group Policies, and GTX 1050 Ti PCIe Passthrough acceleration.',
+      endpoint: '192.168.1.201 (RDP 3389 / KVM)',
+      badge: 'WIN SERVER 2025'
+    },
+    {
+      src: 'photos/services/vm-rhel.png',
+      title: 'Red Hat Enterprise Linux 9.8 · SELinux & Podman (VM 202)',
+      category: 'ENTERPRISE VIRTUALIZATION & LINUX',
+      description: 'RHEL 9.8 running in SELinux Enforcing mode with Podman quadlet containers and enterprise workload isolation under VirtIO ballooning memory optimization.',
+      endpoint: '192.168.1.202 (SSH 22 / KVM)',
+      badge: 'RHEL 9.8'
+    },
+    {
+      src: 'photos/services/vm-freebsd.png',
+      title: 'FreeBSD 15.1-RELEASE · OpenZFS Storage & Jails (VM 203)',
+      category: 'UNIX VIRTUALIZATION & BSD',
+      description: 'FreeBSD 15.1-RELEASE kernel running an OpenZFS storage pool, VNET jail network sandboxes, and POSIX-compliant microservices.',
+      endpoint: '192.168.1.203 (SSH 22 / KVM)',
+      badge: 'FREEBSD 15.1'
+    },
+    {
+      src: 'photos/services/vm-openbsd.png',
+      title: 'OpenBSD 7.9 Bastion · Packet Filter & unveil/pledge (VM 204)',
+      category: 'CYBERSECURITY & BASTION HOST',
+      description: 'Ultra-secure OpenBSD 7.9 hardened bastion gateway utilizing Packet Filter (pf), kernel unveil/pledge system call restrictions, and SSH certificate-based authentication.',
+      endpoint: '192.168.1.204 (SSH 22 / KVM)',
+      badge: 'OPENBSD 7.9'
+    },
+    {
+      src: 'photos/services/vm-talos.png',
+      title: 'Talos Linux 1.7 · Immutable API-Driven Kubernetes Node (VM 205)',
+      category: 'KUBERNETES & CLOUD-NATIVE',
+      description: 'Production-ready immutable minimal OS designed exclusively for Kubernetes with no SSH access, purely managed via talosctl and Cilium eBPF CNI.',
+      endpoint: '192.168.1.140:50000 (talosctl / K8s)',
+      badge: 'TALOS LINUX'
+    },
+    {
+      src: 'photos/services/opnsense.png',
+      title: 'OPNsense 26.1 Hardened · Core Firewall Console (VM 200)',
+      category: 'FIREWALL & CORE GATEWAY',
+      description: 'Live text console of OPNsense FreeBSD perimeter firewall managing WAN DHCP (192.168.1.134), inter-VLAN routing, and hardware interface bindings.',
+      endpoint: '192.168.1.134:8443 (Console / Web)',
+      badge: 'OPNSENSE CORE'
     },
     {
       src: 'photos/pihole_admin_dashboard.png',
@@ -314,14 +364,6 @@ export class AboutGalleryComponent {
       description: 'Suricata Intrusion Detection System running in promiscuous PCAP live mode across WAN and VLAN interfaces with ET Open rules active.',
       endpoint: '192.168.1.134:8443',
       badge: 'SURICATA IDS'
-    },
-    {
-      src: 'photos/opnsense_stats_dashboard.png',
-      title: 'OPNsense · Core Firewall Administration',
-      category: 'SECURITY & GATEWAY',
-      description: 'FreeBSD Hardened perimeter gateway management interface providing routing, firewalling, and packet inspection at 192.168.1.134.',
-      endpoint: '192.168.1.134:8443',
-      badge: 'FIREWALL CORE'
     },
     {
       src: 'photos/opnsense_firewall_rules.png',
