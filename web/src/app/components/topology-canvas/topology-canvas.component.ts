@@ -24,7 +24,7 @@ import { TranslationService } from '../../services/translation.service';
       <!-- Section Header -->
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div class="space-y-1">
-          <div class="text-xs font-mono font-bold tracking-widest text-[#ef4444] uppercase">
+          <div class="text-xs font-sans font-semibold tracking-wider text-slate-400 uppercase">
             NETWORK TOPOLOGY
           </div>
           <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal tracking-tight">
@@ -91,13 +91,13 @@ import { TranslationService } from '../../services/translation.service';
             <!-- Auto-Rotate -->
             <button
               (click)="toggleAutoRotate()"
-              [class.border-red-500/50]="isAutoRotating"
-              [class.text-red-400]="isAutoRotating"
+              [class.border-slate-500]="isAutoRotating"
+              [class.text-slate-200]="isAutoRotating"
               [class.border-obsidian-750]="!isAutoRotating"
-              [class.text-slate-300]="!isAutoRotating"
-              class="px-3.5 py-1.5 rounded-xl bg-obsidian-950/90 backdrop-blur-md border hover:border-red-500/50 transition-all flex items-center gap-2 shadow-xl"
+              [class.text-slate-400]="!isAutoRotating"
+              class="px-3.5 py-1.5 rounded-xl bg-obsidian-950/90 backdrop-blur-md border hover:border-slate-500 transition-all flex items-center gap-2 shadow-xl font-sans"
             >
-              <span class="w-2 h-2 rounded-full" [class.bg-red-500]="isAutoRotating" [class.shadow-[0_0_8px_rgba(239,68,68,0.8)]]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
+              <span class="w-2 h-2 rounded-full" [class.bg-slate-300]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
               <span>Rotate</span>
             </button>
 
@@ -123,13 +123,13 @@ import { TranslationService } from '../../services/translation.service';
         ></canvas>
 
         <!-- Bottom Status HUD -->
-        <div class="absolute bottom-4 left-4 right-4 z-20 pointer-events-none flex items-center justify-between font-mono text-[11px]">
-          <div class="flex items-center gap-2 text-slate-300">
-            <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+        <div class="absolute bottom-4 left-4 right-4 z-20 pointer-events-none flex items-center justify-between font-sans text-xs">
+          <div class="flex items-center gap-2 text-slate-300 font-medium">
+            <span class="w-2 h-2 rounded-full bg-slate-400"></span>
             <span class="tracking-wide">ACTIVE NETWORK | {{ nodes.length }} NODES | {{ links.length }} LINKS</span>
           </div>
 
-          <div class="text-slate-500 text-[10px] uppercase tracking-wider hidden sm:block font-sans">
+          <div class="text-slate-500 text-[11px] uppercase tracking-wider hidden sm:block font-sans font-normal">
             DRAG TO ROTATE · SCROLL TO ZOOM · CLICK FOR DETAILS
           </div>
         </div>
@@ -285,7 +285,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     ctx.clearRect(0, 0, width, height);
 
     // Draw Subtle Red Perspective Floor Grid
-    ctx.strokeStyle = 'rgba(220, 38, 38, 0.08)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
     ctx.lineWidth = 1;
     const floorY = 220;
     for (let gx = -380; gx <= 380; gx += 65) {
