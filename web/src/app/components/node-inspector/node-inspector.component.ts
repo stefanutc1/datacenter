@@ -43,8 +43,8 @@ import { TranslationService } from '../../services/translation.service';
     <div class="flex items-center px-4 border-b border-obsidian-750 bg-obsidian-950/50 gap-2 font-mono text-xs">
      <button
       (click)="activeTab = 'spec'"
-      [class.border-emerald-500]="activeTab === 'spec'"
-      [class.text-emerald-400]="activeTab === 'spec'"
+      [class.border-slate-500]="activeTab === 'spec'"
+      [class.text-slate-100]="activeTab === 'spec'"
       [class.font-bold]="activeTab === 'spec'"
       [class.border-transparent]="activeTab !== 'spec'"
       [class.text-slate-400]="activeTab !== 'spec'"
@@ -54,8 +54,8 @@ import { TranslationService } from '../../services/translation.service';
      </button>
      <button
       (click)="activeTab = 'cascade'"
-      [class.border-emerald-500]="activeTab === 'cascade'"
-      [class.text-emerald-400]="activeTab === 'cascade'"
+      [class.border-slate-500]="activeTab === 'cascade'"
+      [class.text-slate-100]="activeTab === 'cascade'"
       [class.font-bold]="activeTab === 'cascade'"
       [class.border-transparent]="activeTab !== 'cascade'"
       [class.text-slate-400]="activeTab !== 'cascade'"
@@ -65,8 +65,8 @@ import { TranslationService } from '../../services/translation.service';
      </button>
      <button
       (click)="activeTab = 'manifest'"
-      [class.border-emerald-500]="activeTab === 'manifest'"
-      [class.text-emerald-400]="activeTab === 'manifest'"
+      [class.border-slate-500]="activeTab === 'manifest'"
+      [class.text-slate-100]="activeTab === 'manifest'"
       [class.font-bold]="activeTab === 'manifest'"
       [class.border-transparent]="activeTab !== 'manifest'"
       [class.text-slate-400]="activeTab !== 'manifest'"
@@ -84,7 +84,7 @@ import { TranslationService } from '../../services/translation.service';
       <div class="space-y-4 font-sans">
        <!-- System Role -->
        <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-2">
-        <div class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 font-bold">
+        <div class="text-[10px] font-mono uppercase tracking-widest text-slate-300 font-bold">
          {{ ts.t.inspectorRole }}
         </div>
         <p class="text-xs text-slate-200 leading-relaxed font-normal">
@@ -93,7 +93,7 @@ import { TranslationService } from '../../services/translation.service';
         @if (node.tags && node.tags.length > 0) {
          <div class="flex flex-wrap gap-1.5 pt-1 border-t border-obsidian-750/60">
           @for (tag of node.tags; track tag) {
-           <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-obsidian-900 border border-obsidian-700 text-emerald-400">
+           <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-obsidian-900 border border-obsidian-700 text-slate-300">
             #{{ tag }}
            </span>
           }
@@ -114,7 +114,7 @@ import { TranslationService } from '../../services/translation.service';
           </div>
           <div class="p-3 rounded-lg bg-obsidian-850 border border-obsidian-750">
            <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.srvRamCeiling }}</div>
-           <div class="text-xs font-bold text-emerald-400">{{ node.hardware.ram }}</div>
+           <div class="text-xs font-bold text-slate-300">{{ node.hardware.ram }}</div>
           </div>
           <div class="p-3 rounded-lg bg-obsidian-850 border border-obsidian-750">
            <div class="text-[10px] text-slate-400 uppercase">{{ ts.t.srvStoragePool }}</div>
@@ -141,7 +141,7 @@ import { TranslationService } from '../../services/translation.service';
          @if (node.port) {
           <div class="flex items-center justify-between">
            <span class="text-slate-400">{{ ts.t.inspectorPort }}</span>
-           <span class="font-bold text-emerald-400">:{{ node.port }}</span>
+           <span class="font-bold text-slate-300">:{{ node.port }}</span>
           </div>
          }
          <div class="flex items-center justify-between">
@@ -163,7 +163,7 @@ import { TranslationService } from '../../services/translation.service';
        <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-3 font-mono text-xs">
         <!-- 1. Workload -->
         <div class="flex items-center gap-3">
-         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+         <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
          <div>
           <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? "Nod Workload" : "Workload Node" }}</div>
           <div class="font-bold text-slate-100">{{ node.name }}</div>
@@ -196,7 +196,7 @@ import { TranslationService } from '../../services/translation.service';
 
         <!-- 4. Observability -->
         <div class="flex items-center gap-3">
-         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+         <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
          <div>
           <div class="text-[10px] text-slate-400 uppercase">Telemetry Monitoring</div>
           <div class="font-bold text-slate-100">Prometheus TSDB · Grafana · Tempo · Wazuh</div>
@@ -208,19 +208,19 @@ import { TranslationService } from '../../services/translation.service';
        <div class="space-y-2 font-mono">
         <div class="text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between">
          <span>{{ ts.t.inspectorConnectedNodes }} ({{ connectedNodes.length }})</span>
-         <span class="text-[10px] text-emerald-400">CLICK TO JUMP</span>
+         <span class="text-[10px] text-slate-300">CLICK TO JUMP</span>
         </div>
 
         <div class="grid grid-cols-1 gap-2">
          @for (conn of connectedNodes; track conn.id) {
           <button
            (click)="selectConnected.emit(conn)"
-           class="w-full flex items-center justify-between p-3 rounded-lg bg-obsidian-850 border border-obsidian-750 hover:border-emerald-500/60 text-left transition-all group"
+           class="w-full flex items-center justify-between p-3 rounded-lg bg-obsidian-850 border border-obsidian-750 hover:border-obsidian-600 text-left transition-all group"
           >
            <div class="flex items-center gap-2.5 truncate">
             <span class="w-2 h-2 rounded-full" [style.background-color]="conn.color"></span>
             <div class="truncate">
-             <div class="font-mono text-xs font-bold text-slate-100 group-hover:text-emerald-400 truncate">
+             <div class="font-mono text-xs font-bold text-slate-100 group-hover:text-slate-100 truncate">
               {{ conn.name }}
              </div>
              <div class="font-mono text-[10px] text-slate-400 truncate">
@@ -228,7 +228,7 @@ import { TranslationService } from '../../services/translation.service';
              </div>
             </div>
            </div>
-           <span class="font-mono text-xs text-slate-500 group-hover:text-emerald-400">→</span>
+           <span class="font-mono text-xs text-slate-500 group-hover:text-slate-100">→</span>
           </button>
          }
         </div>
@@ -245,7 +245,7 @@ import { TranslationService } from '../../services/translation.service';
         </span>
         <button
          (click)="copyManifest()"
-         class="px-2.5 py-1 rounded bg-obsidian-800 hover:bg-emerald-500 hover:text-slate-950 text-xs text-slate-200 transition-colors font-bold"
+         class="px-2.5 py-1 rounded bg-obsidian-800 hover:bg-slate-400 hover:text-slate-950 text-xs text-slate-200 transition-colors font-bold"
         >
          {{ isCopied ? ts.t.inspectorCopied : ts.t.inspectorCopySpec }}
         </button>

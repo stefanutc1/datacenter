@@ -39,17 +39,17 @@ interface PhotoItem {
 
    <!-- About Me Engineer Bio Card -->
    <div class="mb-12 p-6 sm:p-8 rounded-3xl bg-[#0c0e11] border border-obsidian-750 shadow-2xl relative overflow-hidden">
-    <div class="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -right-16 -top-16 w-64 h-64 bg-obsidian-800/30 rounded-full blur-3xl pointer-events-none"></div>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
      
      <div class="lg:col-span-2 space-y-4">
       <div class="flex items-center gap-3">
-       <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-mono font-bold text-emerald-400 text-xl shadow-inner">
+       <div class="w-12 h-12 rounded-2xl bg-obsidian-800 border border-obsidian-700 flex items-center justify-center font-mono font-bold text-slate-300 text-xl shadow-inner">
         SN
        </div>
        <div>
         <h3 class="text-lg sm:text-xl font-bold text-slate-100">@stefanutc1</h3>
-        <p class="text-xs font-mono text-emerald-400">DevOps & Infrastructure Architect · Homelab Engineering</p>
+        <p class="text-xs font-mono text-slate-300">DevOps & Infrastructure Architect · Homelab Engineering</p>
        </div>
       </div>
       <p class="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
@@ -71,32 +71,32 @@ interface PhotoItem {
 
      <!-- Quick Access Endpoints Box -->
      <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs space-y-2.5">
-      <div class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider pb-1 border-b border-obsidian-800">
+      <div class="text-[10px] text-slate-300 font-bold uppercase tracking-wider pb-1 border-b border-obsidian-800">
        {{ ts.isRomanian ? 'Acces Rapid Panouri Web' : 'Quick Access Web Dashboards' }}
       </div>
       <div class="flex justify-between items-center text-slate-300">
        <span class="text-slate-400">Grafana:</span>
-       <a href="http://192.168.1.132:3000" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:3000</a>
+       <a href="http://192.168.1.132:3000" target="_blank" class="text-slate-300 hover:underline">192.168.1.132:3000</a>
       </div>
       <div class="flex justify-between items-center text-slate-300">
        <span class="text-slate-400">PVE x86_64 (12GB):</span>
-       <a href="https://192.168.1.132:8006" target="_blank" class="text-emerald-400 hover:underline">192.168.1.132:8006</a>
+       <a href="https://192.168.1.132:8006" target="_blank" class="text-slate-300 hover:underline">192.168.1.132:8006</a>
       </div>
       <div class="flex justify-between items-center text-slate-300">
        <span class="text-slate-400">PVE ARM64:</span>
-       <a href="https://192.168.64.14:8006" target="_blank" class="text-emerald-400 hover:underline">192.168.64.14:8006</a>
+       <a href="https://192.168.64.14:8006" target="_blank" class="text-slate-300 hover:underline">192.168.64.14:8006</a>
       </div>
       <div class="flex justify-between items-center text-slate-300">
        <span class="text-slate-400">OPNsense:</span>
-       <a href="https://192.168.1.134:8443" target="_blank" class="text-emerald-400 hover:underline">192.168.1.134:8443</a>
+       <a href="https://192.168.1.134:8443" target="_blank" class="text-slate-300 hover:underline">192.168.1.134:8443</a>
       </div>
       <div class="flex justify-between items-center text-slate-300">
        <span class="text-slate-400">Pi-hole:</span>
-       <a href="http://192.168.1.4:8080" target="_blank" class="text-emerald-400 hover:underline">192.168.1.4:8080</a>
+       <a href="http://192.168.1.4:8080" target="_blank" class="text-slate-300 hover:underline">192.168.1.4:8080</a>
       </div>
       <div class="flex justify-between items-center text-slate-300">
        <span class="text-slate-400">Home Assistant:</span>
-       <a href="http://192.168.1.10:8123" target="_blank" class="text-emerald-400 hover:underline">192.168.1.10:8123</a>
+       <a href="http://192.168.1.10:8123" target="_blank" class="text-slate-300 hover:underline">192.168.1.10:8123</a>
       </div>
      </div>
 
@@ -108,7 +108,7 @@ interface PhotoItem {
     <div class="flex items-center gap-2 font-mono text-xs">
      <button
       (click)="galleryTab.set('core')"
-      [class.bg-emerald-500]="galleryTab() === 'core'"
+      [class.bg-obsidian-750]="galleryTab() === 'core'"
       [class.text-slate-950]="galleryTab() === 'core'"
       [class.font-bold]="galleryTab() === 'core'"
       [class.bg-obsidian-900]="galleryTab() !== 'core'"
@@ -120,7 +120,7 @@ interface PhotoItem {
      
      <button
       (click)="galleryTab.set('all')"
-      [class.bg-emerald-500]="galleryTab() === 'all'"
+      [class.bg-obsidian-750]="galleryTab() === 'all'"
       [class.text-slate-950]="galleryTab() === 'all'"
       [class.font-bold]="galleryTab() === 'all'"
       [class.bg-obsidian-900]="galleryTab() !== 'all'"
@@ -144,7 +144,7 @@ interface PhotoItem {
      @for (photo of photos; track photo.src) {
       <div 
        (click)="selectedPhoto.set(photo)"
-       class="group cursor-pointer rounded-2xl bg-[#0c0e11] border border-obsidian-750 overflow-hidden hover:border-emerald-500/50 transition-all duration-300 shadow-xl flex flex-col"
+       class="group cursor-pointer rounded-2xl bg-[#0c0e11] border border-obsidian-750 overflow-hidden hover:border-obsidian-600 transition-all duration-300 shadow-xl flex flex-col"
       >
        <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
         <img 
@@ -153,7 +153,7 @@ interface PhotoItem {
          class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
-        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-emerald-400 shadow">
+        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-slate-300 shadow">
          {{ ts.isRomanian ? photo.badgeRo : photo.badge }}
         </span>
        </div>
@@ -161,7 +161,7 @@ interface PhotoItem {
        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
          <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">{{ ts.isRomanian ? photo.categoryRo : photo.category }}</span>
-         <h4 class="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors mt-0.5">
+         <h4 class="text-base font-bold text-slate-100 group-hover:text-slate-100 transition-colors mt-0.5">
           {{ ts.isRomanian ? photo.titleRo : photo.title }}
          </h4>
          <p class="text-xs text-slate-300 font-sans mt-1.5 line-clamp-2 leading-relaxed">
@@ -170,7 +170,7 @@ interface PhotoItem {
         </div>
         <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
          <span>{{ photo.endpoint }}</span>
-         <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
+         <span class="text-slate-300 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
         </div>
        </div>
       </div>
@@ -184,7 +184,7 @@ interface PhotoItem {
      @for (s of allServices; track s.id) {
       <div 
        (click)="openServiceModal(s)"
-       class="group cursor-pointer rounded-2xl bg-[#0c0e11] border border-obsidian-750 overflow-hidden hover:border-emerald-500/50 transition-all duration-300 shadow-xl flex flex-col"
+       class="group cursor-pointer rounded-2xl bg-[#0c0e11] border border-obsidian-750 overflow-hidden hover:border-obsidian-600 transition-all duration-300 shadow-xl flex flex-col"
       >
        <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
         <img 
@@ -193,7 +193,7 @@ interface PhotoItem {
          class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
-        <span class="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-emerald-400 shadow">
+        <span class="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-slate-300 shadow">
          {{ s.category.toUpperCase() }}
         </span>
        </div>
@@ -201,7 +201,7 @@ interface PhotoItem {
        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
          <span class="text-[10px] font-mono text-slate-400">{{ s.node }}</span>
-         <h4 class="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors mt-0.5">
+         <h4 class="text-base font-bold text-slate-100 group-hover:text-slate-100 transition-colors mt-0.5">
           {{ s.name }}
          </h4>
          <p class="text-xs text-slate-300 font-sans mt-1.5 line-clamp-2 leading-relaxed">
@@ -210,7 +210,7 @@ interface PhotoItem {
         </div>
         <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
          <span>{{ s.ip }}:{{ s.port }}</span>
-         <span class="text-emerald-400 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
+         <span class="text-slate-300 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
         </div>
        </div>
       </div>
@@ -231,7 +231,7 @@ interface PhotoItem {
       <!-- Modal Header -->
       <div class="p-4 sm:p-5 border-b border-obsidian-750 flex items-center justify-between bg-obsidian-950 font-sans">
        <div>
-        <span class="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">{{ ts.isRomanian ? p.categoryRo : p.category }}</span>
+        <span class="text-[10px] font-mono text-slate-300 uppercase tracking-wider">{{ ts.isRomanian ? p.categoryRo : p.category }}</span>
         <h3 class="text-lg font-bold text-slate-100">{{ ts.isRomanian ? p.titleRo : p.title }}</h3>
        </div>
        <button 
@@ -249,9 +249,9 @@ interface PhotoItem {
       <!-- Modal Footer -->
       <div class="p-4 sm:p-5 border-t border-obsidian-750 bg-obsidian-950 font-sans text-xs text-slate-300 flex flex-col sm:flex-row justify-between gap-3">
        <p class="leading-relaxed max-w-3xl">{{ ts.isRomanian ? p.descriptionRo : p.description }}</p>
-       <div class="font-mono text-emerald-400 self-start sm:self-auto flex items-center gap-2">
+       <div class="font-mono text-slate-300 self-start sm:self-auto flex items-center gap-2">
         <span>{{ p.endpoint }}</span>
-        <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-[10px]">{{ ts.isRomanian ? p.badgeRo : p.badge }}</span>
+        <span class="px-2 py-0.5 rounded bg-obsidian-800 border border-obsidian-700 text-[10px]">{{ ts.isRomanian ? p.badgeRo : p.badge }}</span>
        </div>
       </div>
      </div>

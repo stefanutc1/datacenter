@@ -34,7 +34,7 @@ import { TranslationService } from '../../services/translation.service';
       [value]="searchQuery"
       (input)="onSearch($event)"
       [placeholder]="ts.t.srvSearchPlaceholder"
-      class="w-full px-4 py-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 placeholder:text-slate-500 font-sans text-xs outline-none focus:border-emerald-500 transition-colors shadow-inner"
+      class="w-full px-4 py-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 placeholder:text-slate-500 font-sans text-xs outline-none focus:border-slate-500 transition-colors shadow-inner"
      />
     </div>
    </div>
@@ -44,7 +44,7 @@ import { TranslationService } from '../../services/translation.service';
     @for (cat of getCategories(); track cat.id) {
      <button
       (click)="activeCategory = cat.id"
-      [class.bg-emerald-500]="activeCategory === cat.id"
+      [class.bg-slate-200 text-slate-950 font-semibold]="activeCategory === cat.id"
       [class.text-slate-950]="activeCategory === cat.id"
       [class.font-bold]="activeCategory === cat.id"
       [class.text-slate-300]="activeCategory !== cat.id"
@@ -60,14 +60,14 @@ import { TranslationService } from '../../services/translation.service';
    <!-- Services Grid -->
    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
     @for (srv of filteredServices; track srv.id) {
-     <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 hover:border-emerald-500/40 transition-all flex flex-col justify-between group shadow-xl">
+     <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 hover:border-obsidian-600 transition-all flex flex-col justify-between group shadow-xl">
       
       <div class="space-y-3.5">
        
        <!-- Screenshot Thumbnail Preview with Lightbox Trigger -->
        <div 
         (click)="selectedServicePhoto.set(srv)"
-        class="relative aspect-video w-full rounded-xl overflow-hidden bg-obsidian-950 border border-obsidian-750 cursor-pointer group-hover:border-emerald-500/30 transition-all shadow-inner"
+        class="relative aspect-video w-full rounded-xl overflow-hidden bg-obsidian-950 border border-obsidian-750 cursor-pointer group-hover:border-obsidian-600 transition-all shadow-inner"
        >
         <img 
          [src]="'photos/services/' + srv.id + '.png'" 
@@ -141,7 +141,7 @@ import { TranslationService } from '../../services/translation.service';
       <div class="pt-4 mt-4 border-t border-obsidian-750 flex items-center justify-between font-mono">
        <button
         (click)="selectedServicePhoto.set(srv)"
-        class="text-xs text-slate-300 hover:text-emerald-400 flex items-center gap-1 transition-colors"
+        class="text-xs text-slate-300 hover:text-slate-100 flex items-center gap-1 transition-colors"
        >
         <span>{{ ts.isRomanian ? ' Panou HD' : ' HD Panel' }}</span>
        </button>
@@ -176,7 +176,7 @@ import { TranslationService } from '../../services/translation.service';
          <img [src]="'icons/' + s.icon + '.svg'" [alt]="s.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
         </div>
         <div>
-         <span class="text-[10px] font-mono text-emerald-400 uppercase tracking-wider">{{ s.category }} · {{ s.node }}</span>
+         <span class="text-[10px] font-mono text-slate-300 uppercase tracking-wider">{{ s.category }} · {{ s.node }}</span>
          <h3 class="text-lg font-bold text-slate-100">{{ s.name }}</h3>
         </div>
        </div>
@@ -195,7 +195,7 @@ import { TranslationService } from '../../services/translation.service';
       <!-- Modal Footer Details -->
       <div class="p-4 sm:p-5 border-t border-obsidian-750 bg-obsidian-950 font-sans text-xs text-slate-300 flex flex-col sm:flex-row justify-between gap-3">
        <p class="leading-relaxed max-w-2xl">{{ (ts.isRomanian && s.descriptionRo) ? s.descriptionRo : s.description }}</p>
-       <div class="font-mono text-emerald-400 self-start sm:self-auto flex items-center gap-2">
+       <div class="font-mono text-slate-300 self-start sm:self-auto flex items-center gap-2">
         <span>{{ s.ip }}:{{ s.port }}</span>
         <span class="text-slate-500">|</span>
         <span class="text-slate-400">{{ s.domain }}</span>

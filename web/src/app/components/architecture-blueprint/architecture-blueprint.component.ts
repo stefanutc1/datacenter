@@ -27,7 +27,7 @@ import { TranslationService } from '../../services/translation.service';
       <div class="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar pb-2 font-sans">
         <button
           (click)="activeTab = 'cloud'"
-          [class.bg-emerald-500]="activeTab === 'cloud'"
+          [class.bg-obsidian-750]="activeTab === 'cloud'"
           [class.text-slate-950]="activeTab === 'cloud'"
           [class.font-bold]="activeTab === 'cloud'"
           [class.text-slate-300]="activeTab !== 'cloud'"
@@ -38,7 +38,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'vlan'"
-          [class.bg-emerald-500]="activeTab === 'vlan'"
+          [class.bg-obsidian-750]="activeTab === 'vlan'"
           [class.text-slate-950]="activeTab === 'vlan'"
           [class.font-bold]="activeTab === 'vlan'"
           [class.text-slate-300]="activeTab !== 'vlan'"
@@ -49,7 +49,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'power'"
-          [class.bg-emerald-500]="activeTab === 'power'"
+          [class.bg-obsidian-750]="activeTab === 'power'"
           [class.text-slate-950]="activeTab === 'power'"
           [class.font-bold]="activeTab === 'power'"
           [class.text-slate-300]="activeTab !== 'power'"
@@ -60,7 +60,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'storage'"
-          [class.bg-emerald-500]="activeTab === 'storage'"
+          [class.bg-obsidian-750]="activeTab === 'storage'"
           [class.text-slate-950]="activeTab === 'storage'"
           [class.font-bold]="activeTab === 'storage'"
           [class.text-slate-300]="activeTab !== 'storage'"
@@ -71,7 +71,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'cyber'"
-          [class.bg-emerald-500]="activeTab === 'cyber'"
+          [class.bg-obsidian-750]="activeTab === 'cyber'"
           [class.text-slate-950]="activeTab === 'cyber'"
           [class.font-bold]="activeTab === 'cyber'"
           [class.text-slate-300]="activeTab !== 'cyber'"
@@ -82,7 +82,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'zerotrust'"
-          [class.bg-emerald-500]="activeTab === 'zerotrust'"
+          [class.bg-obsidian-750]="activeTab === 'zerotrust'"
           [class.text-slate-950]="activeTab === 'zerotrust'"
           [class.font-bold]="activeTab === 'zerotrust'"
           [class.text-slate-300]="activeTab !== 'zerotrust'"
@@ -93,7 +93,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'generator'"
-          [class.bg-emerald-500]="activeTab === 'generator'"
+          [class.bg-obsidian-750]="activeTab === 'generator'"
           [class.text-slate-950]="activeTab === 'generator'"
           [class.font-bold]="activeTab === 'generator'"
           [class.text-slate-300]="activeTab !== 'generator'"
@@ -104,7 +104,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'chaos'"
-          [class.bg-emerald-500]="activeTab === 'chaos'"
+          [class.bg-obsidian-750]="activeTab === 'chaos'"
           [class.text-slate-950]="activeTab === 'chaos'"
           [class.font-bold]="activeTab === 'chaos'"
           [class.text-slate-300]="activeTab !== 'chaos'"
@@ -115,7 +115,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'observability'"
-          [class.bg-emerald-500]="activeTab === 'observability'"
+          [class.bg-obsidian-750]="activeTab === 'observability'"
           [class.text-slate-950]="activeTab === 'observability'"
           [class.font-bold]="activeTab === 'observability'"
           [class.text-slate-300]="activeTab !== 'observability'"
@@ -126,7 +126,7 @@ import { TranslationService } from '../../services/translation.service';
         </button>
         <button
           (click)="activeTab = 'glossary'"
-          [class.bg-emerald-500]="activeTab === 'glossary'"
+          [class.bg-obsidian-750]="activeTab === 'glossary'"
           [class.text-slate-950]="activeTab === 'glossary'"
           [class.font-bold]="activeTab === 'glossary'"
           [class.text-slate-300]="activeTab !== 'glossary'"
@@ -167,7 +167,7 @@ import { TranslationService } from '../../services/translation.service';
               </div>
 
               <!-- GCP -->
-              <div class="p-5 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 space-y-3 hover:border-emerald-500/50 transition-colors">
+              <div class="p-5 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 space-y-3 hover:border-obsidian-600 transition-colors">
                 <div class="flex items-center justify-between">
                   <span class="text-xs font-mono font-bold text-emerald-400">GOOGLE CLOUD (GCP)</span>
                   <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/60 text-emerald-300 border border-emerald-800">WORM / OIDC Keyless</span>
@@ -442,7 +442,7 @@ import { TranslationService } from '../../services/translation.service';
                   <h3 class="font-sans font-bold text-slate-50 text-base tracking-wide">
                     {{ pillar.title }}
                   </h3>
-                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase">
+                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700 uppercase">
                     {{ pillar.badge }}
                   </span>
                 </div>
@@ -646,15 +646,15 @@ import { TranslationService } from '../../services/translation.service';
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label class="text-[10px] text-slate-400 uppercase block mb-1">{{ ts.isRomanian ? 'Nume Gazdă (Hostname)' : 'Hostname' }}</label>
-                <input type="text" [(ngModel)]="genHostname" class="w-full p-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 outline-none focus:border-emerald-500" />
+                <input type="text" [(ngModel)]="genHostname" class="w-full p-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 outline-none focus:border-slate-500" />
               </div>
               <div>
                 <label class="text-[10px] text-slate-400 uppercase block mb-1">{{ ts.isRomanian ? 'ID Container (VMID)' : 'Container VMID' }}</label>
-                <input type="number" [(ngModel)]="genVmid" class="w-full p-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 outline-none focus:border-emerald-500" />
+                <input type="number" [(ngModel)]="genVmid" class="w-full p-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 outline-none focus:border-slate-500" />
               </div>
               <div>
                 <label class="text-[10px] text-slate-400 uppercase block mb-1">{{ ts.isRomanian ? 'Memorie RAM (MB)' : 'RAM Ceiling (MB)' }}</label>
-                <input type="number" [(ngModel)]="genRam" class="w-full p-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 outline-none focus:border-emerald-500" />
+                <input type="number" [(ngModel)]="genRam" class="w-full p-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 outline-none focus:border-slate-500" />
               </div>
             </div>
 
@@ -746,7 +746,7 @@ import { TranslationService } from '../../services/translation.service';
             type="text"
             [(ngModel)]="glossarySearch"
             [placeholder]="ts.isRomanian ? 'Filtrează termenii din glosar (ex: ZFS, eBPF, Passkeys, NUT)...' : 'Filter glossary terms (e.g. ZFS, eBPF, Passkeys, NUT)...'"
-            class="w-full p-3 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 text-xs font-sans outline-none focus:border-emerald-500"
+            class="w-full p-3 rounded-xl bg-obsidian-900 border border-obsidian-700 text-slate-100 text-xs font-sans outline-none focus:border-slate-500"
           />
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
