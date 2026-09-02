@@ -1,6 +1,9 @@
 <div align="center">
 
-# Plateforme d'Ingénierie & Cloud Hybride d'Entreprise (Homelab)
+<p align="center">
+   <img src="./photos/logo.png" alt="logo" height="85" />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
 
 **[ Română ](README.ro.md) • [ English ](README.md) • [ Français ](README.fr.md) • [ Español ](README.es.md) • [ Deutsch ](README.de.md)**
 
