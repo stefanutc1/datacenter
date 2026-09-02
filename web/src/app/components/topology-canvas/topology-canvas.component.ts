@@ -33,22 +33,22 @@ import { TranslationService } from '../../services/translation.service';
         </div>
       </div>
 
-      <!-- 3D Viewer Container (Optimized Proportions) -->
-      <div class="relative w-full h-[620px] bg-[#0c0e11] rounded-2xl overflow-hidden border border-obsidian-750 shadow-2xl flex flex-col select-none">
+      <!-- 3D Viewer Container (Wide, Balanced Architecture Viewport) -->
+      <div class="relative w-full h-[600px] bg-[#0c0e11] rounded-2xl overflow-hidden border border-obsidian-750 shadow-2xl flex flex-col select-none">
         
         <!-- Top HUD Layer Controls -->
         <div class="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
           
-          <!-- Subsystem Layer Badges -->
+          <!-- Subsystem Layer Badges (Neutral Slate Styling) -->
           <div class="flex items-center gap-1.5 p-1.5 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 pointer-events-auto shadow-lg overflow-x-auto max-w-full">
             @for (cat of getCategories(); track cat.id) {
               <button
                 (click)="selectCategory(cat.id)"
-                [class.bg-emerald-500]="activeCategory === cat.id"
+                [class.bg-slate-200]="activeCategory === cat.id"
                 [class.text-slate-950]="activeCategory === cat.id"
-                [class.font-bold]="activeCategory === cat.id"
-                [class.text-slate-300]="activeCategory !== cat.id"
-                [class.hover:text-slate-50]="activeCategory !== cat.id"
+                [class.font-semibold]="activeCategory === cat.id"
+                [class.text-slate-400]="activeCategory !== cat.id"
+                [class.hover:text-slate-100]="activeCategory !== cat.id"
                 class="px-3 py-1.5 rounded-lg text-xs font-sans transition-all whitespace-nowrap"
               >
                 {{ cat.label }}
@@ -62,21 +62,21 @@ import { TranslationService } from '../../services/translation.service';
             <div class="flex items-center p-1 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 shadow-md font-medium">
               <button
                 (click)="setPerspective('logical')"
-                [class.bg-emerald-500]="perspective === 'logical'"
+                [class.bg-slate-200]="perspective === 'logical'"
                 [class.text-slate-950]="perspective === 'logical'"
-                [class.font-bold]="perspective === 'logical'"
-                [class.text-slate-300]="perspective !== 'logical'"
-                class="px-2.5 py-1 rounded-lg transition-colors font-mono text-[11px]"
+                [class.font-semibold]="perspective === 'logical'"
+                [class.text-slate-400]="perspective !== 'logical'"
+                class="px-2.5 py-1 rounded-lg transition-colors font-sans text-xs"
               >
                 {{ ts.t.btnLogical }}
               </button>
               <button
                 (click)="setPerspective('physical')"
-                [class.bg-emerald-500]="perspective === 'physical'"
+                [class.bg-slate-200]="perspective === 'physical'"
                 [class.text-slate-950]="perspective === 'physical'"
-                [class.font-bold]="perspective === 'physical'"
-                [class.text-slate-300]="perspective !== 'physical'"
-                class="px-2.5 py-1 rounded-lg transition-colors font-mono text-[11px]"
+                [class.font-semibold]="perspective === 'physical'"
+                [class.text-slate-400]="perspective !== 'physical'"
+                class="px-2.5 py-1 rounded-lg transition-colors font-sans text-xs"
               >
                 {{ ts.t.btnPhysical }}
               </button>
@@ -85,19 +85,19 @@ import { TranslationService } from '../../services/translation.service';
             <!-- Auto-Rotate -->
             <button
               (click)="toggleAutoRotate()"
-              [class.border-emerald-500]="isAutoRotating"
-              [class.text-emerald-400]="isAutoRotating"
-              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-emerald-400/50 text-slate-200 font-medium transition-all flex items-center gap-2 shadow-md font-mono text-xs"
+              [class.border-slate-500]="isAutoRotating"
+              [class.text-slate-200]="isAutoRotating"
+              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-slate-500 text-slate-300 font-medium transition-all flex items-center gap-2 shadow-md font-sans text-xs"
               title="Toggle 3D auto-rotation"
             >
-              <span class="w-2 h-2 rounded-full" [class.bg-emerald-500]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
+              <span class="w-2 h-2 rounded-full" [class.bg-slate-300]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
               <span>{{ ts.t.btnRotate }}</span>
             </button>
 
             <!-- Reset Camera -->
             <button
               (click)="resetCamera()"
-              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-slate-500 text-slate-200 hover:text-slate-50 font-medium transition-all shadow-md font-mono text-xs"
+              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-slate-500 text-slate-300 hover:text-slate-100 font-medium transition-all shadow-md font-sans text-xs"
             >
               {{ ts.t.btnReset }}
             </button>
@@ -115,20 +115,20 @@ import { TranslationService } from '../../services/translation.service';
           (wheel)="onWheel($event)"
         ></canvas>
 
-        <!-- Bottom HUD Coordinates & Quick Stats -->
-        <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-mono text-xs text-slate-300">
+        <!-- Bottom HUD Coordinates & Quick Stats (Neutral Styling) -->
+        <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-sans text-xs text-slate-300">
           <div class="px-3.5 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 shadow-md flex items-center gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span class="font-bold text-slate-100 text-[11px]">{{ ts.t.meshActive }}</span>
+            <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+            <span class="font-bold text-slate-200 text-xs">{{ ts.t.meshActive }}</span>
             <span class="text-obsidian-600">|</span>
-            <span class="text-slate-200">{{ nodes.length }} {{ ts.t.nodesLabel }}</span>
+            <span class="text-slate-300">{{ nodes.length }} {{ ts.t.nodesLabel }}</span>
             <span class="text-obsidian-600">|</span>
-            <span class="text-emerald-400">{{ links.length }} {{ ts.t.flowsLabel }}</span>
+            <span class="text-slate-400">{{ links.length }} {{ ts.t.flowsLabel }}</span>
           </div>
         </div>
 
         <!-- Instructions Hint -->
-        <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-mono text-[11px] text-slate-500">
+        <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-sans text-xs text-slate-500">
           <span>{{ ts.t.interactionHint }}</span>
         </div>
       </div>
@@ -173,11 +173,11 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   isAutoRotating = true;
   private animationFrameId: number | null = null;
 
-  // 3D Camera & Transform State (Natural, Well-Balanced Perspective)
-  private angleX = 0.35;
-  private angleY = -0.20;
-  private zoom = 1.08;
-  private fov = 680;
+  // 3D Camera & Transform State (Natural Horizontal Plane Angle)
+  private angleX = 0.52;  // Beautiful isometric top-down tilt
+  private angleY = -0.15;
+  private zoom = 1.05;
+  private fov = 750;
   private isDragging = false;
   private previousMousePosition = { x: 0, y: 0 };
   private hoveredNode: TopologyNode | null = null;
@@ -219,9 +219,9 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   }
 
   resetCamera() {
-    this.angleX = 0.35;
-    this.angleY = -0.20;
-    this.zoom = 1.08;
+    this.angleX = 0.52;
+    this.angleY = -0.15;
+    this.zoom = 1.05;
     this.activeCategory = 'all';
     this.categoryChanged.emit('all');
     this.nodeSelected.emit(null);
@@ -238,10 +238,9 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   }
 
   private project3D(x: number, y: number, z: number, cx: number, cy: number, width: number, height: number) {
-    // Responsive scaling factor to fill 70-80% of width/height naturally
-    const responsiveScale = Math.min(Math.max(0.85, width / 950), 1.35);
+    const responsiveScale = Math.min(Math.max(0.85, width / 1000), 1.3);
     x *= this.zoom * responsiveScale;
-    y *= this.zoom * responsiveScale * 0.82; // Harmonious vertical ratio
+    y *= this.zoom * responsiveScale;
     z *= this.zoom * responsiveScale;
 
     // Rotate Y
@@ -256,7 +255,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const y2 = y * cosX - z1 * sinX;
     const z2 = z1 * cosX + y * sinX;
 
-    const distance = this.fov + z2 + 320;
+    const distance = this.fov + z2 + 400;
     const scale = distance > 10 ? this.fov / distance : 0.01;
 
     return {
@@ -277,27 +276,27 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const width = canvas.width / dpr;
     const height = canvas.height / dpr;
     const cx = width / 2;
-    const cy = height / 2 - 10;
+    const cy = height / 2 + 10;
 
     ctx.save();
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // Native High-DPI Retina coordinate mapping
     ctx.clearRect(0, 0, width, height);
 
-    // Draw Subtle Obsidian Coordinate Floor
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+    // Draw Subtle Obsidian Coordinate Floor Grid (Neutral Dark Grey)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
     ctx.lineWidth = 1;
-    const floorY = 320;
-    for (let gx = -420; gx <= 420; gx += 70) {
-      const pStart = this.project3D(gx, floorY, -420, cx, cy, width, height);
-      const pEnd = this.project3D(gx, floorY, 420, cx, cy, width, height);
+    const floorY = 90;
+    for (let gx = -520; gx <= 520; gx += 80) {
+      const pStart = this.project3D(gx, floorY, -320, cx, cy, width, height);
+      const pEnd = this.project3D(gx, floorY, 320, cx, cy, width, height);
       ctx.beginPath();
       ctx.moveTo(pStart.px, pStart.py);
       ctx.lineTo(pEnd.px, pEnd.py);
       ctx.stroke();
     }
-    for (let gz = -420; gz <= 420; gz += 70) {
-      const pStart = this.project3D(-420, floorY, gz, cx, cy, width, height);
-      const pEnd = this.project3D(420, floorY, gz, cx, cy, width, height);
+    for (let gz = -320; gz <= 320; gz += 80) {
+      const pStart = this.project3D(-520, floorY, gz, cx, cy, width, height);
+      const pEnd = this.project3D(520, floorY, gz, cx, cy, width, height);
       ctx.beginPath();
       ctx.moveTo(pStart.px, pStart.py);
       ctx.lineTo(pEnd.px, pEnd.py);
@@ -306,22 +305,22 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
     const now = Date.now() * 0.002;
 
-    // Draw Vector Edges and Data Streams
+    // Draw Vector Edges and Data Streams (Neutral Grey)
     this.links.forEach((link, idx) => {
       const fromNode = this.nodes.find(n => n.id === link.from);
       const toNode = this.nodes.find(n => n.id === link.to);
       if (!fromNode || !toNode) return;
 
       const isFiltered = this.isLinkActive(fromNode, toNode);
-      const alpha = isFiltered ? 0.65 : 0.08;
+      const alpha = isFiltered ? 0.5 : 0.06;
 
       const p1 = this.project3D(fromNode.x, fromNode.y, fromNode.z, cx, cy, width, height);
       const p2 = this.project3D(toNode.x, toNode.y, toNode.z, cx, cy, width, height);
 
       ctx.beginPath();
-      ctx.strokeStyle = link.color;
+      ctx.strokeStyle = 'rgba(203, 213, 225, 0.6)';
       ctx.globalAlpha = alpha;
-      ctx.lineWidth = Math.max(1, (isFiltered ? 2.0 : 1) * p1.scale);
+      ctx.lineWidth = Math.max(1, (isFiltered ? 1.8 : 0.9) * p1.scale);
       ctx.moveTo(p1.px, p1.py);
       ctx.lineTo(p2.px, p2.py);
       ctx.stroke();
@@ -334,8 +333,8 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
         const packetY = p1.py + (p2.py - p1.py) * progress;
 
         ctx.beginPath();
-        ctx.arc(packetX, packetY, Math.max(2.5, 4.0 * p1.scale), 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
+        ctx.arc(packetX, packetY, Math.max(2.0, 3.5 * p1.scale), 0, Math.PI * 2);
+        ctx.fillStyle = '#f8fafc';
         ctx.fill();
       }
     });
@@ -349,7 +348,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
       return { ...n, ...p, isSelected, isHovered, isActive };
     }).sort((a, b) => b.zOrder - a.zOrder);
 
-    // Draw Nodes
+    // Draw Nodes (Clean Neutral Slate Palette)
     projectedNodes.forEach(node => {
       const baseRadius = node.tier <= 2 ? 14 : 9;
       const radius = Math.max(5.5, baseRadius * node.scale);
@@ -357,11 +356,11 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
       ctx.globalAlpha = alpha;
 
-      // Selection Ring
+      // Selection Ring (Clean White/Slate)
       if (node.isSelected || node.isHovered) {
         ctx.beginPath();
         ctx.arc(node.px, node.py, radius + 6, 0, Math.PI * 2);
-        ctx.strokeStyle = '#10b981';
+        ctx.strokeStyle = '#f8fafc';
         ctx.lineWidth = 2;
         ctx.stroke();
       }
@@ -379,7 +378,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
       ctx.fillStyle = node.color;
       ctx.fill();
 
-      // Draw Clean Typography Badges with Geist
+      // Draw Clean Typography Badges with Geist Sans
       const shouldDrawLabel = node.tier <= 2 || node.isSelected || node.isHovered || (this.activeCategory !== 'all' && node.isActive);
 
       if (shouldDrawLabel) {
@@ -394,7 +393,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
         const badgeY = node.py + radius + 13;
 
         // Clean Obsidian pill background
-        ctx.fillStyle = 'rgba(12, 14, 17, 0.92)';
+        ctx.fillStyle = 'rgba(12, 14, 17, 0.94)';
         ctx.beginPath();
         ctx.roundRect(
           node.px - textWidth / 2 - padX,
@@ -415,7 +414,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
         // Sublabel if selected or hovered
         if (node.isSelected || node.isHovered) {
           const subFontSize = Math.max(9, Math.round(9.5 * node.scale));
-          ctx.font = `400 ${subFontSize}px "IBM Plex Mono", monospace`;
+          ctx.font = `400 ${subFontSize}px "Geist", "Inter", sans-serif`;
           ctx.fillStyle = '#94a3b8';
           ctx.fillText(node.sublabel || node.ip, node.px, badgeY + fontSize + 12);
         }
@@ -427,7 +426,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     ctx.restore();
 
     if (this.isAutoRotating && !this.isDragging) {
-      this.angleY += 0.0015;
+      this.angleY += 0.0012;
     }
 
     this.animationFrameId = requestAnimationFrame(this.render);
@@ -438,7 +437,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     if (this.selectedNode && this.selectedNode.connections.includes(node.id)) return true;
 
     if (this.perspective === 'physical') {
-      return node.tier <= 2 || node.tier === 7;
+      return node.tier <= 2 || node.tier === 6;
     }
 
     if (this.activeCategory === 'all') return true;
@@ -461,7 +460,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
     const cx = rect.width / 2;
-    const cy = rect.height / 2 - 10;
+    const cy = rect.height / 2 + 10;
 
     let hovered: TopologyNode | null = null;
     for (const node of this.nodes) {
@@ -494,7 +493,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
     const cx = rect.width / 2;
-    const cy = rect.height / 2 - 10;
+    const cy = rect.height / 2 + 10;
 
     let clicked: TopologyNode | null = null;
     for (const node of this.nodes) {
