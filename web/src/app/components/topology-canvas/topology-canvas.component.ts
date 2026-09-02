@@ -24,9 +24,6 @@ import { TranslationService } from '../../services/translation.service';
       <!-- Section Title Header -->
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
         <div class="space-y-1">
-          <div class="text-[11px] font-mono font-bold tracking-widest text-emerald-400 uppercase">
-            {{ ts.t.topologyTag }}
-          </div>
           <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-50 tracking-tight">
             {{ ts.t.topologyTitle }}
           </h2>
@@ -36,8 +33,8 @@ import { TranslationService } from '../../services/translation.service';
         </div>
       </div>
 
-      <!-- 3D Viewer Container -->
-      <div class="relative w-full h-[580px] bg-[#0c0e11] rounded-2xl overflow-hidden border border-obsidian-750 shadow-2xl flex flex-col select-none">
+      <!-- 3D Viewer Container (Optimized Proportions) -->
+      <div class="relative w-full h-[620px] bg-[#0c0e11] rounded-2xl overflow-hidden border border-obsidian-750 shadow-2xl flex flex-col select-none">
         
         <!-- Top HUD Layer Controls -->
         <div class="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
@@ -176,11 +173,11 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   isAutoRotating = true;
   private animationFrameId: number | null = null;
 
-  // 3D Camera & Transform State (Spacious 3D View)
-  private angleX = 0.42;
-  private angleY = -0.15;
-  private zoom = 0.95;
-  private fov = 700;
+  // 3D Camera & Transform State (Natural, Well-Balanced Perspective)
+  private angleX = 0.35;
+  private angleY = -0.20;
+  private zoom = 1.08;
+  private fov = 680;
   private isDragging = false;
   private previousMousePosition = { x: 0, y: 0 };
   private hoveredNode: TopologyNode | null = null;
@@ -222,17 +219,17 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   }
 
   resetCamera() {
-    this.angleX = 0.42;
-    this.angleY = -0.15;
-    this.zoom = 0.95;
+    this.angleX = 0.35;
+    this.angleY = -0.20;
+    this.zoom = 1.08;
     this.activeCategory = 'all';
     this.categoryChanged.emit('all');
     this.nodeSelected.emit(null);
   }
 
   private handleResize() {
-    const canvas = this.canvasRef.nativeElement;
-    const parent = canvas.parentElement;
+    const canvas = this.canvasRef?.nativeElement;
+    const parent = canvas?.parentElement;
     if (canvas && parent) {
       const dpr = window.devicePixelRatio || 1;
       canvas.width = parent.clientWidth * dpr;
@@ -240,10 +237,12 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     }
   }
 
-  private project3D(x: number, y: number, z: number, cx: number, cy: number) {
-    x *= this.zoom;
-    y *= this.zoom;
-    z *= this.zoom;
+  private project3D(x: number, y: number, z: number, cx: number, cy: number, width: number, height: number) {
+    // Responsive scaling factor to fill 70-80% of width/height naturally
+    const responsiveScale = Math.min(Math.max(0.85, width / 950), 1.35);
+    x *= this.zoom * responsiveScale;
+    y *= this.zoom * responsiveScale * 0.82; // Harmonious vertical ratio
+    z *= this.zoom * responsiveScale;
 
     // Rotate Y
     const cosY = Math.cos(this.angleY);
@@ -257,44 +256,48 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const y2 = y * cosX - z1 * sinX;
     const z2 = z1 * cosX + y * sinX;
 
-    const distance = this.fov + z2 + 450;
+    const distance = this.fov + z2 + 320;
     const scale = distance > 10 ? this.fov / distance : 0.01;
 
     return {
       px: cx + x1 * scale,
       py: cy + y2 * scale,
-      scale: Math.max(0.18, scale),
+      scale: Math.max(0.35, scale),
       zOrder: z2
     };
   }
 
   private render = () => {
-    const canvas = this.canvasRef.nativeElement;
+    const canvas = this.canvasRef?.nativeElement;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const width = canvas.width;
-    const height = canvas.height;
+    const dpr = window.devicePixelRatio || 1;
+    const width = canvas.width / dpr;
+    const height = canvas.height / dpr;
     const cx = width / 2;
-    const cy = height / 2;
+    const cy = height / 2 - 10;
 
+    ctx.save();
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // Native High-DPI Retina coordinate mapping
     ctx.clearRect(0, 0, width, height);
 
     // Draw Subtle Obsidian Coordinate Floor
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
     ctx.lineWidth = 1;
-    for (let gx = -450; gx <= 450; gx += 75) {
-      const pStart = this.project3D(gx, 340, -450, cx, cy);
-      const pEnd = this.project3D(gx, 340, 450, cx, cy);
+    const floorY = 320;
+    for (let gx = -420; gx <= 420; gx += 70) {
+      const pStart = this.project3D(gx, floorY, -420, cx, cy, width, height);
+      const pEnd = this.project3D(gx, floorY, 420, cx, cy, width, height);
       ctx.beginPath();
       ctx.moveTo(pStart.px, pStart.py);
-      ctx.lineTo(pEnd.py ? pEnd.px : 0, pEnd.py);
+      ctx.lineTo(pEnd.px, pEnd.py);
       ctx.stroke();
     }
-    for (let gz = -450; gz <= 450; gz += 75) {
-      const pStart = this.project3D(-450, 340, gz, cx, cy);
-      const pEnd = this.project3D(450, 340, gz, cx, cy);
+    for (let gz = -420; gz <= 420; gz += 70) {
+      const pStart = this.project3D(-420, floorY, gz, cx, cy, width, height);
+      const pEnd = this.project3D(420, floorY, gz, cx, cy, width, height);
       ctx.beginPath();
       ctx.moveTo(pStart.px, pStart.py);
       ctx.lineTo(pEnd.px, pEnd.py);
@@ -312,8 +315,8 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
       const isFiltered = this.isLinkActive(fromNode, toNode);
       const alpha = isFiltered ? 0.65 : 0.08;
 
-      const p1 = this.project3D(fromNode.x, fromNode.y, fromNode.z, cx, cy);
-      const p2 = this.project3D(toNode.x, toNode.y, toNode.z, cx, cy);
+      const p1 = this.project3D(fromNode.x, fromNode.y, fromNode.z, cx, cy, width, height);
+      const p2 = this.project3D(toNode.x, toNode.y, toNode.z, cx, cy, width, height);
 
       ctx.beginPath();
       ctx.strokeStyle = link.color;
@@ -339,7 +342,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
     // Project and Depth-Sort Nodes
     const projectedNodes = this.nodes.map(n => {
-      const p = this.project3D(n.x, n.y, n.z, cx, cy);
+      const p = this.project3D(n.x, n.y, n.z, cx, cy, width, height);
       const isSelected = this.selectedNode?.id === n.id;
       const isHovered = this.hoveredNode?.id === n.id;
       const isActive = this.isNodeActive(n);
@@ -348,16 +351,16 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
     // Draw Nodes
     projectedNodes.forEach(node => {
-      const baseRadius = node.tier <= 2 ? 16 : 11;
-      const radius = Math.max(6, baseRadius * node.scale);
-      const alpha = node.isActive ? 1.0 : 0.22;
+      const baseRadius = node.tier <= 2 ? 14 : 9;
+      const radius = Math.max(5.5, baseRadius * node.scale);
+      const alpha = node.isActive ? 1.0 : 0.2;
 
       ctx.globalAlpha = alpha;
 
       // Selection Ring
       if (node.isSelected || node.isHovered) {
         ctx.beginPath();
-        ctx.arc(node.px, node.py, radius + 7, 0, Math.PI * 2);
+        ctx.arc(node.px, node.py, radius + 6, 0, Math.PI * 2);
         ctx.strokeStyle = '#10b981';
         ctx.lineWidth = 2;
         ctx.stroke();
@@ -365,9 +368,9 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
       // Outer Ring
       ctx.beginPath();
-      ctx.arc(node.px, node.py, radius + 3, 0, Math.PI * 2);
+      ctx.arc(node.px, node.py, radius + 2.5, 0, Math.PI * 2);
       ctx.strokeStyle = node.color;
-      ctx.lineWidth = Math.max(1.2, 1.8 * node.scale);
+      ctx.lineWidth = Math.max(1.2, 1.6 * node.scale);
       ctx.stroke();
 
       // Core Circle
@@ -380,25 +383,25 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
       const shouldDrawLabel = node.tier <= 2 || node.isSelected || node.isHovered || (this.activeCategory !== 'all' && node.isActive);
 
       if (shouldDrawLabel) {
-        const fontSize = Math.max(11, Math.round(12.5 * node.scale));
+        const fontSize = Math.max(10, Math.round(11.5 * node.scale));
         ctx.font = `600 ${fontSize}px "Geist", "Inter", sans-serif`;
         ctx.textAlign = 'center';
 
         const label = node.name;
         const textWidth = ctx.measureText(label).width;
-        const padX = 7;
-        const padY = 3.5;
-        const badgeY = node.py + radius + 15;
+        const padX = 6;
+        const padY = 3;
+        const badgeY = node.py + radius + 13;
 
         // Clean Obsidian pill background
-        ctx.fillStyle = 'rgba(12, 14, 17, 0.94)';
+        ctx.fillStyle = 'rgba(12, 14, 17, 0.92)';
         ctx.beginPath();
         ctx.roundRect(
           node.px - textWidth / 2 - padX,
           badgeY - fontSize / 2 - padY,
           textWidth + padX * 2,
           fontSize + padY * 2,
-          5
+          4
         );
         ctx.fill();
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
@@ -409,17 +412,19 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
         ctx.fillStyle = '#f8fafc';
         ctx.fillText(label, node.px, badgeY + fontSize / 3.2);
 
-        // Sublabel if selected or hovered (IBM Plex Mono)
+        // Sublabel if selected or hovered
         if (node.isSelected || node.isHovered) {
-          const subFontSize = Math.max(10, Math.round(10.5 * node.scale));
+          const subFontSize = Math.max(9, Math.round(9.5 * node.scale));
           ctx.font = `400 ${subFontSize}px "IBM Plex Mono", monospace`;
           ctx.fillStyle = '#94a3b8';
-          ctx.fillText(node.sublabel || node.ip, node.px, badgeY + fontSize + 14);
+          ctx.fillText(node.sublabel || node.ip, node.px, badgeY + fontSize + 12);
         }
       }
 
       ctx.globalAlpha = 1.0;
     });
+
+    ctx.restore();
 
     if (this.isAutoRotating && !this.isDragging) {
       this.angleY += 0.0015;
@@ -450,19 +455,19 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   }
 
   onMouseMove(e: MouseEvent) {
-    const canvas = this.canvasRef.nativeElement;
+    const canvas = this.canvasRef?.nativeElement;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const mouseX = (e.clientX - rect.left) * dpr;
-    const mouseY = (e.clientY - rect.top) * dpr;
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2 - 10;
 
     let hovered: TopologyNode | null = null;
     for (const node of this.nodes) {
-      const p = this.project3D(node.x, node.y, node.z, cx, cy);
+      const p = this.project3D(node.x, node.y, node.z, cx, cy, rect.width, rect.height);
       const dist = Math.hypot(p.px - mouseX, p.py - mouseY);
-      if (dist < 26) {
+      if (dist < 22) {
         hovered = node;
         break;
       }
@@ -472,8 +477,8 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     if (this.isDragging) {
       const deltaX = e.clientX - this.previousMousePosition.x;
       const deltaY = e.clientY - this.previousMousePosition.y;
-      this.angleY += deltaX * 0.006;
-      this.angleX = Math.max(-1.2, Math.min(1.2, this.angleX + deltaY * 0.006));
+      this.angleY += deltaX * 0.005;
+      this.angleX = Math.max(-1.1, Math.min(1.1, this.angleX + deltaY * 0.005));
       this.previousMousePosition = { x: e.clientX, y: e.clientY };
     }
   }
@@ -483,19 +488,19 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
       this.isDragging = false;
     }
 
-    const canvas = this.canvasRef.nativeElement;
+    const canvas = this.canvasRef?.nativeElement;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const mouseX = (e.clientX - rect.left) * dpr;
-    const mouseY = (e.clientY - rect.top) * dpr;
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2 - 10;
 
     let clicked: TopologyNode | null = null;
     for (const node of this.nodes) {
-      const p = this.project3D(node.x, node.y, node.z, cx, cy);
+      const p = this.project3D(node.x, node.y, node.z, cx, cy, rect.width, rect.height);
       const dist = Math.hypot(p.px - mouseX, p.py - mouseY);
-      if (dist < 28) {
+      if (dist < 24) {
         clicked = node;
         break;
       }
@@ -512,6 +517,6 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   onWheel(e: WheelEvent) {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.05 : 0.05;
-    this.zoom = Math.max(0.4, Math.min(2.5, this.zoom + delta));
+    this.zoom = Math.max(0.5, Math.min(2.2, this.zoom + delta));
   }
 }
