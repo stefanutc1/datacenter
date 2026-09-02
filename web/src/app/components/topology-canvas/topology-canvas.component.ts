@@ -47,10 +47,11 @@ import { TranslationService } from '../../services/translation.service';
             @for (cat of getCategories(); track cat.id) {
               <button
                 (click)="selectCategory(cat.id)"
-                [class.border-red-500]="activeCategory === cat.id"
-                [class.bg-red-500/10]="activeCategory === cat.id"
-                [class.text-red-400]="activeCategory === cat.id"
+                [class.border-slate-500]="activeCategory === cat.id"
+                [class.bg-obsidian-800]="activeCategory === cat.id"
+                [class.text-slate-100]="activeCategory === cat.id"
                 [class.font-semibold]="activeCategory === cat.id"
+                [class.shadow-sm]="activeCategory === cat.id"
                 [class.border-transparent]="activeCategory !== cat.id"
                 [class.text-slate-400]="activeCategory !== cat.id"
                 [class.hover:text-slate-200]="activeCategory !== cat.id"
