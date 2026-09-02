@@ -10,7 +10,7 @@ import { TranslationService } from '../../services/translation.service';
     <section class="w-full pt-12 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-obsidian-750 font-sans">
       
       <!-- Main Headline (Newsreader Serif) -->
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-sans font-normal text-slate-50 tracking-tight leading-[1.15] max-w-5xl mb-6">
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-normal text-slate-50 tracking-tight leading-[1.15] max-w-5xl mb-6">
         {{ ts.t.heroTitle }}
       </h1>
 

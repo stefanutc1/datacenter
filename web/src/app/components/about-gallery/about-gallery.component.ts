@@ -26,7 +26,7 @@ interface PhotoItem {
    <!-- Section Header -->
    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
     <div>
-     <h2 class="text-3xl sm:text-4xl font-sans text-slate-100 font-normal">
+     <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal">
       {{ ts.isRomanian ? 'Despre Mine & Galeria Completă a Serviciilor' : 'About Me & Complete Services Fleet Gallery' }}
      </h2>
     </div>

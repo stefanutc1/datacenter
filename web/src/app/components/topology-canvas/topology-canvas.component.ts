@@ -19,92 +19,99 @@ import { TranslationService } from '../../services/translation.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="space-y-4 font-sans">
+    <div id="topology-section" class="w-full space-y-3 font-sans">
       
-      <!-- Section Title Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+      <!-- Section Header -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div class="space-y-1">
-          <h2 class="text-2xl sm:text-3xl font-sans font-bold text-slate-50 tracking-tight">
-            {{ ts.t.topologyTitle }}
+          <div class="text-xs font-mono font-bold tracking-widest text-[#ef4444] uppercase">
+            NETWORK TOPOLOGY
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-serif text-slate-100 font-normal tracking-tight">
+            Spatial 3D Network Visualization
           </h2>
         </div>
-        <div class="text-xs text-slate-400 font-sans hidden sm:block">
-          {{ ts.t.topologyDesc }}
+        <div class="text-xs text-slate-400 font-sans max-w-sm text-right leading-relaxed hidden sm:block">
+          Click on nodes to inspect technical specifications, network relations, and configuration manifests.
         </div>
       </div>
 
-      <!-- 3D Viewer Container (Wide, Balanced Architecture Viewport) -->
-      <div class="relative w-full h-[600px] bg-[#0c0e11] rounded-2xl overflow-hidden border border-obsidian-750 shadow-2xl flex flex-col select-none">
+      <!-- Main 3D Container Card -->
+      <div class="relative w-full h-[620px] bg-[#08090b] rounded-2xl overflow-hidden border border-obsidian-750 shadow-2xl flex flex-col select-none">
         
-        <!-- Top HUD Layer Controls -->
+        <!-- Top Controls & Subsystem Filters Bar -->
         <div class="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
           
-          <!-- Subsystem Layer Badges (Neutral Slate Styling) -->
-          <div class="flex items-center gap-1.5 p-1.5 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 pointer-events-auto shadow-lg overflow-x-auto max-w-full">
+          <!-- Filter Categories -->
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-obsidian-950/90 backdrop-blur-md border border-obsidian-750 pointer-events-auto shadow-xl overflow-x-auto max-w-full">
             @for (cat of getCategories(); track cat.id) {
               <button
                 (click)="selectCategory(cat.id)"
-                [class.bg-slate-200]="activeCategory === cat.id"
-                [class.text-slate-950]="activeCategory === cat.id"
+                [class.border-red-500]="activeCategory === cat.id"
+                [class.bg-red-500/10]="activeCategory === cat.id"
+                [class.text-red-400]="activeCategory === cat.id"
                 [class.font-semibold]="activeCategory === cat.id"
+                [class.border-transparent]="activeCategory !== cat.id"
                 [class.text-slate-400]="activeCategory !== cat.id"
-                [class.hover:text-slate-100]="activeCategory !== cat.id"
-                class="px-3 py-1.5 rounded-lg text-xs font-sans transition-all whitespace-nowrap"
+                [class.hover:text-slate-200]="activeCategory !== cat.id"
+                class="px-3 py-1.5 rounded-lg text-xs font-sans transition-all border whitespace-nowrap"
               >
                 {{ cat.label }}
               </button>
             }
           </div>
 
-          <!-- Controls (Auto-Rotate, Perspective, Reset) -->
+          <!-- Controls (Logical/Physical, Rotate, Reset) -->
           <div class="flex items-center gap-2 pointer-events-auto font-sans text-xs">
+            
             <!-- Logical / Physical Toggle -->
-            <div class="flex items-center p-1 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 shadow-md font-medium">
+            <div class="flex items-center p-1 rounded-xl bg-obsidian-950/90 backdrop-blur-md border border-obsidian-750 shadow-xl font-medium">
               <button
                 (click)="setPerspective('logical')"
-                [class.bg-slate-200]="perspective === 'logical'"
-                [class.text-slate-950]="perspective === 'logical'"
-                [class.font-semibold]="perspective === 'logical'"
+                [class.bg-obsidian-800]="perspective === 'logical'"
+                [class.text-slate-100]="perspective === 'logical'"
+                [class.border-obsidian-600]="perspective === 'logical'"
                 [class.text-slate-400]="perspective !== 'logical'"
-                class="px-2.5 py-1 rounded-lg transition-colors font-sans text-xs"
+                class="px-3 py-1 rounded-lg transition-all border border-transparent"
               >
-                {{ ts.t.btnLogical }}
+                Logical
               </button>
               <button
                 (click)="setPerspective('physical')"
-                [class.bg-slate-200]="perspective === 'physical'"
-                [class.text-slate-950]="perspective === 'physical'"
-                [class.font-semibold]="perspective === 'physical'"
+                [class.bg-obsidian-800]="perspective === 'physical'"
+                [class.text-slate-100]="perspective === 'physical'"
+                [class.border-obsidian-600]="perspective === 'physical'"
                 [class.text-slate-400]="perspective !== 'physical'"
-                class="px-2.5 py-1 rounded-lg transition-colors font-sans text-xs"
+                class="px-3 py-1 rounded-lg transition-all border border-transparent"
               >
-                {{ ts.t.btnPhysical }}
+                Physical
               </button>
             </div>
 
             <!-- Auto-Rotate -->
             <button
               (click)="toggleAutoRotate()"
-              [class.border-slate-500]="isAutoRotating"
-              [class.text-slate-200]="isAutoRotating"
-              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-slate-500 text-slate-300 font-medium transition-all flex items-center gap-2 shadow-md font-sans text-xs"
-              title="Toggle 3D auto-rotation"
+              [class.border-red-500/50]="isAutoRotating"
+              [class.text-red-400]="isAutoRotating"
+              [class.border-obsidian-750]="!isAutoRotating"
+              [class.text-slate-300]="!isAutoRotating"
+              class="px-3.5 py-1.5 rounded-xl bg-obsidian-950/90 backdrop-blur-md border hover:border-red-500/50 transition-all flex items-center gap-2 shadow-xl"
             >
-              <span class="w-2 h-2 rounded-full" [class.bg-slate-300]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
-              <span>{{ ts.t.btnRotate }}</span>
+              <span class="w-2 h-2 rounded-full" [class.bg-red-500]="isAutoRotating" [class.shadow-[0_0_8px_rgba(239,68,68,0.8)]]="isAutoRotating" [class.bg-slate-600]="!isAutoRotating"></span>
+              <span>Rotate</span>
             </button>
 
-            <!-- Reset Camera -->
+            <!-- Reset -->
             <button
               (click)="resetCamera()"
-              class="px-3 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 hover:border-slate-500 text-slate-300 hover:text-slate-100 font-medium transition-all shadow-md font-sans text-xs"
+              class="px-3.5 py-1.5 rounded-xl bg-obsidian-950/90 backdrop-blur-md border border-obsidian-750 hover:border-slate-500 text-slate-300 hover:text-slate-100 transition-all shadow-xl"
             >
-              {{ ts.t.btnReset }}
+              Reset
             </button>
           </div>
         </div>
 
-        <!-- 3D Canvas Viewport -->
+        <!-- 3D Interactive Canvas -->
         <canvas
           #canvasRef
           class="w-full h-full flex-1 cursor-grab active:cursor-grabbing block"
@@ -115,22 +122,18 @@ import { TranslationService } from '../../services/translation.service';
           (wheel)="onWheel($event)"
         ></canvas>
 
-        <!-- Bottom HUD Coordinates & Quick Stats (Neutral Styling) -->
-        <div class="absolute bottom-4 left-4 z-20 pointer-events-none flex items-center gap-3 font-sans text-xs text-slate-300">
-          <div class="px-3.5 py-2 rounded-xl bg-obsidian-900/90 backdrop-blur-md border border-obsidian-700 shadow-md flex items-center gap-2.5">
-            <span class="w-2 h-2 rounded-full bg-slate-400"></span>
-            <span class="font-bold text-slate-200 text-xs">{{ ts.t.meshActive }}</span>
-            <span class="text-obsidian-600">|</span>
-            <span class="text-slate-300">{{ nodes.length }} {{ ts.t.nodesLabel }}</span>
-            <span class="text-obsidian-600">|</span>
-            <span class="text-slate-400">{{ links.length }} {{ ts.t.flowsLabel }}</span>
+        <!-- Bottom Status HUD -->
+        <div class="absolute bottom-4 left-4 right-4 z-20 pointer-events-none flex items-center justify-between font-mono text-[11px]">
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+            <span class="tracking-wide">ACTIVE NETWORK | {{ nodes.length }} NODES | {{ links.length }} LINKS</span>
+          </div>
+
+          <div class="text-slate-500 text-[10px] uppercase tracking-wider hidden sm:block font-sans">
+            DRAG TO ROTATE · SCROLL TO ZOOM · CLICK FOR DETAILS
           </div>
         </div>
 
-        <!-- Instructions Hint -->
-        <div class="absolute bottom-4 right-4 z-20 pointer-events-none hidden sm:block font-sans text-xs text-slate-500">
-          <span>{{ ts.t.interactionHint }}</span>
-        </div>
       </div>
     </div>
   `,
@@ -159,25 +162,25 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
   getCategories() {
     return [
-      { id: 'all', label: this.ts.t.catAll },
-      { id: 'compute', label: this.ts.t.catCompute },
-      { id: 'network', label: this.ts.t.catNetwork },
-      { id: 'security', label: this.ts.t.catSecurity },
-      { id: 'services', label: this.ts.t.catServices },
-      { id: 'elo', label: this.ts.t.catElo },
-      { id: 'storage', label: this.ts.t.catStorage },
-      { id: 'edge', label: this.ts.t.catEdge }
+      { id: 'all', label: 'All Layers' },
+      { id: 'compute', label: 'Compute & Hypervisors' },
+      { id: 'network', label: 'Network & Ingress' },
+      { id: 'security', label: 'Security & Cyber' },
+      { id: 'services', label: 'Core Services' },
+      { id: 'elo', label: 'AI Control Plane' },
+      { id: 'storage', label: 'Storage & ZFS' },
+      { id: 'edge', label: 'Edge Sensors' }
     ];
   }
 
   isAutoRotating = true;
   private animationFrameId: number | null = null;
 
-  // 3D Camera & Transform State (Natural Horizontal Plane Angle)
-  private angleX = 0.52;  // Beautiful isometric top-down tilt
-  private angleY = -0.15;
-  private zoom = 1.05;
-  private fov = 750;
+  // 3D Camera Angles matching exact screenshot
+  private angleX = 0.42;
+  private angleY = -0.32;
+  private zoom = 1.0;
+  private fov = 680;
   private isDragging = false;
   private previousMousePosition = { x: 0, y: 0 };
   private hoveredNode: TopologyNode | null = null;
@@ -219,9 +222,9 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
   }
 
   resetCamera() {
-    this.angleX = 0.52;
-    this.angleY = -0.15;
-    this.zoom = 1.05;
+    this.angleX = 0.42;
+    this.angleY = -0.32;
+    this.zoom = 1.0;
     this.activeCategory = 'all';
     this.categoryChanged.emit('all');
     this.nodeSelected.emit(null);
@@ -237,11 +240,10 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     }
   }
 
-  private project3D(x: number, y: number, z: number, cx: number, cy: number, width: number, height: number) {
-    const responsiveScale = Math.min(Math.max(0.85, width / 1000), 1.3);
-    x *= this.zoom * responsiveScale;
-    y *= this.zoom * responsiveScale;
-    z *= this.zoom * responsiveScale;
+  private project3D(x: number, y: number, z: number, cx: number, cy: number) {
+    x *= this.zoom;
+    y *= this.zoom;
+    z *= this.zoom;
 
     // Rotate Y
     const cosY = Math.cos(this.angleY);
@@ -255,13 +257,13 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const y2 = y * cosX - z1 * sinX;
     const z2 = z1 * cosX + y * sinX;
 
-    const distance = this.fov + z2 + 400;
+    const distance = this.fov + z2 + 320;
     const scale = distance > 10 ? this.fov / distance : 0.01;
 
     return {
       px: cx + x1 * scale,
       py: cy + y2 * scale,
-      scale: Math.max(0.35, scale),
+      scale: Math.max(0.2, scale),
       zOrder: z2
     };
   }
@@ -276,27 +278,27 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const width = canvas.width / dpr;
     const height = canvas.height / dpr;
     const cx = width / 2;
-    const cy = height / 2 + 10;
+    const cy = height / 2 + 15;
 
     ctx.save();
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // Native High-DPI Retina coordinate mapping
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, width, height);
 
-    // Draw Subtle Obsidian Coordinate Floor Grid (Neutral Dark Grey)
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+    // Draw Subtle Red Perspective Floor Grid
+    ctx.strokeStyle = 'rgba(220, 38, 38, 0.08)';
     ctx.lineWidth = 1;
-    const floorY = 90;
-    for (let gx = -520; gx <= 520; gx += 80) {
-      const pStart = this.project3D(gx, floorY, -320, cx, cy, width, height);
-      const pEnd = this.project3D(gx, floorY, 320, cx, cy, width, height);
+    const floorY = 220;
+    for (let gx = -380; gx <= 380; gx += 65) {
+      const pStart = this.project3D(gx, floorY, -380, cx, cy);
+      const pEnd = this.project3D(gx, floorY, 380, cx, cy);
       ctx.beginPath();
       ctx.moveTo(pStart.px, pStart.py);
       ctx.lineTo(pEnd.px, pEnd.py);
       ctx.stroke();
     }
-    for (let gz = -320; gz <= 320; gz += 80) {
-      const pStart = this.project3D(-520, floorY, gz, cx, cy, width, height);
-      const pEnd = this.project3D(520, floorY, gz, cx, cy, width, height);
+    for (let gz = -380; gz <= 380; gz += 65) {
+      const pStart = this.project3D(-380, floorY, gz, cx, cy);
+      const pEnd = this.project3D(380, floorY, gz, cx, cy);
       ctx.beginPath();
       ctx.moveTo(pStart.px, pStart.py);
       ctx.lineTo(pEnd.px, pEnd.py);
@@ -305,118 +307,111 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
 
     const now = Date.now() * 0.002;
 
-    // Draw Vector Edges and Data Streams (Neutral Grey)
+    // Draw Vector Edges and Data Stream Packets
     this.links.forEach((link, idx) => {
       const fromNode = this.nodes.find(n => n.id === link.from);
       const toNode = this.nodes.find(n => n.id === link.to);
       if (!fromNode || !toNode) return;
 
       const isFiltered = this.isLinkActive(fromNode, toNode);
-      const alpha = isFiltered ? 0.5 : 0.06;
+      const alpha = isFiltered ? 0.65 : 0.06;
 
-      const p1 = this.project3D(fromNode.x, fromNode.y, fromNode.z, cx, cy, width, height);
-      const p2 = this.project3D(toNode.x, toNode.y, toNode.z, cx, cy, width, height);
+      const p1 = this.project3D(fromNode.x, fromNode.y, fromNode.z, cx, cy);
+      const p2 = this.project3D(toNode.x, toNode.y, toNode.z, cx, cy);
 
       ctx.beginPath();
-      ctx.strokeStyle = 'rgba(203, 213, 225, 0.6)';
+      ctx.strokeStyle = link.color;
       ctx.globalAlpha = alpha;
-      ctx.lineWidth = Math.max(1, (isFiltered ? 1.8 : 0.9) * p1.scale);
+      ctx.lineWidth = Math.max(0.8, (isFiltered ? 1.8 : 0.8) * p1.scale);
       ctx.moveTo(p1.px, p1.py);
       ctx.lineTo(p2.px, p2.py);
       ctx.stroke();
       ctx.globalAlpha = 1.0;
 
-      // Animate Packet Pulse
+      // Animate Packet Pulses
       if (isFiltered) {
-        const progress = (now + idx * 0.25) % 1;
+        const progress = (now + idx * 0.22) % 1;
         const packetX = p1.px + (p2.px - p1.px) * progress;
         const packetY = p1.py + (p2.py - p1.py) * progress;
 
         ctx.beginPath();
-        ctx.arc(packetX, packetY, Math.max(2.0, 3.5 * p1.scale), 0, Math.PI * 2);
-        ctx.fillStyle = '#f8fafc';
+        ctx.arc(packetX, packetY, Math.max(1.8, 3.2 * p1.scale), 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = link.color;
+        ctx.shadowBlur = 6;
         ctx.fill();
+        ctx.shadowBlur = 0;
       }
     });
 
     // Project and Depth-Sort Nodes
     const projectedNodes = this.nodes.map(n => {
-      const p = this.project3D(n.x, n.y, n.z, cx, cy, width, height);
+      const p = this.project3D(n.x, n.y, n.z, cx, cy);
       const isSelected = this.selectedNode?.id === n.id;
       const isHovered = this.hoveredNode?.id === n.id;
       const isActive = this.isNodeActive(n);
       return { ...n, ...p, isSelected, isHovered, isActive };
     }).sort((a, b) => b.zOrder - a.zOrder);
 
-    // Draw Nodes (Clean Neutral Slate Palette)
+    // Draw Spheres and Typography
     projectedNodes.forEach(node => {
-      const baseRadius = node.tier <= 2 ? 14 : 9;
-      const radius = Math.max(5.5, baseRadius * node.scale);
+      const baseRadius = node.tier <= 2 ? 13 : 9.5;
+      const radius = Math.max(4.5, baseRadius * node.scale);
       const alpha = node.isActive ? 1.0 : 0.2;
 
       ctx.globalAlpha = alpha;
 
-      // Selection Ring (Clean White/Slate)
+      // Outer Selection Ring & Glow
       if (node.isSelected || node.isHovered) {
         ctx.beginPath();
         ctx.arc(node.px, node.py, radius + 6, 0, Math.PI * 2);
-        ctx.strokeStyle = '#f8fafc';
+        ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 2;
         ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(node.px, node.py, radius + 10, 0, Math.PI * 2);
+        ctx.fillStyle = node.color;
+        ctx.globalAlpha = 0.12;
+        ctx.fill();
+        ctx.globalAlpha = alpha;
       }
 
-      // Outer Ring
-      ctx.beginPath();
-      ctx.arc(node.px, node.py, radius + 2.5, 0, Math.PI * 2);
-      ctx.strokeStyle = node.color;
-      ctx.lineWidth = Math.max(1.2, 1.6 * node.scale);
-      ctx.stroke();
-
-      // Core Circle
+      // Solid Node Sphere with Color Glow
       ctx.beginPath();
       ctx.arc(node.px, node.py, radius, 0, Math.PI * 2);
       ctx.fillStyle = node.color;
+      ctx.shadowColor = node.color;
+      ctx.shadowBlur = node.isActive ? 10 : 2;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Center bright specular core
+      ctx.beginPath();
+      ctx.arc(node.px, node.py, Math.max(1.5, radius * 0.35), 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
       ctx.fill();
 
-      // Draw Clean Typography Badges with Geist Sans
-      const shouldDrawLabel = node.tier <= 2 || node.isSelected || node.isHovered || (this.activeCategory !== 'all' && node.isActive);
+      // Node Typography Label (matching screenshot style)
+      const shouldDrawLabel = node.tier <= 2 || node.isSelected || node.isHovered || (this.activeCategory !== 'all' && node.isActive) || node.scale > 0.85;
 
       if (shouldDrawLabel) {
-        const fontSize = Math.max(10, Math.round(11.5 * node.scale));
-        ctx.font = `600 ${fontSize}px "Geist", "Inter", sans-serif`;
+        const fontSize = Math.max(9, Math.round(11 * node.scale));
+        ctx.font = `500 ${fontSize}px "JetBrains Mono", "Geist", monospace, sans-serif`;
         ctx.textAlign = 'center';
 
-        const label = node.name;
-        const textWidth = ctx.measureText(label).width;
-        const padX = 6;
-        const padY = 3;
-        const badgeY = node.py + radius + 13;
+        // Drop shadow for crisp readability
+        ctx.shadowColor = '#000000';
+        ctx.shadowBlur = 4;
+        ctx.fillStyle = node.isSelected ? '#ffffff' : node.isHovered ? '#ffffff' : 'rgba(237, 230, 222, 0.92)';
+        ctx.fillText(node.name, node.px, node.py + radius + 13);
+        ctx.shadowBlur = 0;
 
-        // Clean Obsidian pill background
-        ctx.fillStyle = 'rgba(12, 14, 17, 0.94)';
-        ctx.beginPath();
-        ctx.roundRect(
-          node.px - textWidth / 2 - padX,
-          badgeY - fontSize / 2 - padY,
-          textWidth + padX * 2,
-          fontSize + padY * 2,
-          4
-        );
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // Label Text
-        ctx.fillStyle = '#f8fafc';
-        ctx.fillText(label, node.px, badgeY + fontSize / 3.2);
-
-        // Sublabel if selected or hovered
         if (node.isSelected || node.isHovered) {
-          const subFontSize = Math.max(9, Math.round(9.5 * node.scale));
-          ctx.font = `400 ${subFontSize}px "Geist", "Inter", sans-serif`;
-          ctx.fillStyle = '#94a3b8';
-          ctx.fillText(node.sublabel || node.ip, node.px, badgeY + fontSize + 12);
+          const subFontSize = Math.max(8, Math.round(9 * node.scale));
+          ctx.font = `400 ${subFontSize}px "JetBrains Mono", monospace`;
+          ctx.fillStyle = 'rgba(164, 148, 126, 0.85)';
+          ctx.fillText(node.sublabel || node.ip, node.px, node.py + radius + 25);
         }
       }
 
@@ -426,7 +421,7 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     ctx.restore();
 
     if (this.isAutoRotating && !this.isDragging) {
-      this.angleY += 0.0012;
+      this.angleY += 0.0014;
     }
 
     this.animationFrameId = requestAnimationFrame(this.render);
@@ -460,13 +455,13 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
     const cx = rect.width / 2;
-    const cy = rect.height / 2 + 10;
+    const cy = rect.height / 2 + 15;
 
     let hovered: TopologyNode | null = null;
     for (const node of this.nodes) {
-      const p = this.project3D(node.x, node.y, node.z, cx, cy, rect.width, rect.height);
+      const p = this.project3D(node.x, node.y, node.z, cx, cy);
       const dist = Math.hypot(p.px - mouseX, p.py - mouseY);
-      if (dist < 22) {
+      if (dist < 20) {
         hovered = node;
         break;
       }
@@ -476,8 +471,8 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     if (this.isDragging) {
       const deltaX = e.clientX - this.previousMousePosition.x;
       const deltaY = e.clientY - this.previousMousePosition.y;
-      this.angleY += deltaX * 0.005;
-      this.angleX = Math.max(-1.1, Math.min(1.1, this.angleX + deltaY * 0.005));
+      this.angleY += deltaX * 0.006;
+      this.angleX = Math.max(-0.9, Math.min(0.9, this.angleX + deltaY * 0.006));
       this.previousMousePosition = { x: e.clientX, y: e.clientY };
     }
   }
@@ -493,13 +488,13 @@ export class TopologyCanvasComponent implements OnInit, OnDestroy {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
     const cx = rect.width / 2;
-    const cy = rect.height / 2 + 10;
+    const cy = rect.height / 2 + 15;
 
     let clicked: TopologyNode | null = null;
     for (const node of this.nodes) {
-      const p = this.project3D(node.x, node.y, node.z, cx, cy, rect.width, rect.height);
+      const p = this.project3D(node.x, node.y, node.z, cx, cy);
       const dist = Math.hypot(p.px - mouseX, p.py - mouseY);
-      if (dist < 24) {
+      if (dist < 22) {
         clicked = node;
         break;
       }

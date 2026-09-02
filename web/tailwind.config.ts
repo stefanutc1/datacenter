@@ -65,10 +65,10 @@ export default {
         }
       },
       fontFamily: {
-        serif: ['Geist', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['"tiempos"', '"Tiempos Headline"', '"Newsreader"', '"Lora"', 'Georgia', 'serif'],
         sans: ['Geist', 'Inter', '-apple-system', 'sans-serif'],
         mono: ['"IBM Plex Mono"', '"Space Mono"', 'ui-monospace', 'monospace'],
-        display: ['"Space Mono"', '"IBM Plex Mono"', 'monospace'],
+        display: ['"tiempos"', '"Tiempos Headline"', '"Newsreader"', '"Lora"', 'Georgia', 'serif'],
       }
     },
   },

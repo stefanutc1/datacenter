@@ -13,7 +13,7 @@ import { TranslationService } from '../../services/translation.service';
    
    <!-- Section Header -->
    <div class="space-y-2 mb-10">
-    <h2 class="text-3xl sm:text-4xl font-sans font-bold text-slate-50 tracking-tight">
+    <h2 class="text-3xl sm:text-4xl font-serif font-normal text-slate-50 tracking-tight">
      {{ ts.t.hwTitle }}
     </h2>
     <p class="text-sm text-slate-300 max-w-3xl font-sans font-normal leading-relaxed">
