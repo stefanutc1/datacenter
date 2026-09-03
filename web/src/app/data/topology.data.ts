@@ -544,7 +544,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#0284c7',
     icon: 'openindiana',
-    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '30 GB' },
+    hardware: { node: 'Node 1 (x86_64)', ram: '3,072 MB (Balloon: 1536 MB)', storage: '50 GB' },
     tags: ['OpenIndiana', 'illumos', 'Solaris', 'Enterprise ZFS', 'Zones', 'DTrace'],
     role: 'Virtual OpenIndiana Hipster instance on Proxmox VE KVM for reference ZFS storage, Crossbow VNICs, and DTrace dynamic tracing.',
     connections: ['node1-pve']
@@ -563,15 +563,15 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#f26722',
     icon: 'netbsd',
-    hardware: { node: 'Node 1 (x86_64)', ram: '1,024 MB (Balloon: 512 MB)', storage: '20 GB' },
+    hardware: { node: 'Node 1 (x86_64)', ram: '512 MB (Balloon: 256 MB)', storage: '12 GB' },
     tags: ['NetBSD 10', 'Rump Anykernel', 'pkgsrc', 'Portable Unix', 'Clean Kernel'],
     role: 'Virtual NetBSD instance on Proxmox VE KVM for Rump kernel development and pkgsrc multi-platform packaging.',
     connections: ['node1-pve']
   },
   {
     id: 'nixos',
-    name: 'NixOS',
-    sublabel: 'VM 209 · Declarative Linux',
+    name: 'NixOS (Minimal)',
+    sublabel: 'VM 209 · Minimal Linux',
     ip: '192.168.1.209',
     port: 22,
     category: 'compute',
@@ -582,9 +582,9 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 115,
     color: '#5277c3',
     icon: 'nixos',
-    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '40 GB' },
-    tags: ['NixOS 24.11', 'Nix Flakes', 'Declarative OS', 'Atomic Rollback', 'Reproducible'],
-    role: 'Declarative Linux VM with Nix Flakes, atomic rollback capabilities, and hermetic reproducible build pipeline.',
+    hardware: { node: 'Node 1 (x86_64)', ram: '1,024 MB (Balloon: 512 MB)', storage: '22 GB' },
+    tags: ['NixOS 24.11', 'Minimal Linux', 'Nix Flakes', 'Declarative OS', 'Atomic Rollback', 'Reproducible'],
+    role: 'Minimal declarative Linux VM with Nix Flakes, atomic rollback capabilities, and hermetic reproducible build pipeline.',
     connections: ['node1-pve']
   },
   {
@@ -601,7 +601,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#a81c1c',
     icon: 'dragonflybsd',
-    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '30 GB' },
+    hardware: { node: 'Node 1 (x86_64)', ram: '1,024 MB (Balloon: 512 MB)', storage: '15 GB' },
     tags: ['DragonFly BSD', 'HAMMER2 FS', 'Hybrid Microkernel', 'Lockless SMP', 'Storage Lab'],
     role: 'Virtual DragonFly BSD instance running on Proxmox VE KVM for HAMMER2 cluster-aware journaling storage research.',
     connections: ['node1-pve']

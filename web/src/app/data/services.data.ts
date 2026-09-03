@@ -2026,8 +2026,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     "category": "storage",
     "containerName": "openindiana",
     "node": "Node 1 (Intel i3-10100F) · VM 207",
-    "ram": "2,048 MB",
-    "storage": "30 GB NVMe",
+    "ram": "3,072 MB",
+    "storage": "50 GB NVMe",
     "ip": "192.168.1.207",
     "port": 22,
     "domain": "openindiana.homelab.local",
@@ -2044,7 +2044,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#0284c7",
     "icon": "openindiana",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 207)\n# OS: OpenIndiana Hipster (illumos 5.11) · Dynamic Ballooning: 1024 MB - 2048 MB\ncores: 2\nmemory: 2048\nballoon: 1024\nostype: solaris\nscsi0: local-lvm:vm-207-disk-0,discard=on,size=30G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:07,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 207)\n# OS: OpenIndiana Hipster (illumos 5.11) · Dynamic Ballooning: 1536 MB - 3072 MB\ncores: 2\nmemory: 3072\nballoon: 1536\nostype: solaris\nscsi0: local-lvm:vm-207-disk-0,discard=on,size=50G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:07,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-netbsd",
@@ -2052,8 +2052,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     "category": "core",
     "containerName": "netbsd",
     "node": "Node 1 (Intel i3-10100F) · VM 208",
-    "ram": "1,024 MB",
-    "storage": "20 GB NVMe",
+    "ram": "512 MB",
+    "storage": "12 GB NVMe",
     "ip": "192.168.1.208",
     "port": 22,
     "domain": "netbsd.homelab.local",
@@ -2070,24 +2070,25 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#f26722",
     "icon": "netbsd",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 208)\n# OS: NetBSD 10.0 · Dynamic Ballooning: 512 MB - 1024 MB\ncores: 2\nmemory: 1024\nballoon: 512\nscsi0: local-lvm:vm-208-disk-0,discard=on,size=20G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:08,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 208)\n# OS: NetBSD 10.0 · Dynamic Ballooning: 256 MB - 512 MB\ncores: 2\nmemory: 512\nballoon: 256\nscsi0: local-lvm:vm-208-disk-0,discard=on,size=12G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:08,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-nixos",
-    "name": "NixOS 24.11 (Declarative Linux)",
+    "name": "NixOS 24.11 (Minimal Declarative Linux)",
     "category": "automation",
     "containerName": "nixos",
     "node": "Node 1 (Intel i3-10100F) · VM 209",
-    "ram": "2,048 MB",
-    "storage": "40 GB NVMe",
+    "ram": "1,024 MB",
+    "storage": "22 GB NVMe",
     "ip": "192.168.1.209",
     "port": 22,
     "domain": "nixos.homelab.local",
     "status": "ONLINE",
-    "description": "Purely functional Linux distribution built on declarative configuration, Nix Flakes, hermetic builds, atomic upgrades, and instant rollback safety.",
-    "descriptionRo": "Distribuție Linux pur funcțională și declarativă bazată pe Nix Flakes, build-uri hermetice reproductibile, actualizări atomice și rollback instantaneu.",
+    "description": "Purely functional minimal Linux distribution built on declarative configuration, Nix Flakes, hermetic builds, atomic upgrades, and instant rollback safety.",
+    "descriptionRo": "Distribuție Linux minimalistă pur funcțională și declarativă bazată pe Nix Flakes, build-uri hermetice reproductibile, actualizări atomice și rollback instantaneu.",
     "tags": [
       "NixOS 24.11",
+      "Minimal Linux",
       "Nix Flakes",
       "Declarative OS",
       "Atomic Rollback",
@@ -2096,7 +2097,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#5277c3",
     "icon": "nixos",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 209)\n# OS: NixOS 24.11 (Vicuna) · Dynamic Ballooning: 1024 MB - 2048 MB\ncores: 2\nmemory: 2048\nballoon: 1024\nscsi0: local-lvm:vm-209-disk-0,discard=on,size=40G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:09,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 209)\n# OS: NixOS 24.11 Minimal · Dynamic Ballooning: 512 MB - 1024 MB\ncores: 2\nmemory: 1024\nballoon: 512\nscsi0: local-lvm:vm-209-disk-0,discard=on,size=22G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:09,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-dragonflybsd",
@@ -2104,8 +2105,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     "category": "storage",
     "containerName": "dragonflybsd",
     "node": "Node 1 (Intel i3-10100F) · VM 210",
-    "ram": "2,048 MB",
-    "storage": "30 GB NVMe",
+    "ram": "1,024 MB",
+    "storage": "15 GB NVMe",
     "ip": "192.168.1.210",
     "port": 22,
     "domain": "dragonfly.homelab.local",
@@ -2122,6 +2123,6 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#a81c1c",
     "icon": "dragonflybsd",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 210)\n# OS: DragonFly BSD 6.4 · Dynamic Ballooning: 1024 MB - 2048 MB\ncores: 2\nmemory: 2048\nballoon: 1024\nscsi0: local-lvm:vm-210-disk-0,discard=on,size=30G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:10,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 210)\n# OS: DragonFly BSD 6.4 · Dynamic Ballooning: 512 MB - 1024 MB\ncores: 2\nmemory: 1024\nballoon: 512\nscsi0: local-lvm:vm-210-disk-0,discard=on,size=15G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:10,bridge=vmbr0,firewall=1"
   }
 ];

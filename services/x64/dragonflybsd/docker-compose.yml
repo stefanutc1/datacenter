@@ -6,9 +6,9 @@ services:
     container_name: dragonflybsd-vm210
     environment:
       OS: "DragonFly BSD 6.4"
-      RAM: "2048M"
+      RAM: "1024M"
       CORES: "2"
-      DISK: "30G"
+      DISK: "15G"
     ports:
       - "2210:22"
     restart: unless-stopped

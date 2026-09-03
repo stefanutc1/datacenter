@@ -414,15 +414,15 @@ export class AboutGalleryComponent {
   },
   {
    src: 'photos/services/vm-nixos.png',
-   title: 'NixOS 24.11 · Declarative Immutable Linux & Flakes (VM 209)',
-   titleRo: 'NixOS 24.11 · Linux Declarativ Imutabil & Flakes (VM 209)',
+   title: 'NixOS 24.11 Minimal · Declarative Immutable Linux & Flakes (VM 209)',
+   titleRo: 'NixOS 24.11 Minimal · Linux Declarativ Imutabil & Flakes (VM 209)',
    category: 'DECLARATIVE LINUX & REPRODUCIBILITY',
    categoryRo: 'LINUX DECLARATIV & REPRODUCTIBILITATE',
-   description: 'NixOS 24.11 (Vicuna) on Proxmox VE KVM with GNOME desktop, Nix Flakes declarative build pipelines, and atomic instant rollbacks.',
-   descriptionRo: 'NixOS 24.11 (Vicuna) pe Proxmox VE KVM cu desktop GNOME, pipeline-uri declarative de build prin Nix Flakes și revenire atomică la stări anterioare.',
+   description: 'NixOS 24.11 Minimal (Vicuna) on Proxmox VE KVM with GNOME desktop, Nix Flakes declarative build pipelines, and atomic instant rollbacks.',
+   descriptionRo: 'NixOS 24.11 Minimal (Vicuna) pe Proxmox VE KVM cu desktop GNOME, pipeline-uri declarative de build prin Nix Flakes și revenire atomică la stări anterioare.',
    endpoint: '192.168.1.209 (SSH 22 / Console)',
-   badge: 'NIXOS 24.11',
-   badgeRo: 'NIXOS 24.11'
+   badge: 'NIXOS MINIMAL',
+   badgeRo: 'NIXOS MINIMAL'
   },
   {
    src: 'photos/services/vm-dragonflybsd.png',

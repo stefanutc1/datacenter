@@ -42,10 +42,10 @@ This host currently serves nine primary roles:
 3. **Backup Server (NAS)** — backup target for this host's own VMs/containers.
 4. **Home surveillance** — Frigate NVR, GPU acceleration shared with the ML role where applicable.
 5. **Apple ecosystem & CI/CD testing** — macOS Monterey 12.7 (VM 206) booted via sanitized OpenCore EFI (`/mac/EFI`) with VirtIO memory ballooning (2–7 GB) and native Xcode build runner capabilities.
-6. **Solaris & illumos ZFS reference lab** — OpenIndiana Hipster (VM 207) with VirtIO memory ballooning (1–2 GB) for reference OpenZFS storage pools, Solaris Zones, and DTrace dynamic tracing.
-7. **Clean Unix & Rump kernel testing** — NetBSD 10.0 (VM 208) with VirtIO ballooning (512 MB - 1 GB) for componentized Rump kernel research and pkgsrc multi-platform packaging.
-8. **Declarative Linux & reproducible infrastructure** — NixOS 24.11 (VM 209) with VirtIO ballooning (1–2 GB) for Nix Flakes hermetic pipelines and atomic rollback verification.
-9. **HAMMER2 journaling storage & microkernel concurrency** — DragonFly BSD 6.4 (VM 210) with VirtIO ballooning (1–2 GB) for lockless multi-core scaling and HAMMER2 cluster filesystem research.
+6. **Solaris & illumos ZFS reference lab** — OpenIndiana Hipster (VM 207) with 3 GB RAM (VirtIO ballooning: 1.5–3 GB) and 50 GB NVMe for reference OpenZFS storage pools, Solaris Zones, and DTrace dynamic tracing.
+7. **Clean Unix & Rump kernel testing** — NetBSD 10.0 (VM 208) with 512 MB RAM (VirtIO ballooning: 256–512 MB) and 12 GB NVMe for componentized Rump kernel research and pkgsrc multi-platform packaging.
+8. **Declarative Linux & reproducible infrastructure** — NixOS 24.11 Minimal (VM 209) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 22 GB NVMe for Nix Flakes hermetic pipelines and atomic rollback verification.
+9. **HAMMER2 journaling storage & microkernel concurrency** — DragonFly BSD 6.4 (VM 210) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 15 GB NVMe for lockless multi-core scaling and HAMMER2 cluster filesystem research.
 
 ---
 

@@ -212,10 +212,10 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Jump Host Bastión Reforzado, Packet Filter PF, pledge/unveil (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Núcleos | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | SO Inmutable Minimalista, API gRPC, Nodo Worker K8s (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Núcleos | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Pruebas Apple |
-| **207** | `openindiana` | OpenIndiana Hipster | 2 Núcleos | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single + Solaris | ZFS Enterprise de Referencia, Zonas Solaris, VNICs Crossbow, DTrace |
-| **208** | `netbsd` | NetBSD 10.0 | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Referencia Unix Limpia y Portable, Rump Anykernel, pkgsrc |
-| **209** | `nixos` | NixOS 24.11 | 2 Núcleos | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single | Linux Declarativo Inmutable, Flakes Reproducibles, Rollback Atómico |
-| **210** | `dragonflybsd` | DragonFly BSD 6.4 | 2 Núcleos | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single | Sistema de Archivos HAMMER2, Microkernel Híbrido, SMP Lockless |
+| **207** | `openindiana` | OpenIndiana Hipster | 2 Núcleos | 3.072 MB (3 GB) | **1.536 MB (1.5 GB)** | VirtIO SCSI Single (50 GB) + Solaris | ZFS Enterprise de Referencia, Zonas Solaris, VNICs Crossbow, DTrace |
+| **208** | `netbsd` | NetBSD 10.0 | 2 Núcleos | 512 MB (512 MB) | **256 MB** | VirtIO SCSI Single (12 GB) | Referencia Unix Limpia y Portable, Rump Anykernel, pkgsrc |
+| **209** | `nixos` | NixOS 24.11 Minimal | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Linux Declarativo Inmutable, Flakes Reproducibles, Rollback Atómico |
+| **210** | `dragonflybsd` | DragonFly BSD 6.4 | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (15 GB) | Sistema de Archivos HAMMER2, Microkernel Híbrido, SMP Lockless |
 
 > **Rebalanceo de Arquitectura: Migración Completa No-IA a ARM64**: Todas las cargas de contenedores que no involucran IA a partir del CT 112 (incluyendo Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS y VS Code Server ARM64) fueron reubicadas en el Nodo 3 (Apple Silicon M1 ARM64 vía UTM), respaldadas por compresión ZRAM lz4. El Nodo 1 (x86_64) está dedicado estrictamente al clúster de IA acelerado por GPU CUDA (Ollama LLM, Open-WebUI, Faster-Whisper, Flowise, Paperless-AI) y máquinas virtuales empresariales KVM (Windows Server 2025, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
 

@@ -115,37 +115,37 @@ export const HARDWARE_NODES: HardwareNode[] = [
         vmid: 207, 
         name: 'openindiana', 
         os: 'OpenIndiana Hipster 2024.10', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
-        purpose: 'illumos/Solaris Kernel, Reference Enterprise ZFS, Solaris Zones & DTrace (Ballooning: 1 GB - 2 GB)',
-        purposeRo: 'Kernel illumos/Solaris, Pool-uri Enterprise ZFS de Referință, Zone Solaris & DTrace (Balonare: 1 GB - 2 GB)'
+        allocatedMb: 3072, 
+        balloonMinMb: 1536, 
+        purpose: 'illumos/Solaris Kernel, Reference Enterprise ZFS, Solaris Zones & DTrace (Ballooning: 1.5 GB - 3 GB)',
+        purposeRo: 'Kernel illumos/Solaris, Pool-uri Enterprise ZFS de Referință, Zone Solaris & DTrace (Balonare: 1.5 GB - 3 GB)'
       },
       { 
         vmid: 208, 
         name: 'netbsd', 
         os: 'NetBSD 10.0', 
-        allocatedMb: 1024, 
-        balloonMinMb: 512, 
-        purpose: 'Clean Portable Unix Architecture, Rump Anykernel Prototyping & pkgsrc (Ballooning: 512 MB - 1 GB)',
-        purposeRo: 'Arhitectură Unix Ultra-Portabilă, Prototipare Rump Anykernel & pkgsrc (Balonare: 512 MB - 1 GB)'
+        allocatedMb: 512, 
+        balloonMinMb: 256, 
+        purpose: 'Clean Portable Unix Architecture, Rump Anykernel Prototyping & pkgsrc (Ballooning: 256 MB - 512 MB)',
+        purposeRo: 'Arhitectură Unix Ultra-Portabilă, Prototipare Rump Anykernel & pkgsrc (Balonare: 256 MB - 512 MB)'
       },
       { 
         vmid: 209, 
         name: 'nixos', 
-        os: 'NixOS 24.11', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
-        purpose: 'Declarative Linux, Flakes Reproducible Builds & Atomic Rollback Lab (Ballooning: 1 GB - 2 GB)',
-        purposeRo: 'Linux Declarativ, Build-uri Reproductibile prin Flakes & Laborator Rollback Atomic (Balonare: 1 GB - 2 GB)'
+        os: 'NixOS 24.11 (Minimal)', 
+        allocatedMb: 1024, 
+        balloonMinMb: 512, 
+        purpose: 'Minimal Declarative Linux, Flakes Reproducible Builds & Atomic Rollback Lab (Ballooning: 512 MB - 1 GB)',
+        purposeRo: 'Linux Declarativ Minimal, Build-uri Reproductibile prin Flakes & Laborator Rollback Atomic (Balonare: 512 MB - 1 GB)'
       },
       { 
         vmid: 210, 
         name: 'dragonflybsd', 
         os: 'DragonFly BSD 6.4', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
-        purpose: 'HAMMER2 Storage Engine, Hybrid Microkernel & Lockless Multiprocessing (Ballooning: 1 GB - 2 GB)',
-        purposeRo: 'Motor de Stocare HAMMER2, Microkernel Hibrid & Procesare Concurentă Fără Blocaje (Balonare: 1 GB - 2 GB)'
+        allocatedMb: 1024, 
+        balloonMinMb: 512, 
+        purpose: 'HAMMER2 Storage Engine, Hybrid Microkernel & Lockless Multiprocessing (Ballooning: 512 MB - 1 GB)',
+        purposeRo: 'Motor de Stocare HAMMER2, Microkernel Hibrid & Procesare Concurentă Fără Blocaje (Balonare: 512 MB - 1 GB)'
       }
     ],
     workloads: [
@@ -156,10 +156,10 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 204: OpenBSD 7.9 (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
       'VM 205: Talos Linux 1.7 (2048 MB / Balloon: 1024 MB [1-2 GB])',
       'VM 206: macOS Monterey 12.7 (7168 MB / Balloon: 2048 MB [2-7 GB] · OpenCore KVM Hackintosh)',
-      'VM 207: OpenIndiana Hipster (2048 MB / Balloon: 1024 MB [1-2 GB] · illumos ZFS & Solaris Zones)',
-      'VM 208: NetBSD 10.0 (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · Rump Anykernel & pkgsrc)',
-      'VM 209: NixOS 24.11 (2048 MB / Balloon: 1024 MB [1-2 GB] · Declarative Flakes & Atomic Rollbacks)',
-      'VM 210: DragonFly BSD 6.4 (2048 MB / Balloon: 1024 MB [1-2 GB] · HAMMER2 Journaling FS & Hybrid Microkernel)',
+      'VM 207: OpenIndiana Hipster (3072 MB / Balloon: 1536 MB [1.5-3 GB] · 50 GB NVMe · illumos ZFS & Solaris Zones)',
+      'VM 208: NetBSD 10.0 (512 MB / Balloon: 256 MB [256-512 MB] · 12 GB NVMe · Rump Anykernel & pkgsrc)',
+      'VM 209: NixOS 24.11 Minimal (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · 22 GB NVMe · Declarative Flakes & Atomic Rollbacks)',
+      'VM 210: DragonFly BSD 6.4 (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · 15 GB NVMe · HAMMER2 Journaling FS & Hybrid Microkernel)',
       'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
       'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',

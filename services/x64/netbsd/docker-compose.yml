@@ -6,9 +6,9 @@ services:
     container_name: netbsd-vm208
     environment:
       OS: "NetBSD 10.0"
-      RAM: "1024M"
+      RAM: "512M"
       CORES: "2"
-      DISK: "20G"
+      DISK: "12G"
     ports:
       - "2208:22"
     restart: unless-stopped
