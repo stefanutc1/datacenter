@@ -142,19 +142,3 @@ module "vm_dragonflybsd" {
   tags         = ["dragonflybsd", "bsd", "hammer2", "microkernel", "smp", "terraform"]
 }
 
-# VM 211: Security Sandbox & Staging Lab (DFIR Dynamic Detonation)
-module "vm_staging_sandbox" {
-  source       = "../modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 211
-  name         = "sandbox-staging-lab"
-  description  = "Ephemeral Security Analysis & Staging Sandbox (DFIR Dynamic Detonation / Protocol Testing)"
-  cores        = 2
-  memory       = 2048
-  balloon      = 1024
-  disk_size    = 20
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["sandbox", "staging", "dfir", "security", "lab", "terraform"]
-}
-

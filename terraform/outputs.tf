@@ -12,7 +12,6 @@ output "vm_inventory" {
     netbsd            = { vmid = module.vm_netbsd_208.vm_id, name = module.vm_netbsd_208.name, node = module.vm_netbsd_208.node }
     nixos             = { vmid = module.vm_nixos_209.vm_id, name = module.vm_nixos_209.name, node = module.vm_nixos_209.node }
     dragonflybsd      = { vmid = module.vm_dragonflybsd_210.vm_id, name = module.vm_dragonflybsd_210.name, node = module.vm_dragonflybsd_210.node }
-    sandbox_staging   = { vmid = module.vm_staging_sandbox_211.vm_id, name = module.vm_staging_sandbox_211.name, node = module.vm_staging_sandbox_211.node }
   }
 }
 

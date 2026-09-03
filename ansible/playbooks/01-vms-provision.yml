@@ -1,6 +1,6 @@
 ---
 # ==============================================================================
-# PROXMOX QEMU/KVM VIRTUAL MACHINES PROVISIONING PLAYBOOK (VM 200 - VM 211)
+# PROXMOX QEMU/KVM VIRTUAL MACHINES PROVISIONING PLAYBOOK (VM 200 - VM 210)
 # Execution: ansible-playbook -i inventories/homelab/hosts.yml playbooks/01-vms-provision.yml
 # ==============================================================================
 
@@ -16,7 +16,7 @@
       ignore_unreachable: true
       tags: [connectivity, ping]
 
-    # 2. Linux-Based VMs (RHEL 202, Talos 205, NixOS 209, Sandbox 211)
+    # 2. Linux-Based VMs (RHEL 202, Talos 205, NixOS 209)
     - name: Ensure QEMU guest agent is active on Linux hosts
       ansible.builtin.systemd:
         name: qemu-guest-agent

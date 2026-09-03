@@ -221,20 +221,6 @@ module "vm_dragonflybsd_210" {
   tags         = ["dragonflybsd", "bsd", "hammer2", "microkernel", "smp", "terraform"]
 }
 
-module "vm_staging_sandbox_211" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 211
-  name         = "sandbox-staging-lab"
-  description  = "Ephemeral Security Analysis & Staging Sandbox (DFIR Dynamic Detonation / Protocol Testing)"
-  cores        = 2
-  memory       = 2048
-  balloon      = 1024
-  disk_size    = 20
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["sandbox", "staging", "dfir", "security", "lab", "terraform"]
-}
 
 # ------------------------------------------------------------------------------
 # 3. PROXMOX CORE LXC CONTAINERS (NODE 1 — x86_64 Primar)
