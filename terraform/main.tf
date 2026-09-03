@@ -146,19 +146,19 @@ module "vm_talos_205" {
   tags         = ["talos", "kubernetes", "k8s", "immutable", "grpc", "terraform"]
 }
 
-module "vm_capev2_206" {
+module "vm_macos_monterey_206" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 206
-  name         = "capev2-sandbox"
-  description  = "Air-gapped malware detonation sandbox with automated snapshot restore and Volatility memory analysis"
+  name         = "macos-monterey"
+  description  = "macOS Monterey 12.7 (OpenCore KVM Hackintosh, Xcode Build Runner & Apple GUI Testing)"
   cores        = 4
   memory       = 4096
   balloon      = 2048
-  disk_size    = 100
+  disk_size    = 64
   storage_pool = "local-lvm"
-  vlan_tag     = 30
-  tags         = ["cyber", "sandbox", "capev2", "malware", "dfir", "airgap", "terraform"]
+  vlan_tag     = 20
+  tags         = ["macos", "monterey", "hackintosh", "opencore", "apple", "terraform"]
 }
 
 # ------------------------------------------------------------------------------

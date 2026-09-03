@@ -298,8 +298,8 @@ export class AboutGalleryComponent {
    titleRo: 'Proxmox VE 9.2.10 · Hypervisor Primar x86_64 (12GB RAM)',
    category: 'VIRTUALIZATION & HYPERVISOR',
    categoryRo: 'VIRTUALIZARE & HYPERVISOR',
-   description: 'Native Proxmox VE Node Summary on Node 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), managing KVM virtual machines (VM 200-205) and active LXC containers.',
-   descriptionRo: 'Panoul nativ Proxmox VE Node Summary pe Nodul 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), administrând mașinile virtuale KVM (VM 200-205) și containerele LXC active.',
+   description: 'Native Proxmox VE Node Summary on Node 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), managing KVM virtual machines (VM 200-206) and active LXC containers.',
+   descriptionRo: 'Panoul nativ Proxmox VE Node Summary pe Nodul 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), administrând mașinile virtuale KVM (VM 200-206) și containerele LXC active.',
    endpoint: '192.168.1.132:8006',
    badge: 'PVE 12GB RAM',
    badgeRo: 'PVE 12GB RAM'
@@ -375,6 +375,18 @@ export class AboutGalleryComponent {
    endpoint: '192.168.1.140:50000 (talosctl / K8s)',
    badge: 'TALOS LINUX',
    badgeRo: 'TALOS LINUX'
+  },
+  {
+   src: 'photos/services/vm-macos-monterey.png',
+   title: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 206)',
+   titleRo: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 206)',
+   category: 'APPLE ECOSYSTEM & HACKINTOSH VIRTUALIZATION',
+   categoryRo: 'ECOSISTEM APPLE & VIRTUALIZARE HACKINTOSH',
+   description: 'macOS Monterey 12.7 running on Proxmox VE via OpenCore bootloader with full Apple services, Xcode CI/CD build runner, and native VNC screen sharing (Ballooning: 2-4 GB).',
+   descriptionRo: 'macOS Monterey 12.7 rulat pe Proxmox VE prin bootloader-ul OpenCore cu servicii native Apple, runner CI/CD Xcode și partajare ecran VNC (Ballooning: 2-4 GB).',
+   endpoint: '192.168.1.206 (VNC 5900 / SSH 22 / KVM)',
+   badge: 'MACOS MONTEREY',
+   badgeRo: 'MACOS MONTEREY'
   },
   {
    src: 'photos/services/opnsense.png',

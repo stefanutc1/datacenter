@@ -512,6 +512,25 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['node1-pve']
   },
   {
+    id: 'macos-monterey',
+    name: 'macOS Monterey',
+    sublabel: 'VM 206 · OpenCore Hackintosh',
+    ip: '192.168.1.206',
+    port: 5900,
+    category: 'compute',
+    tier: 5,
+    status: 'OPERATIONAL',
+    x: -85,
+    y: 110,
+    z: 115,
+    color: '#8b5cf6',
+    icon: 'proxmox',
+    hardware: { node: 'Node 1 (x86_64)', ram: '4,096 MB (Balloon: 2048 MB)', storage: '64 GB' },
+    tags: ['macOS Monterey', 'OpenCore KVM', 'Hackintosh', 'Xcode Runner', 'Apple Testing'],
+    role: 'Virtual macOS Monterey instance on Proxmox VE via OpenCore KVM for Apple ecosystem testing and Xcode CI/CD build runner.',
+    connections: ['node1-pve']
+  },
+  {
     id: 'pbs-backup',
     name: 'Proxmox Backup',
     sublabel: 'PBS · Deduplicated Snapshots',
@@ -723,6 +742,7 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
 
   // Hypervisor to VMs & Containers
   { from: 'node1-pve', to: 'win-server', protocol: 'VirtIO Active Directory', color: 'rgba(2, 132, 199, 0.7)' },
+  { from: 'node1-pve', to: 'macos-monterey', protocol: 'OpenCore KVM Hackintosh', color: 'rgba(139, 92, 246, 0.7)' },
   { from: 'node1-pve', to: 'ollama-gpu-node', protocol: 'PCIe GPU Passthrough', color: 'rgba(244, 63, 94, 0.8)' },
   { from: 'ollama-gpu-node', to: 'whisper-ai-node', protocol: 'Local AI Pipeline', color: 'rgba(236, 72, 153, 0.7)' },
   { from: 'node1-pve', to: 'postgres-ha', protocol: 'LXC Datastore', color: 'rgba(59, 130, 246, 0.7)' },
