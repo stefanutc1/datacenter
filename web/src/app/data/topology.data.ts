@@ -531,6 +531,25 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['node1-pve']
   },
   {
+    id: 'openindiana',
+    name: 'OpenIndiana',
+    sublabel: 'VM 207 · illumos Solaris',
+    ip: '192.168.1.207',
+    port: 22,
+    category: 'storage',
+    tier: 5,
+    status: 'OPERATIONAL',
+    x: -125,
+    y: 125,
+    z: 110,
+    color: '#0284c7',
+    icon: 'openindiana',
+    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '30 GB' },
+    tags: ['OpenIndiana', 'illumos', 'Solaris', 'Enterprise ZFS', 'Zones', 'DTrace'],
+    role: 'Virtual OpenIndiana Hipster instance on Proxmox VE KVM for reference ZFS storage, Crossbow VNICs, and DTrace dynamic tracing.',
+    connections: ['node1-pve']
+  },
+  {
     id: 'vscode-server-arm',
     name: 'VS Code Server ARM',
     sublabel: 'CT 160 · Cloud IDE',
@@ -762,6 +781,7 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   // Hypervisor to VMs & Containers
   { from: 'node1-pve', to: 'win-server', protocol: 'VirtIO Active Directory', color: 'rgba(2, 132, 199, 0.7)' },
   { from: 'node1-pve', to: 'macos-monterey', protocol: 'OpenCore KVM Hackintosh', color: 'rgba(139, 92, 246, 0.7)' },
+  { from: 'node1-pve', to: 'openindiana', protocol: 'QEMU KVM Solaris', color: 'rgba(2, 132, 199, 0.7)' },
   { from: 'node3-arm', to: 'vscode-server-arm', protocol: 'LXC Web IDE (M1)', color: 'rgba(56, 189, 248, 0.7)' },
   { from: 'node1-pve', to: 'ollama-gpu-node', protocol: 'PCIe GPU Passthrough', color: 'rgba(244, 63, 94, 0.8)' },
   { from: 'ollama-gpu-node', to: 'whisper-ai-node', protocol: 'Local AI Pipeline', color: 'rgba(236, 72, 153, 0.7)' },

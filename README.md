@@ -391,8 +391,9 @@ flowchart TD
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Hardened Jump Host, Packet Filter PF, unveil/pledge (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, gRPC API, Kubernetes Worker Node (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7,168 MB (7 GB) | **2,048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Ecosystem Testing |
+| **207** | `openindiana` | OpenIndiana Hipster | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single + Solaris | Reference Enterprise ZFS, Solaris Zones, Crossbow VNICs, DTrace |
 
-> **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025, macOS Monterey, RHEL, BSD).
+> **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025, macOS Monterey, OpenIndiana Hipster, RHEL, BSD).
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
@@ -972,9 +973,13 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | :---: | :---: |
 | ![FreeBSD 15.1 Telemetry](photos/services/vm-freebsd.png) | ![OpenBSD 7.9 Telemetry](photos/services/vm-openbsd.png) |
 
-| Talos Linux 1.7 (VM 205 · Loki Telemetry) | Proxmox Datacenter Manager (CT 147 · Loki Telemetry) |
+| Talos Linux 1.7 (VM 205 · Loki Telemetry) | OpenIndiana Hipster (VM 207 · illumos ZFS) |
 | :---: | :---: |
-| ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) |
+| ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![OpenIndiana Hipster](photos/services/vm-openindiana.png) |
+
+| Proxmox Datacenter Manager (CT 147 · Loki Telemetry) | macOS Monterey 12.7 (VM 206 · OpenCore KVM) |
+| :---: | :---: |
+| ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) | ![macOS Monterey](photos/services/vm-macos-monterey.png) |
 
 ---
 

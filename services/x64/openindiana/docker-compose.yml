@@ -1,0 +1,16 @@
+﻿# OpenIndiana Hipster (VM 207 · illumos / Enterprise Solaris on Proxmox VE)
+# Dedicated Unix Environment for Enterprise ZFS, illumos Zones, Crossbow VNICs, and DTrace
+# Managed via Proxmox VE QEMU/KVM (VM 207), SMF, and IPS (pkg)
+services:
+  openindiana:
+    image: qemu-system-x86_64
+    container_name: openindiana-vm207
+    environment:
+      OS: "OpenIndiana Hipster"
+      RAM: "2048M"
+      CORES: "2"
+      DISK: "30G"
+    ports:
+      - "2207:22"
+      - "5907:5900"
+    restart: unless-stopped

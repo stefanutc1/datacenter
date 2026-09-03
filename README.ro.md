@@ -211,8 +211,9 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Jump Host Bastion Întărit, Packet Filter PF, unveil/pledge (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | OS Imutabil Minimalist, API gRPC, Nod Worker K8s (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Nuclee | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Testare Apple |
+| **207** | `openindiana` | OpenIndiana Hipster | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single + Solaris | ZFS Enterprise de Referință, Zone Solaris, VNIC-uri Crossbow, DTrace |
 
-> **Rebalansare Arhitecturală: Migrare Completă Non-AI pe ARM64**: Toate containerele non-AI începând de la CT 112 (inclusiv Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS și VS Code Server ARM64) au fost relocate pe Nodul 3 (Apple Silicon M1 ARM64 via UTM), beneficiind de eficiență energetică ridicată și compresie de memorie ZRAM lz4. Nodul 1 (x86_64) este dedicat exclusiv clusterului AI accelerat pe GPU CUDA (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), ingress-ului de rețea și mașinilor virtuale enterprise KVM (Windows Server 2025, macOS Monterey, RHEL, BSD).
+> **Rebalansare Arhitecturală: Migrare Completă Non-AI pe ARM64**: Toate containerele non-AI începând de la CT 112 (inclusiv Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS și VS Code Server ARM64) au fost relocate pe Nodul 3 (Apple Silicon M1 ARM64 via UTM), beneficiind de eficiență energetică ridicată și compresie de memorie ZRAM lz4. Nodul 1 (x86_64) este dedicat exclusiv clusterului AI accelerat pe GPU CUDA (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), ingress-ului de rețea și mașinilor virtuale enterprise KVM (Windows Server 2025, macOS Monterey, OpenIndiana Hipster, RHEL, BSD).
 
 ### Alimentare Neîntreruptibilă și Secvență de Oprire Controlată NUT
 
@@ -419,9 +420,13 @@ Toate componentele hardware, masinile virtuale si containerele ruleaza pe echipa
 | :---: | :---: |
 | ![FreeBSD 15.1 Telemetry](photos/services/vm-freebsd.png) | ![OpenBSD 7.9 Telemetry](photos/services/vm-openbsd.png) |
 
-| Talos Linux 1.7 (VM 205 · Loki Telemetry) | Proxmox Datacenter Manager (CT 147 · Loki Telemetry) |
+| Talos Linux 1.7 (VM 205 · Loki Telemetry) | OpenIndiana Hipster (VM 207 · illumos ZFS) |
 | :---: | :---: |
-| ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) |
+| ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![OpenIndiana Hipster](photos/services/vm-openindiana.png) |
+
+| Proxmox Datacenter Manager (CT 147 · Loki Telemetry) | macOS Monterey 12.7 (VM 206 · OpenCore KVM) |
+| :---: | :---: |
+| ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) | ![macOS Monterey](photos/services/vm-macos-monterey.png) |
 
 ---
 

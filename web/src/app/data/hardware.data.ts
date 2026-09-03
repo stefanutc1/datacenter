@@ -110,6 +110,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 2048, 
         purpose: 'OpenCore KVM Hackintosh (Sanitized bootloader in /mac/EFI), Xcode CI/CD Build Runner & Apple GUI Testing (Ballooning: 2 GB - 7 GB)',
         purposeRo: 'OpenCore KVM Hackintosh (Bootloader anonimizat în /mac/EFI), Runner Build CI/CD Xcode & Mediu Testare Apple (Balonare: 2 GB - 7 GB)'
+      },
+      { 
+        vmid: 207, 
+        name: 'openindiana', 
+        os: 'OpenIndiana Hipster 2024.10', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'illumos/Solaris Kernel, Reference Enterprise ZFS, Solaris Zones & DTrace (Ballooning: 1 GB - 2 GB)',
+        purposeRo: 'Kernel illumos/Solaris, Pool-uri Enterprise ZFS de Referință, Zone Solaris & DTrace (Balonare: 1 GB - 2 GB)'
       }
     ],
     workloads: [
@@ -120,6 +129,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 204: OpenBSD 7.9 (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
       'VM 205: Talos Linux 1.7 (2048 MB / Balloon: 1024 MB [1-2 GB])',
       'VM 206: macOS Monterey 12.7 (7168 MB / Balloon: 2048 MB [2-7 GB] · OpenCore KVM Hackintosh)',
+      'VM 207: OpenIndiana Hipster (2048 MB / Balloon: 1024 MB [1-2 GB] · illumos ZFS & Solaris Zones)',
       'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
       'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',

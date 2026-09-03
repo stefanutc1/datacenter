@@ -32,8 +32,8 @@ interface PhotoItem {
     </div>
     <p class="text-xs sm:text-sm text-slate-400 font-sans max-w-xl leading-relaxed">
      {{ ts.isRomanian 
-      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 84 de microservicii active cu capturi reale.' 
-      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 84 microservices.' }}
+      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 85 de microservicii active cu capturi reale.' 
+      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 85 microservices.' }}
     </p>
    </div>
 
@@ -127,14 +127,14 @@ interface PhotoItem {
       [class.text-slate-300]="galleryTab() !== 'all'"
       class="px-4 py-2 rounded-xl border border-obsidian-700 transition-all shadow"
      >
-      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 84 Services Fleet' }} ({{ allServices.length }})
+      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 85 Services Fleet' }} ({{ allServices.length }})
      </button>
     </div>
     
     <div class="hidden sm:block text-xs font-mono text-slate-400">
      {{ galleryTab() === 'core' 
-      ? (ts.isRomanian ? '17 Capturi Live (Hypervisori, VM-uri, Securitate)' : '17 Live Captures (Hypervisors, Enterprise VMs, Security)') 
-      : (ts.isRomanian ? '84 Servicii Documentate & Capturate' : '84 Services Documented & Screened') }}
+      ? (ts.isRomanian ? '18 Capturi Live (Hypervisori, VM-uri, Securitate)' : '18 Live Captures (Hypervisors, Enterprise VMs, Security)') 
+      : (ts.isRomanian ? '85 Servicii Documentate & Capturate' : '85 Services Documented & Screened') }}
     </div>
    </div>
 
@@ -387,6 +387,18 @@ export class AboutGalleryComponent {
    endpoint: '192.168.1.206 (VNC 5900 / SSH 22 / KVM)',
    badge: 'MACOS MONTEREY',
    badgeRo: 'MACOS MONTEREY'
+  },
+  {
+   src: 'photos/services/vm-openindiana.png',
+   title: 'OpenIndiana Hipster · illumos / Solaris ZFS Lab (VM 207)',
+   titleRo: 'OpenIndiana Hipster · Laborator ZFS illumos / Solaris (VM 207)',
+   category: 'ENTERPRISE SOLARIS & ILLUMOS ZFS',
+   categoryRo: 'SOLARIS ENTERPRISE & ILLUMOS ZFS',
+   description: 'OpenIndiana Hipster running on Proxmox VE KVM with MATE desktop, reference OpenZFS storage pools, Solaris Zones container isolation, and DTrace kernel telemetry.',
+   descriptionRo: 'OpenIndiana Hipster rulat pe Proxmox VE KVM cu desktop MATE, pool-uri de stocare de referință OpenZFS, izolare prin containere Solaris Zones și telemetrie kernel DTrace.',
+   endpoint: '192.168.1.207 (SSH 22 / VNC 5900)',
+   badge: 'OPENINDIANA',
+   badgeRo: 'OPENINDIANA'
   },
   {
    src: 'photos/services/opnsense.png',

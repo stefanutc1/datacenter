@@ -2019,5 +2019,31 @@ export const SERVICES_DATA: ServiceItem[] = [
     "color": "#a855f7",
     "icon": "apple",
     "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 206)\n# Bootloader: OpenCore EFI (/mac/EFI) · SMBIOS: iMacPro1,1\n# OS: macOS Monterey 12.7 · Dynamic Ballooning: 2048 MB - 7168 MB\nargs: -device isa-applesmc,osk=\"...\" -smbios type=2\ncpu: Penryn,kvm=on,vendor=GenuineIntel,+invtsc,+hypervisor\ncores: 4\nsockets: 1\nmemory: 7168\nballoon: 2048\nboot: order=ide2;virtio0\nvirtio0: local-lvm:vm-206-disk-0,size=64G"
+  },
+  {
+    "id": "vm-openindiana",
+    "name": "OpenIndiana Hipster (illumos / Solaris)",
+    "category": "storage",
+    "containerName": "openindiana",
+    "node": "Node 1 (Intel i3-10100F) · VM 207",
+    "ram": "2,048 MB",
+    "storage": "30 GB NVMe",
+    "ip": "192.168.1.207",
+    "port": 22,
+    "domain": "openindiana.homelab.local",
+    "status": "ONLINE",
+    "description": "Enterprise illumos/Solaris operating system running on Proxmox VE KVM for reference ZFS storage pools, Solaris Zones container isolation, Crossbow virtual networking, and DTrace runtime introspection.",
+    "descriptionRo": "Sistem de operare enterprise derivat din Solaris/illumos rulat pe Proxmox VE KVM pentru pool-uri ZFS de referință, containere Solaris Zones, virtualizare rețea Crossbow și depanare dinamică DTrace.",
+    "tags": [
+      "OpenIndiana",
+      "illumos Kernel",
+      "Enterprise ZFS",
+      "Solaris Zones",
+      "DTrace",
+      "Crossbow VNIC"
+    ],
+    "color": "#0284c7",
+    "icon": "openindiana",
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 207)\n# OS: OpenIndiana Hipster (illumos 5.11) · Dynamic Ballooning: 1024 MB - 2048 MB\ncores: 2\nmemory: 2048\nballoon: 1024\nostype: solaris\nscsi0: local-lvm:vm-207-disk-0,discard=on,size=30G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:07,bridge=vmbr0,firewall=1"
   }
 ];

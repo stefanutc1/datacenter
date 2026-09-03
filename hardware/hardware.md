@@ -20,7 +20,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 **Capacity notes:**
 
-* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server, macOS Monterey, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server, macOS Monterey, OpenIndiana, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
 * The GTX 1050 Ti's 4 GB VRAM limits model size/batch size for ML experimentation and is shared with Frigate if GPU-accelerated detection is enabled for the NVR — these two workloads compete for the same VRAM budget and shouldn't be assumed to coexist at full load without checking.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 
@@ -35,13 +35,14 @@ This file describes hardware and host-level virtualization only. Service definit
 
 ### Usage Profile
 
-This host currently serves five primary roles:
+This host currently serves six primary roles:
 
 1. **Development environment** — Debian + XFCE, used as a general-purpose dev workspace.
 2. **Machine learning experimentation** — CUDA/PyTorch, GPU-passthrough dependent on the GTX 1050 Ti above.
 3. **Backup Server (NAS)** — backup target for this host's own VMs/containers.
 4. **Home surveillance** — Frigate NVR, GPU acceleration shared with the ML role where applicable.
 5. **Apple ecosystem & CI/CD testing** — macOS Monterey 12.7 (VM 206) booted via sanitized OpenCore EFI (`/mac/EFI`) with VirtIO memory ballooning (2–7 GB) and native Xcode build runner capabilities.
+6. **Solaris & illumos ZFS reference lab** — OpenIndiana Hipster (VM 207) with VirtIO memory ballooning (1–2 GB) for reference OpenZFS storage pools, Solaris Zones, and DTrace dynamic tracing.
 
 ---
 
