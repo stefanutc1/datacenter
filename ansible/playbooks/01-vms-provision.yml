@@ -1,11 +1,49 @@
 ---
+# ==============================================================================
+# PROXMOX QEMU/KVM VIRTUAL MACHINES PROVISIONING PLAYBOOK (VM 200 - VM 211)
+# Execution: ansible-playbook -i inventories/homelab/hosts.yml playbooks/01-vms-provision.yml
+# ==============================================================================
+
 - name: Provision QEMU Virtual Machines Baseline
   hosts: virtual_machines
   become: true
+  gather_facts: false
   tasks:
-    - name: Ensure QEMU guest agent is active
-      service:
+    # 1. Connectivity Check & Host Identification
+    - name: Ping virtual machine endpoints
+      ansible.builtin.ping:
+      ignore_errors: true
+      ignore_unreachable: true
+      tags: [connectivity, ping]
+
+    # 2. Linux-Based VMs (RHEL 202, Talos 205, NixOS 209, Sandbox 211)
+    - name: Ensure QEMU guest agent is active on Linux hosts
+      ansible.builtin.systemd:
         name: qemu-guest-agent
         state: started
-        enabled: yes
-      ignore_errors: yes
+        enabled: true
+      when: ansible_facts['system'] | default('') == 'Linux'
+      ignore_errors: true
+      tags: [guest_agent, linux]
+
+    # 3. BSD Family VMs (FreeBSD 203, OpenBSD 204, NetBSD 208, DragonFly BSD 210)
+    - name: Ensure QEMU guest agent is running on BSD systems
+      ansible.builtin.service:
+        name: qemu-guest-agent
+        state: started
+      when: ansible_facts['os_family'] | default('') in ['FreeBSD', 'OpenBSD', 'NetBSD', 'DragonFly']
+      ignore_errors: true
+      tags: [guest_agent, bsd]
+
+    # 4. illumos / OpenIndiana (VM 207)
+    - name: Ensure QEMU guest agent SMF service is online on OpenIndiana
+      ansible.builtin.command: svcadm enable svc:/system/qemu-guest-agent:default
+      when: ansible_facts['os_family'] | default('') == 'Solaris'
+      ignore_errors: true
+      tags: [guest_agent, illumos, solaris]
+
+    # 5. VirtIO Memory Ballooning Audit
+    - name: Record VirtIO dynamic ballooning allocation telemetry
+      ansible.builtin.debug:
+        msg: "VM {{ vmid }} ({{ inventory_hostname }}): {{ os | default('Unknown') }} | Max: {{ max_mem_mb | default('N/A') }} MB | Balloon Min: {{ balloon_mb | default('N/A') }} MB | Role: {{ role | default('generic') }}"
+      tags: [telemetry, ballooning]

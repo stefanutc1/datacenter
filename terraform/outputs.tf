@@ -8,6 +8,11 @@ output "vm_inventory" {
     openbsd_bastion   = { vmid = module.vm_openbsd_204.vm_id, name = module.vm_openbsd_204.name, node = module.vm_openbsd_204.node }
     talos_k8s         = { vmid = module.vm_talos_205.vm_id, name = module.vm_talos_205.name, node = module.vm_talos_205.node }
     macos_monterey    = { vmid = module.vm_macos_monterey_206.vm_id, name = module.vm_macos_monterey_206.name, node = module.vm_macos_monterey_206.node }
+    openindiana       = { vmid = module.vm_openindiana_207.vm_id, name = module.vm_openindiana_207.name, node = module.vm_openindiana_207.node }
+    netbsd            = { vmid = module.vm_netbsd_208.vm_id, name = module.vm_netbsd_208.name, node = module.vm_netbsd_208.node }
+    nixos             = { vmid = module.vm_nixos_209.vm_id, name = module.vm_nixos_209.name, node = module.vm_nixos_209.node }
+    dragonflybsd      = { vmid = module.vm_dragonflybsd_210.vm_id, name = module.vm_dragonflybsd_210.name, node = module.vm_dragonflybsd_210.node }
+    sandbox_staging   = { vmid = module.vm_staging_sandbox_211.vm_id, name = module.vm_staging_sandbox_211.name, node = module.vm_staging_sandbox_211.node }
   }
 }
 

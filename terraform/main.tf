@@ -153,12 +153,87 @@ module "vm_macos_monterey_206" {
   name         = "macos-monterey"
   description  = "macOS Monterey 12.7 (OpenCore KVM Hackintosh, Xcode Build Runner & Apple GUI Testing)"
   cores        = 4
-  memory       = 4096
+  memory       = 7168
   balloon      = 2048
   disk_size    = 64
   storage_pool = "local-lvm"
   vlan_tag     = 20
   tags         = ["macos", "monterey", "hackintosh", "opencore", "apple", "terraform"]
+}
+
+module "vm_openindiana_207" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 207
+  name         = "openindiana-hipster"
+  description  = "OpenIndiana Hipster (illumos kernel, Reference Enterprise ZFS, Solaris Zones, Crossbow VNICs & DTrace)"
+  cores        = 2
+  memory       = 3072
+  balloon      = 1536
+  disk_size    = 50
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["openindiana", "illumos", "solaris", "zfs", "dtrace", "terraform"]
+}
+
+module "vm_netbsd_208" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 208
+  name         = "netbsd-portable"
+  description  = "NetBSD 10.0 (Portable Clean Unix Reference, Rump Anykernel Architecture & pkgsrc Packaging)"
+  cores        = 2
+  memory       = 512
+  balloon      = 256
+  disk_size    = 12
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["netbsd", "bsd", "rump", "pkgsrc", "portable-unix", "terraform"]
+}
+
+module "vm_nixos_209" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 209
+  name         = "nixos-minimal"
+  description  = "NixOS 24.11 Minimal (Declarative Immutable Linux, Flakes Reproducible Builds & Atomic Rollbacks)"
+  cores        = 2
+  memory       = 1024
+  balloon      = 512
+  disk_size    = 22
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["nixos", "declarative", "immutable", "flakes", "reproducible", "terraform"]
+}
+
+module "vm_dragonflybsd_210" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 210
+  name         = "dragonflybsd-hammer2"
+  description  = "DragonFly BSD 6.4 (HAMMER2 Journaling File System Lab, Hybrid Microkernel & Lockless SMP)"
+  cores        = 2
+  memory       = 1024
+  balloon      = 512
+  disk_size    = 15
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["dragonflybsd", "bsd", "hammer2", "microkernel", "smp", "terraform"]
+}
+
+module "vm_staging_sandbox_211" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 211
+  name         = "sandbox-staging-lab"
+  description  = "Ephemeral Security Analysis & Staging Sandbox (DFIR Dynamic Detonation / Protocol Testing)"
+  cores        = 2
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 20
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["sandbox", "staging", "dfir", "security", "lab", "terraform"]
 }
 
 # ------------------------------------------------------------------------------
