@@ -26,7 +26,7 @@ class PgVectorMemoryStore:
             (
                 "homelab",
                 "Proxmox VE Hypervisor (pve-node-1) rulează pe IP-ul 192.168.1.132 pe portul 8006. "
-                "Găzduiește VM 200 (OPNsense Firewall) și VM 201 (Windows Server 2025) și containerele LXC.",
+                "Găzduiește VM 200 (OPNsense Firewall) și VM 201 (Windows Server 2025 Datacenter) și containerele LXC.",
                 {"tags": ["proxmox", "pve", "192.168.1.132", "hypervisor", "vm200", "vm201"]}
             ),
             (

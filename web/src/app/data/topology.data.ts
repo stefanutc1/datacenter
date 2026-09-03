@@ -495,7 +495,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'win-server',
     name: 'Active Directory',
-    sublabel: 'VM 201 · Windows Server 2025',
+    sublabel: 'VM 201 · Windows Server 2025 Datacenter',
     ip: '192.168.1.201',
     port: 3389,
     category: 'compute',
@@ -507,8 +507,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#0284c7',
     icon: 'proxmox',
     hardware: { node: 'Node 1 (x86_64)', ram: '7,168 MB (Balloon: 4096 MB)', storage: '64 GB' },
-    tags: ['Active Directory', 'Domain Controller', 'Group Policy', 'Kerberos SSO'],
-    role: 'Manages enterprise centralized identity, domain policies, user authentication, and workstation management.',
+    tags: ['Active Directory', 'Domain Controller', 'Group Policy', 'Kerberos SSO', 'Datacenter'],
+    role: 'Virtual Windows Server 2025 Datacenter instance managing enterprise centralized identity, domain policies (AD DS / GPO), DNS, and workstation management.',
     connections: ['node1-pve']
   },
   {

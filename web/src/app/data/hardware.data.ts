@@ -60,7 +60,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       { 
         vmid: 201, 
         name: 'windows', 
-        os: 'Windows Server 2025', 
+        os: 'Windows Server 2025 Datacenter', 
         allocatedMb: 7168, 
         balloonMinMb: 4096, 
         purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4096 MB - 7168 MB)',

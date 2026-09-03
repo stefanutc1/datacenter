@@ -206,7 +206,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 | Identificador Nodo | Factor de Forma / Chasis | Arquitectura CPU | Acelerador / GPU | Memoria RAM | Configuración Almacenamiento | Propósito Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`pve` (Nodo 1)** | Torre ATX Personalizada | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4 GB VRAM) | 12 GB DDR4-2133 (12.288 MB) | 512 GB NVMe SSD (`local-lvm`) | Hipervisor Principal: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
+| **`pve` (Nodo 1)** | Torre ATX Personalizada | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4 GB VRAM) | 12 GB DDR4-2133 (12.288 MB) | 512 GB NVMe SSD (`local-lvm`) | Hipervisor Principal: Windows Server 2025 Datacenter AD, OPNsense, Ollama GPU (CT 110), Immich AI |
 | **`openmediavault` (Nodo 2)** | Portátil ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (Espejo ZFS) | NAS Centralizado: Recursos NFS/SMB, destino de respaldos vzdump, Wikipedia offline Kiwix |
 | **`pve` (Nodo 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Neural Engine / Metal | 8 GB Unificada (4 GB VM dedicada) | 256 GB Apple APFS NVMe | Hipervisor Secundario ARM64 (UTM): Telemetría Grafana/Prometheus/Tempo, Gitea, Woodpecker CI, 58+ Microservicios |
 | **`kubernetes` (Nodo 4)** | Chasis ATX Personalizado | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1 GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker inmutable Talos Linux / k3s, tareas batch programadas, sensor de seguridad eBPF |
@@ -216,7 +216,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | VMID | Nombre VM | Sistema Operativo | vCPU | RAM Máx | Balloon Mín | Hardware / Passthrough | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **200** | `opnsense` | Hardened FreeBSD 14 | 2 Núcleos | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Rotador de Claves WireGuard |
-| **201** | `windows` | Windows Server 2025 | 2 Núcleos | 7.168 MB (7 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Forwarder Sysmon (Ballooning: 4-7 GB) |
+| **201** | `windows` | Windows Server 2025 Datacenter | 2 Núcleos | 7.168 MB (7 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Forwarder Sysmon (Ballooning: 4-7 GB) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Núcleos | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Cargas Enterprise (1-2 GB) |
 | **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Pool Nativo OpenZFS, BSD Jails & Laboratorio Red (512MB-1GB) |
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Jump Host Bastión Reforzado, Packet Filter PF, pledge/unveil (512MB-1GB) |
@@ -227,7 +227,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **209** | `nixos` | NixOS 24.11 Minimal | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Linux Declarativo Inmutable, Flakes Reproducibles, Rollback Atómico |
 | **210** | `dragonflybsd` | DragonFly BSD 6.4 | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (15 GB) | Sistema de Archivos HAMMER2, Microkernel Híbrido, SMP Lockless |
 
-> **Rebalanceo de Arquitectura: Migración Completa No-IA a ARM64**: Todas las cargas de contenedores que no involucran IA a partir del CT 112 (incluyendo Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS y VS Code Server ARM64) fueron reubicadas en el Nodo 3 (Apple Silicon M1 ARM64 vía UTM), respaldadas por compresión ZRAM lz4. El Nodo 1 (x86_64) está dedicado estrictamente al clúster de IA acelerado por GPU CUDA (Ollama LLM, Open-WebUI, Faster-Whisper, Flowise, Paperless-AI) y máquinas virtuales empresariales KVM (Windows Server 2025, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
+> **Rebalanceo de Arquitectura: Migración Completa No-IA a ARM64**: Todas las cargas de contenedores que no involucran IA a partir del CT 112 (incluyendo Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS y VS Code Server ARM64) fueron reubicadas en el Nodo 3 (Apple Silicon M1 ARM64 vía UTM), respaldadas por compresión ZRAM lz4. El Nodo 1 (x86_64) está dedicado estrictamente al clúster de IA acelerado por GPU CUDA (Ollama LLM, Open-WebUI, Faster-Whisper, Flowise, Paperless-AI) y máquinas virtuales empresariales KVM (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
 
 
 ---
@@ -407,9 +407,9 @@ Todos los nodos de hardware, máquinas virtuales y contenedores se ejecutan sobr
 ---
 
 ### Sistemas Operativos Especializados & Telemetría (Loki Telemetry & Runtime Logs)
-| Windows Server 2025 (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) |
+| Windows Server 2025 Datacenter (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) |
 | :---: | :---: |
-| ![Windows Server 2025 Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
+| ![Windows Server 2025 Datacenter Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
 
 | FreeBSD 15.1-RELEASE (VM 203 · Loki Telemetry) | OpenBSD 7.9 Bastion (VM 204 · Loki Telemetry) |
 | :---: | :---: |

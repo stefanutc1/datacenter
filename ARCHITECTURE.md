@@ -22,7 +22,7 @@ graph TB
     subgraph NODE1["Node 1: Proxmox VE Hypervisor (192.168.1.132)"]
         PVE_HW["Intel Core i3-10100F · 12 GB RAM · GTX 1050 Ti · 512 GB SSD"]
         VM200["VM 200: OPNsense Virtual Gateway (:8443)"]
-        VM201["VM 201: Windows Server 2025 (:3389)"]
+        VM201["VM 201: Windows Server 2025 Datacenter (:3389)"]
         VM206["VM 206: macOS Monterey 12.7 (OpenCore KVM · /mac/EFI)"]
         VM207["VM 207: OpenIndiana Hipster (:22 · illumos ZFS)"]
         VM208["VM 208: NetBSD 10.0 (:22 · Rump Anykernel)"]

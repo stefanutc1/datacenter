@@ -363,7 +363,7 @@ HOMELAB_NODES: List[Dict[str, Any]] = [
         "probe_ports": [8006, 22, 9100],
         "is_local_host": False,
         "status": "probe",
-        "workloads": "LXC Containers, VM 200 (OPNsense), VM 201 (Windows Server 2025)"
+        "workloads": "LXC Containers, VM 200 (OPNsense), VM 201 (Windows Server 2025 Datacenter)"
     },
     {
         "id": "openmediavault-nas",

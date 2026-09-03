@@ -205,7 +205,7 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 
 | Identificator Nod | Șasiu / Form Factor | Arhitectură CPU | Accelerator / GPU | Alocare RAM | Configurație Stocare | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`pve` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 12 GB DDR4-2133 (12.288 MB) | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
+| **`pve` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 12 GB DDR4-2133 (12.288 MB) | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 Datacenter AD, OPNsense, Ollama GPU (CT 110), Immich AI |
 | **`openmediavault` (Nod 2)** | Laptop ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (Oglindă ZFS) | NAS Centralizat: stocare NFS/SMB, destinație backup vzdump, arhivă offline Wikipedia (Kiwix) |
 | **`pve` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI, 58+ Microservicii |
 | **`kubernetes` (Nod 4)** | Șasiu ATX Custom | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker imutabil Talos Linux / k3s, joburi batch, senzor securitate eBPF |
@@ -215,7 +215,7 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 | VMID | Nume VM | Sistem de Operare | vCPU | RAM Max | Balloon Min | Hardware / Passthrough | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **200** | `opnsense` | Hardened FreeBSD 14 | 2 Nuclee | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Rotație Chei WireGuard |
-| **201** | `windows` | Windows Server 2025 | 2 Nuclee | 7.168 MB (7 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Balonare: 4-7 GB) |
+| **201** | `windows` | Windows Server 2025 Datacenter | 2 Nuclee | 7.168 MB (7 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Balonare: 4-7 GB) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Sarcini Enterprise (1-2 GB) |
 | **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Pool Nativ OpenZFS, BSD Jails & Laborator Rețea (512MB-1GB) |
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Jump Host Bastion Întărit, Packet Filter PF, unveil/pledge (512MB-1GB) |
@@ -226,7 +226,7 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 | **209** | `nixos` | NixOS 24.11 Minimal | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Linux Declarativ Imutabil, Build-uri Reproductibile Flakes, Rollback Atomic |
 | **210** | `dragonflybsd` | DragonFly BSD 6.4 | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (15 GB) | Sistem de Fișiere Jurnalizat HAMMER2, Microkernel Hibrid, SMP Lockless |
 
-> **Rebalansare Arhitecturală: Migrare Completă Non-AI pe ARM64**: Toate containerele non-AI începând de la CT 112 (inclusiv Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS și VS Code Server ARM64) au fost relocate pe Nodul 3 (Apple Silicon M1 ARM64 via UTM), beneficiind de eficiență energetică ridicată și compresie de memorie ZRAM lz4. Nodul 1 (x86_64) este dedicat exclusiv clusterului AI accelerat pe GPU CUDA (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), ingress-ului de rețea și mașinilor virtuale enterprise KVM (Windows Server 2025, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
+> **Rebalansare Arhitecturală: Migrare Completă Non-AI pe ARM64**: Toate containerele non-AI începând de la CT 112 (inclusiv Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS și VS Code Server ARM64) au fost relocate pe Nodul 3 (Apple Silicon M1 ARM64 via UTM), beneficiind de eficiență energetică ridicată și compresie de memorie ZRAM lz4. Nodul 1 (x86_64) este dedicat exclusiv clusterului AI accelerat pe GPU CUDA (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), ingress-ului de rețea și mașinilor virtuale enterprise KVM (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
 
 ### Alimentare Neîntreruptibilă și Secvență de Oprire Controlată NUT
 
@@ -425,9 +425,9 @@ Toate componentele hardware, masinile virtuale si containerele ruleaza pe echipa
 ---
 
 ### Sisteme de Operare Specializate & Telemetrie (Loki Telemetry & Runtime Logs)
-| Windows Server 2025 (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) |
+| Windows Server 2025 Datacenter (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) |
 | :---: | :---: |
-| ![Windows Server 2025 Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
+| ![Windows Server 2025 Datacenter Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
 
 | FreeBSD 15.1-RELEASE (VM 203 · Loki Telemetry) | OpenBSD 7.9 Bastion (VM 204 · Loki Telemetry) |
 | :---: | :---: |

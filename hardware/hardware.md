@@ -20,7 +20,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 **Capacity notes:**
 
-* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server, macOS Monterey, OpenIndiana, NetBSD, NixOS, DragonFly BSD, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana, NetBSD, NixOS, DragonFly BSD, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
 * The GTX 1050 Ti's 4 GB VRAM limits model size/batch size for ML experimentation and is shared with Frigate if GPU-accelerated detection is enabled for the NVR — these two workloads compete for the same VRAM budget and shouldn't be assumed to coexist at full load without checking.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 

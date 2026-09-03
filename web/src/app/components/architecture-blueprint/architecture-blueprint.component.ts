@@ -366,7 +366,7 @@ import { TranslationService } from '../../services/translation.service';
               </div>
               <div class="p-3.5 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Pasul 3: VM-uri Core' : 'Step 3: Core VMs' }}</span>
-                <p class="text-slate-300 text-[11px] font-sans">{{ ts.isRomanian ? 'Oprire Controlată Windows Server 2025 & OPNsense' : 'Gracefully stop Windows Server 2025 & OPNsense' }}</p>
+                <p class="text-slate-300 text-[11px] font-sans">{{ ts.isRomanian ? 'Oprire Controlată Windows Server 2025 Datacenter & OPNsense' : 'Gracefully stop Windows Server 2025 Datacenter & OPNsense' }}</p>
               </div>
               <div class="p-3.5 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Pasul 4: Oprire Gazdă' : 'Step 4: Host Poweroff' }}</span>
@@ -887,7 +887,7 @@ export class ArchitectureBlueprintComponent {
       title: 'Operating Systems & Virtualization',
       badge: 'Compute & AD',
       description: 'Bare-metal virtualization and isolated testbeds hosting enterprise domain infrastructure and offensive/defensive virtual machines.',
-      tools: ['Windows Server 2025', 'Active Directory (AD DS)', 'Group Policy (GPO)', 'Linux (Debian / Ubuntu / Alpine / Talos)', 'Virtual Machines (KVM / Proxmox / UTM)']
+      tools: ['Windows Server 2025 Datacenter', 'Active Directory (AD DS)', 'Group Policy (GPO)', 'Linux (Debian / Ubuntu / Alpine / Talos)', 'Virtual Machines (KVM / Proxmox / UTM)']
     },
     {
       title: 'Networking & Packet Analysis',
@@ -938,7 +938,7 @@ export class ArchitectureBlueprintComponent {
       title: 'Sisteme de Operare & Virtualizare',
       badge: 'Compute & AD',
       description: 'Virtualizare bare-metal și medii izolate de test ce găzduiesc infrastructură Active Directory și mașini virtuale ofensive/defensive.',
-      tools: ['Windows Server 2025', 'Active Directory (AD DS)', 'Politici de Grup (GPO)', 'Linux (Debian / Ubuntu / Alpine / Talos)', 'Mașini Virtuale (KVM / Proxmox / UTM)']
+      tools: ['Windows Server 2025 Datacenter', 'Active Directory (AD DS)', 'Politici de Grup (GPO)', 'Linux (Debian / Ubuntu / Alpine / Talos)', 'Mașini Virtuale (KVM / Proxmox / UTM)']
     },
     {
       title: 'Rețelistică & Analiză de Pachete',

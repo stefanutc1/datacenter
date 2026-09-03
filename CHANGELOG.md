@@ -57,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-08-25
 
 ### Added
-- Initial Proxmox VE 9.2 hypervisor provisioning with OPNsense virtual router (VM 200) and Windows Server 2025 (VM 201).
+- Initial Proxmox VE 9.2 hypervisor provisioning with OPNsense virtual router (VM 200) and Windows Server 2025 Datacenter (VM 201).
 - Declarative Infrastructure as Code configurations via Terraform and Ansible CIS Level 1 hardening.
 - Deployment of containerized services across VLAN 1, 10, 20, 30, and 40.
 - Pi-hole DNS sinkhole with local `*.lan` domain resolution.
