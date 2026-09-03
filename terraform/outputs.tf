@@ -7,7 +7,7 @@ output "vm_inventory" {
     freebsd_storage   = { vmid = module.vm_freebsd_203.vm_id, name = module.vm_freebsd_203.name, node = module.vm_freebsd_203.node }
     openbsd_bastion   = { vmid = module.vm_openbsd_204.vm_id, name = module.vm_openbsd_204.name, node = module.vm_openbsd_204.node }
     talos_k8s         = { vmid = module.vm_talos_205.vm_id, name = module.vm_talos_205.name, node = module.vm_talos_205.node }
-    capev2_sandbox    = { vmid = module.vm_capev2_206.vm_id, name = module.vm_capev2_206.name, node = module.vm_capev2_206.node }
+    macos_monterey    = { vmid = module.vm_macos_monterey_206.vm_id, name = module.vm_macos_monterey_206.name, node = module.vm_macos_monterey_206.node }
   }
 }
 

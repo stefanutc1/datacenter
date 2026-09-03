@@ -525,7 +525,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 115,
     color: '#8b5cf6',
     icon: 'proxmox',
-    hardware: { node: 'Node 1 (x86_64)', ram: '4,096 MB (Balloon: 2048 MB)', storage: '64 GB' },
+    hardware: { node: 'Node 1 (x86_64)', ram: '7,168 MB (Balloon: 2048 MB)', storage: '120 GB' },
     tags: ['macOS Monterey', 'OpenCore KVM', 'Hackintosh', 'Xcode Runner', 'Apple Testing'],
     role: 'Virtual macOS Monterey instance on Proxmox VE via OpenCore KVM for Apple ecosystem testing and Xcode CI/CD build runner.',
     connections: ['node1-pve']

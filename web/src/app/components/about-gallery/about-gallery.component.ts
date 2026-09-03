@@ -382,8 +382,8 @@ export class AboutGalleryComponent {
    titleRo: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 206)',
    category: 'APPLE ECOSYSTEM & HACKINTOSH VIRTUALIZATION',
    categoryRo: 'ECOSISTEM APPLE & VIRTUALIZARE HACKINTOSH',
-   description: 'macOS Monterey 12.7 running on Proxmox VE via OpenCore bootloader with full Apple services, Xcode CI/CD build runner, and native VNC screen sharing (Ballooning: 2-4 GB).',
-   descriptionRo: 'macOS Monterey 12.7 rulat pe Proxmox VE prin bootloader-ul OpenCore cu servicii native Apple, runner CI/CD Xcode și partajare ecran VNC (Ballooning: 2-4 GB).',
+   description: 'macOS Monterey 12.7 running on Proxmox VE via OpenCore bootloader with full Apple services, Xcode CI/CD build runner, and native VNC screen sharing (Ballooning: 2-7 GB).',
+   descriptionRo: 'macOS Monterey 12.7 rulat pe Proxmox VE prin bootloader-ul OpenCore cu servicii native Apple, runner CI/CD Xcode și partajare ecran VNC (Ballooning: 2-7 GB).',
    endpoint: '192.168.1.206 (VNC 5900 / SSH 22 / KVM)',
    badge: 'MACOS MONTEREY',
    badgeRo: 'MACOS MONTEREY'
