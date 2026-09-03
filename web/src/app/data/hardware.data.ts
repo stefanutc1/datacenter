@@ -120,12 +120,11 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 204: OpenBSD 7.9 (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
       'VM 205: Talos Linux 1.7 (2048 MB / Balloon: 1024 MB [1-2 GB])',
       'VM 206: macOS Monterey 12.7 (7168 MB / Balloon: 2048 MB [2-7 GB] · OpenCore KVM Hackintosh)',
-      'CT 100-109: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
-      'CT 110-113: Ollama LLM, Open-WebUI, Paperless-ngx, MinIO S3 (AI stack & local core storage)',
-      'CT 117-123: Meilisearch, Vector, Faster-Whisper AI, SearXNG, Flowise AI, NetAlertX, RustDesk',
-      'CT 126-130: Kopia, WG-Easy, Code-Server IDE #1, pgAdmin4, Dozzle Log Viewer',
-      'CT 133-148: Kiwix Wiki, HedgeDoc, Glances, Dufs, Gotify, Paperless-AI, Chrony NTP, Beszel-Agent, SNMP Collector, SearXNG-Redis',
-      'CT 149-151: Proxmox Backup Server (PBS), Proxmox Datacenter Manager (PDM), Proxmox Mail Gateway (PMG)'
+      'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
+      'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
+      'CT 119: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',
+      'CT 121: Flowise Agentic AI Workflow & LangChain Graph Engine',
+      'CT 143: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging'
     ]
   },
   {
@@ -174,7 +173,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 120-129: Memos, Wallos, SyncThing, Microbin, Vikunja, Blackbox Exporter, YourSpotify, Web-Check OSINT, Opengist, Flatnotes',
       'CT 130-139: Bark Server, Shiori, Whoogle, Flame, Dashy, Shlink, Pastefy, Pingvin-Share, RSS-Bridge, Playwright-Probe',
       'CT 140-149: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall, PBS, PDM, PMG, RenovateBot GitOps Engine',
-      'CT 150-160: Migrated from x64: Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS + VS Code Server ARM64 (CT 160)'
+      'CT 150-160: Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, VS Code Server ARM64',
+      'CT 161-173: Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server #1, pgAdmin4, Dozzle, Kiwix'
     ]
   },
   {

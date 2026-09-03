@@ -12,7 +12,7 @@ output "vm_inventory" {
 }
 
 output "lxc_x64_summary" {
-  description = "Summary of Node 1 x86_64 LXC containers"
+  description = "Summary of Node 1 x86_64 LXC containers (Core & GPU AI Stack)"
   value = {
     nginx         = { vmid = module.lxc_nginx.vm_id, ip = module.lxc_nginx.ip_address, node = module.lxc_nginx.node }
     pihole        = { vmid = module.lxc_pihole.vm_id, ip = module.lxc_pihole.ip_address, node = module.lxc_pihole.node }
@@ -23,11 +23,9 @@ output "lxc_x64_summary" {
     homeassistant = { vmid = module.lxc_homeassistant.vm_id, ip = module.lxc_homeassistant.ip_address, node = module.lxc_homeassistant.node }
     n8n           = { vmid = module.lxc_n8n.vm_id, ip = module.lxc_n8n.ip_address, node = module.lxc_n8n.node }
     ollama        = { vmid = module.lxc_ollama.vm_id, ip = module.lxc_ollama.ip_address, node = module.lxc_ollama.node }
-    paperless     = { vmid = module.lxc_paperless.vm_id, ip = module.lxc_paperless.ip_address, node = module.lxc_paperless.node }
-    vault         = { vmid = module.lxc_vault.vm_id, ip = module.lxc_vault.ip_address, node = module.lxc_vault.node }
-    pbs           = { vmid = module.lxc_pbs.vm_id, ip = module.lxc_pbs.ip_address, node = module.lxc_pbs.node }
-    pdm           = { vmid = module.lxc_pdm.vm_id, ip = module.lxc_pdm.ip_address, node = module.lxc_pdm.node }
-    pmg           = { vmid = module.lxc_pmg.vm_id, ip = module.lxc_pmg.ip_address, node = module.lxc_pmg.node }
+    openwebui     = { vmid = module.lxc_openwebui.vm_id, ip = module.lxc_openwebui.ip_address, node = module.lxc_openwebui.node }
+    whisper       = { vmid = module.lxc_whisper.vm_id, ip = module.lxc_whisper.ip_address, node = module.lxc_whisper.node }
+    flowise       = { vmid = module.lxc_flowise.vm_id, ip = module.lxc_flowise.ip_address, node = module.lxc_flowise.node }
   }
 }
 

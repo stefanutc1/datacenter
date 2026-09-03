@@ -346,7 +346,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | Unveränderliches OS, Deklaratives gRPC API, K8s (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | OpenCore EFI + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Testumgebung |
 
-> **Architektur-Rebalancing & ARM64 Dev-Stack**: Um RAM- und CPU-Kapazitäten auf Node 1 für GPU-beschleunigte KI-Modelle (Ollama, Faster-Whisper, Flowise, Open-WebUI) und Enterprise-VMs (Windows Server, macOS Monterey) zu sichern, wurden 10 Nicht-KI-Dienste (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) plus eine zweite schlanke **VS Code Server Cloud IDE (`CT 160`)** auf Node 3 (Apple Silicon M1 ARM64 via UTM mit ZRAM lz4) bereitgestellt.
+> **Architektur-Rebalancing: Vollständige Non-AI-Migration auf ARM64**: Alle Non-AI-Container-Workloads ab CT 112 (einschließlich Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS und VS Code Server ARM64) wurden auf Node 3 (Apple Silicon M1 ARM64 via UTM mit ZRAM lz4) verlagert. Node 1 (x86_64) ist nun strikt dediziert für den CUDA-beschleunigten KI-Cluster (Ollama, Open-WebUI, Faster-Whisper, Flowise, Paperless-AI) und Enterprise-VMs (Windows Server 2025, macOS Monterey, RHEL, BSD).
 
 ### Optimisation Mémoire Hôte: ZRAM / ZSWAP Fast RAM Compression
 
