@@ -1,0 +1,14 @@
+﻿# NetBSD 10.0 (VM 208 · Clean Portable Unix on Proxmox VE)
+# Rump Anykernel, pkgsrc Packaging, and Ultra-Portable Unix Reference
+services:
+  netbsd:
+    image: qemu-system-x86_64
+    container_name: netbsd-vm208
+    environment:
+      OS: "NetBSD 10.0"
+      RAM: "1024M"
+      CORES: "2"
+      DISK: "20G"
+    ports:
+      - "2208:22"
+    restart: unless-stopped

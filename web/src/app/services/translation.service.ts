@@ -118,7 +118,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
   ro: {
     navOverview: 'Prezentare',
     navTopology: 'Topologie 3D',
-    navServices: 'Servicii (85)',
+    navServices: 'Servicii (88)',
     navHardware: 'Flotă Hardware',
     navBlueprint: 'Arhitectură & Cyber',
     statusClusterActive: '4 noduri online',
@@ -134,11 +134,11 @@ const TRANSLATIONS: Record<Language, Translations> = {
     
     metricVirtTitle: 'VIRTUALIZARE',
     metricVirtCount: '2 Hypervisori',
-    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 găzduind OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s și cele 85 de microservicii active.',
+    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 găzduind OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s și cele 88 de microservicii active.',
     
     metricServicesTitle: 'SERVICII ACTIVE & MULTI-CLOUD',
-    metricServicesCount: '85 Servicii · 3 Clouds',
-    metricServicesDesc: '85 de microservicii active și mașini virtuale KVM/BSD integrate hibrid cu Azure Key Vault, GCP WORM GCS & AWS Glacier.',
+    metricServicesCount: '88 Servicii · 3 Clouds',
+    metricServicesDesc: '88 de microservicii active și mașini virtuale KVM/BSD integrate hibrid cu Azure Key Vault, GCP WORM GCS & AWS Glacier.',
     
     metricCyberTitle: 'SECURITATE, DFIR & CI/CD',
     metricCyberCount: 'SOC · 9 Fluxuri CI/CD',
@@ -177,8 +177,8 @@ const TRANSLATIONS: Record<Language, Translations> = {
     btnLocate3D: 'LOCALIZEAZĂ ÎN 3D',
 
     srvTag: 'CATALOG SERVICII',
-    srvTitle: 'Servicii & Workload-uri Active (85)',
-    srvDesc: 'Catalogul complet cu toate cele 85 de microservicii și componente de infrastructură cu capturi HD de interfață, telemetrie în timp real și alocare hardware.',
+    srvTitle: 'Servicii & Workload-uri Active (88)',
+    srvDesc: 'Catalogul complet cu toate cele 88 de microservicii și componente de infrastructură cu capturi HD de interfață, telemetrie în timp real și alocare hardware.',
     srvSearchPlaceholder: 'Caută serviciu, port, gazdă, categorie...',
     srvRamCeiling: 'Plafon RAM',
     srvStoragePool: 'Pool Stocare',
@@ -225,7 +225,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
   en: {
     navOverview: 'Overview',
     navTopology: '3D Topology',
-    navServices: 'Services (85)',
+    navServices: 'Services (88)',
     navHardware: 'Hardware Fleet',
     navBlueprint: 'Architecture & Cyber',
     statusClusterActive: '4 nodes online',
@@ -241,11 +241,11 @@ const TRANSLATIONS: Record<Language, Translations> = {
     
     metricVirtTitle: 'VIRTUALIZATION',
     metricVirtCount: '2 Hypervisors',
-    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and all 85 active microservices.',
+    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and all 88 active microservices.',
     
     metricServicesTitle: 'ACTIVE SERVICES & MULTI-CLOUD',
-    metricServicesCount: '85 Services · 3 Clouds',
-    metricServicesDesc: '85 active on-prem microservices and KVM/BSD enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
+    metricServicesCount: '88 Services · 3 Clouds',
+    metricServicesDesc: '88 active on-prem microservices and KVM/BSD enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
     
     metricCyberTitle: 'SECURITY, DFIR & CI/CD',
     metricCyberCount: 'SOC · 9 CI/CD Workflows',
@@ -284,8 +284,8 @@ const TRANSLATIONS: Record<Language, Translations> = {
     btnLocate3D: 'LOCATE IN 3D',
 
     srvTag: 'SERVICES CATALOG',
-    srvTitle: 'Active Services & Workloads (85)',
-    srvDesc: 'Complete catalog of all 85 active homelab microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
+    srvTitle: 'Active Services & Workloads (88)',
+    srvDesc: 'Complete catalog of all 88 active homelab microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
     srvSearchPlaceholder: 'Search service, port, host, category...',
     srvRamCeiling: 'RAM Ceiling',
     srvStoragePool: 'Storage Pool',

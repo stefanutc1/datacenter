@@ -1,0 +1,14 @@
+﻿# NixOS 24.11 (VM 209 · Declarative Immutable Linux on Proxmox VE)
+# Flakes, Declarative Nix Expressions, and Reproducible Infrastructure
+services:
+  nixos:
+    image: qemu-system-x86_64
+    container_name: nixos-vm209
+    environment:
+      OS: "NixOS 24.11"
+      RAM: "2048M"
+      CORES: "2"
+      DISK: "40G"
+    ports:
+      - "2209:22"
+    restart: unless-stopped

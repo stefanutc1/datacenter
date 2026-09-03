@@ -392,8 +392,11 @@ flowchart TD
 | **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, gRPC API, Kubernetes Worker Node (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7,168 MB (7 GB) | **2,048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Ecosystem Testing |
 | **207** | `openindiana` | OpenIndiana Hipster | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single + Solaris | Reference Enterprise ZFS, Solaris Zones, Crossbow VNICs, DTrace |
+| **208** | `netbsd` | NetBSD 10.0 | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Portable Clean Unix Reference, Rump Anykernel, pkgsrc Packaging |
+| **209** | `nixos` | NixOS 24.11 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single | Declarative Immutable Linux, Flakes Reproducible Builds, Atomic Rollbacks |
+| **210** | `dragonflybsd` | DragonFly BSD 6.4 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single | HAMMER2 Journaling File System Lab, Hybrid Microkernel, Lockless SMP |
 
-> **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025, macOS Monterey, OpenIndiana Hipster, RHEL, BSD).
+> **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
@@ -980,6 +983,14 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | Proxmox Datacenter Manager (CT 147 · Loki Telemetry) | macOS Monterey 12.7 (VM 206 · OpenCore KVM) |
 | :---: | :---: |
 | ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) | ![macOS Monterey](photos/services/vm-macos-monterey.png) |
+
+| NetBSD 10.0 (VM 208 · Clean Portable Unix) | NixOS 24.11 (VM 209 · Declarative Linux) |
+| :---: | :---: |
+| ![NetBSD 10.0](photos/services/vm-netbsd.png) | ![NixOS 24.11](photos/services/vm-nixos.png) |
+
+| DragonFly BSD 6.4 (VM 210 · HAMMER2 Storage) |  |
+| :---: | :---: |
+| ![DragonFly BSD 6.4](photos/services/vm-dragonflybsd.png) |  |
 
 ---
 

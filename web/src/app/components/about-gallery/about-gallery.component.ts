@@ -32,8 +32,8 @@ interface PhotoItem {
     </div>
     <p class="text-xs sm:text-sm text-slate-400 font-sans max-w-xl leading-relaxed">
      {{ ts.isRomanian 
-      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 85 de microservicii active cu capturi reale.' 
-      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 85 microservices.' }}
+      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 88 de microservicii active cu capturi reale.' 
+      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 88 microservices.' }}
     </p>
    </div>
 
@@ -127,14 +127,14 @@ interface PhotoItem {
       [class.text-slate-300]="galleryTab() !== 'all'"
       class="px-4 py-2 rounded-xl border border-obsidian-700 transition-all shadow"
      >
-      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 85 Services Fleet' }} ({{ allServices.length }})
+      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 88 Services Fleet' }} ({{ allServices.length }})
      </button>
     </div>
     
     <div class="hidden sm:block text-xs font-mono text-slate-400">
      {{ galleryTab() === 'core' 
-      ? (ts.isRomanian ? '18 Capturi Live (Hypervisori, VM-uri, Securitate)' : '18 Live Captures (Hypervisors, Enterprise VMs, Security)') 
-      : (ts.isRomanian ? '85 Servicii Documentate & Capturate' : '85 Services Documented & Screened') }}
+      ? (ts.isRomanian ? '21 Capturi Live (Hypervisori, VM-uri, Securitate)' : '21 Live Captures (Hypervisors, Enterprise VMs, Security)') 
+      : (ts.isRomanian ? '88 Servicii Documentate & Capturate' : '88 Services Documented & Screened') }}
     </div>
    </div>
 
@@ -399,6 +399,42 @@ export class AboutGalleryComponent {
    endpoint: '192.168.1.207 (SSH 22 / VNC 5900)',
    badge: 'OPENINDIANA',
    badgeRo: 'OPENINDIANA'
+  },
+  {
+   src: 'photos/services/vm-netbsd.png',
+   title: 'NetBSD 10.0 · Clean Portable Unix & Rump Kernel (VM 208)',
+   titleRo: 'NetBSD 10.0 · Unix Portabil & Rump Anykernel (VM 208)',
+   category: 'PORTABLE UNIX & CLEAN KERNEL',
+   categoryRo: 'UNIX PORTABIL & KERNEL CURAT',
+   description: 'NetBSD 10.0 running on Proxmox VE KVM with Motif window manager, Rump Anykernel architecture, and pkgsrc multi-platform packaging.',
+   descriptionRo: 'NetBSD 10.0 rulat pe Proxmox VE KVM cu manager de ferestre Motif, arhitectură modulară Rump Anykernel și management de pachete pkgsrc.',
+   endpoint: '192.168.1.208 (SSH 22 / Console)',
+   badge: 'NETBSD 10',
+   badgeRo: 'NETBSD 10'
+  },
+  {
+   src: 'photos/services/vm-nixos.png',
+   title: 'NixOS 24.11 · Declarative Immutable Linux & Flakes (VM 209)',
+   titleRo: 'NixOS 24.11 · Linux Declarativ Imutabil & Flakes (VM 209)',
+   category: 'DECLARATIVE LINUX & REPRODUCIBILITY',
+   categoryRo: 'LINUX DECLARATIV & REPRODUCTIBILITATE',
+   description: 'NixOS 24.11 (Vicuna) on Proxmox VE KVM with GNOME desktop, Nix Flakes declarative build pipelines, and atomic instant rollbacks.',
+   descriptionRo: 'NixOS 24.11 (Vicuna) pe Proxmox VE KVM cu desktop GNOME, pipeline-uri declarative de build prin Nix Flakes și revenire atomică la stări anterioare.',
+   endpoint: '192.168.1.209 (SSH 22 / Console)',
+   badge: 'NIXOS 24.11',
+   badgeRo: 'NIXOS 24.11'
+  },
+  {
+   src: 'photos/services/vm-dragonflybsd.png',
+   title: 'DragonFly BSD 6.4 · HAMMER2 Storage & Microkernel (VM 210)',
+   titleRo: 'DragonFly BSD 6.4 · Stocare HAMMER2 & Microkernel Hibrid (VM 210)',
+   category: 'ADVANCED STORAGE & HYBRID MICROKERNEL',
+   categoryRo: 'STOCARE AVANSATĂ & MICROKERNEL HIBRID',
+   description: 'DragonFly BSD 6.4 on Proxmox VE KVM featuring HAMMER2 clustering journaling filesystem, lockless multiprocessing, and cache-coherent kernel design.',
+   descriptionRo: 'DragonFly BSD 6.4 pe Proxmox VE KVM oferind sistemul de fișiere jurnalizat HAMMER2, execuție concurentă lockless și microkernel hibrid scalabil.',
+   endpoint: '192.168.1.210 (SSH 22 / Console)',
+   badge: 'DRAGONFLY BSD',
+   badgeRo: 'DRAGONFLY BSD'
   },
   {
    src: 'photos/services/opnsense.png',

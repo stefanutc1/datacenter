@@ -25,6 +25,9 @@ graph TB
         VM201["VM 201: Windows Server 2025 (:3389)"]
         VM206["VM 206: macOS Monterey 12.7 (OpenCore KVM · /mac/EFI)"]
         VM207["VM 207: OpenIndiana Hipster (:22 · illumos ZFS)"]
+        VM208["VM 208: NetBSD 10.0 (:22 · Rump Anykernel)"]
+        VM209["VM 209: NixOS 24.11 (:22 · Declarative Linux)"]
+        VM210["VM 210: DragonFly BSD 6.4 (:22 · HAMMER2 FS)"]
         LXC_STACK["31 Containerized Microservices (Docker Compose)"]
     end
 

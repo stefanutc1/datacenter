@@ -1,0 +1,14 @@
+﻿# DragonFly BSD 6.4 (VM 210 · HAMMER2 & Hybrid Microkernel on Proxmox VE)
+# HAMMER2 Clustering, Lockless Kernel Threads, and Advanced BSD Prototyping
+services:
+  dragonflybsd:
+    image: qemu-system-x86_64
+    container_name: dragonflybsd-vm210
+    environment:
+      OS: "DragonFly BSD 6.4"
+      RAM: "2048M"
+      CORES: "2"
+      DISK: "30G"
+    ports:
+      - "2210:22"
+    restart: unless-stopped
