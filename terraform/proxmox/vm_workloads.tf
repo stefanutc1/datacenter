@@ -62,17 +62,18 @@ module "vm_tpot_honeypot" {
   tags         = ["cyber", "honeypot", "tpot", "dmz", "terraform"]
 }
 
-# VM 206: CAPEv2 / Cuckoo Malware Analysis Sandbox (Windows 10 + INetSim)
-module "vm_capev2_sandbox" {
+# VM 206: macOS Monterey 12.7 (OpenCore KVM Hackintosh on Proxmox VE)
+module "vm_macos_monterey" {
   source       = "../modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 206
-  name         = "capev2-malware-sandbox"
-  description  = "Air-gapped malware detonation sandbox with automated snapshot restore"
+  name         = "macos-monterey"
+  description  = "macOS Monterey 12.7 (OpenCore KVM Hackintosh, Xcode Build Runner & Apple GUI Testing)"
   cores        = 4
   memory       = 4096
-  disk_size    = 100
+  balloon      = 2048
+  disk_size    = 64
   storage_pool = "local-lvm"
-  vlan_tag     = 30
-  tags         = ["cyber", "sandbox", "capev2", "cuckoo", "malware", "dfir", "terraform"]
+  vlan_tag     = 20
+  tags         = ["macos", "monterey", "hackintosh", "opencore", "apple", "terraform"]
 }

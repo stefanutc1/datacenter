@@ -1,0 +1,22 @@
+# macOS Monterey 12.7 (VM 206 · OpenCore KVM Hackintosh on Proxmox VE)
+# Dedicated macOS Virtual Environment for Xcode CI/CD Build Runner & Apple GUI Testing
+services:
+  macos-monterey:
+    image: dockurr/macos:latest
+    container_name: macos-monterey-vm206
+    environment:
+      VERSION: "monterey"
+      RAM_SIZE: "4G"
+      CPU_CORES: "4"
+      DISK_SIZE: "64G"
+    devices:
+      - /dev/kvm
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "5900:5900"
+      - "8006:8006"
+      - "2222:22"
+    restart: unless-stopped
+    volumes:
+      - ./data:/storage
