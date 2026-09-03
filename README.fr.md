@@ -75,31 +75,41 @@ flowchart LR
 
 ```mermaid
 flowchart TB
- subgraph WAN_Edge["Périmètre & Ingress Externe"]
- CF["Cloudflare WAF / CDN"] -->|"Tunnel Chiffré"| VPS["Passerelle VPS WireGuard"]
- VPS -->|"VPN Multi-Homed"| OPN["Pare-feu OPNsense (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
- end
+    subgraph WAN_Edge["Périmètre & Ingress Externe"]
+        CF["Cloudflare WAF / CDN"] -->|Tunnel Chiffré| VPS["Passerelle VPS WireGuard"]
+        VPS -->|VPN Multi-Homed| OPN["Pare-feu OPNsense (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+    end
 
- subgraph Network_VLANs["Réseaux Virtuels Segmentés (VLANs)"]
- OPN -->|"VLAN 10: 192.168.1.0/24"| V10["VLAN 10: Gestion & Stockage<br/>Proxmox VE · NAS OMV · IPMI"]
- OPN -->|"VLAN 20: 192.168.20.0/24"| V20["VLAN 20: Microservices Core<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
- OPN -->|"VLAN 30: 192.168.30.0/24"| V30["VLAN 30: CyberLab & Bacs à Sable<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
- OPN -->|"VLAN 40: 192.168.40.0/24"| V40["VLAN 40: DMZ Leurre<br/>Pots de Miel T-Pot · AbuseIPDB"]
- OPN -->|"VLAN 50: 192.168.50.0/24"| V50["VLAN 50: IoT & Capteurs Edge<br/>ESP32 mmWave · Zigbee · Home Assistant"]
- end
+    subgraph Network_VLANs["Réseaux Virtuels Segmentés (VLANs)"]
+        V10["VLAN 10: Gestion & Stockage<br/>Proxmox VE · NAS OMV · IPMI"]
+        V20["VLAN 20: Microservices Core<br/>NPM · Authentik · Vaultwarden · Nextcloud"]
+        V30["VLAN 30: CyberLab & Bacs à Sable<br/>Wazuh SIEM · Atomic Red Team · CAPEv2"]
+        V40["VLAN 40: DMZ Leurre<br/>Pots de Miel T-Pot · AbuseIPDB"]
+        V50["VLAN 50: IoT & Capteurs Edge<br/>ESP32 mmWave · Zigbee · Home Assistant"]
+    end
 
- subgraph Compute_Layer["Parc de Virtualisation Multi-Nœuds"]
- Node1["Nœud 1: Proxmox Principal (x86_64)<br/>Intel Core i3-10100F · 12 Go RAM<br/>GPU NVIDIA GTX 1050 Ti (Passthrough)"]
- Node2["Nœud 2: Stockage NAS OMV<br/>PC Portable ASUS · Celeron N2830 · 2 Go RAM<br/>Pool ZFS 500 Go · Wikipédia Kiwix"]
- Node3["Nœud 3: Proxmox Secondaire (ARM64)<br/>Apple MacBook Air M1 · 8 Cœurs<br/>Télémétrie LGTM · Gitea · Woodpecker CI"]
- Node4["Nœud 4: Worker Talos Linux<br/>AMD Athlon II X2 · 4 Go RAM<br/>k3s-agent · Capteur eBPF Tetragon"]
- end
+    subgraph Compute_Layer["Parc de Virtualisation Multi-Nœuds"]
+        Node1["Nœud 1: Proxmox Principal (x86_64)<br/>Intel Core i3-10100F · 12 Go RAM<br/>GPU NVIDIA GTX 1050 Ti (Passthrough)"]
+        Node2["Nœud 2: Stockage NAS OMV<br/>PC Portable ASUS · Celeron N2830 · 2 Go RAM<br/>Pool ZFS 500 Go · Wikipédia Kiwix"]
+        Node3["Nœud 3: Proxmox Secondaire (ARM64)<br/>Apple MacBook Air M1 · 8 Cœurs<br/>Télémétrie LGTM · Gitea · Woodpecker CI"]
+        Node4["Nœud 4: Worker Talos Linux<br/>AMD Athlon II X2 · 4 Go RAM<br/>k3s-agent · Capteur eBPF Tetragon"]
+    end
 
- V10 -.-> Node1 & Node2 & Node3 & Node4
- V20 -.-> Node1 & Node3
- V30 -.-> Node1
- V40 -.-> Node1
- V50 -.-> Node1
+    OPN -->|VLAN 10: 192.168.1.0/24| V10
+    OPN -->|VLAN 20: 192.168.20.0/24| V20
+    OPN -->|VLAN 30: 192.168.30.0/24| V30
+    OPN -->|VLAN 40: 192.168.40.0/24| V40
+    OPN -->|VLAN 50: 192.168.50.0/24| V50
+
+    V10 -.-> Node1
+    V10 -.-> Node2
+    V10 -.-> Node3
+    V10 -.-> Node4
+    V20 -.-> Node1
+    V20 -.-> Node3
+    V30 -.-> Node1
+    V40 -.-> Node1
+    V50 -.-> Node1
 ```
 
 ---
