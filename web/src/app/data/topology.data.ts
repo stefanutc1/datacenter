@@ -531,6 +531,25 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['node1-pve']
   },
   {
+    id: 'vscode-server-vm',
+    name: 'VS Code Server VM',
+    sublabel: 'VM 207 · Cloud Workspace',
+    ip: '192.168.1.207',
+    port: 8080,
+    category: 'compute',
+    tier: 5,
+    status: 'OPERATIONAL',
+    x: -65,
+    y: 115,
+    z: 110,
+    color: '#38bdf8',
+    icon: 'code',
+    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '32 GB NVMe' },
+    tags: ['VS Code Server', 'VM 207', 'DevContainers', 'Cloud IDE', 'Headless Workspace'],
+    role: 'Secondary dedicated virtual machine hosting headless Visual Studio Code Server for development and isolated container builds.',
+    connections: ['node1-pve']
+  },
+  {
     id: 'pbs-backup',
     name: 'Proxmox Backup',
     sublabel: 'PBS · Deduplicated Snapshots',
@@ -743,6 +762,7 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   // Hypervisor to VMs & Containers
   { from: 'node1-pve', to: 'win-server', protocol: 'VirtIO Active Directory', color: 'rgba(2, 132, 199, 0.7)' },
   { from: 'node1-pve', to: 'macos-monterey', protocol: 'OpenCore KVM Hackintosh', color: 'rgba(139, 92, 246, 0.7)' },
+  { from: 'node1-pve', to: 'vscode-server-vm', protocol: 'VirtIO Dev Workspace', color: 'rgba(56, 189, 248, 0.7)' },
   { from: 'node1-pve', to: 'ollama-gpu-node', protocol: 'PCIe GPU Passthrough', color: 'rgba(244, 63, 94, 0.8)' },
   { from: 'ollama-gpu-node', to: 'whisper-ai-node', protocol: 'Local AI Pipeline', color: 'rgba(236, 72, 153, 0.7)' },
   { from: 'node1-pve', to: 'postgres-ha', protocol: 'LXC Datastore', color: 'rgba(59, 130, 246, 0.7)' },

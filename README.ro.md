@@ -197,8 +197,23 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`pve` (Nod 1)** | Turn ATX Custom | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 12 GB DDR4-2133 (12.288 MB) | 512 GB NVMe SSD (`local-lvm`) | Hypervisor Primar: Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
 | **`openmediavault` (Nod 2)** | Laptop ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (Oglindă ZFS) | NAS Centralizat: stocare NFS/SMB, destinație backup vzdump, arhivă offline Wikipedia (Kiwix) |
-| **`pve` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI |
+| **`pve` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI, 58+ Microservicii |
 | **`kubernetes` (Nod 4)** | Șasiu ATX Custom | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker imutabil Talos Linux / k3s, joburi batch, senzor securitate eBPF |
+
+### Mașini Virtuale QEMU / KVM & Balonare Dinamică VirtIO RAM
+
+| VMID | Nume VM | Sistem de Operare | vCPU | RAM Max | Balloon Min | Hardware / Passthrough | Rol Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Nuclee | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Rotație Chei WireGuard |
+| **201** | `windows` | Windows Server 2025 | 2 Nuclee | 7.168 MB (7 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Balonare: 4-7 GB) |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Sarcini Enterprise (1-2 GB) |
+| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Pool Nativ OpenZFS, BSD Jails & Laborator Rețea (512MB-1GB) |
+| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Jump Host Bastion Întărit, Packet Filter PF, unveil/pledge (512MB-1GB) |
+| **205** | `talos` | Talos Linux 1.7 | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | OS Imutabil Minimalist, API gRPC, Nod Worker K8s (1-2 GB) |
+| **206** | `macOS` | macOS Monterey 12.7 | 4 Nuclee | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | OpenCore EFI + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Testare Apple |
+| **207** | `vscode-server` | Debian 12 / Ubuntu 24.04 | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Dev Container | Al doilea VM dedicat VS Code Server, DevContainere Docker |
+
+> **Rebalansare Arhitecturală (x86_64 spre ARM64)**: Pentru a garanta spațiul de manevră RAM și CPU pe Nodul 1 pentru modelele AI accelerate pe GPU (Ollama, Faster-Whisper, Flowise, Open-WebUI) și mașinile virtuale enterprise (Windows Server 2025, macOS Monterey), 10 microservicii non-AI (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) au fost migrate pe Nodul 3 (Apple Silicon M1 ARM64 via UTM), beneficiind de compresie ultra-rapidă ZRAM lz4.
 
 ### Alimentare Neîntreruptibilă și Secvență de Oprire Controlată NUT
 

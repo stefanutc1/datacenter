@@ -198,8 +198,24 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **`pve` (Nœud 1)** | Tour ATX Sur-Mesure | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4 Go VRAM) | 12 Go DDR4-2133 (12 288 Mo) | 512 Go NVMe SSD (`local-lvm`) | Hyperviseur Principal : Windows Server 2025 AD, OPNsense, Ollama GPU (CT 110), Immich AI |
 | **`openmediavault` (Nœud 2)** | PC Portable ASUS X451MA | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 Go DDR3L | 500 Go SATA HDD (Miroir ZFS) | NAS Centralisé : Partages NFS/SMB, cible de sauvegarde vzdump, Wikipédia hors ligne Kiwix |
-| **`pve` (Nœud 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Neural Engine / Metal | 8 Go Unifiée (4 Go VM dédiée) | 256 Go Apple APFS NVMe | Hyperviseur Secondaire ARM64 (UTM) : Télémétrie Grafana/Prometheus/Tempo, Gitea, Woodpecker CI |
+| **`pve` (Nœud 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Neural Engine / Metal | 8 Go Unifiée (4 Go VM dédiée) | 256 Go Apple APFS NVMe | Hyperviseur Secondaire ARM64 (UTM) : Télémétrie Grafana/Prometheus/Tempo, Gitea, Woodpecker CI, 58+ Microservices |
 | **`kubernetes` (Nœud 4)** | Châssis ATX Sur-Mesure | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1 Go) | 4 Go DDR3-1333 | 80 Go HDD (Root NFS) | Worker Talos Linux / k3s immuable, tâches cron de traitement par lot, sonde eBPF |
+
+### Machines Virtuelles QEMU / KVM & VirtIO Dynamic Memory Ballooning
+
+| VMID | Nom VM | Système d'Exploitation | vCPU | RAM Max | Balloon Min | Matériel / Passthrough | Rôle Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cœurs | 2 048 Mo | **1 024 Mo** | VirtIO Net Multi-VLAN | Pare-feu Périmétrique, Suricata IDS/IPS, Rotation Clés WireGuard |
+| **201** | `windows` | Windows Server 2025 | 2 Cœurs | 7 168 Mo (7 Go) | **4 096 Mo (4 Go)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Forwarder Sysmon (Ballooning : 4-7 Go) |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cœurs | 2 048 Mo (2 Go) | **1 024 Mo (1 Go)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Charges Enterprise (1-2 Go) |
+| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cœurs | 1 024 Mo (1 Go) | **512 Mo** | VirtIO SCSI Single | Pool Natif OpenZFS, BSD Jails & Lab Réseau (512 Mo-1 Go) |
+| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cœurs | 1 024 Mo (1 Go) | **512 Mo** | VirtIO SCSI Single | Jump Host Bastion Durci, Packet Filter PF, pledge/unveil (512 Mo-1 Go) |
+| **205** | `talos` | Talos Linux 1.7 | 2 Cœurs | 2 048 Mo (2 Go) | **1 024 Mo (1 Go)** | VirtIO Single + Cilium CNI | OS Immuable Minimaliste, API gRPC, Nœud Worker K8s (1-2 Go) |
+| **206** | `macOS` | macOS Monterey 12.7 | 4 Cœurs | 7 168 Mo (7 Go) | **2 048 Mo (2 Go)** | OpenCore EFI + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Tests Apple |
+| **207** | `vscode-server` | Debian 12 / Ubuntu 24.04 | 2 Cœurs | 2 048 Mo (2 Go) | **1 024 Mo (1 Go)** | VirtIO Dev Container | Seconde VM dédiée VS Code Server, DevContainers Docker |
+
+> **Rééquilibrage d'Architecture (x86_64 vers ARM64)** : Pour préserver la marge de RAM et de CPU sur le Nœud 1 pour les modèles IA accélérés par GPU (Ollama, Faster-Whisper, Flowise, Open-WebUI) et les machines virtuelles d'entreprise (Windows Server, macOS Monterey), 10 microservices hors-IA (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) ont été migrés vers le Nœud 3 (Apple Silicon M1 ARM64 via UTM), soutenus par la compression de mémoire ZRAM lz4.
+
 
 ---
 

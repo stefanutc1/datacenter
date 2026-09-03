@@ -161,6 +161,21 @@ module "vm_macos_monterey_206" {
   tags         = ["macos", "monterey", "hackintosh", "opencore", "apple", "terraform"]
 }
 
+module "vm_vscode_server_207" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 207
+  name         = "vscode-server-vm207"
+  description  = "Secondary Dedicated VS Code Server Cloud Workspace & Docker DevContainers"
+  cores        = 2
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 32
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["dev", "vscode", "codeserver", "ide", "docker", "terraform"]
+}
+
 # ------------------------------------------------------------------------------
 # 3. PROXMOX CORE LXC CONTAINERS (NODE 1 — x86_64 Primar)
 # ------------------------------------------------------------------------------

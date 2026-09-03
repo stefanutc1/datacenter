@@ -110,6 +110,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 2048, 
         purpose: 'OpenCore KVM Hackintosh, Xcode CI/CD Build Runner & Apple GUI Testing (Ballooning: 2 GB - 7 GB)',
         purposeRo: 'OpenCore KVM Hackintosh, Runner Build CI/CD Xcode & Mediu Testare Apple (Balonare: 2 GB - 7 GB)'
+      },
+      { 
+        vmid: 207, 
+        name: 'vscode-server', 
+        os: 'Debian 12 / Ubuntu 24.04 Dev Host', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Secondary Dedicated VS Code Server VM, Docker-in-Docker DevContainers (Ballooning: 1 GB - 2 GB)',
+        purposeRo: 'Al doilea VM dedicat VS Code Server, DevContainere Docker-in-Docker (Balonare: 1 GB - 2 GB)'
       }
     ],
     workloads: [
@@ -120,11 +129,12 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 204: OpenBSD 7.9 (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
       'VM 205: Talos Linux 1.7 (2048 MB / Balloon: 1024 MB [1-2 GB])',
       'VM 206: macOS Monterey 12.7 (7168 MB / Balloon: 2048 MB [2-7 GB] · OpenCore KVM Hackintosh)',
+      'VM 207: VS Code Server Dedicated VM (2048 MB / Balloon: 1024 MB [1-2 GB] · Cloud Workspace)',
       'CT 100-109: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
-      'CT 110-119: Ollama LLM, Open-WebUI, Paperless-ngx, MinIO S3, Transmission, Kavita, Stirling-PDF, Meilisearch, Vector, Faster-Whisper',
-      'CT 120-129: SearXNG, Flowise, NetAlertX, RustDesk, Audiobookshelf, TubeArchivist, Kopia, WG-Easy, Calibre-Web, Code-Server IDE',
-      'CT 130-139: pgAdmin4, CyberChef, Draw.io, Dozzle, Kiwix Wiki, RomM, EmulatorJS, HedgeDoc, Glances, Dufs',
-      'CT 140-148: Gotify, Miniflux, Grocy, Paperless-AI, Chrony NTP, Linkwarden, Beszel-Agent, SNMP Collector, SearXNG-Redis',
+      'CT 110-113: Ollama LLM, Open-WebUI, Paperless-ngx, MinIO S3 (AI stack & local core storage)',
+      'CT 117-123: Meilisearch, Vector, Faster-Whisper AI, SearXNG, Flowise AI, NetAlertX, RustDesk',
+      'CT 126-130: Kopia, WG-Easy, Code-Server IDE #1, pgAdmin4, Dozzle Log Viewer',
+      'CT 133-148: Kiwix Wiki, HedgeDoc, Glances, Dufs, Gotify, Paperless-AI, Chrony NTP, Beszel-Agent, SNMP Collector, SearXNG-Redis',
       'CT 149-151: Proxmox Backup Server (PBS), Proxmox Datacenter Manager (PDM), Proxmox Mail Gateway (PMG)'
     ]
   },
@@ -173,7 +183,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 110-119: Woodpecker CI, Gatus Health, ntfy Push, Linkding, Step-CA PKI, Tailscale ARM, Beszel Telemetry, PocketBase, Homepage, Speedtest-Tracker',
       'CT 120-129: Memos, Wallos, SyncThing, Microbin, Vikunja, Blackbox Exporter, YourSpotify, Web-Check OSINT, Opengist, Flatnotes',
       'CT 130-139: Bark Server, Shiori, Whoogle, Flame, Dashy, Shlink, Pastefy, Pingvin-Share, RSS-Bridge, Playwright-Probe',
-      'CT 140-149: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall, PBS, PDM, PMG, RenovateBot GitOps Engine'
+      'CT 140-149: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall, PBS, PDM, PMG, RenovateBot GitOps Engine',
+      'CT 150-159: Migrated from x64: Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS'
     ]
   },
   {

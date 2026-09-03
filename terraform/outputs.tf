@@ -8,6 +8,7 @@ output "vm_inventory" {
     openbsd_bastion   = { vmid = module.vm_openbsd_204.vm_id, name = module.vm_openbsd_204.name, node = module.vm_openbsd_204.node }
     talos_k8s         = { vmid = module.vm_talos_205.vm_id, name = module.vm_talos_205.name, node = module.vm_talos_205.node }
     macos_monterey    = { vmid = module.vm_macos_monterey_206.vm_id, name = module.vm_macos_monterey_206.name, node = module.vm_macos_monterey_206.node }
+    vscode_server_vm  = { vmid = module.vm_vscode_server_207.vm_id, name = module.vm_vscode_server_207.name, node = module.vm_vscode_server_207.node }
   }
 }
 
