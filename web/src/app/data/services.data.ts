@@ -1993,6 +1993,31 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#38bdf8",
     "icon": "code",
-    "composeCode": "services:\\n  vscode-server:\\n    image: lscr.io/linuxserver/code-server:latest\\n    container_name: vscode-server-arm\\n    restart: unless-stopped\\n    environment:\\n      - PUID=1000\\n      - PGID=1000\\n      - TZ=Europe/Bucharest\\n      - PASSWORD=Stefanut005\\n      - SUDO_PASSWORD=Stefanut005\\n      - DEFAULT_WORKSPACE=/config/workspace\\n    volumes:\\n      - ./config:/config\\n      - /var/run/docker.sock:/var/run/docker.sock\\n    ports:\\n      - \"8443:8443\""
+    "composeCode": "services:\\n  vscode-server:\\n    image: lscr.io/linuxserver/code-server:latest\\n    container_name: vscode-server-arm\\n    restart: unless-stopped\\n    environment:\\n      - PUID=1000\\n      - PGID=1000\\n      - TZ=Europe/Bucharest\\n      - PASSWORD=CHANGEME_PASSWORD\\n      - SUDO_PASSWORD=CHANGEME_PASSWORD\\n      - DEFAULT_WORKSPACE=/config/workspace\\n    volumes:\\n      - ./config:/config\\n      - /var/run/docker.sock:/var/run/docker.sock\\n    ports:\\n      - \"8443:8443\""
+  },
+  {
+    "id": "vm-macos",
+    "name": "macOS Monterey 12.7 (OpenCore KVM)",
+    "category": "core",
+    "containerName": "macos-monterey",
+    "node": "Node 1 (Intel i3-10100F) · VM 206",
+    "ram": "7,168 MB",
+    "storage": "64 GB NVMe",
+    "ip": "192.168.1.206",
+    "port": 5900,
+    "domain": "macos.homelab.local",
+    "status": "ONLINE",
+    "description": "Virtual macOS Monterey 12.7 instance booted via sanitized OpenCore EFI (/mac/EFI) on Proxmox VE KVM with AppleSMC for Xcode CI/CD build runner, Apple GUI testing, and native VNC screen sharing.",
+    "descriptionRo": "Instanță virtuală macOS Monterey 12.7 pornită prin bootloader OpenCore anonimizat (/mac/EFI) pe Proxmox VE KVM cu AppleSMC pentru runner build CI/CD Xcode, testare Apple și partajare ecran VNC.",
+    "tags": [
+      "macOS Monterey",
+      "OpenCore EFI",
+      "Hackintosh KVM",
+      "Xcode CI/CD",
+      "Apple Ecosystem"
+    ],
+    "color": "#a855f7",
+    "icon": "apple",
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 206)\n# Bootloader: OpenCore EFI (/mac/EFI) · SMBIOS: iMacPro1,1\n# OS: macOS Monterey 12.7 · Dynamic Ballooning: 2048 MB - 7168 MB\nargs: -device isa-applesmc,osk=\"...\" -smbios type=2\ncpu: Penryn,kvm=on,vendor=GenuineIntel,+invtsc,+hypervisor\ncores: 4\nsockets: 1\nmemory: 7168\nballoon: 2048\nboot: order=ide2;virtio0\nvirtio0: local-lvm:vm-206-disk-0,size=64G"
   }
 ];

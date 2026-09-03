@@ -514,7 +514,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'macos-monterey',
     name: 'macOS Monterey',
-    sublabel: 'VM 206 · OpenCore Hackintosh',
+    sublabel: 'VM 206 · OpenCore EFI (/mac/EFI)',
     ip: '192.168.1.206',
     port: 5900,
     category: 'compute',
@@ -524,10 +524,10 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     y: 110,
     z: 115,
     color: '#8b5cf6',
-    icon: 'proxmox',
+    icon: 'apple',
     hardware: { node: 'Node 1 (x86_64)', ram: '7,168 MB (Balloon: 2048 MB)', storage: '120 GB' },
     tags: ['macOS Monterey', 'OpenCore KVM', 'Hackintosh', 'Xcode Runner', 'Apple Testing'],
-    role: 'Virtual macOS Monterey instance on Proxmox VE via OpenCore KVM for Apple ecosystem testing and Xcode CI/CD build runner.',
+    role: 'Virtual macOS Monterey instance on Proxmox VE via OpenCore KVM (Sanitized bootloader in /mac/EFI) for Apple ecosystem testing and Xcode CI/CD build runner.',
     connections: ['node1-pve']
   },
   {

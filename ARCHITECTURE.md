@@ -23,6 +23,7 @@ graph TB
         PVE_HW["Intel Core i3-10100F · 12 GB RAM · GTX 1050 Ti · 512 GB SSD"]
         VM200["VM 200: OPNsense Virtual Gateway (:8443)"]
         VM201["VM 201: Windows Server 2025 (:3389)"]
+        VM206["VM 206: macOS Monterey 12.7 (OpenCore KVM · /mac/EFI)"]
         LXC_STACK["31 Containerized Microservices (Docker Compose)"]
     end
 

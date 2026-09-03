@@ -32,8 +32,8 @@ interface PhotoItem {
     </div>
     <p class="text-xs sm:text-sm text-slate-400 font-sans max-w-xl leading-relaxed">
      {{ ts.isRomanian 
-      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 83 de microservicii active cu capturi reale.' 
-      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 83 microservices.' }}
+      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 84 de microservicii active cu capturi reale.' 
+      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 84 microservices.' }}
     </p>
    </div>
 
@@ -127,14 +127,14 @@ interface PhotoItem {
       [class.text-slate-300]="galleryTab() !== 'all'"
       class="px-4 py-2 rounded-xl border border-obsidian-700 transition-all shadow"
      >
-      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 83 Services Fleet' }} ({{ allServices.length }})
+      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 84 Services Fleet' }} ({{ allServices.length }})
      </button>
     </div>
     
     <div class="hidden sm:block text-xs font-mono text-slate-400">
      {{ galleryTab() === 'core' 
       ? (ts.isRomanian ? '17 Capturi Live (Hypervisori, VM-uri, Securitate)' : '17 Live Captures (Hypervisors, Enterprise VMs, Security)') 
-      : (ts.isRomanian ? '83 Servicii Documentate & Capturate' : '83 Services Documented & Screened') }}
+      : (ts.isRomanian ? '84 Servicii Documentate & Capturate' : '84 Services Documented & Screened') }}
     </div>
    </div>
 
@@ -382,8 +382,8 @@ export class AboutGalleryComponent {
    titleRo: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 206)',
    category: 'APPLE ECOSYSTEM & HACKINTOSH VIRTUALIZATION',
    categoryRo: 'ECOSISTEM APPLE & VIRTUALIZARE HACKINTOSH',
-   description: 'macOS Monterey 12.7 running on Proxmox VE via OpenCore bootloader with full Apple services, Xcode CI/CD build runner, and native VNC screen sharing (Ballooning: 2-7 GB).',
-   descriptionRo: 'macOS Monterey 12.7 rulat pe Proxmox VE prin bootloader-ul OpenCore cu servicii native Apple, runner CI/CD Xcode și partajare ecran VNC (Ballooning: 2-7 GB).',
+   description: 'macOS Monterey 12.7 running on Proxmox VE via sanitized OpenCore bootloader (/mac/EFI) with full Apple services, Xcode CI/CD build runner, and native VNC screen sharing (Ballooning: 2-7 GB).',
+   descriptionRo: 'macOS Monterey 12.7 rulat pe Proxmox VE prin bootloader-ul OpenCore anonimizat (/mac/EFI) cu servicii native Apple, runner CI/CD Xcode și partajare ecran VNC (Ballooning: 2-7 GB).',
    endpoint: '192.168.1.206 (VNC 5900 / SSH 22 / KVM)',
    badge: 'MACOS MONTEREY',
    badgeRo: 'MACOS MONTEREY'
