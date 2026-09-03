@@ -1994,28 +1994,28 @@ export const SERVICES_DATA: ServiceItem[] = [
     "composeCode": "# Deception Decoy Mesh: Inotify triggers -> ntfy / Telegram instant webhooks"
   },
   {
-    "id": "vscode-server-vm",
-    "name": "VS Code Server Dedicated VM",
+    "id": "vscode-server-arm",
+    "name": "VS Code Server ARM64 Cloud IDE",
     "category": "automation",
-    "containerName": "vscode-server-vm207",
-    "node": "Node 1 (Intel i3-10100F) · VM 207",
-    "ram": "2,048 MB",
-    "storage": "32 GB NVMe",
-    "ip": "192.168.1.207",
-    "port": 8080,
-    "domain": "vscode.homelab.local",
+    "containerName": "vscode-server-arm",
+    "node": "Node 3 (Apple Silicon ARM64) · CT 160",
+    "ram": "512 MB",
+    "storage": "8 GB NVMe",
+    "ip": "192.168.64.160",
+    "port": 8443,
+    "domain": "vscode-arm.homelab.local",
     "status": "ONLINE",
-    "description": "Secondary full-system virtual machine dedicated to headless Visual Studio Code Server, isolated Docker-in-Docker devcontainers, and remote development.",
-    "descriptionRo": "Al doilea mediu dedicat VS Code Server rulat ca mașină virtuală KVM completă (VM 207), optimizată pentru devcontainere Docker și dezvoltare la distanță.",
+    "description": "Secondary high-efficiency Visual Studio Code Server container hosted natively on Apple Silicon M1 ARM64 with ZRAM compression for rapid remote development.",
+    "descriptionRo": "Al doilea mediu de dezvoltare VS Code Server găzduit nativ ca container LXC pe Apple Silicon M1 ARM64 (CT 160), optimizat cu compresie ZRAM.",
     "tags": [
       "VS Code Server",
-      "Dedicated VM",
-      "DevContainers",
-      "Remote IDE",
-      "Node 1 VM 207"
+      "Apple Silicon ARM64",
+      "LXC Container",
+      "Cloud IDE",
+      "Node 3 CT 160"
     ],
     "color": "#38bdf8",
     "icon": "code",
-    "composeCode": "services:\\n  vscode-server:\\n    image: lscr.io/linuxserver/code-server:latest\\n    container_name: vscode-server-vm207\\n    environment:\\n      - PUID=1000\\n      - PGID=1000\\n      - TZ=Europe/Bucharest\\n      - PASSWORD=Stefanut005\\n      - SUDO_PASSWORD=Stefanut005\\n      - DEFAULT_WORKSPACE=/config/workspace\\n    volumes:\\n      - ./config:/config\\n      - /var/run/docker.sock:/var/run/docker.sock\\n    ports:\\n      - \"8080:8443\"\\n    restart: unless-stopped"
+    "composeCode": "services:\\n  vscode-server:\\n    image: lscr.io/linuxserver/code-server:latest\\n    container_name: vscode-server-arm\\n    restart: unless-stopped\\n    environment:\\n      - PUID=1000\\n      - PGID=1000\\n      - TZ=Europe/Bucharest\\n      - PASSWORD=Stefanut005\\n      - SUDO_PASSWORD=Stefanut005\\n      - DEFAULT_WORKSPACE=/config/workspace\\n    volumes:\\n      - ./config:/config\\n      - /var/run/docker.sock:/var/run/docker.sock\\n    ports:\\n      - \"8443:8443\""
   }
 ];

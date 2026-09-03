@@ -345,9 +345,8 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Gehärteter Jump Host Bastion, PF, pledge/unveil (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | Unveränderliches OS, Deklaratives gRPC API, K8s (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | OpenCore EFI + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Testumgebung |
-| **207** | `vscode-server` | Debian 12 / Ubuntu 24.04 | 2 Cores | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Dev Container | Zweite dedizierte VS Code Server VM, Docker DevContainers |
 
-> **Architektur-Rebalancing (x86_64 zu ARM64)**: Um RAM- und CPU-Kapazitäten auf Node 1 für GPU-beschleunigte KI-Modelle (Ollama, Faster-Whisper, Flowise, Open-WebUI) und Enterprise-VMs (Windows Server, macOS Monterey) zu sichern, wurden 10 Nicht-KI-Dienste (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) auf Node 3 (Apple Silicon M1 ARM64 via UTM mit ZRAM lz4) migriert.
+> **Architektur-Rebalancing & ARM64 Dev-Stack**: Um RAM- und CPU-Kapazitäten auf Node 1 für GPU-beschleunigte KI-Modelle (Ollama, Faster-Whisper, Flowise, Open-WebUI) und Enterprise-VMs (Windows Server, macOS Monterey) zu sichern, wurden 10 Nicht-KI-Dienste (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) plus eine zweite schlanke **VS Code Server Cloud IDE (`CT 160`)** auf Node 3 (Apple Silicon M1 ARM64 via UTM mit ZRAM lz4) bereitgestellt.
 
 ### Optimisation Mémoire Hôte: ZRAM / ZSWAP Fast RAM Compression
 

@@ -8,7 +8,6 @@ output "vm_inventory" {
     openbsd_bastion   = { vmid = module.vm_openbsd_204.vm_id, name = module.vm_openbsd_204.name, node = module.vm_openbsd_204.node }
     talos_k8s         = { vmid = module.vm_talos_205.vm_id, name = module.vm_talos_205.name, node = module.vm_talos_205.node }
     macos_monterey    = { vmid = module.vm_macos_monterey_206.vm_id, name = module.vm_macos_monterey_206.name, node = module.vm_macos_monterey_206.node }
-    vscode_server_vm  = { vmid = module.vm_vscode_server_207.vm_id, name = module.vm_vscode_server_207.name, node = module.vm_vscode_server_207.node }
   }
 }
 
@@ -35,12 +34,13 @@ output "lxc_x64_summary" {
 output "lxc_arm64_summary" {
   description = "Summary of Node 3 ARM64 LXC containers"
   value = {
-    monitoring  = { vmid = module.lxc_arm_monitoring.vm_id, ip = module.lxc_arm_monitoring.ip_address, node = module.lxc_arm_monitoring.node }
-    gitea       = { vmid = module.lxc_arm_gitea.vm_id, ip = module.lxc_arm_gitea.ip_address, node = module.lxc_arm_gitea.node }
-    woodpecker  = { vmid = module.lxc_arm_woodpecker_ci.vm_id, ip = module.lxc_arm_woodpecker_ci.ip_address, node = module.lxc_arm_woodpecker_ci.node }
-    vaultwarden = { vmid = module.lxc_arm_vaultwarden.vm_id, ip = module.lxc_arm_vaultwarden.ip_address, node = module.lxc_arm_vaultwarden.node }
-    authelia    = { vmid = module.lxc_arm_authelia.vm_id, ip = module.lxc_arm_authelia.ip_address, node = module.lxc_arm_authelia.node }
-    stepca      = { vmid = module.lxc_arm_stepca.vm_id, ip = module.lxc_arm_stepca.ip_address, node = module.lxc_arm_stepca.node }
-    renovate    = { vmid = module.lxc_arm_renovate_gitops.vm_id, ip = module.lxc_arm_renovate_gitops.ip_address, node = module.lxc_arm_renovate_gitops.node }
+    monitoring    = { vmid = module.lxc_arm_monitoring.vm_id, ip = module.lxc_arm_monitoring.ip_address, node = module.lxc_arm_monitoring.node }
+    gitea         = { vmid = module.lxc_arm_gitea.vm_id, ip = module.lxc_arm_gitea.ip_address, node = module.lxc_arm_gitea.node }
+    woodpecker    = { vmid = module.lxc_arm_woodpecker_ci.vm_id, ip = module.lxc_arm_woodpecker_ci.ip_address, node = module.lxc_arm_woodpecker_ci.node }
+    vaultwarden   = { vmid = module.lxc_arm_vaultwarden.vm_id, ip = module.lxc_arm_vaultwarden.ip_address, node = module.lxc_arm_vaultwarden.node }
+    authelia      = { vmid = module.lxc_arm_authelia.vm_id, ip = module.lxc_arm_authelia.ip_address, node = module.lxc_arm_authelia.node }
+    stepca        = { vmid = module.lxc_arm_stepca.vm_id, ip = module.lxc_arm_stepca.ip_address, node = module.lxc_arm_stepca.node }
+    renovate      = { vmid = module.lxc_arm_renovate_gitops.vm_id, ip = module.lxc_arm_renovate_gitops.ip_address, node = module.lxc_arm_renovate_gitops.node }
+    vscode_server = { vmid = module.lxc_arm_vscode_server.vm_id, ip = module.lxc_arm_vscode_server.ip_address, node = module.lxc_arm_vscode_server.node }
   }
 }

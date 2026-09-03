@@ -212,9 +212,8 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cœurs | 1 024 Mo (1 Go) | **512 Mo** | VirtIO SCSI Single | Jump Host Bastion Durci, Packet Filter PF, pledge/unveil (512 Mo-1 Go) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Cœurs | 2 048 Mo (2 Go) | **1 024 Mo (1 Go)** | VirtIO Single + Cilium CNI | OS Immuable Minimaliste, API gRPC, Nœud Worker K8s (1-2 Go) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cœurs | 7 168 Mo (7 Go) | **2 048 Mo (2 Go)** | OpenCore EFI + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Tests Apple |
-| **207** | `vscode-server` | Debian 12 / Ubuntu 24.04 | 2 Cœurs | 2 048 Mo (2 Go) | **1 024 Mo (1 Go)** | VirtIO Dev Container | Seconde VM dédiée VS Code Server, DevContainers Docker |
 
-> **Rééquilibrage d'Architecture (x86_64 vers ARM64)** : Pour préserver la marge de RAM et de CPU sur le Nœud 1 pour les modèles IA accélérés par GPU (Ollama, Faster-Whisper, Flowise, Open-WebUI) et les machines virtuelles d'entreprise (Windows Server, macOS Monterey), 10 microservices hors-IA (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) ont été migrés vers le Nœud 3 (Apple Silicon M1 ARM64 via UTM), soutenus par la compression de mémoire ZRAM lz4.
+> **Rééquilibrage d'Architecture & Environnement Dev ARM64** : Pour préserver la marge de RAM et de CPU sur le Nœud 1 pour les modèles IA accélérés par GPU (Ollama, Faster-Whisper, Flowise, Open-WebUI) et les machines virtuelles d'entreprise (Windows Server, macOS Monterey), 10 microservices hors-IA (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) ainsi qu'un second environnement de développement léger **VS Code Server Cloud IDE (`CT 160`)** ont été déployés sur le Nœud 3 (Apple Silicon M1 ARM64 via UTM), soutenus par la compression de mémoire ZRAM lz4.
 
 
 ---

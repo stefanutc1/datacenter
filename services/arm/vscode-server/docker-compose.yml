@@ -1,9 +1,9 @@
-# VS Code Server Dedicated VM (VM 207 on Proxmox VE Node 1)
-# Production Headless Visual Studio Code Server for Remote Cloud Development
+---
 services:
   vscode-server:
     image: lscr.io/linuxserver/code-server:latest
-    container_name: vscode-server-vm207
+    container_name: vscode-server-arm
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -15,5 +15,4 @@ services:
       - ./config:/config
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "8080:8443"
-    restart: unless-stopped
+      - "8443:8443"

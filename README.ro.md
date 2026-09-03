@@ -211,9 +211,8 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Jump Host Bastion Întărit, Packet Filter PF, unveil/pledge (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | OS Imutabil Minimalist, API gRPC, Nod Worker K8s (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Nuclee | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | OpenCore EFI + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Testare Apple |
-| **207** | `vscode-server` | Debian 12 / Ubuntu 24.04 | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Dev Container | Al doilea VM dedicat VS Code Server, DevContainere Docker |
 
-> **Rebalansare Arhitecturală (x86_64 spre ARM64)**: Pentru a garanta spațiul de manevră RAM și CPU pe Nodul 1 pentru modelele AI accelerate pe GPU (Ollama, Faster-Whisper, Flowise, Open-WebUI) și mașinile virtuale enterprise (Windows Server 2025, macOS Monterey), 10 microservicii non-AI (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) au fost migrate pe Nodul 3 (Apple Silicon M1 ARM64 via UTM), beneficiind de compresie ultra-rapidă ZRAM lz4.
+> **Rebalansare Arhitecturală & Mediu Dev ARM64**: Pentru a garanta spațiul de manevră RAM și CPU pe Nodul 1 pentru modelele AI accelerate pe GPU (Ollama, Faster-Whisper, Flowise, Open-WebUI) și mașinile virtuale enterprise (Windows Server 2025, macOS Monterey), 10 microservicii non-AI (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) plus al doilea mediu de dezvoltare **VS Code Server Cloud IDE (`CT 160`)** au fost deployate pe Nodul 3 (Apple Silicon M1 ARM64 via UTM), beneficiind de eficiență energetică ridicată și compresie de memorie ZRAM lz4.
 
 ### Alimentare Neîntreruptibilă și Secvență de Oprire Controlată NUT
 

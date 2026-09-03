@@ -378,9 +378,8 @@ flowchart TD
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Hardened Jump Host, Packet Filter PF, unveil/pledge (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, gRPC API, Kubernetes Worker Node (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7,168 MB (7 GB) | **2,048 MB (2 GB)** | OpenCore EFI + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Ecosystem Testing |
-| **207** | `vscode-server` | Debian 12 / Ubuntu 24.04 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO Dev Container | Secondary Dedicated VS Code Server VM, Docker DevContainers |
 
-> **Architecture Rebalancing (x86_64 to ARM64)**: To preserve Node 1 RAM and CPU headroom for GPU-accelerated AI models (Ollama, Faster-Whisper, Flowise, Open-WebUI) and heavy enterprise VMs (Windows Server 2025, macOS Monterey), 10 non-AI microservices (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) were migrated to Node 3 (Apple Silicon M1 ARM64 via UTM), running in lightweight containers backed by ZRAM lz4 memory compression.
+> **Architecture Rebalancing & ARM64 Dev Stack**: To preserve Node 1 RAM and CPU headroom for GPU-accelerated AI models (Ollama, Faster-Whisper, Flowise, Open-WebUI) and heavy enterprise VMs (Windows Server 2025, macOS Monterey), 10 non-AI microservices (Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS) plus a secondary lightweight **VS Code Server Cloud IDE (`CT 160`)** were deployed to Node 3 (Apple Silicon M1 ARM64 via UTM), running natively in containers backed by ZRAM lz4 memory compression.
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
