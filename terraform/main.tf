@@ -347,14 +347,14 @@ module "lxc_openwebui" {
 module "lxc_whisper" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 119
+  vmid         = 112
   hostname     = "whisper"
   ostemplate   = var.debian_template
   ostype       = "debian"
   cores        = 2
   memory       = 1024
   disk_size    = "8G"
-  ip_address   = "192.168.1.24/24"
+  ip_address   = "192.168.1.112/24"
   gateway      = var.gateway_ip
   nameserver   = var.nameserver_ip
   vlan_tag     = 20
@@ -365,19 +365,37 @@ module "lxc_whisper" {
 module "lxc_flowise" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 131
+  vmid         = 113
   hostname     = "flowise"
   ostemplate   = var.alpine_template
   ostype       = "alpine"
   cores        = 2
   memory       = 512
   disk_size    = "4G"
-  ip_address   = "192.168.1.26/24"
+  ip_address   = "192.168.1.113/24"
   gateway      = var.gateway_ip
   nameserver   = var.nameserver_ip
   vlan_tag     = 20
   unprivileged = true
   tags         = ["ai", "agents", "langchain", "workflow-builder", "terraform", "node1"]
+}
+
+module "lxc_paperless_ai" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 114
+  hostname     = "paperless-ai"
+  ostemplate   = var.alpine_template
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 64
+  disk_size    = "1G"
+  ip_address   = "192.168.1.114/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["ai", "dms", "ocr", "deepseek", "terraform", "node1"]
 }
 
 # ------------------------------------------------------------------------------

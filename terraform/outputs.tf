@@ -26,6 +26,7 @@ output "lxc_x64_summary" {
     openwebui     = { vmid = module.lxc_openwebui.vm_id, ip = module.lxc_openwebui.ip_address, node = module.lxc_openwebui.node }
     whisper       = { vmid = module.lxc_whisper.vm_id, ip = module.lxc_whisper.ip_address, node = module.lxc_whisper.node }
     flowise       = { vmid = module.lxc_flowise.vm_id, ip = module.lxc_flowise.ip_address, node = module.lxc_flowise.node }
+    paperless_ai  = { vmid = module.lxc_paperless_ai.vm_id, ip = module.lxc_paperless_ai.ip_address, node = module.lxc_paperless_ai.node }
   }
 }
 
