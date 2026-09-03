@@ -124,7 +124,10 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
       'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',
       'CT 113: Flowise Agentic AI Workflow & LangChain Graph Engine',
-      'CT 114: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging'
+      'CT 114: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging',
+      'CT 115: Code-Server Web IDE (VS Code Cloud Workspace)',
+      'CT 116: Proxmox Backup Server (PBS Enterprise Deduplication & Verification)',
+      'CT 117: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI)'
     ]
   },
   {
@@ -168,13 +171,12 @@ export const HARDWARE_NODES: HardwareNode[] = [
     tags: ['Apple Silicon ARM64', 'High Efficiency', 'ZRAM lz4 (1.9GB)', 'LGTM Observability', 'Gitea & Woodpecker CI', 'RenovateBot GitOps'],
     tagsRo: ['Apple Silicon ARM64', 'Eficiență Energetică Ridicată', 'ZRAM lz4 (1.9GB)', 'Observabilitate LGTM', 'Gitea & Woodpecker CI', 'RenovateBot GitOps'],
     workloads: [
-      'CT 100-109: IT-Tools, Actual Budget, Trilium, ChangeDetection, Scrutiny, Uptime Kuma, Vaultwarden, Prometheus/Grafana, Authelia, Gitea',
-      'CT 110-119: Woodpecker CI, Gatus Health, ntfy Push, Linkding, Step-CA PKI, Tailscale ARM, Beszel Telemetry, PocketBase, Homepage, Speedtest-Tracker',
-      'CT 120-129: Memos, Wallos, SyncThing, Microbin, Vikunja, Blackbox Exporter, YourSpotify, Web-Check OSINT, Opengist, Flatnotes',
-      'CT 130-139: Bark Server, Shiori, Whoogle, Flame, Dashy, Shlink, Pastefy, Pingvin-Share, RSS-Bridge, Playwright-Probe',
-      'CT 140-149: Uptime-Probe, DNS-Bench, Excalidraw, Snagim, Whoogle-Tor, Heimdall, PBS, PDM, PMG, RenovateBot GitOps Engine',
-      'CT 150-160: Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, VS Code Server ARM64',
-      'CT 161-183: Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server #1, pgAdmin4, Dozzle, Kiwix, HedgeDoc, Glances, Dufs, Gotify, Miniflux, Grocy, Chrony NTP, Linkwarden, SNMP, SearXNG-Redis'
+      'CT 100-145: IT-Tools, Actual Budget, Trilium, ChangeDetection, Scrutiny, Uptime Kuma, Vaultwarden, Monitoring, Authelia, Gitea, Woodpecker, Telemetry & Heimdall',
+      'CT 146-147: Proxmox Backup Server (PBS) & Proxmox Datacenter Manager (PDM)',
+      'CT 148: RenovateBot On-Premise GitOps Dependency Engine',
+      'CT 149-158: Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS',
+      'CT 159: VS Code Server Cloud IDE ARM64',
+      'CT 160-181: Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, pgAdmin4, Dozzle, Kiwix, HedgeDoc, Glances, Dufs, Gotify, Miniflux, Grocy, Chrony NTP, Linkwarden, SNMP, SearXNG-Redis'
     ]
   },
   {

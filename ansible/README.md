@@ -49,7 +49,7 @@ ansible/
 │   ├── 03-zerotrust-security.yml # Vault, mTLS, WireGuard Rotator & Canary Tokens
 │   ├── 04-observability-lgtm.yml # LGTM Telemetry stack (Prometheus, Grafana, Tempo, Loki)
 │   ├── 05-ai-local-gpu.yml    # Ollama GPU CUDA acceleration, Open-WebUI & Whisper
-│   ├── 06-storage-backup.yml  # PBS backup targets, PDM datacenter, PMG & MinIO
+│   ├── 06-storage-backup.yml  # PBS backup targets, PDM datacenter & MinIO
 │   ├── 07-gitops-devops.yml   # Gitea, Woodpecker CI & RenovateBot PR scanner
 │   ├── 08-media-entertainment.yml # Immich, Jellyfin, Kiwix offline Wikipedia
 │   ├── zram-tuning.yml        # Standalone ZRAM lz4 compression activator

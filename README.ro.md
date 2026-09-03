@@ -423,10 +423,6 @@ Toate componentele hardware, masinile virtuale si containerele ruleaza pe echipa
 | :---: | :---: |
 | ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) |
 
-| Proxmox Mail Gateway (CT 148 · Loki Telemetry) |  |
-| :---: | :---: |
-| ![Proxmox Mail Gateway](photos/services/proxmox-mail-gateway.png) |  |
-
 ---
 
 ## Despre Autor (About Me)

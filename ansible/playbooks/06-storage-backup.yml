@@ -1,5 +1,5 @@
 ---
-- name: Configure Storage Pools & Backup Engines (PBS, PDM, PMG, MinIO)
+- name: Configure Storage Pools & Backup Engines (PBS, PDM, MinIO)
   hosts: hypervisors:storage_nodes:lxc_x64:lxc_arm64
   become: true
   roles:

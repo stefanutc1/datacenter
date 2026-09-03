@@ -27,6 +27,9 @@ output "lxc_x64_summary" {
     whisper       = { vmid = module.lxc_whisper.vm_id, ip = module.lxc_whisper.ip_address, node = module.lxc_whisper.node }
     flowise       = { vmid = module.lxc_flowise.vm_id, ip = module.lxc_flowise.ip_address, node = module.lxc_flowise.node }
     paperless_ai  = { vmid = module.lxc_paperless_ai.vm_id, ip = module.lxc_paperless_ai.ip_address, node = module.lxc_paperless_ai.node }
+    codeserver    = { vmid = module.lxc_codeserver.vm_id, ip = module.lxc_codeserver.ip_address, node = module.lxc_codeserver.node }
+    pbs           = { vmid = module.lxc_pbs.vm_id, ip = module.lxc_pbs.ip_address, node = module.lxc_pbs.node }
+    pdm           = { vmid = module.lxc_pdm.vm_id, ip = module.lxc_pdm.ip_address, node = module.lxc_pdm.node }
   }
 }
 

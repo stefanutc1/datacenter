@@ -398,6 +398,60 @@ module "lxc_paperless_ai" {
   tags         = ["ai", "dms", "ocr", "deepseek", "terraform", "node1"]
 }
 
+module "lxc_codeserver" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 115
+  hostname     = "code-server"
+  ostemplate   = var.alpine_template
+  ostype       = "alpine"
+  cores        = 2
+  memory       = 512
+  disk_size    = "4G"
+  ip_address   = "192.168.1.115/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["dev", "ide", "codeserver", "web-ide", "terraform", "node1"]
+}
+
+module "lxc_pbs" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 116
+  hostname     = "proxmox-backup-server"
+  ostemplate   = var.alpine_template
+  ostype       = "alpine"
+  cores        = 2
+  memory       = 512
+  disk_size    = "4G"
+  ip_address   = "192.168.1.116/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["storage", "backup", "pbs", "deduplication", "terraform", "node1"]
+}
+
+module "lxc_pdm" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 117
+  hostname     = "proxmox-datacenter-manager"
+  ostemplate   = var.alpine_template
+  ostype       = "alpine"
+  cores        = 2
+  memory       = 512
+  disk_size    = "4G"
+  ip_address   = "192.168.1.117/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["management", "pdm", "multi-cluster", "terraform", "node1"]
+}
+
 # ------------------------------------------------------------------------------
 # 4. PROXMOX ARM64 LXC CONTAINERS (NODE 3 — Apple Silicon ARM64)
 # ------------------------------------------------------------------------------
@@ -1265,35 +1319,17 @@ module "lxc_arm_arm_pdm" {
   tags         = ["management", "pdm", "datacenter", "arm64", "terraform", "node3"]
 }
 
-module "lxc_arm_arm_pmg" {
-  source       = "./modules/proxmox_lxc"
-  target_node  = var.utility_node
-  vmid         = 148
-  hostname     = "arm-pmg"
-  ostemplate   = var.alpine_template_arm
-  ostype       = "alpine"
-  cores        = 2
-  memory       = 512
-  disk_size    = "2G"
-  ip_address   = "192.168.64.148/24"
-  gateway      = var.gateway_ip_arm
-  nameserver   = var.nameserver_ip_arm
-  vlan_tag     = 20
-  unprivileged = true
-  tags         = ["security", "mail", "pmg", "antispam", "arm64", "terraform", "node3"]
-}
-
 module "lxc_arm_renovate_gitops" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.utility_node
-  vmid         = 149
+  vmid         = 148
   hostname     = "renovate-gitops"
   ostemplate   = var.alpine_template_arm
   ostype       = "alpine"
   cores        = 2
   memory       = 192
   disk_size    = "4G"
-  ip_address   = "192.168.64.149/24"
+  ip_address   = "192.168.64.148/24"
   gateway      = var.gateway_ip_arm
   nameserver   = var.nameserver_ip_arm
   vlan_tag     = 20
@@ -1304,14 +1340,14 @@ module "lxc_arm_renovate_gitops" {
 module "lxc_arm_vscode_server" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.utility_node
-  vmid         = 160
+  vmid         = 159
   hostname     = "vscode-server-arm"
   ostemplate   = var.debian_template_arm
   ostype       = "debian"
   cores        = 2
   memory       = 512
   disk_size    = "8G"
-  ip_address   = "192.168.64.160/24"
+  ip_address   = "192.168.64.159/24"
   gateway      = var.gateway_ip_arm
   nameserver   = var.nameserver_ip_arm
   vlan_tag     = 20
