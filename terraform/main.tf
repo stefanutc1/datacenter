@@ -369,6 +369,43 @@ module "lxc_n8n" {
   tags         = ["automation", "workflows", "soar", "webhooks", "terraform", "node1"]
 }
 
+
+module "lxc_scrutiny" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 108
+  hostname     = "scrutiny"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 1
+  memory       = 128
+  disk_size    = "4G"
+  ip_address   = "192.168.1.14/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["monitoring", "smart", "storage", "telemetry", "terraform", "node1"]
+}
+
+module "lxc_media_suite" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 109
+  hostname     = "media-suite"
+  ostemplate   = var.debian_template
+  ostype       = "debian"
+  cores        = 2
+  memory       = 512
+  disk_size    = "16G"
+  ip_address   = "192.168.1.18/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["media", "jellyfin", "streaming", "transcoding", "terraform", "node1"]
+}
+
 module "lxc_ollama" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
@@ -1416,4 +1453,610 @@ module "lxc_arm_vscode_server" {
   tags         = ["dev", "vscode", "codeserver", "ide", "arm64", "terraform", "node3"]
 }
 
+module "lxc_arm_transmission" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 149
+  hostname     = "transmission"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.149/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["media", "torrent", "p2p", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_kavita" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 150
+  hostname     = "kavita"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.150/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["media", "books", "manga", "reader", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_stirling" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 151
+  hostname     = "stirling"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.151/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["pdf", "tools", "ocr", "converter", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_audiobookshelf" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 152
+  hostname     = "audiobookshelf"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.152/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["media", "audiobooks", "streaming", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_tubearchivist" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 153
+  hostname     = "tubearchivist"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.153/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["media", "youtube", "archiver", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_calibreweb" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 154
+  hostname     = "calibreweb"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.154/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["media", "calibre", "ebooks", "library", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_cyberchef" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 155
+  hostname     = "cyberchef"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.155/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["security", "dfir", "crypto", "decoder", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_drawio" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 156
+  hostname     = "drawio"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.156/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["diagrams", "architecture", "drawio", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_romm" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 157
+  hostname     = "romm"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.157/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["gaming", "roms", "retro", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_emulatorjs" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 158
+  hostname     = "emulatorjs"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.158/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["gaming", "emulatorjs", "webassembly", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_paperless" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 160
+  hostname     = "paperless"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 2
+  memory       = 512
+  disk_size    = "1G"
+  ip_address   = "192.168.64.160/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["dms", "ocr", "documents", "archiving", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_minio" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 161
+  hostname     = "minio"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.161/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["storage", "s3", "object-store", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_meilisearch" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 162
+  hostname     = "meilisearch"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.162/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["search", "engine", "full-text", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_vector" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 163
+  hostname     = "vector"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.163/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["observability", "logs", "pipeline", "telemetry", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_searxng" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 164
+  hostname     = "searxng"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.164/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["search", "privacy", "metasearch", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_netalertx" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 165
+  hostname     = "netalertx"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.165/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["security", "network-monitor", "intruder", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_rustdesk" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 166
+  hostname     = "rustdesk"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.166/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["remote-access", "rdp", "relay", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_kopia" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 167
+  hostname     = "kopia"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.167/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["backup", "snapshots", "dedup", "encryption", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_wgeasy" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 168
+  hostname     = "wgeasy"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.168/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["vpn", "wireguard", "gui", "network", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_pgadmin" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 169
+  hostname     = "pgadmin"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.169/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["database", "postgres", "sql-console", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_dozzle" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 170
+  hostname     = "dozzle"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 64
+  disk_size    = "1G"
+  ip_address   = "192.168.64.170/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["logs", "dozzle", "docker-telemetry", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_kiwix" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 171
+  hostname     = "kiwix"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.171/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["offline-wiki", "wikipedia", "knowledge", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_hedgedoc" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 172
+  hostname     = "hedgedoc"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 256
+  disk_size    = "1G"
+  ip_address   = "192.168.64.172/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["notes", "markdown", "collaboration", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_glances" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 173
+  hostname     = "glances"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 64
+  disk_size    = "1G"
+  ip_address   = "192.168.64.173/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["monitoring", "glances", "telemetry", "system", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_dufs" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 174
+  hostname     = "dufs"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 64
+  disk_size    = "1G"
+  ip_address   = "192.168.64.174/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["storage", "webdav", "fileserver", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_gotify" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 175
+  hostname     = "gotify"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 64
+  disk_size    = "1G"
+  ip_address   = "192.168.64.175/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["alerts", "notifications", "push", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_miniflux" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 176
+  hostname     = "miniflux"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 64
+  disk_size    = "1G"
+  ip_address   = "192.168.64.176/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["rss", "news", "feeds", "reader", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_grocy" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 177
+  hostname     = "grocy"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.177/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["erp", "inventory", "household", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_chrony" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 178
+  hostname     = "chrony"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 32
+  disk_size    = "1G"
+  ip_address   = "192.168.64.178/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["ntp", "time", "clock", "precision", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_linkwarden" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 179
+  hostname     = "linkwarden"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 128
+  disk_size    = "1G"
+  ip_address   = "192.168.64.179/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["bookmarks", "archiver", "webpage", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_snmp_collector" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 180
+  hostname     = "snmp-collector"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 64
+  disk_size    = "1G"
+  ip_address   = "192.168.64.180/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["snmp", "metrics", "network-prober", "arm64", "terraform", "node3"]
+}
+
+
+module "lxc_arm_searxng_redis" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.utility_node
+  vmid         = 181
+  hostname     = "searxng-redis"
+  ostemplate   = var.alpine_template_arm
+  ostype       = "alpine"
+  cores        = 1
+  memory       = 32
+  disk_size    = "1G"
+  ip_address   = "192.168.64.181/24"
+  gateway      = var.gateway_ip_arm
+  nameserver   = var.nameserver_ip_arm
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["cache", "redis", "in-memory", "arm64", "terraform", "node3"]
+}
 

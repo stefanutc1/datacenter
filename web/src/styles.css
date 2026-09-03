@@ -11,7 +11,7 @@
     --theme-primary: #f3f4f6;
     --theme-secondary: #9ca3af;
     --theme-muted: #6b7280;
-    --theme-accent: #10b981;
+    --theme-accent: #94a3b8;
   }
 
   html.light {
@@ -22,7 +22,7 @@
     --theme-primary: #0f172a;
     --theme-secondary: #475569;
     --theme-muted: #64748b;
-    --theme-accent: #059669;
+    --theme-accent: #64748b;
   }
 
   body {
@@ -53,5 +53,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #10b981;
+  background: #94a3b8;
 }

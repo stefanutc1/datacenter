@@ -12,7 +12,7 @@ import { TranslationService } from '../../services/translation.service';
       
       <!-- Section Header -->
       <div class="space-y-2 mb-8">
-        <div class="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase">
+        <div class="text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">
           {{ ts.t.bpTag }}
         </div>
         <h2 class="text-3xl sm:text-4xl font-serif font-normal text-slate-50 tracking-tight">
@@ -144,7 +144,7 @@ import { TranslationService } from '../../services/translation.service';
           <!-- Cloud Providers Grid -->
           <div class="space-y-3">
             <h3 class="text-base font-sans font-bold text-slate-100 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
               {{ ts.isRomanian ? 'Infrastructură Multi-Cloud Hibridă (Terraform Declarativ)' : 'Hybrid Multi-Cloud Infrastructure (Declarative Terraform)' }}
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -169,8 +169,8 @@ import { TranslationService } from '../../services/translation.service';
               <!-- GCP -->
               <div class="p-5 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 space-y-3 hover:border-obsidian-600 transition-colors">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-mono font-bold text-emerald-400">GOOGLE CLOUD (GCP)</span>
-                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/60 text-emerald-300 border border-emerald-800">WORM / OIDC Keyless</span>
+                  <span class="text-xs font-mono font-bold text-slate-300">GOOGLE CLOUD (GCP)</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-obsidian-850 text-slate-300 border border-obsidian-700">WORM / OIDC Keyless</span>
                 </div>
                 <div class="text-sm font-semibold text-slate-100">
                   {{ ts.isRomanian ? 'Stocare WORM & Workload Identity' : 'WORM Storage & Workload Identity' }}
@@ -207,10 +207,10 @@ import { TranslationService } from '../../services/translation.service';
           <div class="space-y-3">
             <h3 class="text-base font-sans font-bold text-slate-100 flex items-center justify-between">
               <span class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                 {{ ts.isRomanian ? 'Matrice CI/CD Enterprise (9 Fluxuri Automate · 36+ Verificări Paralele)' : 'Enterprise CI/CD Matrix (9 Automated Workflows · 36+ Parallel Checks)' }}
               </span>
-              <span class="text-xs font-mono text-emerald-400">GitHub Actions CI/CD</span>
+              <span class="text-xs font-mono text-slate-300">GitHub Actions CI/CD</span>
             </h3>
             
             <div class="rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl overflow-hidden font-mono text-xs">
@@ -226,55 +226,55 @@ import { TranslationService } from '../../services/translation.service';
                   </thead>
                   <tbody class="divide-y divide-obsidian-750/70">
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">homelab-ci-cd-matrix.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">homelab-ci-cd-matrix.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Matrice Calitate' : 'Quality Matrix' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Terraform Fmt & Validate, Checkov IaC, Trivy, Docker Compose, ShellCheck, Secret Leakage, ELO Matrix (3.9-3.13)' : 'Terraform Fmt & Validate, Checkov IaC, Trivy, Docker Compose, ShellCheck, Secret Leakage, ELO Matrix (3.9-3.13)' }}</td>
                       <td class="p-4 text-slate-400">Push / PR / Dispatch</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">ci.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">ci.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Pipeline CI Central' : 'Core CI Pipeline' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Gitleaks & TruffleHog Secrets, Ruff Lint, MyPy Types, Bandit SAST, Semgrep, Sintaxă Ansible, Kubeconform' : 'Gitleaks & TruffleHog Secrets, Ruff Lint, MyPy Types, Bandit SAST, Semgrep, Ansible Syntax, Kubeconform' }}</td>
                       <td class="p-4 text-slate-400">Push / PR</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">cd.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">cd.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Livrare Continuă' : 'Continuous Deploy' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Sincronizare GitOps, Împachetare Imagini Container (GHCR), Verificare Rollback' : 'GitOps Synchronization, Container Image Packaging (GHCR), Rollback Verification' }}</td>
                       <td class="p-4 text-slate-400">Push to main</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">container-scan.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">container-scan.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Securitate / CVE' : 'Security / CVE' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Scanare Vulnerabilități Imagini Containere Trivy & Conformitate CIS Dockle' : 'Trivy & Dockle Container Image Vulnerability & CIS Benchmark Scanning' }}</td>
                       <td class="p-4 text-slate-400">Push / Scheduled</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">security-scan.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">security-scan.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Securitate SAST' : 'SAST Security' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Motor GitHub CodeQL, Analiză Statică Avansată a Vulnerabilităților (Python & TypeScript)' : 'GitHub CodeQL Engine, Advanced Security Static Analysis (Python & TypeScript)' }}</td>
                       <td class="p-4 text-slate-400">Weekly / Push</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">security-scheduled.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">security-scheduled.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Audit Nocturn' : 'Nightly Audit' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Audit Programat Nocturn pentru Dependențe (Pip-Audit, NPM Audit, Trivy FS)' : 'Nightly Dependency Vulnerability Audits (Pip-Audit, NPM Audit, Trivy FS)' }}</td>
                       <td class="p-4 text-slate-400">Cron (02:00 UTC)</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">deploy-pages.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">deploy-pages.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'CD Pagini Statice' : 'Static Pages CD' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Build Producție Angular 19 & Publicare Zero-Downtime pe GitHub Pages' : 'Angular 19 Production Build & GitHub Pages Zero-Downtime Deployment' }}</td>
                       <td class="p-4 text-slate-400">Push to main</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">desktop-macos-release.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">desktop-macos-release.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Lansare Binare' : 'Binary Release' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Compilare Universală C# .NET 10 macOS, Semnare Binară & Împachetare DMG' : 'C# .NET 10 Native macOS Universal App Compilation, Signing & DMG Packaging' }}</td>
                       <td class="p-4 text-slate-400">Tag / Release</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">readme-sync.yml</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">readme-sync.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Automatizare Documentație' : 'Docs Automation' }}</td>
                       <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Sincronizare Automată a Documentației și Verificare Badge-uri în 5 Limbi' : 'Multilingual Documentation Sync & Badge Verification across 5 Languages' }}</td>
                       <td class="p-4 text-slate-400">Push to main</td>
@@ -308,7 +308,7 @@ import { TranslationService } from '../../services/translation.service';
                 <tbody class="divide-y divide-obsidian-750/70">
                   @for (vlan of (ts.isRomanian ? vlanMatrixRo : vlanMatrixEn); track vlan.id) {
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
-                      <td class="p-4 font-bold text-emerald-400 whitespace-nowrap">{{ vlan.id }}</td>
+                      <td class="p-4 font-bold text-slate-300 whitespace-nowrap">{{ vlan.id }}</td>
                       <td class="p-4 font-medium text-slate-100">{{ vlan.name }}</td>
                       <td class="p-4 text-slate-300 whitespace-nowrap">{{ vlan.subnet }}</td>
                       <td class="p-4 text-slate-300 whitespace-nowrap">{{ vlan.gateway }}</td>
@@ -330,22 +330,22 @@ import { TranslationService } from '../../services/translation.service';
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
             <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-lg space-y-2">
               <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? 'Tensiune de Intrare' : 'Input Voltage' }}</div>
-              <div class="text-2xl font-bold text-emerald-400">231.4 V AC</div>
+              <div class="text-2xl font-bold text-slate-300">231.4 V AC</div>
               <div class="text-[11px] text-slate-300">{{ ts.isRomanian ? 'Undă Sinusoidală Pură 50.0 Hz' : 'Pure Sine Wave 50.0 Hz' }}</div>
             </div>
             <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-lg space-y-2">
               <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? 'Încărcare Baterie' : 'Battery Charge' }}</div>
-              <div class="text-2xl font-bold text-emerald-400">100% (13.7V)</div>
+              <div class="text-2xl font-bold text-slate-300">100% (13.7V)</div>
               <div class="text-[11px] text-slate-300">{{ ts.isRomanian ? 'Baterie 100Ah Deep-Cycle AGM' : '100Ah Deep-Cycle AGM' }}</div>
             </div>
             <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-lg space-y-2">
               <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? 'Autonomie Estimată' : 'Estimated Autonomy' }}</div>
-              <div class="text-2xl font-bold text-emerald-400">~245 Mins</div>
+              <div class="text-2xl font-bold text-slate-300">~245 Mins</div>
               <div class="text-[11px] text-slate-300">{{ ts.isRomanian ? 'Consum Activ: 84 Watts' : 'Active Load: 84 Watts' }}</div>
             </div>
             <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-lg space-y-2">
               <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? 'Eficiență Energetică (PUE)' : 'Efficiency PUE' }}</div>
-              <div class="text-2xl font-bold text-emerald-400">1.14 PUE</div>
+              <div class="text-2xl font-bold text-slate-300">1.14 PUE</div>
               <div class="text-[11px] text-slate-300">{{ ts.isRomanian ? 'Consum Redus Sub 100W' : 'Sub-100W Baseline Cluster' }}</div>
             </div>
           </div>
@@ -357,19 +357,19 @@ import { TranslationService } from '../../services/translation.service';
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-3 font-mono text-xs">
               <div class="p-3.5 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
-                <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Pasul 1: Non-Critic' : 'Step 1: Non-Critical' }}</span>
+                <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Pasul 1: Non-Critic' : 'Step 1: Non-Critical' }}</span>
                 <p class="text-slate-300 text-[11px] font-sans">{{ ts.isRomanian ? 'Oprire Media (Jellyfin CT 109) & Nextcloud' : 'Stop Media (Jellyfin CT 109) & Nextcloud' }}</p>
               </div>
               <div class="p-3.5 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
-                <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Pasul 2: Baze de Date' : 'Step 2: Databases' }}</span>
+                <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Pasul 2: Baze de Date' : 'Step 2: Databases' }}</span>
                 <p class="text-slate-300 text-[11px] font-sans">{{ ts.isRomanian ? 'Flush & Oprire PostgreSQL & Pool OMV NFS' : 'Flush & Stop PostgreSQL & OMV NFS Pool' }}</p>
               </div>
               <div class="p-3.5 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
-                <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Pasul 3: VM-uri Core' : 'Step 3: Core VMs' }}</span>
+                <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Pasul 3: VM-uri Core' : 'Step 3: Core VMs' }}</span>
                 <p class="text-slate-300 text-[11px] font-sans">{{ ts.isRomanian ? 'Oprire Controlată Windows Server 2025 Datacenter & OPNsense' : 'Gracefully stop Windows Server 2025 Datacenter & OPNsense' }}</p>
               </div>
               <div class="p-3.5 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
-                <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Pasul 4: Oprire Gazdă' : 'Step 4: Host Poweroff' }}</span>
+                <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Pasul 4: Oprire Gazdă' : 'Step 4: Host Poweroff' }}</span>
                 <p class="text-slate-300 text-[11px] font-sans">{{ ts.isRomanian ? 'Proxmox VE execută poweroff curat' : 'Proxmox VE executes poweroff cleanly' }}</p>
               </div>
             </div>
@@ -383,16 +383,16 @@ import { TranslationService } from '../../services/translation.service';
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
             <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
               <h3 class="font-bold text-sm text-slate-50">{{ ts.isRomanian ? 'rpool (SSD NVMe Local)' : 'rpool (Local NVMe SSD)' }}</h3>
-              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">ONLINE · 512GB</span>
+              <span class="px-2 py-0.5 rounded bg-slate-400/15 text-slate-300 text-[10px] font-bold">ONLINE · 512GB</span>
             </div>
             <div class="space-y-2">
               <div class="flex justify-between text-slate-300">
                 <span>{{ ts.isRomanian ? 'Rată Compresie ZSTD:' : 'ZSTD Compression Ratio:' }}</span>
-                <span class="font-bold text-emerald-400">1.84x</span>
+                <span class="font-bold text-slate-300">1.84x</span>
               </div>
               <div class="flex justify-between text-slate-300">
                 <span>{{ ts.isRomanian ? 'Rată Succes Cache ARC:' : 'ARC Cache Hit Rate:' }}</span>
-                <span class="font-bold text-emerald-400">98.6%</span>
+                <span class="font-bold text-slate-300">98.6%</span>
               </div>
               <div class="flex justify-between text-slate-300">
                 <span>{{ ts.isRomanian ? 'Aliniere Bloc Baze de Date:' : 'Database Block Alignment:' }}</span>
@@ -400,7 +400,7 @@ import { TranslationService } from '../../services/translation.service';
               </div>
               <div class="flex justify-between text-slate-300">
                 <span>{{ ts.isRomanian ? 'Sănătate SSD (Speranță Viață TBW):' : 'SSD Health (TBW Life Expectancy):' }}</span>
-                <span class="font-bold text-emerald-400">{{ ts.isRomanian ? '99.1% Rămas (Test S.M.A.R.T. Trecut)' : '99.1% Remaining (S.M.A.R.T. Passed)' }}</span>
+                <span class="font-bold text-slate-300">{{ ts.isRomanian ? '99.1% Rămas (Test S.M.A.R.T. Trecut)' : '99.1% Remaining (S.M.A.R.T. Passed)' }}</span>
               </div>
             </div>
           </div>
@@ -408,7 +408,7 @@ import { TranslationService } from '../../services/translation.service';
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
             <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
               <h3 class="font-bold text-sm text-slate-50">{{ ts.isRomanian ? 'datapool (Mirror ZFS OMV)' : 'datapool (OMV ZFS Mirror)' }}</h3>
-              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">ONLINE · 500GB</span>
+              <span class="px-2 py-0.5 rounded bg-slate-400/15 text-slate-300 text-[10px] font-bold">ONLINE · 500GB</span>
             </div>
             <div class="space-y-2">
               <div class="flex justify-between text-slate-300">
@@ -421,7 +421,7 @@ import { TranslationService } from '../../services/translation.service';
               </div>
               <div class="flex justify-between text-slate-300">
                 <span>{{ ts.isRomanian ? 'Arhivă Offline:' : 'Offline Archive:' }}</span>
-                <span class="font-bold text-emerald-400">Kiwix Wikipedia ZIM (100% Offline)</span>
+                <span class="font-bold text-slate-300">Kiwix Wikipedia ZIM (100% Offline)</span>
               </div>
               <div class="flex justify-between text-slate-300">
                 <span>{{ ts.isRomanian ? 'Programare Verificare ZFS Scrub:' : 'ZFS Scrub Scheduler:' }}</span>
@@ -478,10 +478,10 @@ import { TranslationService } from '../../services/translation.service';
             <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
               <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
                 <div>
-                  <div class="text-[10px] text-emerald-400 font-bold uppercase">{{ ts.isRomanian ? 'Pipeline Injectare Secrete' : 'Secret Injection Pipeline' }}</div>
+                  <div class="text-[10px] text-slate-300 font-bold uppercase">{{ ts.isRomanian ? 'Pipeline Injectare Secrete' : 'Secret Injection Pipeline' }}</div>
                   <h3 class="font-bold text-sm text-slate-50 mt-0.5">HashiCorp Vault / OpenBao</h3>
                 </div>
-                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">{{ ts.isRomanian ? 'FĂRĂ .ENV PE DISC' : 'ZERO .ENV ON DISK' }}</span>
+                <span class="px-2 py-0.5 rounded bg-slate-400/15 text-slate-300 text-[10px] font-bold">{{ ts.isRomanian ? 'FĂRĂ .ENV PE DISC' : 'ZERO .ENV ON DISK' }}</span>
               </div>
               <p class="text-slate-300 font-sans text-xs leading-relaxed">
                 {{ ts.isRomanian 
@@ -491,7 +491,7 @@ import { TranslationService } from '../../services/translation.service';
               <div class="space-y-2 text-[11px]">
                 <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
                   <span>{{ ts.isRomanian ? 'Backend Secrete KV v2:' : 'KV v2 Secret Backend:' }}</span>
-                  <span class="text-emerald-400 font-bold">secret/data/homelab/*</span>
+                  <span class="text-slate-300 font-bold">secret/data/homelab/*</span>
                 </div>
                 <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
                   <span>{{ ts.isRomanian ? 'Timp Viață Token DB (TTL):' : 'Dynamic DB Credential TTL:' }}</span>
@@ -499,7 +499,7 @@ import { TranslationService } from '../../services/translation.service';
                 </div>
                 <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
                   <span>{{ ts.isRomanian ? 'Criptare în Tranzit:' : 'Transit Encryption:' }}</span>
-                  <span class="text-emerald-400 font-bold">AES-256-GCM / Ed25519</span>
+                  <span class="text-slate-300 font-bold">AES-256-GCM / Ed25519</span>
                 </div>
               </div>
             </div>
@@ -508,10 +508,10 @@ import { TranslationService } from '../../services/translation.service';
             <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
               <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
                 <div>
-                  <div class="text-[10px] text-emerald-400 font-bold uppercase">{{ ts.isRomanian ? 'Rotație Criptografică Automată' : 'Automated Cryptographic Rotation' }}</div>
+                  <div class="text-[10px] text-slate-300 font-bold uppercase">{{ ts.isRomanian ? 'Rotație Criptografică Automată' : 'Automated Cryptographic Rotation' }}</div>
                   <h3 class="font-bold text-sm text-slate-50 mt-0.5">WireGuard Kernel Key Rotator</h3>
                 </div>
-                <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">{{ ts.isRomanian ? 'FĂRĂ ÎNTRERUPERE' : 'ZERO DOWNTIME' }}</span>
+                <span class="px-2 py-0.5 rounded bg-slate-400/15 text-slate-300 text-[10px] font-bold">{{ ts.isRomanian ? 'FĂRĂ ÎNTRERUPERE' : 'ZERO DOWNTIME' }}</span>
               </div>
               <p class="text-slate-300 font-sans text-xs leading-relaxed">
                 {{ ts.isRomanian 
@@ -521,7 +521,7 @@ import { TranslationService } from '../../services/translation.service';
               <div class="space-y-2 text-[11px]">
                 <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
                   <span>{{ ts.isRomanian ? 'Program Rotație:' : 'Rotation Schedule:' }}</span>
-                  <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Cron Automat Săptămânal' : 'Weekly Automated Cron' }}</span>
+                  <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Cron Automat Săptămânal' : 'Weekly Automated Cron' }}</span>
                 </div>
                 <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
                   <span>{{ ts.isRomanian ? 'Algoritm Chei:' : 'Key Algorithm:' }}</span>
@@ -529,7 +529,7 @@ import { TranslationService } from '../../services/translation.service';
                 </div>
                 <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between text-slate-200">
                   <span>{{ ts.isRomanian ? 'Status Handshake Peer:' : 'Peer Handshake Status:' }}</span>
-                  <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Sincronizat via API Vault' : 'Synchronized via Vault API' }}</span>
+                  <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Sincronizat via API Vault' : 'Synchronized via Vault API' }}</span>
                 </div>
               </div>
             </div>
@@ -543,7 +543,7 @@ import { TranslationService } from '../../services/translation.service';
             <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
               <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
                 <h4 class="font-bold text-sm text-slate-50">{{ ts.isRomanian ? 'Gateway Inter-Servicii mTLS' : 'mTLS Inter-Service Gateway' }}</h4>
-                <span class="text-[10px] text-emerald-400 font-bold">VLAN 20</span>
+                <span class="text-[10px] text-slate-300 font-bold">VLAN 20</span>
               </div>
               <p class="text-slate-300 font-sans text-xs">
                 {{ ts.isRomanian 
@@ -551,7 +551,7 @@ import { TranslationService } from '../../services/translation.service';
                   : 'Mandatory mutual client certificate verification between ingress proxies and backend databases or secret stores.' }}
               </p>
               <div class="text-[11px] p-2 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200 space-y-1">
-                <div>• Mode: <span class="text-emerald-400 font-bold">require_and_verify</span></div>
+                <div>• Mode: <span class="text-slate-300 font-bold">require_and_verify</span></div>
                 <div>• Root CA: <span class="text-slate-100">Step-CA Automated PKI</span></div>
                 <div>• Cipher: <span class="text-slate-100">TLS_AES_256_GCM_SHA384</span></div>
               </div>
@@ -571,7 +571,7 @@ import { TranslationService } from '../../services/translation.service';
               <div class="text-[11px] p-2 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200 space-y-1">
                 <div>• Trigger: <span class="text-rose-400 font-bold">Linux Inotify + Webhook</span></div>
                 <div>• Alert: <span class="text-slate-100">Telegram & ntfy Push</span></div>
-                <div>• Response: <span class="text-emerald-400 font-bold">{{ ts.isRomanian ? 'Banare IP Automată via CrowdSec' : 'Automatic IP Ban via CrowdSec' }}</span></div>
+                <div>• Response: <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Banare IP Automată via CrowdSec' : 'Automatic IP Ban via CrowdSec' }}</span></div>
               </div>
             </div>
 
@@ -589,7 +589,7 @@ import { TranslationService } from '../../services/translation.service';
               <div class="text-[11px] p-2 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200 space-y-1">
                 <div>• Target: <span class="text-sky-400 font-bold">Docker, Terraform & Go</span></div>
                 <div>• Forge: <span class="text-slate-100">Gitea Internal API v1</span></div>
-                <div>• CI: <span class="text-emerald-400 font-bold">Woodpecker CI Automated Test</span></div>
+                <div>• CI: <span class="text-slate-300 font-bold">Woodpecker CI Automated Test</span></div>
               </div>
             </div>
 
@@ -599,32 +599,32 @@ import { TranslationService } from '../../services/translation.service';
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
             <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
               <div>
-                <div class="text-[10px] text-emerald-400 font-bold uppercase">{{ ts.isRomanian ? 'Accelerare Memorie & Protecție SSD' : 'Memory Acceleration & Lifespan Protection' }}</div>
+                <div class="text-[10px] text-slate-300 font-bold uppercase">{{ ts.isRomanian ? 'Accelerare Memorie & Protecție SSD' : 'Memory Acceleration & Lifespan Protection' }}</div>
                 <h3 class="font-bold text-sm text-slate-50 mt-0.5">{{ ts.isRomanian ? 'Compresie Hardware ZRAM & Balonare Dinamică VirtIO' : 'ZRAM Hardware Compression & Dynamic Ballooning Engine' }}</h3>
               </div>
-              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 text-[10px] font-bold">{{ ts.isRomanian ? 'COMPRESIE LZ4 ACTIVĂ' : 'LZ4 COMPRESSION ACTIVE' }}</span>
+              <span class="px-2 py-0.5 rounded bg-slate-400/15 text-slate-300 text-[10px] font-bold">{{ ts.isRomanian ? 'COMPRESIE LZ4 ACTIVĂ' : 'LZ4 COMPRESSION ACTIVE' }}</span>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-[11px]">
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">Node 1 (x86_64) ZRAM</div>
-                <div class="font-bold text-emerald-400 text-sm">6.0 GB /dev/zram0</div>
+                <div class="font-bold text-slate-300 text-sm">6.0 GB /dev/zram0</div>
                 <div class="text-[10px] text-slate-400">ALGO=lz4 · Swappiness 60</div>
               </div>
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">Node 3 (ARM64) ZRAM</div>
-                <div class="font-bold text-emerald-400 text-sm">1.9 GB /dev/zram0</div>
+                <div class="font-bold text-slate-300 text-sm">1.9 GB /dev/zram0</div>
                 <div class="text-[10px] text-slate-400">ALGO=lz4 · Swappiness 20</div>
               </div>
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">{{ ts.isRomanian ? 'Protecție Durată Viață NVMe' : 'NVMe Lifespan Protection' }}</div>
                 <div class="font-bold text-slate-100 text-sm">99.1% {{ ts.isRomanian ? 'Rămas' : 'Remaining' }}</div>
-                <div class="text-[10px] text-emerald-400">{{ ts.isRomanian ? 'Zero Uzură Swap pe SSD' : 'Zero SSD Swap Wear' }}</div>
+                <div class="text-[10px] text-slate-300">{{ ts.isRomanian ? 'Zero Uzură Swap pe SSD' : 'Zero SSD Swap Wear' }}</div>
               </div>
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">{{ ts.isRomanian ? 'VM-uri Balonare VirtIO' : 'VirtIO Ballooning VMs' }}</div>
                 <div class="font-bold text-slate-100 text-sm">6 QEMU VMs</div>
-                <div class="text-[10px] text-emerald-400">Dynamic 512MB → 8192MB</div>
+                <div class="text-[10px] text-slate-300">Dynamic 512MB → 8192MB</div>
               </div>
             </div>
           </div>
@@ -659,10 +659,10 @@ import { TranslationService } from '../../services/translation.service';
             </div>
 
             <div class="relative mt-4">
-              <pre class="p-4 rounded-xl bg-obsidian-950 border border-obsidian-750 text-emerald-400 overflow-x-auto text-[11px] leading-relaxed"><code>{{ generatedTerraformCode }}</code></pre>
+              <pre class="p-4 rounded-xl bg-obsidian-950 border border-obsidian-750 text-slate-300 overflow-x-auto text-[11px] leading-relaxed"><code>{{ generatedTerraformCode }}</code></pre>
               <button
                 (click)="copyGen()"
-                class="absolute top-3 right-3 px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs hover:bg-emerald-400 transition-colors shadow"
+                class="absolute top-3 right-3 px-3 py-1.5 rounded-lg bg-slate-400 text-slate-950 font-bold text-xs hover:bg-slate-400 transition-colors shadow"
               >
                 {{ isGenCopied ? (ts.isRomanian ? 'COPIAT!' : 'COPIED!') : (ts.isRomanian ? 'COPIAZĂ HCL' : 'COPY HCL') }}
               </button>
@@ -706,15 +706,15 @@ import { TranslationService } from '../../services/translation.service';
             <div class="space-y-2 text-slate-300">
               <div class="flex justify-between p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750">
                 <span>{{ ts.isRomanian ? 'Disponibilitate Servicii Core:' : 'Core Service Uptime:' }}</span>
-                <span class="text-emerald-400 font-bold">99.9% (SLO)</span>
+                <span class="text-slate-300 font-bold">99.9% (SLO)</span>
               </div>
               <div class="flex justify-between p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750">
                 <span>{{ ts.isRomanian ? 'Latență Ingress P95:' : 'P95 Ingress Latency:' }}</span>
-                <span class="text-emerald-400 font-bold">&lt; 45 ms</span>
+                <span class="text-slate-300 font-bold">&lt; 45 ms</span>
               </div>
               <div class="flex justify-between p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750">
                 <span>{{ ts.isRomanian ? 'Rată Erori HTTP 5xx:' : 'HTTP 5xx Error Budget:' }}</span>
-                <span class="text-emerald-400 font-bold">&lt; 0.05%</span>
+                <span class="text-slate-300 font-bold">&lt; 0.05%</span>
               </div>
             </div>
           </div>
@@ -724,15 +724,15 @@ import { TranslationService } from '../../services/translation.service';
             <div class="space-y-2 text-slate-300">
               <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between">
                 <span>Prometheus TSDB</span>
-                <span class="text-emerald-400 font-bold">:9090</span>
+                <span class="text-slate-300 font-bold">:9090</span>
               </div>
               <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between">
                 <span>Grafana Loki Log Streams</span>
-                <span class="text-emerald-400 font-bold">:3100</span>
+                <span class="text-slate-300 font-bold">:3100</span>
               </div>
               <div class="p-2.5 rounded-lg bg-obsidian-900 border border-obsidian-750 flex justify-between">
                 <span>Grafana Tempo Distributed Tracing</span>
-                <span class="text-emerald-400 font-bold">:3200 (OTLP :4317/:4318)</span>
+                <span class="text-slate-300 font-bold">:3200 (OTLP :4317/:4318)</span>
               </div>
             </div>
           </div>
@@ -752,7 +752,7 @@ import { TranslationService } from '../../services/translation.service';
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @for (g of (ts.isRomanian ? filteredGlossaryRo : filteredGlossaryEn); track g.term) {
               <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-1.5 shadow-md">
-                <div class="font-bold text-slate-50 font-mono text-sm text-emerald-400">{{ g.term }}</div>
+                <div class="font-bold text-slate-50 font-mono text-sm text-slate-300">{{ g.term }}</div>
                 <p class="text-slate-300 font-sans leading-relaxed">{{ g.def }}</p>
               </div>
             }

@@ -112,7 +112,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         "Inter-VLAN Routing",
         "Security Core"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "opnsense",
     "composeCode": "# OPNsense FreeBSD 14 Virtual Machine running on Proxmox VE (VM 200)\n# Memory: 2048 MB (VirtIO Ballooning: 1024 MB) \u00b7 Storage: 16 GB"
 },
@@ -252,7 +252,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         "Service Guardian",
         "Alerting"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "shield",
     "composeCode": "# Monit Watchdog polling every 30s with instant ntfy webhook triggers"
 },
@@ -656,7 +656,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "CUDA Accelerated",
       "AI Pipeline"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "whisper",
     "composeCode": "services:\n  faster-whisper:\n    image: fedirz/faster-whisper-server:latest-cuda\n    ports:\n      - \"8000:8000\""
   },
@@ -968,7 +968,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Real-Time Viewer",
       "Debugging Tool"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "dozzle",
     "composeCode": "services:\n  dozzle:\n    image: amir20/dozzle:latest\n    ports:\n      - \"8080:8080\""
   },
@@ -1135,7 +1135,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Service Health",
       "Quick Navigation"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "homepage",
     "composeCode": "services:\n  homepage:\n    image: ghcr.io/gethomepage/homepage:latest\n    ports:\n      - \"3000:3000\""
   },
@@ -1326,7 +1326,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Expense Ledger",
       "Budget Analytics"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "wallos",
     "composeCode": "services:\n  wallos:\n    image: ipeka/wallos:latest\n    ports:\n      - \"8282:80\""
   },
@@ -1446,7 +1446,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Listening Trends",
       "Personal Statistics"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "yourspotify",
     "composeCode": "services:\n  your_spotify:\n    image: yooooomi/your_spotify_server:latest\n    ports:\n      - \"8080:8080\""
   },
@@ -1684,7 +1684,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "DFIR Toolkit",
       "Binary Parser"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "cyberchef",
     "composeCode": "services:\n  cyberchef:\n    image: ghcr.io/gchq/cyberchef:latest\n    ports:\n      - \"8080:80\""
   },
@@ -1871,7 +1871,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       "PKI Engine",
       "Zero-Trust"
     ],
-    "color": "#10b981",
+    "color": "#94a3b8",
     "icon": "shield",
     "composeCode": "services:\n  vault:\n    image: hashicorp/vault:latest\n    ports:\n      - \"8200:8200\"\n    environment:\n      - VAULT_ADDR=http://0.0.0.0:8200"
   },
