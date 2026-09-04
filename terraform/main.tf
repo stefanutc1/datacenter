@@ -459,23 +459,6 @@ module "lxc_nextcloud" {
   tags         = ["cloud", "storage", "webdav", "productivity", "terraform", "node1"]
 }
 
-module "lxc_crowdsec" {
-  source       = "./modules/proxmox_lxc"
-  target_node  = var.primary_node
-  vmid         = 105
-  hostname     = "crowdsec"
-  ostemplate   = var.debian_template
-  ostype       = "debian"
-  cores        = 1
-  memory       = 128
-  disk_size    = "4G"
-  ip_address   = "192.168.1.9/24"
-  gateway      = var.gateway_ip
-  nameserver   = var.nameserver_ip
-  vlan_tag     = 20
-  unprivileged = true
-  tags         = ["security", "ips", "threat-intel", "bouncer", "terraform", "node1"]
-}
 
 module "lxc_homeassistant" {
   source       = "./modules/proxmox_lxc"

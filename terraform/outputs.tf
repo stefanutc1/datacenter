@@ -33,7 +33,6 @@ output "lxc_x64_summary" {
     tailscale      = { vmid = module.lxc_tailscale.vm_id, ip = module.lxc_tailscale.ip_address, node = module.lxc_tailscale.node }
     immich         = { vmid = module.lxc_immich.vm_id, ip = module.lxc_immich.ip_address, node = module.lxc_immich.node }
     nextcloud      = { vmid = module.lxc_nextcloud.vm_id, ip = module.lxc_nextcloud.ip_address, node = module.lxc_nextcloud.node }
-    crowdsec       = { vmid = module.lxc_crowdsec.vm_id, ip = module.lxc_crowdsec.ip_address, node = module.lxc_crowdsec.node }
     homeassistant  = { vmid = module.lxc_homeassistant.vm_id, ip = module.lxc_homeassistant.ip_address, node = module.lxc_homeassistant.node }
     n8n            = { vmid = module.lxc_n8n.vm_id, ip = module.lxc_n8n.ip_address, node = module.lxc_n8n.node }
     ollama         = { vmid = module.lxc_ollama.vm_id, ip = module.lxc_ollama.ip_address, node = module.lxc_ollama.node }

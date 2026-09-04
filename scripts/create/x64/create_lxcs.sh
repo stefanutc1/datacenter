@@ -2,7 +2,7 @@
 # ==============================================================================
 # Homelab Fleet Automation: Provision all LXC Containers on Node 1 (x86_64)
 # Target Host: Node 1 Primary Proxmox VE (x86_64 / amd64)
-# Inventory: CT 100 through CT 118 (19 Core Ingress, AI & Infrastructure Containers)
+# Inventory: CT 100 through CT 118 (18 Core Containers; CrowdSec natively on OPNsense VM 200)
 # ==============================================================================
 set -euo pipefail
 
@@ -184,22 +184,6 @@ create_or_skip_lxc 104 "nextcloud" \
   --tags "alpine;cloud;community-script;storage"
 
 
-# ------------------------------------------------------------------------------
-# CT 105: crowdsec
-# ------------------------------------------------------------------------------
-create_or_skip_lxc 105 "crowdsec" \
-  "$ALPINE_TMPL" \
-  --hostname "crowdsec" \
-  --cores 1 \
-  --memory 128 \
-  --swap 128 \
-  --rootfs "$STORAGE:4G" \
-  --net0 "name=eth0,bridge=$BRIDGE,gw=$GATEWAY,ip=192.168.1.9/24,type=veth" \
-  --features "nesting=1" \
-  --unprivileged 1 \
-  --ostype "alpine" \
-  --onboot 0 \
-  --tags "alpine;community-script;ips;security"
 
 
 # ------------------------------------------------------------------------------

@@ -21,7 +21,6 @@ DECLARED_TOPOLOGY = {
     102: {"name": "tailscale", "ip": "192.168.1.5", "vlan": 20, "ram_mb": 96},
     103: {"name": "immich", "ip": "192.168.1.15", "vlan": 20, "ram_mb": 896},
     104: {"name": "nextcloud", "ip": "192.168.1.8", "vlan": 20, "ram_mb": 512},
-    105: {"name": "crowdsec", "ip": "192.168.1.9", "vlan": 20, "ram_mb": 128},
     106: {"name": "homeassistant", "ip": "192.168.1.10", "vlan": 20, "ram_mb": 384},
     107: {"name": "n8n", "ip": "192.168.1.13", "vlan": 20, "ram_mb": 384},
     110: {"name": "ollama", "ip": "192.168.1.110", "vlan": 20, "ram_mb": 2048},

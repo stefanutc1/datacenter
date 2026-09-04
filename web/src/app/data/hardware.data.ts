@@ -260,7 +260,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 218: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
       'VM 219: Redox OS 0.9.0 (2048 MB / Balloon: 1024 MB · 10 GB NVMe · Rust Microkernel & RedoxFS Architecture)',
       'VM 220: FreeDOS 1.3 (512 MB / Balloon: 256 MB · 2 GB NVMe IDE · 16-bit Real Mode x86 Assembly Lab)',
-      'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
+      'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
       'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',
       'CT 113: Flowise Agentic AI Workflow & LangChain Graph Engine',

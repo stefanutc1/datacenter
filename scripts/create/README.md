@@ -85,6 +85,8 @@ bash scripts/create/x64/create_lxcs.sh --force
 STORAGE="local-lvm" GATEWAY="192.168.1.1" BRIDGE="vmbr0" bash scripts/create/x64/create_lxcs.sh
 ```
 
+> **Notă de Securitate:** Serviciul **CrowdSec LAPI & Remediation Bouncer** rulează integrat nativ la nivel de perimetru direct pe firewall-ul **OPNsense (`VM 200` · `192.168.1.134`)**, gestionând tabelele dinamice Packet Filter (`pf`) (`crowdsec_blocklists`), fiind eliminat complet din instanțele LXC separate de pe nodul x86_64.
+
 ### Inventar Containere x86_64 (100–118)
 
 | CTID | Hostname | Cores | RAM / Swap (MB) | Disk | IP (`vmbr0`) | Gateway | Template / Note |
