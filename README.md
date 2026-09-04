@@ -28,7 +28,7 @@ Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense ne
 [![Active Workloads](https://img.shields.io/badge/Workloads-31%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
 [![Automated Tests](https://img.shields.io/badge/Tests-11%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
 [![ELO Tools](https://img.shields.io/badge/ELO%20Tools-19%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
-[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--03-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
+[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--04-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
 <!-- AUTO-METRICS-END -->
 </div>
 
