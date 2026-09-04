@@ -14,6 +14,10 @@ output "vm_inventory" {
     dragonflybsd      = { vmid = module.vm_dragonflybsd_210.vm_id, name = module.vm_dragonflybsd_210.name, node = module.vm_dragonflybsd_210.node }
     openstack         = { vmid = module.vm_openstack_211.vm_id, name = module.vm_openstack_211.name, node = module.vm_openstack_211.node }
     metasploitable2   = { vmid = module.vm_metasploitable2_212.vm_id, name = module.vm_metasploitable2_212.name, node = module.vm_metasploitable2_212.node }
+    tpot_honeypot     = { vmid = module.vm_tpot_213.vm_id, name = module.vm_tpot_213.name, node = module.vm_tpot_213.node }
+    haiku_os          = { vmid = module.vm_haiku_214.vm_id, name = module.vm_haiku_214.name, node = module.vm_haiku_214.node }
+    plan9_belllabs    = { vmid = module.vm_plan9_215.vm_id, name = module.vm_plan9_215.name, node = module.vm_plan9_215.node }
+    reactos_nt        = { vmid = module.vm_reactos_216.vm_id, name = module.vm_reactos_216.name, node = module.vm_reactos_216.node }
   }
 }
 

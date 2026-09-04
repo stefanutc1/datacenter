@@ -250,6 +250,64 @@ module "vm_metasploitable2_212" {
   tags         = ["cyber", "metasploit", "metasploitable2", "penetration-testing", "red-team", "terraform"]
 }
 
+module "vm_tpot_213" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 213
+  name         = "tpot-honeypot"
+  description  = "T-Pot Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata)"
+  cores        = 4
+  memory       = 8192
+  balloon      = 4096
+  disk_size    = 60
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["cyber", "honeypot", "tpot", "threat-intel", "elastic", "suricata", "terraform"]
+}
+
+module "vm_haiku_214" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 214
+  name         = "haiku"
+  description  = "Haiku OS R1/beta5 (BeOS Modular C++ Architecture, Preemptive Multithreading & OpenBFS)"
+  cores        = 2
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 20
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["haikuos", "beos", "bfs", "desktop", "modular", "terraform"]
+}
+
+module "vm_plan9_215" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 215
+  name         = "plan9"
+  description  = "Plan 9 from Bell Labs / 9front (9P Distributed Filesystem, Per-Process Namespaces & Rio GUI)"
+  cores        = 1
+  memory       = 512
+  disk_size    = 12
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["belllabs", "plan9", "9front", "9p", "distributed", "terraform"]
+}
+
+module "vm_reactos_216" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 216
+  name         = "reactos"
+  description  = "ReactOS 0.4.16 (Open-Source Windows NT Binary Compatibility Architecture & Win32 Subsystem)"
+  cores        = 1
+  memory       = 1024
+  disk_size    = 32
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["reactos", "windows-nt", "win32", "binary-compatibility", "terraform"]
+}
+
 
 # ------------------------------------------------------------------------------
 # 3. PROXMOX CORE LXC CONTAINERS (NODE 1 — x86_64 Primar)

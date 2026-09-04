@@ -20,7 +20,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 **Capacity notes:**
 
-* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana, NetBSD, NixOS, DragonFly BSD, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana, NetBSD, NixOS, DragonFly BSD, OpenStack, Metasploitable 2, T-Pot Honeypot, Haiku, Plan 9, ReactOS, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
 * The GTX 1050 Ti's 4 GB VRAM limits model size/batch size for ML experimentation and is shared with Frigate if GPU-accelerated detection is enabled for the NVR — these two workloads compete for the same VRAM budget and shouldn't be assumed to coexist at full load without checking.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 
@@ -35,7 +35,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 ### Usage Profile
 
-This host currently serves eleven primary roles:
+This host currently serves fifteen primary roles:
 
 1. **Development environment** — Debian + XFCE, used as a general-purpose dev workspace.
 2. **Machine learning experimentation** — CUDA/PyTorch, GPU-passthrough dependent on the GTX 1050 Ti above.
@@ -48,6 +48,10 @@ This host currently serves eleven primary roles:
 9. **HAMMER2 journaling storage & microkernel concurrency** — DragonFly BSD 6.4 (VM 210) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 15 GB NVMe for lockless multi-core scaling and HAMMER2 cluster filesystem research.
 10. **Enterprise private cloud virtualization** — OpenStack 2024.1 Caracal (VM 211) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 32 GB NVMe for IaaS compute (Nova), SDN networking (Neutron), and Horizon Web Dashboard.
 11. **Cybersecurity vulnerability & exploit lab** — Metasploitable 2 (VM 212) with 512 MB RAM and 8 GB NVMe for penetration testing, red teaming with Metasploit Framework, and Suricata/Wazuh detection signature calibration.
+12. **Multi-honeypot threat intelligence & attack telemetry** — T-Pot 24.04 (VM 213) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 60 GB NVMe for decoy sensor emulation (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata).
+13. **BeOS-inspired modular C++ desktop architecture** — Haiku R1/beta5 (VM 214) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for C++ object-oriented OS research, modular application kits, and OpenBFS indexed filesystem validation.
+14. **Distributed computing & 9P filesystem research** — Plan 9 from Bell Labs / 9front (VM 215) with 512 MB RAM and 12 GB IDE for per-process namespaces, synthetic file interfaces, and 9P remote resource mapping.
+15. **Windows NT clean-room binary compatibility** — ReactOS 0.4.16 (VM 216) with 1 GB RAM and 32 GB IDE for reverse-engineered NT kernel architecture, native Win32 subsystem testing, and PE executable execution without Microsoft licensing.
 
 ---
 

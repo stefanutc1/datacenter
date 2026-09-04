@@ -164,6 +164,42 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 512, 
         purpose: 'Intentionally Vulnerable Linux Target, Penetration Testing & Suricata/Wazuh IDS Tuning',
         purposeRo: 'Țintă Linux Vulnerabilă Intenționat, Teste de Penetrare & Calibrare IDS/IPS Suricata/Wazuh'
+      },
+      { 
+        vmid: 213, 
+        name: 'tpot-honeypot', 
+        os: 'Debian 12 / T-Pot 24.04 Multi-Honeypot Decoy Platform', 
+        allocatedMb: 8192, 
+        balloonMinMb: 4096, 
+        purpose: 'Telekom Security Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Elastic, Kibana, Suricata)',
+        purposeRo: 'Platformă Multi-Honeypot Decoy Telekom Security (Cowrie, Dionaea, Elastic, Kibana, Suricata)'
+      },
+      { 
+        vmid: 214, 
+        name: 'haiku', 
+        os: 'Haiku OS R1/beta5', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'BeOS-Inspired Modular Operating System, C++ Object API & OpenBFS Indexed Filesystem',
+        purposeRo: 'Sistem de Operare Modular Inspirat de BeOS, API Obiectual C++ & Sistem de Fișiere OpenBFS'
+      },
+      { 
+        vmid: 215, 
+        name: 'plan9', 
+        os: 'Plan 9 from Bell Labs (9front)', 
+        allocatedMb: 512, 
+        balloonMinMb: 512, 
+        purpose: 'Research OS from Bell Labs, 9P Distributed Filesystem Protocol & Per-Process Namespaces',
+        purposeRo: 'Sistem de Operare de Cercetare Bell Labs, Protocol Distribuit 9P & Namespace-uri Per-Proces'
+      },
+      { 
+        vmid: 216, 
+        name: 'reactos', 
+        os: 'ReactOS 0.4.16', 
+        allocatedMb: 1024, 
+        balloonMinMb: 1024, 
+        purpose: 'Open-Source Windows NT Binary Compatibility Architecture & Win32 Native Subsystem',
+        purposeRo: 'Arhitectură Compatibilă Binar Windows NT Open-Source & Subsistem Nativ Win32'
       }
     ],
     workloads: [
@@ -180,6 +216,10 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 210: DragonFly BSD 6.4 (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · 15 GB NVMe · HAMMER2 Journaling FS & Hybrid Microkernel)',
       'VM 211: OpenStack Enterprise Cloud Controller (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Nova, Neutron, Keystone, Glance, Horizon Dashboard)',
       'VM 212: Metasploitable 2 (512 MB · 8 GB NVMe · Intentionally Vulnerable Linux Target & Penetration Testing Sandbox)',
+      'VM 213: T-Pot Honeypot Decoy Platform (8192 MB / Balloon: 4096 MB · 60 GB NVMe · Cowrie, Dionaea, Elastic, Kibana)',
+      'VM 214: Haiku OS R1/beta5 (2048 MB / Balloon: 1024 MB · 20 GB NVMe · Modular C++ Architecture & OpenBFS)',
+      'VM 215: Plan 9 from Bell Labs (512 MB · 12 GB NVMe · 9P Distributed Protocol & Per-Process Namespaces)',
+      'VM 216: ReactOS 0.4.16 (1024 MB · 32 GB NVMe · Open-Source Windows NT Binary Compatibility)',
       'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
       'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',
