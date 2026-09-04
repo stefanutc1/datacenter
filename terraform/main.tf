@@ -373,7 +373,7 @@ module "vm_freedos_220" {
 module "lxc_immich" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 101
+  vmid         = 100
   hostname     = "immich"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -391,7 +391,7 @@ module "lxc_immich" {
 module "lxc_nextcloud" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 102
+  vmid         = 101
   hostname     = "nextcloud"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -410,7 +410,7 @@ module "lxc_nextcloud" {
 module "lxc_homeassistant" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 103
+  vmid         = 102
   hostname     = "homeassistant"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -428,7 +428,7 @@ module "lxc_homeassistant" {
 module "lxc_n8n" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 104
+  vmid         = 103
   hostname     = "n8n"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -447,7 +447,7 @@ module "lxc_n8n" {
 module "lxc_scrutiny" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 105
+  vmid         = 104
   hostname     = "scrutiny"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -465,7 +465,7 @@ module "lxc_scrutiny" {
 module "lxc_media_suite" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 106
+  vmid         = 105
   hostname     = "media-suite"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -483,7 +483,7 @@ module "lxc_media_suite" {
 module "lxc_ollama" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 107
+  vmid         = 106
   hostname     = "ollama"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -501,7 +501,7 @@ module "lxc_ollama" {
 module "lxc_openwebui" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 108
+  vmid         = 107
   hostname     = "openwebui"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -519,7 +519,7 @@ module "lxc_openwebui" {
 module "lxc_whisper" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 109
+  vmid         = 108
   hostname     = "whisper"
   ostemplate   = var.debian_template
   ostype       = "debian"
@@ -537,7 +537,7 @@ module "lxc_whisper" {
 module "lxc_flowise" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 110
+  vmid         = 109
   hostname     = "flowise"
   ostemplate   = var.alpine_template
   ostype       = "alpine"
@@ -555,7 +555,7 @@ module "lxc_flowise" {
 module "lxc_paperless_ai" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 111
+  vmid         = 110
   hostname     = "paperless-ai"
   ostemplate   = var.alpine_template
   ostype       = "alpine"
@@ -573,7 +573,7 @@ module "lxc_paperless_ai" {
 module "lxc_codeserver" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 112
+  vmid         = 111
   hostname     = "code-server"
   ostemplate   = var.alpine_template
   ostype       = "alpine"
@@ -591,7 +591,7 @@ module "lxc_codeserver" {
 module "lxc_pbs" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 113
+  vmid         = 112
   hostname     = "proxmox-backup-server"
   ostemplate   = var.alpine_template
   ostype       = "alpine"
@@ -609,7 +609,7 @@ module "lxc_pbs" {
 module "lxc_pdm" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 114
+  vmid         = 113
   hostname     = "proxmox-datacenter-manager"
   ostemplate   = var.alpine_template
   ostype       = "alpine"
@@ -627,7 +627,7 @@ module "lxc_pdm" {
 module "lxc_woodpecker_k0s" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
-  vmid         = 115
+  vmid         = 114
   hostname     = "woodpecker-k0s"
   ostemplate   = var.alpine_template
   ostype       = "alpine"

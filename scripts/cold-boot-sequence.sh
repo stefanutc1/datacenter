@@ -25,14 +25,14 @@ log "   Waiting 30s for WAN routing and DHCP lease initialization..."
 sleep 30
 
 # 3. Start Core Storage & Cloud Applications (LXC 101 & 102)
-log " [3/6] Starting Immich (LXC 101) & Nextcloud (LXC 102)..."
+log " [3/6] Starting Immich (LXC 100) & Nextcloud (LXC 101)..."
+pct start 100 || true
 pct start 101 || true
-pct start 102 || true
 sleep 10
 
 # 5. Start Core Databases & Essential Infrastructure (LXC 103 - 113)
 log " [5/6] Starting Core Storage, Databases & Infrastructure Containers..."
-for ctid in 103 104 105 106 107 108 109 110 111 112 113; do
+for ctid in 102 103 104 105 106 107 108 109 110 111 112 113 114; do
     log "   Starting LXC $ctid..."
     pct start "$ctid" || true
     sleep 3

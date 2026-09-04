@@ -15,7 +15,7 @@ scripts/create/
 ├── arm/
 │   └── recreate_lxcs.sh          # Recreează toate cele 82 containere LXC (100-181) pe nodul ARM64
 └── x64/
-    ├── create_lxcs.sh            # Creează toate cele 15 containere LXC (101-115) pe nodul x86_64
+    ├── create_lxcs.sh            # Creează toate cele 15 containere LXC (100-114) pe nodul x86_64
     └── create_vms.sh             # Creează toate cele 21 mașini virtuale (200-220) pe nodul x86_64
 ```
 
@@ -87,25 +87,25 @@ STORAGE="local-lvm" GATEWAY="192.168.1.1" BRIDGE="vmbr0" bash scripts/create/x64
 
 > **Notă de Securitate & Consolidare Rețea:** Serviciile perimetrale **Nginx Ingress Reverse Proxy** (cu terminare SSL/TLS wildcard și WebSockets), **AdGuard Home** (înlocuitorul modern pentru Pi-hole cu split-DNS), **Tailscale Mesh Gateway** și **CrowdSec LAPI & Remediation Bouncer** rulează integrate nativ la nivel de perimetru direct pe firewall-ul **OPNsense (`VM 200` · `192.168.1.134`)**, gestionând tabelele dinamice Packet Filter (`pf`) (`crowdsec_blocklists`), listele de amenințări externe (`threatfeed_*`) și interfața mesh VPN, fiind eliminate complet containerele LXC redundante de pe nodul x86_64.
 
-### Inventar Containere x86_64 (101–115)
+### Inventar Containere x86_64 (100–114)
 
 | CTID | Hostname | Cores | RAM / Swap (MB) | Disk | IP (`vmbr0`) | Gateway | Template / Note |
 |:---|:---|:---:|:---:|:---:|:---|:---|:---|
-| **101** | `immich` | 2 | 256 / 512 | 40G | `192.168.1.15/24` | `192.168.1.1` | Alpine 3.24 · Storage & AI Photo Library |
-| **102** | `nextcloud` | 1 | 256 / 512 | 50G | `192.168.1.8/24` | `192.168.1.1` | Alpine 3.24 · Enterprise File Cloud & WebDAV |
-| **103** | `homeassistant` | 2 | 128 / 128 | 16G | `192.168.1.10/24` | `192.168.1.1` | Alpine 3.24 · Smart Home Hub & ESP32 Telemetry |
-| **104** | `n8n` | 2 | 256 / 512 | 8G | `192.168.1.13/24` | `192.168.1.1` | Alpine 3.24 · Workflow Orchestration Engine |
-| **105** | `scrutiny` | 1 | 96 / 32 | 3G | `192.168.1.18/24` | `192.168.1.1` | Alpine 3.24 · S.M.A.R.T. Drive Health Agent |
-| **106** | `media-suite` | 2 | 896 / 256 | 50G | `192.168.1.21/24` | `192.168.1.1` | Alpine 3.24 · Jellyfin Media Processing Ingress |
-| **107** | `ollama` | 4 | 2048 / 1024 | 16G | `192.168.1.110/24` | `192.168.1.1` | Debian 13 · Ollama GPU LLM Runtime |
-| **108** | `openwebui` | 2 | 512 / 512 | 8G | `192.168.1.111/24` | `192.168.1.1` | Debian 13 · Self-Hosted ChatGPT / WebUI |
-| **109** | `whisper` | 2 | 1024 / 1024 | 8G | `192.168.1.112/24` | `192.168.1.1` | Debian 13 · Faster-Whisper Speech-to-Text CUDA |
-| **110** | `flowise` | 2 | 512 / 512 | 1G | `192.168.1.26/24` | `192.168.1.1` | Alpine 3.24 · Flowise Multi-Agent Orchestrator |
-| **111** | `paperless-ai` | 1 | 64 / 64 | 1G | `192.168.1.56/24` | `192.168.1.1` | Alpine 3.24 · Automated OCR & DeepSeek Document Tagging |
-| **112** | `code-server` | 2 | 512 / 512 | 4G | `192.168.1.115/24` | `192.168.1.1` | Alpine 3.24 · Code-Server Cloud IDE Web Workspace |
-| **113** | `proxmox-backup-server` | 2 | 512 / 512 | 4G | `192.168.1.116/24` | `192.168.1.1` | Alpine 3.24 · Proxmox Backup Server (PBS) |
-| **114** | `proxmox-datacenter-manager` | 2 | 512 / 512 | 4G | `192.168.1.117/24` | `192.168.1.1` | Alpine 3.24 · Proxmox Datacenter Manager (PDM) |
-| **115** | `woodpecker-k0s` | 2 | 512 / 512 | 8G | `192.168.1.118/24` | `192.168.1.1` | Alpine 3.24 · Woodpecker CI pe micro-cluster k0s |
+| **100** | `immich` | 2 | 256 / 512 | 40G | `192.168.1.15/24` | `192.168.1.1` | Alpine 3.24 · Photo Library + Machine Learning Face Recognition |
+| **101** | `nextcloud` | 2 | 256 / 512 | 50G | `192.168.1.8/24` | `192.168.1.1` | Alpine 3.24 · Enterprise File Cloud & WebDAV Sync |
+| **102** | `homeassistant` | 2 | 128 / 128 | 16G | `192.168.1.10/24` | `192.168.1.1` | Alpine 3.24 · Smart Home Hub, Zigbee & ESP32 Telemetry |
+| **103** | `n8n` | 2 | 256 / 512 | 8G | `192.168.1.13/24` | `192.168.1.1` | Alpine 3.24 · Workflow Orchestration & Incident Playbooks |
+| **104** | `scrutiny` | 2 | 96 / 32 | 3G | `192.168.1.18/24` | `192.168.1.1` | Alpine 3.24 · Scrutiny S.M.A.R.T. Drive Health Agent |
+| **105** | `media-suite` | 2 | 896 / 256 | 50G | `192.168.1.21/24` | `192.168.1.1` | Alpine 3.24 · Jellyfin Media Processing Ingress |
+| **106** | `ollama` | 2 | 2048 / 1024 | 16G | `192.168.1.110/24` | `192.168.1.1` | Debian 13 · Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
+| **107** | `openwebui` | 2 | 512 / 512 | 8G | `192.168.1.111/24` | `192.168.1.1` | Debian 13 · Self-Hosted ChatGPT / Claude Interface |
+| **108** | `whisper` | 2 | 1024 / 1024 | 8G | `192.168.1.112/24` | `192.168.1.1` | Debian 13 · Faster-Whisper Speech-to-Text CUDA API |
+| **109** | `flowise` | 2 | 512 / 512 | 1G | `192.168.1.26/24` | `192.168.1.1` | Alpine 3.24 · Flowise Multi-Agent LLM Orchestrator |
+| **110** | `paperless-ai` | 2 | 64 / 64 | 1G | `192.168.1.56/24` | `192.168.1.1` | Alpine 3.24 · Paperless-AI Automated OCR & DeepSeek Document Tagging |
+| **111** | `codeserver` | 2 | 512 / 512 | 4G | `192.168.1.115/24` | `192.168.1.1` | Alpine 3.24 · Code-Server Cloud IDE Web Workspace |
+| **112** | `pbs` | 2 | 512 / 512 | 4G | `192.168.1.116/24` | `192.168.1.1` | Alpine 3.24 · Proxmox Backup Server (PBS Enterprise Deduplication & Verification) |
+| **113** | `pdm` | 2 | 512 / 512 | 4G | `192.168.1.117/24` | `192.168.1.1` | Alpine 3.24 · Proxmox Datacenter Manager (Multi-Cluster Fleet Orchestration) |
+| **114** | `woodpecker-k0s` | 2 | 512 / 512 | 8G | `192.168.1.118/24` | `192.168.1.1` | Alpine 3.24 · Woodpecker CI Server & Runner on Alpine Linux with k0s Kubernetes Engine |
 
 ---
 

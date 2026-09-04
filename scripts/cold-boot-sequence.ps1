@@ -43,9 +43,9 @@ Start-Sleep -Seconds 30
 # 3. Start Core DNS (Pi-hole LXC 101)
 Write-Log "🌐 [3/6] Starting Pi-hole DNS Resolver (LXC 101)..."
 if (Get-Command pct -ErrorAction SilentlyContinue) {
-    pct start 101
+    pct start 100
 } else {
-    ssh -o BatchMode=yes root@$PveHost "pct start 101" 2>$null
+    ssh -o BatchMode=yes root@$PveHost "pct start 100" 2>$null
 }
 Start-Sleep -Seconds 10
 
@@ -60,7 +60,7 @@ Start-Sleep -Seconds 10
 
 # 5. Start Core Databases & Infrastructure Containers (LXC 102 - 113)
 Write-Log "💾 [5/6] Starting Core Storage, Databases & Infrastructure Containers..."
-$tier2Ctids = @(102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113)
+$tier2Ctids = @(101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114)
 foreach ($ctid in $tier2Ctids) {
     Write-Log "   Starting LXC $ctid..."
     if (Get-Command pct -ErrorAction SilentlyContinue) {

@@ -47,25 +47,21 @@ done
 # 4. Apply Ultra-Lean Razor-Sharp Memory Allocations (RAM:SWAP in MB)
 log " [4/5] Applying ultra-lean container RAM limits..."
 declare -A MEM_MAP=(
-    [101]="96:64"    # Pi-hole DNS
-    [102]="96:64"    # Tailscale VPN
-    [103]="896:256"  # Immich Photos + ML
-    [104]="80:32"    # Uptime Kuma
-    [105]="96:64"    # Nextcloud
-    [106]="128:64"   # CrowdSec IPS
-    [107]="384:128"  # Home Assistant Core
-    [108]="448:128"  # Prometheus + Grafana + Loki
-    [109]="64:64"    # IT-Tools
-    [110]="384:128"  # n8n Automations
-    [111]="192:64"   # Woodpecker CI
-    [112]="96:32"    # Vaultwarden
-    [113]="160:64"   # Gitea
-    [114]="96:32"    # Scrutiny S.M.A.R.T.
-    [115]="160:64"   # Trilium Notes
-    [116]="96:32"    # Authelia SSO
-    [117]="896:256"  # Media Suite (Jellyfin, Radarr, Sonarr, qBittorrent)
-    [118]="160:64"   # Actual Budget
-    [119]="160:64"   # ChangeDetection
+    [100]="896:256"   # Immich Photos + ML
+    [101]="96:64"     # Nextcloud
+    [102]="384:128"   # Home Assistant Core
+    [103]="384:128"   # n8n Automations
+    [104]="96:32"     # Scrutiny S.M.A.R.T.
+    [105]="896:256"   # Media Suite (Jellyfin)
+    [106]="2048:1024" # Ollama GPU LLM
+    [107]="512:256"   # Open-WebUI
+    [108]="1024:512"  # Whisper CUDA
+    [109]="512:256"   # Flowise
+    [110]="64:64"     # Paperless-AI
+    [111]="512:256"   # Code-Server
+    [112]="512:256"   # PBS
+    [113]="512:256"   # PDM
+    [114]="512:256"   # Woodpecker k0s
 )
 
 for ctid in "${!MEM_MAP[@]}"; do

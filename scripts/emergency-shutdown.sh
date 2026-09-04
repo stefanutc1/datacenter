@@ -53,7 +53,7 @@ done
 
 # 5. Phase 4: Stop Ingress, DNS, Core Auth & Firewall (Tier 1 & 0)
 log " [5/6] Stopping Ingress, Auth, DNS and OPNsense Router..."
-for ctid in 101 102; do
+for ctid in 100 101; do
     if pct status "$ctid" 2>/dev/null | grep -q "status: running"; then
         log "   Stopping Core LXC $ctid..."
         pct shutdown "$ctid" --timeout 10 || pct stop "$ctid"

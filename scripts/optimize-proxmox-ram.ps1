@@ -20,25 +20,21 @@ function Write-Log {
 Write-Log "🚀 [PROXMOX RAM OPTIMIZATION] Starting Aggressive Memory Tuning..."
 
 $memMap = @{
-    "101" = @{ Memory = 96;  Swap = 64; Name = "Pi-hole DNS" }
-    "102" = @{ Memory = 96;  Swap = 64; Name = "Tailscale VPN" }
-    "103" = @{ Memory = 896; Swap = 256; Name = "Immich Photos + ML" }
-    "104" = @{ Memory = 80;  Swap = 32; Name = "Uptime Kuma" }
-    "105" = @{ Memory = 96;  Swap = 64; Name = "Nextcloud" }
-    "106" = @{ Memory = 128; Swap = 64; Name = "CrowdSec IPS" }
-    "107" = @{ Memory = 384; Swap = 128; Name = "Home Assistant Core" }
-    "108" = @{ Memory = 448; Swap = 128; Name = "Prometheus + Grafana + Loki" }
-    "109" = @{ Memory = 64;  Swap = 64; Name = "IT-Tools" }
-    "110" = @{ Memory = 384; Swap = 128; Name = "n8n Automations" }
-    "111" = @{ Memory = 192; Swap = 64; Name = "Woodpecker CI" }
-    "112" = @{ Memory = 96;  Swap = 32; Name = "Vaultwarden" }
-    "113" = @{ Memory = 160; Swap = 64; Name = "Gitea" }
-    "114" = @{ Memory = 96;  Swap = 32; Name = "Scrutiny S.M.A.R.T." }
-    "115" = @{ Memory = 160; Swap = 64; Name = "Trilium Notes" }
-    "116" = @{ Memory = 96;  Swap = 32; Name = "Authelia SSO" }
-    "117" = @{ Memory = 896; Swap = 256; Name = "Media Suite" }
-    "118" = @{ Memory = 160; Swap = 64; Name = "Actual Budget" }
-    "119" = @{ Memory = 160; Swap = 64; Name = "ChangeDetection" }
+    "100" = @{ Memory = 896;  Swap = 256; Name = "Immich Photos + ML" }
+    "101" = @{ Memory = 96;   Swap = 64;  Name = "Nextcloud" }
+    "102" = @{ Memory = 384;  Swap = 128; Name = "Home Assistant Core" }
+    "103" = @{ Memory = 384;  Swap = 128; Name = "n8n Automations" }
+    "104" = @{ Memory = 96;   Swap = 32;  Name = "Scrutiny S.M.A.R.T." }
+    "105" = @{ Memory = 896;  Swap = 256; Name = "Media Suite (Jellyfin)" }
+    "106" = @{ Memory = 2048; Swap = 1024; Name = "Ollama GPU LLM" }
+    "107" = @{ Memory = 512;  Swap = 256; Name = "Open-WebUI" }
+    "108" = @{ Memory = 1024; Swap = 512; Name = "Whisper CUDA" }
+    "109" = @{ Memory = 512;  Swap = 256; Name = "Flowise" }
+    "110" = @{ Memory = 64;   Swap = 64;  Name = "Paperless-AI" }
+    "111" = @{ Memory = 512;  Swap = 256; Name = "Code-Server" }
+    "112" = @{ Memory = 512;  Swap = 256; Name = "PBS" }
+    "113" = @{ Memory = 512;  Swap = 256; Name = "PDM" }
+    "114" = @{ Memory = 512;  Swap = 256; Name = "Woodpecker k0s" }
 }
 
 Write-Log "📦 Applying container memory allocations..."

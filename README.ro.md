@@ -278,21 +278,21 @@ flowchart TD
 
 | VMID | Nume Gazdă | SO Bază | vCPU | RAM Alocat | Pool Stocare | IP Static | Categorie Subsistem | Serviciu Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **101** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Stocare / AI | Photo Library + Recunoaștere Facială Machine Learning |
-| **102** | `nextcloud` | Alpine 3.24 | 1 | 256 MB | `local-lvm:50G` | `192.168.1.8` | Stocare | Enterprise File Cloud & Sincronizare WebDAV |
-| **103** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automatizare | Smart Home Hub, Telemetrie Zigbee & ESP32 |
-| **104** | `n8n` | Alpine 3.24 | 2 | 256 MB | `local-lvm:8G` | `192.168.1.13` | Automatizare | Orchestrare Fluxuri & Automatizări Incident Playbooks |
-| **105** | `scrutiny` | Alpine 3.24 | 1 | 96 MB | `local-lvm:3G` | `192.168.1.18` | Monitorizare | Scrutiny S.M.A.R.T. Drive Health Telemetry Agent |
-| **106** | `media-suite` | Alpine 3.24 | 2 | 896 MB | `local-lvm:50G` | `192.168.1.21` | Media | Procesare & Ingress Jellyfin Media |
-| **107** | `ollama` | Debian 13 | 4 | 2,048 MB | `local-lvm:16G` | `192.168.1.110` | AI Local | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
-| **108** | `openwebui` | Debian 13 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.111` | AI Local | Interfață Web Self-Hosted ChatGPT / Claude |
-| **109** | `whisper` | Debian 13 | 2 | 1,024 MB | `local-lvm:8G` | `192.168.1.112` | AI Local | API Faster-Whisper Speech-to-Text CUDA |
-| **110** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:1G` | `192.168.1.26` | AI Local | Orchestrator Multi-Agent LLM Flowise |
-| **111** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.56` | AI Local | Paperless-AI Automated OCR & DeepSeek Document Tagging |
-| **112** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Dezvoltare | Spațiu de Lucru Web Code-Server Cloud IDE |
-| **113** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Stocare / Backup | Proxmox Backup Server (Deduplicare & Verificare Enterprise) |
-| **114** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Administrare | Proxmox Datacenter Manager (Orchestrare Flotă Multi-Cluster) |
-| **115** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner pe Alpine Linux motorizat de k0s |
+| **100** | `immich` | Alpine 3.24 | 2 Nuclee | 256 MB | `local-lvm:40G` | `192.168.1.15` | Storage / AI | Photo Library + Recunoaștere Facială Machine Learning |
+| **101** | `nextcloud` | Alpine 3.24 | 2 Nuclee | 256 MB | `local-lvm:50G` | `192.168.1.8` | Storage | Enterprise File Cloud & Sincronizare WebDAV |
+| **102** | `homeassistant` | Alpine 3.24 | 2 Nuclee | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Hub, Telemetrie Zigbee & ESP32 |
+| **103** | `n8n` | Alpine 3.24 | 2 Nuclee | 256 MB | `local-lvm:8G` | `192.168.1.13` | Automation | Orchestrare Fluxuri & Automatizări Incident Playbooks |
+| **104** | `scrutiny` | Alpine 3.24 | 1 Nuclee | 96 MB | `local-lvm:3G` | `192.168.1.18` | Monitoring | Scrutiny S.M.A.R.T. Drive Health Telemetry Agent |
+| **105** | `media-suite` | Alpine 3.24 | 2 Nuclee | 896 MB | `local-lvm:50G` | `192.168.1.21` | Media | Procesare & Ingress Jellyfin Media |
+| **106** | `ollama` | Debian 13 | 4 Nuclee | 2,048 MB | `local-lvm:16G` | `192.168.1.110` | Local AI | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
+| **107** | `openwebui` | Debian 13 | 2 Nuclee | 512 MB | `local-lvm:8G` | `192.168.1.111` | Local AI | Interfață Web Self-Hosted ChatGPT / Claude |
+| **108** | `whisper` | Debian 13 | 2 Nuclee | 1,024 MB | `local-lvm:8G` | `192.168.1.112` | Local AI | API Faster-Whisper Speech-to-Text CUDA |
+| **109** | `flowise` | Alpine 3.24 | 2 Nuclee | 512 MB | `local-lvm:1G` | `192.168.1.26` | Local AI | Orchestrator Multi-Agent LLM Flowise |
+| **110** | `paperless-ai` | Alpine 3.24 | 1 Nuclee | 64 MB | `local-lvm:1G` | `192.168.1.56` | Local AI | Paperless-AI Automated OCR & DeepSeek Document Tagging |
+| **111** | `codeserver` | Alpine 3.24 | 2 Nuclee | 512 MB | `local-lvm:4G` | `192.168.1.115` | Dev | Spațiu de Lucru Web Code-Server Cloud IDE |
+| **112** | `pbs` | Alpine 3.24 | 2 Nuclee | 512 MB | `local-lvm:4G` | `192.168.1.116` | Storage / Backup | Proxmox Backup Server (Deduplicare & Verificare Enterprise) |
+| **113** | `pdm` | Alpine 3.24 | 2 Nuclee | 512 MB | `local-lvm:4G` | `192.168.1.117` | Management | Proxmox Datacenter Manager (Orchestrare Flotă Multi-Cluster) |
+| **114** | `woodpecker-k0s` | Alpine 3.24 | 2 Nuclee | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner pe Alpine Linux motorizat de k0s |
 
 ### Catalog Detaliat Containere LXC (Nodul 3 — Apple M1 ARM64 UTM)
 

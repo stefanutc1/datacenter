@@ -16,11 +16,11 @@ logging.basicConfig(
 )
 
 DECLARED_TOPOLOGY = {
-    101: {"name": "immich", "ip": "192.168.1.15", "vlan": 20, "ram_mb": 896},
-    102: {"name": "nextcloud", "ip": "192.168.1.8", "vlan": 20, "ram_mb": 512},
-    103: {"name": "homeassistant", "ip": "192.168.1.10", "vlan": 20, "ram_mb": 384},
-    104: {"name": "n8n", "ip": "192.168.1.13", "vlan": 20, "ram_mb": 384},
-    107: {"name": "ollama", "ip": "192.168.1.110", "vlan": 20, "ram_mb": 2048},
+    100: {"name": "immich", "ip": "192.168.1.15", "vlan": 20, "ram_mb": 896},
+    101: {"name": "nextcloud", "ip": "192.168.1.8", "vlan": 20, "ram_mb": 512},
+    102: {"name": "homeassistant", "ip": "192.168.1.10", "vlan": 20, "ram_mb": 384},
+    103: {"name": "n8n", "ip": "192.168.1.13", "vlan": 20, "ram_mb": 384},
+    106: {"name": "ollama", "ip": "192.168.1.110", "vlan": 20, "ram_mb": 2048},
     200: {"name": "opnsense", "ip": "192.168.1.134", "vlan": 10, "ram_mb": 1024},
     201: {"name": "winserver", "ip": "192.168.20.201", "vlan": 20, "ram_mb": 4096}
 }

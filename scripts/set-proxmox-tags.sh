@@ -13,32 +13,28 @@ log() {
 
 log " [PROXMOX TAGS] Applying standardized tags across all LXC containers and VMs..."
 
-# LXC Containers Tags Map (100 to 119)
+# LXC Containers Tags Map (100 to 114)
 declare -A LXC_TAGS=(
-    [101]="alpine;networking;dns;community-script"
-    [102]="alpine;networking;vpn;community-script"
-    [103]="alpine;photos;media;community-script"
-    [104]="alpine;observability;monitoring;community-script"
-    [105]="alpine;cloud;storage;community-script"
-    [106]="alpine;security;ips;community-script"
-    [107]="alpine;automation;smarthome;community-script"
-    [108]="alpine;observability;prometheus;grafana;community-script"
-    [109]="alpine;utilities;developer;community-script"
-    [110]="alpine;automation;workflows;community-script"
-    [111]="alpine;devops;ci-cd;community-script"
-    [112]="alpine;security;passwords;community-script"
-    [113]="alpine;devops;git;community-script"
-    [114]="alpine;observability;smart-disks;community-script"
-    [115]="alpine;productivity;notes;community-script"
-    [116]="alpine;security;sso;community-script"
-    [117]="alpine;media;jellyfin;arr-stack;community-script"
-    [118]="alpine;productivity;finance;community-script"
-    [119]="alpine;automation;monitoring;community-script"
+    [100]="alpine;community-script;media;photos"
+    [101]="alpine;cloud;community-script;storage"
+    [102]="alpine;automation;community-script;smarthome"
+    [103]="alpine;automation;community-script;workflows"
+    [104]="alpine;community-script;monitoring;smart"
+    [105]="alpine;community-script;media;streaming"
+    [106]="debian;ai;cuda;gpu;llm;ollama"
+    [107]="debian;ai;chatgpt;interface;openwebui"
+    [108]="debian;ai;cuda;speech-to-text;whisper"
+    [109]="alpine;ai;flowise;langchain;orchestrator"
+    [110]="alpine;ai;ocr;paperless"
+    [111]="alpine;codeserver;ide;workspace"
+    [112]="alpine;backup;deduplication;pbs"
+    [113]="alpine;cluster;management;pdm"
+    [114]="alpine;cd;ci;k0s;kubernetes;node1;woodpecker"
 )
 
 for ctid in "${!LXC_TAGS[@]}"; do
     tags="${LXC_TAGS[$ctid]}"
-    if [-f "/etc/pve/lxc/${ctid}.conf"]; then
+    if [ -f "/etc/pve/lxc/${ctid}.conf" ]; then
         pct set "$ctid" -tags "$tags" >/dev/null 2>&1 || {
             sed -i "s/^tags:.*/tags: $tags/" "/etc/pve/lxc/${ctid}.conf"
         }
@@ -54,7 +50,7 @@ declare -A VM_TAGS=(
 
 for vmid in "${!VM_TAGS[@]}"; do
     tags="${VM_TAGS[$vmid]}"
-    if [-f "/etc/pve/qemu-server/${vmid}.conf"]; then
+    if [ -f "/etc/pve/qemu-server/${vmid}.conf" ]; then
         qm set "$vmid" -tags "$tags" >/dev/null 2>&1 || {
             sed -i "s/^tags:.*/tags: $tags/" "/etc/pve/qemu-server/${vmid}.conf"
         }

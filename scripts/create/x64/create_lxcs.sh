@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Homelab Fleet Automation: Provision all LXC Containers on Node 1 (x86_64)
-# Inventory: CT 101 through CT 115 (15 Core Containers; Ingress Reverse Proxy, AdGuard Home & CrowdSec natively on OPNsense VM 200)
+# Inventory: CT 100 through CT 114 (15 Core Containers; Ingress Reverse Proxy, AdGuard Home & CrowdSec natively on OPNsense VM 200)
 # ==============================================================================
 set -euo pipefail
 
@@ -58,7 +58,7 @@ fi
 
 echo -e "${C_CYAN}${C_BOLD}"
 echo "======================================================================"
-echo "    PROXMOX VE NODE 1 (x86_64): LXC CONTAINER PROVISIONER (101-115)"
+echo "    PROXMOX VE NODE 1 (x86_64): LXC CONTAINER PROVISIONER (100-114)"
 echo "======================================================================"
 echo -e "${C_RESET}"
 log_info "Storage Pool   : $STORAGE"
@@ -97,9 +97,9 @@ create_or_skip_lxc() {
 # CT 100 has been decommissioned.
 
 # ------------------------------------------------------------------------------
-# CT 101: immich
+# CT 100: immich
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 101 "immich" \
+create_or_skip_lxc 100 "immich" \
   "$ALPINE_TMPL" \
   --hostname "immich" \
   --cores 2 \
@@ -115,9 +115,9 @@ create_or_skip_lxc 101 "immich" \
 
 
 # ------------------------------------------------------------------------------
-# CT 102: nextcloud
+# CT 101: nextcloud
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 102 "nextcloud" \
+create_or_skip_lxc 101 "nextcloud" \
   "$ALPINE_TMPL" \
   --hostname "nextcloud" \
   --cores 1 \
@@ -135,9 +135,9 @@ create_or_skip_lxc 102 "nextcloud" \
 
 
 # ------------------------------------------------------------------------------
-# CT 103: homeassistant
+# CT 102: homeassistant
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 103 "homeassistant" \
+create_or_skip_lxc 102 "homeassistant" \
   "$ALPINE_TMPL" \
   --hostname "homeassistant" \
   --cores 2 \
@@ -153,9 +153,9 @@ create_or_skip_lxc 103 "homeassistant" \
 
 
 # ------------------------------------------------------------------------------
-# CT 104: n8n
+# CT 103: n8n
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 104 "n8n" \
+create_or_skip_lxc 103 "n8n" \
   "$ALPINE_TMPL" \
   --hostname "n8n" \
   --cores 2 \
@@ -171,9 +171,9 @@ create_or_skip_lxc 104 "n8n" \
 
 
 # ------------------------------------------------------------------------------
-# CT 105: scrutiny
+# CT 104: scrutiny
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 105 "scrutiny" \
+create_or_skip_lxc 104 "scrutiny" \
   "$ALPINE_TMPL" \
   --hostname "scrutiny" \
   --cores 1 \
@@ -189,9 +189,9 @@ create_or_skip_lxc 105 "scrutiny" \
 
 
 # ------------------------------------------------------------------------------
-# CT 106: media-suite
+# CT 105: media-suite
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 106 "media-suite" \
+create_or_skip_lxc 105 "media-suite" \
   "$ALPINE_TMPL" \
   --hostname "media-suite" \
   --cores 2 \
@@ -207,9 +207,9 @@ create_or_skip_lxc 106 "media-suite" \
 
 
 # ------------------------------------------------------------------------------
-# CT 107: ollama
+# CT 106: ollama
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 107 "ollama" \
+create_or_skip_lxc 106 "ollama" \
   "$DEBIAN_TMPL" \
   --hostname "ollama" \
   --cores 4 \
@@ -225,9 +225,9 @@ create_or_skip_lxc 107 "ollama" \
 
 
 # ------------------------------------------------------------------------------
-# CT 108: openwebui
+# CT 107: openwebui
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 108 "openwebui" \
+create_or_skip_lxc 107 "openwebui" \
   "$DEBIAN_TMPL" \
   --hostname "openwebui" \
   --cores 2 \
@@ -243,9 +243,9 @@ create_or_skip_lxc 108 "openwebui" \
 
 
 # ------------------------------------------------------------------------------
-# CT 109: whisper
+# CT 108: whisper
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 109 "whisper" \
+create_or_skip_lxc 108 "whisper" \
   "$DEBIAN_TMPL" \
   --hostname "whisper" \
   --cores 2 \
@@ -261,9 +261,9 @@ create_or_skip_lxc 109 "whisper" \
 
 
 # ------------------------------------------------------------------------------
-# CT 110: flowise
+# CT 109: flowise
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 110 "flowise" \
+create_or_skip_lxc 109 "flowise" \
   "$ALPINE_TMPL" \
   --hostname "flowise" \
   --cores 2 \
@@ -279,9 +279,9 @@ create_or_skip_lxc 110 "flowise" \
 
 
 # ------------------------------------------------------------------------------
-# CT 111: paperless-ai
+# CT 110: paperless-ai
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 111 "paperless-ai" \
+create_or_skip_lxc 110 "paperless-ai" \
   "$ALPINE_TMPL" \
   --hostname "paperless-ai" \
   --cores 1 \
@@ -297,9 +297,9 @@ create_or_skip_lxc 111 "paperless-ai" \
 
 
 # ------------------------------------------------------------------------------
-# CT 112: code-server
+# CT 111: code-server
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 112 "code-server" \
+create_or_skip_lxc 111 "code-server" \
   "$ALPINE_TMPL" \
   --hostname "code-server" \
   --cores 2 \
@@ -315,9 +315,9 @@ create_or_skip_lxc 112 "code-server" \
 
 
 # ------------------------------------------------------------------------------
-# CT 113: proxmox-backup-server
+# CT 112: proxmox-backup-server
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 113 "proxmox-backup-server" \
+create_or_skip_lxc 112 "proxmox-backup-server" \
   "$ALPINE_TMPL" \
   --hostname "proxmox-backup-server" \
   --cores 2 \
@@ -333,9 +333,9 @@ create_or_skip_lxc 113 "proxmox-backup-server" \
 
 
 # ------------------------------------------------------------------------------
-# CT 114: proxmox-datacenter-manager
+# CT 113: proxmox-datacenter-manager
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 114 "proxmox-datacenter-manager" \
+create_or_skip_lxc 113 "proxmox-datacenter-manager" \
   "$ALPINE_TMPL" \
   --hostname "proxmox-datacenter-manager" \
   --cores 2 \
@@ -351,9 +351,9 @@ create_or_skip_lxc 114 "proxmox-datacenter-manager" \
 
 
 # ------------------------------------------------------------------------------
-# CT 115: woodpecker-k0s
+# CT 114: woodpecker-k0s
 # ------------------------------------------------------------------------------
-create_or_skip_lxc 115 "woodpecker-k0s" \
+create_or_skip_lxc 114 "woodpecker-k0s" \
   "$ALPINE_TMPL" \
   --hostname "woodpecker-k0s" \
   --cores 2 \
@@ -370,7 +370,7 @@ create_or_skip_lxc 115 "woodpecker-k0s" \
 
 echo ""
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
-echo -e "${C_GREEN}${C_BOLD}  All 15 Containers (101-115) Processed Successfully on Node 1 (x86)! ${C_RESET}"
+echo -e "${C_GREEN}${C_BOLD}  All 15 Containers (100-114) Processed Successfully on Node 1 (x86)! ${C_RESET}"
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
 echo ""
 pct list
