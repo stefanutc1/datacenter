@@ -308,6 +308,63 @@ module "vm_reactos_216" {
   tags         = ["reactos", "windows-nt", "win32", "binary-compatibility", "terraform"]
 }
 
+module "vm_securityonion_217" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 217
+  name         = "securityonion"
+  description  = "Security Onion / Wazuh SIEM Platform (Zeek, Suricata, Elastic, Kibana & HIDS Monitoring)"
+  cores        = 4
+  memory       = 8192
+  disk_size    = 50
+  storage_pool = "local-lvm"
+  vlan_tag     = 30
+  tags         = ["blue-team", "hids", "log-analysis", "security-onion", "siem", "wazuh", "terraform"]
+}
+
+module "vm_remnux_218" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 218
+  name         = "remnux"
+  description  = "REMnux Linux Toolkit (Malware Analysis, Reverse Engineering, Memory Forensics & DFIR)"
+  cores        = 2
+  memory       = 4096
+  disk_size    = 40
+  storage_pool = "local-lvm"
+  vlan_tag     = 35
+  tags         = ["cyber", "dfir", "malware-analysis", "remnux", "reverse-engineering", "terraform"]
+}
+
+module "vm_redox_219" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 219
+  name         = "redox"
+  description  = "Redox OS 0.9.0 (Rust-based Microkernel Operating System & RedoxFS Architecture)"
+  cores        = 2
+  memory       = 2048
+  disk_size    = 10
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["microkernel", "plan9-inspired", "redox", "redoxos", "rust", "terraform"]
+}
+
+module "vm_freedos_220" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 220
+  name         = "freedos"
+  description  = "FreeDOS 1.3 (Open-Source DOS Environment, 16-bit Real Mode x86 Assembly & Legacy Computing)"
+  cores        = 1
+  memory       = 512
+  disk_size    = 2
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["dos", "freedos", "legacy", "x86-16", "assembly", "terraform"]
+}
+
+
 
 # ------------------------------------------------------------------------------
 # 3. PROXMOX CORE LXC CONTAINERS (NODE 1 — x86_64 Primar)

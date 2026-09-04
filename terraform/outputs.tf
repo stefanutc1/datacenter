@@ -18,6 +18,10 @@ output "vm_inventory" {
     haiku_os          = { vmid = module.vm_haiku_214.vm_id, name = module.vm_haiku_214.name, node = module.vm_haiku_214.node }
     plan9_belllabs    = { vmid = module.vm_plan9_215.vm_id, name = module.vm_plan9_215.name, node = module.vm_plan9_215.node }
     reactos_nt        = { vmid = module.vm_reactos_216.vm_id, name = module.vm_reactos_216.name, node = module.vm_reactos_216.node }
+    securityonion     = { vmid = module.vm_securityonion_217.vm_id, name = module.vm_securityonion_217.name, node = module.vm_securityonion_217.node }
+    remnux            = { vmid = module.vm_remnux_218.vm_id, name = module.vm_remnux_218.name, node = module.vm_remnux_218.node }
+    redox_os          = { vmid = module.vm_redox_219.vm_id, name = module.vm_redox_219.name, node = module.vm_redox_219.node }
+    freedos           = { vmid = module.vm_freedos_220.vm_id, name = module.vm_freedos_220.name, node = module.vm_freedos_220.node }
   }
 }
 

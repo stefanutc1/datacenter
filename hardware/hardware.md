@@ -20,7 +20,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 **Capacity notes:**
 
-* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana, NetBSD, NixOS, DragonFly BSD, OpenStack, Metasploitable 2, T-Pot Honeypot, Haiku, Plan 9, ReactOS, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana, NetBSD, NixOS, DragonFly BSD, OpenStack, Metasploitable 2, T-Pot Honeypot, Haiku, Plan 9, ReactOS, Security Onion, REMnux, Redox OS, FreeDOS, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
 * The GTX 1050 Ti's 4 GB VRAM limits model size/batch size for ML experimentation and is shared with Frigate if GPU-accelerated detection is enabled for the NVR — these two workloads compete for the same VRAM budget and shouldn't be assumed to coexist at full load without checking.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 
@@ -35,7 +35,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 ### Usage Profile
 
-This host currently serves fifteen primary roles:
+This host currently serves nineteen primary roles:
 
 1. **Development environment** — Debian + XFCE, used as a general-purpose dev workspace.
 2. **Machine learning experimentation** — CUDA/PyTorch, GPU-passthrough dependent on the GTX 1050 Ti above.
@@ -52,6 +52,10 @@ This host currently serves fifteen primary roles:
 13. **BeOS-inspired modular C++ desktop architecture** — Haiku R1/beta5 (VM 214) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for C++ object-oriented OS research, modular application kits, and OpenBFS indexed filesystem validation.
 14. **Distributed computing & 9P filesystem research** — Plan 9 from Bell Labs / 9front (VM 215) with 512 MB RAM and 12 GB IDE for per-process namespaces, synthetic file interfaces, and 9P remote resource mapping.
 15. **Windows NT clean-room binary compatibility** — ReactOS 0.4.16 (VM 216) with 1 GB RAM and 32 GB IDE for reverse-engineered NT kernel architecture, native Win32 subsystem testing, and PE executable execution without Microsoft licensing.
+16. **Enterprise SIEM, HIDS & network security monitoring** — Security Onion 3.2 / Wazuh SIEM (VM 217) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 50 GB NVMe for Zeek, Suricata, Elastic, and Kibana SOC alerting.
+17. **Malware analysis & reverse engineering toolkit** — REMnux v7 / Noble (VM 218) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 40 GB NVMe for dynamic malware analysis, memory forensics (Volatility), and Ghidra reverse engineering.
+18. **Rust-based microkernel & memory safety architecture** — Redox OS 0.9.0 (VM 219) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 10 GB NVMe for RedoxFS, user-space drivers, and Minix/Plan 9-inspired design.
+19. **Real-mode x86 Assembly & legacy computing lab** — FreeDOS 1.3 (VM 220) with 512 MB RAM (VirtIO ballooning: 256–512 MB) and 2 GB IDE for 16-bit real-mode x86 Assembly execution and legacy industrial system testing.
 
 ---
 
