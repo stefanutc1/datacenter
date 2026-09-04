@@ -269,6 +269,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **115** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Entwicklung | Visual Studio Code Web-Arbeitsbereich |
 | **116** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Speicher / Backup | Proxmox Backup Server (Deduplizierung & Prüfung) |
 | **117** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Management | Proxmox Datacenter Manager (Multi-Cluster-Verwaltung) |
+| **118** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner auf Alpine Linux mit k0s Kubernetes Engine |
 
 ### Detaillierter LXC-Container-Katalog (Knoten 3 — Apple M1 ARM64 UTM)
 
@@ -357,6 +358,18 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **180** | `snmp-collector` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.182` | Monitoring | SNMP Metrik-Kollektor & Prober |
 | **181** | `searxng-redis` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.183` | Cache | Redis In-Memory Cache für SearXNG |
 
+### Kubernetes Cloud-Native-Plattform & OpenStack Private Cloud
+
+| Plattform-Komponente | Technologie & Distribution | Knoten / Zielhost | Port / Zugriff | Hauptfunktion |
+| :--- | :--- | :--- | :--- | :--- |
+| **ArgoCD GitOps** | ArgoCD v2.12.3 Operator | Hybrid-Cluster (Node 1 & Node 3) | `:8080` (HTTPS) | Deklarative Continuous Delivery, automatische Synchronisation und Selbstheilung direkt aus Git |
+| **CoreDNS** | CoreDNS v1.11.3 DaemonSet | Im Cluster (`kube-system`) | `:53` (UDP/TCP) | Cluster-DNS-Service-Discovery, interne Split-Horizon-Auflösung & Upstream-Routing zu Pi-hole |
+| **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-Space (`kube-system`) | `:9962` / `:12000` (Hubble) | Hochleistungs-CNI als kube-proxy-Ersatz, transparente WireGuard-Verschlüsselung & L3-L7-Policies |
+| **Rook Ceph** | Rook Ceph v1.15.2 Orchestrator | Speicherpool (Node 1 & Node 3) | `:8443` (Ceph Dashboard) | Cloud-nativer Ceph-Speicher für Block-Storage (RBD), CephFS-Dateisystem & S3-Object-Gateways |
+| **Twingate ZTNA** | Twingate Connector v1 | Fernzugriff (`twingate`) | Internes P2P-Mesh | Enterprise Zero-Trust Network Access für sicheren Fernzugriff ohne offene Firewall-Ports |
+| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Node 1 (CT 118 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Container-native CI/CD-Pipeline-Engine ausgeführt in einem leichtgewichtigen k0s Kubernetes-Cluster |
+| **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 211 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS Private Cloud mit Nova-Compute, Neutron-SDN und Horizon-Dashboard |
+
 ### QEMU / KVM Virtuelle Maschinen & VirtIO Memory Ballooning
 
 | VMID | VM-Name | Betriebssystem | vCPU | Max RAM | Min Balloon | Passthrough / Hardware | Hauptrolle |
@@ -368,6 +381,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Gehärteter Jump Host Bastion, PF, pledge/unveil (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | Unveränderliches OS, Deklaratives gRPC API, K8s (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Testumgebung |
+| **211** | `openstack` | Ubuntu 24.04 LTS / Kolla | 2 Kerne | 4.096 MB (4 GB) | **2.048 MB (2 GB)** | VirtIO SCSI Single + OVN SDN | OpenStack Enterprise Private Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
 | **207** | `openindiana` | OpenIndiana Hipster | 2 Cores | 3.072 MB (3 GB) | **1.536 MB (1.5 GB)** | VirtIO SCSI Single (50 GB) + Solaris | Referenz-Enterprise-ZFS, Solaris-Zonen, Crossbow-VNICs, DTrace |
 | **208** | `netbsd` | NetBSD 10.0 | 2 Cores | 512 MB (512 MB) | **256 MB** | VirtIO SCSI Single (12 GB) | Portables Unix-Referenzsystem, Rump Anykernel, pkgsrc |
 | **209** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Deklaratives Linux, Flakes Reproduzierbare Builds, Atomare Rollbacks |

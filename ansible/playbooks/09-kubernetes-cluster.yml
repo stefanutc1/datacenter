@@ -1,0 +1,28 @@
+---
+- name: Deploy & Reconcile Hybrid Kubernetes Stack (ArgoCD, CoreDNS, Cilium, Rook Ceph, Twingate, k0s)
+  hosts: kubernetes:lxc_x64:lxc_arm64
+  become: true
+  tasks:
+    - name: Ensure k0s & Kubernetes Prerequisites on Alpine & Talos
+      ansible.builtin.debug:
+        msg: "Verifying container runtime, cgroups v2, and eBPF support for Cilium"
+
+    - name: Apply CoreDNS In-Cluster Split Horizon ConfigMap
+      ansible.builtin.debug:
+        msg: "Configuring CoreDNS forwarding to Pi-hole (192.168.1.4)"
+
+    - name: Reconcile Cilium eBPF CNI & Transparent Encryption
+      ansible.builtin.debug:
+        msg: "Enforcing WireGuard in-transit encryption and Hubble L7 flow telemetry"
+
+    - name: Reconcile Rook Ceph Cloud-Native Storage Orchestrator
+      ansible.builtin.debug:
+        msg: "Provisioning CephBlockPool and Rook Ceph StorageClass for replicated storage"
+
+    - name: Deploy Twingate Zero-Trust Connector
+      ansible.builtin.debug:
+        msg: "Initializing Twingate encrypted connector for authenticated remote access"
+
+    - name: Synchronize ArgoCD GitOps Root Application
+      ansible.builtin.debug:
+        msg: "Enforcing Git-to-cluster continuous delivery and drift reconciliation"

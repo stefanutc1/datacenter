@@ -302,6 +302,7 @@ flowchart TD
 | **115** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Dev | Code-Server Cloud IDE Web Workspace |
 | **116** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Storage / Backup | Proxmox Backup Server (PBS Enterprise Deduplication & Verification) |
 | **117** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Management | Proxmox Datacenter Manager (Multi-Cluster Fleet Orchestration) |
+| **118** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner on Alpine Linux with k0s Kubernetes Engine |
 
 ### Granular LXC Container Roster (Node 3 — Apple M1 ARM64 UTM)
 
@@ -390,6 +391,18 @@ flowchart TD
 | **180** | `snmp-collector` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.180` | Monitoring | SNMP Metric Collector & Network Prober |
 | **181** | `searxng-redis` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.181` | Cache | Redis In-Memory Cache for SearXNG |
 
+### Kubernetes Cloud-Native Platform & OpenStack Private Cloud
+
+| Platform Component | Technology & Distribution | Node / Host Target | Port / Exposure | Primary Capability |
+| :--- | :--- | :--- | :--- | :--- |
+| **ArgoCD GitOps** | ArgoCD v2.12.3 Operator | Hybrid Cluster (Node 1 & Node 3) | `:8080` (HTTPS) | Declarative continuous delivery, auto-sync and self-healing directly from Git repository |
+| **CoreDNS** | CoreDNS v1.11.3 DaemonSet | In-Cluster (`kube-system`) | `:53` (UDP/TCP) | Cluster DNS service discovery, split-horizon internal resolution & upstream Pi-hole routing |
+| **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | High-performance CNI replacing kube-proxy, WireGuard transparent encryption & L3-L7 security |
+| **Rook Ceph** | Rook Ceph v1.15.2 Orchestrator | Storage Pool (Node 1 & Node 3) | `:8443` (Ceph Dashboard) | Cloud-native Ceph distributed block storage (RBD), CephFS shared filesystem & S3 object gateways |
+| **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes |
+| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Node 1 (CT 118 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Container-native CI/CD pipeline runner executed in a lightweight k0s Kubernetes micro-cluster |
+| **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 211 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
+
 ### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning
 
 | VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role |
@@ -401,6 +414,7 @@ flowchart TD
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Hardened Jump Host, Packet Filter PF, unveil/pledge (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, gRPC API, Kubernetes Worker Node (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7,168 MB (7 GB) | **2,048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Ecosystem Testing |
+| **211** | `openstack` | Ubuntu 24.04 LTS / Kolla | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO SCSI Single + OVN SDN | OpenStack Enterprise Private Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
 | **207** | `openindiana` | OpenIndiana Hipster | 2 Cores | 3,072 MB (3 GB) | **1,536 MB (1.5 GB)** | VirtIO SCSI Single (50 GB) + Solaris | Reference Enterprise ZFS, Solaris Zones, Crossbow VNICs, DTrace |
 | **208** | `netbsd` | NetBSD 10.0 | 2 Cores | 512 MB (512 MB) | **256 MB** | VirtIO SCSI Single (12 GB) | Portable Clean Unix Reference, Rump Anykernel, pkgsrc Packaging |
 | **209** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Declarative Immutable Linux, Flakes Reproducible Builds, Atomic Rollbacks |

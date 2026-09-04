@@ -210,6 +210,18 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 | **`pve` (Nod 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicat VM) | 256 GB Apple APFS NVMe | Hypervisor Secundar ARM64 (UTM): Grafana/Prometheus/Tempo, Gitea, Woodpecker CI, 58+ Microservicii |
 | **`kubernetes` (Nod 4)** | Șasiu ATX Custom | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Worker imutabil Talos Linux / k3s, joburi batch, senzor securitate eBPF |
 
+### Platforma Cloud-Native Kubernetes & Cloud Privat OpenStack
+
+| Componentă Platformă | Tehnologie & Distribuție | Nod / Țintă Găzduire | Port / Expunere | Capacitate Principală |
+| :--- | :--- | :--- | :--- | :--- |
+| **ArgoCD GitOps** | Operator ArgoCD v2.12.3 | Cluster Hibrid (Nod 1 & Nod 3) | `:8080` (HTTPS) | Livrare continuă declarativă, auto-sincronizare și auto-reparare direct din repozitorul Git |
+| **CoreDNS** | DaemonSet CoreDNS v1.11.3 | În Cluster (`kube-system`) | `:53` (UDP/TCP) | Rezoluție DNS internă, descoperirea serviciilor și rutare upstream către Pi-hole |
+| **Cilium eBPF CNI** | Motor Cilium v1.16.1 eBPF | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | CNI de înaltă performanță fără kube-proxy, criptare transparentă WireGuard și politici L3-L7 |
+| **Rook Ceph** | Orchestrator Rook Ceph v1.15.2 | Pool Stocare (Nod 1 & Nod 3) | `:8443` (Dashboard Ceph) | Stocare distribuită cloud-native Ceph pe blocuri (RBD), sistem de fișiere CephFS și gateway-uri S3 |
+| **Twingate ZTNA** | Conector Twingate v1 | Acces Remote (`twingate`) | Mesh P2P Intern | Acces securizat Zero-Trust (ZTNA) fără necesitatea deschiderii porturilor publice în firewall |
+| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Nod 1 (CT 118 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Motor CI/CD container-native ce rulează într-un micro-cluster Kubernetes minimalist k0s |
+| **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Nod 1 (VM 211 · QEMU KVM) | `:80` / `:5000` (Keystone) | Cloud privat IaaS enterprise oferind virtualizare Nova, rețele Neutron și panou web Horizon |
+
 ### Mașini Virtuale QEMU / KVM & Balonare Dinamică VirtIO RAM
 
 | VMID | Nume VM | Sistem de Operare | vCPU | RAM Max | Balloon Min | Hardware / Passthrough | Rol Principal |
@@ -221,6 +233,7 @@ Infrastructura și codul sursă sunt verificate continuu prin **9 pipeline-uri G
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Jump Host Bastion Întărit, Packet Filter PF, unveil/pledge (512MB-1GB) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Nuclee | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO Single + Cilium CNI | OS Imutabil Minimalist, API gRPC, Nod Worker K8s (1-2 GB) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Nuclee | 7.168 MB (7 GB) | **2.048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Testare Apple |
+| **211** | `openstack` | Ubuntu 24.04 LTS / Kolla | 2 Nuclee | 4.096 MB (4 GB) | **2.048 MB (2 GB)** | VirtIO SCSI Single + OVN SDN | Controller Cloud Privat OpenStack Enterprise (Nova, Neutron, Keystone, Glance, Dashboard Horizon) |
 | **207** | `openindiana` | OpenIndiana Hipster | 2 Nuclee | 3.072 MB (3 GB) | **1.536 MB (1.5 GB)** | VirtIO SCSI Single (50 GB) + Solaris | ZFS Enterprise de Referință, Zone Solaris, VNIC-uri Crossbow, DTrace |
 | **208** | `netbsd` | NetBSD 10.0 | 2 Nuclee | 512 MB (512 MB) | **256 MB** | VirtIO SCSI Single (12 GB) | Referință Unix Portabil, Rump Anykernel, Pachetare pkgsrc |
 | **209** | `nixos` | NixOS 24.11 Minimal | 2 Nuclee | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Linux Declarativ Imutabil, Build-uri Reproductibile Flakes, Rollback Atomic |

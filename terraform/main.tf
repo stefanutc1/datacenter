@@ -221,6 +221,21 @@ module "vm_dragonflybsd_210" {
   tags         = ["dragonflybsd", "bsd", "hammer2", "microkernel", "smp", "terraform"]
 }
 
+module "vm_openstack_211" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 211
+  name         = "openstack"
+  description  = "OpenStack Enterprise Private Cloud Controller & Compute (Nova, Neutron, Keystone, Glance, Horizon Dashboard)"
+  cores        = 2
+  memory       = 4096
+  balloon      = 2048
+  disk_size    = 32
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["openstack", "cloud", "iaas", "nova", "neutron", "horizon", "terraform"]
+}
+
 
 # ------------------------------------------------------------------------------
 # 3. PROXMOX CORE LXC CONTAINERS (NODE 1 — x86_64 Primar)
@@ -548,6 +563,24 @@ module "lxc_pdm" {
   vlan_tag     = 20
   unprivileged = true
   tags         = ["management", "pdm", "multi-cluster", "terraform", "node1"]
+}
+
+module "lxc_woodpecker_k0s" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 118
+  hostname     = "woodpecker-k0s"
+  ostemplate   = var.alpine_template
+  ostype       = "alpine"
+  cores        = 2
+  memory       = 512
+  disk_size    = "8G"
+  ip_address   = "192.168.1.118/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  tags         = ["ci", "cd", "woodpecker", "k0s", "kubernetes", "alpine", "terraform", "node1"]
 }
 
 # ------------------------------------------------------------------------------

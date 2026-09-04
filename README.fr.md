@@ -211,6 +211,18 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **`pve` (Nœud 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Neural Engine / Metal | 8 Go Unifiée (4 Go VM dédiée) | 256 Go Apple APFS NVMe | Hyperviseur Secondaire ARM64 (UTM) : Télémétrie Grafana/Prometheus/Tempo, Gitea, Woodpecker CI, 58+ Microservices |
 | **`kubernetes` (Nœud 4)** | Châssis ATX Sur-Mesure | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1 Go) | 4 Go DDR3-1333 | 80 Go HDD (Root NFS) | Worker Talos Linux / k3s immuable, tâches cron de traitement par lot, sonde eBPF |
 
+### Plateforme Cloud-Native Kubernetes & Cloud Privé OpenStack
+
+| Composant de la Plateforme | Technologie & Distribution | Nœud / Hôte Cible | Port / Accès | Fonctionnalité Principale |
+| :--- | :--- | :--- | :--- | :--- |
+| **ArgoCD GitOps** | Opérateur ArgoCD v2.12.3 | Cluster Hybride (Nœud 1 & Nœud 3) | `:8080` (HTTPS) | Déploiement continu déclaratif, auto-synchronisation et autoréparation directement depuis Git |
+| **CoreDNS** | DaemonSet CoreDNS v1.11.3 | Dans le Cluster (`kube-system`) | `:53` (UDP/TCP) | Résolution DNS interne, découverte de services et redirection amont vers Pi-hole |
+| **Cilium eBPF CNI** | Moteur Cilium v1.16.1 eBPF | Dans le noyau (`kube-system`) | `:9962` / `:12000` (Hubble) | CNI haute performance remplaçant kube-proxy, chiffrement WireGuard et politiques de sécurité L3-L7 |
+| **Rook Ceph** | Orchestrateur Rook Ceph v1.15.2 | Pool de Stockage (Nœud 1 & 3) | `:8443` (Tableau de bord Ceph) | Stockage distribué cloud-native Ceph en blocs (RBD), système de fichiers CephFS et passerelles S3 |
+| **Twingate ZTNA** | Connecteur Twingate v1 | Accès Distant (`twingate`) | Maillage P2P Interne | Accès sécurisé Zero-Trust (ZTNA) pour opérations distantes sans ouverture de ports pare-feu |
+| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Nœud 1 (CT 118 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Moteur CI/CD conteneurisé exécuté dans un micro-cluster Kubernetes k0s sur Alpine Linux |
+| **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Nœud 1 (VM 211 · QEMU KVM) | `:80` / `:5000` (Keystone) | Cloud privé IaaS d'entreprise avec virtualisation Nova, réseaux Neutron et tableau de bord Horizon |
+
 ### Machines Virtuelles QEMU / KVM & VirtIO Dynamic Memory Ballooning
 
 | VMID | Nom VM | Système d'Exploitation | vCPU | RAM Max | Balloon Min | Matériel / Passthrough | Rôle Principal |
@@ -222,6 +234,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cœurs | 1 024 Mo (1 Go) | **512 Mo** | VirtIO SCSI Single | Jump Host Bastion Durci, Packet Filter PF, pledge/unveil (512 Mo-1 Go) |
 | **205** | `talos` | Talos Linux 1.7 | 2 Cœurs | 2 048 Mo (2 Go) | **1 024 Mo (1 Go)** | VirtIO Single + Cilium CNI | OS Immuable Minimaliste, API gRPC, Nœud Worker K8s (1-2 Go) |
 | **206** | `macOS` | macOS Monterey 12.7 | 4 Cœurs | 7 168 Mo (7 Go) | **2 048 Mo (2 Go)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Runner Build CI/CD Xcode, Tests Apple |
+| **211** | `openstack` | Ubuntu 24.04 LTS / Kolla | 2 Cœurs | 4 096 Mo (4 Go) | **2 048 Mo (2 Go)** | VirtIO SCSI Single + OVN SDN | Contrôleur Cloud Privé OpenStack Enterprise (Nova, Neutron, Keystone, Glance, Tableau de bord Horizon) |
 | **207** | `openindiana` | OpenIndiana Hipster | 2 Cœurs | 3 072 Mo (3 Go) | **1 536 Mo (1,5 Go)** | VirtIO SCSI Single (50 Go) + Solaris | ZFS Enterprise de Référence, Zones Solaris, VNICs Crossbow, DTrace |
 | **208** | `netbsd` | NetBSD 10.0 | 2 Cœurs | 512 Mo (512 Mo) | **256 Mo** | VirtIO SCSI Single (12 Go) | Référence Unix Portable et Propre, Rump Anykernel, pkgsrc |
 | **209** | `nixos` | NixOS 24.11 Minimal | 2 Cœurs | 1 024 Mo (1 Go) | **512 Mo** | VirtIO SCSI Single (22 Go) | Linux Déclaratif Immuable, Flakes Reproductibles, Rollbacks Atomiques |

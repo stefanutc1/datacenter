@@ -146,6 +146,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 512, 
         purpose: 'HAMMER2 Storage Engine, Hybrid Microkernel & Lockless Multiprocessing (Ballooning: 512 MB - 1 GB)',
         purposeRo: 'Motor de Stocare HAMMER2, Microkernel Hibrid & Procesare Concurentă Fără Blocaje (Balonare: 512 MB - 1 GB)'
+      },
+      { 
+        vmid: 211, 
+        name: 'openstack', 
+        os: 'Ubuntu 24.04 LTS / Kolla OpenStack 2024.1', 
+        allocatedMb: 4096, 
+        balloonMinMb: 2048, 
+        purpose: 'OpenStack Enterprise Private Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard)',
+        purposeRo: 'Controller Cloud Privat OpenStack Enterprise (Calcul Nova, Rețele Neutron, Keystone IAM, Panou Horizon)'
       }
     ],
     workloads: [
@@ -160,6 +169,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 208: NetBSD 10.0 (512 MB / Balloon: 256 MB [256-512 MB] · 12 GB NVMe · Rump Anykernel & pkgsrc)',
       'VM 209: NixOS 24.11 Minimal (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · 22 GB NVMe · Declarative Flakes & Atomic Rollbacks)',
       'VM 210: DragonFly BSD 6.4 (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · 15 GB NVMe · HAMMER2 Journaling FS & Hybrid Microkernel)',
+      'VM 211: OpenStack Enterprise Cloud Controller (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Nova, Neutron, Keystone, Glance, Horizon Dashboard)',
       'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
       'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',
@@ -167,7 +177,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 114: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging',
       'CT 115: Code-Server Web IDE (VS Code Cloud Workspace)',
       'CT 116: Proxmox Backup Server (PBS Enterprise Deduplication & Verification)',
-      'CT 117: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI)'
+      'CT 117: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI)',
+      'CT 118: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine'
     ]
   },
   {
@@ -234,13 +245,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
     os: 'Talos Linux / Debian Base with containerd CRI & k3s-agent',
     ip: '192.168.1.18',
     status: 'OPERATIONAL',
-    tags: ['Kubernetes Worker', 'Talos Linux / k3s', 'eBPF Security', 'Cilium Tetragon', 'Batch Workloads'],
-    tagsRo: ['Worker Kubernetes', 'Talos Linux / k3s', 'Securitate eBPF', 'Cilium Tetragon', 'Sarcini de Lucru Batch'],
+    tags: ['Kubernetes Fleet', 'ArgoCD GitOps', 'Cilium eBPF', 'Rook Ceph Storage', 'CoreDNS', 'Twingate ZTNA', 'Woodpecker CI'],
+    tagsRo: ['Flotă Kubernetes', 'ArgoCD GitOps', 'Cilium eBPF', 'Stocare Rook Ceph', 'CoreDNS', 'Twingate ZTNA', 'Woodpecker CI'],
     workloads: [
-      'k3s-agent / Talos Linux Lightweight Kubernetes Node',
-      'Cilium Tetragon eBPF Kernel Runtime Security Sensor',
-      'Woodpecker CI Container Runner Agent',
-      'Prometheus node_exporter Telemetry Agent'
+      'ArgoCD Declarative Continuous Delivery & GitOps App Controller',
+      'Cilium eBPF CNI with WireGuard Transparent Encryption & Hubble UI',
+      'Rook Ceph Distributed Cloud-Native Block (RBD) & CephFS Storage',
+      'CoreDNS In-Cluster Split-Horizon DNS & Pi-hole Resolver Forwarder',
+      'Twingate Zero-Trust Remote Access Connector (P2P Mesh)',
+      'Woodpecker CI Runner Agent for Automated Kubernetes Testing'
     ]
   }
 ];

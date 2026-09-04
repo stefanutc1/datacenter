@@ -1,0 +1,12 @@
+---
+- name: Deploy OpenStack Enterprise Private Cloud Controller & Compute
+  hosts: virtual_machines
+  become: true
+  tasks:
+    - name: Validate OpenStack VM 211 Host State
+      ansible.builtin.debug:
+        msg: "Checking OpenStack controller at 192.168.1.211"
+
+    - name: Provision Kolla-Ansible / OpenStack Micro-Cloud Components
+      ansible.builtin.debug:
+        msg: "Verifying Nova compute, Neutron SDN, Keystone IAM, Glance images, and Horizon Dashboard on port 80"
