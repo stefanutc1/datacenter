@@ -24,15 +24,10 @@ qm start 200
 log "   Waiting 30s for WAN routing and DHCP lease initialization..."
 sleep 30
 
-# 3. Start Core DNS (Pi-hole LXC 100)
-log " [3/6] Starting Pi-hole DNS Resolver (LXC 100)..."
-pct start 100
-sleep 10
-
-# 4. Start Ingress Proxy & Authelia Authentication (LXC 101 & 102)
-log " [4/6] Starting Nginx Proxy Manager (LXC 101) & Authelia (LXC 102)..."
-pct start 101
-pct start 102
+# 3. Start Core Storage & Cloud Applications (LXC 101 & 102)
+log " [3/6] Starting Immich (LXC 101) & Nextcloud (LXC 102)..."
+pct start 101 || true
+pct start 102 || true
 sleep 10
 
 # 5. Start Core Databases & Essential Infrastructure (LXC 103 - 113)

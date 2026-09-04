@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Homelab Fleet Automation: Provision all LXC Containers on Node 1 (x86_64)
-# Inventory: CT 100 through CT 115 (16 Core Containers; Pi-hole/AdGuard, Tailscale & CrowdSec natively on OPNsense VM 200)
+# Inventory: CT 101 through CT 115 (15 Core Containers; Ingress Reverse Proxy, AdGuard Home & CrowdSec natively on OPNsense VM 200)
 # ==============================================================================
 set -euo pipefail
 
@@ -58,7 +58,7 @@ fi
 
 echo -e "${C_CYAN}${C_BOLD}"
 echo "======================================================================"
-echo "    PROXMOX VE NODE 1 (x86_64): LXC CONTAINER PROVISIONER (100-115)"
+echo "    PROXMOX VE NODE 1 (x86_64): LXC CONTAINER PROVISIONER (101-115)"
 echo "======================================================================"
 echo -e "${C_RESET}"
 log_info "Storage Pool   : $STORAGE"
@@ -93,25 +93,8 @@ create_or_skip_lxc() {
 }
 
 
-# ------------------------------------------------------------------------------
-# CT 100: nginx
-# ------------------------------------------------------------------------------
-create_or_skip_lxc 100 "nginx" \
-  "$ALPINE_TMPL" \
-  --hostname "nginx" \
-  --cores 1 \
-  --memory 128 \
-  --swap 128 \
-  --rootfs "$STORAGE:3G" \
-  --net0 "name=eth0,bridge=$BRIDGE,gw=$GATEWAY,ip=192.168.1.3/24,type=veth" \
-  --features "nesting=1" \
-  --unprivileged 1 \
-  --ostype "alpine" \
-  --onboot 0 \
-  --tags "alpine;community-script;ingress;proxy"
-
-
-
+# Note: Ingress Reverse Proxy runs natively on OPNsense Core (VM 200 - 192.168.1.134).
+# CT 100 has been decommissioned.
 
 # ------------------------------------------------------------------------------
 # CT 101: immich
@@ -387,7 +370,7 @@ create_or_skip_lxc 115 "woodpecker-k0s" \
 
 echo ""
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
-echo -e "${C_GREEN}${C_BOLD}  All 16 Containers (100-115) Processed Successfully on Node 1 (x86)! ${C_RESET}"
+echo -e "${C_GREEN}${C_BOLD}  All 15 Containers (101-115) Processed Successfully on Node 1 (x86)! ${C_RESET}"
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
 echo ""
 pct list

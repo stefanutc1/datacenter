@@ -57,7 +57,7 @@ foreach ($ctid in $tier2Ctids) {
 
 # 4. Phase 4: Stop Ingress, DNS, Core Auth & Firewall (Tier 1 & 0)
 Write-Log "🛡️ [4/5] Stopping Ingress, Auth, DNS and OPNsense Router..."
-$tier1Ctids = @(100, 101, 102, 116)
+$tier1Ctids = @(101, 102, 116)
 foreach ($ctid in $tier1Ctids) {
     if (Get-Command pct -ErrorAction SilentlyContinue) {
         pct shutdown $ctid --timeout 10 2>$null

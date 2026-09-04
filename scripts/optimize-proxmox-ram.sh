@@ -47,7 +47,6 @@ done
 # 4. Apply Ultra-Lean Razor-Sharp Memory Allocations (RAM:SWAP in MB)
 log " [4/5] Applying ultra-lean container RAM limits..."
 declare -A MEM_MAP=(
-    [100]="112:64"   # Nginx Proxy Manager
     [101]="96:64"    # Pi-hole DNS
     [102]="96:64"    # Tailscale VPN
     [103]="896:256"  # Immich Photos + ML

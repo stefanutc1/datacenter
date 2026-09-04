@@ -20,7 +20,6 @@ function Write-Log {
 Write-Log "🚀 [PROXMOX RAM OPTIMIZATION] Starting Aggressive Memory Tuning..."
 
 $memMap = @{
-    "100" = @{ Memory = 112; Swap = 64; Name = "Nginx Proxy Manager" }
     "101" = @{ Memory = 96;  Swap = 64; Name = "Pi-hole DNS" }
     "102" = @{ Memory = 96;  Swap = 64; Name = "Tailscale VPN" }
     "103" = @{ Memory = 896; Swap = 256; Name = "Immich Photos + ML" }

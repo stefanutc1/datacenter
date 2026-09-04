@@ -55,16 +55,16 @@ HOMELAB_SERVICES: List[Dict[str, Any]] = [
 
     # --- All Services Catalog (28 Services) ---
     {
-        "id": "nginx-proxy-manager",
-        "name": "Nginx Proxy Manager",
+        "id": "nginx-ingress",
+        "name": "OPNsense Nginx Ingress Reverse Proxy",
         "category": "Networking & DNS",
-        "ip": "192.168.1.3",
-        "port": 81,
-        "domain": "nginx.lan",
+        "ip": "192.168.1.134",
+        "port": 80,
+        "domain": "opnsense.homelab.local",
         "status": "online",
         "is_pinned": False,
-        "tags": ["Reverse Proxy", "SSL / TLS", "Let's Encrypt", "WebSockets"],
-        "description": "Reverse proxy management dashboard providing automated SSL provisioning, WebSocket proxying, and local domain routing for all homelab services."
+        "tags": ["Reverse Proxy", "SSL / TLS 1.3", "OPNsense", "WebSockets"],
+        "description": "High-performance enterprise Nginx reverse proxy running directly on OPNsense Core with automated wildcard SSL/TLS termination and WebSocket acceleration."
     },
     {
         "id": "pi-hole",

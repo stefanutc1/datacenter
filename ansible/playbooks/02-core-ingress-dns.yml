@@ -3,7 +3,7 @@
   hosts: lxc_x64
   become: true
   tasks:
-    - name: Verify Nginx Proxy Manager and Pi-hole status
+    - name: Verify core services status
       command: docker ps
-      when: inventory_hostname in ['nginx', 'pihole']
+      when: inventory_hostname in ['immich', 'nextcloud']
       changed_when: false

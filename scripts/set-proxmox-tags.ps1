@@ -11,7 +11,6 @@ param (
 )
 
 $lxcTags = @{
-    "100" = "alpine;ingress;proxy;community-script"
     "101" = "alpine;networking;dns;community-script"
     "102" = "alpine;networking;vpn;community-script"
     "103" = "alpine;photos;media;community-script"

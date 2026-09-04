@@ -23,7 +23,7 @@ TARGET_NODES = [
 ]
 
 CRITICAL_ENDPOINTS = [
-    {"name": "Nginx Ingress", "url": "http://192.168.1.3:80", "expected_status": [200, 301, 302, 404]},
+    {"name": "Nginx Ingress", "url": "http://192.168.1.134:80", "expected_status": [200, 301, 302, 404]},
     {"name": "Pi-hole DNS Web", "url": "http://192.168.1.4:80/admin/", "expected_status": [200, 302]},
     {"name": "Home Assistant", "url": "http://192.168.1.10:8123", "expected_status": [200, 302]},
     {"name": "Ollama GPU LLM API", "url": "http://192.168.1.110:11434/api/tags", "expected_status": [200]},

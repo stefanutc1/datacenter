@@ -278,7 +278,6 @@ flowchart TD
 
 | VMID | Nume Gazdă | SO Bază | vCPU | RAM Alocat | Pool Stocare | IP Static | Categorie Subsistem | Serviciu Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `nginx` | Alpine 3.24 | 1 | 128 MB | `local-lvm:3G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + Terminație SSL |
 | **101** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Stocare / AI | Photo Library + Recunoaștere Facială Machine Learning |
 | **102** | `nextcloud` | Alpine 3.24 | 1 | 256 MB | `local-lvm:50G` | `192.168.1.8` | Stocare | Enterprise File Cloud & Sincronizare WebDAV |
 | **103** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automatizare | Smart Home Hub, Telemetrie Zigbee & ESP32 |

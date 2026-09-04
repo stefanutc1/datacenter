@@ -15,7 +15,6 @@ log " [PROXMOX TAGS] Applying standardized tags across all LXC containers and VM
 
 # LXC Containers Tags Map (100 to 119)
 declare -A LXC_TAGS=(
-    [100]="alpine;ingress;proxy;community-script"
     [101]="alpine;networking;dns;community-script"
     [102]="alpine;networking;vpn;community-script"
     [103]="alpine;photos;media;community-script"

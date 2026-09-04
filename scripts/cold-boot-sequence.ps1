@@ -49,13 +49,12 @@ if (Get-Command pct -ErrorAction SilentlyContinue) {
 }
 Start-Sleep -Seconds 10
 
-# 4. Start Ingress Proxy & Authelia Authentication (LXC 100 & 116)
-Write-Log "🔑 [4/6] Starting Nginx Proxy Manager (LXC 100) & Authelia (LXC 116)..."
+# 4. Start Authelia Authentication (LXC 116)
+Write-Log "🔑 [4/6] Starting Authelia Authentication (LXC 116)..."
 if (Get-Command pct -ErrorAction SilentlyContinue) {
-    pct start 100
     pct start 116
 } else {
-    ssh -o BatchMode=yes root@$PveHost "pct start 100; pct start 116" 2>$null
+    ssh -o BatchMode=yes root@$PveHost "pct start 116" 2>$null
 }
 Start-Sleep -Seconds 10
 

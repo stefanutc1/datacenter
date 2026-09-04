@@ -260,7 +260,6 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 | VMID | Nombre de Host | SO Base | vCPU | RAM Asignada | Pool Almacenamiento | IP Estática | Categoría | Servicio Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `nginx` | Alpine 3.24 | 1 | 128 MB | `local-lvm:3G` | `192.168.1.3` | Ingreso | Nginx Proxy Manager + Terminación SSL |
 | **101** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Almacenamiento / IA | Photo Library + Reconocimiento Facial Machine Learning |
 | **102** | `nextcloud` | Alpine 3.24 | 1 | 256 MB | `local-lvm:50G` | `192.168.1.8` | Almacenamiento | Enterprise File Cloud & Sincronización WebDAV |
 | **103** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automatización | Smart Home Hub, Telemetría Zigbee & ESP32 |

@@ -366,26 +366,8 @@ module "vm_freedos_220" {
 
 
 
-# ------------------------------------------------------------------------------
-# 3. PROXMOX CORE LXC CONTAINERS (NODE 1 — x86_64 Primar)
-# ------------------------------------------------------------------------------
-module "lxc_nginx" {
-  source       = "./modules/proxmox_lxc"
-  target_node  = var.primary_node
-  vmid         = 100
-  hostname     = "nginx"
-  ostemplate   = var.debian_template
-  ostype       = "debian"
-  cores        = 2
-  memory       = 112
-  disk_size    = "4G"
-  ip_address   = "192.168.1.3/24"
-  gateway      = var.gateway_ip
-  nameserver   = var.nameserver_ip
-  vlan_tag     = 20
-  unprivileged = true
-  tags         = ["ingress", "proxy", "ssl", "reverse-proxy", "terraform", "node1"]
-}
+# Ingress Reverse Proxy runs natively on OPNsense Core (VM 200 - 192.168.1.134)
+
 
 
 module "lxc_immich" {

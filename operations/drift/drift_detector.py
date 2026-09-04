@@ -16,7 +16,6 @@ logging.basicConfig(
 )
 
 DECLARED_TOPOLOGY = {
-    100: {"name": "nginx", "ip": "192.168.1.3", "vlan": 20, "ram_mb": 112},
     101: {"name": "immich", "ip": "192.168.1.15", "vlan": 20, "ram_mb": 896},
     102: {"name": "nextcloud", "ip": "192.168.1.8", "vlan": 20, "ram_mb": 512},
     103: {"name": "homeassistant", "ip": "192.168.1.10", "vlan": 20, "ram_mb": 384},

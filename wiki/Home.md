@@ -19,7 +19,7 @@ WireGuard Zero-Trust"]
         end
 
         subgraph INGRESS["Layer 2: Ingress & Authentication"]
-            NPM["Nginx Proxy Manager
+            NPM["OPNsense Nginx Ingress
 SSL Termination (:80/:443)"]
             AUTH["Authelia SSO Provider
 MFA & Forward Auth"]

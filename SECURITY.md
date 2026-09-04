@@ -32,7 +32,7 @@ graph TD
     end
 
     subgraph CORE["Ingress & Identity Layer (VLAN 10)"]
-        NPM["Nginx Proxy Manager (SSL / TLS 1.3 Termination)"]
+        NPM["OPNsense Nginx Ingress (TLS 1.3 Termination & WebSockets)"]
         Authelia["Authelia SSO & MFA Engine (TOTP / WebAuthn)"]
     end
 

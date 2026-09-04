@@ -445,28 +445,29 @@ export const SERVICES_DATA: ServiceItem[] = [
     "composeCode": "# NetFlow v9 Exporter on OPNsense\n# Continuously streams flow metadata across all 5 VLAN interfaces"
 },
   {
-    "id": "npm",
-    "name": "Nginx Proxy Manager",
+    "id": "nginx-ingress",
+    "name": "OPNsense Nginx Ingress Reverse Proxy",
     "category": "core",
-    "containerName": "npm-app",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 CT 100",
-    "ram": "112 MB",
-    "storage": "4 GB Pool",
-    "ip": "192.168.1.3",
-    "port": 81,
-    "domain": "npm.homelab.local",
+    "containerName": "nginx-ingress",
+    "node": "Node 1 (Intel i3-10100F) · VM 200 (OPNsense Core)",
+    "ram": "Core Service",
+    "storage": "System Pool",
+    "ip": "192.168.1.134",
+    "port": 80,
+    "domain": "opnsense.homelab.local",
     "status": "ONLINE",
-    "description": "Routes incoming web traffic across internal services while automatically provisioning and renewing Let's Encrypt SSL/TLS certificates.",
-    "descriptionRo": "Ingress reverse proxy bazat pe Nginx cu generare automată a certificatelor Let's Encrypt SSL/TLS și redirecționare WebSocket.",
+    "description": "High-performance enterprise Nginx reverse proxy running directly on the perimeter OPNsense gateway with automated wildcard SSL/TLS, WebSocket acceleration, and split-DNS integration.",
+    "descriptionRo": "Ingress reverse proxy Nginx de înaltă performanță integrat direct pe gateway-ul perimetral OPNsense cu SSL/TLS wildcard, suport WebSocket și integrare split-DNS AdGuard.",
     "tags": [
       "Reverse Proxy",
-      "SSL / TLS",
-      "Traffic Routing",
-      "Ingress Gateway"
+      "SSL / TLS 1.3",
+      "Ingress Gateway",
+      "OPNsense",
+      "WebSockets"
     ],
-    "color": "#f59e0b",
-    "icon": "nginx-proxy-manager",
-    "composeCode": "services:\n  app:\n    image: 'jc21/nginx-proxy-manager:latest'\n    restart: unless-stopped\n    ports:\n      - '80:80'\n      - '81:81'\n      - '443:443'\n    volumes:\n      - ./data:/data\n      - ./letsencrypt:/etc/letsencrypt"
+    "color": "#009639",
+    "icon": "nginx",
+    "composeCode": "# Native Nginx on OPNsense (FreeBSD 14.3)\n# Ports: 80 (HTTP), 443 (HTTPS TLS 1.3 Wildcard)\n# WebSockets: proxy_set_header Upgrade $http_upgrade;\n# Backend: /usr/local/etc/nginx/opnsense_http_vhost_plugins/homelab_vhosts.conf"
   },
   {
     "id": "adguard-home",

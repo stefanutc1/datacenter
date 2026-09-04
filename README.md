@@ -284,7 +284,6 @@ flowchart TD
 
 | VMID | Hostname | Base OS | vCPU | RAM Allocation | Storage Pool | Static IP | Subsystem Category | Primary Workload |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `nginx` | Alpine 3.24 | 1 | 128 MB | `local-lvm:3G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + SSL Termination |
 | **101** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Storage / AI | Photo Library + Machine Learning Face Recognition |
 | **102** | `nextcloud` | Alpine 3.24 | 1 | 256 MB | `local-lvm:50G` | `192.168.1.8` | Storage | Enterprise File Cloud & WebDAV Sync |
 | **103** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Hub, Zigbee & ESP32 Telemetry |
@@ -526,7 +525,7 @@ sequenceDiagram
  autonumber
  actor Client as External User
  participant CF as Cloudflare WAF
- participant NPM as Nginx Proxy Manager (CT 100)
+ participant NPM as OPNsense Nginx Ingress (VM 200)
  participant Auth as Authentik / Authelia (CT 108)
  participant Srv as Target Internal Service
 
@@ -549,7 +548,7 @@ sequenceDiagram
 ### Split-Horizon DNS Schema
 
 * **External Resolution**: Public domain records hosted on Cloudflare DNS point exclusively to protected VPS reverse proxy endpoints.
-* **Internal Resolution**: OPNsense Unbound DNS and AdGuard Home sinkholes resolve `*.homelab.local` directly to internal RFC1918 IPs (`192.168.1.3`), bypassing external bandwidth entirely.
+* **Internal Resolution**: OPNsense Unbound DNS and AdGuard Home sinkholes resolve `*.homelab.local` directly to internal RFC1918 IPs (`192.168.1.134`), bypassing external bandwidth entirely.
 
 ---
 
@@ -761,7 +760,7 @@ flowchart LR
 1. **Phase 1 (Power & Networking)**: Turn on Coldex UPS $\to$ Power on Managed Switch $\to$ Verify OPNsense Firewall (VM 200) WAN connectivity.
 2. **Phase 2 (Storage & DNS)**: Power on OMV NAS (Node 2) $\to$ Wait for NFS mounts $\to$ Verify AdGuard Home & Unbound DNS on OPNsense (VM 200).
 3. **Phase 3 (Core Hypervisors)**: Power on Node 1 (x86_64) & Node 3 (ARM64) $\to$ Verify ZFS pool status (`zpool status`).
-4. **Phase 4 (Security & Authentication)**: Start Authentik (CT 108) $\to$ Start Wazuh SIEM (CT 105) $\to$ Start Nginx Proxy Manager (CT 100).
+4. **Phase 4 (Security & Authentication)**: Start Authentik (CT 108) $\to$ Start Wazuh SIEM (CT 105) $\to$ Ingress Reverse Proxy active on OPNsense (VM 200).
 5. **Phase 5 (Workloads & AI)**: Start Ollama (CT 110), Home Assistant (CT 106), and user microservices.
 
 ### Proxmox Daily CLI Commands
