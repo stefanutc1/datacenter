@@ -260,15 +260,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 218: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
       'VM 219: Redox OS 0.9.0 (2048 MB / Balloon: 1024 MB · 10 GB NVMe · Rust Microkernel & RedoxFS Architecture)',
       'VM 220: FreeDOS 1.3 (512 MB / Balloon: 256 MB · 2 GB NVMe IDE · 16-bit Real Mode x86 Assembly Lab)',
-      'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, Home Assistant, n8n, Scrutiny, Media Suite',
-      'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
-      'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',
-      'CT 113: Flowise Agentic AI Workflow & LangChain Graph Engine',
-      'CT 114: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging',
-      'CT 115: Code-Server Web IDE (VS Code Cloud Workspace)',
-      'CT 116: Proxmox Backup Server (PBS Enterprise Deduplication & Verification)',
-      'CT 117: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI)',
-      'CT 118: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine'
+      'CT 100-106: Core Infrastructure & Media: Nginx Ingress (CT 100), Immich AI (CT 101), Nextcloud Hub (CT 102), Home Assistant (CT 103), n8n Workflows (CT 104), Scrutiny SMART (CT 105), Media-Suite (CT 106)',
+      'CT 107-108: Ollama GPU LLM Server (CT 107) & Open-WebUI Assistant (CT 108) (CUDA GTX 1050 Ti Passthrough)',
+      'CT 109: Faster-Whisper GPU Speech-to-Text Transcriber (CT 109 · CUDA Accelerated)',
+      'CT 110: Flowise Agentic AI Workflow & LangChain Graph Engine (CT 110)',
+      'CT 111: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging (CT 111)',
+      'CT 112: Code-Server Web IDE (VS Code Cloud Workspace · CT 112)',
+      'CT 113: Proxmox Backup Server (PBS Enterprise Deduplication & Verification · CT 113)',
+      'CT 114: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI · CT 114)',
+      'CT 115: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine (CT 115)'
     ]
   },
   {

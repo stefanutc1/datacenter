@@ -283,23 +283,23 @@ flowchart TD
 ### Granular LXC Container Roster (Node 1 — x86_64 Primary)
 
 | VMID | Hostname | Base OS | vCPU | RAM Allocation | Storage Pool | Static IP | Subsystem Category | Primary Workload |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `nginx` | Debian 13 | 2 | 112 MB | `local-lvm:4G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + CrowdSec Bouncer |
-| **103** | `immich` | Debian 13 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.15` | Storage / AI | Photo Library + Machine Learning Face Recognition |
-| **104** | `nextcloud` | Debian 13 | 2 | 512 MB | `local-lvm:20G` | `192.168.1.8` | Storage | Enterprise File Cloud & WebDAV Sync |
-| **106** | `homeassistant` | Debian 13 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Hub, Zigbee & ESP32 Telemetry |
-| **107** | `n8n` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.13` | Automation | Workflow Orchestration & Incident Playbooks |
-| **108** | `scrutiny` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.14` | Monitoring | Scrutiny S.M.A.R.T. Drive Health Agent |
-| **109** | `media-suite` | Debian 13 | 2 | 512 MB | `local-lvm:16G` | `192.168.1.18` | Media | Jellyfin Media Processing Ingress |
-| **110** | `ollama` | Debian 13 | 4 | 2,048 MB | `local-lvm:16G` | `192.168.1.110` | Local AI | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
-| **111** | `openwebui` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.111` | Local AI | Self-Hosted ChatGPT / Claude Interface |
-| **112** | `whisper` | Debian 13 | 2 | 1,024 MB | `local-lvm:8G` | `192.168.1.112` | Local AI | Faster-Whisper Speech-to-Text CUDA API |
-| **113** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.113` | Local AI | Flowise Multi-Agent LLM Orchestrator |
-| **114** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.114` | Local AI | Paperless-AI Automated OCR & DeepSeek Document Tagging |
-| **115** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Dev | Code-Server Cloud IDE Web Workspace |
-| **116** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Storage / Backup | Proxmox Backup Server (PBS Enterprise Deduplication & Verification) |
-| **117** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Management | Proxmox Datacenter Manager (Multi-Cluster Fleet Orchestration) |
-| **118** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner on Alpine Linux with k0s Kubernetes Engine |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **100** | `nginx` | Alpine 3.24 | 1 | 128 MB | `local-lvm:3G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + SSL Termination |
+| **101** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Storage / AI | Photo Library + Machine Learning Face Recognition |
+| **102** | `nextcloud` | Alpine 3.24 | 1 | 256 MB | `local-lvm:50G` | `192.168.1.8` | Storage | Enterprise File Cloud & WebDAV Sync |
+| **103** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Hub, Zigbee & ESP32 Telemetry |
+| **104** | `n8n` | Alpine 3.24 | 2 | 256 MB | `local-lvm:8G` | `192.168.1.13` | Automation | Workflow Orchestration & Incident Playbooks |
+| **105** | `scrutiny` | Alpine 3.24 | 1 | 96 MB | `local-lvm:3G` | `192.168.1.18` | Monitoring | Scrutiny S.M.A.R.T. Drive Health Agent |
+| **106** | `media-suite` | Alpine 3.24 | 2 | 896 MB | `local-lvm:50G` | `192.168.1.21` | Media | Jellyfin Media Processing Ingress |
+| **107** | `ollama` | Debian 13 | 4 | 2,048 MB | `local-lvm:16G` | `192.168.1.110` | Local AI | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
+| **108** | `openwebui` | Debian 13 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.111` | Local AI | Self-Hosted ChatGPT / Claude Interface |
+| **109** | `whisper` | Debian 13 | 2 | 1,024 MB | `local-lvm:8G` | `192.168.1.112` | Local AI | Faster-Whisper Speech-to-Text CUDA API |
+| **110** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:1G` | `192.168.1.26` | Local AI | Flowise Multi-Agent LLM Orchestrator |
+| **111** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.56` | Local AI | Paperless-AI Automated OCR & DeepSeek Document Tagging |
+| **112** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Dev | Code-Server Cloud IDE Web Workspace |
+| **113** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Storage / Backup | Proxmox Backup Server (PBS Enterprise Deduplication & Verification) |
+| **114** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Management | Proxmox Datacenter Manager (Multi-Cluster Fleet Orchestration) |
+| **115** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner on Alpine Linux with k0s Kubernetes Engine |
 
 ### Granular LXC Container Roster (Node 3 — Apple M1 ARM64 UTM)
 
@@ -397,14 +397,14 @@ flowchart TD
 | **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | High-performance CNI replacing kube-proxy, WireGuard transparent encryption & L3-L7 security |
 | **Rook Ceph** | Rook Ceph v1.15.2 Orchestrator | Storage Pool (Node 1 & Node 3) | `:8443` (Ceph Dashboard) | Cloud-native Ceph distributed block storage (RBD), CephFS shared filesystem & S3 object gateways |
 | **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes |
-| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Node 1 (CT 118 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Container-native CI/CD pipeline runner executed in a lightweight k0s Kubernetes micro-cluster |
+| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Node 1 (CT 115 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Container-native CI/CD pipeline runner executed in a lightweight k0s Kubernetes micro-cluster |
 | **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 211 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
 
 ### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning
 
 | VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7), AdGuard Home DNS (:3000), Caddy Proxy, Tailscale Mesh, CrowdSec IPS, FRR & Threat Feeds |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7 Shun-Tuned), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, LLDP Discovery, iperf3, Encrypted Git/Nextcloud Backup |
 | **201** | `windows` | Windows Server 2025 Datacenter | 2 Cores | 7,168 MB (7 GB) | **4,096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Ballooning: 4-7 GB) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) |
 | **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Native OpenZFS Storage Pool, BSD Jails & Network Lab (512MB-1GB) |

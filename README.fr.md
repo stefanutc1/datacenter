@@ -220,14 +220,14 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **Cilium eBPF CNI** | Moteur Cilium v1.16.1 eBPF | Dans le noyau (`kube-system`) | `:9962` / `:12000` (Hubble) | CNI haute performance remplaçant kube-proxy, chiffrement WireGuard et politiques de sécurité L3-L7 |
 | **Rook Ceph** | Orchestrateur Rook Ceph v1.15.2 | Pool de Stockage (Nœud 1 & 3) | `:8443` (Tableau de bord Ceph) | Stockage distribué cloud-native Ceph en blocs (RBD), système de fichiers CephFS et passerelles S3 |
 | **Twingate ZTNA** | Connecteur Twingate v1 | Accès Distant (`twingate`) | Maillage P2P Interne | Accès sécurisé Zero-Trust (ZTNA) pour opérations distantes sans ouverture de ports pare-feu |
-| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Nœud 1 (CT 118 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Moteur CI/CD conteneurisé exécuté dans un micro-cluster Kubernetes k0s sur Alpine Linux |
+| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Nœud 1 (CT 115 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Moteur CI/CD conteneurisé exécuté dans un micro-cluster Kubernetes k0s sur Alpine Linux |
 | **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Nœud 1 (VM 211 · QEMU KVM) | `:80` / `:5000` (Keystone) | Cloud privé IaaS d'entreprise avec virtualisation Nova, réseaux Neutron et tableau de bord Horizon |
 
 ### Machines Virtuelles QEMU / KVM & VirtIO Dynamic Memory Ballooning
 
 | VMID | Nom VM | Système d'Exploitation | vCPU | RAM Max | Balloon Min | Matériel / Passthrough | Rôle Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cœurs | 2 048 Mo | **1 024 Mo** | VirtIO Net Multi-VLAN | Pare-feu Périmétrique, Zenarmor NGFW (L7), AdGuard Home DNS (:3000), Caddy Proxy, Tailscale Mesh, CrowdSec IPS, FRR & Threat Feeds |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cœurs | 4 096 Mo | **2 048 Mo** | VirtIO Net Multi-VLAN | Pare-feu Périmétrique, Zenarmor NGFW (L7 Shun-Tuning), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, Découverte LLDP, iperf3, Sauvegarde Chiffrée Git/Nextcloud |
 | **201** | `windows` | Windows Server 2025 Datacenter | 2 Cœurs | 7 168 Mo (7 Go) | **4 096 Mo (4 Go)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Forwarder Sysmon (Ballooning : 4-7 Go) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cœurs | 2 048 Mo (2 Go) | **1 024 Mo (1 Go)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Charges Enterprise (1-2 Go) |
 | **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cœurs | 1 024 Mo (1 Go) | **512 Mo** | VirtIO SCSI Single | Pool Natif OpenZFS, BSD Jails & Lab Réseau (512 Mo-1 Go) |

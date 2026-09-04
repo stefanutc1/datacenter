@@ -1,4 +1,4 @@
-# k0s - Zero Friction Kubernetes Configuration for Node 1 CT 118 (Alpine Linux LXC)
+# k0s - Zero Friction Kubernetes Configuration for Node 1 CT 115 (Alpine Linux LXC)
 apiVersion: k0s.k0sproject.io/v1beta1
 kind: ClusterConfig
 metadata:

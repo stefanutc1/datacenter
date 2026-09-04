@@ -15,7 +15,7 @@ scripts/create/
 ├── arm/
 │   └── recreate_lxcs.sh          # Recreează toate cele 82 containere LXC (100-181) pe nodul ARM64
 └── x64/
-    ├── create_lxcs.sh            # Creează toate cele 19 containere LXC (100-118) pe nodul x86_64
+    ├── create_lxcs.sh            # Creează toate cele 16 containere LXC (100-115) pe nodul x86_64
     └── create_vms.sh             # Creează toate cele 21 mașini virtuale (200-220) pe nodul x86_64
 ```
 
@@ -87,29 +87,26 @@ STORAGE="local-lvm" GATEWAY="192.168.1.1" BRIDGE="vmbr0" bash scripts/create/x64
 
 > **Notă de Securitate & Consolidare Rețea:** Serviciile perimetrale **AdGuard Home** (înlocuitorul modern pentru Pi-hole), **Tailscale Mesh Gateway** și **CrowdSec LAPI & Remediation Bouncer** rulează integrate nativ la nivel de perimetru direct pe firewall-ul **OPNsense (`VM 200` · `192.168.1.134`)**, gestionând tabelele dinamice Packet Filter (`pf`) (`crowdsec_blocklists`), listele de amenințări externe (`threatfeed_*`) și interfața mesh VPN, fiind eliminate complet containerele LXC redundante de pe nodul x86_64.
 
-### Inventar Containere x86_64 (100–118)
+### Inventar Containere x86_64 (100–115)
 
 | CTID | Hostname | Cores | RAM / Swap (MB) | Disk | IP (`vmbr0`) | Gateway | Template / Note |
 |:---|:---|:---:|:---:|:---:|:---|:---|:---|
-| **100** | `nginx` | 2 | 1024 / 512 | 8G | `192.168.1.100/24` | `192.168.1.1` | Alpine 3.24 · Reverse Proxy / Edge Ingress |
-| **101** | `traefik` | 2 | 1024 / 512 | 8G | `192.168.1.101/24` | `192.168.1.1` | Alpine 3.24 · Cloud-Native Edge Router |
-| **102** | `wireguard` | 2 | 1024 / 512 | 8G | `192.168.1.102/24` | `192.168.1.1` | Debian 13 · VPN Gateway |
-| **103** | `teleport` | 2 | 2048 / 1024 | 16G | `192.168.1.103/24` | `192.168.1.1` | Debian 13 · Zero-Trust Access Gateway |
-| **104** | `ollama` | 4 | 8192 / 2048 | 40G | `192.168.1.104/24` | `192.168.1.1` | Debian 13 · LLM Inference Server |
-| **105** | `open-webui` | 2 | 2048 / 1024 | 16G | `192.168.1.105/24` | `192.168.1.1` | Debian 13 · LLM Chat Interface |
-| **106** | `vllm` | 4 | 8192 / 2048 | 40G | `192.168.1.106/24` | `192.168.1.1` | Debian 13 · High-Throughput LLM Engine |
-| **107** | `localai` | 4 | 4096 / 1024 | 20G | `192.168.1.107/24` | `192.168.1.1` | Debian 13 · Drop-in OpenAI Alternative |
-| **108** | `qdrant` | 2 | 2048 / 512 | 16G | `192.168.1.108/24` | `192.168.1.1` | Alpine 3.24 · Vector Database |
-| **109** | `milvus` | 2 | 4096 / 1024 | 20G | `192.168.1.109/24` | `192.168.1.1` | Debian 13 · Distributed Vector Database |
-| **110** | `chromadb` | 2 | 2048 / 512 | 12G | `192.168.1.110/24` | `192.168.1.1` | Alpine 3.24 · AI Embeddings Database |
-| **111** | `flowise` | 2 | 2048 / 512 | 12G | `192.168.1.111/24` | `192.168.1.1` | Debian 13 · Low-Code LLM Orchestration |
-| **112** | `langflow` | 2 | 2048 / 512 | 12G | `192.168.1.112/24` | `192.168.1.1` | Debian 13 · Multi-Agent Flow UI |
-| **113** | `dify` | 4 | 4096 / 1024 | 25G | `192.168.1.113/24` | `192.168.1.1` | Debian 13 · GenAI Application Development |
-| **114** | `anything-llm` | 2 | 2048 / 512 | 16G | `192.168.1.114/24` | `192.168.1.1` | Debian 13 · Document Chat & Enterprise RAG |
-| **115** | `code-server` | 2 | 2048 / 1024 | 16G | `192.168.1.115/24` | `192.168.1.1` | Debian 13 · Web VSCode Cloud IDE |
-| **116** | `pbs-node1` | 4 | 4096 / 2048 | 32G | `192.168.1.116/24` | `192.168.1.1` | Debian 13 · Proxmox Backup Server LXC |
-| **117** | `pdm-node1` | 2 | 2048 / 1024 | 16G | `192.168.1.117/24` | `192.168.1.1` | Debian 13 · Proxmox Datacenter Manager LXC |
-| **118** | `woodpecker-k0s` | 2 | 2048 / 1024 | 20G | `192.168.1.118/24` | `192.168.1.1` | Alpine 3.24 · Woodpecker CI pe k0s |
+| **100** | `nginx` | 1 | 128 / 128 | 3G | `192.168.1.3/24` | `192.168.1.1` | Alpine 3.24 · Ingress / Nginx Proxy Manager |
+| **101** | `immich` | 2 | 256 / 512 | 40G | `192.168.1.15/24` | `192.168.1.1` | Alpine 3.24 · Storage & AI Photo Library |
+| **102** | `nextcloud` | 1 | 256 / 512 | 50G | `192.168.1.8/24` | `192.168.1.1` | Alpine 3.24 · Enterprise File Cloud & WebDAV |
+| **103** | `homeassistant` | 2 | 128 / 128 | 16G | `192.168.1.10/24` | `192.168.1.1` | Alpine 3.24 · Smart Home Hub & ESP32 Telemetry |
+| **104** | `n8n` | 2 | 256 / 512 | 8G | `192.168.1.13/24` | `192.168.1.1` | Alpine 3.24 · Workflow Orchestration Engine |
+| **105** | `scrutiny` | 1 | 96 / 32 | 3G | `192.168.1.18/24` | `192.168.1.1` | Alpine 3.24 · S.M.A.R.T. Drive Health Agent |
+| **106** | `media-suite` | 2 | 896 / 256 | 50G | `192.168.1.21/24` | `192.168.1.1` | Alpine 3.24 · Jellyfin Media Processing Ingress |
+| **107** | `ollama` | 4 | 2048 / 1024 | 16G | `192.168.1.110/24` | `192.168.1.1` | Debian 13 · Ollama GPU LLM Runtime |
+| **108** | `openwebui` | 2 | 512 / 512 | 8G | `192.168.1.111/24` | `192.168.1.1` | Debian 13 · Self-Hosted ChatGPT / WebUI |
+| **109** | `whisper` | 2 | 1024 / 1024 | 8G | `192.168.1.112/24` | `192.168.1.1` | Debian 13 · Faster-Whisper Speech-to-Text CUDA |
+| **110** | `flowise` | 2 | 512 / 512 | 1G | `192.168.1.26/24` | `192.168.1.1` | Alpine 3.24 · Flowise Multi-Agent Orchestrator |
+| **111** | `paperless-ai` | 1 | 64 / 64 | 1G | `192.168.1.56/24` | `192.168.1.1` | Alpine 3.24 · Automated OCR & DeepSeek Document Tagging |
+| **112** | `code-server` | 2 | 512 / 512 | 4G | `192.168.1.115/24` | `192.168.1.1` | Alpine 3.24 · Code-Server Cloud IDE Web Workspace |
+| **113** | `proxmox-backup-server` | 2 | 512 / 512 | 4G | `192.168.1.116/24` | `192.168.1.1` | Alpine 3.24 · Proxmox Backup Server (PBS) |
+| **114** | `proxmox-datacenter-manager` | 2 | 512 / 512 | 4G | `192.168.1.117/24` | `192.168.1.1` | Alpine 3.24 · Proxmox Datacenter Manager (PDM) |
+| **115** | `woodpecker-k0s` | 2 | 512 / 512 | 8G | `192.168.1.118/24` | `192.168.1.1` | Alpine 3.24 · Woodpecker CI pe micro-cluster k0s |
 
 ---
 

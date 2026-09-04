@@ -260,22 +260,22 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 | VMID | Nombre de Host | SO Base | vCPU | RAM Asignada | Pool Almacenamiento | IP Estática | Categoría | Servicio Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `nginx` | Debian 13 | 2 | 112 MB | `local-lvm:4G` | `192.168.1.3` | Ingreso | Nginx Proxy Manager + CrowdSec Bouncer |
-| **103** | `immich` | Debian 13 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.15` | Almacenamiento / IA | Photo Library + Machine Learning Face Recognition |
-| **104** | `nextcloud` | Debian 13 | 2 | 512 MB | `local-lvm:20G` | `192.168.1.8` | Almacenamiento | Enterprise File Cloud & WebDAV Sync |
-| **106** | `homeassistant` | Debian 13 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.10` | Automatización | Smart Home Hub, Zigbee & ESP32 Telemetry |
-| **107** | `n8n` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.13` | Automatización | Workflow Orchestration & Incident Playbooks |
-| **108** | `scrutiny` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.14` | Monitoreo | Scrutiny S.M.A.R.T. Drive Health Agent |
-| **109** | `media-suite` | Debian 13 | 2 | 512 MB | `local-lvm:16G` | `192.168.1.18` | Medios | Jellyfin Media Processing Ingress |
-| **110** | `ollama` | Debian 13 | 4 | 2,048 MB | `local-lvm:16G` | `192.168.1.110` | IA Local | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
-| **111** | `openwebui` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.111` | IA Local | Self-Hosted ChatGPT / Claude Interface |
-| **112** | `whisper` | Debian 13 | 2 | 1,024 MB | `local-lvm:8G` | `192.168.1.112` | IA Local | Faster-Whisper Speech-to-Text CUDA API |
-| **113** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.113` | IA Local | Flowise Multi-Agent LLM Orchestrator |
-| **114** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.114` | IA Local | Paperless-AI Automated OCR & DeepSeek Document Tagging |
-| **115** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Desarrollo | Code-Server Cloud IDE Web Workspace |
-| **116** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Almacenamiento / Respaldo | Proxmox Backup Server (PBS Enterprise Deduplication & Verification) |
-| **117** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Gestión | Proxmox Datacenter Manager (Multi-Cluster Fleet Orchestration) |
-| **118** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner on Alpine Linux with k0s Kubernetes Engine |
+| **100** | `nginx` | Alpine 3.24 | 1 | 128 MB | `local-lvm:3G` | `192.168.1.3` | Ingreso | Nginx Proxy Manager + Terminación SSL |
+| **101** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Almacenamiento / IA | Photo Library + Reconocimiento Facial Machine Learning |
+| **102** | `nextcloud` | Alpine 3.24 | 1 | 256 MB | `local-lvm:50G` | `192.168.1.8` | Almacenamiento | Enterprise File Cloud & Sincronización WebDAV |
+| **103** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automatización | Smart Home Hub, Telemetría Zigbee & ESP32 |
+| **104** | `n8n` | Alpine 3.24 | 2 | 256 MB | `local-lvm:8G` | `192.168.1.13` | Automatización | Orquestación de Flujos & Playbooks de Incidentes |
+| **105** | `scrutiny` | Alpine 3.24 | 1 | 96 MB | `local-lvm:3G` | `192.168.1.18` | Monitoreo | Agente de Salud y Telemetría S.M.A.R.T. Scrutiny |
+| **106** | `media-suite` | Alpine 3.24 | 2 | 896 MB | `local-lvm:50G` | `192.168.1.21` | Medios | Procesamiento e Ingress Multimedia Jellyfin |
+| **107** | `ollama` | Debian 13 | 4 | 2.048 MB | `local-lvm:16G` | `192.168.1.110` | IA Local | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
+| **108** | `openwebui` | Debian 13 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.111` | IA Local | Interfaz Web Self-Hosted ChatGPT / Claude |
+| **109** | `whisper` | Debian 13 | 2 | 1.024 MB | `local-lvm:8G` | `192.168.1.112` | IA Local | Faster-Whisper Speech-to-Text CUDA API |
+| **110** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:1G` | `192.168.1.26` | IA Local | Orquestador Multi-Agente LLM Flowise |
+| **111** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.56` | IA Local | Paperless-AI Automated OCR & DeepSeek Document Tagging |
+| **112** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Desarrollo | Entorno Web Code-Server Cloud IDE |
+| **113** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Almacenamiento / Respaldo | Proxmox Backup Server (Deduplicación y Verificación Enterprise) |
+| **114** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Gestión | Proxmox Datacenter Manager (Orquestación Multi-Cluster) |
+| **115** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner en Alpine Linux motorizado por k0s |
 
 ### Catálogo Detallado de Contenedores LXC (Nodo 3 — Apple M1 ARM64 UTM)
 
