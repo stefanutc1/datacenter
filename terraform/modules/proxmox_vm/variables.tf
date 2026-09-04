@@ -75,8 +75,8 @@ variable "disk_size" {
   default     = 32
 
   validation {
-    condition     = var.disk_size >= 8 && var.disk_size <= 2000
-    error_message = "Disk size must be between 8 GB and 2000 GB."
+    condition     = var.disk_size >= 1 && var.disk_size <= 2000
+    error_message = "Disk size must be between 1 GB and 2000 GB."
   }
 }
 
