@@ -216,7 +216,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | Componente de Plataforma | Tecnología y Distribución | Nodo / Destino Host | Puerto / Acceso | Capacidad Principal |
 | :--- | :--- | :--- | :--- | :--- |
 | **ArgoCD GitOps** | Operador ArgoCD v2.12.3 | Clúster Híbrido (Nodo 1 y Nodo 3) | `:8080` (HTTPS) | Entrega continua declarativa, sincronización automática y autorreparación directa desde Git |
-| **CoreDNS** | DaemonSet CoreDNS v1.11.3 | En el Clúster (`kube-system`) | `:53` (UDP/TCP) | Descubrimiento de servicios DNS en clúster y reenvío de consultas ascendentes a Pi-hole |
+| **CoreDNS** | DaemonSet CoreDNS v1.11.3 | En el Clúster (`kube-system`) | `:53` (UDP/TCP) | Descubrimiento de servicios DNS en clúster y reenvío de consultas ascendentes a AdGuard Home / OPNsense |
 | **Cilium eBPF CNI** | Motor Cilium v1.16.1 eBPF | En espacio de kernel (`kube-system`) | `:9962` / `:12000` (Hubble) | CNI de alto rendimiento reemplazando kube-proxy, cifrado WireGuard y políticas de seguridad L3-L7 |
 | **Rook Ceph** | Orquestador Rook Ceph v1.15.2 | Pool de Almacenamiento (Nodo 1/3) | `:8443` (Panel Ceph) | Almacenamiento distribuido cloud-native Ceph en bloques (RBD), CephFS y pasarelas S3 |
 | **Twingate ZTNA** | Conector Twingate v1 | Acceso Remoto (`twingate`) | Malla P2P Interna | Acceso seguro Zero-Trust (ZTNA) sin necesidad de abrir puertos públicos en el cortafuegos |
@@ -227,7 +227,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 | VMID | Nombre VM | Sistema Operativo | vCPU | RAM Máx | Balloon Mín | Hardware / Passthrough | Rol Principal |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Núcleos | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Firewall Perimetral, Suricata IDS/IPS, Rotador de Claves WireGuard |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Núcleos | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Firewall Perimetral, Zenarmor NGFW (L7), AdGuard Home DNS (:3000), Caddy Proxy, Tailscale Mesh, CrowdSec IPS, FRR & Threat Feeds |
 | **201** | `windows` | Windows Server 2025 Datacenter | 2 Núcleos | 7.168 MB (7 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Forwarder Sysmon (Ballooning: 4-7 GB) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Núcleos | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Cargas Enterprise (1-2 GB) |
 | **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Núcleos | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Pool Nativo OpenZFS, BSD Jails & Laboratorio Red (512MB-1GB) |
@@ -259,7 +259,110 @@ Infrastructure and application code are validated continuously across **9 GitHub
 ### Catálogo Detallado de Contenedores LXC (Nodo 1 — x86_64 Principal)
 
 | VMID | Nombre de Host | SO Base | vCPU | RAM Asignada | Pool Almacenamiento | IP Estática | Categoría | Servicio Principal |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | : |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **100** | `nginx` | Debian 13 | 2 | 112 MB | `local-lvm:4G` | `192.168.1.3` | Ingreso | Nginx Proxy Manager + CrowdSec Bouncer |
+| **103** | `immich` | Debian 13 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.15` | Almacenamiento / IA | Photo Library + Machine Learning Face Recognition |
+| **104** | `nextcloud` | Debian 13 | 2 | 512 MB | `local-lvm:20G` | `192.168.1.8` | Almacenamiento | Enterprise File Cloud & WebDAV Sync |
+| **106** | `homeassistant` | Debian 13 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.10` | Automatización | Smart Home Hub, Zigbee & ESP32 Telemetry |
+| **107** | `n8n` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.13` | Automatización | Workflow Orchestration & Incident Playbooks |
+| **108** | `scrutiny` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.14` | Monitoreo | Scrutiny S.M.A.R.T. Drive Health Agent |
+| **109** | `media-suite` | Debian 13 | 2 | 512 MB | `local-lvm:16G` | `192.168.1.18` | Medios | Jellyfin Media Processing Ingress |
+| **110** | `ollama` | Debian 13 | 4 | 2,048 MB | `local-lvm:16G` | `192.168.1.110` | IA Local | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
+| **111** | `openwebui` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.111` | IA Local | Self-Hosted ChatGPT / Claude Interface |
+| **112** | `whisper` | Debian 13 | 2 | 1,024 MB | `local-lvm:8G` | `192.168.1.112` | IA Local | Faster-Whisper Speech-to-Text CUDA API |
+| **113** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.113` | IA Local | Flowise Multi-Agent LLM Orchestrator |
+| **114** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.114` | IA Local | Paperless-AI Automated OCR & DeepSeek Document Tagging |
+| **115** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Desarrollo | Code-Server Cloud IDE Web Workspace |
+| **116** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Almacenamiento / Respaldo | Proxmox Backup Server (PBS Enterprise Deduplication & Verification) |
+| **117** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Gestión | Proxmox Datacenter Manager (Multi-Cluster Fleet Orchestration) |
+| **118** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner on Alpine Linux with k0s Kubernetes Engine |
+
+### Catálogo Detallado de Contenedores LXC (Nodo 3 — Apple M1 ARM64 UTM)
+
+| VMID | Nombre de Host | SO Base | vCPU | RAM Asignada | Pool Almacenamiento | IP Estática | Categoría | Servicio Principal |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **100** | `it-tools` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.100` | Utilidades | IT-Tools Handy Web Tools for Developers |
+| **101** | `actualbudget` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.101` | Finanzas | Actual Budget Local-First Personal Finance |
+| **102** | `trilium` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.102` | Notas | Trilium Hierarchical Note Taking Knowledge Base |
+| **103** | `changedetection` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.103` | Automatización | ChangeDetection Website Change Monitoring & Alerting |
+| **104** | `scrutiny` | Debian 13 | 1 | 128 MB | `local:2G` | `192.168.64.104` | Monitoreo | Scrutiny Hard Drive S.M.A.R.T. Health Telemetry |
+| **105** | `uptimekuma` | Debian 13 | 1 | 128 MB | `local:2G` | `192.168.64.105` | Monitoreo | Uptime Kuma Service Availability & SLA Monitoring |
+| **106** | `vaultwarden` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.106` | Seguridad | Vaultwarden Lightweight Bitwarden Compatible Server |
+| **107** | `monitoring` | Debian 13 | 2 | 384 MB | `local:2G` | `192.168.64.107` | Monitoreo | Prometheus TSDB & Grafana Central Dashboards |
+| **108** | `authelia` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.108` | Seguridad | Authelia 2FA & SSO Portal (FIDO2 / WebAuthn) |
+| **109** | `gitea` | Debian 13 | 2 | 160 MB | `local:2G` | `192.168.64.109` | Desarrollo | Gitea Git Forge & Code Review Platform |
+| **110** | `woodpecker` | Alpine 3.24 | 2 | 192 MB | `local:2G` | `192.168.64.110` | CI/CD | Woodpecker CI Build Engine & Pipeline Runner |
+| **111** | `gatus` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.111` | Monitoreo | Gatus Automated Health Dashboard in Go |
+| **112** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.112` | Alertas | Ntfy.sh Private Push Notifications Hub |
+| **113** | `linkding` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.113` | Automatización | Linkding Bookmark & Technical Search Manager |
+| **114** | `stepca` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.114` | Seguridad | Step-CA Private Automated TLS PKI Authority |
+| **115** | `tailscale-arm` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.115` | VPN | Tailscale Subnet Router (ARM64 Subnet) |
+| **116** | `beszel` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.116` | Monitoreo | Beszel High-Resolution System Telemetry (1s) |
+| **117** | `pocketbase` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.117` | Backend | PocketBase Realtime Backend in 1 File (SQLite) |
+| **118** | `homepage` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.118` | Panel de Control | Homepage Unified Homelab Command Dashboard |
+| **119** | `speedtest` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.119` | Monitoreo | Speedtest-Tracker Automated Bandwidth Telemetry |
+| **120** | `memos` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.120` | Notas | Memos Privacy-First Fast Knowledge Capture |
+| **121** | `wallos` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.121` | Finanzas | Wallos Recurring Expense & Subscription Tracker |
+| **122** | `syncthing` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.122` | Almacenamiento | SyncThing P2P Bidirectional File Synchronization |
+| **123** | `microbin` | Alpine 3.24 | 1 | 16 MB | `local:2G` | `192.168.64.123` | Seguridad | Microbin Encrypted Self-Destructing Rust Pastebin |
+| **124** | `vikunja` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.124` | Gestión de Tareas | Vikunja Project & Task Management Platform |
+| **125** | `blackbox` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.125` | Monitoreo | Prometheus Blackbox Exporter (ICMP / TLS Expiry) |
+| **126** | `yourspotify` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.126` | Analítica | YourSpotify Private Listening History & Insights |
+| **127** | `webcheck` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.127` | OSINT | Web-Check OSINT Security & Domain Scanner |
+| **128** | `opengist` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.128` | Desarrollo | Opengist Self-Hosted Code Paste & Snippets |
+| **129** | `flatnotes` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.129` | Notas | Flatnotes Flat-File Markdown Note Storage |
+| **130** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.130` | Alertas | Bark Apple Push Notification Relay Hub |
+| **131** | `shiori` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.131` | Almacenamiento | Shiori Simple Clean Web Page Archiver |
+| **132** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.132` | Privacidad | Whoogle Private Anonymized Google Proxy |
+| **133** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.133` | Panel de Control | Flame Minimalist Fast Startpage |
+| **134** | `dashy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.134` | Panel de Control | Dashy Highly Customizable Homelab Dashboard |
+| **135** | `shlink` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.135` | Productividad | Shlink Self-Hosted URL Shortener with Geolocation Analytics |
+| **136** | `pastefy` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.136` | Productividad | Pastefy Secure & Beautiful Open-Source Pastebin |
+| **137** | `pingvin` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.137` | Almacenamiento | Pingvin Share Privacy-Focused File Sharing Platform |
+| **138** | `rssbridge` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.138` | Fuentes RSS | RSS-Bridge Feed Generator for Sites Without Native Feeds |
+| **139** | `playwright` | Alpine 3.24 | 2 | 192 MB | `local:2G` | `192.168.64.139` | Sonda | Playwright Headless Browser Worker for Dynamic Web Checks |
+| **140** | `uptimechk` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.140` | Monitoreo | Distributed Secondary Uptime Verification Probe |
+| **141** | `dnsbench` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.141` | Red | DNS Benchmark & Latency Analytics Collector |
+| **142** | `excalidraw` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.142` | Productividad | Excalidraw Infinite Canvas Collaborative Virtual Whiteboard |
+| **143** | `snagim` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.143` | Medios | Snagim Fast Screenshot & Image Hosting Server |
+| **144** | `whoogletor` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.144` | Privacidad | Whoogle Search Routed via Encrypted Tor Circuit |
+| **145** | `heimdall` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.145` | Panel de Control | Heimdall Application Dashboard with Live Service Indicators |
+| **146** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.146` | Almacenamiento / Respaldo | Proxmox Backup Server (PBS Deduplication & Verification) |
+| **147** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.147` | Gestión | Proxmox Datacenter Manager (Multi-Cluster Management) |
+| **148** | `renovate` | Alpine 3.24 | 2 | 256 MB | `local:1G` | `192.168.64.148` | GitOps | RenovateBot Automated Dependency PR Engine |
+| **149** | `transmission` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.149` | Medios | Isolated BitTorrent Download Gateway |
+| **150** | `kavita` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.150` | Medios | E-book, Manga & Comic Web Reader |
+| **151** | `stirling` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.151` | Productividad | Stirling-PDF Offline PDF Toolset |
+| **152** | `audiobookshelf` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.152` | Medios | Audiobook & Podcast Streaming Server |
+| **153** | `tubearchivist` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.153` | Medios | Private YouTube Channel Archiver |
+| **154** | `calibreweb` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.154` | Medios | Calibre-Web Digital Book Manager |
+| **155** | `cyberchef` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.155` | Seguridad | CyberChef Swiss Army Knife |
+| **156** | `drawio` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.156` | Architecture | Draw.io Offline Diagramming Suite |
+| **157** | `romm` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.157` | Juegos | RomM Retro Games Collection Manager |
+| **158** | `emulatorjs` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.158` | Juegos | EmulatorJS WebAssembly Retro Gaming |
+| **159** | `vscode-server` | Alpine 3.24 | 2 | 512 MB | `local:1G` | `192.168.64.159` | Desarrollo | VS Code Server Cloud IDE ARM64 |
+| **160** | `paperless` | Alpine 3.24 | 2 | 512 MB | `local:1G` | `192.168.64.160` | Gestión Documental | Paperless-ngx Document Management |
+| **161** | `minio` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.161` | Almacenamiento | MinIO S3 Object Storage Server |
+| **162** | `meilisearch` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.162` | Búsqueda | Typo-Tolerant Full-Text Search Engine |
+| **163** | `vector` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.163` | Telemetría | Vector High-Performance Log Aggregator |
+| **164** | `searxng` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.164` | Privacidad | SearXNG Privacy Metasearch Engine |
+| **165** | `netalertx` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.165` | Seguridad | NetAlertX Network Intruder Detector |
+| **166** | `rustdesk` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.167` | Acceso Remoto | RustDesk Self-Hosted Remote Desktop Relay |
+| **167** | `kopia` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.167` | Respaldo | Fast Encrypted Snapshot Backup Server |
+| **168** | `wgeasy` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.168` | VPN | WireGuard-Easy Management Portal |
+| **169** | `pgadmin` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.169` | Base de Datos | pgAdmin 4 PostgreSQL Web Administration |
+| **170** | `dozzle` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.170` | Monitoreo | Dozzle Live Container Log Viewer |
+| **171** | `kiwix` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.171` | Conocimiento Offline | Kiwix Offline Wikipedia & Docs Server |
+| **172** | `hedgedoc` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.172` | Notas | HedgeDoc Collaborative Markdown Notes |
+| **173** | `glances` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.173` | Monitoreo | Glances System Telemetry & Process Monitor |
+| **174** | `dufs` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.174` | Almacenamiento | Dufs Lightweight Static File Server |
+| **175** | `gotify` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.175` | Alertas | Gotify Self-Hosted Push Notification Server |
+| **176** | `miniflux` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.176` | Fuentes RSS | Miniflux Minimalist RSS Feed Reader |
+| **177** | `grocy` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.177` | ERP | Grocy Self-Hosted ERP & Household Tracker |
+| **178** | `chrony` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.178` | Red | Chrony Local Stratum-1 Precision NTP Server |
+| **179** | `linkwarden` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.179` | Marcadores | Linkwarden Webpage Archiver & Bookmark Hub |
+| **180** | `snmp-collector` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.180` | Monitoreo | SNMP Metric Collector & Network Prober |
+| **181** | `searxng-redis` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.181` | Caché en Memoria | Redis In-Memory Cache for SearXNG |
 
 ---
 

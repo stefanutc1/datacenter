@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # Homelab Fleet Automation: Provision all LXC Containers on Node 1 (x86_64)
-# Target Host: Node 1 Primary Proxmox VE (x86_64 / amd64)
-# Inventory: CT 100 through CT 118 (18 Core Containers; CrowdSec natively on OPNsense VM 200)
+# Inventory: CT 100 through CT 118 (16 Core Containers; Pi-hole/AdGuard, Tailscale & CrowdSec natively on OPNsense VM 200)
 # ==============================================================================
 set -euo pipefail
 
@@ -112,40 +111,6 @@ create_or_skip_lxc 100 "nginx" \
   --tags "alpine;community-script;ingress;proxy"
 
 
-# ------------------------------------------------------------------------------
-# CT 101: pihole
-# ------------------------------------------------------------------------------
-create_or_skip_lxc 101 "pihole" \
-  "$ALPINE_TMPL" \
-  --hostname "pihole" \
-  --cores 1 \
-  --memory 128 \
-  --swap 128 \
-  --rootfs "$STORAGE:3G" \
-  --net0 "name=eth0,bridge=$BRIDGE,gw=$GATEWAY,ip=192.168.1.4/24,type=veth" \
-  --features "nesting=1" \
-  --unprivileged 1 \
-  --ostype "alpine" \
-  --onboot 0 \
-  --tags "alpine;community-script;dns;networking"
-
-
-# ------------------------------------------------------------------------------
-# CT 102: tailscale
-# ------------------------------------------------------------------------------
-create_or_skip_lxc 102 "tailscale" \
-  "$ALPINE_TMPL" \
-  --hostname "tailscale" \
-  --cores 1 \
-  --memory 128 \
-  --swap 128 \
-  --rootfs "$STORAGE:1G" \
-  --net0 "name=eth0,bridge=$BRIDGE,gw=$GATEWAY,ip=192.168.1.5/24,type=veth" \
-  --features "mknod=1,nesting=1" \
-  --unprivileged 1 \
-  --ostype "alpine" \
-  --onboot 0 \
-  --tags "alpine;community-script;networking;vpn"
 
 
 # ------------------------------------------------------------------------------

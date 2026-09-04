@@ -285,11 +285,8 @@ flowchart TD
 | VMID | Hostname | Base OS | vCPU | RAM Allocation | Storage Pool | Static IP | Subsystem Category | Primary Workload |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **100** | `nginx` | Debian 13 | 2 | 112 MB | `local-lvm:4G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + CrowdSec Bouncer |
-| **101** | `pihole` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.4` | DNS | Primary Internal DNS Sinkhole & Resolver |
-| **102** | `tailscale` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.5` | VPN | Mesh WireGuard Subnet Router |
 | **103** | `immich` | Debian 13 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.15` | Storage / AI | Photo Library + Machine Learning Face Recognition |
 | **104** | `nextcloud` | Debian 13 | 2 | 512 MB | `local-lvm:20G` | `192.168.1.8` | Storage | Enterprise File Cloud & WebDAV Sync |
-| **105** | `crowdsec` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.9` | Security | Cyber Threat Defense Agent & IPS |
 | **106** | `homeassistant` | Debian 13 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Hub, Zigbee & ESP32 Telemetry |
 | **107** | `n8n` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.13` | Automation | Workflow Orchestration & Incident Playbooks |
 | **108** | `scrutiny` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.14` | Monitoring | Scrutiny S.M.A.R.T. Drive Health Agent |
@@ -396,7 +393,7 @@ flowchart TD
 | Platform Component | Technology & Distribution | Node / Host Target | Port / Exposure | Primary Capability |
 | :--- | :--- | :--- | :--- | :--- |
 | **ArgoCD GitOps** | ArgoCD v2.12.3 Operator | Hybrid Cluster (Node 1 & Node 3) | `:8080` (HTTPS) | Declarative continuous delivery, auto-sync and self-healing directly from Git repository |
-| **CoreDNS** | CoreDNS v1.11.3 DaemonSet | In-Cluster (`kube-system`) | `:53` (UDP/TCP) | Cluster DNS service discovery, split-horizon internal resolution & upstream Pi-hole routing |
+| **CoreDNS** | CoreDNS v1.11.3 DaemonSet | In-Cluster (`kube-system`) | `:53` (UDP/TCP) | Cluster DNS service discovery, split-horizon internal resolution & upstream AdGuard Home / OPNsense routing |
 | **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | High-performance CNI replacing kube-proxy, WireGuard transparent encryption & L3-L7 security |
 | **Rook Ceph** | Rook Ceph v1.15.2 Orchestrator | Storage Pool (Node 1 & Node 3) | `:8443` (Ceph Dashboard) | Cloud-native Ceph distributed block storage (RBD), CephFS shared filesystem & S3 object gateways |
 | **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes |
@@ -407,7 +404,7 @@ flowchart TD
 
 | VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Suricata IDS/IPS, WireGuard Key Rotator |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7), AdGuard Home DNS (:3000), Caddy Proxy, Tailscale Mesh, CrowdSec IPS, FRR & Threat Feeds |
 | **201** | `windows` | Windows Server 2025 Datacenter | 2 Cores | 7,168 MB (7 GB) | **4,096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Ballooning: 4-7 GB) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) |
 | **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Native OpenZFS Storage Pool, BSD Jails & Network Lab (512MB-1GB) |
@@ -747,8 +744,7 @@ flowchart LR
 | IP Address | Hostname / Resource | Exposed Ports | Subsystem Role |
 | :--- | :--- | :--- | :--- |
 | `192.168.1.1` | Gateway Router | `80`, `443` | Default LAN Gateway |
-| `192.168.1.3` | `nginx` (CT 100) | `80`, `443`, `81` | Nginx Proxy Manager & Ingress |
-| `192.168.1.4` | `pihole` (CT 101) | `53` (TCP/UDP), `80` | Internal DNS Resolver |
+| `192.168.1.134` | `opnsense` (VM 200) | `53`, `80`, `443`, `3000` | OPNsense Gateway, AdGuard Home DNS & Zenarmor |
 | `192.168.1.9` | `homeassistant` (CT 106) | `8123`, `1883` | Home Automation & MQTT Broker |
 | `192.168.1.110` | `ollama` (CT 110) | `11434` | Local GPU LLM Runtime |
 | `192.168.1.134 (OPNsense)` | `pve` (Node 1 Host) | `8006`, `22` | Proxmox VE Web Management |
@@ -763,7 +759,7 @@ flowchart LR
 ### Cold-Start Sequential Boot Sequence
 
 1. **Phase 1 (Power & Networking)**: Turn on Coldex UPS $\to$ Power on Managed Switch $\to$ Verify OPNsense Firewall (VM 200) WAN connectivity.
-2. **Phase 2 (Storage & DNS)**: Power on OMV NAS (Node 2) $\to$ Wait for NFS mounts $\to$ Start Pi-hole / DNS (CT 101).
+2. **Phase 2 (Storage & DNS)**: Power on OMV NAS (Node 2) $\to$ Wait for NFS mounts $\to$ Verify AdGuard Home & Unbound DNS on OPNsense (VM 200).
 3. **Phase 3 (Core Hypervisors)**: Power on Node 1 (x86_64) & Node 3 (ARM64) $\to$ Verify ZFS pool status (`zpool status`).
 4. **Phase 4 (Security & Authentication)**: Start Authentik (CT 108) $\to$ Start Wazuh SIEM (CT 105) $\to$ Start Nginx Proxy Manager (CT 100).
 5. **Phase 5 (Workloads & AI)**: Start Ollama (CT 110), Home Assistant (CT 106), and user microservices.

@@ -387,41 +387,6 @@ module "lxc_nginx" {
   tags         = ["ingress", "proxy", "ssl", "reverse-proxy", "terraform", "node1"]
 }
 
-module "lxc_pihole" {
-  source       = "./modules/proxmox_lxc"
-  target_node  = var.primary_node
-  vmid         = 101
-  hostname     = "pihole"
-  ostemplate   = var.debian_template
-  ostype       = "debian"
-  cores        = 1
-  memory       = 96
-  disk_size    = "4G"
-  ip_address   = "192.168.1.4/24"
-  gateway      = var.gateway_ip
-  nameserver   = var.nameserver_ip
-  vlan_tag     = 20
-  unprivileged = true
-  tags         = ["dns", "sinkhole", "adblock", "privacy", "terraform", "node1"]
-}
-
-module "lxc_tailscale" {
-  source       = "./modules/proxmox_lxc"
-  target_node  = var.primary_node
-  vmid         = 102
-  hostname     = "tailscale"
-  ostemplate   = var.debian_template
-  ostype       = "debian"
-  cores        = 1
-  memory       = 96
-  disk_size    = "4G"
-  ip_address   = "192.168.1.5/24"
-  gateway      = var.gateway_ip
-  nameserver   = var.nameserver_ip
-  vlan_tag     = 20
-  unprivileged = true
-  tags         = ["vpn", "wireguard", "mesh", "remote-access", "terraform", "node1"]
-}
 
 module "lxc_immich" {
   source       = "./modules/proxmox_lxc"

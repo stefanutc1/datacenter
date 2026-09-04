@@ -21,7 +21,7 @@ This document defines the comprehensive engineering architecture, physical topol
 graph TB
     subgraph NODE1["Node 1: Proxmox VE Hypervisor (192.168.1.132)"]
         PVE_HW["Intel Core i3-10100F · 12 GB RAM · GTX 1050 Ti · 512 GB SSD"]
-        VM200["VM 200: OPNsense Virtual Gateway (:8443)"]
+        VM200["VM 200: OPNsense Gateway (Zenarmor NGFW · AdGuard Home :3000 · Caddy · Tailscale)"]
         VM201["VM 201: Windows Server 2025 Datacenter (:3389)"]
         VM206["VM 206: macOS Monterey 12.7 (OpenCore KVM · /mac/EFI)"]
         VM207["VM 207: OpenIndiana Hipster (:22 · illumos ZFS)"]
@@ -66,10 +66,10 @@ graph TB
 
 ```mermaid
 graph LR
-    WAN["Internet Uplink"] --> OPNsense["OPNsense Firewall (192.168.1.134:8443)"]
+    WAN["Internet Uplink"] --> OPNsense["OPNsense Firewall (192.168.1.134 · Zenarmor L7 · AdGuard Home)"]
 
     OPNsense --> VLAN1["VLAN 1: Management (192.168.1.0/24)<br/>Proxmox VE · NAS · Switches · IPMI"]
-    OPNsense --> VLAN10["VLAN 10: Ingress & Core (192.168.10.0/24)<br/>NPM Reverse Proxy · Authelia SSO · Pi-hole DNS"]
+    OPNsense --> VLAN10["VLAN 10: Ingress & Core (192.168.10.0/24)<br/>Caddy / NPM Reverse Proxy · Authelia SSO · AdGuard Home DNS"]
     OPNsense --> VLAN20["VLAN 20: Applications (192.168.20.0/24)<br/>Immich · Nextcloud · Vaultwarden · Grafana · ELO"]
     OPNsense --> VLAN30["VLAN 30: Kubernetes (192.168.30.0/24)<br/>k3s Cluster · FluxCD GitOps Engine"]
     OPNsense --> VLAN40["VLAN 40: IoT & Microcontrollers (192.168.40.0/24)<br/>ESP32 BLE/mmWave · Smart Relays"]

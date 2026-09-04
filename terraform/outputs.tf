@@ -29,8 +29,6 @@ output "lxc_x64_summary" {
   description = "Summary of Node 1 x86_64 LXC containers (Core & GPU AI Stack)"
   value = {
     nginx          = { vmid = module.lxc_nginx.vm_id, ip = module.lxc_nginx.ip_address, node = module.lxc_nginx.node }
-    pihole         = { vmid = module.lxc_pihole.vm_id, ip = module.lxc_pihole.ip_address, node = module.lxc_pihole.node }
-    tailscale      = { vmid = module.lxc_tailscale.vm_id, ip = module.lxc_tailscale.ip_address, node = module.lxc_tailscale.node }
     immich         = { vmid = module.lxc_immich.vm_id, ip = module.lxc_immich.ip_address, node = module.lxc_immich.node }
     nextcloud      = { vmid = module.lxc_nextcloud.vm_id, ip = module.lxc_nextcloud.ip_address, node = module.lxc_nextcloud.node }
     homeassistant  = { vmid = module.lxc_homeassistant.vm_id, ip = module.lxc_homeassistant.ip_address, node = module.lxc_homeassistant.node }

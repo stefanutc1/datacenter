@@ -252,11 +252,8 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | VMID | Hostname | Basis-OS | vCPU | Zugewiesener RAM | Speicherpool | Statische IP | Kategorie | Primärer Dienst |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **100** | `nginx` | Debian 13 | 2 | 112 MB | `local-lvm:4G` | `192.168.1.3` | Ingress | Nginx Proxy Manager + CrowdSec Bouncer |
-| **101** | `pihole` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.4` | DNS | Interner DNS-Resolver & Werbeblocker |
-| **102** | `tailscale` | Debian 13 | 1 | 96 MB | `local-lvm:4G` | `192.168.1.5` | VPN | WireGuard Mesh Subnetz-Router Primär |
 | **103** | `immich` | Debian 13 | 4 | 896 MB | `local-lvm:32G` | `192.168.1.15` | Storage / KI | Fotoverwaltung & ML-Gesichtserkennung |
 | **104** | `nextcloud` | Debian 13 | 2 | 512 MB | `local-lvm:20G` | `192.168.1.8` | Storage | Enterprise Cloud & WebDAV-Synchronisation |
-| **105** | `crowdsec` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.9` | Sicherheit | Threat-Intelligence & Entscheidungs-Engine IPS |
 | **106** | `homeassistant` | Debian 13 | 2 | 384 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Zentrale, Zigbee & ESP32 |
 | **107** | `n8n` | Debian 13 | 2 | 384 MB | `local-lvm:8G` | `192.168.1.13` | Automation | Workflow-Orchestrierung & SOAR-Playbooks |
 | **108** | `scrutiny` | Debian 13 | 1 | 128 MB | `local-lvm:4G` | `192.168.1.14` | Monitoring | Festplatten-Gesundheits-Telemetrie S.M.A.R.T. |
@@ -373,8 +370,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 ### QEMU / KVM Virtuelle Maschinen & VirtIO Memory Ballooning
 
 | VMID | VM-Name | Betriebssystem | vCPU | Max RAM | Min Balloon | Passthrough / Hardware | Hauptrolle |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Perimeter-Firewall, Suricata IDS/IPS, WireGuard-Rotator |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 2 Cores | 2.048 MB | **1.024 MB** | VirtIO Net Multi-VLAN | Perimeter-Firewall, Zenarmor NGFW (L7), AdGuard Home DNS (:3000), Caddy Proxy, Tailscale Mesh, CrowdSec IPS, FRR & Threat Feeds |
 | **201** | `windows` | Windows Server 2025 Datacenter | 2 Cores | 7.168 MB (7 GB) | **4.096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Ballooning: 4-7 GB) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2.048 MB (2 GB) | **1.024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) |
 | **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Nativer OpenZFS Storage Pool, BSD Jails & Labor (512MB-1GB) |

@@ -6,7 +6,7 @@ Complete breakdown of all services hosted across Docker Compose stacks:
 | :--- | :--- | :--- | :--- | :--- |
 | **Ingress / Auth** | `nginx-proxy-manager` | `80`, `443`, `81` | `npm.homelab.local` | `/data`, `/etc/letsencrypt` |
 | **Ingress / Auth** | `authelia` | `9091` | `auth.homelab.local` | `/config` |
-| **Networking** | `pi-hole` | `53`, `80` | `pihole.homelab.local` | `/etc/pihole`, `/etc/dnsmasq.d` |
+| **Networking** | `adguard-home` | `53`, `3000` | `dns.homelab.local` | Native on OPNsense (`192.168.1.134:3000`) |
 | **Networking** | `netbird` | `33073` | Direct Mesh | `/var/lib/netbird` |
 | **Observability** | `prometheus` | `9090` | `prometheus.homelab.local` | `/etc/prometheus`, `/prometheus` |
 | **Observability** | `alertmanager` | `9093` | `alerts.homelab.local` | `/etc/alertmanager`, `/data` |
