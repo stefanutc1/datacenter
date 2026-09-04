@@ -155,6 +155,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 2048, 
         purpose: 'OpenStack Enterprise Private Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard)',
         purposeRo: 'Controller Cloud Privat OpenStack Enterprise (Calcul Nova, Rețele Neutron, Keystone IAM, Panou Horizon)'
+      },
+      { 
+        vmid: 212, 
+        name: 'metasploitable2', 
+        os: 'Metasploitable 2 (Ubuntu 8.04)', 
+        allocatedMb: 512, 
+        balloonMinMb: 512, 
+        purpose: 'Intentionally Vulnerable Linux Target, Penetration Testing & Suricata/Wazuh IDS Tuning',
+        purposeRo: 'Țintă Linux Vulnerabilă Intenționat, Teste de Penetrare & Calibrare IDS/IPS Suricata/Wazuh'
       }
     ],
     workloads: [
@@ -170,6 +179,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 209: NixOS 24.11 Minimal (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · 22 GB NVMe · Declarative Flakes & Atomic Rollbacks)',
       'VM 210: DragonFly BSD 6.4 (1024 MB / Balloon: 512 MB [512 MB - 1 GB] · 15 GB NVMe · HAMMER2 Journaling FS & Hybrid Microkernel)',
       'VM 211: OpenStack Enterprise Cloud Controller (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Nova, Neutron, Keystone, Glance, Horizon Dashboard)',
+      'VM 212: Metasploitable 2 (512 MB · 8 GB NVMe · Intentionally Vulnerable Linux Target & Penetration Testing Sandbox)',
       'CT 100-109: Core Ingress & Network: Nginx Ingress, Pi-hole DNS, Tailscale, Immich AI, Nextcloud, CrowdSec, Home Assistant, n8n, Scrutiny, Media Suite',
       'CT 110-111: Ollama GPU LLM Server & Open-WebUI Assistant (CUDA GTX 1050 Ti Passthrough)',
       'CT 112: Faster-Whisper GPU Speech-to-Text Transcriber (CUDA Accelerated)',

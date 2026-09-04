@@ -58,7 +58,7 @@ flowchart TD
 - **Networking**: TCP/IP protocol analysis, Wireshark, tcpdump packet capturing.
 - **SIEM & Log Pipelines**: Wazuh Manager 4.8, Splunk, Elastic (ELK), Microsoft Sentinel, Grafana Loki.
 - **Detection & Perimeter**: EDR Telemetry, Suricata IDS/IPS, Snort, Sysmon, Auditd, CrowdSec.
-- **Offensive & Vulnerability Auditing**: Nmap, Nessus, OpenVAS, Burp Suite, BloodHound, Atomic Red Team.
+- **Offensive & Vulnerability Auditing**: Metasploitable 2 (VM 212), Metasploit Framework, Nmap, Nessus, OpenVAS, Burp Suite, BloodHound, Atomic Red Team.
 - **Threat Intelligence**: Sigma rules, YARA rules, MISP threat sharing, CyberChef.
 - **DFIR & Reverse Engineering**: Autopsy, Volatility 3, Ghidra, IDA Pro, x64dbg.
 - **Automation & Scripting**: PowerShell Core, Python 3.12, Git.

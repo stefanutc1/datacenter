@@ -906,6 +906,25 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     tags: ['OpenStack', 'IaaS', 'Private Cloud', 'Nova', 'Neutron', 'Horizon'],
     role: 'Enterprise private cloud controller and compute fabric with Horizon management dashboard.',
     connections: ['node1-pve', 'opnsense-gw']
+  },
+  {
+    id: 'metasploitable2-target',
+    name: 'Metasploitable 2',
+    sublabel: 'VM 212 · Vulnerable Target',
+    ip: '192.168.1.212',
+    port: 80,
+    category: 'security',
+    tier: 3,
+    status: 'OPERATIONAL',
+    x: -90,
+    y: 90,
+    z: 50,
+    color: '#dc2626',
+    icon: 'security',
+    hardware: { node: 'Node 1 (x86_64)', ram: '512 MB', storage: '8 GB' },
+    tags: ['Metasploitable', 'Red Team', 'Penetration Testing', 'Vulnerable Lab', 'Suricata Tuning'],
+    role: 'Intentionally vulnerable target used for red team exploitation and intrusion detection calibration.',
+    connections: ['node1-pve', 'opnsense-gw']
   }
 ];
 

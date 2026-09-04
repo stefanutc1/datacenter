@@ -35,7 +35,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 ### Usage Profile
 
-This host currently serves nine primary roles:
+This host currently serves eleven primary roles:
 
 1. **Development environment** — Debian + XFCE, used as a general-purpose dev workspace.
 2. **Machine learning experimentation** — CUDA/PyTorch, GPU-passthrough dependent on the GTX 1050 Ti above.
@@ -46,6 +46,8 @@ This host currently serves nine primary roles:
 7. **Clean Unix & Rump kernel testing** — NetBSD 10.0 (VM 208) with 512 MB RAM (VirtIO ballooning: 256–512 MB) and 12 GB NVMe for componentized Rump kernel research and pkgsrc multi-platform packaging.
 8. **Declarative Linux & reproducible infrastructure** — NixOS 24.11 Minimal (VM 209) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 22 GB NVMe for Nix Flakes hermetic pipelines and atomic rollback verification.
 9. **HAMMER2 journaling storage & microkernel concurrency** — DragonFly BSD 6.4 (VM 210) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 15 GB NVMe for lockless multi-core scaling and HAMMER2 cluster filesystem research.
+10. **Enterprise private cloud virtualization** — OpenStack 2024.1 Caracal (VM 211) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 32 GB NVMe for IaaS compute (Nova), SDN networking (Neutron), and Horizon Web Dashboard.
+11. **Cybersecurity vulnerability & exploit lab** — Metasploitable 2 (VM 212) with 512 MB RAM and 8 GB NVMe for penetration testing, red teaming with Metasploit Framework, and Suricata/Wazuh detection signature calibration.
 
 ---
 

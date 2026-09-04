@@ -2304,5 +2304,31 @@ export const SERVICES_DATA: ServiceItem[] = [
     "color": "#f43f5e",
     "icon": "compute",
     "composeCode": "# OpenStack 2024.1 Caracal Cloud Controller\n# Web Horizon Dashboard: http://192.168.1.211:80\n# Identity Keystone v3: http://192.168.1.211:5000/v3"
+},
+{
+    "id": "metasploitable2",
+    "name": "Metasploitable 2 Vulnerable Target",
+    "category": "cyber",
+    "containerName": "metasploitable2-vm212",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 212",
+    "ram": "512 MB",
+    "storage": "8 GB NVMe Pool",
+    "ip": "192.168.1.212",
+    "port": 80,
+    "domain": "metasploitable.homelab.local",
+    "status": "ONLINE",
+    "description": "Intentionally vulnerable Linux virtual machine configured for penetration testing, Metasploit Framework exploitation, red team exercises, and Suricata/Wazuh detection signature validation.",
+    "descriptionRo": "Ma\u0219in\u0103 virtual\u0103 Linux vulnerabil\u0103 inten\u021bionat, configurat\u0103 pentru teste de penetrare, exploatare cu Metasploit Framework, exerci\u021bii red team \u0219i calibrarea detec\u021biilor Suricata \u0219i Wazuh SIEM.",
+    "tags": [
+        "Metasploitable",
+        "Penetration Testing",
+        "Red Team",
+        "Cybersecurity",
+        "Vulnerability Lab",
+        "VM 212"
+    ],
+    "color": "#dc2626",
+    "icon": "security",
+    "composeCode": "# Metasploitable 2 (VM 212 \u00b7 QEMU KVM Target)\n# Vulnerable Stack: vsftpd, Apache, Samba, MySQL, PostgreSQL, Tomcat\n# IP: 192.168.1.212\n# Cores: 1 \u00b7 RAM: 512 MB \u00b7 Disk: 8 GB"
 }
 ];

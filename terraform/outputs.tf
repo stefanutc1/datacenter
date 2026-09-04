@@ -13,6 +13,7 @@ output "vm_inventory" {
     nixos             = { vmid = module.vm_nixos_209.vm_id, name = module.vm_nixos_209.name, node = module.vm_nixos_209.node }
     dragonflybsd      = { vmid = module.vm_dragonflybsd_210.vm_id, name = module.vm_dragonflybsd_210.name, node = module.vm_dragonflybsd_210.node }
     openstack         = { vmid = module.vm_openstack_211.vm_id, name = module.vm_openstack_211.name, node = module.vm_openstack_211.node }
+    metasploitable2   = { vmid = module.vm_metasploitable2_212.vm_id, name = module.vm_metasploitable2_212.name, node = module.vm_metasploitable2_212.node }
   }
 }
 

@@ -236,6 +236,20 @@ module "vm_openstack_211" {
   tags         = ["openstack", "cloud", "iaas", "nova", "neutron", "horizon", "terraform"]
 }
 
+module "vm_metasploitable2_212" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 212
+  name         = "metasploitable2"
+  description  = "Metasploitable 2 (Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning)"
+  cores        = 1
+  memory       = 512
+  disk_size    = 8
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["cyber", "metasploit", "metasploitable2", "penetration-testing", "red-team", "terraform"]
+}
+
 
 # ------------------------------------------------------------------------------
 # 3. PROXMOX CORE LXC CONTAINERS (NODE 1 — x86_64 Primar)

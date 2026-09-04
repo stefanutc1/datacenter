@@ -386,6 +386,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 | **208** | `netbsd` | NetBSD 10.0 | 2 Cores | 512 MB (512 MB) | **256 MB** | VirtIO SCSI Single (12 GB) | Portables Unix-Referenzsystem, Rump Anykernel, pkgsrc |
 | **209** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Deklaratives Linux, Flakes Reproduzierbare Builds, Atomare Rollbacks |
 | **210** | `dragonflybsd` | DragonFly BSD 6.4 | 2 Cores | 1.024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (15 GB) | HAMMER2 Journaling-Dateisystem, Hybrider Mikrokernel, Lockless SMP |
+| **212** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Kern | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Verwundbares Linux-Zielsystem für Penetrationstests & IDS/IPS-Tuning |
 
 > **Architektur-Rebalancing: Vollständige Non-AI-Migration auf ARM64**: Alle Non-AI-Container-Workloads ab CT 112 (einschließlich Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS und VS Code Server ARM64) wurden auf Node 3 (Apple Silicon M1 ARM64 via UTM mit ZRAM lz4) verlagert. Node 1 (x86_64) ist nun strikt dediziert für den CUDA-beschleunigten KI-Cluster (Ollama, Open-WebUI, Faster-Whisper, Flowise, Paperless-AI) und Enterprise-VMs (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
 
