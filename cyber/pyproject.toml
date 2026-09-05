@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cyber-toolkit"
+version = "2.0.0"
+description = "Technical research archive and zero-dependency Python toolkit for digital forensics (DFIR), reverse engineering, network security, and ISO/IEC 27037 evidence preservation."
+readme = "README.md"
+authors = [{ name = "stefanutc1" }]
+license = { text = "MIT" }
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Topic :: Security",
+    "Topic :: System :: Networking :: Monitoring",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[project.scripts]
+cyber = "cyber.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cyber*"]
+exclude = ["web*", "ctf*", "tests*", "scripts*", "dist*", "build*", "out*"]

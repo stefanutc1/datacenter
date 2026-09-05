@@ -80,10 +80,10 @@
           PostUp = iptables -A FORWARD -i {{ wg_interface }} -j ACCEPT; iptables -A FORWARD -o {{ wg_interface }} -j ACCEPT; iptables -t nat -A POSTROUTING -o vmbr0 -j MASQUERADE
           PostDown = iptables -D FORWARD -i {{ wg_interface }} -j ACCEPT; iptables -D FORWARD -o {{ wg_interface }} -j ACCEPT; iptables -t nat -D POSTROUTING -o vmbr0 -j MASQUERADE
 
-          # Cloud VPC Gateway Peer (AWS / GCP / Cloud Hub)
+          # Cloud VPC Gateway Peer (AWS / GCP / Hetzner / Cloud Hub)
           [Peer]
-          PublicKey = REPLACE_WITH_CLOUD_PEER_PUBLIC_KEY
-          Endpoint = 203.0.113.10:51820
+          PublicKey = McXtmbWPNnEMaPlrTZSmW8b99jl6slV0rk/SAUaMDmo=
+          PresharedKey = 5RX/uq5UUeR0eeLXBhwZGA/1JHKyYgKM/m1yaArPQSU=
           AllowedIPs = 10.50.0.2/32, {{ cloud_subnets | join(', ') }}
           PersistentKeepalive = 25
         owner: root

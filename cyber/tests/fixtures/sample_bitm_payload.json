@@ -1,0 +1,13 @@
+[
+  {
+    "username": "victim_engineer",
+    "steam_id": "76561198000000000",
+    "steam_guard_code": "RH92K",
+    "steamLoginSecure": "76561198000000000%7C%7CeyAidHlwIjogIkpXVCIsICJhbGciOiAiSFMyNTYiIH0...",
+    "pin": "4892",
+    "apikey": "/dev/apikey",
+    "client_ip": "185.220.101.44",
+    "c2_endpoint": "POST /api/v2/auth/steam/relay",
+    "timestamp": "2025-11-22T14:30:00Z"
+  }
+]
