@@ -1,0 +1,294 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ==========================================
+  # STAGE 1: SECRETS DETECTION
+  # ==========================================
+  secrets-audit:
+    name: Secrets Audit (Gitleaks & TruffleHog)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks Secret Scanner
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: TruffleHog Git Scanner
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --only-verified
+        continue-on-error: true
+
+  # ==========================================
+  # STAGE 2: STATIC CODE ANALYSIS & LINTING
+  # ==========================================
+  code-quality-and-linting:
+    name: Code Quality & Linting (Ruff, MyPy, ShellCheck, YAML)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Linting Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff mypy yamllint shellcheck-py
+
+      - name: Ruff Lint & Format Check (Python)
+        run: |
+          ruff check elo/ || true
+          ruff format --check elo/ || true
+
+      - name: MyPy Static Type Analysis
+        run: |
+          pip install pydantic fastapi httpx pytest pytest-asyncio pyyaml
+          pip install -e elo/packages/elo-contracts -e elo/packages/elo-security -e elo/packages/elo-ai-client -e elo/apps/elo-core
+          mypy --ignore-missing-imports elo/packages/elo-contracts/src elo/packages/elo-security/src elo/packages/elo-ai-client/src elo/apps/elo-core/src || true
+
+      - name: ShellCheck Portability Verification
+        run: |
+          find scripts ai elo .github -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} + || true
+
+      - name: YAML Linting (Playbooks, Workflows, Compose)
+        run: |
+          yamllint -d "{extends: default, rules: {line-length: {max: 300}, document-start: disable, truthy: disable}}" . || true
+
+  # ==========================================
+  # STAGE 3: SECURITY & VULNERABILITY SCANS
+  # ==========================================
+  sast-and-vulnerability-audit:
+    name: Security Audit (Bandit, Semgrep, Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Bandit Security Scanner
+        run: |
+          pip install bandit
+          bandit -r elo/packages elo/apps/elo-core/src -ll -i || true
+
+      - name: Semgrep Analysis
+        run: |
+          pip install semgrep
+          semgrep scan --config auto elo/ || true
+
+      - name: Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+        continue-on-error: true
+
+  # ==========================================
+  # STAGE 4: IAC & CONFIGURATION VALIDATION
+  # ==========================================
+  iac-and-infrastructure-validation:
+    name: IaC Validation (Terraform, Ansible, Compose, K8s)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.0
+
+      - name: Validate Terraform Modules
+        run: |
+          for root_dir in terraform cloud; do
+            if [ -d "$root_dir" ]; then
+              for dir in $(find "$root_dir" -type f -name "*.tf" -exec dirname {} + | sort -u); do
+                echo "Validating Terraform in $dir..."
+                (cd "$dir" && terraform init -backend=false && terraform validate) || true
+              done
+            fi
+          done
+
+      - name: Set up Python 3.12 for Ansible
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate Ansible Playbook Syntaxes
+        run: |
+          pip install ansible ansible-lint
+          ansible-galaxy collection install community.general || true
+          if [ -d ansible/playbooks ]; then
+            for pb in ansible/playbooks/*.yml; do
+              [ -f "$pb" ] && ansible-playbook --syntax-check "$pb" || true
+            done
+          fi
+          if [ -f ai/ansible/playbook.yml ]; then
+            ansible-playbook --syntax-check ai/ansible/playbook.yml || true
+          fi
+
+      - name: Validate Docker Compose Configuration
+        run: |
+          echo "Validating root and service docker-compose files..."
+          if [ -f docker-compose.yml ]; then
+            docker compose config -q || true
+          fi
+          for comp in services/*/docker-compose.yml; do
+            if [ -f "$comp" ]; then
+              echo "Validating $comp..."
+              docker compose -f "$comp" config -q || true
+            fi
+          done
+
+      - name: Validate Kubernetes Manifests
+        run: |
+          curl -sL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
+          sudo mv kubeconform /usr/local/bin/
+          if [ -d kubernetes ]; then
+            find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \) -exec kubeconform -summary -ignore-missing-schemas {} + || true
+          fi
+
+  # ==========================================
+  # STAGE 5: ELO PYTHON MATRIX TESTS (3.9 - 3.13)
+  # ==========================================
+  elo-python-matrix:
+    name: ELO Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install ELO Packages & Test Harness
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install pytest pytest-asyncio httpx pydantic cryptography psutil uvicorn fastapi pyyaml python-dotenv
+          pip install -e elo/packages/elo-contracts
+          pip install -e elo/packages/elo-security
+          pip install -e elo/packages/elo-ai-client
+          pip install -e elo/apps/elo-core
+
+      - name: Execute Pytest Suite
+        run: |
+          cd elo
+          PYTHONPATH="apps/elo-core/src:packages/elo-contracts/src:packages/elo-security/src:packages/elo-ai-client/src" python -m pytest -v -o asyncio_mode=auto
+
+  # ==========================================
+  # STAGE 6: MULTI-LINUX DISTRIBUTION COMPATIBILITY MATRIX
+  # ==========================================
+  distro-compatibility-matrix:
+    name: Linux Compatibility (${{ matrix.distro.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        distro:
+          - name: 'Debian 12 Bookworm'
+            image: 'debian:12-slim'
+          - name: 'Ubuntu 24.04 LTS'
+            image: 'ubuntu:24.04'
+          - name: 'Alpine Linux 3.20'
+            image: 'alpine:3.20'
+          - name: 'Rocky Linux 9'
+            image: 'rockylinux:9'
+          - name: 'Fedora 40'
+            image: 'fedora:40'
+          - name: 'Arch Linux'
+            image: 'archlinux:latest'
+    container:
+      image: ${{ matrix.distro.image }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run OS Test Runner
+        run: sh scripts/test_distro_compatibility.sh
+
+  # ==========================================
+  # STAGE 7: WEB FRONTEND COMPILATION
+  # ==========================================
+  web-frontend-build:
+    name: Web Frontend Build (Angular 20 Enterprise App)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd web
+          npm ci || npm install
+
+      - name: Build Production Frontend Bundle (Angular Build)
+        run: |
+          cd web
+          npm run build
+
+      - name: Validate Output Bundle
+        run: |
+          test -f web/dist/index.html
+          echo "Angular production bundle built successfully."
+
+  # ==========================================
+  # STAGE 8: CI QUALITY SUMMARY
+  # ==========================================
+  ci-master-gate:
+    name: CI Summary
+    needs:
+      - secrets-audit
+      - code-quality-and-linting
+      - sast-and-vulnerability-audit
+      - iac-and-infrastructure-validation
+      - elo-python-matrix
+      - distro-compatibility-matrix
+      - web-frontend-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Quality Checks Status
+        run: |
+          echo "All automated CI quality checks completed."

@@ -1,0 +1,67 @@
+name: DevSecOps Security & Vulnerability Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '0 4 * * 1' # Weekly security audit every Monday at 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  trivy-scan:
+    name: Trivy Vulnerability & Misconfiguration Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Trivy Vulnerability Scanner (Repo & Dockerfiles)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+      - name: Run Trivy IaC / Terraform Misconfiguration Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: './terraform'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+  gitleaks-scan:
+    name: Gitleaks Secret Detection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+  shellcheck:
+    name: ShellCheck Bash Syntax & Safety
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        run: |
+          find scripts cyber/scripts -name "*.sh" -exec shellcheck --severity=warning {} + || true

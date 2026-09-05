@@ -88,7 +88,7 @@ interface SearchResultItem {
               <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↑↓</kbd> {{ ts.isRomanian ? "Navighează" : "Navigate" }}</span>
               <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↵</kbd> {{ ts.isRomanian ? "Selectează" : "Select" }}</span>
             </div>
-            <span class="text-slate-300">{{ ts.isRomanian ? "Homelab // Căutare Rapidă (⌘K)" : "Homelab // Quick Search (⌘K)" }}</span>
+            <span class="text-slate-300">{{ ts.isRomanian ? "Datacenter // Căutare Rapidă (⌘K)" : "Datacenter // Quick Search (⌘K)" }}</span>
           </div>
 
         </div>

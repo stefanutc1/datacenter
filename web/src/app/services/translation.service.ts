@@ -233,7 +233,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
 
     heroTag: 'SYSTEM ARCHITECTURE & OVERVIEW',
     heroTitle: 'A heterogeneous bare-metal compute cluster, private cloud, and security testing lab.',
-    heroDescription: 'Technical documentation and interactive overview of the homelab infrastructure: Proxmox VE virtualization across Apple Silicon ARM64 and Intel x86_64, Windows Server Active Directory, ZFS storage, OPNsense firewall segmentation, local GPU LLMs, and automation.',
+    heroDescription: 'Technical documentation and interactive overview of the datacenter infrastructure: Proxmox VE virtualization across Apple Silicon ARM64 and Intel x86_64, Windows Server Active Directory, ZFS storage, OPNsense firewall segmentation, local GPU LLMs, and automation.',
     
     metricComputeTitle: 'PHYSICAL COMPUTE',
     metricComputeCount: '4 Nodes',
@@ -285,7 +285,7 @@ const TRANSLATIONS: Record<Language, Translations> = {
 
     srvTag: 'SERVICES CATALOG',
     srvTitle: 'Active Services & Workloads (88)',
-    srvDesc: 'Complete catalog of all 88 active homelab microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
+    srvDesc: 'Complete catalog of all 88 active datacenter microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
     srvSearchPlaceholder: 'Search service, port, host, category...',
     srvRamCeiling: 'RAM Ceiling',
     srvStoragePool: 'Storage Pool',

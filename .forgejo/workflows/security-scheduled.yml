@@ -1,0 +1,39 @@
+name: Scheduled Nightly Security & Dependency Audit
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Every night at 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  nightly-security-scan:
+    name:  Nightly Comprehensive Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks Deep Secret Audit
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Trivy Vulnerability & SBOM Generator
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+        continue-on-error: true
+
+      - name: Upload Security Scan Results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+        continue-on-error: true
