@@ -91,24 +91,19 @@ The hypervisor runs an enterprise-grade, zero-trust Proxmox VE Firewall matrix a
 
 ## 4. Digital Forensics & Cyber Threat Intelligence Suite
 
-Integrated directly into `cyber/`, the Datacenter hosts 10 real-world digital forensics investigations, malware triage frameworks, and threat intelligence toolkits:
+Integrated directly into `cyber/`, the Datacenter documents and hosts 4 in-depth real-world digital forensics investigations, reverse engineering teardowns, and actionable threat intelligence case studies:
 
 ### Case Studies & Research
-1. **[`openid-mitm-phishing-forensics/`](./cyber/openid-mitm-phishing-forensics)**: Browser-in-the-Middle (BitM) attack analysis capturing Steam OpenID sessions with simulated popup windows.
-2. **[`revolut-vishing-forensics/`](./cyber/revolut-vishing-forensics)**: Telephony fraud and international SIP spoofing investigation intercepting real-time 3D Secure SMS codes.
-3. **[`task-scam-infrastructure-analysis/`](./cyber/task-scam-infrastructure-analysis)**: Cybercrime infrastructure tracking, leaky APIs, and USDT money laundering networks.
-4. **[`tiktok-mrr-scam-infrastructure/`](./cyber/tiktok-mrr-scam-infrastructure)**: Social media deceptive subscription funnels and payment gateway abuse mechanisms.
-5. **[`bgp-hijacking-crypto-forensics/`](./cyber/bgp-hijacking-crypto-forensics)**: In-depth forensic post-mortem of autonomous system AS-Path hijacking targeting crypto wallets.
-6. **[`fido2-cookie-bypass-forensics/`](./cyber/fido2-cookie-bypass-forensics)**: Passkey/WebAuthn session token exfiltration forensics and mitigation analysis.
-7. **[`ransomware-pre-execution-triage/`](./cyber/ransomware-pre-execution-triage)**: Endpoint DFIR memory and artifact triage before encryption payload detonation.
-8. **[`subdomain-takeover-c2-forensics/`](./cyber/subdomain-takeover-c2-forensics)**: Dangling DNS and stale cloud resource takeover forensics used for stealth C2 hosting.
-9. **[`supply-chain-poisoning-analysis/`](./cyber/supply-chain-poisoning-analysis)**: Dependency confusion and typosquatting vectors across modern package ecosystems.
-10. **[`ctf/`](./cyber/ctf)**: Offensive security writeups, methodologies, and vulnerability exploit templates.
+1. **[`task-scam-infrastructure-analysis/`](./cyber/task-scam-infrastructure-analysis)**: Cybercrime infrastructure tracking, leaky backend configuration APIs (`/api/v1/site/config` withdrawal kill-switch), SQL injection surfaces, and USDT TRC-20 money laundering networks.
+2. **[`revolut-vishing-forensics/`](./cyber/revolut-vishing-forensics)**: Telephony fraud and international SIP VoIP Caller ID spoofing (`0749-XXX-XXX`) intercepting real-time 3D Secure SMS OTP codes and biometric push authorizations.
+3. **[`tiktok-mrr-scam-infrastructure/`](./cyber/tiktok-mrr-scam-infrastructure)**: Deconstructive analysis of automated "faceless" algorithmic TikTok funnels, LLM-generated generic payloads, recursive Master Resell Rights (MRR) pyramid schemes, and Stripe/PayPal payment gateway abuse escalation.
+4. **[`openid-mitm-phishing-forensics/`](./cyber/openid-mitm-phishing-forensics)**: Advanced Adversary-in-the-Middle (AiTM) and Browser-in-the-Middle (BitM) attack analysis capturing Steam OpenID sessions with synthetic in-DOM popup windows, automated Steam Family View PIN lockout, and Web API trade offer hijacking.
 
-### Automated DFIR & TI Framework (`cyber/toolkit/`)
-- **Analyzers**: Automated BitM detection (`aitm_detector.py`), SIP telephony fraud detection, task scam API dissection, malware deobfuscation.
-- **Parsers & Engines**: EVTX Sysmon, MFT/Prefetch timeline parser, Volatility memory analyzer, YARA & Sigma rule matchers, STIX 2.1 threat feed exporters.
-- **Validation**: Strict integrity verification (`verify_evidence_integrity.py`), Sigma/Suricata/YARA rule linters.
+### Defensive Correlation with Datacenter Stack
+- **OPNsense & FortiGate-VM / Cisco ASAv**: Dynamic IP blacklisting, DPI filtering of malicious payload structures, and DNS sinkholing of known C2 domains.
+- **Suricata IDS/IPS (VM 200)**: Custom signature inspection detecting unauthenticated API enumeration, synthetic BitM popup frame assets, and SIP spoofing markers.
+- **Wazuh SIEM & XDR (CT 100)**: Centralized event correlation, automated alert triggering, and immediate FIM/log triage.
+- **T-Pot Honeynet (VM 213)**: Decoy Cowrie SSH, Dionaea, and RDP honeypots providing early-warning threat feeds directly to the Datacenter SOC.
 
 
 ---

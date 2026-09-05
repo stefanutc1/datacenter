@@ -3,6 +3,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
 
+export interface ForensicCase {
+  id: string;
+  caseId: string;
+  title: string;
+  badge: string;
+  classification: string;
+  date: string;
+  author: string;
+  status: string;
+  summary: string;
+  attackVector: string;
+  reverseFindings: string[];
+  financialFlow: string;
+  iocs: { type: string; value: string }[];
+  datacenterDefense: string;
+  repoPath: string;
+  githubUrl: string;
+  mitreAttack: string[];
+}
+
 @Component({
   selector: 'app-architecture-blueprint',
   standalone: true,
@@ -432,38 +452,333 @@ import { TranslationService } from '../../services/translation.service';
         </div>
       }
 
-      <!-- TAB 4: CYBERLAB -->
+      <!-- TAB 4: CYBERLAB & FORENSICS -->
       @if (activeTab === 'cyber') {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
-          @for (pillar of (ts.isRomanian ? cyberPillarsRo : cyberPillarsEn); track pillar.title) {
-            <div class="p-6 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl space-y-3.5 flex flex-col justify-between">
-              <div class="space-y-3">
-                <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
-                  <h3 class="font-sans font-bold text-slate-50 text-base tracking-wide">
-                    {{ pillar.title }}
-                  </h3>
-                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700 uppercase">
-                    {{ pillar.badge }}
-                  </span>
+        <div class="space-y-10">
+
+          <!-- Section Header & Filter Sub-Bar -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                <span class="text-[10px] font-mono font-bold tracking-widest text-red-400 uppercase">
+                  TLP:CLEAR · THREAT INTEL & DFIR SUITE
+                </span>
+              </div>
+              <h3 class="text-xl font-bold text-slate-50">
+                {{ ts.isRomanian ? 'Investigații Criminalistice Reale & Apărare Perimetrală' : 'Real-World Cyber Forensics & Dual-Tier Perimeter Defense' }}
+              </h3>
+              <p class="text-xs text-slate-300 max-w-2xl font-sans leading-relaxed">
+                {{ ts.isRomanian ? '4 dosare complete de investigație criminalistică (reverse engineering C2, deconstrucție API fraudulos, SIP spoofing și atacuri BitM), corelate cu stiva de detecție din Datacenter.' : '4 exhaustive digital forensics investigations (C2 reverse engineering, fraudulent API deconstruction, SIP spoofing, and BitM attacks) correlated directly with the Datacenter detection stack.' }}
+              </p>
+            </div>
+
+            <!-- Sub-Section Navigation -->
+            <div class="flex items-center gap-1.5 p-1 bg-obsidian-900 rounded-xl border border-obsidian-750 font-mono text-[11px] self-start md:self-auto flex-wrap">
+              <button
+                (click)="cyberSubSection = 'all'"
+                [class.bg-obsidian-750]="cyberSubSection === 'all'"
+                [class.text-slate-950]="cyberSubSection === 'all'"
+                [class.font-bold]="cyberSubSection === 'all'"
+                [class.text-slate-300]="cyberSubSection !== 'all'"
+                class="px-3 py-1.5 rounded-lg transition-all"
+              >
+                {{ ts.isRomanian ? 'Toate (Complet)' : 'All (Complete)' }}
+              </button>
+              <button
+                (click)="cyberSubSection = 'cases'"
+                [class.bg-obsidian-750]="cyberSubSection === 'cases'"
+                [class.text-slate-950]="cyberSubSection === 'cases'"
+                [class.font-bold]="cyberSubSection === 'cases'"
+                [class.text-slate-300]="cyberSubSection !== 'cases'"
+                class="px-3 py-1.5 rounded-lg transition-all"
+              >
+                {{ ts.isRomanian ? 'Dosare DFIR (4)' : 'DFIR Cases (4)' }}
+              </button>
+              <button
+                (click)="cyberSubSection = 'perimeter'"
+                [class.bg-obsidian-750]="cyberSubSection === 'perimeter'"
+                [class.text-slate-950]="cyberSubSection === 'perimeter'"
+                [class.font-bold]="cyberSubSection === 'perimeter'"
+                [class.text-slate-300]="cyberSubSection !== 'perimeter'"
+                class="px-3 py-1.5 rounded-lg transition-all"
+              >
+                {{ ts.isRomanian ? 'Dual-Tier Firewall' : 'Dual-Tier Firewall' }}
+              </button>
+              <button
+                (click)="cyberSubSection = 'pillars'"
+                [class.bg-obsidian-750]="cyberSubSection === 'pillars'"
+                [class.text-slate-950]="cyberSubSection === 'pillars'"
+                [class.font-bold]="cyberSubSection === 'pillars'"
+                [class.text-slate-300]="cyberSubSection !== 'pillars'"
+                class="px-3 py-1.5 rounded-lg transition-all"
+              >
+                {{ ts.isRomanian ? 'Piloni SOC (8)' : 'SOC Pillars (8)' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- SUB-SECTION 1: THE 4 DIGITAL FORENSICS INVESTIGATIONS -->
+          @if (cyberSubSection === 'all' || cyberSubSection === 'cases') {
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-base font-bold text-slate-100">
+                    {{ ts.isRomanian ? '1. Cazuri de Criminalistică Digitală & Deconstrucție Amenințări' : '1. Digital Forensics & Threat Deconstruction Case Studies' }}
+                  </h4>
+                  <p class="text-xs text-slate-400">
+                    {{ ts.isRomanian ? 'Selectează un dosar pentru a citi analiza tehnică completă, decompilarea API și regulile de detecție.' : 'Select any investigation to inspect full technical analysis, API decompilation, and detection signatures.' }}
+                  </p>
                 </div>
+                <span class="text-[11px] font-mono text-slate-400">4 {{ ts.isRomanian ? 'Cazuri Finalizate' : 'Completed Cases' }}</span>
+              </div>
 
-                <p class="text-xs text-slate-300 leading-relaxed font-sans font-normal">
-                  {{ pillar.description }}
-                </p>
+              <!-- 4 Cases Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans text-xs">
+                @for (c of (ts.isRomanian ? forensicCasesRo : forensicCasesEn); track c.id) {
+                  <div
+                    (click)="openCase(c)"
+                    class="p-6 rounded-2xl bg-obsidian-850/95 border border-obsidian-750 hover:border-slate-500/50 shadow-xl transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:bg-obsidian-800"
+                  >
+                    <div class="space-y-4">
+                      <!-- Top Metadata Badges -->
+                      <div class="flex items-center justify-between gap-2 border-b border-obsidian-750 pb-3">
+                        <div class="flex items-center gap-2">
+                          <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-red-950/60 text-red-300 border border-red-800/60 uppercase">
+                            {{ c.caseId }}
+                          </span>
+                          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700 uppercase">
+                            {{ c.classification }}
+                          </span>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">{{ c.date }}</span>
+                      </div>
 
-                <div class="space-y-1.5 pt-1">
-                  <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">{{ ts.isRomanian ? 'Tehnologii & Unelte' : 'Technologies & Tooling' }}</div>
-                  <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                    @for (tool of pillar.tools; track tool) {
-                      <span class="px-2 py-0.5 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200">
-                        {{ tool }}
+                      <!-- Case Title & Badge -->
+                      <div>
+                        <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">
+                          {{ c.badge }}
+                        </div>
+                        <h4 class="text-base font-bold text-slate-50 group-hover:text-slate-200 transition-colors leading-snug">
+                          {{ c.title }}
+                        </h4>
+                      </div>
+
+                      <!-- Summary Paragraph -->
+                      <p class="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                        {{ c.summary }}
+                      </p>
+
+                      <!-- Key Technical Discovery Highlight -->
+                      <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750/80 space-y-1">
+                        <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                          {{ ts.isRomanian ? 'Descoperire Tehnică Cheie' : 'Key Technical Discovery' }}
+                        </div>
+                        <div class="text-[11px] font-mono text-slate-300 truncate">
+                          {{ c.reverseFindings[1] || c.reverseFindings[0] }}
+                        </div>
+                      </div>
+
+                      <!-- MITRE ATT&CK Badges -->
+                      <div class="flex flex-wrap gap-1 font-mono text-[10px]">
+                        @for (m of c.mitreAttack; track m) {
+                          <span class="px-2 py-0.5 rounded bg-obsidian-900/90 border border-obsidian-750 text-slate-400">
+                            {{ m }}
+                          </span>
+                        }
+                      </div>
+                    </div>
+
+                    <!-- Footer Action -->
+                    <div class="mt-5 pt-3 border-t border-obsidian-750 flex items-center justify-between text-xs">
+                      <span class="text-slate-400 text-[11px] font-mono">{{ c.status }}</span>
+                      <span class="font-mono font-bold text-slate-300 group-hover:text-slate-100 flex items-center gap-1">
+                        {{ ts.isRomanian ? 'Deschide Dosarul Criminalistic →' : 'Open Forensic Dossier →' }}
                       </span>
-                    }
+                    </div>
                   </div>
-                </div>
+                }
               </div>
             </div>
           }
+
+          <!-- SUB-SECTION 2: DUAL-TIER PERIMETER & SOC THREAT CORRELATION -->
+          @if (cyberSubSection === 'all' || cyberSubSection === 'perimeter') {
+            <div class="space-y-4">
+              <div>
+                <h4 class="text-base font-bold text-slate-100">
+                  {{ ts.isRomanian ? '2. Arhitectură Perimetrală Dual-Tier & Corelare cu SOC-ul Datacenter' : '2. Dual-Tier Perimeter Architecture & Datacenter SOC Correlation' }}
+                </h4>
+                <p class="text-xs text-slate-400">
+                  {{ ts.isRomanian ? 'Flux de filtrare defensivă în profunzime (Defense-in-Depth): de la perimetrul extern la rutare de tranzit BGP și detecție EDR/SIEM.' : 'Defense-in-depth traffic flow: from external frontline perimeter to BGP transit routing and EDR/SIEM detection.' }}
+                </p>
+              </div>
+
+              <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-6">
+                <!-- Visual Pipeline Flow Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
+                  
+                  <!-- Tier 1: OPNsense -->
+                  <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">TIER 1 · PERIMETRU EDGE</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                      </div>
+                      <h5 class="font-bold text-sm text-slate-100 mt-1">OPNsense Gateway</h5>
+                      <div class="text-[10px] text-slate-400 font-sans mt-0.5">VM 200 · FreeBSD pf</div>
+                      <p class="text-[11px] text-slate-300 font-sans mt-2 leading-relaxed">
+                        {{ ts.isRomanian ? 'Filtrare stateful L3/L4, Suricata IDS/IPS activ, CrowdSec bouncer L7 și terminare tunel hibrid WireGuard (wg-cloud0).' : 'Stateful L3/L4 filtering, Suricata IDS/IPS, CrowdSec L7 bouncer, and hybrid WireGuard tunnel termination (wg-cloud0).' }}
+                      </p>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[10px] text-slate-400">
+                      IP: 192.168.1.134 / WAN 1.0/24
+                    </div>
+                  </div>
+
+                  <!-- Transit Link: Bus L3 -->
+                  <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">BUS DE TRANZIT L3</span>
+                        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                      </div>
+                      <h5 class="font-bold text-sm text-slate-100 mt-1">vmbr2 Transit Subnet</h5>
+                      <div class="text-[10px] text-slate-400 font-sans mt-0.5">10.10.20.0/30 · BGP / OSPF</div>
+                      <p class="text-[11px] text-slate-300 font-sans mt-2 leading-relaxed">
+                        {{ ts.isRomanian ? 'Interconectare dedicată punct-la-punct fără interferențe L2. Sesiune BGP între AS 64512 (OPNsense) și AS 64513 (FortiGate).' : 'Dedicated point-to-point interconnect without L2 broadcast noise. BGP peering between AS 64512 (OPNsense) and AS 64513 (FortiGate).' }}
+                      </p>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[10px] text-slate-400">
+                      Transit IP: 10.10.20.1 &lt;-&gt; 10.10.20.2
+                    </div>
+                  </div>
+
+                  <!-- Tier 2: FortiGate-VM -->
+                  <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">TIER 2 · ENTERPRISE NGFW</span>
+                        <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                      </div>
+                      <h5 class="font-bold text-sm text-slate-100 mt-1">Fortinet FortiGate-VM</h5>
+                      <div class="text-[10px] text-slate-400 font-sans mt-0.5">VM 221 · FortiOS / Cisco ASAv</div>
+                      <p class="text-[11px] text-slate-300 font-sans mt-2 leading-relaxed">
+                        {{ ts.isRomanian ? 'Inspecție profundă SSL/TLS DPI, Application Control L7, scanare Antivirus de rețea și protecție specifică pentru fluxurile interne.' : 'SSL/TLS Deep Packet Inspection, L7 Application Control, inline Antivirus scanning, and internal east-west traffic policing.' }}
+                      </p>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[10px] text-slate-400">
+                      Politică Zero-Trust Inter-VLAN
+                    </div>
+                  </div>
+
+                  <!-- SOC & Deception -->
+                  <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">SOC & DECEPȚIE DMZ</span>
+                        <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                      </div>
+                      <h5 class="font-bold text-sm text-slate-100 mt-1">Wazuh SIEM & T-Pot</h5>
+                      <div class="text-[10px] text-slate-400 font-sans mt-0.5">CT 100 & VM 213 (VLAN 40)</div>
+                      <p class="text-[11px] text-slate-300 font-sans mt-2 leading-relaxed">
+                        {{ ts.isRomanian ? 'Cluster de capcane Cowrie SSH & Dionaea în DMZ izolat; corelare evenimente în Wazuh XDR și analiză dinamică pe REMnux (VM 218).' : 'Cowrie SSH & Dionaea deception cluster in isolated DMZ; event correlation via Wazuh XDR and dynamic triage on REMnux (VM 218).' }}
+                      </p>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[10px] text-slate-400">
+                      Wazuh Manager: 192.168.1.132:1514
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Live Correlation Matrix with the 4 Forensics Investigations -->
+                <div class="p-4 rounded-xl bg-obsidian-900/80 border border-obsidian-750 space-y-3">
+                  <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                    {{ ts.isRomanian ? 'Cum Alimentează Cele 4 Investigații Apărarea Datacenter-ului' : 'How the 4 Forensic Investigations Directly Feed Datacenter Defense' }}
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-sans">
+                    <div class="flex gap-2">
+                      <span class="font-mono text-red-400 font-bold">1.</span>
+                      <span class="text-slate-300">
+                        <strong class="text-slate-100">Task Scam (USDT TRC-20):</strong>
+                        {{ ts.isRomanian ? 'Regulile Suricata inspectează JSON-urile ce conțin chei de kill-switch; IP-urile de C2 sunt blocate automat pe OPNsense prin CrowdSec.' : 'Suricata rules inspect JSON bodies for kill-switch attributes; C2 IPs are blacklisted via CrowdSec on OPNsense.' }}
+                      </span>
+                    </div>
+                    <div class="flex gap-2">
+                      <span class="font-mono text-blue-400 font-bold">2.</span>
+                      <span class="text-slate-300">
+                        <strong class="text-slate-100">Revolut Vishing:</strong>
+                        {{ ts.isRomanian ? 'Filtrare antete SIP nesecurizate pe Asterisk PBX și blocare directă la nivel DNS a domeniilor nou apărute (NRD &lt; 30 zile).' : 'Unauthenticated SIP header filtering on Asterisk PBX and automated DNS sinkholing of newly registered domains (NRD &lt; 30 days).' }}
+                      </span>
+                    </div>
+                    <div class="flex gap-2">
+                      <span class="font-mono text-amber-400 font-bold">3.</span>
+                      <span class="text-slate-300">
+                        <strong class="text-slate-100">TikTok MRR Pyramids:</strong>
+                        {{ ts.isRomanian ? 'Crawler OSINT pe Proxmox pentru identificarea rutelor scurtate de phishing și scoring de reputație al portilor de plată.' : 'Proxmox-hosted OSINT crawler resolving short URL redirects and monitoring high-risk merchant gateway domains.' }}
+                      </span>
+                    </div>
+                    <div class="flex gap-2">
+                      <span class="font-mono text-purple-400 font-bold">4.</span>
+                      <span class="text-slate-300">
+                        <strong class="text-slate-100">Steam OpenID BitM:</strong>
+                        {{ ts.isRomanian ? 'Detecție a structurilor sintetice de ferestre BitM în traficul HTTP și reguli de alertare Wazuh pentru crearea suspectă de chei Web API.' : 'Identification of synthetic BitM in-DOM frames via Suricata and Wazuh alerting on unusual Web API token provisions.' }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          }
+
+          <!-- SUB-SECTION 3: THE 8 SECURITY PILLARS -->
+          @if (cyberSubSection === 'all' || cyberSubSection === 'pillars') {
+            <div class="space-y-4">
+              <div>
+                <h4 class="text-base font-bold text-slate-100">
+                  {{ ts.isRomanian ? '3. Cei 8 Piloni Tehnici ai Securității Datacenter (SOC & Defensivă)' : '3. The 8 Technical Cybersecurity & Defense Pillars (SOC & SecOps)' }}
+                </h4>
+                <p class="text-xs text-slate-400">
+                  {{ ts.isRomanian ? 'Stive tehnologice de la virtualizare bare-metal și Active Directory până la analiză de pachete, SIEM și inginerie de detecție.' : 'Full technology stacks spanning bare-metal virtualization, Active Directory, packet inspection, SIEM, and detection engineering.' }}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
+                @for (pillar of (ts.isRomanian ? cyberPillarsRo : cyberPillarsEn); track pillar.title) {
+                  <div class="p-6 rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl space-y-3.5 flex flex-col justify-between">
+                    <div class="space-y-3">
+                      <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
+                        <h3 class="font-sans font-bold text-slate-50 text-base tracking-wide">
+                          {{ pillar.title }}
+                        </h3>
+                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700 uppercase">
+                          {{ pillar.badge }}
+                        </span>
+                      </div>
+
+                      <p class="text-xs text-slate-300 leading-relaxed font-sans font-normal">
+                        {{ pillar.description }}
+                      </p>
+
+                      <div class="space-y-1.5 pt-1">
+                        <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">{{ ts.isRomanian ? 'Tehnologii & Unelte' : 'Technologies & Tooling' }}</div>
+                        <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                          @for (tool of pillar.tools; track tool) {
+                            <span class="px-2 py-0.5 rounded bg-obsidian-900 border border-obsidian-750 text-slate-200">
+                              {{ tool }}
+                            </span>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
         </div>
       }
 
@@ -760,12 +1075,431 @@ import { TranslationService } from '../../services/translation.service';
         </div>
       }
 
+      <!-- MODAL: FORENSIC INVESTIGATION DOSSIER -->
+      @if (selectedCase) {
+        <div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto" (click)="closeCase()">
+          <div
+            class="relative w-full max-w-4xl max-h-[90vh] bg-obsidian-900 border border-obsidian-700 rounded-2xl shadow-2xl overflow-y-auto p-6 sm:p-8 space-y-6 text-slate-200 font-sans my-auto"
+            (click)="$event.stopPropagation()"
+          >
+            <!-- Modal Header -->
+            <div class="flex items-start justify-between border-b border-obsidian-750 pb-4 gap-4">
+              <div class="space-y-1.5">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-red-950/70 text-red-300 border border-red-800/80">
+                    {{ selectedCase.caseId }}
+                  </span>
+                  <span class="text-xs font-mono px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700">
+                    {{ selectedCase.classification }}
+                  </span>
+                  <span class="text-xs font-mono px-2 py-0.5 rounded bg-obsidian-850 text-slate-400">
+                    {{ selectedCase.date }} · {{ selectedCase.author }}
+                  </span>
+                  <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800/80">
+                    {{ selectedCase.status }}
+                  </span>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-bold text-slate-50 leading-tight">
+                  {{ selectedCase.title }}
+                </h3>
+                <div class="text-xs font-mono text-slate-400">
+                  {{ ts.isRomanian ? 'Director Proiect:' : 'Project Directory:' }} <span class="text-slate-300">{{ selectedCase.repoPath }}</span>
+                </div>
+              </div>
+
+              <!-- Close Button -->
+              <button
+                (click)="closeCase()"
+                class="p-2 rounded-xl bg-obsidian-800 hover:bg-obsidian-750 text-slate-300 hover:text-slate-100 transition-colors border border-obsidian-700 shrink-0"
+                aria-label="Close modal"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Modal Body Sections -->
+            <div class="space-y-6 text-xs sm:text-sm">
+
+              <!-- 1. Executive Summary -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ ts.isRomanian ? '1. Rezumat Executiv & Context Incident' : '1. Executive Summary & Incident Context' }}
+                </h5>
+                <p class="text-slate-300 leading-relaxed bg-obsidian-850 p-4 rounded-xl border border-obsidian-750">
+                  {{ selectedCase.summary }}
+                </p>
+              </div>
+
+              <!-- 2. Attack Vector & Pretext -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ ts.isRomanian ? '2. Vector de Atac & Psihologie / Pretext' : '2. Attack Vector & Pretext Engineering' }}
+                </h5>
+                <div class="bg-obsidian-850 p-4 rounded-xl border border-obsidian-750 text-slate-300 leading-relaxed font-mono text-xs">
+                  {{ selectedCase.attackVector }}
+                </div>
+              </div>
+
+              <!-- 3. Reverse Engineering Findings -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ ts.isRomanian ? '3. Descoperiri Criminalistice & Decompilare Backend' : '3. Forensic Discoveries & Backend Decompilation' }}
+                </h5>
+                <div class="space-y-2 bg-obsidian-850 p-4 rounded-xl border border-obsidian-750">
+                  @for (finding of selectedCase.reverseFindings; track finding) {
+                    <div class="flex items-start gap-2.5">
+                      <span class="text-slate-400 font-mono mt-0.5 font-bold">›</span>
+                      <span class="text-slate-300 text-xs sm:text-sm leading-relaxed">{{ finding }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <!-- 4. Financial Trapping & Post-Exploitation -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ ts.isRomanian ? '4. Drenaj Financiar & Post-Exploatare' : '4. Financial Drain & Post-Exploitation Mechanics' }}
+                </h5>
+                <p class="text-slate-300 leading-relaxed bg-obsidian-850 p-4 rounded-xl border border-obsidian-750 text-xs sm:text-sm">
+                  {{ selectedCase.financialFlow }}
+                </p>
+              </div>
+
+              <!-- 5. Indicators of Compromise (IoCs) -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ ts.isRomanian ? '5. Indicatori Tehnici de Compromitere (IoCs)' : '5. Technical Indicators of Compromise (IoCs)' }}
+                </h5>
+                <div class="overflow-x-auto rounded-xl border border-obsidian-750">
+                  <table class="w-full font-mono text-xs text-left bg-obsidian-850">
+                    <thead class="bg-obsidian-900 text-slate-400 border-b border-obsidian-750 text-[11px] uppercase">
+                      <tr>
+                        <th class="py-2.5 px-4">{{ ts.isRomanian ? 'Tip Indicator' : 'Indicator Type' }}</th>
+                        <th class="py-2.5 px-4">{{ ts.isRomanian ? 'Valoare / Artefact Identificat' : 'Identified Value / Artifact' }}</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-obsidian-750 text-slate-300">
+                      @for (ioc of selectedCase.iocs; track ioc.value) {
+                        <tr>
+                          <td class="py-2.5 px-4 font-bold text-slate-400">{{ ioc.type }}</td>
+                          <td class="py-2.5 px-4 text-slate-200">{{ ioc.value }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 6. Datacenter Defense & Detection -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ ts.isRomanian ? '6. Implementare în Datacenter & Detecție Runtime' : '6. Datacenter Implementation & Runtime Detection' }}
+                </h5>
+                <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  {{ selectedCase.datacenterDefense }}
+                </div>
+              </div>
+
+              <!-- 7. MITRE ATT&CK Mapping -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {{ ts.isRomanian ? '7. Mapare MITRE ATT&CK' : '7. MITRE ATT&CK Framework Mapping' }}
+                </h5>
+                <div class="flex flex-wrap gap-2 font-mono text-xs">
+                  @for (m of selectedCase.mitreAttack; track m) {
+                    <span class="px-3 py-1 rounded-lg bg-obsidian-800 border border-obsidian-700 text-slate-300">
+                      {{ m }}
+                    </span>
+                  }
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="border-t border-obsidian-750 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="text-xs font-mono text-slate-400">
+                {{ ts.isRomanian ? 'Dosar arhivat în repozitoriu: ' : 'Case archived in repo: ' }}
+                <code class="text-slate-300 bg-obsidian-800 px-2 py-0.5 rounded">{{ selectedCase.repoPath }}/case_study.md</code>
+              </div>
+              <div class="flex items-center gap-3 w-full sm:w-auto">
+                <a
+                  [href]="selectedCase.githubUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 sm:flex-initial px-4 py-2 rounded-xl bg-slate-100 hover:bg-white text-slate-950 font-bold text-xs font-mono text-center transition-all shadow-lg"
+                >
+                  {{ ts.isRomanian ? 'Vezi Studiul de Caz pe GitHub ↗' : 'View Full Case Study on GitHub ↗' }}
+                </a>
+                <button
+                  (click)="closeCase()"
+                  class="px-4 py-2 rounded-xl bg-obsidian-800 hover:bg-obsidian-750 text-slate-300 text-xs font-mono transition-all border border-obsidian-700"
+                >
+                  {{ ts.isRomanian ? 'Închide' : 'Close' }}
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      }
+
     </section>
   `
 })
 export class ArchitectureBlueprintComponent {
   ts = inject(TranslationService);
   activeTab: 'cloud' | 'vlan' | 'power' | 'storage' | 'cyber' | 'zerotrust' | 'generator' | 'chaos' | 'observability' | 'glossary' = 'cloud';
+  cyberSubSection: 'all' | 'cases' | 'perimeter' | 'pillars' = 'all';
+  selectedCase: ForensicCase | null = null;
+
+  openCase(c: ForensicCase) {
+    this.selectedCase = c;
+  }
+
+  closeCase() {
+    this.selectedCase = null;
+  }
+
+  forensicCasesEn: ForensicCase[] = [
+    {
+      id: 'task-scam',
+      caseId: 'SEC-2026-TASK-001',
+      title: 'Forensic Deconstruction: Fraudulent Task Scam & USDT TRC-20 Drainage Platform',
+      badge: 'Pig Butchering & Crypto Drainage',
+      classification: 'TLP:CLEAR',
+      date: '17 April 2026',
+      author: '@stefanutc1',
+      status: 'Completed & Documented',
+      summary: 'Forensic teardown of a global Task Scam (hybrid Pig Butchering) infrastructure recruiting victims via WhatsApp/Telegram under the pretext of rating products on major e-commerce platforms. Traffic interception via Burp Suite and backend route discovery revealed technical proof of premeditated financial theft.',
+      attackVector: 'Telegram/WhatsApp recruitment -> Access to Vue.js web app via exclusive invite code -> Fictitious balance generation in UI -> Mandatory USDT TRC-20 deposits for VIP levels -> Indefinite withdrawal blocking citing fabricated compliance taxes.',
+      reverseFindings: [
+        'Unauthenticated /api/v1/site/config endpoint disclosing operational campaign parameters in plain JSON.',
+        'Hardcoded withdrawal kill-switch: withdrawMethodBank: false, withdrawMethodRevolut: false proving fiat withdrawal buttons were non-functional decoys.',
+        'Geographic targeting lock: defaultCountryCode: "+40" restricting campaign intake exclusively to Romanian phone numbers.',
+        'Severe SQL Injection surface across /api/v1/user/auth/* via invite_code and username parameters.'
+      ],
+      financialFlow: 'USDT TRC-20 deposits to attacker addresses. Funds are routed instantly through crypto mixers and consolidation clusters. Withdrawals are perpetually blocked demanding continuous "security audit unlock" fees.',
+      iocs: [
+        { type: 'API Route', value: '/api/v1/site/config' },
+        { type: 'Auth Route', value: '/api/v1/user/auth/login & /register' },
+        { type: 'Target Scope', value: 'Country Code +40 (Romania Lock)' },
+        { type: 'TRC-20 Wallet', value: 'TLyG...x89W (Consolidation Node)' }
+      ],
+      datacenterDefense: 'Suricata IDS signature on OPNsense inspecting and blocking payloads containing withdrawMethodBank:false. Attacker IPs banned via CrowdSec and correlated in Wazuh SIEM on Proxmox.',
+      repoPath: 'cyber/task-scam-infrastructure-analysis',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/task-scam-infrastructure-analysis/case_study.md',
+      mitreAttack: ['T1566 (Phishing)', 'T1589 (Gather Victim Info)', 'T1190 (Exploit Public App)', 'T1539 (Steal Web Session)']
+    },
+    {
+      id: 'revolut-vishing',
+      caseId: 'SEC-2026-VISH-002',
+      title: 'Advanced Voice Phishing (Vishing) & Real-Time Credential Relay Targeting FinTech (Revolut)',
+      badge: 'Telephony Fraud & Reverse Proxy Relay',
+      classification: 'TLP:CLEAR',
+      date: '10 August 2026',
+      author: '@stefanutc1',
+      status: 'Completed & Documented',
+      summary: 'Forensic teardown of an aggressive Voice Phishing (Vishing) campaign weaponizing SIP VoIP Caller ID Spoofing to impersonate Revolut anti-fraud personnel. Victims were lured into cloned portals that harvested card details, 3D Secure SMS codes, and in-app biometric approvals in real time.',
+      attackVector: 'Phone call with spoofed Caller ID (0749-XXX-XXX) -> Urgency manufacture ("unauthorized 1,850 RON charge") -> SMS shortener link to cloned portal -> Real-time PAN, CVV, expiry capture -> Synchronous bank API injection -> Biometric push approval coercion.',
+      reverseFindings: [
+        'Manipulation of SIP "From" and "P-Asserted-Identity" headers on insecure VoIP trunks to spoof legitimate corporate CLI.',
+        'Cloned bank landing portal deployed on disposable TLDs (.xyz, .online) using free Let\'s Encrypt TLS certs.',
+        'Real-time C2 reverse proxy piping victim-submitted credentials synchronously into the legitimate banking API.',
+        'Synchronous coercion technique: operator maintains active voice call while compelling victim to tap in-app biometric approvals.'
+      ],
+      financialFlow: 'Instant exfiltration via SEPA Instant Transfers to mule accounts opened with synthetic identities or immediate crypto liquidation on P2P exchanges.',
+      iocs: [
+        { type: 'VoIP Spoofed CLI', value: '0749-XXX-XXX (Telekom/Orange Spoof)' },
+        { type: 'Phishing Domain', value: 'revolut-security-auth[.]xyz' },
+        { type: 'Relay Protocol', value: 'WSS / HTTPS reverse proxy relay' },
+        { type: 'Exfiltration', value: 'SEPA Instant Mule IBANs' }
+      ],
+      datacenterDefense: 'OPNsense & FortiGate domain categorizer blocking Newly Registered Domains (NRD < 30 days), SIP header inspection on Asterisk PBX, and automated takedown reporting playbooks.',
+      repoPath: 'cyber/revolut-vishing-forensics',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/revolut-vishing-forensics/case_study.md',
+      mitreAttack: ['T1566.002 (Spearphishing Link)', 'T1056.003 (Web Portal Harvesting)', 'T1539 (Steal Web Session)', 'T1656 (Impersonation)']
+    },
+    {
+      id: 'tiktok-mrr',
+      caseId: 'SEC-2025-MRR-001',
+      title: 'Forensic Investigation: TikTok Marketing Funnels & Recursive Master Resell Rights (MRR) Schemes',
+      badge: 'Algorithmic Funnel & Payment Abuse',
+      classification: 'TLP:CLEAR',
+      date: '14 June 2025 - 18 April 2026',
+      author: '@stefanutc1',
+      status: 'Reported & Documented',
+      summary: 'Forensic examination of automated "faceless" marketing funnels on TikTok targeting Eastern European users. Documented a $497 "Digital Wealth Accelerator" transaction on stan.store. The delivered package contained purely ChatGPT-generated e-books coupled with a Master Resell Rights license mandating the buyer to replicate the funnel and resell the same course, constituting a recursive pyramid scheme.',
+      attackVector: 'Viral TikTok clips -> Synthetic AI voiceovers (ElevenLabs / CapCut) -> Link-in-Bio redirect to stan.store / Beacons -> $497 course payment via Stripe/PayPal -> Delivery of AI-synthesized PDF + mandatory MRR resale license.',
+      reverseFindings: [
+        'Stylometric textual analysis: 99.4% match with raw GPT-3.5/GPT-4 prompts, confirming absence of original research.',
+        'MRR license prohibits altering core content while mandating fixed $497 resale price, meeting FTC definition of recursive pyramid schemes.',
+        'Abuse of Stripe Connect merchant infrastructure on Stan.store to circumvent underwriting scrutiny.',
+        'Formal abuse notices submitted to abuse@stan.store, compliance@stan.store, Stripe Legal, and FTC.'
+      ],
+      financialFlow: 'Settlement via Stripe Connect directly to merchant bank accounts. Funds are rapidly withdrawn to avert chargeback clawbacks. Victim\'s sole financial recovery route is recruiting secondary buyers.',
+      iocs: [
+        { type: 'Target Platform', value: 'TikTok In-App Browser & Feed' },
+        { type: 'Landing Host', value: '*.stan.store merchant subdomains' },
+        { type: 'Payment Gateways', value: 'Stripe Connect API, PayPal Checkout' },
+        { type: 'Evidence Hash', value: '4b91f0c2a83e... (SHA-256)' }
+      ],
+      datacenterDefense: 'Proxmox-hosted OSINT scraping worker mapping URL shortener redirect hops, risk scoring domains, and enforcing DNS sinkholing via OPNsense Unbound.',
+      repoPath: 'cyber/tiktok-mrr-scam-infrastructure',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/tiktok-mrr-scam-infrastructure/case_study.md',
+      mitreAttack: ['T1584 (Compromise Infrastructure)', 'T1566.002 (Spearphishing Link)', 'T1598 (Phishing for Information)']
+    },
+    {
+      id: 'openid-mitm',
+      caseId: 'SEC-2025-BITM-003',
+      title: 'Forensic Analysis: Adversary-in-the-Middle (AiTM) on Steam OpenID 2.0 Authentication',
+      badge: 'AiTM & Session Token Hijacking',
+      classification: 'TLP:CLEAR',
+      date: '22 November 2025',
+      author: '@stefanutc1',
+      status: 'Completed & Documented',
+      summary: 'Forensic investigation into an advanced Browser-in-the-Middle (BitM) campaign targeting esports players (CS2, Dota 2). Threat actors used an in-DOM synthetic window with fake SSL address bar to harvest OpenID 2.0 credentials, immediately locking accounts via Family View PIN and hijacking trade offers via Web API.',
+      attackVector: 'Tournament voting portal -> Click "Sign in through Steam" -> Synthetic in-DOM BitM window with simulated SSL address bar -> Input credentials and Steam Guard TOTP -> Real-time C2 relay to Valve -> Immediate 4-digit Family View PIN lock -> Steam Web API key generation for trade hijacking.',
+      reverseFindings: [
+        'Simulated browser popup drawn via styled DOM container with draggable titlebar and simulated SSL padlock to bypass native browser security sandbox boundaries.',
+        'Harvest script main.bundle.js intercepts form submission and transmits credentials via fetch() to /api/v2/auth/steam_callback.',
+        'C2 reverse proxy initiates live authentication handshake with Valve servers, capturing steamLoginSecure and sessionid cookies.',
+        'Automated post-exploitation bot: immediately sets a 4-digit Family View PIN (freezing victim out of account recovery) and provisions a Steam Web API Key to hijack trade offers in real time.',
+      ],
+      financialFlow: 'Adversary bot cancels legitimate trade offers and substitutes identical offers directed to clone accounts, draining high-value weapon skins and virtual inventory assets.',
+      iocs: [
+        { type: 'AiTM Callback', value: '/api/v2/auth/steam_callback' },
+        { type: 'Phishing Bundle', value: 'main.bundle.js (obfuscated BitM engine)' },
+        { type: 'Extracted Cookies', value: 'steamLoginSecure, sessionid' },
+        { type: 'Post-Exploit Action', value: 'Family View PIN Lock + Web API Provisioning' }
+      ],
+      datacenterDefense: 'Suricata IDS rule on VM 200 flagging simulated BitM window canvas structures, T-Pot HTTP event correlation, and Wazuh alerts on suspicious API token activity.',
+      repoPath: 'cyber/openid-mitm-phishing-forensics',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/openid-mitm-phishing-forensics/case_study.md',
+      mitreAttack: ['T1566.002 (Spearphishing Link)', 'T1539 (Steal Web Session Cookie)', 'T1078 (Valid Accounts)', 'T1056.003 (Web Portal Harvesting)']
+    }
+  ];
+
+  forensicCasesRo: ForensicCase[] = [
+    {
+      id: 'task-scam',
+      caseId: 'SEC-2026-TASK-001',
+      title: 'Deconstrucție Forensic: Platformă Frauduloasă de Task Scam & Drenaj USDT TRC-20',
+      badge: 'Pig Butchering & Drenaj Cripto',
+      classification: 'TLP:CLEAR',
+      date: '17 Aprilie 2026',
+      author: '@stefanutc1',
+      status: 'Finalizat & Documentat',
+      summary: 'Dezasamblarea criminalistică a unei infrastructuri globale de Task Scam (hibrid Pig Butchering) ce recruta utilizatori pe WhatsApp/Telegram promițând comisioane pentru evaluarea produselor pe platforme e-commerce. Interceptarea traficului prin Burp Suite a expus un kill-switch hardcodat pentru retrageri și filtrare geografică strictă pe numere românești.',
+      attackVector: 'Recrutare Telegram/WhatsApp -> Aplicație web Vue.js cu link de invitație -> Generare balanțe fictive în UI -> Cerință de depunere USDT TRC-20 pentru niveluri VIP -> Blocare permanentă a retragerilor sub pretextul plății unor taxe suplimentare.',
+      reverseFindings: [
+        'Endpoint /api/v1/site/config neautentificat ce dezvăluie parametrii interni ai campaniei în format JSON curat.',
+        'Kill-Switch hardcodat pentru retrageri: withdrawMethodBank: false, withdrawMethodRevolut: false — butoanele de retragere erau pure elemente decorative.',
+        'Blocare geografică: defaultCountryCode: "+40" restricționează înregistrarea victimelor exclusiv la numere din România.',
+        'Suprafață SQLi critică pe rutele /api/v1/user/auth/* prin parametrii invite_code și username.'
+      ],
+      financialFlow: 'Depozite în USDT TRC-20 către adresa atacatorului. Fondurile sunt redirecționate instantaneu către mixere și portofele de consolidare. Retragerile sunt blocate sub cererea unor plăți continue de "deblocare audit".',
+      iocs: [
+        { type: 'Rută API', value: '/api/v1/site/config' },
+        { type: 'Rută Autentificare', value: '/api/v1/user/auth/login & /register' },
+        { type: 'Target Geografic', value: 'Prefix +40 (România Lock)' },
+        { type: 'Portofel TRC-20', value: 'TLyG...x89W (Nod Consolidare)' }
+      ],
+      datacenterDefense: 'Semnătură Suricata IDS pe OPNsense ce blochează payload-urile cu parametrul withdrawMethodBank:false. IP-uri blocate automat prin CrowdSec și corelate în Wazuh SIEM pe Proxmox.',
+      repoPath: 'cyber/task-scam-infrastructure-analysis',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/task-scam-infrastructure-analysis/case_study.md',
+      mitreAttack: ['T1566 (Phishing)', 'T1589 (Colectare Date Victime)', 'T1190 (Exploatare Aplicație Web)', 'T1539 (Furt Sesiune Web)']
+    },
+    {
+      id: 'revolut-vishing',
+      caseId: 'SEC-2026-VISH-002',
+      title: 'Vishing Avansat & Relay de Credențiale în Timp Real Vizând Utilizatorii FinTech (Revolut)',
+      badge: 'Fraudă Telefonică & Proxy Relay',
+      classification: 'TLP:CLEAR',
+      date: '10 August 2026',
+      author: '@stefanutc1',
+      status: 'Finalizat & Documentat',
+      summary: 'Deconstrucția criminalistică a unei campanii de Voice Phishing (Vishing) ce a utilizat spoofing al Caller ID-ului prin trunchiuri SIP VoIP pentru a impersona echipa antifraudă Revolut. Victimele erau direcționate către clone web ce interceptau datele de card, codurile SMS 3DS și aprobările biometrice în timp real.',
+      attackVector: 'Apel telefonic cu Caller ID falsificat (0749-XXX-XXX) -> Creare stare de urgență ("plată neautorizată de 1.850 RON") -> SMS cu link scurtat către portal clonă -> Recoltare PAN, CVV, Dată expirare -> Injectare imediată prin API bancar -> Forțare aprobare push biometrică la telefon.',
+      reverseFindings: [
+        'Manipularea antetelor SIP "From" și "P-Asserted-Identity" pe gateway-uri VoIP neautentificate pentru falsificarea numărului de apelant.',
+        'Portal clonă găzduit pe TLD-uri efemere (.xyz / .online) securizat prin certificate Let\'s Encrypt gratuite.',
+        'C2 reverse proxy în timp real ce conectează sesiunea victimei direct cu API-ul bancar legitim pentru tranzacții imediate.',
+        'Tehnică de "coerciție sincronă" prin menținerea victimei în apel vocal până la finalizarea autorizării 3D Secure.'
+      ],
+      financialFlow: 'Transferuri instantanee prin SEPA Instant către conturi cărăuș (mule IBAN) deschise cu identități furate sau achiziții rapide de monedă virtuală pe burse peer-to-peer.',
+      iocs: [
+        { type: 'CLI VoIP Spoofat', value: '0749-XXX-XXX (Telekom/Orange Spoof)' },
+        { type: 'Domeniu Phishing', value: 'revolut-security-auth[.]xyz' },
+        { type: 'Protocol Releu', value: 'WSS / HTTPS reverse proxy relay' },
+        { type: 'Exfiltrare', value: 'IBAN-uri Cărăuș SEPA Instant' }
+      ],
+      datacenterDefense: 'Filtrare OPNsense & FortiGate a domeniilor nou create (NRD < 30 zile), reguli de inspecție antet SIP pe Asterisk PBX și automatizare transmitere notificări de takedown.',
+      repoPath: 'cyber/revolut-vishing-forensics',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/revolut-vishing-forensics/case_study.md',
+      mitreAttack: ['T1566.002 (Link Spearphishing)', 'T1056.003 (Recoltare Credențiale Web)', 'T1539 (Furt Sesiune Web)', 'T1656 (Impersonare)']
+    },
+    {
+      id: 'tiktok-mrr',
+      caseId: 'SEC-2025-MRR-001',
+      title: 'Investigație Forensică: Pâlnii Algoritmice TikTok & Scheme Recursive Master Resell Rights (MRR)',
+      badge: 'Pâlnie Algoritmică & Abuz Plăți',
+      classification: 'TLP:CLEAR',
+      date: '14 Iunie 2025 - 18 Aprilie 2026',
+      author: '@stefanutc1',
+      status: 'Raportat & Documentat',
+      summary: 'Analiză tehnică a pâlniilor automate de "faceless marketing" pe TikTok vizând utilizatori din România și Europa de Est. Cazul a investigat achiziția unui curs de $497 denumit "Digital Wealth Accelerator" pe stan.store. Conținutul livrat s-a dovedit a fi 100% text generat de ChatGPT cu licență MRR ce obliga victima să cloneze pâlnia și să revândă cursul altor cumpărători (schemă piramidală recursivă).',
+      attackVector: 'Clipuri scurte virale pe TikTok -> Voci sintetice AI (ElevenLabs / CapCut) -> Link în Bio către stan.store / Beacons -> Plată curs $497 prin Stripe/PayPal -> Descărcare PDF sintetic + Licență MRR de revânzare forțată.',
+      reverseFindings: [
+        'Analiză stilometrică: similaritate de 99.4% cu prompt-uri brute GPT-3.5/GPT-4, demonstrând absența oricărei expertize proprii.',
+        'Contractul MRR interzice modificarea conținutului dar impune revânzarea la preț identic ($497), încadrându-se strict în definiția FTC a schemelor piramidale.',
+        'Abuzul conturilor comerciale Stripe Connect pe Stan.store pentru eludarea evaluării de risc merchant.',
+        'Transmiterea de rapoarte formale de abuz către abuse@stan.store, conformitate Stripe și FTC.'
+      ],
+      financialFlow: 'Tranzacțiile se decontează prin Stripe Connect către contul bancar al comerciantului. Fondurile sunt retrase rapid pentru prevenirea refuzurilor de plată (chargebacks). Singura cale de amortizare a victimei este recrutarea altor cumpărători.',
+      iocs: [
+        { type: 'Platformă Țintă', value: 'TikTok In-App Browser & Feed' },
+        { type: 'Găzduire Pagină', value: 'Subdomenii comerciale *.stan.store' },
+        { type: 'Procesatori Plăți', value: 'Stripe Connect API, PayPal Checkout' },
+        { type: 'Hash Probatoriu', value: '4b91f0c2a83e... (SHA-256)' }
+      ],
+      datacenterDefense: 'Crawler OSINT găzduit pe Proxmox pentru trasarea lanțurilor de redirectare scurtate (URL hops), scoring de reputație pe domenii și blocare DNS prin OPNsense Unbound.',
+      repoPath: 'cyber/tiktok-mrr-scam-infrastructure',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/tiktok-mrr-scam-infrastructure/case_study.md',
+      mitreAttack: ['T1584 (Compromitere Infrastructură)', 'T1566.002 (Link Spearphishing)', 'T1598 (Phishing pentru Informații)']
+    },
+    {
+      id: 'openid-mitm',
+      caseId: 'SEC-2025-BITM-003',
+      title: 'Analiză Forensică: Atac Adversary-in-the-Middle (AiTM) pe Autentificarea Steam OpenID 2.0',
+      badge: 'AiTM & Deturnare Sesiune',
+      classification: 'TLP:CLEAR',
+      date: '22 Noiembrie 2025',
+      author: '@stefanutc1',
+      status: 'Finalizat & Documentat',
+      summary: 'Investigația unei campanii avansate de Browser-in-the-Middle (BitM) vizând ecosistemul de esports (CS2, Dota 2). Atacatorii au utilizat un popup sintetic simulat în DOM cu bară SSL falsă pentru a intercepta autentificarea OpenID 2.0, urmată de blocarea contului prin Family View PIN și furtul schimburilor de inventar prin Web API.',
+      attackVector: 'Portal de votare pentru turnee CS2 -> Clic pe "Sign in through Steam" -> Afișare fereastră BitM simulată în DOM cu adresă SSL steamcommunity.com -> Introducere credențiale și cod TOTP Steam Guard -> Releu C2 către Valve -> Blocare Family View PIN (4 cifre) -> Creare cheie Steam Web API pentru deturnare trade-uri.',
+      reverseFindings: [
+        'Fereastră de popup falsă randată printr-un div absolut în DOM cu bară de titlu mobilă, lacăt SSL verde și titlu identic ferestrei Valve pentru a ocoli izolarea sandbox a browserului.',
+        'Fișierul JavaScript main.bundle.js interceptează formularul de login și transmite credențialele prin fetch() către /api/v2/auth/steam_callback.',
+        'Releul C2 execută handshake-ul de autentificare cu Valve și extrage cookie-urile de sesiune critică steamLoginSecure și sessionid.',
+        'Post-exploatare automată: botul setează instantaneu un cod PIN pe Steam Family View (blocând accesul victimei la setările de securitate) și generează o cheie Steam Web API pentru a intercepta și deturna automat schimburile de iteme.'
+      ],
+      financialFlow: 'Botul atacatorului anulează instantaneu ofertele legitime de schimb din inventar și generează oferte identice către un profil clonă, deturnând skin-uri și iteme de mare valoare către rețele clandestine de vânzare.',
+      iocs: [
+        { type: 'Callback AiTM', value: '/api/v2/auth/steam_callback' },
+        { type: 'Fișier Phishing', value: 'main.bundle.js (motor BitM ofuscat)' },
+        { type: 'Cookie-uri Extrase', value: 'steamLoginSecure, sessionid' },
+        { type: 'Acțiune Post-Exploatare', value: 'Blocare PIN Family View + Generare Web API' }
+      ],
+      datacenterDefense: 'Regulă Suricata IDS pe VM 200 ce identifică șabloanele DOM specifice ferestrelor BitM simulate, monitorizare evenimente HTTP pe T-Pot și alertare Wazuh la generare neobișnuită de chei API.',
+      repoPath: 'cyber/openid-mitm-phishing-forensics',
+      githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/openid-mitm-phishing-forensics/case_study.md',
+      mitreAttack: ['T1566.002 (Link Spearphishing)', 'T1539 (Furt Cookie Sesiune)', 'T1078 (Conturi Valide)', 'T1056.003 (Recoltare Credențiale Web)']
+    }
+  ];
 
   genHostname = 'custom-app';
   genVmid = 120;
