@@ -1,0 +1,141 @@
+---
+# ==============================================================================
+# Playbook 12: Enterprise Proxmox VE Firewall (Defense-in-Depth)
+# Managed by Antigravity - Zero-Trust Hypervisor Protection Matrix
+# ==============================================================================
+
+- name: Deploy Enterprise Proxmox Cluster & Host Firewall
+  hosts: hypervisors
+  become: true
+  gather_facts: true
+
+  vars:
+    mgmt_subnets:
+      - "192.168.1.0/24"
+      - "10.10.10.0/24"
+      - "100.64.0.0/10"
+    cluster_ips:
+      - "192.168.1.132"
+      - "192.168.1.133"
+      - "192.168.1.134"
+      - "192.168.1.135"
+      - "192.168.1.136"
+    cloud_subnets:
+      - "10.30.0.0/16"
+      - "10.200.0.0/16"
+      - "10.50.0.0/24"
+    telemetry_ips:
+      - "192.168.1.132"
+      - "192.168.1.134"
+
+  tasks:
+    - name: Ensure Proxmox firewall directory exists
+      ansible.builtin.file:
+        path: /etc/pve/firewall
+        state: directory
+        mode: '0755'
+        owner: root
+        group: www-data
+
+    - name: Deploy Enterprise Cluster Firewall (/etc/pve/firewall/cluster.fw)
+      ansible.builtin.copy:
+        dest: /etc/pve/firewall/cluster.fw
+        content: |
+          [OPTIONS]
+          enable: 1
+          policy_in: DROP
+          policy_out: ACCEPT
+          policy_forward: DROP
+
+          [IPSET management-bastions]
+          {% for s in mgmt_subnets %}
+          {{ s }}
+          {% endfor %}
+
+          [IPSET cluster-nodes]
+          {% for ip in cluster_ips %}
+          {{ ip }}
+          {% endfor %}
+
+          [IPSET cloud-tunnel-endpoints]
+          {% for c in cloud_subnets %}
+          {{ c }}
+          {% endfor %}
+
+          [IPSET telemetry-collectors]
+          {% for t in telemetry_ips %}
+          {{ t }}
+          {% endfor %}
+
+          [IPSET bogon-networks]
+          0.0.0.0/8
+          127.0.0.0/8
+          169.254.0.0/16
+          192.0.2.0/24
+          198.51.100.0/24
+          203.0.113.0/24
+          224.0.0.0/4
+          240.0.0.0/4
+
+          [IPSET threat-blacklist]
+          # Dynamically synced by CrowdSec / SIEM
+
+          [group mgmt]
+          IN ACCEPT -p tcp -dport 8006 -source +management-bastions # PVE WebGUI
+          IN SSH(ACCEPT) -source +management-bastions # SSH Bastion
+          IN ACCEPT -p tcp -dport 3121 -source +management-bastions # SPICE Proxy
+          IN ACCEPT -p tcp -dport 85 -source +management-bastions # Web Console
+
+          [group cluster]
+          IN ACCEPT -p udp -dport 5404:5405 -source +cluster-nodes # Corosync Totem Heartbeat
+          IN ACCEPT -p tcp -dport 22,8006 -source +cluster-nodes # Node Sync API
+          IN ACCEPT -p tcp -dport 60000:60050 -source +cluster-nodes # Live Migration
+
+          [group telemetry]
+          IN ACCEPT -p tcp -dport 9100 -source +telemetry-collectors # Prometheus Node Exporter
+          IN ACCEPT -p tcp -dport 9256 -source +telemetry-collectors # Process Exporter
+          IN ACCEPT -p tcp -dport 3100 -source +telemetry-collectors # Loki Log Collector
+
+          [group cloud]
+          IN ACCEPT -p udp -dport 51820 -source +cloud-tunnel-endpoints # WireGuard Transit
+          IN IPsec(ACCEPT) -source +cloud-tunnel-endpoints # IPsec IKE/ESP
+
+          [group threat]
+          IN DROP -source +bogon-networks -log info # Drop Bogons
+        owner: root
+        group: www-data
+        mode: '0640'
+
+    - name: Deploy Host Firewall Rules (/etc/pve/nodes/{{ inventory_hostname }}/host.fw)
+      ansible.builtin.copy:
+        dest: "/etc/pve/nodes/{{ inventory_hostname }}/host.fw"
+        content: |
+          [OPTIONS]
+          enable: 1
+          log_level_in: info
+
+          [RULES]
+          GROUP threat
+          GROUP mgmt
+          GROUP cluster
+          GROUP telemetry
+          GROUP cloud
+          IN Ping(ACCEPT) -source +management-bastions
+          IN DROP -log info
+        owner: root
+        group: www-data
+        mode: '0640'
+
+    - name: Verify & Compile Proxmox Firewall Ruleset
+      ansible.builtin.command: pve-firewall compile
+      changed_when: false
+
+    - name: Restart Proxmox Firewall Service
+      ansible.builtin.command: pve-firewall restart
+      changed_when: true
+
+    - name: Assert Proxmox Firewall is Active
+      ansible.builtin.command: pve-firewall status
+      register: pve_fw_status
+      failed_when: "'enabled/running' not in pve_fw_status.stdout"
+      changed_when: false

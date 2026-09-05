@@ -424,6 +424,8 @@ flowchart TD
 | **218** | `remnux` | REMnux v7 / Noble | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO Net + SCSI (40 GB) | Dedicated Linux Toolkit for Reverse Engineering, Malware Analysis, Memory Forensics & DFIR |
 | **219** | `redox` | Redox OS 0.9.0 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | e1000 + SCSI (10 GB) | General-Purpose Rust Microkernel OS, RedoxFS, Minix/Plan 9-Inspired Memory-Safe Design |
 | **220** | `freedos` | FreeDOS 1.3 | 1 Core | 512 MB (512 MB) | **256 MB** | e1000 + IDE (2 GB) | Open-Source DOS Environment, 16-bit Real Mode x86 Assembly & Legacy Systems Execution Lab |
+| **221** | `fortigate` | FortiOS 7.4 / FortiGate-VM64-KVM | 2 Cores | 2,048 MB (2 GB) | **1,536 MB (1.5 GB)** | VirtIO Net 4 vNICs (10 GB) | Enterprise Defense-in-Depth Firewall, Deep Packet Inspection (DPI), ZTNA, BGP Transit (10.10.20.0/30 on vmbr2) |
+
 
 > **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
 

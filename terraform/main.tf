@@ -2152,3 +2152,30 @@ module "lxc_arm_searxng_redis" {
   tags         = ["cache", "redis", "in-memory", "arm64", "terraform", "node3"]
 }
 
+# ==============================================================================
+# Enterprise Networking, Proxmox SDN, Dual-Firewall & Hybrid Cloud Tunnel
+# ==============================================================================
+
+module "proxmox_sdn" {
+  source = "./modules/proxmox_sdn"
+}
+
+module "proxmox_firewall" {
+  source = "./modules/proxmox_firewall"
+}
+
+module "enterprise_firewall_fortigate" {
+  source         = "./modules/enterprise_firewall"
+  vmid           = 221
+  vm_name        = "fortigate-vm"
+  appliance_type = "fortigate"
+  cores          = 2
+  memory_mb      = 2048
+  disk_size_gb   = 10
+}
+
+module "hybrid_tunnel" {
+  source = "./modules/hybrid_tunnel"
+}
+
+

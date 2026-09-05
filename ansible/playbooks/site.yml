@@ -75,3 +75,17 @@
       include_role:
         name: ollama
       when: inventory_hostname == 'ollama'
+
+# STAGE 7: ENTERPRISE NETWORKING, SDN & PROXMOX FIREWALL
+- name: "Stage 7: Proxmox SDN, Defense-in-Depth Firewall & Cloud Hybrid Tunnels"
+  import_playbook: 11-networking-sdn.yml
+
+- name: "Stage 8: Enterprise Proxmox Cluster & Host Firewall Matrix"
+  import_playbook: 12-proxmox-enterprise-firewall.yml
+
+- name: "Stage 9: Hybrid Cloud Site-to-Site Transit Tunnels"
+  import_playbook: 13-cloud-hybrid-tunnel.yml
+
+- name: "Stage 10: Enterprise Dual-Firewall Interconnect (OPNsense <-> FortiGate)"
+  import_playbook: 14-enterprise-firewall-interconnect.yml
+
