@@ -49,13 +49,13 @@ interface PhotoItem {
        </div>
        <div>
         <h3 class="text-lg sm:text-xl font-bold text-slate-100">@stefanutc1</h3>
-        <p class="text-xs font-mono text-slate-300">DevOps & Infrastructure Architect · Homelab Engineering</p>
+        <p class="text-xs font-mono text-slate-300">DevOps & Infrastructure Architect · Datacenter Engineering</p>
        </div>
       </div>
       <p class="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
        {{ ts.isRomanian
-        ? 'Pasionat de sisteme distribuite, securitate zero-trust, virtualizare hibridă (x86_64 cu 12 GB DDR4-2133 și ARM64 Apple Silicon) și automatizare GitOps (Terraform, Ansible, CI/CD). Acest homelab servește drept mediu sandbox enterprise pentru testarea stivelor complexe de microservicii, kernel hardening (FreeBSD / Linux) și observabilitate în timp real.'
-        : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 with 12 GB DDR4-2133 and Apple Silicon ARM64), and GitOps automation. This homelab powers live microservices, bare-metal telemetry, and real-time observability.' }}
+        ? 'Pasionat de sisteme distribuite, securitate zero-trust, virtualizare hibridă (x86_64 cu 12 GB DDR4-2133 și ARM64 Apple Silicon) și automatizare GitOps (Terraform, Ansible, CI/CD). Acest datacenter servește drept mediu sandbox enterprise pentru testarea stivelor complexe de microservicii, kernel hardening (FreeBSD / Linux) și observabilitate în timp real.'
+        : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 with 12 GB DDR4-2133 and Apple Silicon ARM64), and GitOps automation. This datacenter powers live microservices, bare-metal telemetry, and real-time observability.' }}
       </p>
       <div class="flex flex-wrap gap-2 pt-2">
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Proxmox VE 9.2 (12GB x64 & ARM64)</span>

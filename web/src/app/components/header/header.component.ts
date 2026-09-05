@@ -10,8 +10,11 @@ import { TranslationService } from '../../services/translation.service';
     <header class="w-full border-b border-obsidian-750 bg-[#0c0e11]/90 backdrop-blur-xl sticky top-0 z-40 font-sans">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
         
-        <!-- Left spacer to maintain perfect mathematical center for nav links -->
-        <div class="w-20 hidden md:block"></div>
+        <!-- Left: Brand Title -->
+        <a href="#overview" class="flex items-center gap-2 text-slate-100 font-bold text-sm tracking-tight hover:text-slate-300 transition-colors w-28">
+          <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+          <span>Datacenter</span>
+        </a>
 
         <!-- Center: Navigation Links -->
         <nav class="flex items-center justify-center gap-6 sm:gap-8 font-sans text-xs font-medium text-slate-300 flex-1">
@@ -24,7 +27,7 @@ import { TranslationService } from '../../services/translation.service';
         </nav>
 
         <!-- Right: Language Switcher [ RO | EN ] (Sleek Grey) -->
-        <div class="flex items-center gap-3 w-20 justify-end">
+        <div class="flex items-center gap-3 w-28 justify-end">
           <div class="flex items-center p-0.5 rounded-xl bg-obsidian-900 border border-obsidian-750 font-sans text-xs shadow-inner">
             <button
               (click)="ts.setLanguage('ro')"
