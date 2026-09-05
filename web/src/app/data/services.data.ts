@@ -2595,5 +2595,34 @@ export const SERVICES_DATA: ServiceItem[] = [
     "color": "#84cc16",
     "icon": "compute",
     "composeCode": "# FreeDOS 1.3 on QEMU KVM (VM 220)\n# 16-bit Real Mode \u00b7 vCPU: 1 \u00b7 RAM: 512 MB (Balloon: 256 MB) \u00b7 Disk: 2 GB IDE"
+},
+{
+    "id": "fortigate",
+    "name": "FortiGate-VM Enterprise Defense-in-Depth Core",
+    "category": "security",
+    "containerName": "fortigate-vm221",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 221",
+    "ram": "2,048 MB Dedicated",
+    "storage": "10 GB local-lvm",
+    "ip": "192.168.1.136",
+    "port": 8443,
+    "domain": "fortigate.homelab.local",
+    "status": "ONLINE",
+    "description": "Enterprise Next-Generation Firewall (NGFW) running FortiOS 7.4. Interconnected with OPNsense via 10.10.20.0/30 transit link on vmbr2, providing deep packet inspection (DPI), ZTNA, and microsegmentation for DMZ and Trusted Core.",
+    "descriptionRo": "Firewall enterprise Next-Generation (NGFW) cu FortiOS 7.4. Interconectat cu OPNsense prin link de tranzit 10.10.20.0/30 pe vmbr2, asigurând inspecție profundă de pachete (DPI), ZTNA și microsegmentare pentru DMZ și Trusted Core.",
+    "tags": [
+        "Fortinet",
+        "FortiGate",
+        "FortiOS",
+        "NGFW",
+        "DPI",
+        "ZTNA",
+        "BGP",
+        "Enterprise Security",
+        "VM 221"
+    ],
+    "color": "#ef4444",
+    "icon": "shield",
+    "composeCode": "# FortiGate-VM64-KVM on QEMU KVM (VM 221)\n# FortiOS 7.4 \u00b7 vCPU: 2 \u00b7 RAM: 2048 MB \u00b7 Disk: 10 GB \u00b7 Transit: 10.10.20.2/30 (vmbr2)"
 }
 ];

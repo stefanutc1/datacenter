@@ -236,6 +236,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 256, 
         purpose: 'Open-Source DOS Environment for 16-bit Real Mode x86 Assembly & Legacy Computing Research',
         purposeRo: 'Mediu DOS Open-Source pentru Execuție x86 Assembly pe 16-biți în Real Mode & Sisteme Legacy'
+      },
+      { 
+        vmid: 221, 
+        name: 'fortigate-vm', 
+        os: 'FortiOS 7.4', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1536, 
+        purpose: 'Enterprise Next-Generation Firewall (NGFW), Deep Packet Inspection (DPI) & ZTNA Dual-Perimeter Defense',
+        purposeRo: 'Firewall Enterprise Next-Generation (NGFW), Inspecție Profundă DPI & Apărare Perimetrală Duală ZTNA'
       }
     ],
     workloads: [
@@ -260,6 +269,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 218: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
       'VM 219: Redox OS 0.9.0 (2048 MB / Balloon: 1024 MB · 10 GB NVMe · Rust Microkernel & RedoxFS Architecture)',
       'VM 220: FreeDOS 1.3 (512 MB / Balloon: 256 MB · 2 GB NVMe IDE · 16-bit Real Mode x86 Assembly Lab)',
+      'VM 221: FortiGate-VM Enterprise Core (2048 MB / Balloon: 1536 MB · FortiOS 7.4 · vmbr2 Transit 10.10.20.0/30, DPI, ZTNA)',
       'CT 100-106: Core Infrastructure & Media: Nginx Ingress (CT 100), Immich AI (CT 101), Nextcloud Hub (CT 102), Home Assistant (CT 103), n8n Workflows (CT 104), Scrutiny SMART (CT 105), Media-Suite (CT 106)',
       'CT 107-108: Ollama GPU LLM Server (CT 107) & Open-WebUI Assistant (CT 108) (CUDA GTX 1050 Ti Passthrough)',
       'CT 109: Faster-Whisper GPU Speech-to-Text Transcriber (CT 109 · CUDA Accelerated)',

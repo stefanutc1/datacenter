@@ -1,17 +1,18 @@
-# Homelab & ELO System Architecture Blueprint
+# Datacenter & Enterprise System Architecture Blueprint
 
-This document defines the comprehensive engineering architecture, physical topology, network matrix, autonomous AI orchestration pipeline, and storage subsystems powering the **Homelab & ELO Platform**.
+This document defines the comprehensive engineering architecture, physical topology, network matrix, autonomous AI orchestration pipeline, storage subsystems, and enterprise defense-in-depth matrix powering the **Datacenter Enterprise Platform**.
 
 ---
 
 ## Table of Contents
 1. [Physical & Virtual Hardware Topology](#1-physical--virtual-hardware-topology)
-2. [Network Matrix & VLAN Architecture](#2-network-matrix--vlan-architecture)
-3. [ELO AI Control Plane Architecture](#3-elo-ai-control-plane-architecture)
-4. [LLM Fallback Chain](#4-llm-fallback-chain)
-5. [Automation Agents](#5-automation-agents)
-6. [Storage & ZFS Auto-Healing Architecture](#6-storage--zfs-auto-healing-architecture)
-7. [Disaster Recovery & Blackout 10h+ SOP](#7-disaster-recovery--blackout-10h-sop)
+2. [Dual-Firewall Perimeter & Network Matrix](#2-dual-firewall-perimeter--network-matrix)
+3. [Proxmox VE Enterprise Defense-in-Depth Firewall](#3-proxmox-ve-enterprise-defense-in-depth-firewall)
+4. [Digital Forensics & Cyber Threat Intelligence](#4-digital-forensics--cyber-threat-intelligence)
+5. [ELO AI Control Plane Architecture](#5-elo-ai-control-plane-architecture)
+6. [LLM Fallback Chain](#6-llm-fallback-chain)
+7. [Storage & ZFS Auto-Healing Architecture](#7-storage--zfs-auto-healing-architecture)
+8. [Disaster Recovery & Blackout 10h+ SOP](#8-disaster-recovery--blackout-10h-sop)
 
 ---
 
@@ -21,14 +22,11 @@ This document defines the comprehensive engineering architecture, physical topol
 graph TB
     subgraph NODE1["Node 1: Proxmox VE Hypervisor (192.168.1.132)"]
         PVE_HW["Intel Core i3-10100F · 12 GB RAM · GTX 1050 Ti · 512 GB SSD"]
-        VM200["VM 200: OPNsense Gateway (Zenarmor NGFW · AdGuard Home :3000 · Caddy · Tailscale)"]
-        VM201["VM 201: Windows Server 2025 Datacenter (:3389)"]
-        VM206["VM 206: macOS Monterey 12.7 (OpenCore KVM · /mac/EFI)"]
-        VM207["VM 207: OpenIndiana Hipster (:22 · illumos ZFS)"]
-        VM208["VM 208: NetBSD 10.0 (:22 · Rump Anykernel)"]
-        VM209["VM 209: NixOS 24.11 (:22 · Declarative Linux)"]
-        VM210["VM 210: DragonFly BSD 6.4 (:22 · HAMMER2 FS)"]
-        LXC_STACK["31 Containerized Microservices (Docker Compose)"]
+        VM200["VM 200: OPNsense Perimeter Gateway (Zenarmor NGFW · AdGuard :3000 · Nginx Ingress)"]
+        VM221["VM 221: FortiGate-VM Enterprise Core (FortiOS · DPI · ZTNA Microsegmentation)"]
+        VM201["VM 201: Windows Server 2025 Datacenter (:3389 · Active Directory)"]
+        VM202_220["VMs 202–220: Multi-OS Research Fleet (RHEL · BSDs · OpenStack · T-Pot · Wazuh · NixOS)"]
+        LXC_STACK["15 Containerized Production LXCs (CT 100–114: Nextcloud, Immich, HA, Ollama)"]
     end
 
     subgraph NODE2["Node 2: Storage NAS (192.168.1.135)"]
@@ -36,44 +34,69 @@ graph TB
         OMV_APP["OpenMediaVault 7 · ZFS Datasets · NFS / SMB Shares · Rsync Target"]
     end
 
-    subgraph NODE3["Node 3: Apple Silicon Host (192.168.1.133)"]
-        M1_HW["Apple MacBook Air M1 · 8-Core ARM64 · 8 GB RAM · NVMe SSD"]
-        ELO_ENGINE["ELO Control Plane (:8000) · Metal MPS Voice Engine · Local Ollama"]
-        MACOS_APP["Native macOS Desktop App (.NET 10 DMG)"]
-    end
-
-    subgraph NODE4["Node 4: Kubernetes Worker (k8s-node-04)"]
-        K8S_HW["AMD Athlon II X2 220 · 4 GB RAM · 80 GB SATA HDD"]
-        K3S_AGENT["k3s-agent Worker Node · containerd CRI runtime"]
+    subgraph CLOUD["Multi-Cloud Hybrid Mesh (AWS / GCP / VPS)"]
+        AWS_VPC["AWS VPC (10.30.0.0/16 · Virtual Private Gateway)"]
+        GCP_VPC["GCP VPC (10.200.0.0/16 · Cloud HA-VPN Router)"]
+        WG_HUB["WireGuard Hybrid Transit Hub (10.50.0.0/24)"]
     end
 
     subgraph EDGE["IoT & Physical Edge Layer"]
-        ESP_OFFICE["ESP32: Birou (BLE / mmWave)"]
-        ESP_LIVING["ESP32: Living (BLE / mmWave)"]
-        ESP_SERVER["ESP32: Server Room (Temp / Humidity)"]
+        ESP_OFFICE["ESP32: Office Telemetry (BLE / mmWave)"]
+        ESP_LIVING["ESP32: Living Room (BLE / mmWave)"]
+        ESP_SERVER["ESP32: Rack Monitors (Temp / Humidity)"]
     end
 
+    NODE1 <-->|"vmbr2 Transit (10.10.20.0/30) + BGP"| VM221
     NODE1 <-->|"1 Gbps Ethernet + Tailscale Mesh"| NODE2
-    NODE1 <-->|"1 Gbps Ethernet + Wireguard"| NODE3
-    NODE1 <-->|"1 Gbps Ethernet"| NODE4
+    NODE1 <-->|"WireGuard Site-to-Site + IPsec VTI"| CLOUD
     EDGE -->|"MQTT Telemetry"| LXC_STACK
-    LXC_STACK <-->|"Control Plane Rest API"| ELO_ENGINE
 ```
 
 ---
 
-## 2. Network Matrix & VLAN Architecture
+## 2. Dual-Firewall Perimeter & Network Matrix
+
+The Datacenter implements a **Dual-Tier Perimeter Defense ("Firewall Sandwich")**:
+- **Outer Perimeter (Ingress/Egress)**: **OPNsense Core (`192.168.1.134`)** terminates WAN, executes CrowdSec IPS, Zenarmor L7 application inspection, AdGuard Home DNS sinkhole, and Nginx reverse proxy.
+- **Inter-Firewall Transit Network**: Dedicated isolated virtual bridge `vmbr2` (`10.10.20.0/30`) with BGP dynamic routing (OPNsense ASN 65000 $\leftrightarrow$ FortiGate ASN 65002) and IP SLA health probes.
+- **Inner Enterprise Core (Microsegmentation)**: **FortiGate-VM (`192.168.1.136` / VM 221)** enforces Deep Packet Inspection (DPI), Antivirus filtering, and Zero-Trust segmentation between DMZ (`vmbr3`), Trusted Core (`vmbr4`), and Out-of-Band Management (`vmbr0`).
 
 ```mermaid
 graph LR
-    WAN["Internet Uplink"] --> OPNsense["OPNsense Firewall (192.168.1.134 · Zenarmor L7 · AdGuard Home)"]
-
-    OPNsense --> VLAN1["VLAN 1: Management (192.168.1.0/24)<br/>Proxmox VE · NAS · Switches · IPMI"]
-    OPNsense --> VLAN10["VLAN 10: Ingress & Core (192.168.10.0/24)<br/>Caddy / NPM Reverse Proxy · Authelia SSO · AdGuard Home DNS"]
-    OPNsense --> VLAN20["VLAN 20: Applications (192.168.20.0/24)<br/>Immich · Nextcloud · Vaultwarden · Grafana · ELO"]
-    OPNsense --> VLAN30["VLAN 30: Kubernetes (192.168.30.0/24)<br/>k3s Cluster · FluxCD GitOps Engine"]
-    OPNsense --> VLAN40["VLAN 40: IoT & Microcontrollers (192.168.40.0/24)<br/>ESP32 BLE/mmWave · Smart Relays"]
+    WAN["Internet Uplink"] --> OPNsense["OPNsense Perimeter (192.168.1.134 · CrowdSec · Zenarmor · Nginx)"]
+    OPNsense -->|"Transit Link vmbr2 (10.10.20.0/30)"| FortiGate["FortiGate-VM Core (VM 221 · FortiOS · DPI & Microsegmentation)"]
+    
+    FortiGate --> DMZ["DMZ / Honeypot Segment (vmbr3 · 10.10.30.0/24)<br/>T-Pot · Security Onion · Wazuh"]
+    FortiGate --> TRUSTED["Trusted Enterprise Core (vmbr4 · 10.10.40.0/24)<br/>Databases · Nextcloud · Active Directory"]
+    FortiGate --> CLOUD_NET["Hybrid Cloud Transit (10.50.0.0/24)<br/>WireGuard · AWS/GCP IPsec VTI"]
+    OPNsense --> MGMT["Out-of-Band Management (vmbr0 · 192.168.1.0/24)<br/>Proxmox VE (192.168.1.132) · OMV NAS (192.168.1.135)"]
 ```
+
+---
+
+## 3. Proxmox VE Enterprise Defense-in-Depth Firewall
+
+The hypervisor runs an enterprise-grade, zero-trust Proxmox VE Firewall matrix active across all tiers:
+- **Global Policy**: `policy_in: DROP`, `policy_out: ACCEPT`, `policy_forward: DROP`.
+- **SYN-Flood Mitigation**: Hardware/kernel rate-limiting (`protection_synflood: 1`, burst 25, 10/sec).
+- **TCP Flags Sanitization**: Dropping NULL scans, XMAS scans, SYN-FIN and SYN-RST evasion patterns.
+- **Enterprise IPSets**:
+  - `management-bastions`: Local admin subnets (`192.168.1.0/24`, `10.10.10.0/24`, `100.64.0.0/10`).
+  - `cluster-nodes`: Authorized hypervisors and core gateway endpoints.
+  - `bogon-networks`: Strict RFC 5735 / RFC 6598 unrouted blocklists.
+  - `threat-blacklist`: Dynamic feed integrated with CrowdSec.
+- **Security Groups**: `mgmt` (PVE 8006, SSH 22, SPICE 3121), `cluster` (Corosync 5404:5405/udp, migration 60000:60050), `telemetry` (Prometheus 9100, Process 9256, Loki 3100), `cloud` (WireGuard 51820, IPsec 500/4500).
+
+---
+
+## 4. Digital Forensics & Cyber Threat Intelligence
+
+Integrated directly into `cyber/`, the Datacenter hosts 4 real-world digital forensics investigation suites:
+1. **[`openid-mitm-phishing-forensics/`](./cyber/openid-mitm-phishing-forensics)**: Browser-in-the-Middle attack analysis capturing Steam OpenID sessions with simulated popup windows.
+2. **[`revolut-vishing-forensics/`](./cyber/revolut-vishing-forensics)**: Telephony fraud and international SIP spoofing investigation intercepting real-time 3D Secure SMS codes.
+3. **[`task-scam-infrastructure-analysis/`](./cyber/task-scam-infrastructure-analysis)**: Cybercrime infrastructure tracking, leaky APIs, and USDT money laundering networks.
+4. **[`tiktok-mrr-scam-infrastructure/`](./cyber/tiktok-mrr-scam-infrastructure)**: Social media deceptive subscription funnels and payment gateway abuse mechanisms.
+
 
 ---
 

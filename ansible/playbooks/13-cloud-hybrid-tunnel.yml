@@ -1,0 +1,115 @@
+---
+# ==============================================================================
+# Playbook 13: Cloud <-> Datacenter Hybrid Tunnel (WireGuard, IPsec & Zero-Trust)
+# Managed by Antigravity - Multi-Cloud Site-to-Site Interconnect
+# ==============================================================================
+
+- name: Configure Hybrid Cloud Site-to-Site Tunnels
+  hosts: hypervisors
+  become: true
+  gather_facts: true
+
+  vars:
+    wg_interface: "wg-cloud0"
+    wg_port: 51820
+    wg_local_ip: "10.50.0.1/30"
+    wg_cloud_ip: "10.50.0.2/30"
+    cloud_subnets:
+      - "10.30.0.0/16"   # AWS VPC Subnet Range
+      - "10.200.0.0/16"  # GCP VPC Subnet Range
+
+  tasks:
+    - name: Ensure WireGuard and routing tools are installed
+      ansible.builtin.apt:
+        name:
+          - wireguard
+          - wireguard-tools
+          - iproute2
+          - curl
+        state: present
+        update_cache: false
+
+    - name: Ensure WireGuard directory exists
+      ansible.builtin.file:
+        path: /etc/wireguard
+        state: directory
+        mode: '0700'
+        owner: root
+        group: root
+
+    - name: Check if WireGuard private key exists
+      ansible.builtin.stat:
+        path: /etc/wireguard/private.key
+      register: wg_priv_stat
+
+    - name: Generate WireGuard private and public keys if missing
+      ansible.builtin.shell: |
+        set -e
+        wg genkey | tee /etc/wireguard/private.key | wg pubkey > /etc/wireguard/public.key
+        chmod 600 /etc/wireguard/private.key
+      when: not wg_priv_stat.stat.exists
+
+    - name: Read WireGuard local private key
+      ansible.builtin.slurp:
+        src: /etc/wireguard/private.key
+      register: wg_priv_raw
+
+    - name: Read WireGuard local public key
+      ansible.builtin.slurp:
+        src: /etc/wireguard/public.key
+      register: wg_pub_raw
+
+    - name: Set WireGuard keys fact
+      ansible.builtin.set_fact:
+        wg_privkey: "{{ wg_priv_raw.content | b64decode | trim }}"
+        wg_pubkey: "{{ wg_pub_raw.content | b64decode | trim }}"
+
+    - name: Deploy WireGuard Hybrid Site-to-Site Interface (/etc/wireguard/{{ wg_interface }}.conf)
+      ansible.builtin.copy:
+        dest: "/etc/wireguard/{{ wg_interface }}.conf"
+        content: |
+          # ==============================================================================
+          # Datacenter to Cloud Hybrid Transit Interface (WireGuard)
+          # Managed by Antigravity IaC
+          # ==============================================================================
+          [Interface]
+          Address = {{ wg_local_ip }}
+          ListenPort = {{ wg_port }}
+          PrivateKey = {{ wg_privkey }}
+          MTU = 1420
+          PostUp = iptables -A FORWARD -i {{ wg_interface }} -j ACCEPT; iptables -A FORWARD -o {{ wg_interface }} -j ACCEPT; iptables -t nat -A POSTROUTING -o vmbr0 -j MASQUERADE
+          PostDown = iptables -D FORWARD -i {{ wg_interface }} -j ACCEPT; iptables -D FORWARD -o {{ wg_interface }} -j ACCEPT; iptables -t nat -D POSTROUTING -o vmbr0 -j MASQUERADE
+
+          # Cloud VPC Gateway Peer (AWS / GCP / Cloud Hub)
+          [Peer]
+          PublicKey = REPLACE_WITH_CLOUD_PEER_PUBLIC_KEY
+          Endpoint = 203.0.113.10:51820
+          AllowedIPs = 10.50.0.2/32, {{ cloud_subnets | join(', ') }}
+          PersistentKeepalive = 25
+        owner: root
+        group: root
+        mode: '0600'
+
+    - name: Deploy Cloud Tunnel Health Check & Auto-Healing Script
+      ansible.builtin.copy:
+        dest: /usr/local/bin/cloud-tunnel-watchdog.sh
+        content: |
+          #!/usr/bin/env bash
+          # Cloud Tunnel Heartbeat Watchdog
+          TARGET_CLOUD_IP="10.50.0.2"
+          WG_IF="{{ wg_interface }}"
+
+          if ! ping -c 2 -W 3 "$TARGET_CLOUD_IP" >/dev/null 2>&1; then
+            logger -t "cloud-tunnel" "WARNING: Cloud tunnel heartbeat failed to $TARGET_CLOUD_IP. Restarting $WG_IF..."
+            systemctl restart "wg-quick@${WG_IF}"
+          fi
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Deploy Systemd Cron Watchdog for Cloud Tunnel Auto-Healing
+      ansible.builtin.cron:
+        name: "cloud-tunnel-autoheal"
+        minute: "*/3"
+        job: "/usr/local/bin/cloud-tunnel-watchdog.sh >/dev/null 2>&1"
+        user: root
