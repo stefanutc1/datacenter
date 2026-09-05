@@ -1,6 +1,0 @@
----
-- name: Deploy Promtail for Lightweight SIEM Integration (Auditd Logs)
-  hosts: all
-  become: true
-  roles:
-    - role: siem_agents

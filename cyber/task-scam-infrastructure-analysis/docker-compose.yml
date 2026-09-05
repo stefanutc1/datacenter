@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  task-scam-infrastructure-analysis:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    image: ghcr.io/stefannut/task-scam-infrastructure-analysis-web:latest
+    container_name: task-scam-infrastructure-analysis-web-service
+    restart: unless-stopped
+    ports:
+      - "8089:80"

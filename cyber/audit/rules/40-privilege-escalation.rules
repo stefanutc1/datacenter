@@ -1,7 +1,0 @@
-# CyberLab Privilege Escalation & Execution Monitoring
--a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k priv_escalation
--a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k priv_escalation
--a always,exit -F arch=b64 -S setuid,setgid,setreuid,setregid -k priv_escalation
--a always,exit -F arch=b32 -S setuid,setgid,setreuid,setregid -k priv_escalation
--w /etc/sudoers -p wa -k sudo_changes
--w /etc/sudoers.d/ -p wa -k sudo_changes
