@@ -1,0 +1,369 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci(deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "npm"
+    directory: "/homepage"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "npm"
+    directory: "/web"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "npm"
+    directory: "/custom-apps"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/homepage"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/actualbudget"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/alist"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/arr-suite"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/authelia"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/authentik"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/changedetection.io"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/crowdsec"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/filebrowser"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/gitea"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/grafana"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/homeassistant"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/immich"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/it-tools"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/n8n"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/netbird"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/nextcloud"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/nginx"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/nginx-proxy-manager"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/pi-hole"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/prometheus"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/scrutiny"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/trillium-notes"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/uptime-kuma"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/vaultwarden"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/services/woodpecker-ci"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/web"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/wazuh"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/suricata"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/loki-grafana"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "docker"
+    directory: "/cyber/services/cyberchef"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(docker-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/aws/modules/ec2"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/aws/modules/vpc"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/aws/environments/dev"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/aws/environments/prod"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/hypervisors/bhyve"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/hypervisors/esxi"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/hypervisors/hyperv"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/hypervisors/xen"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/terraform"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "terraform"
+    directory: "/cyber/terraform"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(tf-deps)"
+    open-pull-requests-limit: 5
