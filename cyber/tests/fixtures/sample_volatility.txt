@@ -1,5 +1,0 @@
-PID	PPID	ImageFileName	Offset(V)	Threads	Handles	SessionId	Wow64
-482	4	lsass.exe	0xfa8002a9e040	7	42	0	False
-1940	482	inject.exe	0xfa8002bb3080	3	12	0	False
-
-1940	inject.exe	0x0000000000400000	PAGE_EXECUTE_READWRITE	MZ......................

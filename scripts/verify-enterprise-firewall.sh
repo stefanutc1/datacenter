@@ -56,27 +56,21 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP"
 
 echo "[8/8] Checking Cyber Forensics & Threat Intelligence Suite in datacenter/cyber..."
 CYBER_CASES=(
-  "openid-mitm-phishing-forensics"
-  "revolut-vishing-forensics"
   "task-scam-infrastructure-analysis"
+  "revolut-vishing-forensics"
   "tiktok-mrr-scam-infrastructure"
-  "bgp-hijacking-crypto-forensics"
-  "fido2-cookie-bypass-forensics"
-  "ransomware-pre-execution-triage"
-  "subdomain-takeover-c2-forensics"
-  "supply-chain-poisoning-analysis"
-  "ctf"
+  "openid-mitm-phishing-forensics"
 )
 COUNT=0
 for c in "${CYBER_CASES[@]}"; do
   if [ -d "cyber/$c" ]; then
     COUNT=$((COUNT + 1))
+    echo "  [✓] Forensic Case Verified: cyber/$c"
+  else
+    echo "  [✗] Missing case: cyber/$c"
   fi
 done
-echo "  [✓] Found $COUNT/10 Forensic Case Studies & Research Projects in cyber/."
-if [ -d "cyber/toolkit" ] && [ -d "cyber/scripts" ]; then
-  echo "  [✓] Digital Forensics Python Analysis Framework & Automation Scripts present."
-fi
+echo "  [✓] Verified $COUNT/4 Core Digital Forensics & Threat Intelligence Projects."
 
 echo "=============================================================================="
 echo " [✓] ALL ENTERPRISE FIREWALL, HYBRID TRANSIT & FORENSICS SUITE VERIFIED"

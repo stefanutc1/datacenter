@@ -115,8 +115,7 @@ export class CommandPaletteComponent {
     { id: 'cmd-dr', title: 'Disaster Recovery vzdump Runner', category: 'CLI / DR', subtext: './scripts/disaster-recovery/dr_vzdump_restore.sh proxmox', type: 'command' as const },
     { id: 'cmd-chaos', title: 'Chaos 100% CPU Stress Runner', category: 'CLI / Chaos', subtext: './scripts/chaos/chaos_runner.sh cpu-stress 60', type: 'command' as const },
     { id: 'cmd-trivy', title: 'Trivy IaC & Container Security Scan', category: 'CLI / DevSecOps', subtext: 'trivy config ./terraform && trivy fs .', type: 'command' as const },
-    { id: 'cmd-nut', title: 'UPS Battery & NUT Telemetry', category: 'CLI / Power', subtext: 'upsc coldex-ups@192.168.1.132', type: 'command' as const },
-    { id: 'cmd-art', title: 'Atomic Red Team MITRE Simulation', category: 'CLI / Cyber', subtext: './cyber/adversary-simulation/atomic-red-team/run_art_tests.sh', type: 'command' as const }
+    { id: 'cmd-fw-verify', title: 'Enterprise Dual-Tier Firewall & Forensics Verification', category: 'CLI / Cyber', subtext: './scripts/verify-enterprise-firewall.sh', type: 'command' as const }
   ];
 
   @HostListener('window:keydown', ['$event'])

@@ -1,28 +1,27 @@
 <div align="center">
 
 
-[![CI/CD Status](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions)
-[![Security & Trivy Scan](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/homelab/actions/workflows/security-scan.yml)
-[![IaC Lint & Test Coverage](https://img.shields.io/badge/IaC%20Test%20Coverage-98.4%25%20(Terraform%20%2B%20Ansible)-emerald?style=flat&logo=terraform)](https://github.com/stefanutc1/homelab/tree/main/terraform)
+[![CI/CD Status](https://github.com/stefanutc1/datacenter/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/datacenter/actions)
+[![Security & Trivy Scan](https://github.com/stefanutc1/datacenter/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/datacenter/actions/workflows/security-scan.yml)
+[![IaC Lint & Test Coverage](https://img.shields.io/badge/IaC%20Test%20Coverage-98.4%25%20(Terraform%20%2B%20Ansible)-emerald?style=flat&logo=terraform)](https://github.com/stefanutc1/datacenter/tree/main/terraform)
 [![Infrastructure Uptime](https://img.shields.io/badge/Uptime%20Kuma-99.98%25%20SLA-brightgreen?style=flat&logo=uptimekuma)](https://status.homelab.local)
-[![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64%20%26%20ARM64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/homelab)
-[![Zero-Trust Security](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/homelab)
-[![Local AI](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20NVIDIA%20GTX%201050%20Ti-violet?style=flat&logo=nvidia)](https://github.com/stefanutc1/homelab)
+[![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64%20%26%20ARM64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/datacenter)
+[![Zero-Trust Security](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/datacenter)
+[![Local AI](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20NVIDIA%20GTX%201050%20Ti-violet?style=flat&logo=nvidia)](https://github.com/stefanutc1/datacenter)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
 
 <br/>
 
 **Production-grade hybrid cloud platform, cybersecurity test environment, and autonomous multi-agent orchestration infrastructure.**
-Built on bare-metal x86_64 and Apple Silicon ARM64 compute, stateful OPNsense network segmentation, ZFS storage arrays, declarative Terraform/Ansible automation, and real-time eBPF runtime observability.
+Built on bare-metal x86_64 and Apple Silicon ARM64 compute, dual-tier enterprise firewall architecture (OPNsense + FortiGate-VM), ZFS storage arrays, declarative Terraform/Ansible automation, and real-time eBPF runtime observability.
 
-[Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/homelab/) • [Architecture Blueprint](ARCHITECTURE.md) • [Security Policy](SECURITY.md) • [Roadmap](ROADMAP.md)
-
+[Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/datacenter/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](cyber/README.md) • [Security Policy](SECURITY.md)
 
 <!-- AUTO-METRICS-START -->
-[![Active Workloads](https://img.shields.io/badge/Workloads-31%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
-[![Automated Tests](https://img.shields.io/badge/Tests-11%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
-[![ELO Tools](https://img.shields.io/badge/ELO%20Tools-19%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
-[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--05-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
+[![Active Workloads](https://img.shields.io/badge/Workloads-88%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/datacenter#workload-catalog--pinned-favorites)
+[![Automated Tests](https://img.shields.io/badge/Tests-11%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/datacenter/actions/workflows/ci.yml)
+[![ELO Tools](https://img.shields.io/badge/ELO%20Tools-19%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/datacenter/tree/main/elo)
+[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--05-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/datacenter/actions)
 <!-- AUTO-METRICS-END -->
 </div>
 
@@ -650,23 +649,111 @@ flowchart LR
 
 ---
 
-## 12. Cybersecurity Test Environment, SOC & eBPF Security
+## 12. Digital Forensics, Cyber Defense Proving Ground & Threat Intelligence
+
+The Datacenter operates an integrated Security Operations Center (SOC), automated deception mesh, and four in-depth real-world digital forensics investigations hosted directly within [`cyber/`](cyber/README.md).
 
 ```mermaid
 flowchart TD
- Attacker["Threat Actor / Internet Scanners"] -->|"Probing Port 2222, 445, 3389"| TPot["T-Pot DMZ Cluster (VLAN 40)<br/>Cowrie · Dionaea · Honeytrap"]
- TPot -->|"Log Stream"| Wazuh["Wazuh SIEM / XDR Manager (CT 105)"]
- 
- Subsys["Cluster Containers & VMs"] -->|"Syscalls (execve, openat)"| Tetra["Cilium Tetragon eBPF Sensor"]
- Tetra -->|"Kernel Anomaly Trigger"| Wazuh
- 
- Wazuh -->|"High-Severity Correlated Event"| SOAR["SOAR Playbook (Shuffle / n8n)"]
- SOAR -->|"1. Push Firewall Drop Rule"| OPNsense["OPNsense Firewall API"]
- SOAR -->|"2. Report Malicious IP"| Abuse["AbuseIPDB Threat Intelligence API"]
+    subgraph External_Threats["External Threat Landscape & Investigations"]
+        Attacker["Threat Actor / Scanning Botnets"]
+        ScamNet["Task Scam & Phishing Networks<br/>(BitM, Vishing, MRR Fraud)"]
+    end
+
+    subgraph Perimeter_Defense["Dual-Tier Perimeter Defense & Deception"]
+        TPot["T-Pot DMZ Multi-Honeypot (VM 213)<br/>Cowrie · Dionaea · Honeytrap · Suricata"]
+        OPN["OPNsense Firewall (VM 200)<br/>CrowdSec Bouncer · DoT · Zenarmor L7"]
+        FGT["FortiGate-VM Next-Gen (VM 221)<br/>BGP Transit · SSL Inspection · IPS"]
+    end
+
+    subgraph Detection_Analysis["Detection, SIEM & Reverse Engineering"]
+        Wazuh["Wazuh SIEM / XDR Manager (CT 100)<br/>FIM · Log Anomaly Correlation"]
+        SecOnion["Security Onion Grid (VM 217)<br/>Zeek Network Metadata · Arkime PCAP"]
+        Remnux["REMnux Malware Analysis (VM 218)<br/>Static/Dynamic Deobfuscation · Ghidra"]
+        Tetra["Cilium Tetragon eBPF Runtime Sensor<br/>Syscall Monitoring (execve, openat, tcp_connect)"]
+    end
+
+    subgraph Autonomous_SOAR["Automated SOAR Playbooks & Containment"]
+        SOAR["SOAR Playbook Engine (Shuffle / n8n)"]
+        FirewallAPI["Automated Drop Rule & IPS Banning"]
+        ThreatFeed["AbuseIPDB & Threat Intel Sync"]
+    end
+
+    Attacker -->|Probes Port 22, 445, 3389, 5060| TPot
+    Attacker -->|Perimeter Ingress| OPN
+    OPN -->|Transit 10.10.20.0/30| FGT
+    ScamNet -.->|Case Studies & IoCs| Remnux
+
+    TPot -->|Decoy Telemetry| Wazuh
+    Tetra -->|Kernel Anomaly Events| Wazuh
+    FGT -->|NetFlow / Syslog| SecOnion
+    OPN -->|Alerts| Wazuh
+
+    Wazuh -->|Correlated High-Severity Alert| SOAR
+    SOAR -->|1. Inject IPset / Null-Route| FirewallAPI
+    SOAR -->|2. Report Malicious Source| ThreatFeed
 ```
 
-* **Adversary Simulation**: Automated Atomic Red Team runner (`cyber/adversary-simulation/atomic-red-team/run_art_tests.sh`) testing MITRE ATT&CK techniques (T1059, T1003, T1078, T1053, T1021).
-* **Malware Triage**: CAPEv2 Sandbox running Windows 10 with INetSim network simulation and memory dump triage via Volatility 3.
+---
+
+### 12.1 Real-World Digital Forensics & Threat Investigations (`cyber/`)
+
+The [`cyber/`](cyber/README.md) directory contains four end-to-end investigative case studies into active cybercrime campaigns, reverse engineered using the Datacenter's forensic sandbox tooling:
+
+#### 1. [`task-scam-infrastructure-analysis/`](cyber/task-scam-infrastructure-analysis)
+* **Threat Classification**: Cybercrime Infrastructure, Leaky REST APIs, Crypto Money Laundering.
+* **Incident Summary**: In-depth anatomical breakdown of fraudulent "task-farming" platforms operated by organized cybercrime syndicates targeting mobile users through Telegram funnels.
+* **Technical Exploitation & Findings**:
+  - **Exposed Backend APIs**: Reverse engineering unauthenticated administrative endpoints (`/api/v1/user/task`, `/api/admin/recharge`) that leaked internal server architecture, agent referral trees, and database schemas.
+  - **SQL Injection (SQLi) Discovery**: Identified severe vulnerabilities in backend transaction endpoints allowing full parameter extraction and administrative bypass.
+  - **Cryptocurrency Money Laundering Flow**: Traced illicit USDT deposits on the TRC-20 (Tron) network across multi-hop mixing structures into centralized exchange consolidation hot wallets.
+  - **UI Manipulation**: Documented client-side JavaScript trickery that dynamically fabricated fake trading balances and simulated VIP commission payouts.
+* **Repository Deliverables**: Full case study, API exposure audit, SQLi proof of concept, OSINT infrastructure mapping, and Docker Compose test fixture.
+
+#### 2. [`revolut-vishing-forensics/`](cyber/revolut-vishing-forensics)
+* **Threat Classification**: Voice Phishing (Vishing), International SIP Telephony Fraud, 3D Secure Bypass.
+* **Incident Summary**: Complete forensic reconstruction of an advanced social engineering phone attack where threat actors spoofed official European banking support numbers to intercept real-time SMS one-time passwords (OTP).
+* **Technical Exploitation & Findings**:
+  - **Caller ID Spoofing via International SIP Trunks**: Dissected how rogue VoIP softswitches manipulate the SIP `From:` and `P-Asserted-Identity` headers to present legitimate bank caller IDs on victim smartphones.
+  - **Real-Time 3DS Intercept**: Documented step-by-step social engineering call flows engineered to induce panic, prompting victims to authorize pending credit card charges while believing they were canceling a fraud event.
+  - **PCAP & Call Flow Analysis**: Extracted session initiation protocol packets (`INVITE`, `180 Ringing`, `200 OK`, `ACK`, `BYE`), analyzed SDP audio codec negotiation (G.711u / PCMU), and mapped caller User-Agent signatures.
+  - **Carrier Traceback & Takedown**: Outlined the administrative and telecommunication subpoena processes used to isolate upstream rogue carriers.
+* **Repository Deliverables**: Complete incident timeline, technical analysis, carrier response and takedown documentation, formal regulatory report, and simulated VoIP call-flow reproduction lab.
+
+#### 3. [`tiktok-mrr-scam-infrastructure/`](cyber/tiktok-mrr-scam-infrastructure)
+* **Threat Classification**: Monthly Recurring Revenue (MRR) Deception, Viral Social Funnels, Payment Gateway Abuse.
+* **Incident Summary**: Investigation of automated social media ad networks promoting misleading software utilities and "AI tools" that enroll unsuspecting users into predatory recurring weekly and monthly subscription charges.
+* **Technical Exploitation & Findings**:
+  - **Bot Cloaking & User Fingerprinting**: Unpacked client-side JavaScript fingerprinting scripts designed to detect and serve benign, compliant pages to TikTok/Meta ad review crawlers while serving predatory landing pages to organic mobile users.
+  - **Dark Pattern Payment Redirection**: Analyzed multi-stage redirect chains masking merchant category codes (MCCs) to bypass payment processor risk scoring.
+  - **Chargeback Avoidance Tactics**: Identified how scammers artificially delay initial recurring billing cycles to exceed consumer dispute windows and maintain merchant acquiring accounts.
+* **Repository Deliverables**: Comprehensive prevention guide, payment gateway abuse analysis, funnel traffic breakdown, LLM course synthesis, and architectural case study.
+
+#### 4. [`openid-mitm-phishing-forensics/`](cyber/openid-mitm-phishing-forensics)
+* **Threat Classification**: Browser-in-the-Middle (BitM / AitM), Steam OpenID 2.0 Credential & Session Theft.
+* **Incident Summary**: Dissection of an aggressive phishing campaign targeting gaming accounts by rendering a simulated, interactive pop-up browser window within the active HTML DOM.
+* **Technical Exploitation & Findings**:
+  - **Synthetic Browser Canvas**: Attackers drew an entirely fake, draggable Chrome browser window (complete with custom minimize/maximize controls, URL address bar, and spoofed green SSL padlock) entirely in HTML5/CSS, rendering standard URL inspection useless.
+  - **Real-Time Session Relaying**: Intercepted OpenID 2.0 authentication exchanges, harvesting `steamLoginSecure` cookies and session tokens while automatically passing SteamGuard mobile 2FA challenges.
+  - **Automated Family View Lockout**: Captured sessions were immediately automated via headless scripts to activate Steam Family View with an attacker-selected PIN, preventing legitimate account recovery.
+* **Repository Deliverables**: Full executive summary, technical reverse-engineering report, deobfuscated payload source, Suricata IDS detection signatures, and interactive HTML5 demonstration lab.
+
+---
+
+### 12.2 Proving Ground Defense Stack & Threat Intelligence Feeding
+
+Findings from these four forensic investigations directly inform the proactive defense configurations across the Datacenter:
+
+| Security Layer | Host / Virtual Machine | Engine & Role | Defensive Functionality |
+| :--- | :--- | :--- | :--- |
+| **Perimeter IDS/IPS** | `VM 200` (OPNsense) | Suricata 8.0.3 + CrowdSec | Drops active BitM synthetic popup URLs and blocks malicious IP lists via threat feeds. |
+| **Enterprise NGFW** | `VM 221` (FortiGate-VM) | FortiOS 7.4 + BGP Routing | Deep packet inspection (DPI) on transit network `10.10.20.0/30`, SSL/TLS anomaly detection. |
+| **Deception Honeynet**| `VM 213` (T-Pot) | Cowrie, Dionaea, Honeytrap | Exposes decoy honeypots in isolated DMZ (`vmbr3`) to harvest live scanner payloads. |
+| **Malware Sandbox** | `VM 218` (REMnux) | Volatility, Ghidra, YARA | Isolated offline analysis environment for binary disassembly and memory forensics. |
+| **Enterprise SIEM/XDR**| `CT 100` (Wazuh) | Wazuh Manager + Elastic Stack | Centralized syslog/FIM correlation across all 88 services with automated active response. |
+| **Network Forensics** | `VM 217` (Security Onion) | Zeek + Arkime Full PCAP | Continuous packet indexing and protocol inspection for post-incident threat hunting. |
+| **Host Zero-Trust FW** | Node 1 (`192.168.1.132`)| Proxmox VE Cluster Firewall | Global DROP policy, rate-limited ICMP, SYN-flood guards, IPset bastion access control. |
+| **Runtime Sensor** | All Nodes & K8s Workers | Cilium Tetragon eBPF | Kernel-level syscall intercept (`execve`, `socket`, `openat`) triggering instant container isolation. |
 
 ---
 

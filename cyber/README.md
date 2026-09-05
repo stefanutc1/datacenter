@@ -1,36 +1,27 @@
-# Datacenter Cyber Defense & Digital Forensics Suite
+# Datacenter Cyber Defense & Digital Forensics
 
-Această secțiune găzduiește investigațiile criminalistice digitale, studiile de caz pe atacuri reale și suita software de analiză Threat Intelligence integrată în Datacenter.
-
-## 1. Investigații Criminalistice & Studii de Caz (Case Studies)
-
-| Proiect / Director | Categorie | Statut | Focus Primar | Scop Tehnic |
-| :--- | :--- | :---: | :--- | :--- |
-| [`openid-mitm-phishing-forensics/`](./openid-mitm-phishing-forensics) | Digital Forensics | **Finalizat** | BitM, OpenID 2.0 | Investighează campanii BitM cu ferestre simulate de browser pentru furt de token-uri de sesiune Steam OpenID și lock cont cu PIN Family View. |
-| [`revolut-vishing-forensics/`](./revolut-vishing-forensics) | Digital Forensics | **Finalizat** | SIP, Caller ID Spoofing | Reconstrucție operațiune vishing prin falsificare numere asistență pe trunchiuri internaționale SIP și interceptare 3DS în timp real. |
-| [`task-scam-infrastructure-analysis/`](./task-scam-infrastructure-analysis) | Threat Intel & Forensics | **Finalizat** | Task-Scam, API Leakage | Analiză detaliată a topologiei C2, API-urilor expuse și fluxurilor de spălare de fonduri crypto din spatele rețelelor de task-farming. |
-| [`tiktok-mrr-scam-infrastructure/`](./tiktok-mrr-scam-infrastructure) | Threat Intel & Forensics | **Finalizat** | MRR Fraud, Funnels | Demascarea funnel-urilor automate de inducere în eroare și a schemelor de recurență frauduloasă din social media. |
-| [`bgp-hijacking-crypto-forensics/`](./bgp-hijacking-crypto-forensics) | Network Forensics | **Finalizat** | BGP Route Hijack, RPKI | Investigare detaliată a deturnării de prefixe BGP AS-Path pentru interceptare și golire portofele de criptomonede. |
-| [`fido2-cookie-bypass-forensics/`](./fido2-cookie-bypass-forensics) | Identity & Auth | **Finalizat** | FIDO2 / WebAuthn, Infostealer | Analiză criminalistică a tehnicilor de ocolire a autentificării fără parolă (FIDO2) prin exfiltrare directă de cookie-uri de sesiune. |
-| [`ransomware-pre-execution-triage/`](./ransomware-pre-execution-triage) | Endpoint DFIR | **Finalizat** | Ransomware Triage, Memory DFIR | Metodologie și proceduri rapide de triage pre-execuție pe endpoint-uri compromise de tulpini moderne de ransomware. |
-| [`subdomain-takeover-c2-forensics/`](./subdomain-takeover-c2-forensics) | Cloud Security | **Finalizat** | Dangling DNS, C2 Infrastructure | Reconstrucție incident de preluare a subdomeniilor orfane pe Cloud / CDN pentru găzduirea infrastructurii de comandă și control. |
-| [`supply-chain-poisoning-analysis/`](./supply-chain-poisoning-analysis) | Software Security | **Finalizat** | Dependency Confusion, Typosquatting | Analiză a vectorilor de otrăvire a lanțului de aprovizionare software (npm/PyPI) și tehnici de injectare payload malițios. |
-| [`ctf/`](./ctf) | Security Training | **Activ** | CTF Writeups & Templates | Colecție de soluții, șabloane de documentare și metodologii aplicate în competiții Capture The Flag. |
+Această secțiune găzduiește cele 4 investigații criminalistice digitale majore și analize avansate de infrastructură de atac cibernetic integrate în cadrul **Datacenter**:
 
 ---
 
-## 2. Suită de Instrumente & Analizoare Automatizate (`toolkit/`)
+## Proiecte & Investigații Criminalistice
 
-Suita de analiză automată oferă componente CLI și biblioteci Python modulare pentru investigatori:
+| Proiect / Director | Categorie | Statut | Vector de Atac & Focus | Descriere Tehnică & Rezultate |
+| :--- | :--- | :---: | :--- | :--- |
+| [`openid-mitm-phishing-forensics/`](./openid-mitm-phishing-forensics) | Digital Forensics | **Finalizat** | Browser-in-the-Middle (BitM), OpenID 2.0 | Investighează o campanie activă de phishing care desenează o fereastră de browser simulată în interiorul paginii web (DOM injection) pentru a captura token-uri de sesiune Steam OpenID și a bloca contul folosind PIN-uri Family View. Include deobfuscare JavaScript, analize de payload și reguli de detecție Suricata. |
+| [`revolut-vishing-forensics/`](./revolut-vishing-forensics) | Digital Forensics | **Finalizat** | SIP Telephony Fraud, Caller ID Spoofing | Reconstruiește o operațiune complexă de inginerie socială telefonică prin care atacatorii au falsificat numerele de suport bancar pe trunchiuri internaționale VoIP/SIP pentru a intercepta coduri de autorizare 3D Secure în timp real. Include diagrame de flux call-flow SIP, extragere metadate PCAP și IOCs. |
+| [`task-scam-infrastructure-analysis/`](./task-scam-infrastructure-analysis) | Threat Intel & Forensics | **Finalizat** | C2 Architecture, Leaky APIs, Crypto Laundering | Analiză profundă asupra arhitecturii de rețea, API-urilor backend expuse neautorizat și schemelor de spălare de bani cripto (USDT pe TRC-20) din spatele platformelor frauduloase de task-farming. Include mapare OSINT, grafuri de relații și dovezi criminalistice extrase. |
+| [`tiktok-mrr-scam-infrastructure/`](./tiktok-mrr-scam-infrastructure) | Threat Intel & Forensics | **Finalizat** | Monthly Recurring Revenue Fraud, Funnels | Demascarea funnel-urilor automate de inducere în eroare și a schemelor de recurență frauduloasă din rețelele sociale. Analizează tehnicile de cloaking, fingerprinting de browser și manipularea gateway-urilor de plată folosite pentru taxarea neautorizată a victimelor. |
 
-- **`analyzers/`**: Detecție BitM (`aitm_detector.py`), fraudă telefonie SIP (`telephony_fraud_detector.py`), analiză infrastructură task scam (`task_scam_analyzer.py`), deobfuscator cod malițios (`deobfuscator.py`), audit AD (`active_directory_analyzer.py`).
-- **`core/`**: Verificare integritate dovezi criptografice (SHA-256, hashing), provenance, modele de date unificate (`models.py`) și conformitate TLP / CoC.
-- **`parsers/`**: Parsare EVTX Sysmon, artefacte MFT / Prefetch, fișiere PE / metadata binară, PCAP SIP/VoIP, dump-uri de memorie Volatility.
-- **`rules/`**: Motoare de evaluare YARA, Sigma, Suricata IDS/IPS și interogare Osquery.
-- **`correlation/`**: Motor de corelare grafică și generare cronologică a lanțului de atac (attack timeline & graph).
-- **`exporters/`**: Export rapoarte în formate STIX 2.1, SQLite, CSV și liste de blocare firewall (OPNsense / Proxmox).
-- **`scripts/`**: Validatoare automate pentru reguli Sigma (`validate_sigma.py`), STIX (`validate_stix.py`), Suricata (`validate_suricata.py`) și YARA (`validate_yara.py`).
-- **`tests/`**: Teste unitare și suite de fixtures pentru validare continuă (CI/CD).
+---
+
+## Integrare cu Arhitectura Datacenter
+
+Rezultatele, regulile și indicatorii de compromitere (IoCs) rezultați din aceste investigații alimentează direct stiva defensivă a Datacenter-ului:
+- **Suricata IDS/IPS pe OPNsense**: Reguli custom extrase din semnăturile de trafic BitM și SIP spoofing.
+- **Wazuh SIEM & SOAR (CT 100)**: Decodoare și reguli de alertare pentru încercări de autentificare anormale și token hijacking.
+- **T-Pot Honeypot Cluster (VM 213)**: Mediu de capcană în DMZ pentru colectarea de noi mostre de payload și maparea automată a adreselor IP atacatoare.
+- **Remnux Reverse Engineering (VM 218)**: Laborator izolat de analiză binară și deobfuscare dinamică de cod malițios.
 
 ---
 *Integrat în Datacenter IaC, Observability & Enterprise Security Architecture.*

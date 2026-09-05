@@ -1,9 +1,0 @@
-{
-  "siteName": "Global Affiliate Task Platform",
-  "withdrawMethodBank": false,
-  "withdrawMethodRevolut": false,
-  "minDepositUSDT": 250,
-  "depositWalletTRC20": "TYDzt62NoD8kX88VAbLpU294KsM92P81aB",
-  "countryCode": "+40",
-  "emergencyKillSwitch": true
-}
