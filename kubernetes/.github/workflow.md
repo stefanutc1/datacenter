@@ -11,3 +11,4 @@ sequenceDiagram
     Runner->>K8s: Execute dry-run / apply manifests
     K8s-->>Runner: Confirm deployment status
     Runner-->>GH: Report build & deployment results
+```

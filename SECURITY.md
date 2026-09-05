@@ -22,7 +22,7 @@ Welcome to the Datacenter Security Policy. This document defines the security ar
 The platform enforces a strict **Zero-Trust Network Architecture (ZTNA)**. No workload, virtual machine, or local endpoint is trusted implicitly, regardless of network locality.
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph WAN["Untrusted External Network (WAN)"]
         Attacker["Malicious Threat / Internet Traffic"]
     end
@@ -49,7 +49,7 @@ graph TD
         ZFS["ZFS Dataset Snapshots & Predictive Healer"]
     end
 
-    WAN -->|"Stateful Inspection"| OPNsense
+    Attacker -->|"Stateful Inspection"| OPNsense
     OPNsense --> CrowdSec
     OPNsense --> Suricata
     OPNsense --> NPM
@@ -57,7 +57,8 @@ graph TD
     Authelia --> ELO
     ELO --> Gatekeeper
     Gatekeeper --> Services
-    Services --> STORAGE
+    Services --> OMV
+    OMV --> ZFS
 ```
 
 ### Network Segmentation Matrix
@@ -143,9 +144,9 @@ sequenceDiagram
     participant Admin as Telegram Administrator
 
     Suricata->>SecOps: Detects SSH Brute-Force from Malicious IP
-    SecOps->>Gatekeeper: Request L2 Tool `opnsense_block_ip(ip)`
+    SecOps->>Gatekeeper: Request L2 Tool (opnsense_block_ip)
     Gatekeeper->>Admin: Dispatch Telegram Approval Request
-    Admin->>Gatekeeper: Click [Approve]
+    Admin->>Gatekeeper: Click Approve
     Gatekeeper->>OPNsense: Inject Stateful IP Blacklist Rule
     OPNsense-->>SecOps: 200 OK — IP Quarantined
     SecOps->>Admin: Send Incident Response Report (Markdown)

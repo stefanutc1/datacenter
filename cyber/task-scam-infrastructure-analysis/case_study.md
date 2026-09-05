@@ -22,44 +22,36 @@ Through traffic interception (Burp Suite) and API endpoint analysis, this invest
 
 ```mermaid
 flowchart TD
- Victim([" Victim User"])
- Admin([" Threat Actor Admin Panel"])
+    Victim(["Victim User"])
+    Admin(["Threat Actor Admin Panel"])
 
- subgraph FRONTEND["Frontend Presentation Layer"]
- UI["Vue.js Web Application
-Simulated Task Engine & Fictitious Balances"]
- FEED["Fabricated Live News & Payout Feed
-(Derived from /api/v1/site/config data)"]
- end
+    subgraph FRONTEND["Frontend Presentation Layer"]
+        UI["Vue.js Web Application<br/>Simulated Task Engine & Fictitious Balances"]
+        FEED["Fabricated Live News & Payout Feed<br/>(Derived from /api/v1/site/config data)"]
+    end
 
- subgraph BACKEND["Backend & API Layer"]
- API_CONFIG["/api/v1/site/config
-Withdrawal Kill-Switch: false
-Country Code Lock: +40"]
- API_AUTH["/api/v1/user/auth/*
-SQL Injection Surface on invite_code & username"]
- DB[(Campaign Database & Ledger)]
- end
+    subgraph BACKEND["Backend & API Layer"]
+        API_CONFIG["/api/v1/site/config<br/>Withdrawal Kill-Switch: false<br/>Country Code Lock: +40"]
+        API_AUTH["/api/v1/user/auth/*<br/>SQL Injection Surface on invite_code & username"]
+        DB[(Campaign Database & Ledger)]
+    end
 
- subgraph TRAP["Financial Drain Trap"]
- DEPOSIT["USDT TRC-20 Deposit Requirement
-Mandatory 'VIP Task Level Unlock'"]
- WALLET["Attacker Consolidation Wallet
-(Laundering through Mixers/Bridges)"]
- BLOCK["Withdrawal Blocked Indefinitely
-'Compliance Tax / Security Audit Fee Required'"]
- end
+    subgraph TRAP["Financial Drain Trap"]
+        DEPOSIT["USDT TRC-20 Deposit Requirement<br/>Mandatory VIP Task Level Unlock"]
+        WALLET["Attacker Consolidation Wallet<br/>(Laundering through Mixers/Bridges)"]
+        BLOCK["Withdrawal Blocked Indefinitely<br/>Compliance Tax / Security Audit Fee Required"]
+    end
 
- Victim -->|Registers with invite_code: 888888| UI
- UI <--> API_CONFIG
- UI <--> API_AUTH
- API_AUTH <--> DB
- Admin -->|Manipulates task payouts & odds| DB
- UI -->|Displays fake accrued earnings| FEED
- FEED -->|Lured into funding account| DEPOSIT
- DEPOSIT --> WALLET
- Victim -.->|Attempts cash withdrawal| BLOCK
- BLOCK -->|Funds permanently expropriated| Admin
+    Victim -->|Registers with invite_code: 888888| UI
+    UI <--> API_CONFIG
+    UI <--> API_AUTH
+    API_AUTH <--> DB
+    Admin -->|Manipulates task payouts & odds| DB
+    UI -->|Displays fake accrued earnings| FEED
+    FEED -->|Lured into funding account| DEPOSIT
+    DEPOSIT --> WALLET
+    Victim -.->|Attempts cash withdrawal| BLOCK
+    BLOCK -->|Funds permanently expropriated| Admin
 ```
 
 ---

@@ -207,9 +207,9 @@ flowchart TB
  VPN["Site-to-Site IPsec VPN<br/>Encrypted Tunnel to OPNsense"]
  end
 
- OnPrem -->|"IPsec / WireGuard VPN"| Azure
- OnPrem -->|"OIDC Token / HA VPN"| GCP
- OnPrem -->|"Glacier Sync / IPsec Tunnel"| AWS
+    OPN -->|"IPsec / WireGuard VPN"| ARC
+    OPN -->|"OIDC Token / HA VPN"| WIF
+    OPN -->|"Glacier Sync / IPsec Tunnel"| VPN
 ```
 
 ### Cloud Integration & Zero-Cost Tiering Matrix
@@ -255,18 +255,22 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 ```mermaid
 flowchart TD
- Mains["Mains Utility Power 230V AC"] --> UPS["Coldex Pure Sine Wave 1200VA UPS<br/>+ External 100Ah Deep-Cycle Battery"]
- UPS --> PDU["Smart Energy Metered PDU"]
- PDU --> Node1 & Node2 & Node3 & Node4 & Switch["Managed PoE+ Switch"]
+    Mains["Mains Utility Power 230V AC"] --> UPS["Coldex Pure Sine Wave 1200VA UPS<br/>+ External 100Ah Deep-Cycle Battery"]
+    UPS --> PDU["Smart Energy Metered PDU"]
+    PDU --> Node1["Node 1: Proxmox Core (i3-10100F)"]
+    PDU --> Node2["Node 2: OMV NAS Storage"]
+    PDU --> Node3["Node 3: Proxmox Secondary (M1)"]
+    PDU --> Node4["Node 4: Talos Linux Worker"]
+    PDU --> Switch["Managed PoE+ Switch"]
 
- UPS -.->|"USB HID Telemetry"| NUT_Master["NUT Server (Network UPS Tools)<br/>Node 1 (192.168.1.132)"]
- NUT_Master -->|"Power Outage Event"| Timer{"On Battery > 15 Mins OR<br/>Battery Charge < 25%"}
- 
- Timer -->|"YES"| Graceful_Shutdown["Controlled Sequential Shutdown Sequence"]
- Graceful_Shutdown --> S1["1. Stop Non-Critical LXCs (Media, Nextcloud)"]
- S1 --> S2["2. Stop Core Databases & Storage (PostgreSQL, OMV)"]
- S2 --> S3["3. Gracefully Stop VMs (Windows Server, OPNsense)"]
- S3 --> S4["4. Proxmox VE Host Poweroff via 'poweroff'"]
+    UPS -.->|"USB HID Telemetry"| NUT_Master["NUT Server (Network UPS Tools)<br/>Node 1 (192.168.1.132)"]
+    NUT_Master -->|"Power Outage Event"| Timer{"On Battery &gt; 15 Mins OR<br/>Battery Charge &lt; 25%"}
+    
+    Timer -->|"YES"| Graceful_Shutdown["Controlled Sequential Shutdown Sequence"]
+    Graceful_Shutdown --> S1["1. Stop Non-Critical LXCs (Media, Nextcloud)"]
+    S1 --> S2["2. Stop Core Databases & Storage (PostgreSQL, OMV)"]
+    S2 --> S3["3. Gracefully Stop VMs (Windows Server, OPNsense)"]
+    S3 --> S4["4. Proxmox VE Host Poweroff via poweroff"]
 ```
 
 ---
@@ -449,25 +453,29 @@ flowchart TD
 
 ```mermaid
 flowchart TD
- subgraph ZFSTopology["ZFS STORAGE POOL TOPOLOGY"]
- direction TB
- Pools["ZFS Storage Architecture"]
- 
- subgraph RPool["rpool (NVMe SSD · Proxmox Root & OS)"]
- R1["• recordsize: 128k"]
- R2["• compression: zstd-3"]
- R3["• atime: off · autotrim: on"]
- end
+    subgraph ZFSTopology["ZFS STORAGE POOL TOPOLOGY"]
+        direction TB
+        Pools["ZFS Storage Architecture"]
+        
+        subgraph RPool["rpool (NVMe SSD · Proxmox Root & OS)"]
+            R_Root["rpool Root Pool"]
+            R1["• recordsize: 128k"]
+            R2["• compression: zstd-3"]
+            R3["• atime: off · autotrim: on"]
+            R_Root --- R1 & R2 & R3
+        end
 
- subgraph DataPool["datapool (ZFS Mirror · OpenMediaVault)"]
- D1["• recordsize: 1M (Media Streams)"]
- D2["• recordsize: 16k (Databases)"]
- D3["• compression: zstd · ashift: 12"]
- end
+        subgraph DataPool["datapool (ZFS Mirror · OpenMediaVault)"]
+            D_Root["datapool Storage Pool"]
+            D1["• recordsize: 1M (Media Streams)"]
+            D2["• recordsize: 16k (Databases)"]
+            D3["• compression: zstd · ashift: 12"]
+            D_Root --- D1 & D2 & D3
+        end
 
- Pools --> RPool
- Pools --> DataPool
- end
+        Pools --> R_Root
+        Pools --> D_Root
+    end
 ```
 
 ### Granular ZFS Filesystem Tuning Rules
@@ -483,17 +491,23 @@ flowchart TD
 
 ```mermaid
 flowchart LR
- VLAN10["VLAN 10: Mgmt & Storage<br/>192.168.1.0/24"]
- VLAN20["VLAN 20: Core Microservices<br/>192.168.20.0/24"]
- VLAN30["VLAN 30: CyberLab & Sandboxes<br/>192.168.30.0/24"]
- VLAN40["VLAN 40: DMZ Deception<br/>192.168.40.0/24"]
- VLAN50["VLAN 50: IoT Sensors<br/>192.168.50.0/24"]
+    VLAN10["VLAN 10: Mgmt & Storage<br/>192.168.1.0/24"]
+    VLAN20["VLAN 20: Core Microservices<br/>192.168.20.0/24"]
+    VLAN30["VLAN 30: CyberLab & Sandboxes<br/>192.168.30.0/24"]
+    VLAN40["VLAN 40: DMZ Deception<br/>192.168.40.0/24"]
+    VLAN50["VLAN 50: IoT Sensors<br/>192.168.50.0/24"]
 
- VLAN10 -->|"Full Admin Access"| VLAN20 & VLAN30 & VLAN40 & VLAN50
- VLAN20 -->|"Restricted Ports: 53, 443"| VLAN10
- VLAN30 -->|"NO OUTBOUND WAN / Isolated"| VLAN10 & VLAN20
- VLAN40 -->|"DROP ALL Traffic to LAN"| VLAN10 & VLAN20 & VLAN30
- VLAN50 -->|"MQTT Only :1883"| VLAN20
+    VLAN10 -->|"Full Admin Access"| VLAN20
+    VLAN10 -->|"Full Admin Access"| VLAN30
+    VLAN10 -->|"Full Admin Access"| VLAN40
+    VLAN10 -->|"Full Admin Access"| VLAN50
+    VLAN20 -->|"Restricted Ports: 53, 443"| VLAN10
+    VLAN30 -->|"Isolated (No WAN)"| VLAN10
+    VLAN30 -->|"Isolated (No WAN)"| VLAN20
+    VLAN40 -->|"DROP ALL Traffic"| VLAN10
+    VLAN40 -->|"DROP ALL Traffic"| VLAN20
+    VLAN40 -->|"DROP ALL Traffic"| VLAN30
+    VLAN50 -->|"MQTT Only :1883"| VLAN20
 ```
 
 ### Inter-VLAN Firewall Policy Table (Default-Deny)

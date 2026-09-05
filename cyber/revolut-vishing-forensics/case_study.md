@@ -19,46 +19,39 @@ Victims were guided to dynamically cloned banking verification portals that harv
 
 ```mermaid
 flowchart TD
- Attacker([" Threat Actor / Fraud Ring"])
+    Attacker(["Threat Actor / Fraud Ring"])
 
- subgraph TELEPHONY["Stage 1: Telephony & Social Engineering"]
- VOIP["SIP VoIP Trunk Gateway
-Caller ID Spoofing (0749-XXX-XXX)"]
- PRETEXT["Urgent Security Pretext:
-'Unauthorized Transaction / Negative Balance'"]
- end
+    subgraph TELEPHONY["Stage 1: Telephony & Social Engineering"]
+        VOIP["SIP VoIP Trunk Gateway<br/>Caller ID Spoofing (0749-XXX-XXX)"]
+        PRETEXT["Urgent Security Pretext:<br/>Unauthorized Transaction / Negative Balance"]
+    end
 
- subgraph DELIVERY["Stage 2: Smishing & Evasion Funnel"]
- SMS["Spoofed SMS Delivery
-URL Shortener (bit.ly / t.co)"]
- CLONE["FinTech Cloned Landing Portal
-(Let's Encrypt SSL · TLD: .tk / .xyz)"]
- end
+    subgraph DELIVERY["Stage 2: Smishing & Evasion Funnel"]
+        SMS["Spoofed SMS Delivery<br/>URL Shortener (bit.ly / t.co)"]
+        CLONE["FinTech Cloned Landing Portal<br/>(Let's Encrypt SSL · TLD: .tk / .xyz)"]
+    end
 
- subgraph INTERCEPTION["Stage 3: Real-Time Proxy & Harvesting"]
- PORTAL["Fake Revolut Card Portal
-Harvests PAN, CVV, Expiry"]
- RELAY["Real-Time C2 Relay Engine
-Immediate API Injection into Bank"]
- end
+    subgraph INTERCEPTION["Stage 3: Real-Time Proxy & Harvesting"]
+        PORTAL["Fake Revolut Card Portal<br/>Harvests PAN, CVV, Expiry"]
+        RELAY["Real-Time C2 Relay Engine<br/>Immediate API Injection into Bank"]
+    end
 
- subgraph FRAUD["Stage 4: 3DS Bypass & Fund Exfiltration"]
- OTP["Victim submits 3DS / SMS OTP code"]
- APP_AUTH["Victim approves In-App Biometric Push"]
- CASHOUT["Unauthorized Cashout Completed
-(SEPA Instant / Crypto Rail)"]
- end
+    subgraph FRAUD["Stage 4: 3DS Bypass & Fund Exfiltration"]
+        OTP["Victim submits 3DS / SMS OTP code"]
+        APP_AUTH["Victim approves In-App Biometric Push"]
+        CASHOUT["Unauthorized Cashout Completed<br/>(SEPA Instant / Crypto Rail)"]
+    end
 
- Attacker --> VOIP
- VOIP -->|Voice Call via Spoofed CLI| PRETEXT
- PRETEXT -->|Directs Victim to SMS Link| SMS
- SMS --> CLONE
- CLONE --> PORTAL
- PORTAL -->|Live Card Data| RELAY
- RELAY -->|Triggers Real Bank Transaction| OTP
- OTP --> APP_AUTH
- APP_AUTH --> CASHOUT
- CASHOUT -->|Laundered Capital| Attacker
+    Attacker --> VOIP
+    VOIP -->|Voice Call via Spoofed CLI| PRETEXT
+    PRETEXT -->|Directs Victim to SMS Link| SMS
+    SMS --> CLONE
+    CLONE --> PORTAL
+    PORTAL -->|Live Card Data| RELAY
+    RELAY -->|Triggers Real Bank Transaction| OTP
+    OTP --> APP_AUTH
+    APP_AUTH --> CASHOUT
+    CASHOUT -->|Laundered Capital| Attacker
 ```
 
 ---

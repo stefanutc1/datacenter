@@ -19,7 +19,7 @@ This document defines the comprehensive engineering architecture, physical topol
 ## 1. Physical & Virtual Hardware Topology
 
 ```mermaid
-graph TB
+flowchart TB
     subgraph NODE1["Node 1: Proxmox VE Hypervisor (192.168.1.132)"]
         PVE_HW["Intel Core i3-10100F · 12 GB RAM · GTX 1050 Ti · 512 GB SSD"]
         VM200["VM 200: OPNsense Perimeter Gateway (Zenarmor NGFW · AdGuard :3000 · Nginx Ingress)"]
@@ -46,10 +46,10 @@ graph TB
         ESP_SERVER["ESP32: Rack Monitors (Temp / Humidity)"]
     end
 
-    NODE1 <-->|"vmbr2 Transit (10.10.20.0/30) + BGP"| VM221
-    NODE1 <-->|"1 Gbps Ethernet + Tailscale Mesh"| NODE2
-    NODE1 <-->|"WireGuard Site-to-Site + IPsec VTI"| CLOUD
-    EDGE -->|"MQTT Telemetry"| LXC_STACK
+    VM200 <-->|"vmbr2 Transit (10.10.20.0/30) + BGP"| VM221
+    PVE_HW <-->|"1 Gbps Ethernet + Tailscale Mesh"| OMV_HW
+    VM200 <-->|"WireGuard Site-to-Site + IPsec VTI"| WG_HUB
+    ESP_SERVER -->|"MQTT Telemetry"| LXC_STACK
 ```
 
 ---
@@ -122,11 +122,11 @@ sequenceDiagram
     participant Gatekeeper as Security Gatekeeper (L0–L3)
     participant Hardware as Homelab Target (Proxmox / OPNsense / HA)
 
-    User->>ELO: Input Command ("Check cluster health & optimize RAM")
+    User->>ELO: Input Command: Check cluster health & optimize RAM
     ELO->>Memory: Search Semantic Context & User Preferences
     Memory-->>ELO: Return Top-K Vector Chunks (Cosine Similarity)
     ELO->>Router: Execute ReAct Reasoning Prompt with Context
-    Router-->>ELO: Tool Selection (`proxmox_get_cluster_status`)
+    Router-->>ELO: Tool Selection (proxmox_get_cluster_status)
     ELO->>Gatekeeper: Request Clearance for Tool Execution
     Gatekeeper-->>ELO: L0 Clearance Granted (Immediate)
     ELO->>Hardware: Execute Query over Proxmox API
