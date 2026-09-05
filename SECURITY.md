@@ -1,3 +1,5 @@
+<div align="center">
+
 # Datacenter Security Policy 
 
 Welcome to the Datacenter Security Policy. This document defines the security architecture, threat model, cryptographic baselines, security clearance rings, vulnerability disclosure protocols, and incident containment runbooks for the entire infrastructure monorepo.
