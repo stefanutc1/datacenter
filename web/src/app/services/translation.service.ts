@@ -114,246 +114,140 @@ export interface Translations {
   footerGithub: string;
 }
 
+const EN_TRANSLATIONS: Translations = {
+  navOverview: 'Overview',
+  navTopology: '3D Topology',
+  navServices: 'Services (88)',
+  navHardware: 'Hardware Fleet',
+  navBlueprint: 'Architecture & Cyber',
+  statusClusterActive: '4 nodes online',
+  sublabelTag: 'Infrastructure & Services',
+
+  heroTag: 'SYSTEM ARCHITECTURE & OVERVIEW',
+  heroTitle: 'A heterogeneous bare-metal compute cluster, private cloud, and security testing lab.',
+  heroDescription: 'Technical documentation and interactive overview of the datacenter infrastructure: Proxmox VE virtualization across Apple Silicon ARM64 and Intel x86_64, Windows Server Active Directory, ZFS storage, OPNsense firewall segmentation, local GPU LLMs, and automation.',
+  
+  metricComputeTitle: 'PHYSICAL COMPUTE',
+  metricComputeCount: '4 Nodes',
+  metricComputeDesc: 'Intel i3-10100F (GTX 1050 Ti), Apple M1 Silicon, ASUS Celeron OMV NAS, and AMD Athlon II k3s.',
+  
+  metricVirtTitle: 'VIRTUALIZATION',
+  metricVirtCount: '2 Hypervisors',
+  metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and all 88 active microservices.',
+  
+  metricServicesTitle: 'ACTIVE SERVICES & MULTI-CLOUD',
+  metricServicesCount: '88 Services · 3 Clouds',
+  metricServicesDesc: '88 active on-prem microservices and KVM/BSD enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
+  
+  metricCyberTitle: 'SECURITY, DFIR & CI/CD',
+  metricCyberCount: 'SOC · 9 CI/CD Workflows',
+  metricCyberDesc: 'Wazuh SIEM, T-Pot DMZ + Enterprise CI/CD Matrix featuring 9 automated workflows with 36+ parallel quality checks.',
+
+  topologyTag: 'NETWORK TOPOLOGY',
+  topologyTitle: 'Spatial 3D Topology Visualization',
+  topologyDesc: 'Click nodes to inspect technical specifications, network relationships, and deployment manifests.',
+  btnRotate: 'Rotate',
+  btnReset: 'Reset',
+  btnLogical: 'Logical',
+  btnPhysical: 'Physical',
+  meshActive: 'ACTIVE MESH',
+  nodesLabel: 'NODES',
+  flowsLabel: 'FLOWS',
+  interactionHint: 'DRAG TO ROTATE · SCROLL TO ZOOM · CLICK FOR DETAILS',
+  catAll: 'All Layers',
+  catCompute: 'Compute & Hypervisors',
+  catNetwork: 'Network & Ingress',
+  catSecurity: 'Security & Cyber',
+  catServices: 'Core Services',
+  catElo: 'AI Control Plane',
+  catStorage: 'Storage & ZFS',
+  catEdge: 'Edge Sensors',
+
+  hwTag: 'PHYSICAL HARDWARE',
+  hwTitle: 'Hardware Fleet (4 Compute Nodes)',
+  hwDesc: 'Multi-architecture bare-metal infrastructure: Intel Core i3 x86_64 virtualization, Apple M1 ARM64 UTM node, ASUS Celeron ZFS NAS, and AMD Athlon II Kubernetes worker.',
+  hwCpu: 'Processor (CPU)',
+  hwOs: 'Operating System',
+  hwRam: 'RAM Capacity',
+  hwStorage: 'Storage Pool',
+  hwGpu: 'GPU / ML Accelerator',
+  hwPsu: 'Power Supply (PSU)',
+  hwHostedWorkloads: 'Hosted Virtual Workloads on this Node',
+  btnLocate3D: 'LOCATE IN 3D',
+
+  srvTag: 'SERVICES CATALOG',
+  srvTitle: 'Active Services & Workloads (88)',
+  srvDesc: 'Complete catalog of all 88 active datacenter microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
+  srvSearchPlaceholder: 'Search service, port, host, category...',
+  srvRamCeiling: 'RAM Ceiling',
+  srvStoragePool: 'Storage Pool',
+  btnLocateInMesh: 'LOCATE IN 3D',
+  srvCatAll: 'All Services',
+  srvCatCore: 'Core Infrastructure',
+  srvCatStorage: 'Storage & Sync',
+  srvCatMedia: 'Media Streaming',
+  srvCatMonitoring: 'Observability',
+  srvCatSecurity: 'Security & SSO',
+  srvCatAutomation: 'Automation & IoT',
+  srvCatCyber: 'Cyber & DFIR',
+  srvCatAi: 'AI & Ollama LLM',
+
+  bpTag: 'TECHNICAL BLUEPRINT',
+  bpTitle: 'System Architecture & Blueprint',
+  bpDesc: 'Technical specifications for VLAN isolation, cybersecurity tooling, T-Pot honeypots, digital forensics (DFIR), ZFS storage, and UPS telemetry.',
+  tabVlan: 'VLAN Segmentation Matrix',
+  tabCyber: 'Cybersecurity, DFIR & Honeypots',
+  tabMemory: 'RAM Allocation Budgets',
+  tabAi: 'AI Routing Cascade (ELO & Ollama)',
+  tabDevSecOps: 'DevSecOps & Immutability',
+
+  inspectorSpec: 'SPECIFICATION',
+  inspectorCascade: 'RELATIONSHIPS',
+  inspectorManifest: 'MANIFEST',
+  inspectorRole: 'TECHNICAL ROLE',
+  inspectorHostAllocation: 'HOST & CAPACITY',
+  inspectorComputeHost: 'Compute Host',
+  inspectorTierLevel: 'Layer Tier',
+  inspectorNetworkConfig: 'Network Configuration',
+  inspectorIp: 'IP Address',
+  inspectorPort: 'Exposed Port',
+  inspectorSubsystem: 'Subsystem',
+  inspectorRelationshipChain: 'Connection Chain',
+  inspectorConnectedNodes: 'Connected Nodes',
+  inspectorCopySpec: 'COPY SPEC',
+  inspectorCopied: 'COPIED!',
+
+  footerSub: '— Proxmox VE · Windows Server AD · WireGuard · Wazuh XDR · DFIR · Ollama LLM',
+  footerTop: 'TOP ↑',
+  footerGithub: 'GITHUB REPO'
+};
+
 const TRANSLATIONS: Record<Language, Translations> = {
-  ro: {
-    navOverview: 'Prezentare',
-    navTopology: 'Topologie 3D',
-    navServices: 'Servicii (88)',
-    navHardware: 'Flotă Hardware',
-    navBlueprint: 'Arhitectură & Cyber',
-    statusClusterActive: '4 noduri online',
-    sublabelTag: 'Infrastructură & Servicii',
-
-    heroTag: 'ARHITECTURĂ & PREZENTARE TEHNICĂ',
-    heroTitle: 'Cluster eterogen bare-metal, cloud privat și laborator de securitate.',
-    heroDescription: 'Documentație tehnică și prezentare interactivă a infrastructurii: virtualizare Proxmox VE pe Apple Silicon ARM64 și Intel x86_64, Windows Server Active Directory, stocare ZFS, segmentare firewall OPNsense, modele LLM locale pe GPU și automatizare.',
-    
-    metricComputeTitle: 'COMPUTE FIZIC',
-    metricComputeCount: '4 Noduri',
-    metricComputeDesc: 'Intel i3-10100F (GTX 1050 Ti), Apple M1 Silicon, ASUS Celeron OMV NAS și AMD Athlon II k3s.',
-    
-    metricVirtTitle: 'VIRTUALIZARE',
-    metricVirtCount: '2 Hypervisori',
-    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 găzduind OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s și cele 88 de microservicii active.',
-    
-    metricServicesTitle: 'SERVICII ACTIVE & MULTI-CLOUD',
-    metricServicesCount: '88 Servicii · 3 Clouds',
-    metricServicesDesc: '88 de microservicii active și mașini virtuale KVM/BSD integrate hibrid cu Azure Key Vault, GCP WORM GCS & AWS Glacier.',
-    
-    metricCyberTitle: 'SECURITATE, DFIR & CI/CD',
-    metricCyberCount: 'SOC · 9 Fluxuri CI/CD',
-    metricCyberDesc: 'Wazuh SIEM, T-Pot DMZ + Matrice CI/CD Enterprise cu 9 fluxuri automate și peste 36 de verificări paralele.',
-
-    topologyTag: 'TOPOLOGIE DE REȚEA',
-    topologyTitle: 'Vizualizare Spațială 3D a Rețelei',
-    topologyDesc: 'Apasă pe noduri pentru inspectarea specificațiilor tehnice, relațiilor de rețea și manifestelor de configurare.',
-    btnRotate: 'Rotire',
-    btnReset: 'Resetare',
-    btnLogical: 'Logic',
-    btnPhysical: 'Fizic',
-    meshActive: 'REȚEA ACTIVĂ',
-    nodesLabel: 'NODURI',
-    flowsLabel: 'CONEXIUNI',
-    interactionHint: 'TRAGE PENTRU ROTIRE · SCROLL PENTRU ZOOM · CLICK PENTRU DETALII',
-    catAll: 'Toate Straturile',
-    catCompute: 'Compute & Hypervisori',
-    catNetwork: 'Rețea & Ingress',
-    catSecurity: 'Securitate & Cyber',
-    catServices: 'Servicii Core',
-    catElo: 'Control Plane AI',
-    catStorage: 'Stocare & ZFS',
-    catEdge: 'Senzori Edge',
-
-    hwTag: 'HARDWARE FIZIC',
-    hwTitle: 'Flota Hardware (4 Noduri de Calcul)',
-    hwDesc: 'Infrastructură multi-arhitectură bare-metal: virtualizare Intel Core i3 x86_64, nod ARM64 Apple M1 UTM, NAS ZFS ASUS Celeron și worker Kubernetes AMD Athlon II.',
-    hwCpu: 'Procesor (CPU)',
-    hwOs: 'Sistem de Operare',
-    hwRam: 'Capacitate RAM',
-    hwStorage: 'Pool Stocare',
-    hwGpu: 'Placă Video / Accelerator',
-    hwPsu: 'Sursă Alimentare (PSU)',
-    hwHostedWorkloads: 'Workload-uri Virtuale Găzduite pe acest Nod',
-    btnLocate3D: 'LOCALIZEAZĂ ÎN 3D',
-
-    srvTag: 'CATALOG SERVICII',
-    srvTitle: 'Servicii & Workload-uri Active (88)',
-    srvDesc: 'Catalogul complet cu toate cele 88 de microservicii și componente de infrastructură cu capturi HD de interfață, telemetrie în timp real și alocare hardware.',
-    srvSearchPlaceholder: 'Caută serviciu, port, gazdă, categorie...',
-    srvRamCeiling: 'Plafon RAM',
-    srvStoragePool: 'Pool Stocare',
-    btnLocateInMesh: 'LOCALIZEAZĂ ÎN 3D',
-    srvCatAll: 'Toate Serviciile',
-    srvCatCore: 'Infrastructură Core',
-    srvCatStorage: 'Stocare & Sync',
-    srvCatMedia: 'Media Streaming',
-    srvCatMonitoring: 'Observabilitate',
-    srvCatSecurity: 'Securitate & SSO',
-    srvCatAutomation: 'Automatizare & IoT',
-    srvCatCyber: 'Cyber & DFIR',
-    srvCatAi: 'AI & Ollama LLM',
-
-    bpTag: 'BLUEPRINT TEHNIC',
-    bpTitle: 'Arhitectura și Blueprint-ul Tehnic',
-    bpDesc: 'Specificații pentru izolarea VLAN, suita de securitate cibernetică, honeypots T-Pot, digital forensics (DFIR), stocare ZFS și telemetrie UPS.',
-    tabVlan: 'Matrice Segmentare VLAN',
-    tabCyber: 'Securitate Cibernetică, DFIR & Honeypots',
-    tabMemory: 'Bugete Alocare RAM',
-    tabAi: 'Cascadă Rutare AI (ELO & Ollama)',
-    tabDevSecOps: 'DevSecOps & Imutabilitate',
-
-    inspectorSpec: 'SPECIFICAȚIE',
-    inspectorCascade: 'RELAȚII',
-    inspectorManifest: 'MANIFEST',
-    inspectorRole: 'ROL TEHNIC',
-    inspectorHostAllocation: 'GAZDĂ & RESURSE',
-    inspectorComputeHost: 'Gazdă Compute',
-    inspectorTierLevel: 'Nivel Strat',
-    inspectorNetworkConfig: 'Configurație Rețea',
-    inspectorIp: 'Adresă IP',
-    inspectorPort: 'Port Expus',
-    inspectorSubsystem: 'Subsistem',
-    inspectorRelationshipChain: 'Lanț de Conexiuni',
-    inspectorConnectedNodes: 'Noduri Conectate',
-    inspectorCopySpec: 'COPIAZĂ SPEC',
-    inspectorCopied: 'COPIAT!',
-
-    footerSub: '— Proxmox VE · Windows Server AD · WireGuard · Wazuh XDR · DFIR · Ollama LLM',
-    footerTop: 'SUS ↑',
-    footerGithub: 'REPO GITHUB'
-  },
-  en: {
-    navOverview: 'Overview',
-    navTopology: '3D Topology',
-    navServices: 'Services (88)',
-    navHardware: 'Hardware Fleet',
-    navBlueprint: 'Architecture & Cyber',
-    statusClusterActive: '4 nodes online',
-    sublabelTag: 'Infrastructure & Services',
-
-    heroTag: 'SYSTEM ARCHITECTURE & OVERVIEW',
-    heroTitle: 'A heterogeneous bare-metal compute cluster, private cloud, and security testing lab.',
-    heroDescription: 'Technical documentation and interactive overview of the datacenter infrastructure: Proxmox VE virtualization across Apple Silicon ARM64 and Intel x86_64, Windows Server Active Directory, ZFS storage, OPNsense firewall segmentation, local GPU LLMs, and automation.',
-    
-    metricComputeTitle: 'PHYSICAL COMPUTE',
-    metricComputeCount: '4 Nodes',
-    metricComputeDesc: 'Intel i3-10100F (GTX 1050 Ti), Apple M1 Silicon, ASUS Celeron OMV NAS, and AMD Athlon II k3s.',
-    
-    metricVirtTitle: 'VIRTUALIZATION',
-    metricVirtCount: '2 Hypervisors',
-    metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and all 88 active microservices.',
-    
-    metricServicesTitle: 'ACTIVE SERVICES & MULTI-CLOUD',
-    metricServicesCount: '88 Services · 3 Clouds',
-    metricServicesDesc: '88 active on-prem microservices and KVM/BSD enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
-    
-    metricCyberTitle: 'SECURITY, DFIR & CI/CD',
-    metricCyberCount: 'SOC · 9 CI/CD Workflows',
-    metricCyberDesc: 'Wazuh SIEM, T-Pot DMZ + Enterprise CI/CD Matrix featuring 9 automated workflows with 36+ parallel quality checks.',
-
-    topologyTag: 'NETWORK TOPOLOGY',
-    topologyTitle: 'Spatial 3D Topology Visualization',
-    topologyDesc: 'Click nodes to inspect technical specifications, network relationships, and deployment manifests.',
-    btnRotate: 'Rotate',
-    btnReset: 'Reset',
-    btnLogical: 'Logical',
-    btnPhysical: 'Physical',
-    meshActive: 'ACTIVE MESH',
-    nodesLabel: 'NODES',
-    flowsLabel: 'FLOWS',
-    interactionHint: 'DRAG TO ROTATE · SCROLL TO ZOOM · CLICK FOR DETAILS',
-    catAll: 'All Layers',
-    catCompute: 'Compute & Hypervisors',
-    catNetwork: 'Network & Ingress',
-    catSecurity: 'Security & Cyber',
-    catServices: 'Core Services',
-    catElo: 'AI Control Plane',
-    catStorage: 'Storage & ZFS',
-    catEdge: 'Edge Sensors',
-
-    hwTag: 'PHYSICAL HARDWARE',
-    hwTitle: 'Hardware Fleet (4 Compute Nodes)',
-    hwDesc: 'Multi-architecture bare-metal infrastructure: Intel Core i3 x86_64 virtualization, Apple M1 ARM64 UTM node, ASUS Celeron ZFS NAS, and AMD Athlon II Kubernetes worker.',
-    hwCpu: 'Processor (CPU)',
-    hwOs: 'Operating System',
-    hwRam: 'RAM Capacity',
-    hwStorage: 'Storage Pool',
-    hwGpu: 'GPU / ML Accelerator',
-    hwPsu: 'Power Supply (PSU)',
-    hwHostedWorkloads: 'Hosted Virtual Workloads on this Node',
-    btnLocate3D: 'LOCATE IN 3D',
-
-    srvTag: 'SERVICES CATALOG',
-    srvTitle: 'Active Services & Workloads (88)',
-    srvDesc: 'Complete catalog of all 88 active datacenter microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
-    srvSearchPlaceholder: 'Search service, port, host, category...',
-    srvRamCeiling: 'RAM Ceiling',
-    srvStoragePool: 'Storage Pool',
-    btnLocateInMesh: 'LOCATE IN 3D',
-    srvCatAll: 'All Services',
-    srvCatCore: 'Core Infrastructure',
-    srvCatStorage: 'Storage & Sync',
-    srvCatMedia: 'Media Streaming',
-    srvCatMonitoring: 'Observability',
-    srvCatSecurity: 'Security & SSO',
-    srvCatAutomation: 'Automation & IoT',
-    srvCatCyber: 'Cyber & DFIR',
-    srvCatAi: 'AI & Ollama LLM',
-
-    bpTag: 'TECHNICAL BLUEPRINT',
-    bpTitle: 'System Architecture & Blueprint',
-    bpDesc: 'Technical specifications for VLAN isolation, cybersecurity tooling, T-Pot honeypots, digital forensics (DFIR), ZFS storage, and UPS telemetry.',
-    tabVlan: 'VLAN Segmentation Matrix',
-    tabCyber: 'Cybersecurity, DFIR & Honeypots',
-    tabMemory: 'RAM Allocation Budgets',
-    tabAi: 'AI Routing Cascade (ELO & Ollama)',
-    tabDevSecOps: 'DevSecOps & Immutability',
-
-    inspectorSpec: 'SPECIFICATION',
-    inspectorCascade: 'RELATIONSHIPS',
-    inspectorManifest: 'MANIFEST',
-    inspectorRole: 'TECHNICAL ROLE',
-    inspectorHostAllocation: 'HOST & CAPACITY',
-    inspectorComputeHost: 'Compute Host',
-    inspectorTierLevel: 'Layer Tier',
-    inspectorNetworkConfig: 'Network Configuration',
-    inspectorIp: 'IP Address',
-    inspectorPort: 'Exposed Port',
-    inspectorSubsystem: 'Subsystem',
-    inspectorRelationshipChain: 'Connection Chain',
-    inspectorConnectedNodes: 'Connected Nodes',
-    inspectorCopySpec: 'COPY SPEC',
-    inspectorCopied: 'COPIED!',
-
-    footerSub: '— Proxmox VE · Windows Server AD · WireGuard · Wazuh XDR · DFIR · Ollama LLM',
-    footerTop: 'TOP ↑',
-    footerGithub: 'GITHUB REPO'
-  }
+  ro: EN_TRANSLATIONS,
+  en: EN_TRANSLATIONS
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class TranslationService {
-  currentLang = signal<Language>('ro');
+  currentLang = signal<Language>('en');
 
   get isRomanian(): boolean {
-    return this.currentLang() === 'ro';
+    return false;
   }
 
   constructor() {
-    const saved = localStorage.getItem('homelab_lang') as Language;
-    if (saved === 'ro' || saved === 'en') {
-      this.currentLang.set(saved);
-    }
+    this.currentLang.set('en');
+    localStorage.setItem('homelab_lang', 'en');
   }
 
   get t(): Translations {
-    return TRANSLATIONS[this.currentLang()];
+    return EN_TRANSLATIONS;
   }
 
   setLanguage(lang: Language) {
-    this.currentLang.set(lang);
-    localStorage.setItem('homelab_lang', lang);
+    this.currentLang.set('en');
+    localStorage.setItem('homelab_lang', 'en');
   }
 }

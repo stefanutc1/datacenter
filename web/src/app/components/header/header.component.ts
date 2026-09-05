@@ -22,44 +22,20 @@ import { TranslationService } from '../../services/translation.service';
           <a href="#topology-section" class="hover:text-slate-100 transition-colors">{{ ts.t.navTopology }}</a>
           <a href="#hardware" class="hover:text-slate-100 transition-colors">{{ ts.t.navHardware }}</a>
           <a href="#services" class="hover:text-slate-100 transition-colors">{{ ts.t.navServices }}</a>
-          <a href="#about" class="hover:text-slate-100 transition-colors">{{ ts.isRomanian ? 'Despre & Galerie' : 'About & Gallery' }}</a>
+          <a href="#about" class="hover:text-slate-100 transition-colors">About & Gallery</a>
           <a href="#blueprint" class="hover:text-slate-100 transition-colors">{{ ts.t.navBlueprint }}</a>
         </nav>
 
-        <!-- Right: Language Switcher [ RO | EN ] (Sleek Grey) -->
-        <div class="flex items-center gap-3 w-28 justify-end">
-          <div class="flex items-center p-0.5 rounded-xl bg-obsidian-900 border border-obsidian-750 font-sans text-xs shadow-inner">
-            <button
-              (click)="ts.setLanguage('ro')"
-              [class.bg-obsidian-750]="ts.currentLang() === 'ro'"
-              [class.text-slate-100]="ts.currentLang() === 'ro'"
-              [class.font-semibold]="ts.currentLang() === 'ro'"
-              [class.border]="ts.currentLang() === 'ro'"
-              [class.border-obsidian-600]="ts.currentLang() === 'ro'"
-              [class.shadow-sm]="ts.currentLang() === 'ro'"
-              [class.text-slate-400]="ts.currentLang() !== 'ro'"
-              [class.hover:text-slate-200]="ts.currentLang() !== 'ro'"
-              class="px-2.5 py-1 rounded-lg transition-all"
-              title="Comută în Limba Română"
-            >
-              RO
-            </button>
-            <button
-              (click)="ts.setLanguage('en')"
-              [class.bg-obsidian-750]="ts.currentLang() === 'en'"
-              [class.text-slate-100]="ts.currentLang() === 'en'"
-              [class.font-semibold]="ts.currentLang() === 'en'"
-              [class.border]="ts.currentLang() === 'en'"
-              [class.border-obsidian-600]="ts.currentLang() === 'en'"
-              [class.shadow-sm]="ts.currentLang() === 'en'"
-              [class.text-slate-400]="ts.currentLang() !== 'en'"
-              [class.hover:text-slate-200]="ts.currentLang() !== 'en'"
-              class="px-2.5 py-1 rounded-lg transition-all"
-              title="Switch to English"
-            >
-              EN
-            </button>
-          </div>
+        <!-- Right: Quick Search Shortcut (Cmd+K / Ctrl+K) -->
+        <div class="flex items-center gap-3 justify-end">
+          <button
+            (click)="searchTriggered.emit()"
+            class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-obsidian-900 hover:bg-obsidian-850 border border-obsidian-750 hover:border-slate-600 text-slate-300 hover:text-slate-100 text-xs font-mono transition-all shadow-inner group"
+            title="Press Cmd+K or Ctrl+K to search"
+          >
+            <span class="text-[11px] text-slate-400 group-hover:text-slate-200">Search</span>
+            <kbd class="px-1.5 py-0.5 rounded bg-obsidian-800 border border-obsidian-700 text-[10px] text-slate-400 group-hover:text-slate-200">⌘K</kbd>
+          </button>
         </div>
 
       </div>

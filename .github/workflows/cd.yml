@@ -54,10 +54,10 @@ jobs:
       fail-fast: false
       matrix:
         target:
-          - name: 'homelab-web'
+          - name: 'datacenter'
             context: '.'
             dockerfile: 'web/Dockerfile'
-          - name: 'elo-core'
+          - name: 'elo'
             context: 'elo'
             dockerfile: 'elo/apps/elo-core/Dockerfile'
     steps:
