@@ -1,0 +1,9 @@
+INVITE sip:+40722123456@10.0.0.1:5060 SIP/2.0
+Via: SIP/2.0/UDP 195.138.22.14:5060;branch=z9hG4bK-7291-884
+From: "Revolut Fraud Center" <sip:+40749000000@195.138.22.14>;tag=9941a8
+To: <sip:+40722123456@10.0.0.1>
+P-Asserted-Identity: "Revolut Fraud Center" <sip:+40749000000@bank.internal>
+Call-ID: c4e3b129-87a1-42e5-9fa2-8b894172a392@195.138.22.14
+CSeq: 101 INVITE
+User-Agent: Asterisk PBX 20.4.0 (Spoofed Gateway)
+Content-Type: application/sdp

@@ -1,0 +1,28 @@
+[
+  {
+    "System": {
+      "Provider": {"@Name": "Microsoft-Windows-Security-Auditing"},
+      "EventID": 4769,
+      "TimeCreated": {"@SystemTime": "2026-08-31T12:00:00Z"},
+      "Computer": "DC01.corp.internal"
+    },
+    "EventData": {
+      "ServiceName": "krbtgt",
+      "TicketEncryptionType": "0x17",
+      "TicketOptions": "0x40810000"
+    }
+  },
+  {
+    "System": {
+      "Provider": {"@Name": "Microsoft-Windows-Sysmon"},
+      "EventID": 10,
+      "TimeCreated": {"@SystemTime": "2026-08-31T12:05:00Z"},
+      "Computer": "WORKSTATION01.corp.internal"
+    },
+    "EventData": {
+      "SourceImage": "C:\\Windows\\Temp\\inject.exe",
+      "TargetImage": "C:\\Windows\\System32\\lsass.exe",
+      "GrantedAccess": "0x1FFFFF"
+    }
+  }
+]
