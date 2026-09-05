@@ -1,6 +1,6 @@
-# Homelab & ELO Security Policy & Threat Model
+# Datacenter Security Policy 
 
-Welcome to the **Homelab & ELO (Enhanced Local Orchestrator)** Security Policy. This document defines the security architecture, threat model, cryptographic baselines, security clearance rings, vulnerability disclosure protocols, and incident containment runbooks for the entire infrastructure monorepo.
+Welcome to the Datacenter Security Policy. This document defines the security architecture, threat model, cryptographic baselines, security clearance rings, vulnerability disclosure protocols, and incident containment runbooks for the entire infrastructure monorepo.
 
 ---
 
@@ -78,10 +78,10 @@ Every tool and operational command exposed to ELO is bound to a strict **Securit
 flowchart TD
     subgraph RingModel["4-TIER SECURITY CLEARANCE & AUTHORIZATION MODEL (L0–L3)"]
         direction TB
-        L0["🟢 LEVEL 0: L0_READ_ONLY (Immediate Execution)<br/>• System telemetry queries, SMART status checks, ping probes, log streams"]
-        L1["🟡 LEVEL 1: L1_LOW_WRITE (Auto-Executed + HMAC Audit Trail)<br/>• Setting alert thresholds, temporary cache clearing, sensor presets"]
-        L2["🟠 LEVEL 2: L2_HIGH_IMPACT (Interactive Admin Approval Required)<br/>• Proxmox VM/LXC start/stop/reboot, OPNsense firewall IP ban<br/>• Instant Telegram Bot notification with Approve / Reject actions"]
-        L3["🔴 LEVEL 3: L3_CRITICAL (Strict 2FA / Break-Glass Challenge)<br/>• Database drop, ZFS pool destroy, irreversible storage purge<br/>• Time-based cryptographic challenge token authorization (TOTP / FIDO2)"]
+        L0["LEVEL 0: L0_READ_ONLY (Immediate Execution)<br/>• System telemetry queries, SMART status checks, ping probes, log streams"]
+        L1["LEVEL 1: L1_LOW_WRITE (Auto-Executed + HMAC Audit Trail)<br/>• Setting alert thresholds, temporary cache clearing, sensor presets"]
+        L2["LEVEL 2: L2_HIGH_IMPACT (Interactive Admin Approval Required)<br/>• Proxmox VM/LXC start/stop/reboot, OPNsense firewall IP ban<br/>• Instant Telegram Bot notification with Approve / Reject actions"]
+        L3["LEVEL 3: L3_CRITICAL (Strict 2FA / Break-Glass Challenge)<br/>• Database drop, ZFS pool destroy, irreversible storage purge<br/>• Time-based cryptographic challenge token authorization (TOTP / FIDO2)"]
     end
 
     L0 --> L1 --> L2 --> L3
