@@ -86,7 +86,7 @@ jobs:
 
       - name: Build & Push Multi-Arch Image (linux/amd64, linux/arm64)
         if: hashFiles(matrix.target.dockerfile) != ''
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         continue-on-error: true
         with:
           context: ${{ matrix.target.context }}
