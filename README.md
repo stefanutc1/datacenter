@@ -15,7 +15,7 @@
 **Production-grade hybrid cloud platform, cybersecurity test environment, and autonomous multi-agent orchestration infrastructure.**
 Built on bare-metal x86_64 and Apple Silicon ARM64 compute, dual-tier enterprise firewall architecture (OPNsense + FortiGate-VM), ZFS storage arrays, declarative Terraform/Ansible automation, and real-time eBPF runtime observability.
 
-[Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/datacenter/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](cyber/README.md) • [Security Policy](SECURITY.md)
+[Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/datacenter/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/datacenter/#cyber) • [Security Policy](SECURITY.md)
 
 <!-- AUTO-METRICS-START -->
 [![Active Workloads](https://img.shields.io/badge/Workloads-31%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
@@ -172,7 +172,7 @@ The perimeter firewall OPNsense (VM 200 · 192.168.1.134) enforces zero-trust 80
 
 ## 3. Hybrid Multi-Cloud Architecture (Azure, GCP, AWS)
 
-The on-premise cluster is extended into a true hybrid multi-cloud topology across **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** using declarative, modular Infrastructure as Code (IaC) located in [`cloud/`](cloud/README.md) and [`terraform/`](terraform/):
+The on-premise cluster is extended into a true hybrid multi-cloud topology across **Microsoft Azure**, **Google Cloud Platform (GCP)**, and **Amazon Web Services (AWS)** using declarative, modular Infrastructure as Code (IaC) located in [`cloud/`](cloud/) and [`terraform/`](terraform/):
 
 ```mermaid
 flowchart TB
@@ -651,7 +651,7 @@ flowchart LR
 
 ## 12. Digital Forensics, Cyber Defense Proving Ground & Threat Intelligence
 
-The Datacenter operates an integrated Security Operations Center (SOC), automated deception mesh, and four in-depth real-world digital forensics investigations hosted directly within [`cyber/`](cyber/README.md).
+The Datacenter operates an integrated Security Operations Center (SOC), automated deception mesh, and four in-depth real-world digital forensics investigations hosted directly within [`cyber/`](cyber/).
 
 ```mermaid
 flowchart TD
@@ -698,7 +698,7 @@ flowchart TD
 
 ### 12.1 Real-World Digital Forensics & Threat Investigations (`cyber/`)
 
-The [`cyber/`](cyber/README.md) directory contains four end-to-end investigative case studies into active cybercrime campaigns, reverse engineered using the Datacenter's forensic sandbox tooling:
+The [`cyber/`](cyber/) directory contains four end-to-end investigative case studies into active cybercrime campaigns, reverse engineered using the Datacenter's forensic sandbox tooling:
 
 #### 1. [`task-scam-infrastructure-analysis/`](cyber/task-scam-infrastructure-analysis)
 * **Threat Classification**: Cybercrime Infrastructure, Leaky REST APIs, Crypto Money Laundering.
@@ -1006,9 +1006,9 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | :---: | :---: |
 | ![Blackbox Exporter](photos/services/blackbox.png) | ![Vector Aggregator](photos/services/vector.png) |
 
-| Dozzle Real-Time Log Viewer |  |
+| Dozzle Real-Time Log Viewer | NetAlertX Network Scanner & Intrusion Monitor |
 | :---: | :---: |
-| ![Dozzle Log Viewer](photos/services/dozzle.png) |  |
+| ![Dozzle Log Viewer](photos/services/dozzle.png) | ![NetAlertX](photos/services/netalertx.png) |
 
 ---
 
@@ -1072,9 +1072,33 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | :---: | :---: |
 | ![Speedtest Tracker](photos/services/speedtest.png) | ![Homepage Dashboard](photos/services/homepage.png) |
 
-| Flame Application Launcher |  |
+| Flame Application Launcher | RustDesk Self-Hosted Remote Desktop |
 | :---: | :---: |
-| ![Flame Launcher](photos/services/flame.png) |  |
+| ![Flame Launcher](photos/services/flame.png) | ![RustDesk](photos/services/rustdesk.png) |
+
+| Step-CA Automated Root PKI / X.509 | Web-Check OSINT Security Scanner |
+| :---: | :---: |
+| ![Step-CA PKI](photos/services/stepca.png) | ![Web-Check](photos/services/webcheck.png) |
+
+| Kiwix Offline Wikipedia & Archive | Flatnotes Headless Wiki |
+| :---: | :---: |
+| ![Kiwix Archive](photos/services/kiwix.png) | ![Flatnotes](photos/services/flatnotes.png) |
+
+| Linkding Bookmarks Manager | Shiori Read-Later Bookmarks |
+| :---: | :---: |
+| ![Linkding Bookmarks](photos/services/linkding.png) | ![Shiori Bookmarks](photos/services/shiori.png) |
+
+| Ntfy Real-Time Push Notifications | Bark iOS Alert Gateway |
+| :---: | :---: |
+| ![Ntfy Notifications](photos/services/ntfy.png) | ![Bark Push](photos/services/bark.png) |
+
+| YourSpotify Privacy Music Analytics | Whoogle Privacy Search Engine |
+| :---: | :---: |
+| ![YourSpotify](photos/services/yourspotify.png) | ![Whoogle Search](photos/services/whoogle.png) |
+
+| OpenGist Self-Hosted Pastebin | pgAdmin 4 PostgreSQL Manager |
+| :---: | :---: |
+| ![OpenGist Pastebin](photos/services/opengist.png) | ![pgAdmin](photos/services/pgadmin.png) |
 
 ---
 
@@ -1099,9 +1123,17 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | :---: | :---: |
 | ![NetBSD 10.0](photos/services/vm-netbsd.png) | ![NixOS 24.11](photos/services/vm-nixos.png) |
 
-| DragonFly BSD 6.4 (VM 210 · HAMMER2 Storage) |  |
+| DragonFly BSD 6.4 (VM 210 · HAMMER2 Storage) | Proxmox Mail Gateway 8.1 (CT 151 · Security Appliance) |
 | :---: | :---: |
-| ![DragonFly BSD 6.4](photos/services/vm-dragonflybsd.png) |  |
+| ![DragonFly BSD 6.4](photos/services/vm-dragonflybsd.png) | ![Proxmox Mail Gateway](photos/services/proxmox-mail-gateway.png) |
+
+| Proxmox VE 9.2 Primary (Node 1 · x86_64 Hypervisor) | Proxmox VE 9.2 Secondary (Node 3 · Apple Silicon ARM64) |
+| :---: | :---: |
+| ![Proxmox VE Primary x86_64](photos/services/proxmox-x64.png) | ![Proxmox VE Secondary ARM64](photos/services/proxmox-arm64.png) |
+
+| macOS Monterey 12.7 Native Workspace (VM 206) | OPNsense Core Gateway & Firewall (VM 200) |
+| :---: | :---: |
+| ![macOS Monterey Desktop](photos/macos_monterey_dashboard.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) |
 
 ---
 

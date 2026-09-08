@@ -38,9 +38,25 @@ temp/
 # Build outputs or local binaries
 bin/
 build/
+obj/
+publish/
+*.dmg
 *.tar.gz
 *.zip
+
+# Angular / Python / Test Caches
+.angular/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+.coverage
+htmlcov/
 
 .terraform/
 *.tfstate
 *.tfstate.*
+
