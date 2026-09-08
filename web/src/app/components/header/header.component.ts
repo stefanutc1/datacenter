@@ -23,8 +23,8 @@ import { TranslationService } from '../../services/translation.service';
           <a href="#hardware" class="hover:text-slate-100 transition-colors">{{ ts.t.navHardware }}</a>
           <a href="#services" class="hover:text-slate-100 transition-colors">{{ ts.t.navServices }}</a>
           <a href="#about" class="hover:text-slate-100 transition-colors">About & Gallery</a>
-          <a href="#cyber" (click)="onNavCyber()" class="hover:text-slate-100 transition-colors text-slate-300 hover:text-red-300 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+          <a href="#cyber" (click)="onNavCyber()" class="hover:text-slate-100 transition-colors text-slate-300 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
             <span>Cyber & DFIR</span>
           </a>
           <a href="#blueprint" class="hover:text-slate-100 transition-colors">Blueprint</a>
