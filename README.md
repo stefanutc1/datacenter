@@ -1135,6 +1135,26 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | :---: | :---: |
 | ![macOS Monterey Desktop](photos/macos_monterey_dashboard.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) |
 
+| Haiku OS R1/beta5 (VM 214 · Modular C++ Desktop) | ReactOS 0.4.16 (VM 216 · Windows NT Architecture) |
+| :---: | :---: |
+| ![Haiku OS](photos/services/haiku.png) | ![ReactOS](photos/services/reactos.png) |
+
+| Plan 9 from Bell Labs (VM 215 · 9P Distributed OS) | Redox OS 0.9.0 (VM 219 · Rust Microkernel) |
+| :---: | :---: |
+| ![Plan 9](photos/services/plan9.png) | ![Redox OS](photos/services/redox.png) |
+
+| FreeDOS 1.3 (VM 220 · 16-Bit Real Mode DOS) | Metasploitable 2 (VM 212 · Vulnerable Target) |
+| :---: | :---: |
+| ![FreeDOS 1.3](photos/services/freedos.png) | ![Metasploitable 2](photos/services/metasploitable2.png) |
+
+| OpenStack 2024.1 Caracal (VM 211 · Cloud Horizon) | Fortinet FortiGate-VM NGFW (VM 221 · FortiOS 7.4) |
+| :---: | :---: |
+| ![OpenStack Cloud Horizon](photos/services/openstack.png) | ![FortiGate NGFW](photos/services/fortigate.png) |
+
+| Security Onion 3.2 (VM 217 · SOC & SIEM Console) | REMnux v7 Noble (VM 218 · Reverse Engineering) |
+| :---: | :---: |
+| ![Security Onion SOC](photos/services/securityonion.png) | ![REMnux Malware Analysis](photos/services/remnux.png) |
+
 ---
 
 ## About the Author

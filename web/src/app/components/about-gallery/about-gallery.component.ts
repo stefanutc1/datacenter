@@ -133,8 +133,8 @@ interface PhotoItem {
     
     <div class="hidden sm:block text-xs font-mono text-slate-400">
      {{ galleryTab() === 'core' 
-      ? (ts.isRomanian ? '21 Capturi Live (Hypervisori, VM-uri, Securitate)' : '21 Live Captures (Hypervisors, Enterprise VMs, Security)') 
-      : (ts.isRomanian ? '88 Servicii Documentate & Capturate' : '88 Services Documented & Screened') }}
+      ? (photos.length + (ts.isRomanian ? ' Capturi Live (Hypervisori, VM-uri, Securitate)' : ' Live Captures (Hypervisors, Enterprise VMs, Security)')) 
+      : (allServices.length + (ts.isRomanian ? ' Servicii Documentate & Capturate' : ' Services Documented & Screened')) }}
     </div>
    </div>
 
@@ -435,6 +435,126 @@ export class AboutGalleryComponent {
    endpoint: '192.168.1.210 (SSH 22 / Console)',
    badge: 'DRAGONFLY BSD',
    badgeRo: 'DRAGONFLY BSD'
+  },
+  {
+   src: 'photos/services/openstack.png',
+   title: 'OpenStack 2024.1 Caracal · Private Cloud Horizon (VM 211)',
+   titleRo: 'OpenStack 2024.1 Caracal · Panou Cloud Privat Horizon (VM 211)',
+   category: 'CLOUD INFRASTRUCTURE & IAAS',
+   categoryRo: 'INFRASTRUCTURĂ CLOUD & IAAS',
+   description: 'Enterprise IaaS cloud controller orchestrating Nova compute virtual machines, Neutron SDN, Glance image services, and Horizon dashboard.',
+   descriptionRo: 'Controler cloud enterprise IaaS ce orchestrează instanțe de calcul Nova, rețele definite software Neutron, catalog de imagini Glance și panou de control Horizon.',
+   endpoint: '192.168.1.211 (HTTP 80 / Keystone 5000)',
+   badge: 'OPENSTACK IAAS',
+   badgeRo: 'OPENSTACK IAAS'
+  },
+  {
+   src: 'photos/services/metasploitable2.png',
+   title: 'Metasploitable 2 · Vulnerable Target & Red Team Lab (VM 212)',
+   titleRo: 'Metasploitable 2 · Țintă Vulnerabilă & Laborator Red Team (VM 212)',
+   category: 'CYBERSECURITY & PROVING GROUND',
+   categoryRo: 'SECURITATE CIBERNETICĂ & POLIGON DE TEST',
+   description: 'Intentionally vulnerable Ubuntu Linux virtual machine configured for penetration testing, Metasploit exploitation, and IDS/IPS signature tuning.',
+   descriptionRo: 'Mașină virtuală Linux vulnerabilă intenționat pentru teste de penetrare, exploatare cu Metasploit Framework și calibrarea detecțiilor Suricata / Wazuh.',
+   endpoint: '192.168.1.212 (Console / 22 / 80)',
+   badge: 'METASPLOITABLE',
+   badgeRo: 'METASPLOITABLE'
+  },
+  {
+   src: 'photos/services/haiku.png',
+   title: 'Haiku R1/beta5 · BeOS Modular C++ Operating System (VM 214)',
+   titleRo: 'Haiku R1/beta5 · Sistem de Operare Modular C++ BeOS (VM 214)',
+   category: 'SPECIALIZED OS & MODULAR DESKTOP',
+   categoryRo: 'SISTEM DE OPERARE SPECIALIZAT & DESKTOP',
+   description: 'Clean C++ object-oriented operating system inspired by BeOS, featuring pervasive multithreading and the native OpenBFS indexed filesystem.',
+   descriptionRo: 'Sistem de operare curat orientat pe obiecte în C++ inspirat de BeOS, cu multithreading nativ și sistem de fișiere indexat OpenBFS.',
+   endpoint: '192.168.1.214 (KVM / QEMU Console)',
+   badge: 'HAIKU OS',
+   badgeRo: 'HAIKU OS'
+  },
+  {
+   src: 'photos/services/plan9.png',
+   title: 'Plan 9 from Bell Labs · 9front & 9P Protocol (VM 215)',
+   titleRo: 'Plan 9 from Bell Labs · 9front & Protocolul 9P (VM 215)',
+   category: 'RESEARCH OS & DISTRIBUTED SYSTEMS',
+   categoryRo: 'SISTEM DE CERCETARE & SISTEME DISTRIBUITE',
+   description: 'Bell Labs research OS featuring 9P distributed network filesystem protocol, private per-process namespaces, and the minimalist Rio GUI.',
+   descriptionRo: 'Sistem de operare de cercetare creat de Bell Labs cu protocolul 9P, spații de nume per-proces și interfața minimalistă Rio.',
+   endpoint: '192.168.1.215 (9P :564 / Console)',
+   badge: 'PLAN 9 / 9FRONT',
+   badgeRo: 'PLAN 9 / 9FRONT'
+  },
+  {
+   src: 'photos/services/reactos.png',
+   title: 'ReactOS 0.4.16 · Open-Source Windows NT Architecture (VM 216)',
+   titleRo: 'ReactOS 0.4.16 · Arhitectură Open-Source Windows NT (VM 216)',
+   category: 'BINARY COMPATIBILITY & NT KERNEL',
+   categoryRo: 'COMPATIBILITATE BINARĂ & KERNEL NT',
+   description: 'Open-source clean-room implementation of the Windows NT kernel and Win32 subsystem, delivering binary compatibility for Windows applications.',
+   descriptionRo: 'Implementare open-source clean-room a kernel-ului Windows NT și subsistemului Win32, oferind compatibilitate binară pentru aplicații Windows.',
+   endpoint: '192.168.1.216 (RDP 3389 / Console)',
+   badge: 'REACTOS NT',
+   badgeRo: 'REACTOS NT'
+  },
+  {
+   src: 'photos/services/securityonion.png',
+   title: 'Security Onion 3.2 · Enterprise SIEM & SOC Platform (VM 217)',
+   titleRo: 'Security Onion 3.2 · Platformă Enterprise SIEM & SOC (VM 217)',
+   category: 'CYBERSECURITY & NETWORK DEFENSE',
+   categoryRo: 'SECURITATE CIBERNETICĂ & APĂRARE REȚEA',
+   description: 'Enterprise NSM, HIDS, Zeek network telemetry, Suricata alerts, Elasticsearch, and centralized SOC investigation console.',
+   descriptionRo: 'Platformă Enterprise de securitate cibernetică cu monitorizare de rețea, telemetrie Zeek, alerte Suricata, Elasticsearch și consolă centralizată SOC.',
+   endpoint: '192.168.1.217 (HTTPS 443 / SOC)',
+   badge: 'SECURITY ONION',
+   badgeRo: 'SECURITY ONION'
+  },
+  {
+   src: 'photos/services/remnux.png',
+   title: 'REMnux v7 Noble · Reverse Engineering & Malware Analysis (VM 218)',
+   titleRo: 'REMnux v7 Noble · Inginerie Inversă & Analiză Malware (VM 218)',
+   category: 'DIGITAL FORENSICS & REVERSE ENGINEERING',
+   categoryRo: 'CRIMINALISTICĂ DIGITALĂ & INGINERIE INVERSĂ',
+   description: 'Specialized Linux distribution for malware analysis, memory forensics, Ghidra disassembly, YARA hunting, and Wireshark C2 investigation.',
+   descriptionRo: 'Distribuție Linux specializată pentru analiză malware, investigații criminalistice de memorie, dezasamblare Ghidra, YARA și analiză trafic C2.',
+   endpoint: '192.168.1.218 (SSH 22 / Console)',
+   badge: 'REMNUX NOBLE',
+   badgeRo: 'REMNUX NOBLE'
+  },
+  {
+   src: 'photos/services/redox.png',
+   title: 'Redox OS 0.9.0 · Rust Microkernel & Orbital Desktop (VM 219)',
+   titleRo: 'Redox OS 0.9.0 · Microkernel Rust & Desktop Orbital (VM 219)',
+   category: 'MEMORY-SAFE OS & RUST MICROKERNEL',
+   categoryRo: 'SISTEM DE OPERARE MEMORY-SAFE & RUST',
+   description: 'General-purpose microkernel operating system written in Rust, featuring memory-safe userland drivers, RedoxFS, and Orbital graphical desktop.',
+   descriptionRo: 'Sistem de operare microkernel de uz general scris complet în Rust, cu drivere sigure în spațiul utilizator, RedoxFS și desktop grafic Orbital.',
+   endpoint: '192.168.1.219 (KVM / Console)',
+   badge: 'REDOX RUST',
+   badgeRo: 'REDOX RUST'
+  },
+  {
+   src: 'photos/services/freedos.png',
+   title: 'FreeDOS 1.3 · 16-Bit Real Mode x86 Assembly Lab (VM 220)',
+   titleRo: 'FreeDOS 1.3 · Laborator Assembly x86 pe 16-Biți în Mod Real (VM 220)',
+   category: 'LEGACY ARCHITECTURE & REAL MODE',
+   categoryRo: 'ARHITECTURĂ LEGACY & MOD REAL',
+   description: 'Open-source DOS environment for 16-bit real mode x86 Assembly development, legacy industrial control software, and IBM PC architecture research.',
+   descriptionRo: 'Mediu compatibil DOS open-source pentru dezvoltare x86 Assembly pe 16-biți în mod real și studiu al arhitecturii PC.',
+   endpoint: '192.168.1.220 (Telnet 23 / Console)',
+   badge: 'FREEDOS 1.3',
+   badgeRo: 'FREEDOS 1.3'
+  },
+  {
+   src: 'photos/services/fortigate.png',
+   title: 'FortiGate-VM64 · FortiOS 7.4 Enterprise NGFW Core (VM 221)',
+   titleRo: 'FortiGate-VM64 · Core Firewall Enterprise NGFW FortiOS 7.4 (VM 221)',
+   category: 'ENTERPRISE FIREWALL & DEFENSE-IN-DEPTH',
+   categoryRo: 'FIREWALL ENTERPRISE & APĂRARE ÎN ADÂNCIME',
+   description: 'Enterprise Next-Generation Firewall running FortiOS 7.4, interconnected with OPNsense via 10.10.20.0/30 transit link with deep packet inspection and ZTNA.',
+   descriptionRo: 'Firewall enterprise Next-Generation cu FortiOS 7.4, interconectat cu OPNsense prin link de tranzit 10.10.20.0/30 cu inspecție profundă de pachete (DPI) și ZTNA.',
+   endpoint: '192.168.1.136:8443 (HTTPS Web / SSH)',
+   badge: 'FORTIGATE NGFW',
+   badgeRo: 'FORTIGATE NGFW'
   },
   {
    src: 'photos/services/opnsense.png',
