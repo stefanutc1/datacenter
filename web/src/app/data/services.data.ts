@@ -2488,7 +2488,7 @@ export const SERVICES_DATA: ServiceItem[] = [
 {
     "id": "securityonion",
     "name": "Security Onion SIEM & SOC Platform",
-    "category": "security",
+    "category": "cyber",
     "containerName": "securityonion-vm217",
     "node": "Node 1 (Intel i3-10100F) \u00b7 VM 217",
     "ram": "8,192 MB (Balloon: 4,096 MB)",
@@ -2517,7 +2517,7 @@ export const SERVICES_DATA: ServiceItem[] = [
 {
     "id": "remnux",
     "name": "REMnux Malware Analysis & DFIR Toolkit",
-    "category": "security",
+    "category": "cyber",
     "containerName": "remnux-vm218",
     "node": "Node 1 (Intel i3-10100F) \u00b7 VM 218",
     "ram": "4,096 MB (Balloon: 2,048 MB)",

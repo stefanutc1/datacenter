@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslationService } from '../../services/translation.service';
@@ -28,6 +28,7 @@ export interface ForensicCase {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
+    <div id="cyber" class="relative -top-20"></div>
     <section id="blueprint" class="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-sans">
       
       <!-- Section Header -->
@@ -1249,11 +1250,34 @@ export interface ForensicCase {
     </section>
   `
 })
-export class ArchitectureBlueprintComponent {
+export class ArchitectureBlueprintComponent implements OnInit {
   ts = inject(TranslationService);
   activeTab: 'cloud' | 'vlan' | 'power' | 'storage' | 'cyber' | 'zerotrust' | 'generator' | 'chaos' | 'observability' | 'glossary' = 'cloud';
   cyberSubSection: 'all' | 'cases' | 'perimeter' | 'pillars' = 'all';
   selectedCase: ForensicCase | null = null;
+
+  ngOnInit() {
+    this.checkHash();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('hashchange', () => this.checkHash());
+    }
+  }
+
+  checkHash() {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#cyber' || hash === '#cybersecurity' || hash === '#dfir' || hash === '#forensics') {
+        this.activeTab = 'cyber';
+      } else if (hash.startsWith('#case-')) {
+        this.activeTab = 'cyber';
+        const caseSlug = hash.replace('#case-', '');
+        const found = this.forensicCasesEn.find(c => c.id.includes(caseSlug));
+        if (found) {
+          this.openCase(found);
+        }
+      }
+    }
+  }
 
   openCase(c: ForensicCase) {
     this.selectedCase = c;

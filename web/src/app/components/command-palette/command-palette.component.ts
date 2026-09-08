@@ -118,6 +118,41 @@ export class CommandPaletteComponent {
     { id: 'cmd-fw-verify', title: 'Enterprise Dual-Tier Firewall & Forensics Verification', category: 'CLI / Cyber', subtext: './scripts/verify-enterprise-firewall.sh', type: 'command' as const }
   ];
 
+  forensicCases: SearchResultItem[] = [
+    {
+      id: 'case-steam',
+      title: 'DFIR Case: Steam OpenID 2.0 AiTM & Browser-in-the-Middle',
+      category: 'Cyber Forensics · TLP:CLEAR',
+      subtext: 'SEC-2025-BITM-003 · In-DOM fake window, credential harvesting & trade bot hijacking',
+      type: 'command',
+      actionData: { hash: '#cyber', caseSlug: 'openid' }
+    },
+    {
+      id: 'case-task',
+      title: 'DFIR Case: Pig Butchering Task Scam & USDT TRC-20 Drainage',
+      category: 'Cyber Forensics · TLP:CLEAR',
+      subtext: 'SEC-2026-TASK-001 · Decompiled scam web app, kill-switches & C2 infrastructure',
+      type: 'command',
+      actionData: { hash: '#cyber', caseSlug: 'task-scam' }
+    },
+    {
+      id: 'case-revolut',
+      title: 'DFIR Case: FinTech Voice Phishing (Vishing) & Real-Time Relay',
+      category: 'Cyber Forensics · TLP:CLEAR',
+      subtext: 'SEC-2026-VISH-002 · Real-time reverse proxy, Caller ID spoofing & bank API relay',
+      type: 'command',
+      actionData: { hash: '#cyber', caseSlug: 'revolut' }
+    },
+    {
+      id: 'case-mrr',
+      title: 'DFIR Case: TikTok Algorithmic Funnels & Recursive MRR Schemes',
+      category: 'Cyber Forensics · TLP:CLEAR',
+      subtext: 'SEC-2025-MRR-001 · 19-stage investigation, synthetic LLM courses & payment gateway abuse',
+      type: 'command',
+      actionData: { hash: '#cyber', caseSlug: 'tiktok' }
+    }
+  ];
+
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
@@ -192,6 +227,8 @@ export class CommandPaletteComponent {
           actionData: c
         });
       }
+      // Add Forensic Investigation Cases
+      results.push(...this.forensicCases);
     }
 
     if (!q) return results.slice(0, 12);
@@ -206,7 +243,13 @@ export class CommandPaletteComponent {
   onSelect(item: SearchResultItem) {
     this.close();
 
-    if (item.type === 'service') {
+    if (item.id.startsWith('case-')) {
+      const data = item.actionData as { hash: string; caseSlug: string };
+      window.location.hash = `#case-${data.caseSlug}`;
+      const el = document.getElementById('cyber') || document.getElementById('blueprint');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    } else if (item.type === 'service') {
       const srv = item.actionData as ServiceItem;
       const found = TOPOLOGY_NODES.find(n => n.id === srv.id || n.name.toLowerCase().includes(srv.name.toLowerCase()));
       if (found) {

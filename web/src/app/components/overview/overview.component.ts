@@ -22,32 +22,47 @@ import { TranslationService } from '../../services/translation.service';
       <!-- 4 Architectural Highlight Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans text-left">
         
-        <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
-          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricComputeTitle }}</div>
+        <div (click)="scrollTo('hardware')" class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-slate-500/60 transition-all shadow-lg cursor-pointer group">
+          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <span>{{ ts.t.metricComputeTitle }}</span>
+            <span class="text-[10px] font-mono text-slate-500 group-hover:text-slate-300 transition-colors">↗</span>
+          </div>
           <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricComputeCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricComputeDesc }}
           </p>
         </div>
 
-        <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
-          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricVirtTitle }}</div>
+        <div (click)="scrollTo('topology-section')" class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-slate-500/60 transition-all shadow-lg cursor-pointer group">
+          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <span>{{ ts.t.metricVirtTitle }}</span>
+            <span class="text-[10px] font-mono text-slate-500 group-hover:text-slate-300 transition-colors">↗</span>
+          </div>
           <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricVirtCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricVirtDesc }}
           </p>
         </div>
 
-        <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
-          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricServicesTitle }}</div>
+        <div (click)="scrollTo('services')" class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-slate-500/60 transition-all shadow-lg cursor-pointer group">
+          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <span>{{ ts.t.metricServicesTitle }}</span>
+            <span class="text-[10px] font-mono text-slate-500 group-hover:text-slate-300 transition-colors">↗</span>
+          </div>
           <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricServicesCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricServicesDesc }}
           </p>
         </div>
 
-        <div class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-obsidian-600 transition-colors shadow-lg">
-          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider">{{ ts.t.metricCyberTitle }}</div>
+        <div (click)="onCyberClick()" class="p-5 rounded-2xl bg-obsidian-850/80 border border-obsidian-750 space-y-2 hover:border-red-500/60 transition-all shadow-lg cursor-pointer group">
+          <div class="text-[11px] font-sans font-medium text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+              <span>{{ ts.t.metricCyberTitle }}</span>
+            </span>
+            <span class="text-[10px] font-mono text-slate-500 group-hover:text-red-300 transition-colors">↗</span>
+          </div>
           <div class="text-2xl font-sans font-bold text-slate-50">{{ ts.t.metricCyberCount }}</div>
           <p class="text-xs text-slate-300 font-sans leading-relaxed">
             {{ ts.t.metricCyberDesc }}
@@ -61,4 +76,15 @@ import { TranslationService } from '../../services/translation.service';
 })
 export class OverviewComponent {
   ts = inject(TranslationService);
+
+  scrollTo(targetId: string) {
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  onCyberClick() {
+    window.location.hash = 'cyber';
+    const el = document.getElementById('cyber') || document.getElementById('blueprint');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
 }
