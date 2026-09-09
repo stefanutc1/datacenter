@@ -11,7 +11,7 @@
 
 <br/>
 
-**Hybrid infrastructure platform with Proxmox VE virtualization across x86_64 and ARM64, dual-tier enterprise firewall routing (OPNsense + FortiGate-VM), ZFS storage arrays, declarative Terraform/Ansible automation, and eBPF runtime observability.**
+**Hybrid infrastructure platform with Proxmox VE virtualization across x86_64 and ARM64, enterprise firewall routing (OPNsense perimeter NGFW + Proxmox VE defense-in-depth), ZFS storage arrays, declarative Terraform/Ansible automation, and eBPF runtime observability.**
 
 [Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
@@ -388,7 +388,7 @@ flowchart TD
 | **Rook Ceph** | Rook Ceph v1.15.2 Orchestrator | Storage Pool (Node 1 & Node 3) | `:8443` (Ceph Dashboard) | Cloud-native Ceph distributed block storage (RBD), CephFS shared filesystem & S3 object gateways |
 | **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes |
 | **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Node 1 (CT 115 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Container-native CI/CD pipeline runner executed in a lightweight k0s Kubernetes micro-cluster |
-| **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 211 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
+| **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 205 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
 
 ### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning
 
@@ -397,28 +397,16 @@ flowchart TD
 | **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7 Shun-Tuned), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, LLDP Discovery, iperf3, Encrypted Git/Nextcloud Backup |
 | **201** | `windows` | Windows Server 2025 Datacenter | 2 Cores | 7,168 MB (7 GB) | **4,096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Ballooning: 4-7 GB) |
 | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) |
-| **203** | `freebsd` | FreeBSD 15.1-RELEASE | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Native OpenZFS Storage Pool, BSD Jails & Network Lab (512MB-1GB) |
-| **204** | `openbsd` | OpenBSD 7.9 Bastion | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single | Hardened Jump Host, Packet Filter PF, unveil/pledge (512MB-1GB) |
-| **205** | `talos` | Talos Linux 1.7 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO Single + Cilium CNI | Minimalist Immutable OS, gRPC API, Kubernetes Worker Node (1-2 GB) |
-| **206** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7,168 MB (7 GB) | **2,048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Ecosystem Testing |
-| **211** | `openstack` | Ubuntu 24.04 LTS / Kolla | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO SCSI Single + OVN SDN | OpenStack Enterprise Private Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
-| **207** | `openindiana` | OpenIndiana Hipster | 2 Cores | 3,072 MB (3 GB) | **1,536 MB (1.5 GB)** | VirtIO SCSI Single (50 GB) + Solaris | Reference Enterprise ZFS, Solaris Zones, Crossbow VNICs, DTrace |
-| **208** | `netbsd` | NetBSD 10.0 | 2 Cores | 512 MB (512 MB) | **256 MB** | VirtIO SCSI Single (12 GB) | Portable Clean Unix Reference, Rump Anykernel, pkgsrc Packaging |
-| **209** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Declarative Immutable Linux, Flakes Reproducible Builds, Atomic Rollbacks |
-| **210** | `dragonflybsd` | DragonFly BSD 6.4 | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (15 GB) | HAMMER2 Journaling File System Lab, Hybrid Microkernel, Lockless SMP |
-| **212** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning |
-| **213** | `tpot-honeypot` | Debian 12 / T-Pot 24.04 | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (60 GB) | Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata) |
-| **214** | `haiku` | Haiku R1/beta5 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | e1000 + SCSI (20 GB) | BeOS-Inspired Modular Operating System, C++ Object API & OpenBFS Indexed Filesystem |
-| **215** | `plan9` | Plan 9 from Bell Labs (9front) | 1 Core | 512 MB (512 MB) | **512 MB** | e1000 + IDE (12 GB) | Research OS from Bell Labs, 9P Distributed Filesystem Protocol & Per-Process Namespaces |
-| **216** | `reactos` | ReactOS 0.4.16 | 1 Core | 1,024 MB (1 GB) | **1,024 MB** | e1000 + IDE (32 GB) | Open-Source Windows NT Binary Compatibility Architecture & Win32 Native Subsystem |
-| **217** | `securityonion` | Security Onion 3.2 / Wazuh SIEM | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic, Kibana) |
-| **218** | `remnux` | REMnux v7 / Noble | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO Net + SCSI (40 GB) | Dedicated Linux Toolkit for Reverse Engineering, Malware Analysis, Memory Forensics & DFIR |
-| **219** | `redox` | Redox OS 0.9.0 | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | e1000 + SCSI (10 GB) | General-Purpose Rust Microkernel OS, RedoxFS, Minix/Plan 9-Inspired Memory-Safe Design |
-| **220** | `freedos` | FreeDOS 1.3 | 1 Core | 512 MB (512 MB) | **256 MB** | e1000 + IDE (2 GB) | Open-Source DOS Environment, 16-bit Real Mode x86 Assembly & Legacy Systems Execution Lab |
-| **221** | `fortigate` | FortiOS 7.4 / FortiGate-VM64-KVM | 2 Cores | 2,048 MB (2 GB) | **1,536 MB (1.5 GB)** | VirtIO Net 4 vNICs (10 GB) | Enterprise Defense-in-Depth Firewall, Deep Packet Inspection (DPI), ZTNA, BGP Transit (10.10.20.0/30 on vmbr2) |
+| **203** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7,168 MB (7 GB) | **2,048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Ecosystem Testing |
+| **204** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Declarative Immutable Linux, Flakes Reproducible Builds, Atomic Rollbacks |
+| **205** | `openstack` | Ubuntu 24.04 LTS / Kolla | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO SCSI Single + OVN SDN | OpenStack Enterprise Private Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
+| **206** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning |
+| **207** | `tpot-honeypot` | Debian 12 / T-Pot 24.04 | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (60 GB) | Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata) |
+| **208** | `securityonion` | Security Onion 3.2 / Wazuh SIEM | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic, Kibana) |
+| **209** | `remnux` | REMnux v7 / Noble | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO Net + SCSI (40 GB) | Dedicated Linux Toolkit for Reverse Engineering, Malware Analysis, Memory Forensics & DFIR |
 
 
-> **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana Hipster, NetBSD, NixOS, DragonFly BSD, RHEL, BSD).
+> **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025 Datacenter, RHEL 9.8, macOS Monterey, NixOS 24.11, OpenStack 2024.1 Caracal, Metasploitable 2, T-Pot Honeypot, Security Onion, REMnux).
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
@@ -689,16 +677,16 @@ flowchart TD
         ScamNet["Task Scam & Phishing Networks<br/>(BitM, Vishing, MRR Fraud)"]
     end
 
-    subgraph Perimeter_Defense["Dual-Tier Perimeter Defense & Deception"]
-        TPot["T-Pot DMZ Multi-Honeypot (VM 213)<br/>Cowrie · Dionaea · Honeytrap · Suricata"]
+    subgraph Perimeter_Defense["Perimeter Defense & Deception"]
+        TPot["T-Pot DMZ Multi-Honeypot (VM 207)<br/>Cowrie · Dionaea · Honeytrap · Suricata"]
         OPN["OPNsense Firewall (VM 200)<br/>CrowdSec Bouncer · DoT · Zenarmor L7"]
-        FGT["FortiGate-VM Next-Gen (VM 221)<br/>BGP Transit · SSL Inspection · IPS"]
+        PVEFW["Proxmox VE Host Firewall & eBPF<br/>Rate Limiting · SYN-Flood Guards · IPset"]
     end
 
     subgraph Detection_Analysis["Detection, SIEM & Reverse Engineering"]
         Wazuh["Wazuh SIEM / XDR Manager (CT 100)<br/>FIM · Log Anomaly Correlation"]
-        SecOnion["Security Onion Grid (VM 217)<br/>Zeek Network Metadata · Arkime PCAP"]
-        Remnux["REMnux Malware Analysis (VM 218)<br/>Static/Dynamic Deobfuscation · Ghidra"]
+        SecOnion["Security Onion Grid (VM 208)<br/>Zeek Network Metadata · Arkime PCAP"]
+        Remnux["REMnux Malware Analysis (VM 209)<br/>Static/Dynamic Deobfuscation · Ghidra"]
         Tetra["Cilium Tetragon eBPF Runtime Sensor<br/>Syscall Monitoring (execve, openat, tcp_connect)"]
     end
 
@@ -710,12 +698,12 @@ flowchart TD
 
     Attacker -->|Probes Port 22, 445, 3389, 5060| TPot
     Attacker -->|Perimeter Ingress| OPN
-    OPN -->|Transit 10.10.20.0/30| FGT
+    OPN -->|Defense-in-Depth Inspection| PVEFW
     ScamNet -.->|Case Studies & IoCs| Remnux
 
     TPot -->|Decoy Telemetry| Wazuh
     Tetra -->|Kernel Anomaly Events| Wazuh
-    FGT -->|NetFlow / Syslog| SecOnion
+    PVEFW -->|NetFlow / Syslog| SecOnion
     OPN -->|Alerts| Wazuh
 
     Wazuh -->|Correlated High-Severity Alert| SOAR
@@ -776,11 +764,11 @@ Findings from these four forensic investigations directly inform the proactive d
 | Security Layer | Host / Virtual Machine | Engine & Role | Defensive Functionality |
 | :--- | :--- | :--- | :--- |
 | **Perimeter IDS/IPS** | `VM 200` (OPNsense) | Suricata 8.0.3 + CrowdSec | Drops active BitM synthetic popup URLs and blocks malicious IP lists via threat feeds. |
-| **Enterprise NGFW** | `VM 221` (FortiGate-VM) | FortiOS 7.4 + BGP Routing | Deep packet inspection (DPI) on transit network `10.10.20.0/30`, SSL/TLS anomaly detection. |
-| **Deception Honeynet**| `VM 213` (T-Pot) | Cowrie, Dionaea, Honeytrap | Exposes decoy honeypots in isolated DMZ (`vmbr3`) to harvest live scanner payloads. |
-| **Malware Sandbox** | `VM 218` (REMnux) | Volatility, Ghidra, YARA | Isolated offline analysis environment for binary disassembly and memory forensics. |
-| **Enterprise SIEM/XDR**| `CT 100` (Wazuh) | Wazuh Manager + Elastic Stack | Centralized syslog/FIM correlation across all 88 services with automated active response. |
-| **Network Forensics** | `VM 217` (Security Onion) | Zeek + Arkime Full PCAP | Continuous packet indexing and protocol inspection for post-incident threat hunting. |
+| **Defense-in-Depth** | Node 1 / Cluster | Proxmox VE Firewall + eBPF | Deep packet filtering, rate-limited ICMP, SYN-flood guards, IPset bastion access control. |
+| **Deception Honeynet**| `VM 207` (T-Pot) | Cowrie, Dionaea, Honeytrap | Exposes decoy honeypots in isolated DMZ (`vmbr3`) to harvest live scanner payloads. |
+| **Malware Sandbox** | `VM 209` (REMnux) | Volatility, Ghidra, YARA | Isolated offline analysis environment for binary disassembly and memory forensics. |
+| **Enterprise SIEM/XDR**| `CT 100` (Wazuh) | Wazuh Manager + Elastic Stack | Centralized syslog/FIM correlation across all 95 services with automated active response. |
+| **Network Forensics** | `VM 208` (Security Onion) | Zeek + Arkime Full PCAP | Continuous packet indexing and protocol inspection for post-incident threat hunting. |
 | **Host Zero-Trust FW** | Node 1 (`192.168.1.132`)| Proxmox VE Cluster Firewall | Global DROP policy, rate-limited ICMP, SYN-flood guards, IPset bastion access control. |
 | **Runtime Sensor** | All Nodes & K8s Workers | Cilium Tetragon eBPF | Kernel-level syscall intercept (`execve`, `socket`, `openat`) triggering instant container isolation. |
 
@@ -1158,53 +1146,29 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | :---: | :---: |
 | ![Windows Server 2025 Datacenter Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
 
-| FreeBSD 15.1-RELEASE (VM 203 · Loki Telemetry) | OpenBSD 7.9 Bastion (VM 204 · Loki Telemetry) |
+| macOS Monterey 12.7 (VM 203 · OpenCore KVM) | NixOS 24.11 (VM 204 · Declarative Linux) |
 | :---: | :---: |
-| ![FreeBSD 15.1 Telemetry](photos/services/vm-freebsd.png) | ![OpenBSD 7.9 Telemetry](photos/services/vm-openbsd.png) |
+| ![macOS Monterey](photos/services/vm-macos-monterey.png) | ![NixOS 24.11](photos/services/vm-nixos.png) |
 
-| Talos Linux 1.7 (VM 205 · Loki Telemetry) | OpenIndiana Hipster (VM 207 · illumos ZFS) |
+| OpenStack 2024.1 Caracal (VM 205 · Cloud Horizon) | Metasploitable 2 (VM 206 · Vulnerable Target) |
 | :---: | :---: |
-| ![Talos Linux Telemetry](photos/services/vm-talos.png) | ![OpenIndiana Hipster](photos/services/vm-openindiana.png) |
+| ![OpenStack Cloud Horizon](photos/services/openstack.png) | ![Metasploitable 2](photos/services/metasploitable2.png) |
 
-| Proxmox Datacenter Manager (CT 147 · Loki Telemetry) | macOS Monterey 12.7 (VM 206 · OpenCore KVM) |
+| T-Pot 24.04 Multi-Honeypot (VM 207 · Decoy Platform) | Security Onion 3.2 (VM 208 · SOC & SIEM Console) |
 | :---: | :---: |
-| ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) | ![macOS Monterey](photos/services/vm-macos-monterey.png) |
+| ![T-Pot Honeypots](photos/services/tpot-honeypot.png) | ![Security Onion SOC](photos/services/securityonion.png) |
 
-| NetBSD 10.0 (VM 208 · Clean Portable Unix) | NixOS 24.11 (VM 209 · Declarative Linux) |
+| REMnux v7 Noble (VM 209 · Reverse Engineering) | OPNsense Core Gateway & Firewall (VM 200) |
 | :---: | :---: |
-| ![NetBSD 10.0](photos/services/vm-netbsd.png) | ![NixOS 24.11](photos/services/vm-nixos.png) |
+| ![REMnux Malware Analysis](photos/services/remnux.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) |
 
-| DragonFly BSD 6.4 (VM 210 · HAMMER2 Storage) | Proxmox Mail Gateway 8.1 (CT 151 · Security Appliance) |
+| Proxmox Datacenter Manager (CT 147 · Loki Telemetry) | Proxmox Mail Gateway 8.1 (CT 151 · Security Appliance) |
 | :---: | :---: |
-| ![DragonFly BSD 6.4](photos/services/vm-dragonflybsd.png) | ![Proxmox Mail Gateway](photos/services/proxmox-mail-gateway.png) |
+| ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) | ![Proxmox Mail Gateway](photos/services/proxmox-mail-gateway.png) |
 
 | Proxmox VE 9.2 Primary (Node 1 · x86_64 Hypervisor) | Proxmox VE 9.2 Secondary (Node 3 · Apple Silicon ARM64) |
 | :---: | :---: |
 | ![Proxmox VE Primary x86_64](photos/services/proxmox-x64.png) | ![Proxmox VE Secondary ARM64](photos/services/proxmox-arm64.png) |
-
-| macOS Monterey 12.7 Native Workspace (VM 206) | OPNsense Core Gateway & Firewall (VM 200) |
-| :---: | :---: |
-| ![macOS Monterey Desktop](photos/macos_monterey_dashboard.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) |
-
-| Haiku OS R1/beta5 (VM 214 · Modular C++ Desktop) | ReactOS 0.4.16 (VM 216 · Windows NT Architecture) |
-| :---: | :---: |
-| ![Haiku OS](photos/services/haiku.png) | ![ReactOS](photos/services/reactos.png) |
-
-| Plan 9 from Bell Labs (VM 215 · 9P Distributed OS) | Redox OS 0.9.0 (VM 219 · Rust Microkernel) |
-| :---: | :---: |
-| ![Plan 9](photos/services/plan9.png) | ![Redox OS](photos/services/redox.png) |
-
-| FreeDOS 1.3 (VM 220 · 16-Bit Real Mode DOS) | Metasploitable 2 (VM 212 · Vulnerable Target) |
-| :---: | :---: |
-| ![FreeDOS 1.3](photos/services/freedos.png) | ![Metasploitable 2](photos/services/metasploitable2.png) |
-
-| OpenStack 2024.1 Caracal (VM 211 · Cloud Horizon) | Fortinet FortiGate-VM NGFW (VM 221 · FortiOS 7.4) |
-| :---: | :---: |
-| ![OpenStack Cloud Horizon](photos/services/openstack.png) | ![FortiGate NGFW](photos/services/fortigate.png) |
-
-| Security Onion 3.2 (VM 217 · SOC & SIEM Console) | REMnux v7 Noble (VM 218 · Reverse Engineering) |
-| :---: | :---: |
-| ![Security Onion SOC](photos/services/securityonion.png) | ![REMnux Malware Analysis](photos/services/remnux.png) |
 
 ---
 

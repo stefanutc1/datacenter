@@ -32,8 +32,8 @@ interface PhotoItem {
     </div>
     <p class="text-xs sm:text-sm text-slate-400 font-sans max-w-xl leading-relaxed">
      {{ ts.isRomanian 
-      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM/BSD și a tuturor celor 88 de microservicii active cu capturi reale.' 
-      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all 88 microservices.' }}
+      ? 'Arhitectură complet implementată pe hardware fizic și mașini virtuale de către @stefanutc1. Mai jos găsiți galeria panourilor principale, a mașinilor virtuale KVM și a tuturor microserviciilor active cu capturi reale.' 
+      : 'Production-grade enterprise virtualization, security, and GitOps architecture built by @stefanutc1. Explore live management panels, KVM enterprise VMs, and all active microservices.' }}
     </p>
    </div>
 
@@ -54,7 +54,7 @@ interface PhotoItem {
       </div>
       <p class="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
        {{ ts.isRomanian
-        ? 'Pasionat de sisteme distribuite, securitate zero-trust, virtualizare hibridă (x86_64 cu 12 GB DDR4-2133 și ARM64 Apple Silicon) și automatizare GitOps (Terraform, Ansible, CI/CD). Acest datacenter servește drept mediu sandbox enterprise pentru testarea stivelor complexe de microservicii, kernel hardening (FreeBSD / Linux) și observabilitate în timp real.'
+        ? 'Pasionat de sisteme distribuite, securitate zero-trust, virtualizare hibridă (x86_64 cu 12 GB DDR4-2133 și ARM64 Apple Silicon) și automatizare GitOps (Terraform, Ansible, CI/CD). Acest datacenter servește drept mediu sandbox enterprise pentru testarea stivelor complexe de microservicii, kernel hardening (Linux / BSD) și observabilitate în timp real.'
         : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 with 12 GB DDR4-2133 and Apple Silicon ARM64), and GitOps automation. This datacenter powers live microservices, bare-metal telemetry, and real-time observability.' }}
       </p>
       <div class="flex flex-wrap gap-2 pt-2">
@@ -63,9 +63,13 @@ interface PhotoItem {
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Grafana Enterprise & Prometheus</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Windows Server 2025 Datacenter (VM 201)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">RHEL 9.8 Enterprise (VM 202)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">FreeBSD 15.1 ZFS (VM 203)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OpenBSD 7.9 Bastion (VM 204)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Talos Linux K8s (VM 205)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">macOS Monterey (VM 203)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">NixOS Flakes (VM 204)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OpenStack Cloud (VM 205)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Metasploitable 2 (VM 206)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">T-Pot Honeypot (VM 207)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Security Onion SIEM (VM 208)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">REMnux DFIR (VM 209)</span>
       </div>
      </div>
 
@@ -127,7 +131,7 @@ interface PhotoItem {
       [class.text-slate-300]="galleryTab() !== 'all'"
       class="px-4 py-2 rounded-xl border border-obsidian-700 transition-all shadow"
      >
-      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All 88 Services Fleet' }} ({{ allServices.length }})
+      {{ ts.isRomanian ? 'Toate Microserviciile' : 'All Services Fleet' }} ({{ allServices.length }})
      </button>
     </div>
     
@@ -298,8 +302,8 @@ export class AboutGalleryComponent {
    titleRo: 'Proxmox VE 9.2.10 · Hypervisor Primar x86_64 (12GB RAM)',
    category: 'VIRTUALIZATION & HYPERVISOR',
    categoryRo: 'VIRTUALIZARE & HYPERVISOR',
-   description: 'Native Proxmox VE Node Summary on Node 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), managing KVM virtual machines (VM 200-206) and active LXC containers.',
-   descriptionRo: 'Panoul nativ Proxmox VE Node Summary pe Nodul 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), administrând mașinile virtuale KVM (VM 200-206) și containerele LXC active.',
+   description: 'Native Proxmox VE Node Summary on Node 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), managing KVM virtual machines (VM 200-209) and active LXC containers.',
+   descriptionRo: 'Panoul nativ Proxmox VE Node Summary pe Nodul 1 (Intel i3-10100F, 12GB DDR4-2133, 512GB SSD), administrând mașinile virtuale KVM (VM 200-209) și containerele LXC active.',
    endpoint: '192.168.1.132:8006',
    badge: 'PVE 12GB RAM',
    badgeRo: 'PVE 12GB RAM'
@@ -341,220 +345,76 @@ export class AboutGalleryComponent {
    badgeRo: 'RHEL 9.8'
   },
   {
-   src: 'photos/services/vm-freebsd.png',
-   title: 'FreeBSD 15.1-RELEASE · OpenZFS Storage & Jails (VM 203)',
-   titleRo: 'FreeBSD 15.1-RELEASE · Stocare OpenZFS & Jails (VM 203)',
-   category: 'UNIX VIRTUALIZATION & BSD',
-   categoryRo: 'VIRTUALIZARE UNIX & BSD',
-   description: 'FreeBSD 15.1-RELEASE kernel running an OpenZFS storage pool, VNET jail network sandboxes, and POSIX-compliant microservices (Ballooning: 512 MB - 1 GB).',
-   descriptionRo: 'Kernel FreeBSD 15.1-RELEASE ce rulează un pool de stocare OpenZFS, sandbox-uri de rețea VNET jail și microservicii POSIX conforme (Ballooning: 512 MB - 1 GB).',
-   endpoint: '192.168.1.203 (SSH 22 / KVM)',
-   badge: 'FREEBSD 15.1',
-   badgeRo: 'FREEBSD 15.1'
-  },
-  {
-   src: 'photos/services/vm-openbsd.png',
-   title: 'OpenBSD 7.9 Bastion · Packet Filter & unveil/pledge (VM 204)',
-   titleRo: 'OpenBSD 7.9 Bastion · Packet Filter & unveil/pledge (VM 204)',
-   category: 'CYBERSECURITY & BASTION HOST',
-   categoryRo: 'SECURITATE CIBERNETICĂ & BASTION',
-   description: 'Ultra-secure OpenBSD 7.9 hardened bastion gateway utilizing Packet Filter (pf), kernel unveil/pledge system call restrictions, and SSH certificate-based authentication (Ballooning: 512 MB - 1 GB).',
-   descriptionRo: 'Gateway bastion ultra-securizat OpenBSD 7.9 cu Packet Filter (pf), restricții pe apeluri kernel unveil/pledge și autentificare SSH pe bază de certificate (Ballooning: 512 MB - 1 GB).',
-   endpoint: '192.168.1.204 (SSH 22 / KVM)',
-   badge: 'OPENBSD 7.9',
-   badgeRo: 'OPENBSD 7.9'
-  },
-  {
-   src: 'photos/services/vm-talos.png',
-   title: 'Talos Linux 1.7 · Immutable API-Driven Kubernetes Node (VM 205)',
-   titleRo: 'Talos Linux 1.7 · Nod Kubernetes Imutabil Gestionat prin API (VM 205)',
-   category: 'KUBERNETES & CLOUD-NATIVE',
-   categoryRo: 'KUBERNETES & CLOUD-NATIVE',
-   description: 'Production-ready immutable minimal OS designed exclusively for Kubernetes with no SSH access, purely managed via talosctl and Cilium eBPF CNI (Ballooning: 1-2 GB).',
-   descriptionRo: 'Sistem de operare imutabil minimal proiectat dedicat pentru Kubernetes fără acces SSH, administrat exclusiv prin talosctl și Cilium eBPF CNI (Ballooning: 1-2 GB).',
-   endpoint: '192.168.1.140:50000 (talosctl / K8s)',
-   badge: 'TALOS LINUX',
-   badgeRo: 'TALOS LINUX'
-  },
-  {
    src: 'photos/services/vm-macos-monterey.png',
-   title: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 206)',
-   titleRo: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 206)',
+   title: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 203)',
+   titleRo: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 203)',
    category: 'APPLE ECOSYSTEM & HACKINTOSH VIRTUALIZATION',
    categoryRo: 'ECOSISTEM APPLE & VIRTUALIZARE HACKINTOSH',
    description: 'macOS Monterey 12.7 running on Proxmox VE via sanitized OpenCore bootloader (/mac/EFI) with full Apple services, Xcode CI/CD build runner, and native VNC screen sharing (Ballooning: 2-7 GB).',
    descriptionRo: 'macOS Monterey 12.7 rulat pe Proxmox VE prin bootloader-ul OpenCore anonimizat (/mac/EFI) cu servicii native Apple, runner CI/CD Xcode și partajare ecran VNC (Ballooning: 2-7 GB).',
-   endpoint: '192.168.1.206 (VNC 5900 / SSH 22 / KVM)',
+   endpoint: '192.168.1.203 (VNC 5900 / SSH 22 / KVM)',
    badge: 'MACOS MONTEREY',
    badgeRo: 'MACOS MONTEREY'
   },
   {
-   src: 'photos/services/vm-openindiana.png',
-   title: 'OpenIndiana Hipster · illumos / Solaris ZFS Lab (VM 207)',
-   titleRo: 'OpenIndiana Hipster · Laborator ZFS illumos / Solaris (VM 207)',
-   category: 'ENTERPRISE SOLARIS & ILLUMOS ZFS',
-   categoryRo: 'SOLARIS ENTERPRISE & ILLUMOS ZFS',
-   description: 'OpenIndiana Hipster running on Proxmox VE KVM with MATE desktop, reference OpenZFS storage pools, Solaris Zones container isolation, and DTrace kernel telemetry.',
-   descriptionRo: 'OpenIndiana Hipster rulat pe Proxmox VE KVM cu desktop MATE, pool-uri de stocare de referință OpenZFS, izolare prin containere Solaris Zones și telemetrie kernel DTrace.',
-   endpoint: '192.168.1.207 (SSH 22 / VNC 5900)',
-   badge: 'OPENINDIANA',
-   badgeRo: 'OPENINDIANA'
-  },
-  {
-   src: 'photos/services/vm-netbsd.png',
-   title: 'NetBSD 10.0 · Clean Portable Unix & Rump Kernel (VM 208)',
-   titleRo: 'NetBSD 10.0 · Unix Portabil & Rump Anykernel (VM 208)',
-   category: 'PORTABLE UNIX & CLEAN KERNEL',
-   categoryRo: 'UNIX PORTABIL & KERNEL CURAT',
-   description: 'NetBSD 10.0 running on Proxmox VE KVM with Motif window manager, Rump Anykernel architecture, and pkgsrc multi-platform packaging.',
-   descriptionRo: 'NetBSD 10.0 rulat pe Proxmox VE KVM cu manager de ferestre Motif, arhitectură modulară Rump Anykernel și management de pachete pkgsrc.',
-   endpoint: '192.168.1.208 (SSH 22 / Console)',
-   badge: 'NETBSD 10',
-   badgeRo: 'NETBSD 10'
-  },
-  {
    src: 'photos/services/vm-nixos.png',
-   title: 'NixOS 24.11 Minimal · Declarative Immutable Linux & Flakes (VM 209)',
-   titleRo: 'NixOS 24.11 Minimal · Linux Declarativ Imutabil & Flakes (VM 209)',
+   title: 'NixOS 24.11 Minimal · Declarative Immutable Linux & Flakes (VM 204)',
+   titleRo: 'NixOS 24.11 Minimal · Linux Declarativ Imutabil & Flakes (VM 204)',
    category: 'DECLARATIVE LINUX & REPRODUCIBILITY',
    categoryRo: 'LINUX DECLARATIV & REPRODUCTIBILITATE',
    description: 'NixOS 24.11 Minimal (Vicuna) on Proxmox VE KVM with GNOME desktop, Nix Flakes declarative build pipelines, and atomic instant rollbacks.',
    descriptionRo: 'NixOS 24.11 Minimal (Vicuna) pe Proxmox VE KVM cu desktop GNOME, pipeline-uri declarative de build prin Nix Flakes și revenire atomică la stări anterioare.',
-   endpoint: '192.168.1.209 (SSH 22 / Console)',
+   endpoint: '192.168.1.204 (SSH 22 / Console)',
    badge: 'NIXOS MINIMAL',
    badgeRo: 'NIXOS MINIMAL'
   },
   {
-   src: 'photos/services/vm-dragonflybsd.png',
-   title: 'DragonFly BSD 6.4 · HAMMER2 Storage & Microkernel (VM 210)',
-   titleRo: 'DragonFly BSD 6.4 · Stocare HAMMER2 & Microkernel Hibrid (VM 210)',
-   category: 'ADVANCED STORAGE & HYBRID MICROKERNEL',
-   categoryRo: 'STOCARE AVANSATĂ & MICROKERNEL HIBRID',
-   description: 'DragonFly BSD 6.4 on Proxmox VE KVM featuring HAMMER2 clustering journaling filesystem, lockless multiprocessing, and cache-coherent kernel design.',
-   descriptionRo: 'DragonFly BSD 6.4 pe Proxmox VE KVM oferind sistemul de fișiere jurnalizat HAMMER2, execuție concurentă lockless și microkernel hibrid scalabil.',
-   endpoint: '192.168.1.210 (SSH 22 / Console)',
-   badge: 'DRAGONFLY BSD',
-   badgeRo: 'DRAGONFLY BSD'
-  },
-  {
    src: 'photos/services/openstack.png',
-   title: 'OpenStack 2024.1 Caracal · Private Cloud Horizon (VM 211)',
-   titleRo: 'OpenStack 2024.1 Caracal · Panou Cloud Privat Horizon (VM 211)',
+   title: 'OpenStack 2024.1 Caracal · Private Cloud Horizon (VM 205)',
+   titleRo: 'OpenStack 2024.1 Caracal · Panou Cloud Privat Horizon (VM 205)',
    category: 'CLOUD INFRASTRUCTURE & IAAS',
    categoryRo: 'INFRASTRUCTURĂ CLOUD & IAAS',
    description: 'Enterprise IaaS cloud controller orchestrating Nova compute virtual machines, Neutron SDN, Glance image services, and Horizon dashboard.',
    descriptionRo: 'Controler cloud enterprise IaaS ce orchestrează instanțe de calcul Nova, rețele definite software Neutron, catalog de imagini Glance și panou de control Horizon.',
-   endpoint: '192.168.1.211 (HTTP 80 / Keystone 5000)',
+   endpoint: '192.168.1.205 (HTTP 80 / Keystone 5000)',
    badge: 'OPENSTACK IAAS',
    badgeRo: 'OPENSTACK IAAS'
   },
   {
    src: 'photos/services/metasploitable2.png',
-   title: 'Metasploitable 2 · Vulnerable Target & Red Team Lab (VM 212)',
-   titleRo: 'Metasploitable 2 · Țintă Vulnerabilă & Laborator Red Team (VM 212)',
+   title: 'Metasploitable 2 · Vulnerable Target & Red Team Lab (VM 206)',
+   titleRo: 'Metasploitable 2 · Țintă Vulnerabilă & Laborator Red Team (VM 206)',
    category: 'CYBERSECURITY & PROVING GROUND',
    categoryRo: 'SECURITATE CIBERNETICĂ & POLIGON DE TEST',
    description: 'Intentionally vulnerable Ubuntu Linux virtual machine configured for penetration testing, Metasploit exploitation, and IDS/IPS signature tuning.',
    descriptionRo: 'Mașină virtuală Linux vulnerabilă intenționat pentru teste de penetrare, exploatare cu Metasploit Framework și calibrarea detecțiilor Suricata / Wazuh.',
-   endpoint: '192.168.1.212 (Console / 22 / 80)',
+   endpoint: '192.168.1.206 (Console / 22 / 80)',
    badge: 'METASPLOITABLE',
    badgeRo: 'METASPLOITABLE'
   },
   {
-   src: 'photos/services/haiku.png',
-   title: 'Haiku R1/beta5 · BeOS Modular C++ Operating System (VM 214)',
-   titleRo: 'Haiku R1/beta5 · Sistem de Operare Modular C++ BeOS (VM 214)',
-   category: 'SPECIALIZED OS & MODULAR DESKTOP',
-   categoryRo: 'SISTEM DE OPERARE SPECIALIZAT & DESKTOP',
-   description: 'Clean C++ object-oriented operating system inspired by BeOS, featuring pervasive multithreading and the native OpenBFS indexed filesystem.',
-   descriptionRo: 'Sistem de operare curat orientat pe obiecte în C++ inspirat de BeOS, cu multithreading nativ și sistem de fișiere indexat OpenBFS.',
-   endpoint: '192.168.1.214 (KVM / QEMU Console)',
-   badge: 'HAIKU OS',
-   badgeRo: 'HAIKU OS'
-  },
-  {
-   src: 'photos/services/plan9.png',
-   title: 'Plan 9 from Bell Labs · 9front & 9P Protocol (VM 215)',
-   titleRo: 'Plan 9 from Bell Labs · 9front & Protocolul 9P (VM 215)',
-   category: 'RESEARCH OS & DISTRIBUTED SYSTEMS',
-   categoryRo: 'SISTEM DE CERCETARE & SISTEME DISTRIBUITE',
-   description: 'Bell Labs research OS featuring 9P distributed network filesystem protocol, private per-process namespaces, and the minimalist Rio GUI.',
-   descriptionRo: 'Sistem de operare de cercetare creat de Bell Labs cu protocolul 9P, spații de nume per-proces și interfața minimalistă Rio.',
-   endpoint: '192.168.1.215 (9P :564 / Console)',
-   badge: 'PLAN 9 / 9FRONT',
-   badgeRo: 'PLAN 9 / 9FRONT'
-  },
-  {
-   src: 'photos/services/reactos.png',
-   title: 'ReactOS 0.4.16 · Open-Source Windows NT Architecture (VM 216)',
-   titleRo: 'ReactOS 0.4.16 · Arhitectură Open-Source Windows NT (VM 216)',
-   category: 'BINARY COMPATIBILITY & NT KERNEL',
-   categoryRo: 'COMPATIBILITATE BINARĂ & KERNEL NT',
-   description: 'Open-source clean-room implementation of the Windows NT kernel and Win32 subsystem, delivering binary compatibility for Windows applications.',
-   descriptionRo: 'Implementare open-source clean-room a kernel-ului Windows NT și subsistemului Win32, oferind compatibilitate binară pentru aplicații Windows.',
-   endpoint: '192.168.1.216 (RDP 3389 / Console)',
-   badge: 'REACTOS NT',
-   badgeRo: 'REACTOS NT'
-  },
-  {
    src: 'photos/services/securityonion.png',
-   title: 'Security Onion 3.2 · Enterprise SIEM & SOC Platform (VM 217)',
-   titleRo: 'Security Onion 3.2 · Platformă Enterprise SIEM & SOC (VM 217)',
+   title: 'Security Onion 3.2 · Enterprise SIEM & SOC Platform (VM 208)',
+   titleRo: 'Security Onion 3.2 · Platformă Enterprise SIEM & SOC (VM 208)',
    category: 'CYBERSECURITY & NETWORK DEFENSE',
    categoryRo: 'SECURITATE CIBERNETICĂ & APĂRARE REȚEA',
    description: 'Enterprise NSM, HIDS, Zeek network telemetry, Suricata alerts, Elasticsearch, and centralized SOC investigation console.',
    descriptionRo: 'Platformă Enterprise de securitate cibernetică cu monitorizare de rețea, telemetrie Zeek, alerte Suricata, Elasticsearch și consolă centralizată SOC.',
-   endpoint: '192.168.1.217 (HTTPS 443 / SOC)',
+   endpoint: '192.168.1.208 (HTTPS 443 / SOC)',
    badge: 'SECURITY ONION',
    badgeRo: 'SECURITY ONION'
   },
   {
    src: 'photos/services/remnux.png',
-   title: 'REMnux v7 Noble · Reverse Engineering & Malware Analysis (VM 218)',
-   titleRo: 'REMnux v7 Noble · Inginerie Inversă & Analiză Malware (VM 218)',
+   title: 'REMnux v7 Noble · Reverse Engineering & Malware Analysis (VM 209)',
+   titleRo: 'REMnux v7 Noble · Inginerie Inversă & Analiză Malware (VM 209)',
    category: 'DIGITAL FORENSICS & REVERSE ENGINEERING',
    categoryRo: 'CRIMINALISTICĂ DIGITALĂ & INGINERIE INVERSĂ',
    description: 'Specialized Linux distribution for malware analysis, memory forensics, Ghidra disassembly, YARA hunting, and Wireshark C2 investigation.',
    descriptionRo: 'Distribuție Linux specializată pentru analiză malware, investigații criminalistice de memorie, dezasamblare Ghidra, YARA și analiză trafic C2.',
-   endpoint: '192.168.1.218 (SSH 22 / Console)',
+   endpoint: '192.168.1.209 (SSH 22 / Console)',
    badge: 'REMNUX NOBLE',
    badgeRo: 'REMNUX NOBLE'
-  },
-  {
-   src: 'photos/services/redox.png',
-   title: 'Redox OS 0.9.0 · Rust Microkernel & Orbital Desktop (VM 219)',
-   titleRo: 'Redox OS 0.9.0 · Microkernel Rust & Desktop Orbital (VM 219)',
-   category: 'MEMORY-SAFE OS & RUST MICROKERNEL',
-   categoryRo: 'SISTEM DE OPERARE MEMORY-SAFE & RUST',
-   description: 'General-purpose microkernel operating system written in Rust, featuring memory-safe userland drivers, RedoxFS, and Orbital graphical desktop.',
-   descriptionRo: 'Sistem de operare microkernel de uz general scris complet în Rust, cu drivere sigure în spațiul utilizator, RedoxFS și desktop grafic Orbital.',
-   endpoint: '192.168.1.219 (KVM / Console)',
-   badge: 'REDOX RUST',
-   badgeRo: 'REDOX RUST'
-  },
-  {
-   src: 'photos/services/freedos.png',
-   title: 'FreeDOS 1.3 · 16-Bit Real Mode x86 Assembly Lab (VM 220)',
-   titleRo: 'FreeDOS 1.3 · Laborator Assembly x86 pe 16-Biți în Mod Real (VM 220)',
-   category: 'LEGACY ARCHITECTURE & REAL MODE',
-   categoryRo: 'ARHITECTURĂ LEGACY & MOD REAL',
-   description: 'Open-source DOS environment for 16-bit real mode x86 Assembly development, legacy industrial control software, and IBM PC architecture research.',
-   descriptionRo: 'Mediu compatibil DOS open-source pentru dezvoltare x86 Assembly pe 16-biți în mod real și studiu al arhitecturii PC.',
-   endpoint: '192.168.1.220 (Telnet 23 / Console)',
-   badge: 'FREEDOS 1.3',
-   badgeRo: 'FREEDOS 1.3'
-  },
-  {
-   src: 'photos/services/fortigate.png',
-   title: 'FortiGate-VM64 · FortiOS 7.4 Enterprise NGFW Core (VM 221)',
-   titleRo: 'FortiGate-VM64 · Core Firewall Enterprise NGFW FortiOS 7.4 (VM 221)',
-   category: 'ENTERPRISE FIREWALL & DEFENSE-IN-DEPTH',
-   categoryRo: 'FIREWALL ENTERPRISE & APĂRARE ÎN ADÂNCIME',
-   description: 'Enterprise Next-Generation Firewall running FortiOS 7.4, interconnected with OPNsense via 10.10.20.0/30 transit link with deep packet inspection and ZTNA.',
-   descriptionRo: 'Firewall enterprise Next-Generation cu FortiOS 7.4, interconectat cu OPNsense prin link de tranzit 10.10.20.0/30 cu inspecție profundă de pachete (DPI) și ZTNA.',
-   endpoint: '192.168.1.136:8443 (HTTPS Web / SSH)',
-   badge: 'FORTIGATE NGFW',
-   badgeRo: 'FORTIGATE NGFW'
   },
   {
    src: 'photos/services/opnsense.png',

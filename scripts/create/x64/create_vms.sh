@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Homelab Fleet Automation: Provision all Virtual Machines on Node 1 (x86_64)
+# Datacenter Fleet Automation: Provision all Virtual Machines on Node 1 (x86_64)
 # Target Host: Node 1 Primary Proxmox VE (x86_64 / amd64)
-# Inventory: VMs 200 through 220 (21 Enterprise Virtual Machines)
+# Inventory: VMs 200 through 209 (10 Enterprise & Research Virtual Machines)
 # ==============================================================================
 set -euo pipefail
 
@@ -41,7 +41,7 @@ fi
 
 echo -e "${C_CYAN}${C_BOLD}"
 echo "======================================================================"
-echo "    PROXMOX VE NODE 1 (x86_64): VIRTUAL MACHINE PROVISIONER (200-220)"
+echo "    PROXMOX VE NODE 1 (x86_64): VIRTUAL MACHINE PROVISIONER (200-209)"
 echo "======================================================================"
 echo -e "${C_RESET}"
 log_info "Storage Pool : $STORAGE"
@@ -124,58 +124,9 @@ create_or_skip_vm 202 "rhel" \
   --tags "linux;redhat;rhel"
 
 # ------------------------------------------------------------------------------
-# VM 203: freebsd
+# VM 203: macOS (OpenCore Hackintosh Monterey)
 # ------------------------------------------------------------------------------
-create_or_skip_vm 203 "freebsd" \
-  --name "freebsd" \
-  --memory 1024 \
-  --balloon 512 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --ide0 "$STORAGE:25" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/FreeBSD-15.1-RELEASE-amd64-disc1.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype other \
-  --tags "bsd;freebsd"
-
-# ------------------------------------------------------------------------------
-# VM 204: openbsd
-# ------------------------------------------------------------------------------
-create_or_skip_vm 204 "openbsd" \
-  --name "openbsd" \
-  --memory 1024 \
-  --balloon 512 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --ide0 "$STORAGE:25" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/install79.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype other \
-  --tags "bsd;openbsd"
-
-# ------------------------------------------------------------------------------
-# VM 205: talos
-# ------------------------------------------------------------------------------
-create_or_skip_vm 205 "talos" \
-  --name "talos" \
-  --memory 2048 \
-  --balloon 1024 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:32,iothread=1" \
-  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/metal-amd64.iso,media=cdrom" \
-  --boot "order=scsi0;ide2;net0" \
-  --ostype l26 \
-  --tags "kubernetes;linux;talos"
-
-# ------------------------------------------------------------------------------
-# VM 206: macOS (OpenCore Hackintosh)
-# ------------------------------------------------------------------------------
-create_or_skip_vm 206 "macOS" \
+create_or_skip_vm 203 "macOS" \
   --name "macOS" \
   --memory 6144 \
   --balloon 2048 \
@@ -191,42 +142,9 @@ create_or_skip_vm 206 "macOS" \
   --tags "apple;hackintosh;macos"
 
 # ------------------------------------------------------------------------------
-# VM 207: openindiana
+# VM 204: nixos
 # ------------------------------------------------------------------------------
-create_or_skip_vm 207 "openindiana" \
-  --name "openindiana" \
-  --memory 3072 \
-  --balloon 1536 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --ide0 "$STORAGE:50" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/OI-hipster-gui-20260430.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype other \
-  --tags "openindiana;solaris"
-
-# ------------------------------------------------------------------------------
-# VM 208: netbsd
-# ------------------------------------------------------------------------------
-create_or_skip_vm 208 "netbsd" \
-  --name "netbsd" \
-  --memory 512 \
-  --balloon 256 \
-  --cores 1 \
-  --cpu x86-64-v2-AES \
-  --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:12,iothread=1" \
-  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/NetBSD-11.0-amd64-dvd.iso,media=cdrom" \
-  --boot "order=scsi0;ide2;net0" \
-  --ostype other \
-  --tags "bsd;netbsd"
-
-# ------------------------------------------------------------------------------
-# VM 209: nixos
-# ------------------------------------------------------------------------------
-create_or_skip_vm 209 "nixos" \
+create_or_skip_vm 204 "nixos" \
   --name "nixos" \
   --memory 1024 \
   --balloon 512 \
@@ -241,25 +159,9 @@ create_or_skip_vm 209 "nixos" \
   --tags "linux;nixos"
 
 # ------------------------------------------------------------------------------
-# VM 210: dragonflybsd
+# VM 205: openstack
 # ------------------------------------------------------------------------------
-create_or_skip_vm 210 "dragonflybsd" \
-  --name "dragonflybsd" \
-  --memory 1024 \
-  --balloon 512 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --ide0 "$STORAGE:15" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/dfly-x86_64-6.4.2_REL.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype other \
-  --tags "bsd;dragonfly"
-
-# ------------------------------------------------------------------------------
-# VM 211: openstack
-# ------------------------------------------------------------------------------
-create_or_skip_vm 211 "openstack" \
+create_or_skip_vm 205 "openstack" \
   --name "openstack" \
   --memory 4096 \
   --balloon 2048 \
@@ -273,9 +175,9 @@ create_or_skip_vm 211 "openstack" \
   --tags "cloud;horizon;iaas;neutron;node1;nova;openstack"
 
 # ------------------------------------------------------------------------------
-# VM 212: Metasploitable2
+# VM 206: Metasploitable2
 # ------------------------------------------------------------------------------
-create_or_skip_vm 212 "Metasploitable2" \
+create_or_skip_vm 206 "Metasploitable2" \
   --name "Metasploitable2" \
   --memory 512 \
   --cores 1 \
@@ -284,12 +186,12 @@ create_or_skip_vm 212 "Metasploitable2" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=ide0;net0" \
   --ostype l26 \
-  --tags "cyber;metasploit;metasploitable2;penetration-testing;red-team;vm212"
+  --tags "cyber;metasploit;metasploitable2;penetration-testing;red-team;vm206"
 
 # ------------------------------------------------------------------------------
-# VM 213: tpot-honeypot
+# VM 207: tpot-honeypot
 # ------------------------------------------------------------------------------
-create_or_skip_vm 213 "tpot-honeypot" \
+create_or_skip_vm 207 "tpot-honeypot" \
   --name "tpot-honeypot" \
   --memory 8192 \
   --balloon 4096 \
@@ -300,60 +202,12 @@ create_or_skip_vm 213 "tpot-honeypot" \
   --ide2 "$ISO_STORAGE/debian-netinst.iso,media=cdrom" \
   --boot "order=scsi0;ide2" \
   --ostype l26 \
-  --tags "cyber;honeypot;tpot;vm213"
+  --tags "cyber;honeypot;tpot;vm207"
 
 # ------------------------------------------------------------------------------
-# VM 214: haiku
+# VM 208: securityonion
 # ------------------------------------------------------------------------------
-create_or_skip_vm 214 "haiku" \
-  --name "haiku" \
-  --memory 2048 \
-  --balloon 1024 \
-  --cores 2 \
-  --scsihw virtio-scsi-pci \
-  --scsi0 "$STORAGE:20" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/haiku-r1beta5.iso,media=cdrom" \
-  --boot "order=scsi0;ide2" \
-  --ostype other \
-  --tags "haikuos;vm214"
-
-# ------------------------------------------------------------------------------
-# VM 215: plan9
-# ------------------------------------------------------------------------------
-create_or_skip_vm 215 "plan9" \
-  --name "plan9" \
-  --memory 512 \
-  --cores 1 \
-  --cpu x86-64-v2-AES \
-  --scsihw virtio-scsi-single \
-  --ide0 "$STORAGE:12" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/plan9.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype other \
-  --tags "belllabs;plan9;vm215"
-
-# ------------------------------------------------------------------------------
-# VM 216: reactos
-# ------------------------------------------------------------------------------
-create_or_skip_vm 216 "reactos" \
-  --name "reactos" \
-  --memory 1024 \
-  --cores 1 \
-  --cpu x86-64-v2-AES \
-  --scsihw virtio-scsi-single \
-  --ide0 "$STORAGE:32" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/ReactOS-0.4.16-i386.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype other \
-  --tags "reactos;windows-nt;win32;vm216"
-
-# ------------------------------------------------------------------------------
-# VM 217: securityonion
-# ------------------------------------------------------------------------------
-create_or_skip_vm 217 "securityonion" \
+create_or_skip_vm 208 "securityonion" \
   --name "securityonion" \
   --memory 8192 \
   --balloon 4096 \
@@ -365,12 +219,12 @@ create_or_skip_vm 217 "securityonion" \
   --ide2 "$ISO_STORAGE/securityonion.iso,media=cdrom" \
   --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
-  --tags "blue-team;hids;log-analysis;security-onion;siem;vm217;wazuh"
+  --tags "blue-team;hids;log-analysis;security-onion;siem;vm208;wazuh"
 
 # ------------------------------------------------------------------------------
-# VM 218: remnux
+# VM 209: remnux
 # ------------------------------------------------------------------------------
-create_or_skip_vm 218 "remnux" \
+create_or_skip_vm 209 "remnux" \
   --name "remnux" \
   --memory 4096 \
   --balloon 2048 \
@@ -382,44 +236,11 @@ create_or_skip_vm 218 "remnux" \
   --ide2 "$ISO_STORAGE/remnux-installer.iso,media=cdrom" \
   --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
-  --tags "cyber;dfir;malware-analysis;remnux;reverse-engineering;vm218"
-
-# ------------------------------------------------------------------------------
-# VM 219: redox
-# ------------------------------------------------------------------------------
-create_or_skip_vm 219 "redox" \
-  --name "redox" \
-  --memory 2048 \
-  --balloon 1024 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:10" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/redox-0.9.0.iso,media=cdrom" \
-  --boot "order=scsi0;ide2;net0" \
-  --ostype other \
-  --tags "microkernel;plan9-inspired;redox;redoxos;rust;vm219"
-
-# ------------------------------------------------------------------------------
-# VM 220: freedos
-# ------------------------------------------------------------------------------
-create_or_skip_vm 220 "freedos" \
-  --name "freedos" \
-  --memory 512 \
-  --balloon 256 \
-  --cores 1 \
-  --cpu x86-64-v2-AES \
-  --ide0 "$STORAGE:2" \
-  --net0 "e1000,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/freedos-1.3.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype other \
-  --tags "dos;freedos;legacy;vm220;x86-16"
+  --tags "cyber;dfir;malware-analysis;remnux;reverse-engineering;vm209"
 
 echo ""
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
-echo -e "${C_GREEN}${C_BOLD}    All 21 VMs (200-220) Processed Successfully on Node 1 (x86_64)!   ${C_RESET}"
+echo -e "${C_GREEN}${C_BOLD}    All 10 VMs (200-209) Processed Successfully on Node 1 (x86_64)!   ${C_RESET}"
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
 echo ""
 qm list

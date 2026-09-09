@@ -1,9 +1,9 @@
-# Metasploitable 2 (VM 212 · Intentionally Vulnerable Linux Target on Proxmox VE)
+# Metasploitable 2 (VM 206 · Intentionally Vulnerable Linux Target on Proxmox VE)
 # Vulnerable services: FTP (vsftpd 2.3.4), SSH, Telnet, SMTP, BIND, Apache, Samba, MySQL, PostgreSQL, Tomcat, UnrealIRCD
 services:
   metasploitable2:
     image: tleemcjr/metasploitable2:latest
-    container_name: metasploitable2-vm212
+    container_name: metasploitable2-vm206
     environment:
       OS: "Ubuntu 8.04 (Hardened Vulnerable Target)"
       RAM: "512M"

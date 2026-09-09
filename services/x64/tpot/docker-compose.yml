@@ -1,9 +1,9 @@
-# T-Pot Multi-Honeypot Decoy Platform (VM 213)
+# T-Pot Multi-Honeypot Decoy Platform (VM 207)
 # Decoy daemons: Cowrie (SSH/Telnet), Dionaea (SMB/MSSQL/FTP), Conpot (ICS/SCADA), Elastic & Kibana (:64297)
 services:
   tpot:
     image: dtag-dev-sec/tpotinit:latest
-    container_name: tpot-platform-vm213
+    container_name: tpot-platform-vm207
     environment:
       TPOT_TYPE: "STANDARD"
       WEB_PORT: "64297"

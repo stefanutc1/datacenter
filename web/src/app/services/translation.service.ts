@@ -117,7 +117,7 @@ export interface Translations {
 const EN_TRANSLATIONS: Translations = {
   navOverview: 'Overview',
   navTopology: '3D Topology',
-  navServices: 'Services (88)',
+  navServices: 'Services (95)',
   navHardware: 'Hardware Fleet',
   navBlueprint: 'Architecture & Cyber',
   statusClusterActive: '4 nodes online',
@@ -133,11 +133,11 @@ const EN_TRANSLATIONS: Translations = {
   
   metricVirtTitle: 'VIRTUALIZATION',
   metricVirtCount: '2 Hypervisors',
-  metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows AD, RHEL, BSD, Talos Linux K8s, and all 88 active microservices.',
+  metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows AD, RHEL, macOS, NixOS, OpenStack, cyber fleet (VM 200-209), and 95 active microservices.',
   
   metricServicesTitle: 'ACTIVE SERVICES & MULTI-CLOUD',
-  metricServicesCount: '88 Services · 3 Clouds',
-  metricServicesDesc: '88 active on-prem microservices and KVM/BSD enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
+  metricServicesCount: '95 Services · 3 Clouds',
+  metricServicesDesc: '95 active on-prem microservices and KVM enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
   
   metricCyberTitle: 'SECURITY, DFIR & CI/CD',
   metricCyberCount: 'SOC · 9 CI/CD Workflows',
@@ -176,8 +176,8 @@ const EN_TRANSLATIONS: Translations = {
   btnLocate3D: 'LOCATE IN 3D',
 
   srvTag: 'SERVICES CATALOG',
-  srvTitle: 'Active Services & Workloads (88)',
-  srvDesc: 'Complete catalog of all 88 active datacenter microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
+  srvTitle: 'Active Services & Workloads (95)',
+  srvDesc: 'Complete catalog of all 95 active datacenter microservices and infrastructure components with dedicated HD screenshots, real-time telemetry, and hardware ceilings.',
   srvSearchPlaceholder: 'Search service, port, host, category...',
   srvRamCeiling: 'RAM Ceiling',
   srvStoragePool: 'Storage Pool',

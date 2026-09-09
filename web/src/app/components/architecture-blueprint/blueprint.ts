@@ -677,39 +677,39 @@ export interface ForensicCase {
                     </div>
                   </div>
 
-                  <!-- Transit Link: Bus L3 -->
+                  <!-- Transit Link: Bus L3 / VLAN Trunk -->
                   <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between hover:border-slate-500/50 transition-all">
                     <div>
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">BUS DE TRANZIT L3</span>
+                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">SEGMENTARE L3 & TRANZIT</span>
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
-                      <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">vmbr2 Transit Subnet</h5>
-                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">10.10.20.0/30 · BGP / OSPF</div>
+                      <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">vmbr0 / 802.1Q Trunk</h5>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">VLANs 10, 20, 30, 40, 50</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
-                        {{ ts.isRomanian ? 'Interconectare dedicată punct-la-punct fără interferențe L2. Sesiune BGP între AS 64512 (OPNsense) și AS 64513 (FortiGate).' : 'Dedicated point-to-point interconnect without L2 broadcast noise. BGP peering between AS 64512 (OPNsense) and AS 64513 (FortiGate).' }}
+                        {{ ts.isRomanian ? 'Trunchi 802.1Q dedicat pe interfețe virtuale Linux Bridge cu izolare strictă L2/L3 între Management, Servicii, Laborator Securitate, DMZ și IoT.' : 'Dedicated 802.1Q trunk on Linux Bridge interfaces with strict L2/L3 isolation across Management, Services, Cyber Lab, DMZ, and IoT.' }}
                       </p>
                     </div>
                     <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">
-                      Transit IP: 10.10.20.1 &lt;-&gt; 10.10.20.2
+                      Gateway Core: 192.168.1.134
                     </div>
                   </div>
 
-                  <!-- Tier 2: FortiGate-VM -->
+                  <!-- Tier 2: Proxmox VE Defense-in-Depth Firewall -->
                   <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between hover:border-slate-500/50 transition-all">
                     <div>
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">TIER 2 · ENTERPRISE NGFW</span>
+                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">TIER 2 · DEFENSE-IN-DEPTH</span>
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
-                      <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">Fortinet FortiGate-VM</h5>
-                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">VM 221 · FortiOS / Cisco ASAv</div>
+                      <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">Proxmox VE Host Firewall</h5>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">Hypervisor Core & eBPF Security</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
-                        {{ ts.isRomanian ? 'Inspecție profundă SSL/TLS DPI, Application Control L7, scanare Antivirus de rețea și protecție specifică pentru fluxurile interne.' : 'SSL/TLS Deep Packet Inspection, L7 Application Control, inline Antivirus scanning, and internal east-west traffic policing.' }}
+                        {{ ts.isRomanian ? 'Filtrare distribuită pe nod, reguli eBPF / iptables la nivel de vNIC, protecție spoofing MAC/IP și inspecție strictă a fluxurilor East-West.' : 'Distributed host packet filtering, eBPF / iptables per-vNIC security rules, MAC/IP spoofing prevention, and East-West flow policing.' }}
                       </p>
                     </div>
                     <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">
-                      Politică Zero-Trust Inter-VLAN
+                      Politică Zero-Trust Inter-Workload
                     </div>
                   </div>
 
@@ -721,9 +721,9 @@ export interface ForensicCase {
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
                       <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">Wazuh SIEM & T-Pot</h5>
-                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">CT 100 & VM 213 (VLAN 40)</div>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">CT 100 & VM 207 (VLAN 40)</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
-                        {{ ts.isRomanian ? 'Cluster de capcane Cowrie SSH & Dionaea în DMZ izolat; corelare evenimente în Wazuh XDR și analiză dinamică pe REMnux (VM 218).' : 'Cowrie SSH & Dionaea deception cluster in isolated DMZ; event correlation via Wazuh XDR and dynamic triage on REMnux (VM 218).' }}
+                        {{ ts.isRomanian ? 'Cluster de capcane Cowrie SSH & Dionaea în DMZ izolat; corelare evenimente în Wazuh XDR și analiză dinamică pe REMnux (VM 209).' : 'Cowrie SSH & Dionaea deception cluster in isolated DMZ; event correlation via Wazuh XDR and dynamic triage on REMnux (VM 209).' }}
                       </p>
                     </div>
                     <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">
@@ -1556,7 +1556,7 @@ export class ArchitectureBlueprintComponent implements OnInit {
         { type: 'Relay Protocol', value: 'WSS / HTTPS reverse proxy relay' },
         { type: 'Exfiltration', value: 'SEPA Instant Mule IBANs' }
       ],
-      datacenterDefense: 'OPNsense & FortiGate domain categorizer blocking Newly Registered Domains (NRD < 30 days), SIP header inspection on Asterisk PBX, and automated takedown reporting playbooks.',
+      datacenterDefense: 'OPNsense & Proxmox VE defense-in-depth blocking Newly Registered Domains (NRD < 30 days), SIP header inspection on Asterisk PBX, and automated takedown reporting playbooks.',
       repoPath: 'cyber/revolut-vishing-forensics',
       githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/revolut-vishing-forensics/case_study.md',
       mitreAttack: ['T1566.002 (Spearphishing Link)', 'T1056.003 (Web Portal Harvesting)', 'T1539 (Steal Web Session)', 'T1656 (Impersonation)']
@@ -1675,7 +1675,7 @@ export class ArchitectureBlueprintComponent implements OnInit {
         { type: 'Protocol Releu', value: 'WSS / HTTPS reverse proxy relay' },
         { type: 'Exfiltrare', value: 'IBAN-uri Cărăuș SEPA Instant' }
       ],
-      datacenterDefense: 'Filtrare OPNsense & FortiGate a domeniilor nou create (NRD < 30 zile), reguli de inspecție antet SIP pe Asterisk PBX și automatizare transmitere notificări de takedown.',
+      datacenterDefense: 'Filtrare OPNsense & Proxmox VE a domeniilor nou create (NRD < 30 zile), reguli de inspecție antet SIP pe Asterisk PBX și automatizare transmitere notificări de takedown.',
       repoPath: 'cyber/revolut-vishing-forensics',
       githubUrl: 'https://github.com/stefanutc1/datacenter/blob/main/cyber/revolut-vishing-forensics/case_study.md',
       mitreAttack: ['T1566.002 (Link Spearphishing)', 'T1056.003 (Recoltare Credențiale Web)', 'T1539 (Furt Sesiune Web)', 'T1656 (Impersonare)']

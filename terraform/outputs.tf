@@ -4,24 +4,13 @@ output "vm_inventory" {
     opnsense          = { vmid = module.vm_opnsense_200.vm_id, name = module.vm_opnsense_200.name, node = module.vm_opnsense_200.node }
     windows_server_ad = { vmid = module.vm_win_server_201.vm_id, name = module.vm_win_server_201.name, node = module.vm_win_server_201.node }
     rhel_enterprise   = { vmid = module.vm_rhel_202.vm_id, name = module.vm_rhel_202.name, node = module.vm_rhel_202.node }
-    freebsd_storage   = { vmid = module.vm_freebsd_203.vm_id, name = module.vm_freebsd_203.name, node = module.vm_freebsd_203.node }
-    openbsd_bastion   = { vmid = module.vm_openbsd_204.vm_id, name = module.vm_openbsd_204.name, node = module.vm_openbsd_204.node }
-    talos_k8s         = { vmid = module.vm_talos_205.vm_id, name = module.vm_talos_205.name, node = module.vm_talos_205.node }
-    macos_monterey    = { vmid = module.vm_macos_monterey_206.vm_id, name = module.vm_macos_monterey_206.name, node = module.vm_macos_monterey_206.node }
-    openindiana       = { vmid = module.vm_openindiana_207.vm_id, name = module.vm_openindiana_207.name, node = module.vm_openindiana_207.node }
-    netbsd            = { vmid = module.vm_netbsd_208.vm_id, name = module.vm_netbsd_208.name, node = module.vm_netbsd_208.node }
-    nixos             = { vmid = module.vm_nixos_209.vm_id, name = module.vm_nixos_209.name, node = module.vm_nixos_209.node }
-    dragonflybsd      = { vmid = module.vm_dragonflybsd_210.vm_id, name = module.vm_dragonflybsd_210.name, node = module.vm_dragonflybsd_210.node }
-    openstack         = { vmid = module.vm_openstack_211.vm_id, name = module.vm_openstack_211.name, node = module.vm_openstack_211.node }
-    metasploitable2   = { vmid = module.vm_metasploitable2_212.vm_id, name = module.vm_metasploitable2_212.name, node = module.vm_metasploitable2_212.node }
-    tpot_honeypot     = { vmid = module.vm_tpot_213.vm_id, name = module.vm_tpot_213.name, node = module.vm_tpot_213.node }
-    haiku_os          = { vmid = module.vm_haiku_214.vm_id, name = module.vm_haiku_214.name, node = module.vm_haiku_214.node }
-    plan9_belllabs    = { vmid = module.vm_plan9_215.vm_id, name = module.vm_plan9_215.name, node = module.vm_plan9_215.node }
-    reactos_nt        = { vmid = module.vm_reactos_216.vm_id, name = module.vm_reactos_216.name, node = module.vm_reactos_216.node }
-    securityonion     = { vmid = module.vm_securityonion_217.vm_id, name = module.vm_securityonion_217.name, node = module.vm_securityonion_217.node }
-    remnux            = { vmid = module.vm_remnux_218.vm_id, name = module.vm_remnux_218.name, node = module.vm_remnux_218.node }
-    redox_os          = { vmid = module.vm_redox_219.vm_id, name = module.vm_redox_219.name, node = module.vm_redox_219.node }
-    freedos           = { vmid = module.vm_freedos_220.vm_id, name = module.vm_freedos_220.name, node = module.vm_freedos_220.node }
+    macos_monterey    = { vmid = module.vm_macos_monterey_203.vm_id, name = module.vm_macos_monterey_203.name, node = module.vm_macos_monterey_203.node }
+    nixos             = { vmid = module.vm_nixos_204.vm_id, name = module.vm_nixos_204.name, node = module.vm_nixos_204.node }
+    openstack         = { vmid = module.vm_openstack_205.vm_id, name = module.vm_openstack_205.name, node = module.vm_openstack_205.node }
+    metasploitable2   = { vmid = module.vm_metasploitable2_206.vm_id, name = module.vm_metasploitable2_206.name, node = module.vm_metasploitable2_206.node }
+    tpot_honeypot     = { vmid = module.vm_tpot_207.vm_id, name = module.vm_tpot_207.name, node = module.vm_tpot_207.node }
+    securityonion     = { vmid = module.vm_securityonion_208.vm_id, name = module.vm_securityonion_208.name, node = module.vm_securityonion_208.node }
+    remnux            = { vmid = module.vm_remnux_209.vm_id, name = module.vm_remnux_209.name, node = module.vm_remnux_209.node }
   }
 }
 

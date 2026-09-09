@@ -38,14 +38,10 @@ for ctid in 102 103 104 105 106 107 108 109 110 111 112 113 114; do
     sleep 3
 done
 
-# 6. Start Applications, Media Suites & Secondary VMs (LXC 114 - 119, VM 201)
-log " [6/6] Starting Applications, Web Portals & Workload VMs..."
-for ctid in 114 115 116 117 118 119; do
-    pct start "$ctid" || true
-    sleep 2
-done
-
+# 6. Start Primary Workload VMs (VM 201 Windows Server)
+log " [6/6] Starting Primary Workload VMs..."
 qm start 201 || true
+
 
 log " All services staged and operational. Verifying NFS mount status..."
 df -h -t nfs4,nfs || true

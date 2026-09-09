@@ -101,100 +101,25 @@ module "vm_rhel_202" {
   tags         = ["rhel", "redhat", "enterprise", "selinux", "podman", "terraform"]
 }
 
-module "vm_freebsd_203" {
+module "vm_macos_monterey_203" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 203
-  name         = "freebsd"
-  description  = "FreeBSD 15.1-RELEASE (Native OpenZFS Storage Pool, FreeBSD Jails & Network Lab)"
-  cores        = 2
-  memory       = 1024
-  balloon      = 512
-  disk_size    = 25
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["freebsd", "bsd", "openzfs", "jails", "storage", "terraform"]
-}
-
-module "vm_openbsd_204" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 204
-  name         = "openbsd"
-  description  = "OpenBSD 7.9 Bastion (Hardened Jump Host, Packet Filter PF, pledge/unveil sandboxing)"
-  cores        = 2
-  memory       = 1024
-  balloon      = 512
-  disk_size    = 25
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["openbsd", "bsd", "security", "bastion", "pf", "hardened", "terraform"]
-}
-
-module "vm_talos_205" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 205
-  name         = "talos"
-  description  = "Talos Linux 1.7 (Minimalist Immutable OS, Declarative gRPC Control, Kubernetes Worker Node)"
-  cores        = 2
-  memory       = 2048
-  balloon      = 1024
-  disk_size    = 32
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["talos", "kubernetes", "k8s", "immutable", "grpc", "terraform"]
-}
-
-module "vm_macos_monterey_206" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 206
   name         = "macos-monterey"
   description  = "macOS Monterey 12.7 (OpenCore KVM Hackintosh, Xcode Build Runner & Apple GUI Testing)"
   cores        = 4
-  memory       = 7168
+  memory       = 6144
   balloon      = 2048
-  disk_size    = 64
+  disk_size    = 120
   storage_pool = "local-lvm"
   vlan_tag     = 20
   tags         = ["macos", "monterey", "hackintosh", "opencore", "apple", "terraform"]
 }
 
-module "vm_openindiana_207" {
+module "vm_nixos_204" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 207
-  name         = "openindiana-hipster"
-  description  = "OpenIndiana Hipster (illumos kernel, Reference Enterprise ZFS, Solaris Zones, Crossbow VNICs & DTrace)"
-  cores        = 2
-  memory       = 3072
-  balloon      = 1536
-  disk_size    = 50
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["openindiana", "illumos", "solaris", "zfs", "dtrace", "terraform"]
-}
-
-module "vm_netbsd_208" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 208
-  name         = "netbsd-portable"
-  description  = "NetBSD 10.0 (Portable Clean Unix Reference, Rump Anykernel Architecture & pkgsrc Packaging)"
-  cores        = 2
-  memory       = 512
-  balloon      = 256
-  disk_size    = 12
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["netbsd", "bsd", "rump", "pkgsrc", "portable-unix", "terraform"]
-}
-
-module "vm_nixos_209" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 209
+  vmid         = 204
   name         = "nixos-minimal"
   description  = "NixOS 24.11 Minimal (Declarative Immutable Linux, Flakes Reproducible Builds & Atomic Rollbacks)"
   cores        = 2
@@ -206,25 +131,10 @@ module "vm_nixos_209" {
   tags         = ["nixos", "declarative", "immutable", "flakes", "reproducible", "terraform"]
 }
 
-module "vm_dragonflybsd_210" {
+module "vm_openstack_205" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 210
-  name         = "dragonflybsd-hammer2"
-  description  = "DragonFly BSD 6.4 (HAMMER2 Journaling File System Lab, Hybrid Microkernel & Lockless SMP)"
-  cores        = 2
-  memory       = 1024
-  balloon      = 512
-  disk_size    = 15
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["dragonflybsd", "bsd", "hammer2", "microkernel", "smp", "terraform"]
-}
-
-module "vm_openstack_211" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 211
+  vmid         = 205
   name         = "openstack"
   description  = "OpenStack Enterprise Private Cloud Controller & Compute (Nova, Neutron, Keystone, Glance, Horizon Dashboard)"
   cores        = 2
@@ -236,10 +146,10 @@ module "vm_openstack_211" {
   tags         = ["openstack", "cloud", "iaas", "nova", "neutron", "horizon", "terraform"]
 }
 
-module "vm_metasploitable2_212" {
+module "vm_metasploitable2_206" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 212
+  vmid         = 206
   name         = "metasploitable2"
   description  = "Metasploitable 2 (Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning)"
   cores        = 1
@@ -250,10 +160,10 @@ module "vm_metasploitable2_212" {
   tags         = ["cyber", "metasploit", "metasploitable2", "penetration-testing", "red-team", "terraform"]
 }
 
-module "vm_tpot_213" {
+module "vm_tpot_207" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 213
+  vmid         = 207
   name         = "tpot-honeypot"
   description  = "T-Pot Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata)"
   cores        = 4
@@ -265,104 +175,36 @@ module "vm_tpot_213" {
   tags         = ["cyber", "honeypot", "tpot", "threat-intel", "elastic", "suricata", "terraform"]
 }
 
-module "vm_haiku_214" {
+module "vm_securityonion_208" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 214
-  name         = "haiku"
-  description  = "Haiku OS R1/beta5 (BeOS Modular C++ Architecture, Preemptive Multithreading & OpenBFS)"
-  cores        = 2
-  memory       = 2048
-  balloon      = 1024
-  disk_size    = 20
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["haikuos", "beos", "bfs", "desktop", "modular", "terraform"]
-}
-
-module "vm_plan9_215" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 215
-  name         = "plan9"
-  description  = "Plan 9 from Bell Labs / 9front (9P Distributed Filesystem, Per-Process Namespaces & Rio GUI)"
-  cores        = 1
-  memory       = 512
-  disk_size    = 12
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["belllabs", "plan9", "9front", "9p", "distributed", "terraform"]
-}
-
-module "vm_reactos_216" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 216
-  name         = "reactos"
-  description  = "ReactOS 0.4.16 (Open-Source Windows NT Binary Compatibility Architecture & Win32 Subsystem)"
-  cores        = 1
-  memory       = 1024
-  disk_size    = 32
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["reactos", "windows-nt", "win32", "binary-compatibility", "terraform"]
-}
-
-module "vm_securityonion_217" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 217
+  vmid         = 208
   name         = "securityonion"
   description  = "Security Onion / Wazuh SIEM Platform (Zeek, Suricata, Elastic, Kibana & HIDS Monitoring)"
   cores        = 4
   memory       = 8192
+  balloon      = 4096
   disk_size    = 50
   storage_pool = "local-lvm"
   vlan_tag     = 30
   tags         = ["blue-team", "hids", "log-analysis", "security-onion", "siem", "wazuh", "terraform"]
 }
 
-module "vm_remnux_218" {
+module "vm_remnux_209" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 218
+  vmid         = 209
   name         = "remnux"
   description  = "REMnux Linux Toolkit (Malware Analysis, Reverse Engineering, Memory Forensics & DFIR)"
   cores        = 2
   memory       = 4096
+  balloon      = 2048
   disk_size    = 40
   storage_pool = "local-lvm"
   vlan_tag     = 35
   tags         = ["cyber", "dfir", "malware-analysis", "remnux", "reverse-engineering", "terraform"]
 }
 
-module "vm_redox_219" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 219
-  name         = "redox"
-  description  = "Redox OS 0.9.0 (Rust-based Microkernel Operating System & RedoxFS Architecture)"
-  cores        = 2
-  memory       = 2048
-  disk_size    = 10
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["microkernel", "plan9-inspired", "redox", "redoxos", "rust", "terraform"]
-}
-
-module "vm_freedos_220" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 220
-  name         = "freedos"
-  description  = "FreeDOS 1.3 (Open-Source DOS Environment, 16-bit Real Mode x86 Assembly & Legacy Computing)"
-  cores        = 1
-  memory       = 512
-  disk_size    = 2
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["dos", "freedos", "legacy", "x86-16", "assembly", "terraform"]
-}
 
 
 
@@ -2164,18 +2006,9 @@ module "proxmox_firewall" {
   source = "./modules/proxmox_firewall"
 }
 
-module "enterprise_firewall_fortigate" {
-  source         = "./modules/enterprise_firewall"
-  vmid           = 221
-  vm_name        = "fortigate-vm"
-  appliance_type = "fortigate"
-  cores          = 2
-  memory_mb      = 2048
-  disk_size_gb   = 10
-}
-
 module "hybrid_tunnel" {
   source = "./modules/hybrid_tunnel"
 }
+
 
 

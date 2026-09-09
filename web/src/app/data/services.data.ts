@@ -19,7 +19,7 @@ export interface ServiceItem {
 }
 
 export const SERVICES_DATA: ServiceItem[] = [
-{
+  {
     "id": "grafana",
     "name": "Grafana Enterprise Dashboard",
     "category": "monitoring",
@@ -32,19 +32,19 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "grafana.homelab.local",
     "status": "ONLINE",
     "description": "Centralized visualization and alerting platform with pre-provisioned Prometheus & Loki data sources and multi-node infrastructure telemetry dashboards.",
-    "descriptionRo": "Platformă centralizată de vizualizare și alertare cu surse de date pre-configurate Prometheus & Loki și dashboard-uri de telemetrie multi-nod.",
+    "descriptionRo": "Platform\u0103 centralizat\u0103 de vizualizare \u0219i alertare cu surse de date pre-configurate Prometheus & Loki \u0219i dashboard-uri de telemetrie multi-nod.",
     "tags": [
-        "Grafana",
-        "Visualization",
-        "LGTM Stack",
-        "Dashboards",
-        "Alerting"
+      "Grafana",
+      "Visualization",
+      "LGTM Stack",
+      "Dashboards",
+      "Alerting"
     ],
     "color": "#f97316",
     "icon": "monitoring",
     "composeCode": "# Grafana Enterprise v11.5.2 running on Node 1 (192.168.1.132:3000)\n# Credentials: root:Stefanut"
-},
-{
+  },
+  {
     "id": "prometheus",
     "name": "Prometheus Time-Series TSDB",
     "category": "monitoring",
@@ -57,18 +57,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "prometheus.homelab.local",
     "status": "ONLINE",
     "description": "High-throughput metric collector scraping all homelab targets: x86_64 PVE, Apple M1 ARM64 PVE, OPNsense Telegraf, OMV NAS, and Kubernetes worker.",
-    "descriptionRo": "Bază de date time-series de înaltă performanță pentru colectarea metricilor de infrastructură, praguri de alertare și telemetrie a containerelor.",
+    "descriptionRo": "Baz\u0103 de date time-series de \u00eenalt\u0103 performan\u021b\u0103 pentru colectarea metricilor de infrastructur\u0103, praguri de alertare \u0219i telemetrie a containerelor.",
     "tags": [
-        "Prometheus",
-        "TSDB",
-        "Metrics Scraper",
-        "Node Exporter"
+      "Prometheus",
+      "TSDB",
+      "Metrics Scraper",
+      "Node Exporter"
     ],
     "color": "#ef4444",
     "icon": "monitoring",
     "composeCode": "# Prometheus v2.53.3 listening on :9090\n# Active jobs: node1-pve, node3-arm, opnsense-gw, omv-nas, k8s-worker, loki"
-},
-{
+  },
+  {
     "id": "loki",
     "name": "Grafana Loki Log Aggregator",
     "category": "monitoring",
@@ -81,18 +81,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "loki.homelab.local",
     "status": "ONLINE",
     "description": "Horizontally scalable, multi-tenant log aggregation system indexing metadata and log streams across all containers, hypervisors, and OPNsense.",
-    "descriptionRo": "Sistem distribuit de agregare a logurilor optimizat pentru containere LXC și evenimente kernel, integrat nativ cu Grafana.",
+    "descriptionRo": "Sistem distribuit de agregare a logurilor optimizat pentru containere LXC \u0219i evenimente kernel, integrat nativ cu Grafana.",
     "tags": [
-        "Loki",
-        "Log Aggregation",
-        "LogQL",
-        "Observability"
+      "Loki",
+      "Log Aggregation",
+      "LogQL",
+      "Observability"
     ],
     "color": "#eab308",
     "icon": "monitoring",
     "composeCode": "# Grafana Loki v3.4.2 listening on :3100\n# Structured TSDB schema with filesystem storage"
-},
-{
+  },
+  {
     "id": "opnsense-core",
     "name": "OPNsense Perimeter Firewall",
     "category": "security",
@@ -105,18 +105,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "opnsense.homelab.local",
     "status": "ONLINE",
     "description": "Perimeter stateful packet filtering, inter-VLAN routing, and security policy enforcement across all 5 isolated network zones.",
-    "descriptionRo": "Firewall central de perimetru bazat pe FreeBSD cu rutare inter-VLAN, stateful packet filtering și inspecție avansată.",
+    "descriptionRo": "Firewall central de perimetru bazat pe FreeBSD cu rutare inter-VLAN, stateful packet filtering \u0219i inspec\u021bie avansat\u0103.",
     "tags": [
-        "Perimeter Firewall",
-        "Stateful Filter",
-        "Inter-VLAN Routing",
-        "Security Core"
+      "Perimeter Firewall",
+      "Stateful Filter",
+      "Inter-VLAN Routing",
+      "Security Core"
     ],
     "color": "#94a3b8",
     "icon": "opnsense",
     "composeCode": "# OPNsense FreeBSD 14 Virtual Machine running on Proxmox VE (VM 200)\n# Memory: 2048 MB (VirtIO Ballooning: 1024 MB) \u00b7 Storage: 16 GB"
-},
-{
+  },
+  {
     "id": "opnsense-suricata",
     "name": "Suricata NIDS/IPS Engine",
     "category": "security",
@@ -129,18 +129,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "suricata.homelab.local",
     "status": "ONLINE",
     "description": "High-performance network intrusion detection and prevention system inspecting live packet streams against Emerging Threats (ET) rulesets.",
-    "descriptionRo": "Motor de detecție și prevenire a intruziunilor NIDS/IPS Suricata 8.0 ce analizează pachetele de rețea în timp real.",
+    "descriptionRo": "Motor de detec\u021bie \u0219i prevenire a intruziunilor NIDS/IPS Suricata 8.0 ce analizeaz\u0103 pachetele de re\u021bea \u00een timp real.",
     "tags": [
-        "Suricata IDS/IPS",
-        "Packet Inspection",
-        "Threat Detection",
-        "ET Rules"
+      "Suricata IDS/IPS",
+      "Packet Inspection",
+      "Threat Detection",
+      "ET Rules"
     ],
     "color": "#ef4444",
     "icon": "shield",
     "composeCode": "# Suricata 8.0 native daemon on OPNsense\n# Generates structured eve.json telemetry forwarded to Wazuh SIEM"
-},
-{
+  },
+  {
     "id": "opnsense-crowdsec",
     "name": "CrowdSec Firewall Remediation Bouncer",
     "category": "security",
@@ -153,18 +153,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "crowdsec.homelab.local",
     "status": "ONLINE",
     "description": "Collaborative IP reputation engine and packet filter (pf) bouncer blocking automated attacks, scanners, and brute-force attempts in real time.",
-    "descriptionRo": "Sistem de securitate colaborativă ce blochează automat adresele IP malițioase direct în tabela de filtrare packet filter.",
+    "descriptionRo": "Sistem de securitate colaborativ\u0103 ce blocheaz\u0103 automat adresele IP mali\u021bioase direct \u00een tabela de filtrare packet filter.",
     "tags": [
-        "CrowdSec",
-        "Firewall Bouncer",
-        "IP Blacklist",
-        "Active Defense"
+      "CrowdSec",
+      "Firewall Bouncer",
+      "IP Blacklist",
+      "Active Defense"
     ],
     "color": "#6366f1",
     "icon": "shield",
     "composeCode": "# CrowdSec os-crowdsec plugin on OPNsense\n# Manages dynamic pf tables (crowdsec_blacklists) for zero-latency drops"
-},
-{
+  },
+  {
     "id": "opnsense-geoip",
     "name": "GeoIP Threat Ingress Blocker",
     "category": "security",
@@ -178,16 +178,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Kernel-level stateful drop for high-risk geopolitical threat origins and malicious ASNs using automated MaxMind/DB-IP intelligence.",
     "tags": [
-        "GeoIP Blocking",
-        "Ingress Filter",
-        "Threat Intelligence",
-        "Kernel Drop"
+      "GeoIP Blocking",
+      "Ingress Filter",
+      "Threat Intelligence",
+      "Kernel Drop"
     ],
     "color": "#e11d48",
     "icon": "shield",
     "composeCode": "# MaxMind GeoLite2 / DB-IP Country Lite Kernel Table in pf\n# Blocks inbound traffic from high-risk geopolitical zones on WAN"
-},
-{
+  },
+  {
     "id": "opnsense-dot",
     "name": "Unbound DNS-over-TLS (DoT)",
     "category": "core",
@@ -201,16 +201,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Validating recursive DNS resolver with strict DNS-over-TLS (DoT) forwarding to Quad9 (9.9.9.9) and Cloudflare, QNAME minimisation, and DNSSEC.",
     "tags": [
-        "DNS over TLS",
-        "DoT",
-        "DNSSEC",
-        "Quad9 Secure"
+      "DNS over TLS",
+      "DoT",
+      "DNSSEC",
+      "Quad9 Secure"
     ],
     "color": "#0ea5e9",
     "icon": "pihole",
     "composeCode": "# Unbound DNS-over-TLS Upstream Forwarding on Port 853\n# Strict TLS verification against Quad9 (dns.quad9.net) & Cloudflare"
-},
-{
+  },
+  {
     "id": "opnsense-telegraf",
     "name": "Telegraf / Prometheus Metrics Exporter",
     "category": "monitoring",
@@ -224,16 +224,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Exports kernel telemetry, CPU/RAM utilization, interface packet rates, and pf state table metrics to Prometheus and Grafana dashboards.",
     "tags": [
-        "Telegraf",
-        "Prometheus Metrics",
-        "State Tables",
-        "Observability"
+      "Telegraf",
+      "Prometheus Metrics",
+      "State Tables",
+      "Observability"
     ],
     "color": "#f59e0b",
     "icon": "monitoring",
     "composeCode": "# Telegraf Agent on OPNsense exporting on :9273 TCP\n# Scraped by Prometheus on Node 1 (192.168.1.132)"
-},
-{
+  },
+  {
     "id": "opnsense-monit",
     "name": "Monit Auto-Healing Watchdog",
     "category": "automation",
@@ -247,16 +247,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Continuous process and gateway health guardian auto-restarting crashed daemons (Suricata, Unbound) and triggering instant alert webhooks.",
     "tags": [
-        "Monit Watchdog",
-        "Auto-Healing",
-        "Service Guardian",
-        "Alerting"
+      "Monit Watchdog",
+      "Auto-Healing",
+      "Service Guardian",
+      "Alerting"
     ],
     "color": "#94a3b8",
     "icon": "shield",
     "composeCode": "# Monit Watchdog polling every 30s with instant ntfy webhook triggers"
-},
-{
+  },
+  {
     "id": "opnsense-gitbackup",
     "name": "GitOps Encrypted Config Backup",
     "category": "automation",
@@ -270,16 +270,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Automated GPG-encrypted commit and push of config.xml snapshots to Gitea and GitHub on every administrative configuration change.",
     "tags": [
-        "GitOps Backup",
-        "GPG Encrypted",
-        "Disaster Recovery",
-        "Config Versioning"
+      "GitOps Backup",
+      "GPG Encrypted",
+      "Disaster Recovery",
+      "Config Versioning"
     ],
     "color": "#8b5cf6",
     "icon": "gitea",
     "composeCode": "# os-git-backup plugin encrypting config.xml -> Gitea repository"
-},
-{
+  },
+  {
     "id": "opnsense-frr",
     "name": "FRRouting (FRR) Dynamic BGP Peering",
     "category": "core",
@@ -292,18 +292,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "frr.homelab.local",
     "status": "ONLINE",
     "description": "Dynamic BGP route advertisement exchanging VIPs with Kubernetes MetalLB and Cilium LoadBalancers for zero-touch service routing.",
-    "descriptionRo": "Daemon de rutare dinamică BGP/OSPF pentru orchestrarea IP-urilor LoadBalancer din clusterul Kubernetes.",
+    "descriptionRo": "Daemon de rutare dinamic\u0103 BGP/OSPF pentru orchestrarea IP-urilor LoadBalancer din clusterul Kubernetes.",
     "tags": [
-        "FRRouting",
-        "BGP Peering",
-        "Kubernetes Ingress",
-        "Dynamic Routing"
+      "FRRouting",
+      "BGP Peering",
+      "Kubernetes Ingress",
+      "Dynamic Routing"
     ],
     "color": "#06b6d4",
     "icon": "kubernetes",
     "composeCode": "# FRRouting BGP AS 64512 peering with Kubernetes Bare-Metal Worker AS 64513"
-},
-{
+  },
+  {
     "id": "opnsense-tailscale",
     "name": "Tailscale Zero-Trust Subnet Router",
     "category": "security",
@@ -317,21 +317,21 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Encrypted WireGuard mesh subnet router advertising all 5 homelab VLANs to authenticated devices without opening WAN ports.",
     "tags": [
-        "Tailscale",
-        "Subnet Router",
-        "Zero-Trust Mesh",
-        "WireGuard"
+      "Tailscale",
+      "Subnet Router",
+      "Zero-Trust Mesh",
+      "WireGuard"
     ],
     "color": "#3b82f6",
     "icon": "wireguard",
     "composeCode": "# os-tailscale plugin advertising 192.168.1.0/24, 192.168.10-50.0/24"
-},
-{
+  },
+  {
     "id": "opnsense-zenarmor",
     "name": "Zenarmor (Sensei) Next-Gen Firewall",
     "category": "security",
     "containerName": "zenarmor-engine",
-    "node": "OPNsense Firewall (VM 200 · 192.168.1.134)",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
     "ram": "512 MB",
     "storage": "Internal Pool",
     "ip": "192.168.1.134",
@@ -339,23 +339,23 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "zenarmor.homelab.local",
     "status": "ONLINE",
     "description": "Enterprise Layer 7 application control, web category filtering, TLS inspection without proxy, and real-time network traffic analytics.",
-    "descriptionRo": "Capabilități Next-Gen Firewall (NGFW) L7 Application Control, filtrare web pe categorii și analiză de trafic în timp real.",
+    "descriptionRo": "Capabilit\u0103\u021bi Next-Gen Firewall (NGFW) L7 Application Control, filtrare web pe categorii \u0219i analiz\u0103 de trafic \u00een timp real.",
     "tags": [
-        "Zenarmor",
-        "NGFW L7",
-        "Application Control",
-        "Web Filtering"
+      "Zenarmor",
+      "NGFW L7",
+      "Application Control",
+      "Web Filtering"
     ],
     "color": "#6366f1",
     "icon": "shield",
     "composeCode": "# os-sensei Zenarmor Next-Generation Firewall engine on OPNsense\n# Real-time L7 application classification & web category enforcement"
-},
-{
+  },
+  {
     "id": "opnsense-caddy",
     "name": "Caddy Web Gateway & Reverse Proxy",
     "category": "core",
     "containerName": "caddy-gateway",
-    "node": "OPNsense Firewall (VM 200 · 192.168.1.134)",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
     "ram": "64 MB",
     "storage": "Internal Pool",
     "ip": "192.168.1.134",
@@ -363,18 +363,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "gateway.homelab.local",
     "status": "ONLINE",
     "description": "Perimeter reverse proxy with automated Let's Encrypt TLS termination, Layer 4 routing, and HTTP/3 support running directly on the gateway.",
-    "descriptionRo": "Reverse proxy modern cu terminare automată HTTPS/TLS, rutare Layer 4 și HTTP/3 direct pe gateway-ul perimetral.",
+    "descriptionRo": "Reverse proxy modern cu terminare automat\u0103 HTTPS/TLS, rutare Layer 4 \u0219i HTTP/3 direct pe gateway-ul perimetral.",
     "tags": [
-        "Caddy",
-        "Reverse Proxy",
-        "Auto-TLS",
-        "HTTP/3"
+      "Caddy",
+      "Reverse Proxy",
+      "Auto-TLS",
+      "HTTP/3"
     ],
     "color": "#10b981",
     "icon": "shield",
     "composeCode": "# os-caddy plugin on OPNsense\n# Enterprise gateway reverse proxy with automated ACME TLS certificates"
-},
-{
+  },
+  {
     "id": "opnsense-unbound",
     "name": "Unbound Recursive DNS & DNSSEC",
     "category": "core",
@@ -387,18 +387,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "unbound.homelab.local",
     "status": "ONLINE",
     "description": "Validating recursive DNS resolver with DNS-over-TLS (DoT), split-horizon routing for internal cluster domains, and DNSSEC cryptographic verification.",
-    "descriptionRo": "Resolver DNS recursiv criptat prin DNS-over-TLS (DoT) către Quad9 cu suport complet DNSSEC.",
+    "descriptionRo": "Resolver DNS recursiv criptat prin DNS-over-TLS (DoT) c\u0103tre Quad9 cu suport complet DNSSEC.",
     "tags": [
-        "Unbound DNS",
-        "DNSSEC",
-        "Split-Horizon",
-        "DNS over TLS"
+      "Unbound DNS",
+      "DNSSEC",
+      "Split-Horizon",
+      "DNS over TLS"
     ],
     "color": "#0ea5e9",
     "icon": "pihole",
     "composeCode": "# Unbound DNS Core Resolver on OPNsense\n# Authoritative for .homelab.local with upstream encrypted DoT"
-},
-{
+  },
+  {
     "id": "opnsense-wireguard",
     "name": "WireGuard Kernel VPN Gateway",
     "category": "core",
@@ -412,16 +412,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Kernel-mode WireGuard tunnel providing line-rate encrypted site-to-site mesh with the Apple M1 node and secure roadwarrior remote admin access.",
     "tags": [
-        "WireGuard",
-        "Kernel VPN",
-        "Site-to-Site",
-        "Curve25519"
+      "WireGuard",
+      "Kernel VPN",
+      "Site-to-Site",
+      "Curve25519"
     ],
     "color": "#a855f7",
     "icon": "wireguard",
     "composeCode": "# WireGuard FreeBSD Kernel Module on OPNsense\n# Interface wg0 listening on :51820 UDP with automated key rotation"
-},
-{
+  },
+  {
     "id": "opnsense-netflow",
     "name": "NetFlow / IPFIX Flow Exporter",
     "category": "monitoring",
@@ -435,21 +435,21 @@ export const SERVICES_DATA: ServiceItem[] = [
     "status": "ONLINE",
     "description": "Generates continuous NetFlow v9 and IPFIX telemetry for all VLAN traffic, exporting flow records to Wazuh SIEM for deep network behavior analysis.",
     "tags": [
-        "NetFlow",
-        "IPFIX",
-        "Traffic Analytics",
-        "Flow Records"
+      "NetFlow",
+      "IPFIX",
+      "Traffic Analytics",
+      "Flow Records"
     ],
     "color": "#f59e0b",
     "icon": "opnsense",
     "composeCode": "# NetFlow v9 Exporter on OPNsense\n# Continuously streams flow metadata across all 5 VLAN interfaces"
-},
+  },
   {
     "id": "nginx-ingress",
     "name": "OPNsense Nginx Ingress Reverse Proxy",
     "category": "core",
     "containerName": "nginx-ingress",
-    "node": "Node 1 (Intel i3-10100F) · VM 200 (OPNsense Core)",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 200 (OPNsense Core)",
     "ram": "Core Service",
     "storage": "System Pool",
     "ip": "192.168.1.134",
@@ -457,7 +457,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "opnsense.homelab.local",
     "status": "ONLINE",
     "description": "High-performance enterprise Nginx reverse proxy running directly on the perimeter OPNsense gateway with automated wildcard SSL/TLS, WebSocket acceleration, and split-DNS integration.",
-    "descriptionRo": "Ingress reverse proxy Nginx de înaltă performanță integrat direct pe gateway-ul perimetral OPNsense cu SSL/TLS wildcard, suport WebSocket și integrare split-DNS AdGuard.",
+    "descriptionRo": "Ingress reverse proxy Nginx de \u00eenalt\u0103 performan\u021b\u0103 integrat direct pe gateway-ul perimetral OPNsense cu SSL/TLS wildcard, suport WebSocket \u0219i integrare split-DNS AdGuard.",
     "tags": [
       "Reverse Proxy",
       "SSL / TLS 1.3",
@@ -474,7 +474,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "AdGuard Home DNS Sinkhole & Privacy",
     "category": "core",
     "containerName": "adguardhome",
-    "node": "OPNsense Firewall (VM 200 · 192.168.1.134)",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
     "ram": "128 MB",
     "storage": "Internal Pool",
     "ip": "192.168.1.134",
@@ -482,7 +482,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "adguard.homelab.local",
     "status": "ONLINE",
     "description": "Network-wide DNS ad blocking, tracking prevention, DNS-over-HTTPS/TLS (DoH/DoT), and parental control running natively on the OPNsense perimeter gateway.",
-    "descriptionRo": "Filtru DNS de rețea, blocare reclame, protecție telemetrie, DoH/DoT și control parental integrat direct pe gateway-ul perimetral OPNsense.",
+    "descriptionRo": "Filtru DNS de re\u021bea, blocare reclame, protec\u021bie telemetrie, DoH/DoT \u0219i control parental integrat direct pe gateway-ul perimetral OPNsense.",
     "tags": [
       "AdGuard Home",
       "DNS Sinkhole",
@@ -498,7 +498,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Tailscale Perimeter Mesh Gateway",
     "category": "core",
     "containerName": "tailscaled",
-    "node": "OPNsense Firewall (VM 200 · 192.168.1.134)",
+    "node": "OPNsense Firewall (VM 200 \u00b7 192.168.1.134)",
     "ram": "64 MB",
     "storage": "Internal Pool",
     "ip": "192.168.1.134",
@@ -506,7 +506,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "tailscale.homelab.local",
     "status": "ONLINE",
     "description": "Perimeter Zero-Trust WireGuard Mesh subnet router running directly on OPNsense to provide secure remote access to all internal VLAN subnets without port forwarding.",
-    "descriptionRo": "Router perimetral Zero-Trust Tailscale Mesh integrat direct în gateway-ul OPNsense pentru acces remote securizat la toate VLAN-urile interne.",
+    "descriptionRo": "Router perimetral Zero-Trust Tailscale Mesh integrat direct \u00een gateway-ul OPNsense pentru acces remote securizat la toate VLAN-urile interne.",
     "tags": [
       "Tailscale",
       "Mesh VPN",
@@ -522,7 +522,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "WireGuard Easy (WG-Easy)",
     "category": "core",
     "containerName": "wg-easy",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 168",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 168",
     "ram": "128 MB",
     "storage": "2 GB Pool",
     "ip": "192.168.64.168",
@@ -530,7 +530,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "vpn.homelab.local",
     "status": "ONLINE",
     "description": "Provides an intuitive dashboard for quickly generating WireGuard client profiles, downloading QR codes, and monitoring active tunnel connections.",
-    "descriptionRo": "Interfață web simplă și sigură pentru administrarea clienților și a tunelurilor VPN WireGuard la nivel de kernel.",
+    "descriptionRo": "Interfa\u021b\u0103 web simpl\u0103 \u0219i sigur\u0103 pentru administrarea clien\u021bilor \u0219i a tunelurilor VPN WireGuard la nivel de kernel.",
     "tags": [
       "VPN Server",
       "WireGuard",
@@ -554,7 +554,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "cloud.homelab.local",
     "status": "ONLINE",
     "description": "Hosts a private productivity workspace for cross-device file synchronization, calendar management, and collaborative document editing.",
-    "descriptionRo": "Platformă completă de cloud privat self-hosted pentru sincronizare fișiere, calendar, contacte și colaborare securizată.",
+    "descriptionRo": "Platform\u0103 complet\u0103 de cloud privat self-hosted pentru sincronizare fi\u0219iere, calendar, contacte \u0219i colaborare securizat\u0103.",
     "tags": [
       "Cloud Storage",
       "File Sync",
@@ -570,7 +570,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Paperless-ngx DMS",
     "category": "storage",
     "containerName": "paperless-ngx",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 160",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 160",
     "ram": "768 MB",
     "storage": "20 GB Pool",
     "ip": "192.168.64.160",
@@ -578,7 +578,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "docs.homelab.local",
     "status": "ONLINE",
     "description": "Digitizes and indexes physical documents by applying automated optical character recognition (OCR) and machine learning classification.",
-    "descriptionRo": "Sistem avansat de management al documentelor digitale cu scanare OCR automată, taguri inteligente și indexare Meilisearch.",
+    "descriptionRo": "Sistem avansat de management al documentelor digitale cu scanare OCR automat\u0103, taguri inteligente \u0219i indexare Meilisearch.",
     "tags": [
       "Document Archive",
       "OCR Recognition",
@@ -594,7 +594,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "MinIO S3 Object Store",
     "category": "storage",
     "containerName": "minio",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 161",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 161",
     "ram": "384 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.64.161",
@@ -602,7 +602,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "s3.homelab.local",
     "status": "ONLINE",
     "description": "Delivers high-throughput S3-compatible object storage for application backups, media assets, and persistent container buckets.",
-    "descriptionRo": "Stocare de obiecte compatibilă cu API-ul Amazon S3 de înaltă performanță pentru backup-uri și fișiere media.",
+    "descriptionRo": "Stocare de obiecte compatibil\u0103 cu API-ul Amazon S3 de \u00eenalt\u0103 performan\u021b\u0103 pentru backup-uri \u0219i fi\u0219iere media.",
     "tags": [
       "Object Storage",
       "S3 Protocol",
@@ -618,7 +618,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Kopia Backup Snapshot Server",
     "category": "storage",
     "containerName": "kopia",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 167",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 167",
     "ram": "128 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.167",
@@ -626,7 +626,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "backup.homelab.local",
     "status": "ONLINE",
     "description": "Creates encrypted point-in-time snapshots with client-side deduplication and automated replication to off-site repositories.",
-    "descriptionRo": "Utilitar de backup rapid și securizat cu criptare client-side, deduplicare la nivel de bloc și snapshot-uri incrementale.",
+    "descriptionRo": "Utilitar de backup rapid \u0219i securizat cu criptare client-side, deduplicare la nivel de bloc \u0219i snapshot-uri incrementale.",
     "tags": [
       "Encrypted Backups",
       "Deduplication",
@@ -650,7 +650,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "ollama.homelab.local",
     "status": "ONLINE",
     "description": "Executes localized open-weights large language models directly on the dedicated NVIDIA GTX 1050 Ti GPU for private reasoning and code generation.",
-    "descriptionRo": "Motor de inferență LLM local accelerat pe GPU NVIDIA GTX 1050 Ti, ce rulează modele deschise precum Qwen2.5 și Llama-3.2.",
+    "descriptionRo": "Motor de inferen\u021b\u0103 LLM local accelerat pe GPU NVIDIA GTX 1050 Ti, ce ruleaz\u0103 modele deschise precum Qwen2.5 \u0219i Llama-3.2.",
     "tags": [
       "Local AI",
       "GPU Acceleration",
@@ -674,7 +674,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "chat.homelab.local",
     "status": "ONLINE",
     "description": "Provides a clean, conversational web frontend for interacting with local Ollama models and organizing customized AI prompts.",
-    "descriptionRo": "Interfață web completă și prietenoasă pentru modelele Ollama, cu suport pentru documente RAG, web search și multi-turn chat.",
+    "descriptionRo": "Interfa\u021b\u0103 web complet\u0103 \u0219i prietenoas\u0103 pentru modelele Ollama, cu suport pentru documente RAG, web search \u0219i multi-turn chat.",
     "tags": [
       "AI Interface",
       "Chatbot UI",
@@ -698,7 +698,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "whisper.homelab.local",
     "status": "ONLINE",
     "description": "Converts voice recordings and audio streams into accurate text transcripts using hardware-accelerated OpenAI Whisper neural networks.",
-    "descriptionRo": "Motor ultra-rapid de transcriere automată voce-în-text (Faster-Whisper) accelerat pe placa grafică GTX 1050 Ti.",
+    "descriptionRo": "Motor ultra-rapid de transcriere automat\u0103 voce-\u00een-text (Faster-Whisper) accelerat pe placa grafic\u0103 GTX 1050 Ti.",
     "tags": [
       "Speech-to-Text",
       "Audio Transcription",
@@ -722,7 +722,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "flowise.homelab.local",
     "status": "ONLINE",
     "description": "Enables visual drag-and-drop construction of autonomous multi-agent systems, document search chains, and custom LangChain flows.",
-    "descriptionRo": "Constructor vizual low-code pentru crearea de agenți AI, fluxuri LangChain și automatizări bazate pe modele de limbaj.",
+    "descriptionRo": "Constructor vizual low-code pentru crearea de agen\u021bi AI, fluxuri LangChain \u0219i automatiz\u0103ri bazate pe modele de limbaj.",
     "tags": [
       "AI Agents",
       "Visual Workflow",
@@ -738,7 +738,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Stirling-PDF Toolbox",
     "category": "media",
     "containerName": "stirling-pdf",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 151",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 151",
     "ram": "384 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.64.151",
@@ -746,7 +746,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "pdf.homelab.local",
     "status": "ONLINE",
     "description": "Offers an offline, privacy-first web utility suite for merging, splitting, converting, signing, and running OCR on PDF documents.",
-    "descriptionRo": "Suită completă de instrumente PDF locale pentru divizare, combinare, conversie, semnare și OCR securizat.",
+    "descriptionRo": "Suit\u0103 complet\u0103 de instrumente PDF locale pentru divizare, combinare, conversie, semnare \u0219i OCR securizat.",
     "tags": [
       "PDF Utilities",
       "Document Conversion",
@@ -762,7 +762,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Kavita Digital Reader",
     "category": "media",
     "containerName": "kavita",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 150",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 150",
     "ram": "384 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.64.150",
@@ -770,7 +770,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "kavita.homelab.local",
     "status": "ONLINE",
     "description": "Organizes and serves digital books, manga series, and comic archives with progress tracking across desktop and mobile devices.",
-    "descriptionRo": "Server modern și elegant de cărți electronice, benzi desenate (manga/comics) și documente PDF cu cititor integrat.",
+    "descriptionRo": "Server modern \u0219i elegant de c\u0103r\u021bi electronice, benzi desenate (manga/comics) \u0219i documente PDF cu cititor integrat.",
     "tags": [
       "E-Book Reader",
       "Manga Archive",
@@ -786,7 +786,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Audiobookshelf Server",
     "category": "media",
     "containerName": "audiobookshelf",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 152",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 152",
     "ram": "256 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.152",
@@ -794,7 +794,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "audio.homelab.local",
     "status": "ONLINE",
     "description": "Streams self-hosted audiobooks and podcast episodes while synchronizing playback position and user listening statistics across devices.",
-    "descriptionRo": "Server dedicat pentru streaming de cărți audio și podcasturi cu sincronizare a poziției de ascultare pe dispozitive mobile.",
+    "descriptionRo": "Server dedicat pentru streaming de c\u0103r\u021bi audio \u0219i podcasturi cu sincronizare a pozi\u021biei de ascultare pe dispozitive mobile.",
     "tags": [
       "Audiobooks",
       "Podcasts",
@@ -810,7 +810,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "TubeArchivist Media Archive",
     "category": "media",
     "containerName": "tubearchivist",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 153",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 153",
     "ram": "384 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.64.153",
@@ -818,7 +818,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "tube.homelab.local",
     "status": "ONLINE",
     "description": "Automatically archives selected YouTube channels, playlists, and subtitles to maintain a private offline video collection.",
-    "descriptionRo": "Sistem complet de arhivare și redare a canalelor YouTube locale cu extragere automată a subtitrărilor și metadatelor.",
+    "descriptionRo": "Sistem complet de arhivare \u0219i redare a canalelor YouTube locale cu extragere automat\u0103 a subtitr\u0103rilor \u0219i metadatelor.",
     "tags": [
       "Video Archiving",
       "YouTube Backup",
@@ -834,7 +834,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Transmission Torrent Client",
     "category": "media",
     "containerName": "transmission",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 149",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 149",
     "ram": "256 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.64.149",
@@ -842,7 +842,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "torrents.homelab.local",
     "status": "ONLINE",
     "description": "Handles automated P2P file downloads in a network-isolated environment with bandwidth scheduling and RPC automation support.",
-    "descriptionRo": "Client BitTorrent securizat și ultra-ușor cu interfață web curată, limitare a vitezei și izolare pe rețeaua VPN.",
+    "descriptionRo": "Client BitTorrent securizat \u0219i ultra-u\u0219or cu interfa\u021b\u0103 web curat\u0103, limitare a vitezei \u0219i izolare pe re\u021beaua VPN.",
     "tags": [
       "BitTorrent",
       "P2P Downloads",
@@ -858,7 +858,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Calibre-Web Library",
     "category": "media",
     "containerName": "calibre-web",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 154",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 154",
     "ram": "128 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.154",
@@ -866,7 +866,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "books.homelab.local",
     "status": "ONLINE",
     "description": "Provides an elegant digital bookshelf for browsing, reading, and sending eBooks directly to e-reader devices from a Calibre database.",
-    "descriptionRo": "Interfață web curată și prietenoasă pentru navigarea și citirea cărților din biblioteca Calibre pe orice dispozitiv.",
+    "descriptionRo": "Interfa\u021b\u0103 web curat\u0103 \u0219i prietenoas\u0103 pentru navigarea \u0219i citirea c\u0103r\u021bilor din biblioteca Calibre pe orice dispozitiv.",
     "tags": [
       "E-Book Library",
       "Calibre Sync",
@@ -882,7 +882,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "RomM Retro Game Manager",
     "category": "media",
     "containerName": "romm",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 157",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 157",
     "ram": "192 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.64.157",
@@ -890,7 +890,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "romm.homelab.local",
     "status": "ONLINE",
     "description": "Catalogs vintage gaming ROM collections by automatically pulling cover art, release metadata, and system requirements from online databases.",
-    "descriptionRo": "Manager de jocuri retro și ROM-uri cu descărcare automată a coperților, metadatelor și salvare a progresului.",
+    "descriptionRo": "Manager de jocuri retro \u0219i ROM-uri cu desc\u0103rcare automat\u0103 a coper\u021bilor, metadatelor \u0219i salvare a progresului.",
     "tags": [
       "Retro Gaming",
       "ROM Library",
@@ -906,7 +906,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "EmulatorJS Web Gaming",
     "category": "media",
     "containerName": "emulatorjs",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 158",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 158",
     "ram": "96 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.158",
@@ -914,7 +914,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "retro.homelab.local",
     "status": "ONLINE",
     "description": "Runs classic console video games directly inside any modern web browser using client-side WebAssembly emulation cores.",
-    "descriptionRo": "Emulator complet de jocuri clasice rulat direct în browserul web pentru diverse console retro.",
+    "descriptionRo": "Emulator complet de jocuri clasice rulat direct \u00een browserul web pentru diverse console retro.",
     "tags": [
       "WebAssembly",
       "Retro Emulation",
@@ -930,7 +930,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Code-Server Cloud IDE",
     "category": "automation",
     "containerName": "code-server",
-    "node": "Node 1 (Intel i3-10100F) · CT 111",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 CT 111",
     "ram": "384 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.1.115",
@@ -954,7 +954,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "pgAdmin 4 Database Suite",
     "category": "core",
     "containerName": "pgadmin4",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 169",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 169",
     "ram": "192 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.169",
@@ -962,7 +962,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "pgadmin.homelab.local",
     "status": "ONLINE",
     "description": "Provides a comprehensive web management interface for inspecting schemas, running SQL queries, and optimizing PostgreSQL database instances.",
-    "descriptionRo": "Interfață grafică de administrare a bazelor de date relaționale PostgreSQL cu editor SQL și planuri de execuție.",
+    "descriptionRo": "Interfa\u021b\u0103 grafic\u0103 de administrare a bazelor de date rela\u021bionale PostgreSQL cu editor SQL \u0219i planuri de execu\u021bie.",
     "tags": [
       "PostgreSQL",
       "Database Admin",
@@ -978,7 +978,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Draw.io Architecture Suite",
     "category": "automation",
     "containerName": "drawio",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 156",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 156",
     "ram": "96 MB",
     "storage": "2 GB Pool",
     "ip": "192.168.64.156",
@@ -986,7 +986,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "draw.homelab.local",
     "status": "ONLINE",
     "description": "Enables offline creation of complex network topology diagrams, software architecture schematics, and technical flowcharts.",
-    "descriptionRo": "Instrument avansat de creare a diagramelor arhitecturale, schemelor de rețea și fluxurilor tehnice.",
+    "descriptionRo": "Instrument avansat de creare a diagramelor arhitecturale, schemelor de re\u021bea \u0219i fluxurilor tehnice.",
     "tags": [
       "Diagram Editor",
       "Architecture Blueprint",
@@ -1002,7 +1002,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Dozzle Realtime Log Viewer",
     "category": "monitoring",
     "containerName": "dozzle",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 170",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 170",
     "ram": "48 MB",
     "storage": "2 GB Pool",
     "ip": "192.168.64.170",
@@ -1010,7 +1010,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "dozzle.homelab.local",
     "status": "ONLINE",
     "description": "Streams live container stdout/stderr logs with instant keyword searching, regex filtering, and zero persistent storage overhead.",
-    "descriptionRo": "Vizualizator în timp real al logurilor containerelor Docker și LXC direct din browser, fără baze de date intermediare.",
+    "descriptionRo": "Vizualizator \u00een timp real al logurilor containerelor Docker \u0219i LXC direct din browser, f\u0103r\u0103 baze de date intermediare.",
     "tags": [
       "Log Streaming",
       "Docker Telemetry",
@@ -1026,7 +1026,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Kiwix Offline Wikipedia Server",
     "category": "media",
     "containerName": "kiwix-serve",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 171",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 171",
     "ram": "96 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.171",
@@ -1049,7 +1049,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Meilisearch Fast Search",
     "category": "core",
     "containerName": "meilisearch",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 162",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 162",
     "ram": "384 MB",
     "storage": "8 GB Pool",
     "ip": "192.168.64.162",
@@ -1057,7 +1057,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "search-engine.homelab.local",
     "status": "ONLINE",
     "description": "Powers ultra-fast, typo-tolerant full-text search indexing for internal knowledge bases and custom applications.",
-    "descriptionRo": "Motor de căutare ultra-rapid cu toleranță la greșeli de tastare, folosit ca backend de indexare pentru Paperless-ngx.",
+    "descriptionRo": "Motor de c\u0103utare ultra-rapid cu toleran\u021b\u0103 la gre\u0219eli de tastare, folosit ca backend de indexare pentru Paperless-ngx.",
     "tags": [
       "Search Engine",
       "Full-Text Index",
@@ -1073,7 +1073,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Vector Telemetry Pipeline",
     "category": "monitoring",
     "containerName": "vector",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 163",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 163",
     "ram": "128 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.163",
@@ -1081,7 +1081,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "vector.homelab.local",
     "status": "ONLINE",
     "description": "Collects, transforms, and routes system logs and performance metrics from all nodes to centralized storage backends in real time.",
-    "descriptionRo": "Colector și procesator de date de observabilitate de înaltă performanță pentru rutarea logurilor către Loki și SIEM.",
+    "descriptionRo": "Colector \u0219i procesator de date de observabilitate de \u00eenalt\u0103 performan\u021b\u0103 pentru rutarea logurilor c\u0103tre Loki \u0219i SIEM.",
     "tags": [
       "Log Pipeline",
       "Telemetry Collector",
@@ -1097,7 +1097,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "SearXNG Privacy Metasearch",
     "category": "core",
     "containerName": "searxng",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 164",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 164",
     "ram": "256 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.164",
@@ -1105,7 +1105,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "search.homelab.local",
     "status": "ONLINE",
     "description": "Aggregates search results from over 70 search engines while stripping away user tracking scripts and targeted advertising.",
-    "descriptionRo": "Motor de căutare meta privat ce agregă rezultate din multiple surse fără a urmări sau salva căutările utilizatorilor.",
+    "descriptionRo": "Motor de c\u0103utare meta privat ce agreg\u0103 rezultate din multiple surse f\u0103r\u0103 a urm\u0103ri sau salva c\u0103ut\u0103rile utilizatorilor.",
     "tags": [
       "Metasearch",
       "Privacy Search",
@@ -1121,7 +1121,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "NetAlertX Network Sensor",
     "category": "security",
     "containerName": "netalertx",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 165",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 165",
     "ram": "128 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.165",
@@ -1129,7 +1129,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "netalert.homelab.local",
     "status": "ONLINE",
     "description": "Scans local network segments continuously to identify new devices, detect unauthorized connections, and trigger instant security alerts.",
-    "descriptionRo": "Scaner de securitate de rețea ce detectează dispozitive noi, modificări de adrese MAC și porturi deschise neautorizate.",
+    "descriptionRo": "Scaner de securitate de re\u021bea ce detecteaz\u0103 dispozitive noi, modific\u0103ri de adrese MAC \u0219i porturi deschise neautorizate.",
     "tags": [
       "Intruder Detection",
       "Network Scanner",
@@ -1145,7 +1145,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "RustDesk Remote Relay",
     "category": "core",
     "containerName": "rustdesk-server",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 166",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 166",
     "ram": "128 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.166",
@@ -1153,7 +1153,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "remote.homelab.local",
     "status": "ONLINE",
     "description": "Maintains an end-to-end encrypted remote desktop relay and rendezvous server for secure workstation support and maintenance.",
-    "descriptionRo": "Server privat de acces la distanță și control desktop la distanță, o alternativă deschisă și securizată la TeamViewer.",
+    "descriptionRo": "Server privat de acces la distan\u021b\u0103 \u0219i control desktop la distan\u021b\u0103, o alternativ\u0103 deschis\u0103 \u0219i securizat\u0103 la TeamViewer.",
     "tags": [
       "Remote Desktop",
       "Encrypted Relay",
@@ -1177,7 +1177,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "dash.homelab.local",
     "status": "ONLINE",
     "description": "Serves as the main command dashboard, displaying real-time service indicators, weather metrics, and quick navigation links.",
-    "descriptionRo": "Tablou de bord curat și rapid pentru homelab integrat cu API-urile containerelor Docker și Proxmox.",
+    "descriptionRo": "Tablou de bord curat \u0219i rapid pentru homelab integrat cu API-urile containerelor Docker \u0219i Proxmox.",
     "tags": [
       "Startpage",
       "Dashboard Portal",
@@ -1201,7 +1201,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "status-go.homelab.local",
     "status": "ONLINE",
     "description": "Continuously validates HTTP endpoints, DNS lookups, and TCP response latencies with a lightweight Go-based status dashboard.",
-    "descriptionRo": "Tablou de bord automat pentru verificarea stării de sănătate a endpoint-urilor HTTP, ICMP, TCP și a certificatelor TLS.",
+    "descriptionRo": "Tablou de bord automat pentru verificarea st\u0103rii de s\u0103n\u0103tate a endpoint-urilor HTTP, ICMP, TCP \u0219i a certificatelor TLS.",
     "tags": [
       "Health Prober",
       "Endpoint Monitoring",
@@ -1225,7 +1225,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "ntfy.homelab.local",
     "status": "ONLINE",
     "description": "Relays instant push notifications from backup scripts, security sensors, and CI/CD pipelines directly to mobile devices via HTTP.",
-    "descriptionRo": "Serviciu privat de trimitere a notificărilor push pe telefon și desktop prin cereri simple HTTP/HTTPS.",
+    "descriptionRo": "Serviciu privat de trimitere a notific\u0103rilor push pe telefon \u0219i desktop prin cereri simple HTTP/HTTPS.",
     "tags": [
       "Push Notifications",
       "Mobile Alerts",
@@ -1249,7 +1249,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "links.homelab.local",
     "status": "ONLINE",
     "description": "Organizes technical bookmarks and web research with automatic title fetching, tags, and archived web page snapshots.",
-    "descriptionRo": "Manager minimalist de marcaje web optimizat pentru viteză și simplitate în utilizare.",
+    "descriptionRo": "Manager minimalist de marcaje web optimizat pentru vitez\u0103 \u0219i simplitate \u00een utilizare.",
     "tags": [
       "Bookmark Manager",
       "Web Archiving",
@@ -1273,7 +1273,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "ca.homelab.local",
     "status": "ONLINE",
     "description": "Functions as an internal automated certificate authority (CA), issuing local TLS certificates via the ACME protocol.",
-    "descriptionRo": "Autoritate de certificare privată internă (PKI) ce emite automat certificate TLS X.509 prin protocoalele ACME și SCEP.",
+    "descriptionRo": "Autoritate de certificare privat\u0103 intern\u0103 (PKI) ce emite automat certificate TLS X.509 prin protocoalele ACME \u0219i SCEP.",
     "tags": [
       "Certificate Authority",
       "ACME TLS",
@@ -1297,7 +1297,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "beszel.homelab.local",
     "status": "ONLINE",
     "description": "Aggregates real-time CPU, memory, network, and disk performance metrics harvested by lightweight agents across the cluster.",
-    "descriptionRo": "Monitorizare ultra-ușoară a resurselor hardware (CPU, RAM, Discuri, Rețea) cu agenți nativi pe toate nodurile din cluster.",
+    "descriptionRo": "Monitorizare ultra-u\u0219oar\u0103 a resurselor hardware (CPU, RAM, Discuri, Re\u021bea) cu agen\u021bi nativi pe toate nodurile din cluster.",
     "tags": [
       "System Telemetry",
       "1s Resolution",
@@ -1344,7 +1344,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "memos.homelab.local",
     "status": "ONLINE",
     "description": "Provides an instant, privacy-focused microblogging platform for capturing fleeting thoughts and Markdown notes with tag filtering.",
-    "descriptionRo": "Platformă simplă și rapidă de notițe scurte și jurnal de bord, cu suport pentru taguri și formatare Markdown.",
+    "descriptionRo": "Platform\u0103 simpl\u0103 \u0219i rapid\u0103 de noti\u021be scurte \u0219i jurnal de bord, cu suport pentru taguri \u0219i formatare Markdown.",
     "tags": [
       "Micro-Notes",
       "Markdown Journal",
@@ -1368,7 +1368,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "wallos.homelab.local",
     "status": "ONLINE",
     "description": "Tracks recurring monthly subscriptions, hardware amortizations, and household service bills in a secure personal finance ledger.",
-    "descriptionRo": "Platformă intuitivă de urmărire a abonamentelor lunare și anuale cu rapoarte financiare și notificări înainte de reînnoire.",
+    "descriptionRo": "Platform\u0103 intuitiv\u0103 de urm\u0103rire a abonamentelor lunare \u0219i anuale cu rapoarte financiare \u0219i notific\u0103ri \u00eenainte de re\u00eennoire.",
     "tags": [
       "Subscription Tracker",
       "Personal Finance",
@@ -1392,7 +1392,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "sync.homelab.local",
     "status": "ONLINE",
     "description": "Synchronizes folders and configuration files across workstations and mobile devices continuously using peer-to-peer encryption.",
-    "descriptionRo": "Sincronizare continuă și descentralizată de fișiere peer-to-peer (P2P) între nodurile clusterului și dispozitivele mobile.",
+    "descriptionRo": "Sincronizare continu\u0103 \u0219i descentralizat\u0103 de fi\u0219iere peer-to-peer (P2P) \u00eentre nodurile clusterului \u0219i dispozitivele mobile.",
     "tags": [
       "P2P Sync",
       "Decentralized",
@@ -1416,7 +1416,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "paste.homelab.local",
     "status": "ONLINE",
     "description": "Stores encrypted code snippets and configuration files with automatic self-destruction, burn-after-reading, and QR code sharing.",
-    "descriptionRo": "Serviciu securizat și ultra-ușor de partajare securizată a fragmentelor de text (pastebin) și a fișierelor criptate.",
+    "descriptionRo": "Serviciu securizat \u0219i ultra-u\u0219or de partajare securizat\u0103 a fragmentelor de text (pastebin) \u0219i a fi\u0219ierelor criptate.",
     "tags": [
       "Encrypted Pastebin",
       "Self-Destruct",
@@ -1440,7 +1440,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "tasks.homelab.local",
     "status": "ONLINE",
     "description": "Manages project roadmaps, Kanban task boards, and team deadlines with full CalDAV synchronization and subtask delegation.",
-    "descriptionRo": "Manager complet de sarcini și proiecte (To-Do) cu vizualizări Kanban, liste, tabele și diagrame Gantt.",
+    "descriptionRo": "Manager complet de sarcini \u0219i proiecte (To-Do) cu vizualiz\u0103ri Kanban, liste, tabele \u0219i diagrame Gantt.",
     "tags": [
       "Task Manager",
       "Kanban Board",
@@ -1464,7 +1464,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "blackbox.homelab.local",
     "status": "ONLINE",
     "description": "Probes internal and external endpoints via ICMP ping, HTTP status codes, and TLS certificate expiry to feed Prometheus alerts.",
-    "descriptionRo": "Colector de probe externe pentru Prometheus ce monitorizează latența DNS, conexiunile TCP, certificatele SSL/TLS și endpoint-urile HTTP.",
+    "descriptionRo": "Colector de probe externe pentru Prometheus ce monitorizeaz\u0103 laten\u021ba DNS, conexiunile TCP, certificatele SSL/TLS \u0219i endpoint-urile HTTP.",
     "tags": [
       "Blackbox Prober",
       "ICMP & HTTP",
@@ -1488,7 +1488,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "spotify.homelab.local",
     "status": "ONLINE",
     "description": "Records continuous music streaming history from Spotify into a private database to generate interactive listening trends and genre charts.",
-    "descriptionRo": "Platformă self-hosted de analiză a istoricului de ascultare de pe Spotify cu statistici detaliate și grafice.",
+    "descriptionRo": "Platform\u0103 self-hosted de analiz\u0103 a istoricului de ascultare de pe Spotify cu statistici detaliate \u0219i grafice.",
     "tags": [
       "Music Analytics",
       "Spotify Data",
@@ -1535,7 +1535,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "gist.homelab.local",
     "status": "ONLINE",
     "description": "Stores and shares syntax-highlighted code snippets and terminal outputs with Git version control and secret visibility options.",
-    "descriptionRo": "Serviciu privat de partajare a fragmentelor de cod (Gist) bazat pe Git cu evidențiere avansată a sintaxei.",
+    "descriptionRo": "Serviciu privat de partajare a fragmentelor de cod (Gist) bazat pe Git cu eviden\u021biere avansat\u0103 a sintaxei.",
     "tags": [
       "Code Gists",
       "Syntax Highlight",
@@ -1559,7 +1559,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "flatnotes.homelab.local",
     "status": "ONLINE",
     "description": "Edits and searches plain Markdown files directly on the filesystem without requiring database dependencies or proprietary formats.",
-    "descriptionRo": "Editor curat și minimalist de notițe Markdown salvate direct în fișiere text pe disc, fără baze de date.",
+    "descriptionRo": "Editor curat \u0219i minimalist de noti\u021be Markdown salvate direct \u00een fi\u0219iere text pe disc, f\u0103r\u0103 baze de date.",
     "tags": [
       "Flat-File Notes",
       "Plain Markdown",
@@ -1606,7 +1606,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "shiori.homelab.local",
     "status": "ONLINE",
     "description": "Saves clean, readable offline copies of articles and web pages in an organized library written in lightweight Go.",
-    "descriptionRo": "Manager simplu și rapid de marcaje web (bookmarks) cu salvare a textului paginii pentru citire offline.",
+    "descriptionRo": "Manager simplu \u0219i rapid de marcaje web (bookmarks) cu salvare a textului paginii pentru citire offline.",
     "tags": [
       "Web Archiver",
       "Read-Later",
@@ -1630,7 +1630,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "whoogle.homelab.local",
     "status": "ONLINE",
     "description": "Proxies Google search queries anonymously to return standard web results while eliminating advertisements and fingerprinting cookies.",
-    "descriptionRo": "Interfață curată pentru căutări Google fără reclame, tracking sau colectare de date personale.",
+    "descriptionRo": "Interfa\u021b\u0103 curat\u0103 pentru c\u0103ut\u0103ri Google f\u0103r\u0103 reclame, tracking sau colectare de date personale.",
     "tags": [
       "Private Search",
       "Google Proxy",
@@ -1654,7 +1654,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "start.homelab.local",
     "status": "ONLINE",
     "description": "Offers an ultra-minimalist browser homepage for accessing internal service URLs with integrated weather and Docker status widgets.",
-    "descriptionRo": "Tablou de bord de start (startpage) cu scurtături către toate serviciile homelab-ului și integrare de căutare.",
+    "descriptionRo": "Tablou de bord de start (startpage) cu scurt\u0103turi c\u0103tre toate serviciile homelab-ului \u0219i integrare de c\u0103utare.",
     "tags": [
       "Browser Startpage",
       "Fast Launcher",
@@ -1678,7 +1678,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "wazuh.homelab.local",
     "status": "ONLINE",
     "description": "Collects security telemetry across all endpoints to perform real-time log analysis, file integrity monitoring (FIM), and automated threat containment.",
-    "descriptionRo": "Platformă unificată XDR & SIEM pentru monitorizarea securității endpoint-urilor, detectarea amenințărilor și conformitate.",
+    "descriptionRo": "Platform\u0103 unificat\u0103 XDR & SIEM pentru monitorizarea securit\u0103\u021bii endpoint-urilor, detectarea amenin\u021b\u0103rilor \u0219i conformitate.",
     "tags": [
       "SIEM / XDR",
       "Threat Detection",
@@ -1693,16 +1693,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "id": "tpot-honeypot",
     "name": "T-Pot Multi-Honeypot DMZ",
     "category": "cyber",
-    "containerName": "tpot-orchestrator",
-    "node": "DMZ VLAN 40 Dedicated VM",
+    "containerName": "tpot-platform-vm207",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 207",
     "ram": "3,072 MB",
     "storage": "40 GB NVMe",
-    "ip": "192.168.40.20",
+    "ip": "192.168.1.207",
     "port": 64297,
     "domain": "tpot.homelab.local",
     "status": "ONLINE",
     "description": "Deploys deception honeypots including Cowrie, Dionaea, and Honeytrap to trap adversary exploits and feed real-time attack data to the SOC.",
-    "descriptionRo": "Cluster modular multi-honeypot (Cowrie SSH, Dionaea, RDP) amplasat în DMZ pentru atragerea și analiza atacatorilor.",
+    "descriptionRo": "Cluster modular multi-honeypot (Cowrie SSH, Dionaea, RDP) amplasat \u00een DMZ pentru atragerea \u0219i analiza atacatorilor.",
     "tags": [
       "Honeynet DMZ",
       "Threat Deception",
@@ -1711,14 +1711,14 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#ef4444",
     "icon": "tpot",
-    "composeCode": "# T-Pot CE Multi-Honeypot Platform with Cowrie, Dionaea & Elastic Stack"
+    "composeCode": "# T-Pot Multi-Honeypot Decoy Engine (VM 207)\n# Web Command Center: https://192.168.1.207:64297\n# Monitored: SSH, Telnet, SMB, RDP, HTTP, SCADA"
   },
   {
     "id": "cyberchef",
     "name": "CyberChef Swiss Army Knife",
     "category": "cyber",
     "containerName": "cyberchef",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 155",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 155",
     "ram": "64 MB",
     "storage": "2 GB Pool",
     "ip": "192.168.64.155",
@@ -1726,7 +1726,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "cyberchef.homelab.local",
     "status": "ONLINE",
     "description": "Performs complex cryptographic operations, data format decodings, regex extractions, and binary malware deobfuscations directly in the browser.",
-    "descriptionRo": "Aplicație web completă pentru analiză cibernetică, decodare criptografică, conversie hex și deobfuscare de payload-uri.",
+    "descriptionRo": "Aplica\u021bie web complet\u0103 pentru analiz\u0103 cibernetic\u0103, decodare criptografic\u0103, conversie hex \u0219i deobfuscare de payload-uri.",
     "tags": [
       "Crypto Analysis",
       "Data Deobfuscation",
@@ -1750,7 +1750,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "cape.homelab.local",
     "status": "ONLINE",
     "description": "Executes suspicious binaries inside an air-gapped virtual machine with memory dumping and network simulation to analyze malware behavior.",
-    "descriptionRo": "Mediu izolat de criminalistică digitală și analiză dinamică a mostrelor malware (CAPEv2 / Cuckoo Sandbox).",
+    "descriptionRo": "Mediu izolat de criminalistic\u0103 digital\u0103 \u0219i analiz\u0103 dinamic\u0103 a mostrelor malware (CAPEv2 / Cuckoo Sandbox).",
     "tags": [
       "Malware Sandbox",
       "Dynamic Analysis",
@@ -1785,80 +1785,11 @@ export const SERVICES_DATA: ServiceItem[] = [
     "composeCode": "# QEMU KVM Virtual Machine: Red Hat Enterprise Linux 9.4 (SELinux Enforcing, Podman, Enterprise Stack)"
   },
   {
-    "id": "vm-freebsd",
-    "name": "FreeBSD 14 ZFS & BSD Lab",
-    "category": "storage",
-    "containerName": "freebsd-storage",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 203",
-    "ram": "1,536 MB",
-    "storage": "25 GB NVMe",
-    "ip": "192.168.1.203",
-    "port": 22,
-    "domain": "freebsd.homelab.local",
-    "status": "ONLINE",
-    "description": "Serves as a dedicated Unix testing ground leveraging native OpenZFS storage pools, lightweight FreeBSD Jails isolation, and bhyve virtualization.",
-    "tags": [
-      "FreeBSD 14",
-      "OpenZFS Native",
-      "BSD Jails",
-      "Unix Kernel"
-    ],
-    "color": "#ab0f2a",
-    "icon": "freebsd",
-    "composeCode": "# QEMU KVM Virtual Machine: FreeBSD 14.1-RELEASE (OpenZFS Native Pool, Jails, PF Packet Filter)"
-  },
-  {
-    "id": "vm-openbsd",
-    "name": "OpenBSD 7.5 Hardened Bastion",
-    "category": "security",
-    "containerName": "openbsd-bastion",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 204",
-    "ram": "1,536 MB",
-    "storage": "25 GB NVMe",
-    "ip": "192.168.1.204",
-    "port": 22,
-    "domain": "openbsd.homelab.local",
-    "status": "ONLINE",
-    "description": "Operates as an ultra-hardened jump bastion utilizing Packet Filter (PF) rules and pledge/unveil kernel sandboxing for administrative access.",
-    "tags": [
-      "Hardened Bastion",
-      "OpenBSD PF",
-      "Memory Protection",
-      "Jump Host"
-    ],
-    "color": "#eab308",
-    "icon": "openbsd",
-    "composeCode": "# QEMU KVM Virtual Machine: OpenBSD 7.5 (Hardened Bastion, Packet Filter PF, unveil/pledge sandboxing)"
-  },
-  {
-    "id": "vm-talos",
-    "name": "Talos Linux 1.7 (Kubernetes)",
-    "category": "core",
-    "containerName": "talos-k8s-node",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 205",
-    "ram": "2,048 MB",
-    "storage": "32 GB NVMe",
-    "ip": "192.168.1.205",
-    "port": 6443,
-    "domain": "talos.homelab.local",
-    "status": "ONLINE",
-    "description": "Provides an immutable, minimalist operating system built exclusively to run Kubernetes via a secure gRPC declarative API without SSH access.",
-    "tags": [
-      "Talos Linux",
-      "Immutable OS",
-      "Kubernetes K8s",
-      "gRPC Declarative API"
-    ],
-    "color": "#3b82f6",
-    "icon": "kubernetes",
-    "composeCode": "# QEMU KVM Virtual Machine: Talos Linux 1.7 (Immutable API-Driven Kubernetes Node, containerd CRI, Cilium CNI)"
-  },
-  {
     "id": "proxmox-backup-server",
     "name": "Proxmox Backup Server (PBS)",
     "category": "storage",
     "containerName": "proxmox-backup-server",
-    "node": "Cluster Fleet · Node 1 (CT 112) & Node 3 (CT 146)",
+    "node": "Cluster Fleet \u00b7 Node 1 (CT 112) & Node 3 (CT 146)",
     "ram": "512 MB",
     "storage": "100 GB Backup Pool",
     "ip": "192.168.1.116",
@@ -1866,7 +1797,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "pbs.homelab.local",
     "status": "ONLINE",
     "description": "Backs up all virtual machines and containers incrementally with client-side AES encryption, chunk deduplication, and automated verification.",
-    "descriptionRo": "Server enterprise de backup dedicat pentru deduplicare globală, backup incremental și restaurare rapidă a VM-urilor.",
+    "descriptionRo": "Server enterprise de backup dedicat pentru deduplicare global\u0103, backup incremental \u0219i restaurare rapid\u0103 a VM-urilor.",
     "tags": [
       "Enterprise Backup",
       "Deduplication 2.84x",
@@ -1882,7 +1813,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Proxmox Datacenter Manager (PDM)",
     "category": "monitoring",
     "containerName": "proxmox-datacenter-manager",
-    "node": "Cluster Fleet · Node 1 (CT 113) & Node 3 (CT 147)",
+    "node": "Cluster Fleet \u00b7 Node 1 (CT 113) & Node 3 (CT 147)",
     "ram": "512 MB",
     "storage": "10 GB Pool",
     "ip": "192.168.1.117",
@@ -1900,12 +1831,12 @@ export const SERVICES_DATA: ServiceItem[] = [
     "icon": "proxmox",
     "composeCode": "services:\n  pdm:\n    image: alpine:latest\n    restart: unless-stopped\n    ports:\n      - \"8443:8443\""
   },
-    {
+  {
     "id": "vault",
     "name": "HashiCorp Vault / OpenBao",
     "category": "security",
     "containerName": "vault-secrets",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 105",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 105",
     "ram": "256 MB",
     "storage": "10 GB Pool",
     "ip": "192.168.64.106",
@@ -1913,7 +1844,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "vault.homelab.local",
     "status": "ONLINE",
     "description": "Provides centralized secret storage, dynamic database credentials, and automated secret injection for Terraform and Ansible without exposing environment variables.",
-    "descriptionRo": "Manager centralizat de secrete HashiCorp Vault / OpenBao pentru injectarea securizată a credențialelor și a token-urilor.",
+    "descriptionRo": "Manager centralizat de secrete HashiCorp Vault / OpenBao pentru injectarea securizat\u0103 a creden\u021bialelor \u0219i a token-urilor.",
     "tags": [
       "Secret Management",
       "OpenBao",
@@ -1929,7 +1860,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "RenovateBot GitOps Engine",
     "category": "automation",
     "containerName": "renovatebot",
-    "node": "Node 3 (Apple M1 ARM64) · CT 148",
+    "node": "Node 3 (Apple M1 ARM64) \u00b7 CT 148",
     "ram": "192 MB",
     "storage": "4 GB Pool",
     "ip": "192.168.64.148",
@@ -1937,7 +1868,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "renovate.homelab.local",
     "status": "ONLINE",
     "description": "Scans internal Gitea repositories continuously to detect outdated Docker container images and Terraform modules, automatically opening Pull Requests.",
-    "descriptionRo": "Motor GitOps autonom de actualizare a dependențelor din repo-urile Gitea ce creează automat Pull Requests pentru noi versiuni.",
+    "descriptionRo": "Motor GitOps autonom de actualizare a dependen\u021belor din repo-urile Gitea ce creeaz\u0103 automat Pull Requests pentru noi versiuni.",
     "tags": [
       "GitOps",
       "Dependency Scanner",
@@ -1984,7 +1915,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "mtls.homelab.local",
     "status": "ONLINE",
     "description": "Enforces strict cryptographic mutual TLS (mTLS) verification between ingress proxies and critical backend database and secret engines.",
-    "descriptionRo": "Server web modern și reverse proxy automatizat cu suport nativ pentru mTLS (Mutual TLS) și certificate interne Step-CA.",
+    "descriptionRo": "Server web modern \u0219i reverse proxy automatizat cu suport nativ pentru mTLS (Mutual TLS) \u0219i certificate interne Step-CA.",
     "tags": [
       "Mutual TLS",
       "mTLS",
@@ -2008,7 +1939,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "canary.homelab.local",
     "status": "ONLINE",
     "description": "Deploys deceptive decoy files across DMZ containers and storage shares that trigger immediate security alert webhooks upon unauthorized access.",
-    "descriptionRo": "Fișiere și credențiale capcană (honeytokens) plasate strategic pentru alertarea imediată la orice tentativă de intruziune.",
+    "descriptionRo": "Fi\u0219iere \u0219i creden\u021biale capcan\u0103 (honeytokens) plasate strategic pentru alertarea imediat\u0103 la orice tentativ\u0103 de intruziune.",
     "tags": [
       "Honeypot Decoys",
       "Canary Tokens",
@@ -2024,7 +1955,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "VS Code Server ARM64 Cloud IDE",
     "category": "automation",
     "containerName": "vscode-server-arm",
-    "node": "Node 3 (Apple Silicon ARM64) · CT 159",
+    "node": "Node 3 (Apple Silicon ARM64) \u00b7 CT 159",
     "ram": "512 MB",
     "storage": "8 GB NVMe",
     "ip": "192.168.64.159",
@@ -2032,7 +1963,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "domain": "vscode-arm.homelab.local",
     "status": "ONLINE",
     "description": "Secondary high-efficiency Visual Studio Code Server container hosted natively on Apple Silicon M1 ARM64 with ZRAM compression for rapid remote development.",
-    "descriptionRo": "Al doilea mediu de dezvoltare VS Code Server găzduit nativ ca container LXC pe Apple Silicon M1 ARM64 (CT 160), optimizat cu compresie ZRAM.",
+    "descriptionRo": "Al doilea mediu de dezvoltare VS Code Server g\u0103zduit nativ ca container LXC pe Apple Silicon M1 ARM64 (CT 160), optimizat cu compresie ZRAM.",
     "tags": [
       "VS Code Server",
       "Apple Silicon ARM64",
@@ -2049,15 +1980,15 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "macOS Monterey 12.7 (OpenCore KVM)",
     "category": "core",
     "containerName": "macos-monterey",
-    "node": "Node 1 (Intel i3-10100F) · VM 206",
-    "ram": "7,168 MB",
-    "storage": "64 GB NVMe",
-    "ip": "192.168.1.206",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 203",
+    "ram": "6,144 MB",
+    "storage": "120 GB NVMe",
+    "ip": "192.168.1.203",
     "port": 5900,
     "domain": "macos.homelab.local",
     "status": "ONLINE",
     "description": "Virtual macOS Monterey 12.7 instance booted via sanitized OpenCore EFI (/mac/EFI) on Proxmox VE KVM with AppleSMC for Xcode CI/CD build runner, Apple GUI testing, and native VNC screen sharing.",
-    "descriptionRo": "Instanță virtuală macOS Monterey 12.7 pornită prin bootloader OpenCore anonimizat (/mac/EFI) pe Proxmox VE KVM cu AppleSMC pentru runner build CI/CD Xcode, testare Apple și partajare ecran VNC.",
+    "descriptionRo": "Instan\u021b\u0103 virtual\u0103 macOS Monterey 12.7 pornit\u0103 prin bootloader OpenCore anonimizat (/mac/EFI) pe Proxmox VE KVM cu AppleSMC pentru runner build CI/CD Xcode, testare Apple \u0219i partajare ecran VNC.",
     "tags": [
       "macOS Monterey",
       "OpenCore EFI",
@@ -2067,74 +1998,22 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#a855f7",
     "icon": "apple",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 206)\n# Bootloader: OpenCore EFI (/mac/EFI) · SMBIOS: iMacPro1,1\n# OS: macOS Monterey 12.7 · Dynamic Ballooning: 2048 MB - 7168 MB\nargs: -device isa-applesmc,osk=\"...\" -smbios type=2\ncpu: Penryn,kvm=on,vendor=GenuineIntel,+invtsc,+hypervisor\ncores: 4\nsockets: 1\nmemory: 7168\nballoon: 2048\nboot: order=ide2;virtio0\nvirtio0: local-lvm:vm-206-disk-0,size=64G"
-  },
-  {
-    "id": "vm-openindiana",
-    "name": "OpenIndiana Hipster (illumos / Solaris)",
-    "category": "storage",
-    "containerName": "openindiana",
-    "node": "Node 1 (Intel i3-10100F) · VM 207",
-    "ram": "3,072 MB",
-    "storage": "50 GB NVMe",
-    "ip": "192.168.1.207",
-    "port": 22,
-    "domain": "openindiana.homelab.local",
-    "status": "ONLINE",
-    "description": "Enterprise illumos/Solaris operating system running on Proxmox VE KVM for reference ZFS storage pools, Solaris Zones container isolation, Crossbow virtual networking, and DTrace runtime introspection.",
-    "descriptionRo": "Sistem de operare enterprise derivat din Solaris/illumos rulat pe Proxmox VE KVM pentru pool-uri ZFS de referință, containere Solaris Zones, virtualizare rețea Crossbow și depanare dinamică DTrace.",
-    "tags": [
-      "OpenIndiana",
-      "illumos Kernel",
-      "Enterprise ZFS",
-      "Solaris Zones",
-      "DTrace",
-      "Crossbow VNIC"
-    ],
-    "color": "#0284c7",
-    "icon": "openindiana",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 207)\n# OS: OpenIndiana Hipster (illumos 5.11) · Dynamic Ballooning: 1536 MB - 3072 MB\ncores: 2\nmemory: 3072\nballoon: 1536\nostype: solaris\nscsi0: local-lvm:vm-207-disk-0,discard=on,size=50G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:07,bridge=vmbr0,firewall=1"
-  },
-  {
-    "id": "vm-netbsd",
-    "name": "NetBSD 10.0 (Clean Portable Unix)",
-    "category": "core",
-    "containerName": "netbsd",
-    "node": "Node 1 (Intel i3-10100F) · VM 208",
-    "ram": "512 MB",
-    "storage": "12 GB NVMe",
-    "ip": "192.168.1.208",
-    "port": 22,
-    "domain": "netbsd.homelab.local",
-    "status": "ONLINE",
-    "description": "Ultra-clean portable BSD operating system running on Proxmox VE KVM for Rump anykernel prototyping, componentized kernel development, and multi-platform pkgsrc software packaging.",
-    "descriptionRo": "Sistem de operare BSD ultra-portabil și curat arhitectural rulat pe Proxmox VE KVM pentru dezvoltare Rump kernel, micro-drivere izolate și management de pachete pkgsrc.",
-    "tags": [
-      "NetBSD 10",
-      "Rump Anykernel",
-      "pkgsrc",
-      "Portable Unix",
-      "Clean Kernel",
-      "VM 208"
-    ],
-    "color": "#f26722",
-    "icon": "netbsd",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 208)\n# OS: NetBSD 10.0 · Dynamic Ballooning: 256 MB - 512 MB\ncores: 2\nmemory: 512\nballoon: 256\nscsi0: local-lvm:vm-208-disk-0,discard=on,size=12G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:08,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 203)\n# Bootloader: OpenCore EFI (/mac/EFI) \u00b7 SMBIOS: iMacPro1,1\n# OS: macOS Monterey 12.7 \u00b7 Dynamic Ballooning: 2048 MB - 6144 MB\nargs: -device isa-applesmc,osk=\"...\" -smbios type=2\ncpu: Skylake-Client-v4,kvm=on,vendor=GenuineIntel,+invtsc,+hypervisor\ncores: 4\nsockets: 1\nmemory: 6144\nballoon: 2048\nboot: order=sata0;virtio0\nvirtio0: local-lvm:vm-203-disk-1,size=120G"
   },
   {
     "id": "vm-nixos",
     "name": "NixOS 24.11 (Minimal Declarative Linux)",
     "category": "automation",
     "containerName": "nixos",
-    "node": "Node 1 (Intel i3-10100F) · VM 209",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 204",
     "ram": "1,024 MB",
     "storage": "22 GB NVMe",
-    "ip": "192.168.1.209",
+    "ip": "192.168.1.204",
     "port": 22,
     "domain": "nixos.homelab.local",
     "status": "ONLINE",
     "description": "Purely functional minimal Linux distribution built on declarative configuration, Nix Flakes, hermetic builds, atomic upgrades, and instant rollback safety.",
-    "descriptionRo": "Distribuție Linux minimalistă pur funcțională și declarativă bazată pe Nix Flakes, build-uri hermetice reproductibile, actualizări atomice și rollback instantaneu.",
+    "descriptionRo": "Distribu\u021bie Linux minimalist\u0103 pur func\u021bional\u0103 \u0219i declarativ\u0103 bazat\u0103 pe Nix Flakes, build-uri hermetice reproductibile, actualiz\u0103ri atomice \u0219i rollback instantaneu.",
     "tags": [
       "NixOS 24.11",
       "Minimal Linux",
@@ -2142,39 +2021,13 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Declarative OS",
       "Atomic Rollback",
       "Immutable Linux",
-      "VM 209"
+      "VM 204"
     ],
     "color": "#5277c3",
     "icon": "nixos",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 209)\n# OS: NixOS 24.11 Minimal · Dynamic Ballooning: 512 MB - 1024 MB\ncores: 2\nmemory: 1024\nballoon: 512\nscsi0: local-lvm:vm-209-disk-0,discard=on,size=22G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:09,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 204)\n# OS: NixOS 24.11 Minimal \u00b7 Dynamic Ballooning: 512 MB - 1024 MB\ncores: 2\nmemory: 1024\nballoon: 512\nscsi0: local-lvm:vm-204-disk-0,discard=on,size=22G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:6B:4E:EC,bridge=vmbr0,firewall=1"
   },
   {
-    "id": "vm-dragonflybsd",
-    "name": "DragonFly BSD 6.4 (HAMMER2 Storage)",
-    "category": "storage",
-    "containerName": "dragonflybsd",
-    "node": "Node 1 (Intel i3-10100F) · VM 210",
-    "ram": "1,024 MB",
-    "storage": "15 GB NVMe",
-    "ip": "192.168.1.210",
-    "port": 22,
-    "domain": "dragonfly.homelab.local",
-    "status": "ONLINE",
-    "description": "Advanced hybrid microkernel BSD system featuring high-throughput lockless execution, native HAMMER2 cluster-aware journaling filesystem, and multi-core scalability.",
-    "descriptionRo": "Sistem avansat BSD cu microkernel hibrid optimizat pentru concurență fără blocaje (lockless), sistem de fișiere jurnalizat nativ HAMMER2 și scalabilitate masivă multi-core.",
-    "tags": [
-      "DragonFly BSD",
-      "HAMMER2 FS",
-      "Hybrid Microkernel",
-      "Lockless SMP",
-      "Storage Lab",
-      "VM 210"
-    ],
-    "color": "#a81c1c",
-    "icon": "dragonflybsd",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 210)\n# OS: DragonFly BSD 6.4 · Dynamic Ballooning: 512 MB - 1024 MB\ncores: 2\nmemory: 1024\nballoon: 512\nscsi0: local-lvm:vm-210-disk-0,discard=on,size=15G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:9E:02:10,bridge=vmbr0,firewall=1"
-  },
-{
     "id": "argocd",
     "name": "ArgoCD GitOps Continuous Delivery",
     "category": "automation",
@@ -2189,17 +2042,17 @@ export const SERVICES_DATA: ServiceItem[] = [
     "description": "Declarative GitOps continuous delivery engine synchronizing Kubernetes workloads across Node 1 x86_64 and Node 3 ARM64 directly from Git with self-healing and drift detection.",
     "descriptionRo": "Motor declarativ GitOps de livrare continu\u0103 ce sincronizeaz\u0103 sarcinile de lucru Kubernetes pe ambele noduri (Node 1 x64 \u0219i Node 3 ARM64) direct din Git cu auto-reparare \u0219i reconciliere automat\u0103.",
     "tags": [
-        "ArgoCD",
-        "GitOps",
-        "Kubernetes",
-        "Continuous Delivery",
-        "Declarative"
+      "ArgoCD",
+      "GitOps",
+      "Kubernetes",
+      "Continuous Delivery",
+      "Declarative"
     ],
     "color": "#ef4444",
     "icon": "automation",
     "composeCode": "# ArgoCD GitOps Engine running on Kubernetes Cluster\n# Web UI: https://argocd.homelab.local:8080\n# Sync source: github.com/stefanutc1/homelab"
-},
-{
+  },
+  {
     "id": "coredns",
     "name": "CoreDNS Cluster DNS & Service Discovery",
     "category": "core",
@@ -2214,17 +2067,17 @@ export const SERVICES_DATA: ServiceItem[] = [
     "description": "High-performance cluster DNS server and service discovery layer for Kubernetes, providing internal split-horizon naming and upstream forwarding to Pi-hole.",
     "descriptionRo": "Server DNS de cluster de \u00eenalt\u0103 performan\u021b\u0103 \u0219i strat de descoperire a serviciilor pentru Kubernetes, oferind rezolu\u021bie split-horizon \u0219i forward c\u0103tre Pi-hole.",
     "tags": [
-        "CoreDNS",
-        "DNS",
-        "Service Discovery",
-        "Kubernetes",
-        "Core"
+      "CoreDNS",
+      "DNS",
+      "Service Discovery",
+      "Kubernetes",
+      "Core"
     ],
     "color": "#0284c7",
     "icon": "network",
     "composeCode": "# CoreDNS running in kube-system namespace\n# Forwarding: homelab.local -> 192.168.1.4 (Pi-hole)"
-},
-{
+  },
+  {
     "id": "cilium",
     "name": "Cilium eBPF CNI & Network Security",
     "category": "security",
@@ -2239,18 +2092,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "description": "Next-generation eBPF-powered Kubernetes CNI replacing kube-proxy, enforcing Zero-Trust L3-L7 network security policies, and providing WireGuard node-to-node encryption and Hubble observability.",
     "descriptionRo": "Interfa\u021b\u0103 de re\u021bea Kubernetes (CNI) de ultim\u0103 genera\u021bie motorizat\u0103 de eBPF, ce \u00eenlocuie\u0219te kube-proxy, aplic\u0103 politici de securitate Zero-Trust L3-L7 \u0219i ofer\u0103 criptare WireGuard \u0219i observabilitate Hubble.",
     "tags": [
-        "Cilium",
-        "eBPF",
-        "CNI",
-        "WireGuard",
-        "Network Security",
-        "Hubble"
+      "Cilium",
+      "eBPF",
+      "CNI",
+      "WireGuard",
+      "Network Security",
+      "Hubble"
     ],
     "color": "#06b6d4",
     "icon": "security",
     "composeCode": "# Cilium eBPF CNI with native host routing\n# Transparent WireGuard encryption enabled\n# Hubble Telemetry UI: https://hubble.homelab.local"
-},
-{
+  },
+  {
     "id": "rook-ceph",
     "name": "Rook Ceph Cloud-Native Storage",
     "category": "storage",
@@ -2265,18 +2118,18 @@ export const SERVICES_DATA: ServiceItem[] = [
     "description": "Cloud-native storage orchestrator turning distributed NVMe and SATA disks into a resilient, self-healing Ceph cluster with replicated block (RBD), CephFS, and S3 object pools.",
     "descriptionRo": "Orchestrator de stocare cloud-native ce transform\u0103 discurile NVMe \u0219i SATA \u00eentr-un cluster distribuit Ceph auto-reparabil cu volume de bloc (RBD), CephFS \u0219i S3.",
     "tags": [
-        "Rook",
-        "Ceph",
-        "Distributed Storage",
-        "RBD",
-        "CephFS",
-        "StorageClass"
+      "Rook",
+      "Ceph",
+      "Distributed Storage",
+      "RBD",
+      "CephFS",
+      "StorageClass"
     ],
     "color": "#10b981",
     "icon": "storage",
     "composeCode": "# Rook Ceph Operator v1.15.2\n# Replicated Storage Pool (size 2)\n# Dynamic Persistent Volume Provisioner"
-},
-{
+  },
+  {
     "id": "twingate",
     "name": "Twingate Zero-Trust Remote Access",
     "category": "security",
@@ -2291,17 +2144,17 @@ export const SERVICES_DATA: ServiceItem[] = [
     "description": "Enterprise Zero-Trust Network Access (ZTNA) connector establishing encrypted peer-to-peer tunnels to internal Kubernetes services without exposing firewall ports.",
     "descriptionRo": "Conector Zero-Trust (ZTNA) ce stabile\u0219te tuneluri criptate peer-to-peer c\u0103tre serviciile interne din Kubernetes f\u0103r\u0103 a expune porturi publice \u00een firewall.",
     "tags": [
-        "Twingate",
-        "Zero Trust",
-        "ZTNA",
-        "Remote Access",
-        "Security"
+      "Twingate",
+      "Zero Trust",
+      "ZTNA",
+      "Remote Access",
+      "Security"
     ],
     "color": "#8b5cf6",
     "icon": "security",
     "composeCode": "# Twingate Connector running in twingate namespace\n# Encrypted P2P Zero-Trust Network Access"
-},
-{
+  },
+  {
     "id": "woodpecker-k0s",
     "name": "Woodpecker CI & k0s Kubernetes (x64)",
     "category": "automation",
@@ -2316,313 +2169,152 @@ export const SERVICES_DATA: ServiceItem[] = [
     "description": "High-performance containerized Woodpecker CI continuous integration server and runner running in an Alpine Linux LXC environment backed by k0s (zero-friction Kubernetes).",
     "descriptionRo": "Server \u0219i runner de integrare continu\u0103 Woodpecker CI ce ruleaz\u0103 \u00eentr-un container LXC Alpine Linux motorizat de k0s (distribu\u021bie minimalist\u0103 Kubernetes) pe Nodul 1 x64.",
     "tags": [
-        "Woodpecker CI",
-        "k0s",
-        "Alpine Linux",
-        "CI/CD",
-        "Automation",
-        "x86_64"
+      "Woodpecker CI",
+      "k0s",
+      "Alpine Linux",
+      "CI/CD",
+      "Automation",
+      "x86_64"
     ],
     "color": "#ec4899",
     "icon": "automation",
     "composeCode": "# Woodpecker CI Server & Runner in Alpine LXC CT 114\n# Engine: k0s Kubernetes Distribution\n# Endpoint: http://192.168.1.118:8000"
-},
-{
+  },
+  {
     "id": "openstack",
     "name": "OpenStack Enterprise Private Cloud",
     "category": "core",
     "containerName": "openstack-cloud",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 211",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 205",
     "ram": "4,096 MB (Balloon: 2,048 MB)",
     "storage": "32 GB NVMe Pool",
-    "ip": "192.168.1.211",
+    "ip": "192.168.1.205",
     "port": 80,
     "domain": "openstack.homelab.local",
     "status": "ONLINE",
     "description": "Full Infrastructure-as-a-Service (IaaS) cloud architecture providing Nova compute virtualization, Neutron SDN networks, Glance image services, Keystone IAM, and Horizon management dashboard.",
     "descriptionRo": "Platform\u0103 complet\u0103 de cloud privat IaaS ce ofer\u0103 calcul virtualizat Nova, re\u021belistic\u0103 software-defined Neutron, catalog de imagini Glance, autentificare Keystone \u0219i panoul de control web Horizon.",
     "tags": [
-        "OpenStack",
-        "IaaS",
-        "Cloud",
-        "Nova",
-        "Neutron",
-        "Keystone",
-        "Horizon"
+      "OpenStack",
+      "IaaS",
+      "Cloud",
+      "Nova",
+      "Neutron",
+      "Keystone",
+      "Horizon"
     ],
     "color": "#f43f5e",
     "icon": "compute",
-    "composeCode": "# OpenStack 2024.1 Caracal Cloud Controller\n# Web Horizon Dashboard: http://192.168.1.211:80\n# Identity Keystone v3: http://192.168.1.211:5000/v3"
-},
-{
+    "composeCode": "# OpenStack 2024.1 Caracal Cloud Controller (VM 205)\n# Web Horizon Dashboard: http://192.168.1.205:80\n# Identity Keystone v3: http://192.168.1.205:5000/v3"
+  },
+  {
     "id": "metasploitable2",
     "name": "Metasploitable 2 Vulnerable Target",
     "category": "cyber",
-    "containerName": "metasploitable2-vm212",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 212",
+    "containerName": "metasploitable2-vm206",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 206",
     "ram": "512 MB",
     "storage": "8 GB NVMe Pool",
-    "ip": "192.168.1.212",
+    "ip": "192.168.1.206",
     "port": 80,
     "domain": "metasploitable.homelab.local",
     "status": "ONLINE",
     "description": "Intentionally vulnerable Linux virtual machine configured for penetration testing, Metasploit Framework exploitation, red team exercises, and Suricata/Wazuh detection signature validation.",
     "descriptionRo": "Ma\u0219in\u0103 virtual\u0103 Linux vulnerabil\u0103 inten\u021bionat, configurat\u0103 pentru teste de penetrare, exploatare cu Metasploit Framework, exerci\u021bii red team \u0219i calibrarea detec\u021biilor Suricata \u0219i Wazuh SIEM.",
     "tags": [
-        "Metasploitable",
-        "Penetration Testing",
-        "Red Team",
-        "Cybersecurity",
-        "Vulnerability Lab",
-        "VM 212"
+      "Metasploitable",
+      "Penetration Testing",
+      "Red Team",
+      "Cybersecurity",
+      "Vulnerability Lab",
+      "VM 206"
     ],
     "color": "#dc2626",
     "icon": "security",
-    "composeCode": "# Metasploitable 2 (VM 212 \u00b7 QEMU KVM Target)\n# Vulnerable Stack: vsftpd, Apache, Samba, MySQL, PostgreSQL, Tomcat\n# IP: 192.168.1.212\n# Cores: 1 \u00b7 RAM: 512 MB \u00b7 Disk: 8 GB"
-},
-{
+    "composeCode": "# Metasploitable 2 (VM 206 \u00b7 QEMU KVM Target)\n# Vulnerable Stack: vsftpd, Apache, Samba, MySQL, PostgreSQL, Tomcat\n# IP: 192.168.1.206\n# Cores: 1 \u00b7 RAM: 512 MB \u00b7 Disk: 8 GB"
+  },
+  {
     "id": "tpot-honeypot",
     "name": "T-Pot Multi-Honeypot Decoy Platform",
     "category": "cyber",
-    "containerName": "tpot-platform-vm213",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 213",
+    "containerName": "tpot-platform-vm207",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 207",
     "ram": "8,192 MB (Balloon: 4,096 MB)",
     "storage": "60 GB NVMe Pool",
-    "ip": "192.168.1.213",
+    "ip": "192.168.1.207",
     "port": 64297,
     "domain": "tpot.homelab.local",
     "status": "ONLINE",
     "description": "Multi-honeypot decoy platform running 20+ specialized honeypot daemons (Cowrie, Dionaea, Conpot, Honeytrap, Heralding) with real-time attack visualization in Elasticsearch and Kibana.",
     "descriptionRo": "Platform\u0103 multi-honeypot cu peste 20 de servicii capcan\u0103 (Cowrie, Dionaea, Conpot, Honeytrap, Heralding) cu vizualizare \u00een timp real a atacurilor \u00een Elasticsearch \u0219i Kibana.",
     "tags": [
-        "T-Pot",
-        "Honeypot",
-        "Cybersecurity",
-        "Threat Intelligence",
-        "Elasticsearch",
-        "Kibana",
-        "VM 213"
+      "T-Pot",
+      "Honeypot",
+      "Cybersecurity",
+      "Threat Intelligence",
+      "Elasticsearch",
+      "Kibana",
+      "VM 207"
     ],
     "color": "#3b82f6",
     "icon": "security",
-    "composeCode": "# T-Pot Multi-Honeypot Decoy Engine (VM 213)\n# Web Command Center: https://192.168.1.213:64297\n# Monitored: SSH, Telnet, SMB, RDP, HTTP, SCADA"
-},
-{
-    "id": "haiku",
-    "name": "Haiku OS Modular Desktop",
-    "category": "core",
-    "containerName": "haiku-vm214",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 214",
-    "ram": "2,048 MB (Balloon: 1,024 MB)",
-    "storage": "20 GB NVMe Pool",
-    "ip": "192.168.1.214",
-    "port": 22,
-    "domain": "haiku.homelab.local",
-    "status": "ONLINE",
-    "description": "Open-source BeOS-inspired modular operating system featuring clean C++ object-oriented kits, pervasive multithreading, and the OpenBFS indexed filesystem.",
-    "descriptionRo": "Sistem de operare modular open-source inspirat de BeOS, oferind API-uri orientate pe obiecte \u00een C++, multithreading nativ \u0219i sistemul de fi\u0219iere indexat OpenBFS.",
-    "tags": [
-        "Haiku",
-        "BeOS",
-        "OpenBFS",
-        "Modular OS",
-        "C++ Architecture",
-        "VM 214"
-    ],
-    "color": "#84cc16",
-    "icon": "compute",
-    "composeCode": "# Haiku OS R1/beta5 on QEMU KVM (VM 214)\n# vCPU: 2 \u00b7 RAM: 2048 MB (Balloon: 1024 MB) \u00b7 Disk: 20 GB"
-},
-{
-    "id": "plan9",
-    "name": "Plan 9 from Bell Labs (9front)",
-    "category": "core",
-    "containerName": "plan9-vm215",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 215",
-    "ram": "512 MB",
-    "storage": "12 GB NVMe Pool",
-    "ip": "192.168.1.215",
-    "port": 564,
-    "domain": "plan9.homelab.local",
-    "status": "ONLINE",
-    "description": "Research operating system by Bell Labs featuring the 9P distributed network filesystem protocol, private per-process namespaces, and the minimalist Rio GUI.",
-    "descriptionRo": "Sistem de operare de cercetare creat de Bell Labs ce implementeaz\u0103 protocolul de re\u021bea distribuit 9P, namespace-uri private per-proces \u0219i interfa\u021ba minimalist\u0103 Rio.",
-    "tags": [
-        "Plan 9",
-        "Bell Labs",
-        "9P Protocol",
-        "Namespaces",
-        "Distributed Computing",
-        "VM 215"
-    ],
-    "color": "#eab308",
-    "icon": "compute",
-    "composeCode": "# Plan 9 from Bell Labs / 9front on QEMU KVM (VM 215)\n# 9P Protocol Server (:564) \u00b7 vCPU: 1 \u00b7 RAM: 512 MB \u00b7 Disk: 12 GB"
-},
-{
-    "id": "reactos",
-    "name": "ReactOS Windows NT Compatible Architecture",
-    "category": "core",
-    "containerName": "reactos-vm216",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 216",
-    "ram": "1,024 MB",
-    "storage": "32 GB NVMe Pool",
-    "ip": "192.168.1.216",
-    "port": 3389,
-    "domain": "reactos.homelab.local",
-    "status": "ONLINE",
-    "description": "Open-source clean-room implementation of the Windows NT kernel and Win32 subsystem, designed for binary compatibility with Windows applications and device drivers.",
-    "descriptionRo": "Implementare open-source clean-room a arhitecturii kernel-ului Windows NT \u0219i subsistemului Win32, oferind compatibilitate binar\u0103 pentru aplica\u021bii \u0219i drivere Windows.",
-    "tags": [
-        "ReactOS",
-        "Windows NT",
-        "Win32",
-        "Binary Compatibility",
-        "Open Source",
-        "VM 216"
-    ],
-    "color": "#a3e635",
-    "icon": "compute",
-    "composeCode": "# ReactOS 0.4.16 on QEMU KVM (VM 216)\n# Architecture: x86-64 / Win32 \u00b7 vCPU: 1 \u00b7 RAM: 1024 MB \u00b7 Disk: 32 GB"
-},
-{
+    "composeCode": "# T-Pot Multi-Honeypot Decoy Engine (VM 207)\n# Web Command Center: https://192.168.1.207:64297\n# Monitored: SSH, Telnet, SMB, RDP, HTTP, SCADA"
+  },
+  {
     "id": "securityonion",
     "name": "Security Onion SIEM & SOC Platform",
     "category": "cyber",
-    "containerName": "securityonion-vm217",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 217",
+    "containerName": "securityonion-vm208",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 208",
     "ram": "8,192 MB (Balloon: 4,096 MB)",
     "storage": "50 GB NVMe Pool",
-    "ip": "192.168.1.217",
+    "ip": "192.168.1.208",
     "port": 443,
     "domain": "securityonion.homelab.local",
     "status": "ONLINE",
     "description": "Enterprise Security Information & Event Management (SIEM), HIDS, log analysis, Zeek network telemetry, Suricata IDS/IPS, and centralized SOC investigation dashboards.",
     "descriptionRo": "Platform\u0103 Enterprise SIEM & SOC, HIDS, analiz\u0103 de loguri, telemetrie de re\u021bea Zeek, Suricata IDS/IPS \u0219i dashboard-uri centralizate de investigare pentru securitate cibernetic\u0103.",
     "tags": [
-        "Security Onion",
-        "Wazuh",
-        "SIEM",
-        "SOC",
-        "HIDS",
-        "Zeek",
-        "Suricata",
-        "Kibana",
-        "VM 217"
+      "Security Onion",
+      "Wazuh",
+      "SIEM",
+      "SOC",
+      "HIDS",
+      "Zeek",
+      "Suricata",
+      "Kibana",
+      "VM 208"
     ],
     "color": "#0ea5e9",
     "icon": "shield",
-    "composeCode": "# Security Onion 3.2 on QEMU KVM (VM 217)\n# vCPU: 4 \u00b7 RAM: 8192 MB (Balloon: 4096 MB) \u00b7 Disk: 50 GB \u00b7 Port: 443"
-},
-{
+    "composeCode": "# Security Onion 3.2 on QEMU KVM (VM 208)\n# vCPU: 4 \u00b7 RAM: 8192 MB (Balloon: 4096 MB) \u00b7 Disk: 50 GB \u00b7 Port: 443"
+  },
+  {
     "id": "remnux",
     "name": "REMnux Malware Analysis & DFIR Toolkit",
     "category": "cyber",
-    "containerName": "remnux-vm218",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 218",
+    "containerName": "remnux-vm209",
+    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 209",
     "ram": "4,096 MB (Balloon: 2,048 MB)",
     "storage": "40 GB NVMe Pool",
-    "ip": "192.168.1.218",
+    "ip": "192.168.1.209",
     "port": 22,
     "domain": "remnux.homelab.local",
     "status": "ONLINE",
     "description": "Dedicated Linux distribution for reverse engineering and analyzing malicious software, memory forensics, PDF/Office deobfuscation, and network threat investigation.",
     "descriptionRo": "Distribu\u021bie Linux dedicat\u0103 pentru reverse engineering \u0219i analiz\u0103 malware, investiga\u021bie criminalistic\u0103 a memoriei (DFIR), deobfuscare fi\u0219iere mali\u021bioase \u0219i decodare trafic de re\u021bea.",
     "tags": [
-        "REMnux",
-        "Malware Analysis",
-        "Reverse Engineering",
-        "DFIR",
-        "Ghidra",
-        "Volatility",
-        "CyberSecurity",
-        "VM 218"
+      "REMnux",
+      "Malware Analysis",
+      "Reverse Engineering",
+      "DFIR",
+      "Ghidra",
+      "Volatility",
+      "CyberSecurity",
+      "VM 209"
     ],
     "color": "#f43f5e",
     "icon": "shield",
-    "composeCode": "# REMnux Noble Appliance on QEMU KVM (VM 218)\n# vCPU: 2 \u00b7 RAM: 4096 MB (Balloon: 2048 MB) \u00b7 Disk: 40 GB \u00b7 SSH: :22"
-},
-{
-    "id": "redox",
-    "name": "Redox OS Rust Microkernel",
-    "category": "core",
-    "containerName": "redox-vm219",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 219",
-    "ram": "2,048 MB (Balloon: 1,024 MB)",
-    "storage": "10 GB NVMe Pool",
-    "ip": "192.168.1.219",
-    "port": 80,
-    "domain": "redox.homelab.local",
-    "status": "ONLINE",
-    "description": "Full-featured, general-purpose microkernel operating system written from scratch in Rust. Implements RedoxFS, memory-safe drivers in user space, and Unix-compatible POSIX APIs.",
-    "descriptionRo": "Sistem de operare microkernel de uz general scris complet \u00een Rust. Implementeaz\u0103 RedoxFS, drivere sigure \u00een spa\u021biul utilizator \u0219i API-uri POSIX compatibile Unix.",
-    "tags": [
-        "Redox OS",
-        "Rust",
-        "Microkernel",
-        "RedoxFS",
-        "Plan 9 Inspired",
-        "Memory Safety",
-        "VM 219"
-    ],
-    "color": "#06b6d4",
-    "icon": "compute",
-    "composeCode": "# Redox OS 0.9.0 on QEMU KVM (VM 219)\n# Microkernel written in Rust \u00b7 vCPU: 2 \u00b7 RAM: 2048 MB (Balloon: 1024 MB) \u00b7 Disk: 10 GB"
-},
-{
-    "id": "freedos",
-    "name": "FreeDOS 1.3 Legacy & 16-Bit Assembly Lab",
-    "category": "core",
-    "containerName": "freedos-vm220",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 220",
-    "ram": "512 MB (Balloon: 256 MB)",
-    "storage": "2 GB IDE Pool",
-    "ip": "192.168.1.220",
-    "port": 23,
-    "domain": "freedos.homelab.local",
-    "status": "ONLINE",
-    "description": "Open-source DOS-compatible environment for 16-bit real-mode x86 Assembly development, legacy industrial control software execution, and IBM PC architecture research.",
-    "descriptionRo": "Mediu compatibil DOS open-source pentru dezvoltare x86 Assembly pe 16-bi\u021bi \u00een mod real, rulare software industrial legacy \u0219i studiu al arhitecturii PC.",
-    "tags": [
-        "FreeDOS",
-        "DOS",
-        "x86 Assembly",
-        "16-bit",
-        "Real Mode",
-        "Legacy Systems",
-        "VM 220"
-    ],
-    "color": "#84cc16",
-    "icon": "compute",
-    "composeCode": "# FreeDOS 1.3 on QEMU KVM (VM 220)\n# 16-bit Real Mode \u00b7 vCPU: 1 \u00b7 RAM: 512 MB (Balloon: 256 MB) \u00b7 Disk: 2 GB IDE"
-},
-{
-    "id": "fortigate",
-    "name": "FortiGate-VM Enterprise Defense-in-Depth Core",
-    "category": "security",
-    "containerName": "fortigate-vm221",
-    "node": "Node 1 (Intel i3-10100F) \u00b7 VM 221",
-    "ram": "2,048 MB Dedicated",
-    "storage": "10 GB local-lvm",
-    "ip": "192.168.1.136",
-    "port": 8443,
-    "domain": "fortigate.homelab.local",
-    "status": "ONLINE",
-    "description": "Enterprise Next-Generation Firewall (NGFW) running FortiOS 7.4. Interconnected with OPNsense via 10.10.20.0/30 transit link on vmbr2, providing deep packet inspection (DPI), ZTNA, and microsegmentation for DMZ and Trusted Core.",
-    "descriptionRo": "Firewall enterprise Next-Generation (NGFW) cu FortiOS 7.4. Interconectat cu OPNsense prin link de tranzit 10.10.20.0/30 pe vmbr2, asigurând inspecție profundă de pachete (DPI), ZTNA și microsegmentare pentru DMZ și Trusted Core.",
-    "tags": [
-        "Fortinet",
-        "FortiGate",
-        "FortiOS",
-        "NGFW",
-        "DPI",
-        "ZTNA",
-        "BGP",
-        "Enterprise Security",
-        "VM 221"
-    ],
-    "color": "#ef4444",
-    "icon": "shield",
-    "composeCode": "# FortiGate-VM64-KVM on QEMU KVM (VM 221)\n# FortiOS 7.4 \u00b7 vCPU: 2 \u00b7 RAM: 2048 MB \u00b7 Disk: 10 GB \u00b7 Transit: 10.10.20.2/30 (vmbr2)"
-}
+    "composeCode": "# REMnux Noble Appliance on QEMU KVM (VM 209)\n# vCPU: 2 \u00b7 RAM: 4096 MB (Balloon: 2048 MB) \u00b7 Disk: 40 GB \u00b7 SSH: :22"
+  }
 ];

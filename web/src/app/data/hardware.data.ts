@@ -61,10 +61,10 @@ export const HARDWARE_NODES: HardwareNode[] = [
         vmid: 201, 
         name: 'windows', 
         os: 'Windows Server 2025 Datacenter', 
-        allocatedMb: 7168, 
+        allocatedMb: 8192, 
         balloonMinMb: 4096, 
-        purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4096 MB - 7168 MB)',
-        purposeRo: 'Active Directory DS, GPO & GPU Passthrough GTX 1050 Ti (Balonare: 4096 MB - 7168 MB)'
+        purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4096 MB - 8192 MB)',
+        purposeRo: 'Active Directory DS, GPO & GPU Passthrough GTX 1050 Ti (Balonare: 4096 MB - 8192 MB)'
       },
       { 
         vmid: 202, 
@@ -77,60 +77,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
       },
       { 
         vmid: 203, 
-        name: 'freebsd', 
-        os: 'FreeBSD 15.1-RELEASE', 
-        allocatedMb: 1024, 
-        balloonMinMb: 512, 
-        purpose: 'OpenZFS Storage Pool & BSD Jails Lab (Ballooning: 512 MB - 1 GB)',
-        purposeRo: 'Pool Stocare OpenZFS & Laborator BSD Jails (Balonare: 512 MB - 1 GB)'
+        name: 'macos', 
+        os: 'macOS Monterey 12.7', 
+        allocatedMb: 6144, 
+        balloonMinMb: 2048, 
+        purpose: 'OpenCore KVM Hackintosh (Sanitized bootloader in /mac/EFI), Xcode CI/CD Build Runner & Apple GUI Testing (Ballooning: 2 GB - 6 GB)',
+        purposeRo: 'OpenCore KVM Hackintosh (Bootloader anonimizat în /mac/EFI), Runner Build CI/CD Xcode & Mediu Testare Apple (Balonare: 2 GB - 6 GB)'
       },
       { 
         vmid: 204, 
-        name: 'openbsd', 
-        os: 'OpenBSD 7.9 Bastion', 
-        allocatedMb: 1024, 
-        balloonMinMb: 512, 
-        purpose: 'Hardened Jump Host, Packet Filter PF & unveil/pledge (Ballooning: 512 MB - 1 GB)',
-        purposeRo: 'Jump Host Bastion Securizat, Packet Filter PF & unveil/pledge (Balonare: 512 MB - 1 GB)'
-      },
-      { 
-        vmid: 205, 
-        name: 'talos', 
-        os: 'Talos Linux 1.7', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
-        purpose: 'Immutable API-Driven Kubernetes Node & Cilium CNI (Ballooning: 1 GB - 2 GB)',
-        purposeRo: 'Nod Kubernetes Imutabil Gestionat prin API & Cilium CNI (Balonare: 1 GB - 2 GB)'
-      },
-      { 
-        vmid: 206, 
-        name: 'macos', 
-        os: 'macOS Monterey 12.7', 
-        allocatedMb: 7168, 
-        balloonMinMb: 2048, 
-        purpose: 'OpenCore KVM Hackintosh (Sanitized bootloader in /mac/EFI), Xcode CI/CD Build Runner & Apple GUI Testing (Ballooning: 2 GB - 7 GB)',
-        purposeRo: 'OpenCore KVM Hackintosh (Bootloader anonimizat în /mac/EFI), Runner Build CI/CD Xcode & Mediu Testare Apple (Balonare: 2 GB - 7 GB)'
-      },
-      { 
-        vmid: 207, 
-        name: 'openindiana', 
-        os: 'OpenIndiana Hipster 2024.10', 
-        allocatedMb: 3072, 
-        balloonMinMb: 1536, 
-        purpose: 'illumos/Solaris Kernel, Reference Enterprise ZFS, Solaris Zones & DTrace (Ballooning: 1.5 GB - 3 GB)',
-        purposeRo: 'Kernel illumos/Solaris, Pool-uri Enterprise ZFS de Referință, Zone Solaris & DTrace (Balonare: 1.5 GB - 3 GB)'
-      },
-      { 
-        vmid: 208, 
-        name: 'netbsd', 
-        os: 'NetBSD 10.0', 
-        allocatedMb: 512, 
-        balloonMinMb: 256, 
-        purpose: 'Clean Portable Unix Architecture, Rump Anykernel Prototyping & pkgsrc (Ballooning: 256 MB - 512 MB)',
-        purposeRo: 'Arhitectură Unix Ultra-Portabilă, Prototipare Rump Anykernel & pkgsrc (Balonare: 256 MB - 512 MB)'
-      },
-      { 
-        vmid: 209, 
         name: 'nixos', 
         os: 'NixOS 24.11 (Minimal)', 
         allocatedMb: 1024, 
@@ -139,16 +94,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Linux Declarativ Minimal, Build-uri Reproductibile prin Flakes & Laborator Rollback Atomic (Balonare: 512 MB - 1 GB)'
       },
       { 
-        vmid: 210, 
-        name: 'dragonflybsd', 
-        os: 'DragonFly BSD 6.4', 
-        allocatedMb: 1024, 
-        balloonMinMb: 512, 
-        purpose: 'HAMMER2 Storage Engine, Hybrid Microkernel & Lockless Multiprocessing (Ballooning: 512 MB - 1 GB)',
-        purposeRo: 'Motor de Stocare HAMMER2, Microkernel Hibrid & Procesare Concurentă Fără Blocaje (Balonare: 512 MB - 1 GB)'
-      },
-      { 
-        vmid: 211, 
+        vmid: 205, 
         name: 'openstack', 
         os: 'Ubuntu 24.04 LTS / Kolla OpenStack 2024.1', 
         allocatedMb: 4096, 
@@ -157,7 +103,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Controller Cloud Privat OpenStack Enterprise (Calcul Nova, Rețele Neutron, Keystone IAM, Panou Horizon)'
       },
       { 
-        vmid: 212, 
+        vmid: 206, 
         name: 'metasploitable2', 
         os: 'Metasploitable 2 (Ubuntu 8.04)', 
         allocatedMb: 512, 
@@ -166,7 +112,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Țintă Linux Vulnerabilă Intenționat, Teste de Penetrare & Calibrare IDS/IPS Suricata/Wazuh'
       },
       { 
-        vmid: 213, 
+        vmid: 207, 
         name: 'tpot-honeypot', 
         os: 'Debian 12 / T-Pot 24.04 Multi-Honeypot Decoy Platform', 
         allocatedMb: 8192, 
@@ -175,34 +121,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Platformă Multi-Honeypot Decoy Telekom Security (Cowrie, Dionaea, Elastic, Kibana, Suricata)'
       },
       { 
-        vmid: 214, 
-        name: 'haiku', 
-        os: 'Haiku OS R1/beta5', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
-        purpose: 'BeOS-Inspired Modular Operating System, C++ Object API & OpenBFS Indexed Filesystem',
-        purposeRo: 'Sistem de Operare Modular Inspirat de BeOS, API Obiectual C++ & Sistem de Fișiere OpenBFS'
-      },
-      { 
-        vmid: 215, 
-        name: 'plan9', 
-        os: 'Plan 9 from Bell Labs (9front)', 
-        allocatedMb: 512, 
-        balloonMinMb: 512, 
-        purpose: 'Research OS from Bell Labs, 9P Distributed Filesystem Protocol & Per-Process Namespaces',
-        purposeRo: 'Sistem de Operare de Cercetare Bell Labs, Protocol Distribuit 9P & Namespace-uri Per-Proces'
-      },
-      { 
-        vmid: 216, 
-        name: 'reactos', 
-        os: 'ReactOS 0.4.16', 
-        allocatedMb: 1024, 
-        balloonMinMb: 1024, 
-        purpose: 'Open-Source Windows NT Binary Compatibility Architecture & Win32 Native Subsystem',
-        purposeRo: 'Arhitectură Compatibilă Binar Windows NT Open-Source & Subsistem Nativ Win32'
-      },
-      { 
-        vmid: 217, 
+        vmid: 208, 
         name: 'securityonion', 
         os: 'Security Onion 3.2 / Wazuh SIEM Platform', 
         allocatedMb: 8192, 
@@ -211,74 +130,35 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Platformă Enterprise SIEM, HIDS, Analiză Loguri, Monitorizare Securitate Rețea (Zeek, Suricata, Elastic, Kibana)'
       },
       { 
-        vmid: 218, 
+        vmid: 209, 
         name: 'remnux', 
         os: 'REMnux v7 / Noble', 
         allocatedMb: 4096, 
         balloonMinMb: 2048, 
         purpose: 'Dedicated Linux Toolkit for Reverse Engineering, Malware Analysis & Digital Forensics (DFIR)',
         purposeRo: 'Toolkit Linux Dedicat pentru Reverse Engineering, Analiză Malware și Investigare Digitală (DFIR)'
-      },
-      { 
-        vmid: 219, 
-        name: 'redox', 
-        os: 'Redox OS 0.9.0', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
-        purpose: 'Microkernel Operating System Written in Rust, RedoxFS Architecture & Minix/Plan 9-Inspired Design',
-        purposeRo: 'Sistem de Operare Microkernel Scris în Rust, Arhitectură RedoxFS & Design Inspirat din Minix/Plan 9'
-      },
-      { 
-        vmid: 220, 
-        name: 'freedos', 
-        os: 'FreeDOS 1.3', 
-        allocatedMb: 512, 
-        balloonMinMb: 256, 
-        purpose: 'Open-Source DOS Environment for 16-bit Real Mode x86 Assembly & Legacy Computing Research',
-        purposeRo: 'Mediu DOS Open-Source pentru Execuție x86 Assembly pe 16-biți în Real Mode & Sisteme Legacy'
-      },
-      { 
-        vmid: 221, 
-        name: 'fortigate-vm', 
-        os: 'FortiOS 7.4', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1536, 
-        purpose: 'Enterprise Next-Generation Firewall (NGFW), Deep Packet Inspection (DPI) & ZTNA Dual-Perimeter Defense',
-        purposeRo: 'Firewall Enterprise Next-Generation (NGFW), Inspecție Profundă DPI & Apărare Perimetrală Duală ZTNA'
       }
     ],
     workloads: [
       'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB · Suricata IDS/IPS, CrowdSec Bouncer, GeoIP Drop, DoT Quad9, Telegraf, Monit, GitOps, FRR BGP, Tailscale, NetFlow)',
-      'VM 201: Windows Server 2025 Datacenter (7168 MB / Balloon: 4096 MB [4-7 GB] · GPU Passthrough)',
+      'VM 201: Windows Server 2025 Datacenter (8192 MB / Balloon: 4096 MB [4-8 GB] · GPU Passthrough)',
       'VM 202: Red Hat Enterprise Linux 9.8 (2048 MB / Balloon: 1024 MB [1-2 GB])',
-      'VM 203: FreeBSD 15.1-RELEASE (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
-      'VM 204: OpenBSD 7.9 (1024 MB / Balloon: 512 MB [512 MB - 1 GB])',
-      'VM 205: Talos Linux 1.7 Minimalist Immutable Kubernetes (2048 MB / Balloon: 1024 MB [1-2 GB] · Cilium CNI)',
-      'VM 206: macOS Monterey 12.7 (6144 MB / Balloon: 2048 MB [2-6 GB] · OpenCore EFI Bootloader & Xcode CI/CD)',
-      'VM 207: OpenIndiana Hipster (3072 MB / Balloon: 1536 MB [1.5-3 GB] · 50 GB NVMe · illumos / Enterprise ZFS Lab)',
-      'VM 208: NetBSD 10.0 (512 MB / Balloon: 256 MB · 12 GB NVMe · Rump Anykernel & pkgsrc Lab)',
-      'VM 209: NixOS 24.11 Minimal (1024 MB / Balloon: 512 MB · 22 GB NVMe · Declarative Reproducible Linux)',
-      'VM 210: DragonFly BSD 6.4 (1024 MB / Balloon: 512 MB · 15 GB NVMe · HAMMER2 File System & Concurrency Lab)',
-      'VM 211: OpenStack 2024.1 Caracal (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Enterprise Cloud Controller & Horizon)',
-      'VM 212: Metasploitable 2 (512 MB · 8 GB NVMe · Penetration Testing, Red Teaming & Exploit Vulnerability Lab)',
-      'VM 213: T-Pot 24.04 Multi-Honeypot Platform (8192 MB / Balloon: 4096 MB · 60 GB NVMe · Cowrie, Dionaea, Elastic, Kibana, Suricata)',
-      'VM 214: Haiku OS R1/beta5 (2048 MB / Balloon: 1024 MB · 20 GB NVMe · Modular C++ Architecture & OpenBFS)',
-      'VM 215: Plan 9 from Bell Labs (512 MB · 12 GB NVMe · 9P Distributed Protocol & Per-Process Namespaces)',
-      'VM 216: ReactOS 0.4.16 (1024 MB · 32 GB NVMe · Open-Source Windows NT Binary Compatibility)',
-      'VM 217: Security Onion 3.2 / Wazuh SIEM Platform (8192 MB / Balloon: 4096 MB · 50 GB NVMe · Zeek, Suricata, Elastic, Kibana, HIDS)',
-      'VM 218: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
-      'VM 219: Redox OS 0.9.0 (2048 MB / Balloon: 1024 MB · 10 GB NVMe · Rust Microkernel & RedoxFS Architecture)',
-      'VM 220: FreeDOS 1.3 (512 MB / Balloon: 256 MB · 2 GB NVMe IDE · 16-bit Real Mode x86 Assembly Lab)',
-      'VM 221: FortiGate-VM Enterprise Core (2048 MB / Balloon: 1536 MB · FortiOS 7.4 · vmbr2 Transit 10.10.20.0/30, DPI, ZTNA)',
-      'CT 100-106: Core Infrastructure & Media: Nginx Ingress (CT 100), Immich AI (CT 101), Nextcloud Hub (CT 102), Home Assistant (CT 103), n8n Workflows (CT 104), Scrutiny SMART (CT 105), Media-Suite (CT 106)',
-      'CT 107-108: Ollama GPU LLM Server (CT 107) & Open-WebUI Assistant (CT 108) (CUDA GTX 1050 Ti Passthrough)',
-      'CT 109: Faster-Whisper GPU Speech-to-Text Transcriber (CT 109 · CUDA Accelerated)',
-      'CT 110: Flowise Agentic AI Workflow & LangChain Graph Engine (CT 110)',
-      'CT 111: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging (CT 111)',
-      'CT 112: Code-Server Web IDE (VS Code Cloud Workspace · CT 112)',
-      'CT 113: Proxmox Backup Server (PBS Enterprise Deduplication & Verification · CT 113)',
-      'CT 114: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI · CT 114)',
-      'CT 115: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine (CT 115)'
+      'VM 203: macOS Monterey 12.7 (6144 MB / Balloon: 2048 MB [2-6 GB] · OpenCore EFI Bootloader & Xcode CI/CD)',
+      'VM 204: NixOS 24.11 Minimal (1024 MB / Balloon: 512 MB · 22 GB NVMe · Declarative Reproducible Linux)',
+      'VM 205: OpenStack 2024.1 Caracal (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Enterprise Cloud Controller & Horizon)',
+      'VM 206: Metasploitable 2 (512 MB · 8 GB NVMe · Penetration Testing, Red Teaming & Exploit Vulnerability Lab)',
+      'VM 207: T-Pot 24.04 Multi-Honeypot Platform (8192 MB / Balloon: 4096 MB · 60 GB NVMe · Cowrie, Dionaea, Elastic, Kibana, Suricata)',
+      'VM 208: Security Onion 3.2 / Wazuh SIEM Platform (8192 MB / Balloon: 4096 MB · 50 GB NVMe · Zeek, Suricata, Elastic, Kibana, HIDS)',
+      'VM 209: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
+      'CT 100-105: Core Infrastructure & Media: Immich AI (CT 100), Nextcloud Hub (CT 101), Home Assistant (CT 102), n8n Workflows (CT 103), Scrutiny SMART (CT 104), Media-Suite (CT 105)',
+      'CT 106-107: Ollama GPU LLM Server (CT 106) & Open-WebUI Assistant (CT 107) (CUDA GTX 1050 Ti Passthrough)',
+      'CT 108: Faster-Whisper GPU Speech-to-Text Transcriber (CT 108 · CUDA Accelerated)',
+      'CT 109: Flowise Agentic AI Workflow & LangChain Graph Engine (CT 109)',
+      'CT 110: Paperless-AI Automated Document Analysis & DeepSeek Vision Tagging (CT 110)',
+      'CT 111: Code-Server Web IDE (VS Code Cloud Workspace · CT 111)',
+      'CT 112: Proxmox Backup Server (PBS Enterprise Deduplication & Verification · CT 112)',
+      'CT 113: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI · CT 113)',
+      'CT 114: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine (CT 114)'
     ]
   },
   {
