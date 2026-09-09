@@ -264,7 +264,7 @@ jobs:
           docker run --rm -v "${PWD}:/usr/src/app" -w /usr/src/app renovate/renovate:latest renovate-config-validator || true
 
       - name: Render Terraform Docs
-        uses: terraform-docs/gh-actions@v1.3.0
+        uses: terraform-docs/gh-actions@v1.4.1
         with:
           working-dir: terraform/modules/proxmox_lxc,terraform/modules/proxmox_vm,terraform/proxmox
           output-file: README.md
