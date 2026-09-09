@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI
 
 on:
   push:
@@ -12,11 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ==========================================
-  # STAGE 1: SECRETS DETECTION
-  # ==========================================
   secrets-audit:
-    name: Secrets Audit (Gitleaks & TruffleHog)
+    name: Secrets Audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -39,11 +36,8 @@ jobs:
           extra_args: --debug --only-verified
         continue-on-error: true
 
-  # ==========================================
-  # STAGE 2: STATIC CODE ANALYSIS & LINTING
-  # ==========================================
   code-quality-and-linting:
-    name: Code Quality & Linting (Ruff, MyPy, ShellCheck, YAML)
+    name: Code Quality & Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -59,30 +53,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install ruff mypy yamllint shellcheck-py
 
-      - name: Ruff Lint & Format Check (Python)
+      - name: Ruff Lint & Format
         run: |
           ruff check elo/ || true
           ruff format --check elo/ || true
 
-      - name: MyPy Static Type Analysis
+      - name: MyPy Type Check
         run: |
           pip install pydantic fastapi httpx pytest pytest-asyncio pyyaml
           pip install -e elo/packages/elo-contracts -e elo/packages/elo-security -e elo/packages/elo-ai-client -e elo/apps/elo-core
           mypy --ignore-missing-imports elo/packages/elo-contracts/src elo/packages/elo-security/src elo/packages/elo-ai-client/src elo/apps/elo-core/src || true
 
-      - name: ShellCheck Portability Verification
+      - name: ShellCheck
         run: |
           find scripts ai elo .github -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} + || true
 
-      - name: YAML Linting (Playbooks, Workflows, Compose)
+      - name: YAML Lint
         run: |
           yamllint -d "{extends: default, rules: {line-length: {max: 300}, document-start: disable, truthy: disable}}" . || true
 
-  # ==========================================
-  # STAGE 3: SECURITY & VULNERABILITY SCANS
-  # ==========================================
   sast-and-vulnerability-audit:
-    name: Security Audit (Bandit, Semgrep, Trivy)
+    name: Security Audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -93,17 +84,17 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Bandit Security Scanner
+      - name: Bandit Scan
         run: |
           pip install bandit
           bandit -r elo/packages elo/apps/elo-core/src -ll -i || true
 
-      - name: Semgrep Analysis
+      - name: Semgrep Scan
         run: |
           pip install semgrep
           semgrep scan --config auto elo/ || true
 
-      - name: Trivy Vulnerability Scanner
+      - name: Trivy Scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -113,11 +104,8 @@ jobs:
           ignore-unfixed: true
         continue-on-error: true
 
-  # ==========================================
-  # STAGE 4: IAC & CONFIGURATION VALIDATION
-  # ==========================================
   iac-and-infrastructure-validation:
-    name: IaC Validation (Terraform, Ansible, Compose, K8s)
+    name: IaC Validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -128,7 +116,7 @@ jobs:
         with:
           terraform_version: 1.8.0
 
-      - name: Validate Terraform Modules
+      - name: Validate Terraform
         run: |
           for root_dir in terraform cloud; do
             if [ -d "$root_dir" ]; then
@@ -139,12 +127,12 @@ jobs:
             fi
           done
 
-      - name: Set up Python 3.12 for Ansible
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Validate Ansible Playbook Syntaxes
+      - name: Validate Ansible Playbooks
         run: |
           pip install ansible ansible-lint
           ansible-galaxy collection install community.general || true
@@ -157,9 +145,9 @@ jobs:
             ansible-playbook --syntax-check ai/ansible/playbook.yml || true
           fi
 
-      - name: Validate Docker Compose Configuration
+      - name: Validate Docker Compose
         run: |
-          echo "Validating root and service docker-compose files..."
+          echo "Validating compose files..."
           if [ -f docker-compose.yml ]; then
             docker compose config -q || true
           fi
@@ -170,34 +158,32 @@ jobs:
             fi
           done
 
-      - name: Validate Kubernetes Manifests
+      - name: Validate Kubernetes
         run: |
-          curl -sL https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz
-          sudo mv kubeconform /usr/local/bin/
-          if [ -d kubernetes ]; then
-            find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \) -exec kubeconform -summary -ignore-missing-schemas {} + || true
+          for i in 1 2 3; do
+            curl -fSL --connect-timeout 10 --retry 3 https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz && sudo mv kubeconform /usr/local/bin/ && break || sleep 2
+          done
+          if [ -d kubernetes ] && command -v kubeconform &> /dev/null; then
+            find kubernetes -type f ( -name "*.yaml" -o -name "*.yml" ) -exec kubeconform -summary -ignore-missing-schemas {} + || true
           fi
 
-      - name: Policy-as-Code Security Validation (Conftest / OPA)
+      - name: Policy Validation (Conftest / OPA)
         run: |
-          echo "Installing Conftest for Policy-as-Code enforcement..."
           CONFTEST_VER="0.56.0"
-          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VER}/conftest_${CONFTEST_VER}_Linux_x86_64.tar.gz" | tar xz
-          sudo mv conftest /usr/local/bin/
-          echo "Validating Kubernetes manifests against OPA Rego security guardrails..."
-          if [ -d kubernetes ]; then
-            conftest test -p policy/kubernetes/ $(find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \)) || true
-          fi
-          echo "Validating Terraform IaC declarations against OPA Rego policies..."
-          if [ -d policy/terraform ]; then
-            conftest test -p policy/terraform/ terraform/ || true
+          for i in 1 2 3; do
+            curl -fSL --connect-timeout 10 --retry 3 "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VER}/conftest_${CONFTEST_VER}_Linux_x86_64.tar.gz" | tar xz && sudo mv conftest /usr/local/bin/ && break || sleep 2
+          done
+          if command -v conftest &> /dev/null; then
+            if [ -d kubernetes ]; then
+              conftest test -p policy/kubernetes/ $(find kubernetes -type f ( -name "*.yaml" -o -name "*.yml" )) || true
+            fi
+            if [ -d policy/terraform ]; then
+              conftest test -p policy/terraform/ terraform/ || true
+            fi
           fi
 
-  # ==========================================
-  # STAGE 5: ELO PYTHON MATRIX TESTS (3.9 - 3.13)
-  # ==========================================
   elo-python-matrix:
-    name: ELO Tests (Python ${{ matrix.python-version }})
+    name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -212,7 +198,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install ELO Packages & Test Harness
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip setuptools wheel
           pip install pytest pytest-asyncio httpx pydantic cryptography psutil uvicorn fastapi pyyaml python-dotenv
@@ -221,16 +207,13 @@ jobs:
           pip install -e elo/packages/elo-ai-client
           pip install -e elo/apps/elo-core
 
-      - name: Execute Pytest Suite
+      - name: Run Pytest
         run: |
           cd elo
           PYTHONPATH="apps/elo-core/src:packages/elo-contracts/src:packages/elo-security/src:packages/elo-ai-client/src" python -m pytest -v -o asyncio_mode=auto
 
-  # ==========================================
-  # STAGE 6: MULTI-LINUX DISTRIBUTION COMPATIBILITY MATRIX
-  # ==========================================
   distro-compatibility-matrix:
-    name: Linux Compatibility (${{ matrix.distro.name }})
+    name: Linux (${{ matrix.distro.name }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -254,14 +237,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run OS Test Runner
+      - name: Run Tests
         run: sh scripts/test_distro_compatibility.sh
 
-  # ==========================================
-  # STAGE 7: WEB FRONTEND COMPILATION
-  # ==========================================
   web-frontend-build:
-    name: Web Frontend Build (Angular 20 Enterprise App)
+    name: Web Frontend Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -274,24 +254,21 @@ jobs:
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
-      - name: Install Frontend Dependencies
+      - name: Install Dependencies
         run: |
           cd web
           npm ci || npm install
 
-      - name: Build Production Frontend Bundle (Angular Build)
+      - name: Build Web App
         run: |
           cd web
           npm run build
 
-      - name: Validate Output Bundle
+      - name: Validate Output
         run: |
           test -f web/dist/index.html
-          echo "Angular production bundle built successfully."
+          echo "Frontend build completed."
 
-  # ==========================================
-  # STAGE 8: CI QUALITY SUMMARY
-  # ==========================================
   ci-master-gate:
     name: CI Summary
     needs:
@@ -304,6 +281,6 @@ jobs:
       - web-frontend-build
     runs-on: ubuntu-latest
     steps:
-      - name: Quality Checks Status
+      - name: Status
         run: |
-          echo "All automated CI quality checks completed."
+          echo "CI checks completed."

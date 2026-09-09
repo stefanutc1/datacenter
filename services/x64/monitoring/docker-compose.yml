@@ -1,4 +1,4 @@
-# Homelab Enterprise LGTM Stack (Grafana, Prometheus, Loki, Promtail, Node Exporter) - x86_64
+# LGTM Stack (Grafana, Prometheus, Loki, Promtail, Node Exporter) - x86_64
 services:
   grafana:
     image: grafana/grafana-enterprise:latest

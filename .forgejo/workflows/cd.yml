@@ -1,4 +1,4 @@
-name: CD Deployment & Container Release
+name: CD
 
 on:
   push:
@@ -10,11 +10,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # ==========================================
-  # STAGE 1: WEB FRONTEND BUILD
-  # ==========================================
   build-and-verify-frontend:
-    name: Build Frontend (Angular 20 Enterprise App)
+    name: Build Frontend
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,23 +26,20 @@ jobs:
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
-      - name: Install Frontend Dependencies
+      - name: Install Dependencies
         run: |
           cd web
           npm ci || npm install
 
-      - name: Build Production Frontend Bundle (Angular Build)
+      - name: Build Frontend
         run: |
           cd web
           npm run build
           test -f dist/index.html
-          echo "Angular frontend bundle verified successfully."
+          echo "Frontend build verified."
 
-  # ==========================================
-  # STAGE 2: MULTI-ARCH CONTAINER RELEASE
-  # ==========================================
   publish-multiarch-containers:
-    name: Publish Containers to GHCR (AMD64 & ARM64)
+    name: Publish Containers
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -84,7 +78,7 @@ jobs:
           IMAGE_NAME="ghcr.io/${REPO_OWNER}/${{ matrix.target.name }}"
           echo "image=${IMAGE_NAME}" >> "$GITHUB_OUTPUT"
 
-      - name: Build & Push Multi-Arch Image (linux/amd64, linux/arm64)
+      - name: Build & Push Image
         if: hashFiles(matrix.target.dockerfile) != ''
         uses: docker/build-push-action@v5
         continue-on-error: true

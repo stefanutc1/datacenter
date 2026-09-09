@@ -1,4 +1,4 @@
-name: DevSecOps Security & Vulnerability Pipeline
+name: Security Scan
 
 on:
   push:
@@ -15,13 +15,13 @@ permissions:
 
 jobs:
   trivy-scan:
-    name: Trivy Vulnerability & Misconfiguration Scan
+    name: Vulnerability Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Trivy Vulnerability Scanner (Repo & Dockerfiles)
+      - name: Scan Repository
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -31,7 +31,7 @@ jobs:
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
-      - name: Run Trivy IaC / Terraform Misconfiguration Scan
+      - name: Scan Terraform
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'config'
@@ -41,7 +41,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
   gitleaks-scan:
-    name: Gitleaks Secret Detection
+    name: Secret Detection
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -56,7 +56,7 @@ jobs:
         continue-on-error: true
 
   shellcheck:
-    name: ShellCheck Bash Syntax & Safety
+    name: ShellCheck
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

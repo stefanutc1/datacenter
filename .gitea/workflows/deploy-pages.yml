@@ -1,4 +1,4 @@
-name: Deploy Homelab Web to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    name: Build & Deploy Frontend (Angular 20 Enterprise App)
+    name: Build Frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -29,12 +29,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: web/package-lock.json
 
-      - name: Install Frontend Dependencies
+      - name: Install Dependencies
         run: |
           cd web
           npm ci || npm install
 
-      - name: Build Production Frontend for GitHub Pages
+      - name: Build Frontend
         env:
           GITHUB_PAGES: 'true'
         run: |
@@ -43,8 +43,7 @@ jobs:
           touch dist/.nojekyll
           cp dist/index.html dist/404.html
 
-      # Deploy to gh-pages branch (guaranteed fallback regardless of repo settings)
-      - name: Deploy to gh-pages Branch
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -52,14 +51,13 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      # Upload Artifact for Actions Pages
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist
 
   deploy-actions-pages:
-    name: Deploy to GitHub Pages (Workflow Mode)
+    name: Deploy to GitHub Pages
     needs: build-and-deploy
     runs-on: ubuntu-latest
     continue-on-error: true

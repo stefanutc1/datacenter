@@ -1,4 +1,4 @@
-name: Container & Dependency Vulnerability Scan (Trivy)
+name: Container Vulnerability Scan
 
 on:
   schedule:
@@ -7,13 +7,13 @@ on:
 
 jobs:
   trivy-scan:
-    name: Vulnerability Scan (Trivy)
+    name: Vulnerability Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Trivy vulnerability scanner in repo mode
+      - name: Run Trivy
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'

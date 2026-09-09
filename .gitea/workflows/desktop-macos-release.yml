@@ -1,4 +1,4 @@
-name: macOS Desktop App Build & DMG Release
+name: Build macOS App
 
 on:
   push:
@@ -13,7 +13,7 @@ on:
 
 jobs:
   build-macos-dmg:
-    name: Build & Package ELO macOS Desktop App (.dmg)
+    name: Build macOS DMG
     runs-on: macos-14
     permissions:
       contents: write
@@ -26,20 +26,20 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Build and Package ELO DMG Image
+      - name: Build DMG
         run: |
           cd elo/apps/elo-desktop-macos
           chmod +x build_dmg.sh
           ./build_dmg.sh
 
-      - name: Upload DMG Installer Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ELO-macOS-arm64-dmg
           path: elo/apps/elo-desktop-macos/dist/ELO-macOS-arm64.dmg
           retention-days: 30
 
-      - name: Create GitHub Release on Tag
+      - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:

@@ -1,4 +1,4 @@
-name: Scheduled Chaos Engineering & Resiliency Validation
+name: Scheduled Chaos Tests
 
 on:
   schedule:
@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   chaos-engineering-validation:
-    name: Automated Chaos Injection & Self-Healing Verification
+    name: Chaos Tests
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -28,52 +28,52 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Test Runtime Environment
+      - name: Setup Environment
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq stress-ng iproute2 curl jq
           chmod +x scripts/chaos/chaos_runner.sh
 
-      - name: Deploy Isolated Staging Test Container
+      - name: Start Staging Container
         run: |
-          echo "Spinning up isolated lightweight staging container for auto-healing verification..."
+          echo "Starting staging container..."
           docker run -d --name staging-microservice --restart=always -p 8088:80 nginx:alpine
           sleep 3
           curl -fsS http://localhost:8088 > /dev/null
-          echo "Staging workload active and healthy."
+          echo "Staging container ready."
 
-      - name: Stage 1 - CPU & Memory Saturation Validation
+      - name: CPU & Memory Stress Test
         run: |
-          echo "Running CPU & RAM saturation..."
+          echo "Running CPU & RAM stress test..."
           bash scripts/chaos/chaos_runner.sh cpu-stress "${{ github.event.inputs.chaos_duration || '10' }}"
           bash scripts/chaos/chaos_runner.sh ram-pressure "${{ github.event.inputs.chaos_duration || '10' }}"
 
-      - name: Stage 2 - Service Fault Injection (SIGKILL) & Self-Healing Verification
+      - name: Service Fault & Recovery Test
         run: |
-          echo "Injecting service-kill fault on staging microservice..."
+          echo "Testing service kill..."
           bash scripts/chaos/chaos_runner.sh service-kill 5 staging-microservice
-          echo "Validating automated container restart / recovery without human intervention..."
+          echo "Verifying container auto-restart..."
           bash scripts/chaos/chaos_runner.sh auto-healing-check 30 staging-microservice
           docker ps --filter "name=staging-microservice"
 
-      - name: Stage 3 - Network Degradation Simulation
+      - name: Network Degradation Test
         run: |
-          echo "Simulating synthetic network jitter and packet loss..."
+          echo "Testing network degradation..."
           bash scripts/chaos/chaos_runner.sh network-latency 5 lo 50ms || true
           bash scripts/chaos/chaos_runner.sh packet-loss 5 lo 10% || true
 
-      - name: Stage 4 - Incident Webhook & Alert Dispatch Validation
+      - name: Alert Webhooks Test
         env:
           UPTIME_KUMA_URL: ${{ secrets.UPTIME_KUMA_PUSH_URL }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          echo "Validating alert dispatches to Uptime Kuma, Ntfy, and Telegram..."
+          echo "Validating alert webhooks..."
           bash scripts/chaos/chaos_runner.sh alert-webhook-validate
 
-      - name: Stage 5 - Clean Teardown
+      - name: Cleanup
         if: always()
         run: |
           docker rm -f staging-microservice 2>/dev/null || true
-          echo "Isolated staging environment cleaned up."
+          echo "Staging environment cleaned up."
