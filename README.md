@@ -11,7 +11,7 @@
 
 <br/>
 
-**Hybrid infrastructure platform with Proxmox VE virtualization on x86_64, enterprise firewall routing (OPNsense perimeter NGFW + Proxmox VE defense-in-depth), ZFS storage arrays, declarative Terraform/Ansible automation, and eBPF runtime observability.**
+**Infrastructure platform with Proxmox VE virtualization on x86_64, enterprise firewall routing (OPNsense perimeter NGFW + Proxmox VE defense-in-depth), ZFS storage arrays, declarative Terraform/Ansible automation, and eBPF runtime observability.**
 
 [Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
