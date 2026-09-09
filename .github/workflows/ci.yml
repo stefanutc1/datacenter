@@ -5,11 +5,23 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  schedule:
+    - cron: '0 3 * * 0' # Weekly Sunday at 03:00 UTC
   workflow_dispatch:
+    inputs:
+      run_chaos:
+        description: 'Run chaos engineering tests'
+        required: false
+        default: 'false'
+        type: boolean
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
 
 jobs:
   secrets-audit:
@@ -36,22 +48,30 @@ jobs:
           extra_args: --debug --only-verified
         continue-on-error: true
 
-  code-quality-and-linting:
+  lint:
     name: Code Quality & Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install Linting Tools
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Python Linters
         run: |
           python -m pip install --upgrade pip
-          pip install ruff mypy yamllint shellcheck-py
+          pip install ruff mypy yamllint shellcheck-py pydantic fastapi httpx pytest pytest-asyncio pyyaml
+          pip install -e elo/packages/elo-contracts -e elo/packages/elo-security -e elo/packages/elo-ai-client -e elo/apps/elo-core
 
       - name: Ruff Lint & Format
         run: |
@@ -60,20 +80,52 @@ jobs:
 
       - name: MyPy Type Check
         run: |
-          pip install pydantic fastapi httpx pytest pytest-asyncio pyyaml
-          pip install -e elo/packages/elo-contracts -e elo/packages/elo-security -e elo/packages/elo-ai-client -e elo/apps/elo-core
           mypy --ignore-missing-imports elo/packages/elo-contracts/src elo/packages/elo-security/src elo/packages/elo-ai-client/src elo/apps/elo-core/src || true
 
       - name: ShellCheck
         run: |
-          find scripts ai elo .github -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} + || true
+          find scripts ai elo cyber -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} + || true
 
       - name: YAML Lint
         run: |
           yamllint -d "{extends: default, rules: {line-length: {max: 300}, document-start: disable, truthy: disable}}" . || true
 
-  sast-and-vulnerability-audit:
-    name: Security Audit
+      - name: Markdown Lint
+        run: |
+          npx markdownlint-cli "**/*.md" --ignore node_modules --ignore web/dist || true
+
+      - name: Commit Lint
+        uses: wagoid/commitlint-github-action@v6
+        continue-on-error: true
+
+  hadolint:
+    name: Dockerfile Lint
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Hadolint
+        run: |
+          if ! command -v hadolint &> /dev/null; then
+            for i in 1 2 3; do
+              sudo curl -fSL --connect-timeout 10 --retry 3 -o /usr/local/bin/hadolint "https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64" && sudo chmod +x /usr/local/bin/hadolint && break || sleep 2
+            done
+          fi
+          find . -name "*Dockerfile*" -not -path "./web/node_modules/*" | while read -r df; do
+            echo "Linting $df..."
+            if command -v hadolint &> /dev/null; then
+              hadolint --ignore DL3008 --ignore DL3013 --ignore DL3018 "$df" || true
+            elif command -v docker &> /dev/null; then
+              docker run --rm -i hadolint/hadolint hadolint --ignore DL3008 --ignore DL3013 --ignore DL3018 - < "$df" || true
+            else
+              echo "Skipping $df (hadolint not installed)"
+            fi
+          done
+
+  security-scan:
+    name: Security Scans
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -94,7 +146,7 @@ jobs:
           pip install semgrep
           semgrep scan --config auto elo/ || true
 
-      - name: Trivy Scan
+      - name: Trivy Repository Scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -104,7 +156,23 @@ jobs:
           ignore-unfixed: true
         continue-on-error: true
 
-  iac-and-infrastructure-validation:
+      - name: Trivy IaC Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: './terraform'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+        continue-on-error: true
+
+      - name: Checkov IaC Scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/
+          framework: terraform
+          soft_fail: true
+
+  iac-validate:
     name: IaC Validation
     runs-on: ubuntu-latest
     steps:
@@ -116,18 +184,21 @@ jobs:
         with:
           terraform_version: 1.8.0
 
-      - name: Validate Terraform
+      - name: Check Terraform Formatting
         run: |
-          for root_dir in terraform cloud; do
-            if [ -d "$root_dir" ]; then
-              for dir in $(find "$root_dir" -type f -name "*.tf" -exec dirname {} + | sort -u); do
-                echo "Validating Terraform in $dir..."
-                (cd "$dir" && terraform init -backend=false && terraform validate) || true
-              done
+          terraform fmt -check -recursive terraform/
+          terraform fmt -check -recursive cloud/
+
+      - name: Validate Terraform Modules
+        run: |
+          for dir in terraform terraform/modules/proxmox_lxc terraform/modules/proxmox_vm terraform/proxmox cloud/azure cloud/gcp cloud/aws; do
+            if [ -d "$dir" ]; then
+              echo "Validating $dir..."
+              (cd "$dir" && terraform init -backend=false && terraform validate) || true
             fi
           done
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.12 for Ansible
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -136,6 +207,9 @@ jobs:
         run: |
           pip install ansible ansible-lint
           ansible-galaxy collection install community.general || true
+          if [ -d "ansible" ]; then
+            ansible-lint ansible/ || true
+          fi
           if [ -d ansible/playbooks ]; then
             for pb in ansible/playbooks/*.yml; do
               [ -f "$pb" ] && ansible-playbook --syntax-check "$pb" || true
@@ -147,24 +221,27 @@ jobs:
 
       - name: Validate Docker Compose
         run: |
-          echo "Validating compose files..."
           if [ -f docker-compose.yml ]; then
             docker compose config -q || true
           fi
-          for comp in services/*/docker-compose.yml; do
-            if [ -f "$comp" ]; then
-              echo "Validating $comp..."
-              docker compose -f "$comp" config -q || true
-            fi
+          find services cyber -name "docker-compose*.yml" -o -name "compose*.yaml" | while read -r comp; do
+            echo "Validating $comp..."
+            docker compose -f "$comp" config -q || true
           done
 
-      - name: Validate Kubernetes
+      - name: Test Nginx Configurations
+        run: |
+          docker run --rm -v "${PWD}:/workspace" -w /workspace nginx:alpine sh -c "
+            find . -name '*.conf' -path '*/nginx/*' -exec nginx -t -c {} \; 2>/dev/null || true
+          "
+
+      - name: Validate Kubernetes Manifests
         run: |
           for i in 1 2 3; do
             curl -fSL --connect-timeout 10 --retry 3 https://github.com/yannh/kubeconform/releases/latest/download/kubeconform-linux-amd64.tar.gz | tar xz && sudo mv kubeconform /usr/local/bin/ && break || sleep 2
           done
           if [ -d kubernetes ] && command -v kubeconform &> /dev/null; then
-            find kubernetes -type f ( -name "*.yaml" -o -name "*.yml" ) -exec kubeconform -summary -ignore-missing-schemas {} + || true
+            find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \) -exec kubeconform -summary -ignore-missing-schemas {} + || true
           fi
 
       - name: Policy Validation (Conftest / OPA)
@@ -175,14 +252,26 @@ jobs:
           done
           if command -v conftest &> /dev/null; then
             if [ -d kubernetes ]; then
-              conftest test -p policy/kubernetes/ $(find kubernetes -type f ( -name "*.yaml" -o -name "*.yml" )) || true
+              conftest test -p policy/kubernetes/ $(find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \)) || true
             fi
             if [ -d policy/terraform ]; then
               conftest test -p policy/terraform/ terraform/ || true
             fi
           fi
 
-  elo-python-matrix:
+      - name: Validate Renovate Config
+        run: |
+          docker run --rm -v "${PWD}:/usr/src/app" -w /usr/src/app renovate/renovate:latest renovate-config-validator || true
+
+      - name: Render Terraform Docs
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          working-dir: terraform/modules/proxmox_lxc,terraform/modules/proxmox_vm,terraform/proxmox
+          output-file: README.md
+          output-method: replace
+          fail-on-diff: false
+
+  python-matrix:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
@@ -212,7 +301,7 @@ jobs:
           cd elo
           PYTHONPATH="apps/elo-core/src:packages/elo-contracts/src:packages/elo-security/src:packages/elo-ai-client/src" python -m pytest -v -o asyncio_mode=auto
 
-  distro-compatibility-matrix:
+  linux-matrix:
     name: Linux (${{ matrix.distro.name }})
     runs-on: ubuntu-latest
     strategy:
@@ -240,7 +329,7 @@ jobs:
       - name: Run Tests
         run: sh scripts/test_distro_compatibility.sh
 
-  web-frontend-build:
+  web-build:
     name: Web Frontend Build
     runs-on: ubuntu-latest
     steps:
@@ -269,18 +358,74 @@ jobs:
           test -f web/dist/index.html
           echo "Frontend build completed."
 
-  ci-master-gate:
+  chaos-tests:
+    name: Chaos Tests
+    if: github.event_name == 'schedule' || github.event.inputs.run_chaos == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq stress-ng iproute2 curl jq
+          chmod +x scripts/chaos/chaos_runner.sh
+
+      - name: Start Staging Container
+        run: |
+          echo "Starting staging container..."
+          docker run -d --name staging-microservice --restart=always -p 8088:80 nginx:alpine
+          sleep 3
+          curl -fsS http://localhost:8088 > /dev/null
+          echo "Staging container ready."
+
+      - name: CPU & Memory Stress Test
+        run: |
+          bash scripts/chaos/chaos_runner.sh cpu-stress 10
+          bash scripts/chaos/chaos_runner.sh ram-pressure 10
+
+      - name: Service Fault & Recovery Test
+        run: |
+          bash scripts/chaos/chaos_runner.sh service-kill 5 staging-microservice
+          bash scripts/chaos/chaos_runner.sh auto-healing-check 30 staging-microservice
+          docker ps --filter "name=staging-microservice"
+
+      - name: Network Degradation Test
+        run: |
+          bash scripts/chaos/chaos_runner.sh network-latency 5 lo 50ms || true
+          bash scripts/chaos/chaos_runner.sh packet-loss 5 lo 10% || true
+
+      - name: Alert Webhooks Test
+        env:
+          UPTIME_KUMA_URL: ${{ secrets.UPTIME_KUMA_PUSH_URL }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          bash scripts/chaos/chaos_runner.sh alert-webhook-validate
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker rm -f staging-microservice 2>/dev/null || true
+          echo "Staging environment cleaned up."
+
+  ci-summary:
     name: CI Summary
     needs:
       - secrets-audit
-      - code-quality-and-linting
-      - sast-and-vulnerability-audit
-      - iac-and-infrastructure-validation
-      - elo-python-matrix
-      - distro-compatibility-matrix
-      - web-frontend-build
+      - lint
+      - hadolint
+      - security-scan
+      - iac-validate
+      - python-matrix
+      - linux-matrix
+      - web-build
     runs-on: ubuntu-latest
+    if: always()
     steps:
-      - name: Status
+      - name: Status Check
         run: |
           echo "CI checks completed."

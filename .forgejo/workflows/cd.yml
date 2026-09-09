@@ -3,18 +3,24 @@ name: CD
 on:
   push:
     branches: [main, master]
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 concurrency:
   group: cd-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
+permissions:
+  contents: write
+  packages: write
+  pages: write
+  id-token: write
+
 jobs:
-  build-and-verify-frontend:
-    name: Build Frontend
+  build-and-deploy-web:
+    name: Build & Deploy Web
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,18 +38,43 @@ jobs:
           npm ci || npm install
 
       - name: Build Frontend
+        env:
+          GITHUB_PAGES: 'true'
         run: |
           cd web
           npm run build
-          test -f dist/index.html
-          echo "Frontend build verified."
+          touch dist/.nojekyll
+          cp dist/index.html dist/404.html
 
-  publish-multiarch-containers:
+      - name: Deploy to gh-pages Branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/dist
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy-pages-environment:
+    name: Deploy to GitHub Pages
+    needs: build-and-deploy-web
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  publish-containers:
     name: Publish Containers
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     strategy:
       fail-fast: false
       matrix:
@@ -92,3 +123,71 @@ jobs:
             ${{ steps.meta.outputs.image }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  build-macos:
+    name: Build macOS App
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build DMG
+        run: |
+          cd elo/apps/elo-desktop-macos
+          chmod +x build_dmg.sh
+          ./build_dmg.sh
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ELO-macOS-arm64-dmg
+          path: elo/apps/elo-desktop-macos/dist/ELO-macOS-arm64.dmg
+          retention-days: 30
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: elo/apps/elo-desktop-macos/dist/ELO-macOS-arm64.dmg
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sync-readme:
+    name: Sync README
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Sync Script
+        run: |
+          python3 scripts/sync_readme_metrics.py
+
+      - name: Commit & Push
+        run: |
+          if [ -n "$(git status --porcelain README.md)" ]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "github-actions[bot]"
+            git add README.md
+            git commit -m "docs(readme): update metrics [skip ci]"
+            git push
+            echo "README.md updated."
+          else
+            echo "No changes detected in README.md."
+          fi
