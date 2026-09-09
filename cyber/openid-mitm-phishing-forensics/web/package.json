@@ -1,4 +1,4 @@
-﻿{
+{
     "version":  "1.0.0",
     "name":  "openid-mitm-angular-visualizer",
     "scripts":  {
@@ -9,7 +9,7 @@
     "devDependencies":  {
                             "typescript":  "~5.9.2",
                             "@angular/compiler-cli":  "^20.3.0",
-                            "@angular/build":  "^20.3.35",
+                            "@angular/build":  "^22.1.7",
                             "@angular/cli":  "^20.3.35",
                             "@types/node":  "^20.0.0"
                         },
