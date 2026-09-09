@@ -19,7 +19,7 @@
       AWS_DEFAULT_REGION=eu-central-1
       EOF
       chmod 644 "$TARGET_DIR"/*
-      echo "[✓] Canary decoy files deployed to $TARGET_DIR"
+      echo "[OK] Canary decoy files deployed to $TARGET_DIR"
     owner: root
     group: root
     mode: '0750'

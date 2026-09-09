@@ -39,7 +39,7 @@ def detect_drift() -> dict:
         "status": "IN_SYNC" if len(drifts) == 0 else "DRIFT_FOUND"
     }
 
-    logging.info(f"[✓] Drift check finished: Status = {report['status']}")
+    logging.info(f"[OK] Drift check finished: Status = {report['status']}")
     return report
 
 if __name__ == "__main__":

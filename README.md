@@ -12,8 +12,7 @@
 
 <br/>
 
-**Production-grade hybrid cloud platform, cybersecurity test environment, and autonomous multi-agent orchestration infrastructure.**
-Built on bare-metal x86_64 and Apple Silicon ARM64 compute, dual-tier enterprise firewall architecture (OPNsense + FortiGate-VM), ZFS storage arrays, declarative Terraform/Ansible automation, and real-time eBPF runtime observability.
+**Hybrid infrastructure platform with Proxmox VE virtualization across x86_64 and ARM64, dual-tier enterprise firewall routing (OPNsense + FortiGate-VM), ZFS storage arrays, declarative Terraform/Ansible automation, and eBPF runtime observability.**
 
 [Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
@@ -788,19 +787,19 @@ Findings from these four forensic investigations directly inform the proactive d
 
 ---
 
-### 12.3 Offensive Security, Red Teaming & Container Escape Suite (`cyber/red-team/`)
+### 12.3 Security Auditing & Detection Tests (`cyber/red-team/`)
 
-Complementing blue team detection, the infrastructure includes a dedicated offensive auditing and adversary simulation harness:
+Verification scripts for container isolation and detection rules:
 
-* **Container Escape Auditor (`cyber/red-team/container_escape_audit.py`)**:
-  * Audits dangerous Linux capabilities (`CAP_SYS_ADMIN`, `CAP_SYS_PTRACE`, `CAP_SYS_MODULE`, `CAP_DAC_OVERRIDE`).
+* **Container Audit (`cyber/red-team/container_audit.py`)**:
+  * Audits Linux capabilities (`CAP_SYS_ADMIN`, `CAP_SYS_PTRACE`, `CAP_SYS_MODULE`, `CAP_DAC_OVERRIDE`).
   * Scans for mounted Docker/containerd UNIX control sockets (`/var/run/docker.sock`).
   * Validates cgroup isolation (`release_agent`), host namespace leakage (`hostPID`, `hostNetwork`), and Seccomp/AppArmor enforcement.
-* **Atomic Red Team Runner (`cyber/red-team/atomic_red_team_runner.py`)**:
-  * Simulates controlled MITRE ATT&CK techniques (T1059.004 Unix Shell, T1082 System Discovery, T1046 Network Service Discovery, T1552 Canary Token Search).
-  * Measures alert ingestion latency in Wazuh SIEM (Rule 80710) and CrowdSec portscan decisions.
-* **Post-Exploitation Toolkit (`cyber/red-team/post_exploitation.py`)**:
-  * Assesses lateral movement paths, evaluates writable system `PATH` directories, verifies private key permissions, and scans environment variables for plaintext secrets.
+* **Security Detection Tests (`cyber/red-team/sec_tests.py`)**:
+  * Runs controlled validation checks (T1059.004 Unix Shell, T1082 System Discovery, T1046 Network Service Discovery, T1552 Canary Token Search).
+  * Validates alert ingestion in Wazuh SIEM (Rule 80710) and CrowdSec portscan decisions.
+* **Privilege Audit (`cyber/red-team/priv_check.py`)**:
+  * Evaluates writable system `PATH` directories, verifies private key permissions, and scans environment variables for plaintext secrets.
 
 ---
 

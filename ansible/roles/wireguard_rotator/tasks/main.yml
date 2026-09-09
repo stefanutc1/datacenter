@@ -18,7 +18,7 @@
       mv "$WG_DIR/privatekey.new" "$WG_DIR/private.key"
       mv "$WG_DIR/publickey.new" "$WG_DIR/public.key"
       mv "$WG_DIR/preshared.new" "$WG_DIR/preshared.key"
-      echo "[✓] WireGuard key rotation complete."
+      echo "[OK] WireGuard key rotation complete."
     owner: root
     group: root
     mode: '0750'

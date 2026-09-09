@@ -17,7 +17,7 @@ LATEST_BACKUP=$(find "${BACKUP_DIR}" -name "vzdump-qemu-*.vma.zst" -o -name "vzd
 
 if [[ -z "${LATEST_BACKUP}" ]]; then
     echo "[!] No vzdump archive found in ${BACKUP_DIR}. Simulating DR pipeline check..." | tee -a "${LOG_FILE}"
-    echo "[✓] Simulation: Mocking restore of latest snapshot into isolated VLAN ${QUARANTINE_VLAN}." | tee -a "${LOG_FILE}"
+    echo "[OK] Simulation: Mocking restore of latest snapshot into isolated VLAN ${QUARANTINE_VLAN}." | tee -a "${LOG_FILE}"
 else
     echo "[+] Found latest backup archive: ${LATEST_BACKUP}" | tee -a "${LOG_FILE}"
     echo "[+] Restoring to temporary test instance ID ${TEST_VMID} in isolated VLAN ${QUARANTINE_VLAN}..." | tee -a "${LOG_FILE}"
@@ -30,4 +30,4 @@ echo "[+] Executing automated health checks on restored instance..." | tee -a "$
 echo "[+] Healthcheck status: HTTP 200 OK, DB integrity verified, zero data corruption." | tee -a "${LOG_FILE}"
 
 echo "[+] Tearing down ephemeral DR validation instance (VMID: ${TEST_VMID})..." | tee -a "${LOG_FILE}"
-echo "[✓] Disaster Recovery validation completed successfully with 0 errors." | tee -a "${LOG_FILE}"
+echo "[OK] Disaster Recovery validation completed successfully with 0 errors." | tee -a "${LOG_FILE}"

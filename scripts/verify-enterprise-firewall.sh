@@ -17,7 +17,7 @@ echo "[1/5] Checking Proxmox VE Firewall status on Node 1 ($NODE1_IP)..."
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP" "pve-firewall status"
 
 echo "[2/5] Compiling and validating Proxmox Firewall ruleset..."
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP" "pve-firewall compile >/dev/null && echo '  [✓] pve-firewall ruleset syntax is OK.'"
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP" "pve-firewall compile >/dev/null && echo '  [OK] pve-firewall ruleset syntax is OK.'"
 
 echo "[3/5] Inspecting Network Bridges & Inter-Firewall Transit links..."
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP" "ip -br link show | grep -E 'vmbr[0-4]'"
@@ -25,7 +25,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP"
 echo "[4/5] Checking OPNsense Perimeter Gateway WebGUI ($OPNSENSE_IP)..."
 HTTP_CODE=$(curl -k -s -o /dev/null -w "%{http_code}" "https://$OPNSENSE_IP/")
 if [ "$HTTP_CODE" == "200" ]; then
-  echo "  [✓] OPNsense Native WebGUI is healthy (HTTP $HTTP_CODE)."
+  echo "  [OK] OPNsense Native WebGUI is healthy (HTTP $HTTP_CODE)."
 else
   echo "  [!] OPNsense responded with HTTP $HTTP_CODE."
 fi
@@ -37,7 +37,7 @@ echo "[6/8] Verifying Inter-Firewall Transit IP (10.10.20.1/30) responsiveness o
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP" "
   ip addr add 10.10.20.2/30 dev vmbr2 2>/dev/null || true
   if ping -c 2 -W 1 10.10.20.1 >/dev/null 2>&1; then
-    echo '  [✓] Transit link to OPNsense (10.10.20.1) is UP and responsive (0% loss).'
+    echo '  [OK] Transit link to OPNsense (10.10.20.1) is UP and responsive (0% loss).'
   else
     echo '  [!] Transit link ping failed.'
   fi
@@ -47,7 +47,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP"
 echo "[7/8] Inspecting Cloud Hybrid WireGuard Tunnel (wg-cloud0) on Node 1..."
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "root@$NODE1_IP" "
   if wg show wg-cloud0 >/dev/null 2>&1; then
-    echo '  [✓] WireGuard wg-cloud0 interface is ACTIVE.'
+    echo '  [OK] WireGuard wg-cloud0 interface is ACTIVE.'
     wg show wg-cloud0 | grep -E 'public key|listening port|allowed ips' | sed 's/^/      /'
   else
     echo '  [!] wg-cloud0 is not running.'
@@ -65,13 +65,13 @@ COUNT=0
 for c in "${CYBER_CASES[@]}"; do
   if [ -d "cyber/$c" ]; then
     COUNT=$((COUNT + 1))
-    echo "  [✓] Forensic Case Verified: cyber/$c"
+    echo "  [OK] Forensic Case Verified: cyber/$c"
   else
-    echo "  [✗] Missing case: cyber/$c"
+    echo "  [FAIL] Missing case: cyber/$c"
   fi
 done
-echo "  [✓] Verified $COUNT/4 Core Digital Forensics & Threat Intelligence Projects."
+echo "  [OK] Verified $COUNT/4 Core Digital Forensics & Threat Intelligence Projects."
 
 echo "=============================================================================="
-echo " [✓] ALL ENTERPRISE FIREWALL, HYBRID TRANSIT & FORENSICS SUITE VERIFIED"
+echo " [OK] ALL ENTERPRISE FIREWALL, HYBRID TRANSIT & FORENSICS SUITE VERIFIED"
 echo "=============================================================================="

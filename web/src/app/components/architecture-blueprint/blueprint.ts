@@ -839,54 +839,54 @@ export interface ForensicCase {
 
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
                 
-                <!-- 1. Container Escape Auditor -->
+                <!-- 1. Container Audit -->
                 <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
                   <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
                     <span class="text-rose-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Audit Kernel & Izolare' : 'Kernel & Isolation Audit' }}</span>
                     <span class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 text-[10px] font-bold">PYTHON 3</span>
                   </div>
-                  <h4 class="font-bold text-slate-100 text-sm">Container Escape Auditor</h4>
+                  <h4 class="font-bold text-slate-100 text-sm">Container Audit</h4>
                   <p class="text-slate-300 font-sans text-xs leading-relaxed">
                     {{ ts.isRomanian 
-                      ? 'Scanează capabilitățile periculoase (CAP_SYS_ADMIN, CAP_SYS_PTRACE), socket-urile docker.sock expuse, cgroup release_agent și namespaces partajate (hostPID).' 
-                      : 'Audits dangerous capabilities (CAP_SYS_ADMIN, CAP_SYS_PTRACE), exposed docker.sock sockets, cgroup release_agent, and shared namespaces (hostPID).' }}
+                      ? 'Scanează capabilitățile (CAP_SYS_ADMIN, CAP_SYS_PTRACE), socket-urile docker.sock expuse, cgroups și namespaces partajate (hostPID).' 
+                      : 'Audits capabilities (CAP_SYS_ADMIN, CAP_SYS_PTRACE), exposed docker.sock sockets, cgroups, and shared namespaces (hostPID).' }}
                   </p>
                   <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
-                    <code>python3 cyber/red-team/container_escape_audit.py</code>
+                    <code>python3 cyber/red-team/container_audit.py</code>
                   </div>
                 </div>
 
-                <!-- 2. Atomic Red Team Runner -->
+                <!-- 2. Security Tests Runner -->
                 <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
                   <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
-                    <span class="text-amber-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Simulare Atacator' : 'Adversary Simulation' }}</span>
+                    <span class="text-amber-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Validare Detecție' : 'Detection Tests' }}</span>
                     <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 text-[10px] font-bold">MITRE ATT&CK</span>
                   </div>
-                  <h4 class="font-bold text-slate-100 text-sm">Atomic Red Team Runner</h4>
+                  <h4 class="font-bold text-slate-100 text-sm">Security Detection Tests</h4>
                   <p class="text-slate-300 font-sans text-xs leading-relaxed">
                     {{ ts.isRomanian 
-                      ? 'Execută tehnici atomice (T1059.004 shell obfuscated, T1046 port discovery, T1552 canary hunt) pentru a măsura timpii de reacție ai alertelor Wazuh SIEM.' 
-                      : 'Executes atomic techniques (T1059.004 obfuscated shell, T1046 port discovery, T1552 canary hunt) measuring alert reaction latency in Wazuh SIEM.' }}
+                      ? 'Execută tehnici atomice (T1059.004 shell, T1046 port discovery, T1552 canary hunt) pentru a măsura timpii de reacție ai alertelor Wazuh SIEM.' 
+                      : 'Executes non-destructive techniques (T1059.004 shell, T1046 port discovery, T1552 canary hunt) measuring alert reaction latency in Wazuh SIEM.' }}
                   </p>
                   <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
-                    <code>python3 cyber/red-team/atomic_red_team_runner.py</code>
+                    <code>python3 cyber/red-team/sec_tests.py</code>
                   </div>
                 </div>
 
-                <!-- 3. Post-Exploitation Toolkit -->
+                <!-- 3. Privilege Audit -->
                 <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
                   <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
                     <span class="text-sky-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Audit Privilegii & Secrete' : 'Privilege & Secrets Audit' }}</span>
                     <span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 text-[10px] font-bold">ZERO-TRUST</span>
                   </div>
-                  <h4 class="font-bold text-slate-100 text-sm">Post-Exploitation Toolkit</h4>
+                  <h4 class="font-bold text-slate-100 text-sm">Privilege Boundary Audit</h4>
                   <p class="text-slate-300 font-sans text-xs leading-relaxed">
                     {{ ts.isRomanian 
                       ? 'Evaluează vectorii de escaladare locală de privilegii (directoare PATH perisabile, chei SSH cu permisiuni laxe, secrete expuse în variabile de mediu).' 
                       : 'Evaluates local privilege escalation vectors (writable PATH dirs, loose SSH key permissions, unvaulted environment variables).' }}
                   </p>
                   <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
-                    <code>python3 cyber/red-team/post_exploitation.py</code>
+                    <code>python3 cyber/red-team/priv_check.py</code>
                   </div>
                 </div>
 

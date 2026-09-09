@@ -1,54 +1,54 @@
-# Red Teaming, Adversary Simulation & Container Breakout Suite
+# Security Auditing & Detection Tests
 
-Acest modul conține uneltele de securitate ofensivă utilizate pentru auditarea continuă a barierelor de izolare, testarea timpilor de reacție ai SOC-ului (Wazuh SIEM pe VM 217 / Proxmox) și validarea deciziilor automate ale sistemelor de protecție (CrowdSec & Suricata).
+Acest modul conține scripturile pentru auditarea configurațiilor de izolare a containerelor și verificarea regulilor de detecție în Wazuh SIEM și CrowdSec.
 
 ---
 
-## 1. Structura Modulului
+## 1. Scripturi
 
-| Script | Rol & Tehnologie | Obiectiv Principal |
+| Script | Rol & Limbaj | Obiectiv Principal |
 | :--- | :--- | :--- |
-| [`container_escape_audit.py`](container_escape_audit.py) | Python 3 / Kernel Audit | Verificare capabilități periculoase (`CAP_SYS_ADMIN`, `CAP_SYS_PTRACE`), socket-uri containere (`docker.sock`, `containerd.sock`), `cgroups release_agent` și namespaces partajate (`hostPID`, `hostNetwork`). |
-| [`atomic_red_team_runner.py`](atomic_red_team_runner.py) | Python 3 / MITRE ATT&CK | Execuție automată de tehnici non-distructive (T1059.004, T1082, T1046, T1552) pentru validarea generării alertelor în Wazuh și CrowdSec. |
-| [`post_exploitation.py`](post_exploitation.py) | Python 3 / Audit Privilegii | Evaluare vectori de escaladare privilegii, permisiuni chei SSH, variabile de mediu cu secrete în clar și căi `PATH` nesecurizate. |
+| [`container_audit.py`](container_audit.py) | Python 3 | Verificare capabilități Linux (`CAP_SYS_ADMIN`, `CAP_SYS_PTRACE`), socket-uri expuse (`docker.sock`, `containerd.sock`), `cgroups` și namespaces partajate (`hostPID`, `hostNetwork`). |
+| [`sec_tests.py`](sec_tests.py) | Python 3 | Execuție automată de tehnici non-distructive (T1059.004, T1082, T1046, T1552) pentru validarea generării alertelor în Wazuh și CrowdSec. |
+| [`priv_check.py`](priv_check.py) | Python 3 | Evaluare permisiuni chei SSH, variabile de mediu cu secrete în clar și căi `PATH` perisabile. |
 
 ---
 
-## 2. Audit Container Escape (`container_escape_audit.py`)
+## 2. Audit Container (`container_audit.py`)
 
-Verifică dacă un container din Kubernetes (Talos) sau Docker dispune de configurații vulnerabile ce ar permite evadarea în sistemul de operare gazdă (host):
+Verifică dacă un container din Kubernetes sau Docker conține configurații vulnerabile:
 
 ```bash
 # Execuție audit direct în container
-python3 cyber/red-team/container_escape_audit.py
+python3 cyber/red-team/container_audit.py
 
-# Ieșire în format JSON structurat pentru pipeline-ul de securitate
-python3 cyber/red-team/container_escape_audit.py --json
+# Ieșire în format JSON
+python3 cyber/red-team/container_audit.py --json
 ```
 
-### Verificări incluse:
-1. **Linux Capabilities**: Decodare mască `CapEff` din `/proc/self/status` (alertare la `CAP_SYS_ADMIN`, `CAP_SYS_MODULE`, `CAP_SYS_PTRACE`, `CAP_DAC_OVERRIDE`, `CAP_NET_ADMIN`).
+### Verificări:
+1. **Linux Capabilities**: Decodare mască `CapEff` din `/proc/self/status` (`CAP_SYS_ADMIN`, `CAP_SYS_MODULE`, `CAP_SYS_PTRACE`, `CAP_DAC_OVERRIDE`, `CAP_NET_ADMIN`).
 2. **Socket-uri expuse**: Scanare `/var/run/docker.sock`, `/run/containerd/containerd.sock`, `/run/crio/crio.sock`.
-3. **Puncte de montare gazdă**: Identificare `/etc/shadow`, `/proc/sys`, `/sys/fs/cgroup`.
-4. **Izolare Namespaces**: Verificare dacă PID 1 este procesul containerizat sau `systemd`/`init` de pe host (`hostPID: true`).
-5. **Politici de Kernel**: Validare stare profil Seccomp (filtru strict mode 2) și AppArmor/SELinux.
+3. **Puncte de montare**: Identificare `/etc/shadow`, `/proc/sys`, `/sys/fs/cgroup`.
+4. **Izolare Namespaces**: Verificare dacă PID 1 este procesul containerului sau `init` de pe host (`hostPID`).
+5. **Politici Kernel**: Validare stare profil Seccomp și AppArmor.
 
 ---
 
-## 3. Simulator Adversar Atomic Red Team (`atomic_red_team_runner.py`)
+## 3. Teste de Detecție (`sec_tests.py`)
 
-Simulează acțiuni ale unui atacator pentru a măsura latența de detecție:
+Rulează verificări controlate pentru a măsura recepționarea alertelor:
 
 ```bash
-# Rulare baterie de tehnici pe nodul local sau container staging
-python3 cyber/red-team/atomic_red_team_runner.py 127.0.0.1
+# Rulare baterie de teste pe nodul local sau container staging
+python3 cyber/red-team/sec_tests.py 127.0.0.1
 ```
 
-### Tehnici MITRE ATT&CK simulate:
-* **T1082 (System Information Discovery)**: Execuție comenzi de recunoaștere hardware/OS (`uname -a`).
-* **T1059.004 (Unix Shell Encoded Execution)**: Rulare payload-uri codificate base64 pentru verificarea regulii Wazuh 80710.
-* **T1552.001 (Credentials In Files)**: Căutare fișiere canary tokens pentru declanșarea File Integrity Monitoring (FIM / Syscheck).
-* **T1046 (Network Service Discovery)**: Scanare porturi interne către servicii core pentru testarea bouncer-ului CrowdSec.
+### Tehnici simulate:
+* **T1082**: Comenzi de identificare hardware/OS (`uname -a`).
+* **T1059.004**: Execuție payload codificat base64 pentru testare regulă Wazuh 80710.
+* **T1552.001**: Acces fișiere canary tokens pentru declanșare FIM.
+* **T1046**: Scanare porturi interne pentru testare alertă CrowdSec/Suricata.
 
 ---
 

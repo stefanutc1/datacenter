@@ -46,7 +46,7 @@ if [[ "$IMAGE_INPUT" =~ ^https?:// ]]; then
         qm importdisk $VMID \"\$QCOW_FILE\" local-lvm
         qm set $VMID --scsihw virtio-scsi-single --scsi0 local-lvm:vm-$VMID-disk-0,discard=on,ssd=1 --boot order=scsi0
         qm start $VMID
-        echo '[✓] VM $VMID started successfully!'
+        echo '[OK] VM $VMID started successfully!'
         qm status $VMID
     "
 else
@@ -66,13 +66,13 @@ else
         qm importdisk $VMID \"\$QCOW_FILE\" local-lvm
         qm set $VMID --scsihw virtio-scsi-single --scsi0 local-lvm:vm-$VMID-disk-0,discard=on,ssd=1 --boot order=scsi0
         qm start $VMID
-        echo '[✓] VM $VMID started successfully!'
+        echo '[OK] VM $VMID started successfully!'
         qm status $VMID
     "
 fi
 
 echo "================================================================================"
-echo "[✓] FortiGate-VM (VM $VMID) is configured and running on Node 1!"
+echo "[OK] FortiGate-VM (VM $VMID) is configured and running on Node 1!"
 echo "    - Transit IP: 10.10.20.2/30 (vmbr2, peer with OPNsense 10.10.20.1/30)"
 echo "    - WebGUI / Mgmt: http://192.168.1.136 (vmbr0, port1 default DHCP/static)"
 echo "    - Serial Console: ssh root@$NODE_IP 'qm terminal $VMID'"

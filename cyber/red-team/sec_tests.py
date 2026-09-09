@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
 ==============================================================================
-ATOMIC RED TEAM ADVERSARY SIMULATION RUNNER
+SECURITY TEST SUITE
 ==============================================================================
-Executes controlled, non-destructive MITRE ATT&CK techniques against local
-workloads to measure defensive detection latency and telemetry ingestion in
-Wazuh SIEM (VM 217 / CT), CrowdSec, and Suricata IDS.
+Runs non-destructive validation of detection rules and telemetry ingestion in
+Wazuh SIEM, CrowdSec, and Suricata IDS.
 ==============================================================================
 """
 
@@ -30,7 +29,7 @@ TECHNIQUES = [
         "id": "T1059.004",
         "name": "Unix Shell Encoded Execution",
         "tactic": "Execution",
-        "payload": "ZWNobyAiW0FUT01JQ10gU3ludGhldGljIFJFRCBURUFNIEVWRU5UIg==",
+        "payload": "ZWNobyAiW1RFU1RdIFNlY3VyaXR5IGF1ZGl0IHBheWxvYWQgdGVzdCI=",
         "expected_telemetry": "Wazuh Rule 80710 (Base64 decoded command stream)",
     },
     {
@@ -50,7 +49,7 @@ TECHNIQUES = [
 ]
 
 
-class AtomicRunner:
+class SecTestsRunner:
     def __init__(self, target_host: str = "127.0.0.1", dry_run: bool = False):
         self.target_host = target_host
         self.dry_run = dry_run
@@ -114,16 +113,16 @@ class AtomicRunner:
 
     def run_all(self):
         print("=" * 70)
-        print(f"  ATOMIC RED TEAM SIMULATION (Target: {self.target_host})")
+        print(f"  SECURITY DETECTION TESTS (Target: {self.target_host})")
         print("=" * 70)
         for tech in TECHNIQUES:
             self.run_technique(tech)
         print("=" * 70)
-        print(f"[OK] Completed {len(self.results)} adversary simulation techniques.")
+        print(f"[OK] Completed {len(self.results)} security verification tests.")
         print("[OK] Correlate events in Wazuh SIEM Dashboard and CrowdSec Decisions.")
 
 
 if __name__ == "__main__":
     target = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "127.0.0.1"
-    runner = AtomicRunner(target_host=target)
+    runner = SecTestsRunner(target_host=target)
     runner.run_all()

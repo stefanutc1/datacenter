@@ -39,4 +39,4 @@ wg set "${WG_IF}" private-key "${CONFIG_DIR}/privatekey"
 echo "[*] Synchronizing new public key to Vault (secret/data/wireguard/peers)..."
 # vault kv put secret/wireguard/node1 public_key="${NEW_PUBKEY}" rotated_at="${TIMESTAMP}"
 
-echo "[✓] WireGuard key rotation completed successfully. Active handshake verified."
+echo "[OK] WireGuard key rotation completed successfully. Active handshake verified."

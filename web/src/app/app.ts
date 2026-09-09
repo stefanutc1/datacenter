@@ -1,14 +1,14 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-import { OverviewComponent } from './components/overview/overview.component';
-import { TopologyCanvasComponent } from './components/topology-canvas/topology-canvas.component';
-import { NodeInspectorComponent } from './components/node-inspector/node-inspector.component';
-import { ServiceMatrixComponent } from './components/service-matrix/service-matrix.component';
-import { HardwareFleetComponent } from './components/hardware-fleet/hardware-fleet.component';
-import { ArchitectureBlueprintComponent } from './components/architecture-blueprint/architecture-blueprint.component';
-import { AboutGalleryComponent } from './components/about-gallery/about-gallery.component';
-import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
+import { HeaderComponent } from './components/header/header';
+import { OverviewComponent } from './components/overview/overview';
+import { TopologyCanvasComponent } from './components/topology-canvas/topology';
+import { NodeInspectorComponent } from './components/node-inspector/inspector';
+import { ServiceMatrixComponent } from './components/service-matrix/matrix';
+import { HardwareFleetComponent } from './components/hardware-fleet/hardware';
+import { ArchitectureBlueprintComponent } from './components/architecture-blueprint/blueprint';
+import { AboutGalleryComponent } from './components/about-gallery/gallery';
+import { CommandPaletteComponent } from './components/command-palette/palette';
 import { TopologyNode } from './data/topology.data';
 import { TranslationService } from './services/translation.service';
 

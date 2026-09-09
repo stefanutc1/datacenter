@@ -50,4 +50,4 @@ EOF
     echo "  [+] Decoys deployed in: ${dir}"
 done
 
-echo "[✓] Canary honeytoken files placed. Audit logging & inotify alerts active."
+echo "[OK] Canary honeytoken files placed. Audit logging & inotify alerts active."

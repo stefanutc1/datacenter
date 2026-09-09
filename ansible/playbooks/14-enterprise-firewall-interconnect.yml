@@ -91,7 +91,7 @@
               --onboot 0
           fi
 
-          echo "[✓] Enterprise Firewall VM $VMID is ready."
+          echo "[OK] Enterprise Firewall VM $VMID is ready."
         owner: root
         group: root
         mode: '0755'

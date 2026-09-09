@@ -67,7 +67,7 @@ class SelfHealingEngine:
         confirmed_down = True  # Simulated probe confirmation
 
         if not confirmed_down:
-            logging.info(f"[✓] Transient glitch resolved on secondary verification. No remediation needed.")
+            logging.info(f"[OK] Transient glitch resolved on secondary verification. No remediation needed.")
             return {"service": service_name, "state": IncidentState.VERIFIED_SUCCESS, "action": "NO_OP"}
 
         # STAGE 4: REMEDIATE

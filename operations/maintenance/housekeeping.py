@@ -52,7 +52,7 @@ def run_housekeeping(dry_run: bool = False) -> dict:
         "details": executed
     }
     
-    logging.info(f"[✓] Housekeeping complete. Estimated storage reclaimed: {total_reclaimed_mb} MB")
+    logging.info(f"[OK] Housekeeping complete. Estimated storage reclaimed: {total_reclaimed_mb} MB")
     return result
 
 if __name__ == "__main__":
