@@ -10,7 +10,7 @@
                             "typescript":  "~7.0.2",
                             "@angular/compiler-cli":  "^20.3.0",
                             "@angular/build":  "^22.1.7",
-                            "@angular/cli":  "^20.3.35",
+                            "@angular/cli":  "^22.1.7",
                             "@types/node":  "^20.0.0"
                         },
     "dependencies":  {
