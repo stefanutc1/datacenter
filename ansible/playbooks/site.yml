@@ -49,17 +49,17 @@
 
 # STAGE 4: GITOPS & CI/CD PIPELINES (RENOVATEBOT)
 - name: "Stage 4: GitOps & Automated Dependency Engine"
-  hosts: hypervisors:lxc_arm64
+  hosts: hypervisors
   become: true
   tasks:
     - name: Include RenovateBot GitOps scanner
       include_role:
         name: renovatebot
-      when: inventory_hostname in ['pve_utility_arm64', 'arm_renovate_gitops']
+      when: inventory_hostname in ['pve_primary_x64']
 
 # STAGE 5: DOCKER CONTAINER RUNTIMES
 - name: "Stage 5: Docker Engine & Container Daemon Baseline"
-  hosts: lxc_x64:lxc_arm64
+  hosts: lxc_x64
   become: true
   roles:
     - base

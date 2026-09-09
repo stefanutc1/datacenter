@@ -13,7 +13,7 @@ services:
       - WOODPECKER_SERVER_ADDR=:8000
       - WOODPECKER_GRPC_ADDR=:9000
       - WOODPECKER_GITEA=true
-      - WOODPECKER_GITEA_URL=http://192.168.64.109:3000
+      - WOODPECKER_GITEA_URL=http://192.168.1.123:3000
     volumes:
       - /var/lib/woodpecker:/var/lib/woodpecker
 

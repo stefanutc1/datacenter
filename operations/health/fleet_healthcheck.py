@@ -17,7 +17,6 @@ from datetime import datetime, timezone
 
 TARGET_NODES = [
     {"name": "pve_primary_x64", "ip": "192.168.1.132", "type": "hypervisor"},
-    {"name": "pve_utility_arm64", "ip": "192.168.64.14", "type": "hypervisor"},
     {"name": "omv_nas", "ip": "192.168.1.14", "type": "storage"},
     {"name": "k8s_worker_node04", "ip": "192.168.1.18", "type": "kubernetes"}
 ]
@@ -27,7 +26,7 @@ CRITICAL_ENDPOINTS = [
     {"name": "Pi-hole DNS Web", "url": "http://192.168.1.4:80/admin/", "expected_status": [200, 302]},
     {"name": "Home Assistant", "url": "http://192.168.1.10:8123", "expected_status": [200, 302]},
     {"name": "Ollama GPU LLM API", "url": "http://192.168.1.110:11434/api/tags", "expected_status": [200]},
-    {"name": "Grafana Dashboard", "url": "http://192.168.64.24:3000", "expected_status": [200, 302]}
+    {"name": "Grafana Dashboard", "url": "http://192.168.1.121:3000", "expected_status": [200, 302]}
 ]
 
 def check_ping(ip: str, timeout_sec: int = 1) -> bool:

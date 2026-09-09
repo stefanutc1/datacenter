@@ -87,10 +87,6 @@ interface PhotoItem {
        <a href="https://192.168.1.132:8006" target="_blank" class="text-slate-300 hover:underline">192.168.1.132:8006</a>
       </div>
       <div class="flex justify-between items-center text-slate-300">
-       <span class="text-slate-400">PVE ARM64:</span>
-       <a href="https://192.168.64.14:8006" target="_blank" class="text-slate-300 hover:underline">192.168.64.14:8006</a>
-      </div>
-      <div class="flex justify-between items-center text-slate-300">
        <span class="text-slate-400">OPNsense:</span>
        <a href="https://192.168.1.134:8443" target="_blank" class="text-slate-300 hover:underline">192.168.1.134:8443</a>
       </div>
@@ -307,18 +303,6 @@ export class AboutGalleryComponent {
    endpoint: '192.168.1.132:8006',
    badge: 'PVE 12GB RAM',
    badgeRo: 'PVE 12GB RAM'
-  },
-  {
-   src: 'photos/proxmox_arm64_dashboard.png',
-   title: 'Proxmox VE 9.2.9 · Secondary ARM64 Node (Apple Silicon M1)',
-   titleRo: 'Proxmox VE 9.2.9 · Nod Secundar ARM64 (Apple Silicon M1)',
-   category: 'VIRTUALIZATION & ARM64',
-   categoryRo: 'VIRTUALIZARE & ARM64',
-   description: 'Proxmox VE running on Apple Silicon M1 ARM64 UTM, orchestrating 48 microservice LXC containers (it-tools, gitea, woodpecker-ci, authelia, vaultwarden, stepca, ntfy, etc.).',
-   descriptionRo: 'Proxmox VE rulat pe Apple Silicon M1 ARM64 UTM, orchestrând 48 de containere LXC de microservicii (it-tools, gitea, woodpecker-ci, authelia, vaultwarden, stepca, ntfy etc.).',
-   endpoint: '192.168.64.14:8006',
-   badge: 'PVE ARM64',
-   badgeRo: 'PVE ARM64'
   },
   {
    src: 'photos/services/vm-windows.png',

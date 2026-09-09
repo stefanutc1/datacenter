@@ -17,12 +17,6 @@ scrape_configs:
           node: 'pve-primary'
           arch: 'x86_64'
 
-  - job_name: 'node3-arm64'
-    static_configs:
-      - targets: ['192.168.64.14:9100']
-        labels:
-          node: 'pve-secondary'
-          arch: 'arm64'
 
   - job_name: 'opnsense-firewall'
     static_configs:

@@ -117,27 +117,27 @@ export interface Translations {
 const EN_TRANSLATIONS: Translations = {
   navOverview: 'Overview',
   navTopology: '3D Topology',
-  navServices: 'Services (95)',
+  navServices: 'Services (90)',
   navHardware: 'Hardware Fleet',
   navBlueprint: 'Architecture & Cyber',
-  statusClusterActive: '4 nodes online',
+  statusClusterActive: '3 nodes online',
   sublabelTag: 'Infrastructure & Services',
 
   heroTag: 'SYSTEM ARCHITECTURE & OVERVIEW',
   heroTitle: 'A heterogeneous bare-metal compute cluster, private cloud, and security testing lab.',
-  heroDescription: 'Technical documentation and interactive overview of the datacenter infrastructure: Proxmox VE virtualization across Apple Silicon ARM64 and Intel x86_64, Windows Server Active Directory, ZFS storage, OPNsense firewall segmentation, local GPU LLMs, and automation.',
+  heroDescription: 'Technical documentation and interactive overview of the datacenter infrastructure: Proxmox VE virtualization on Intel x86_64, Windows Server Active Directory, ZFS storage, OPNsense firewall segmentation, local GPU LLMs, and automation.',
   
   metricComputeTitle: 'PHYSICAL COMPUTE',
-  metricComputeCount: '4 Nodes',
-  metricComputeDesc: 'Intel i3-10100F (GTX 1050 Ti), Apple M1 Silicon, ASUS Celeron OMV NAS, and AMD Athlon II k3s.',
+  metricComputeCount: '3 Nodes',
+  metricComputeDesc: 'Intel i3-10100F (GTX 1050 Ti), ASUS Celeron OMV NAS, and AMD Athlon II k3s.',
   
   metricVirtTitle: 'VIRTUALIZATION',
-  metricVirtCount: '2 Hypervisors',
-  metricVirtDesc: 'Proxmox VE x86_64 & ARM64 hosting OPNsense, Windows AD, RHEL, macOS, NixOS, OpenStack, cyber fleet (VM 200-209), and 95 active microservices.',
+  metricVirtCount: '1 Hypervisor',
+  metricVirtDesc: 'Proxmox VE x86_64 hosting OPNsense, Windows AD, RHEL, macOS, NixOS, OpenStack, cyber fleet (VM 200-209), and 75 LXC containers.',
   
   metricServicesTitle: 'ACTIVE SERVICES & MULTI-CLOUD',
-  metricServicesCount: '95 Services · 3 Clouds',
-  metricServicesDesc: '95 active on-prem microservices and KVM enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
+  metricServicesCount: '90 Services · 3 Clouds',
+  metricServicesDesc: '90 active on-prem microservices and KVM enterprise VMs federated with Azure Key Vault, GCP WORM Storage & AWS Glacier.',
   
   metricCyberTitle: 'SECURITY, DFIR & CI/CD',
   metricCyberCount: 'SOC · 9 CI/CD Workflows',
@@ -164,8 +164,8 @@ const EN_TRANSLATIONS: Translations = {
   catEdge: 'Edge Sensors',
 
   hwTag: 'PHYSICAL HARDWARE',
-  hwTitle: 'Hardware Fleet (4 Compute Nodes)',
-  hwDesc: 'Multi-architecture bare-metal infrastructure: Intel Core i3 x86_64 virtualization, Apple M1 ARM64 UTM node, ASUS Celeron ZFS NAS, and AMD Athlon II Kubernetes worker.',
+  hwTitle: 'Hardware Fleet (3 Compute Nodes)',
+  hwDesc: 'Multi-node bare-metal infrastructure: Intel Core i3 x86_64 virtualization, ASUS Celeron ZFS NAS, and AMD Athlon II Kubernetes worker.',
   hwCpu: 'Processor (CPU)',
   hwOs: 'Operating System',
   hwRam: 'RAM Capacity',

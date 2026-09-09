@@ -100,7 +100,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     hardware: { node: 'pve (Intel i3-10100F)', ram: '1,024 MB', storage: '32 GB SSD' },
     tags: ['Perimeter Firewall', 'Suricata IDS/IPS', 'CrowdSec LAPI', 'GeoIP Drop', 'DNS over TLS', 'FRR BGP', 'Tailscale Mesh'],
     role: 'Enforces stateful packet filtering, Suricata NIDS/IPS, CrowdSec active defense, GeoIP blocking, Unbound DNS-over-TLS (Quad9), and FRRouting BGP peering with Kubernetes.',
-    connections: ['node1-pve', 'node3-arm', 'node2-omv', 'kubernetes-node', 'npm-ingress', 'wazuh-siem', 'tpot-cluster']
+    connections: ['node1-pve', 'node2-omv', 'kubernetes-node', 'npm-ingress', 'wazuh-siem', 'tpot-cluster']
   },
 
   // 2. EDGE IOT & SMART SENSORS (Top-Left)
@@ -202,8 +202,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'grafana-dash',
     name: 'Grafana Telemetry',
-    sublabel: 'CT 104 · Unified Dashboard',
-    ip: '192.168.64.104',
+    sublabel: 'CT 121 · Unified Dashboard',
+    ip: '192.168.1.121',
     port: 3000,
     category: 'services',
     tier: 4,
@@ -213,7 +213,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 40,
     color: '#f97316',
     icon: 'grafana',
-    hardware: { node: 'Node 3 (ARM64)', ram: '1,024 MB', storage: '8 GB' },
+    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '256 MB', storage: '4 GB' },
     tags: ['Observability', 'Real-Time Telemetry', 'Multi-Node Visuals', 'Alert Routing'],
     role: 'Provides unified visual dashboards for cluster health, network bandwidth, container utilization, and security event alerts.',
     connections: ['prometheus-tsdb', 'loki-logs-node']
@@ -221,8 +221,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'loki-logs-node',
     name: 'Loki Centralized',
-    sublabel: 'CT 106 · Enterprise Log Stream',
-    ip: '192.168.64.106',
+    sublabel: 'CT 121 · Enterprise Log Stream',
+    ip: '192.168.1.121',
     port: 3100,
     category: 'services',
     tier: 4,
@@ -232,7 +232,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 50,
     color: '#a855f7',
     icon: 'grafana',
-    hardware: { node: 'Node 3 (ARM64)', ram: '1,024 MB', storage: '16 GB' },
+    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '256 MB', storage: '4 GB' },
     tags: ['Log Aggregation', 'Kernel Logs', 'Promtail Ingestion', 'LogQL Querying'],
     role: 'Aggregates structured and unstructured logs across all hypervisors, containers, and network gateways into an indexed datastore.',
     connections: ['grafana-dash']
@@ -240,8 +240,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'prometheus-tsdb',
     name: 'Prometheus Metrics',
-    sublabel: 'CT 105 · TSDB Engine',
-    ip: '192.168.64.105',
+    sublabel: 'CT 121 · TSDB Engine',
+    ip: '192.168.1.121',
     port: 9090,
     category: 'services',
     tier: 4,
@@ -251,7 +251,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 60,
     color: '#ef4444',
     icon: 'prometheus',
-    hardware: { node: 'Node 3 (ARM64)', ram: '1,024 MB', storage: '24 GB' },
+    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '256 MB', storage: '4 GB' },
     tags: ['Metrics Engine', 'Time-Series DB', 'node_exporter', 'Alertmanager'],
     role: 'Scrapes hardware performance statistics, container metrics, and network counters every 15 seconds across all nodes.',
     connections: ['grafana-dash']
@@ -275,7 +275,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     hardware: { node: 'Node 1 (x86_64)', ram: '8,192 MB', storage: '80 GB' },
     tags: ['SIEM / XDR', 'Host IDS (HIDS)', 'Threat Hunting', 'Compliance'],
     role: 'Ingests real-time endpoint telemetry, performs automated threat detection, and analyzes security logs across all virtual machines and nodes.',
-    connections: ['node1-pve', 'node3-arm', 'node2-omv', 'kubernetes-node', 'opnsense-gw']
+    connections: ['node1-pve', 'node2-omv', 'kubernetes-node', 'opnsense-gw']
   },
   {
     id: 'suricata-ids',
@@ -352,25 +352,6 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'PCIe GPU Passthrough', 'Enterprise VMs'],
     role: 'Hosts primary x86_64 virtualization workloads including enterprise virtual machines, core containers, and GPU-accelerated local AI inference.',
     connections: ['win-server', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'ollama-gpu-node']
-  },
-  {
-    id: 'node3-arm',
-    name: 'PVE Secondary',
-    sublabel: 'Node 3 · Apple MacBook Air (ARM64)',
-    ip: '192.168.64.14',
-    port: 8006,
-    category: 'compute',
-    tier: 2,
-    status: 'OPERATIONAL',
-    x: 100,
-    y: 80,
-    z: 70,
-    color: '#a855f7',
-    icon: 'utm',
-    hardware: { node: 'Apple M1 (8 Cores) UTM', ram: '4,096 MB Dedicated (8GB Unified)', storage: 'Apple APFS NVMe SSD' },
-    tags: ['ARM64 Hypervisor', 'Apple Silicon', 'Observability Stack', 'DevOps CI/CD'],
-    role: 'Runs full-stack telemetry pipelines, continuous integration runners, and lightweight ARM64 microservices on an energy-efficient platform.',
-    connections: ['gitea-forge', 'woodpecker-ci', 'grafana-dash', 'prometheus-tsdb', 'trilium-notes']
   },
   {
     id: 'kubernetes-node',
@@ -550,25 +531,6 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['node1-pve']
   },
   {
-    id: 'vscode-server-arm',
-    name: 'VS Code Server ARM',
-    sublabel: 'CT 160 · Cloud IDE',
-    ip: '192.168.64.160',
-    port: 8443,
-    category: 'compute',
-    tier: 5,
-    status: 'OPERATIONAL',
-    x: 85,
-    y: 110,
-    z: 115,
-    color: '#38bdf8',
-    icon: 'code',
-    hardware: { node: 'Node 3 (Apple Silicon ARM64)', ram: '512 MB (ZRAM Compressed)', storage: '8 GB Pool' },
-    tags: ['VS Code Server', 'CT 160', 'Apple Silicon', 'ARM64', 'Cloud IDE', 'ZRAM'],
-    role: 'Secondary high-efficiency Visual Studio Code Server LXC container running natively on Apple Silicon M1 ARM64.',
-    connections: ['node3-arm']
-  },
-  {
     id: 'pbs-backup',
     name: 'Proxmox Backup',
     sublabel: 'PBS · Deduplicated Snapshots',
@@ -585,7 +547,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     hardware: { node: 'Node 2 (ZFS)', ram: '2,048 MB', storage: '500 GB ZFS Pool' },
     tags: ['Proxmox Backup Server', 'Deduplication', 'Encrypted Chunks', 'Ransomware Proof'],
     role: 'Maintains deduplicated, verified, client-side encrypted hourly backups of all virtual machines and containers.',
-    connections: ['node1-pve', 'node3-arm', 'node2-omv']
+    connections: ['node1-pve', 'node2-omv']
   },
   {
     id: 'azure-cloud',
@@ -683,8 +645,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'gitea-forge',
     name: 'Gitea Source Forge',
-    sublabel: 'CT 109 · Private Git SCM',
-    ip: '192.168.64.109',
+    sublabel: 'CT 123 · Private Git SCM',
+    ip: '192.168.1.123',
     port: 3000,
     category: 'services',
     tier: 4,
@@ -694,16 +656,16 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 30,
     color: '#94a3b8',
     icon: 'gitea',
-    hardware: { node: 'Node 3 (ARM64)', ram: '1,024 MB', storage: '16 GB' },
+    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '256 MB', storage: '4 GB' },
     tags: ['Git Server', 'Infrastructure as Code', 'CI Webhooks', 'SSH Key Auth'],
     role: 'Hosts authoritative source repositories for Ansible playbooks, Terraform definitions, Docker configs, and Kubernetes manifests.',
-    connections: ['woodpecker-ci', 'node3-arm']
+    connections: ['woodpecker-ci']
   },
   {
     id: 'woodpecker-ci',
     name: 'Woodpecker CI Engine',
-    sublabel: 'CT 111 · Pipeline Automation',
-    ip: '192.168.64.111',
+    sublabel: 'CT 114 · Pipeline Automation',
+    ip: '192.168.1.118',
     port: 8000,
     category: 'services',
     tier: 4,
@@ -713,7 +675,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 40,
     color: '#38bdf8',
     icon: 'gitea',
-    hardware: { node: 'Node 3 (ARM64)', ram: '1,024 MB', storage: '16 GB' },
+    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '512 MB', storage: '8 GB' },
     tags: ['CI / CD Automation', 'Containerized Pipelines', 'Multi-Arch Builds', 'GitOps Trigger'],
     role: 'Executes automated testing, security vulnerability scanning, and configuration verification pipelines on every Git push.',
     connections: ['gitea-forge', 'kubernetes-node']
@@ -721,8 +683,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'trilium-notes',
     name: 'Trilium Notes',
-    sublabel: 'CT 103 · Hierarchical Notes',
-    ip: '192.168.64.103',
+    sublabel: 'CT 117 · Hierarchical Notes',
+    ip: '192.168.1.117',
     port: 8080,
     category: 'services',
     tier: 5,
@@ -732,10 +694,10 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 60,
     color: '#f59e0b',
     icon: 'trilium',
-    hardware: { node: 'Node 3 (ARM64)', ram: '512 MB', storage: '8 GB' },
+    hardware: { node: 'Node 1 (Intel i3-10100F)', ram: '256 MB', storage: '4 GB' },
     tags: ['Knowledge Base', 'Hierarchical Notes', 'Per-Note Encryption', 'Offline Sync'],
     role: 'Acts as a personal wiki, engineering runbook store, and architectural decision record repository with end-to-end encryption.',
-    connections: ['node3-arm']
+    connections: []
   },
   {
     id: 'argocd-gitops',
@@ -937,7 +899,6 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
 
   // OPNsense Core Trunk to Nodes
   { from: 'opnsense-gw', to: 'node1-pve', protocol: '802.1Q Trunk', color: 'rgba(239, 68, 68, 0.7)' },
-  { from: 'opnsense-gw', to: 'node3-arm', protocol: '802.1Q Bridge', color: 'rgba(168, 85, 247, 0.7)' },
   { from: 'opnsense-gw', to: 'node2-omv', protocol: 'VLAN 10 (Storage)', color: 'rgba(16, 185, 129, 0.7)' },
   { from: 'opnsense-gw', to: 'kubernetes-node', protocol: 'VLAN 20 (K8s)', color: 'rgba(59, 130, 246, 0.7)' },
   { from: 'opnsense-gw', to: 'suricata-ids', protocol: 'Inline IPS', color: 'rgba(6, 182, 212, 0.8)' },
@@ -971,7 +932,6 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'node1-pve', to: 'win-server', protocol: 'VirtIO Active Directory', color: 'rgba(2, 132, 199, 0.7)' },
   { from: 'node1-pve', to: 'macos-monterey', protocol: 'OpenCore KVM Hackintosh', color: 'rgba(139, 92, 246, 0.7)' },
   { from: 'node1-pve', to: 'nixos', protocol: 'QEMU KVM Linux', color: 'rgba(82, 119, 195, 0.7)' },
-  { from: 'node3-arm', to: 'vscode-server-arm', protocol: 'LXC Web IDE (M1)', color: 'rgba(56, 189, 248, 0.7)' },
   { from: 'node1-pve', to: 'ollama-gpu-node', protocol: 'PCIe GPU Passthrough', color: 'rgba(244, 63, 94, 0.8)' },
   { from: 'ollama-gpu-node', to: 'whisper-ai-node', protocol: 'Local AI Pipeline', color: 'rgba(236, 72, 153, 0.7)' },
   { from: 'node1-pve', to: 'postgres-ha', protocol: 'LXC Datastore', color: 'rgba(59, 130, 246, 0.7)' },

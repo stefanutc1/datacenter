@@ -12,7 +12,7 @@ TARGET_DIRS=(
     "/root/.backup_keys"
 )
 
-WEBHOOK_URL="http://192.168.64.112:80/homelab-security-alerts"
+WEBHOOK_URL="http://192.168.1.125:80/homelab-security-alerts"
 
 echo "=== DEPLOYING CANARY HONEYTOKENS ACROSS CLUSTER ==="
 

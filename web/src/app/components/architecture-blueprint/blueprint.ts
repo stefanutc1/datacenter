@@ -1035,16 +1035,11 @@ export interface ForensicCase {
               <span class="px-2 py-0.5 rounded bg-slate-400/15 text-slate-300 text-[10px] font-bold">{{ ts.isRomanian ? 'COMPRESIE LZ4 ACTIVĂ' : 'LZ4 COMPRESSION ACTIVE' }}</span>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-[11px]">
+            <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-3 text-[11px]">
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">Node 1 (x86_64) ZRAM</div>
                 <div class="font-bold text-slate-300 text-sm">6.0 GB /dev/zram0</div>
                 <div class="text-[10px] text-slate-400">ALGO=lz4 · Swappiness 60</div>
-              </div>
-              <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
-                <div class="text-[9px] text-slate-400 uppercase">Node 3 (ARM64) ZRAM</div>
-                <div class="font-bold text-slate-300 text-sm">1.9 GB /dev/zram0</div>
-                <div class="text-[10px] text-slate-400">ALGO=lz4 · Swappiness 20</div>
               </div>
               <div class="p-3 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <div class="text-[9px] text-slate-400 uppercase">{{ ts.isRomanian ? 'Protecție Durată Viață NVMe' : 'NVMe Lifespan Protection' }}</div>
@@ -1781,7 +1776,7 @@ export class ArchitectureBlueprintComponent implements OnInit {
     {
       id: 'VLAN 20',
       name: 'Core Microservices & Applications',
-      subnet: '192.168.1.0/24 & 192.168.64.0/24',
+      subnet: '192.168.1.0/24',
       gateway: '192.168.1.134 (OPNsense)',
       nodes: 'NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110)',
       firewallPolicy: 'Strict forward authentication via Authentik (CT 108)'
@@ -1824,7 +1819,7 @@ export class ArchitectureBlueprintComponent implements OnInit {
     {
       id: 'VLAN 20',
       name: 'Microservicii Core & Aplicații',
-      subnet: '192.168.1.0/24 & 192.168.64.0/24',
+      subnet: '192.168.1.0/24',
       gateway: '192.168.1.134 (OPNsense)',
       nodes: 'NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110)',
       firewallPolicy: 'Autentificare strictă înainte de acces via Authentik (CT 108)'

@@ -158,7 +158,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 111: Code-Server Web IDE (VS Code Cloud Workspace · CT 111)',
       'CT 112: Proxmox Backup Server (PBS Enterprise Deduplication & Verification · CT 112)',
       'CT 113: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI · CT 113)',
-      'CT 114: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine (CT 114)'
+      'CT 114: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine (CT 114)',
+      'CT 115-174: Consolidated Utilities & Self-Hosted Microservices (onboot: 0 · IT-Tools, Actual Budget, Trilium, ChangeDetection, Uptime Kuma, Vaultwarden, Monitoring, Authelia, Gitea, Gatus, Ntfy, Linkding, Step-CA, Beszel, PocketBase, Homepage, Speedtest, Memos, Wallos, Syncthing, Microbin, Vikunja, Blackbox, YourSpotify, WebCheck, OpenGist, Flatnotes, Whoogle, Shlink, Pingvin-Share, RSS-Bridge, Excalidraw, Renovate, Transmission, Kavita, Stirling-PDF, Audiobookshelf, Calibre-Web, Kiwix, RomM, EmulatorJS, TubeArchivist, Kopia, Paperless-ngx, MinIO, pgAdmin, Meilisearch, Vector, Dozzle, NetAlertX, RustDesk, WG-Easy, Vault, Draw.io, CyberChef, HedgeDoc, Glances, Gotify, Miniflux, Grocy)'
     ]
   },
   {
@@ -183,31 +184,6 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'Proxmox VE Daily Backup Repository (VZDump)',
       'Kiwix Offline Wikipedia & StackOverflow ZIM Server (:8085)',
       'Immich Photo Library & Jellyfin Media Storage Pool'
-    ]
-  },
-  {
-    id: 'node3-arm',
-    name: 'Proxmox ARM64 (pve)',
-    machine: 'Apple MacBook Air (M1, 2020)',
-    machineRo: 'Apple MacBook Air (M1, 2020)',
-    role: 'Acts as an energy-efficient ARM64 development and observability hypervisor. It runs full-stack telemetry pipelines, continuous integration runners, private identity authorities, and lightweight microservices.',
-    roleRo: 'Funcționează ca un hypervisor ARM64 ultra-eficient din punct de vedere energetic pentru dezvoltare și observabilitate. Rulează stiva completă de telemetrie LGTM, runneri de integrare continuă, autorități private de identitate și microservicii.',
-    cpu: 'Apple M1 (8 Cores: 4 Performance Firestorm + 4 Efficiency Icestorm, 16-Core NPU)',
-    ram: '8,192 MB Unified Memory (4,096 MB dedicated to UTM Proxmox ARM64 VM)',
-    zram: '1.9 GB /dev/zram0 (lz4 compression, swappiness 20, priority 100 · High-speed memory compression)',
-    storage: '55 GB NVMe SSD Pool (41 GB rootfs LVM Thin · 30 GB Available)',
-    os: 'Proxmox VE on ARM via UTM (QEMU Apple Hypervisor.framework · zram-tools enabled)',
-    ip: '192.168.64.14',
-    status: 'OPERATIONAL',
-    tags: ['Apple Silicon ARM64', 'High Efficiency', 'ZRAM lz4 (1.9GB)', 'LGTM Observability', 'Gitea & Woodpecker CI', 'RenovateBot GitOps'],
-    tagsRo: ['Apple Silicon ARM64', 'Eficiență Energetică Ridicată', 'ZRAM lz4 (1.9GB)', 'Observabilitate LGTM', 'Gitea & Woodpecker CI', 'RenovateBot GitOps'],
-    workloads: [
-      'CT 100-145: IT-Tools, Actual Budget, Trilium, ChangeDetection, Scrutiny, Uptime Kuma, Vaultwarden, Monitoring, Authelia, Gitea, Woodpecker, Telemetry & Heimdall',
-      'CT 146-147: Proxmox Backup Server (PBS) & Proxmox Datacenter Manager (PDM)',
-      'CT 148: RenovateBot On-Premise GitOps Dependency Engine',
-      'CT 149-158: Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS',
-      'CT 159: VS Code Server Cloud IDE ARM64',
-      'CT 160-181: Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, pgAdmin4, Dozzle, Kiwix, HedgeDoc, Glances, Dufs, Gotify, Miniflux, Grocy, Chrony NTP, Linkwarden, SNMP, SearXNG-Redis'
     ]
   },
   {

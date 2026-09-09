@@ -13,7 +13,7 @@
     content: |
       module.exports = {
         platform: 'gitea',
-        endpoint: 'http://192.168.64.109:3000/api/v1',
+        endpoint: 'http://192.168.1.123:3000/api/v1',
         token: process.env.RENOVATE_TOKEN || 'renovate_gitea_token',
         autodiscover: true,
         onboarding: true,

@@ -4,14 +4,14 @@
 [![CI/CD Status](https://github.com/stefanutc1/infrastructure/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/infrastructure/actions)
 [![IaC Lint & Test Coverage](https://img.shields.io/badge/IaC%20Test%20Coverage-98.4%25%20(Terraform%20%2B%20Ansible)-emerald?style=flat&logo=terraform)](https://github.com/stefanutc1/infrastructure/tree/main/terraform)
 [![Infrastructure Uptime](https://img.shields.io/badge/Uptime%20Kuma-99.98%25%20SLA-brightgreen?style=flat&logo=uptimekuma)](https://status.homelab.local)
-[![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64%20%26%20ARM64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/infrastructure)
+[![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/infrastructure)
 [![Zero-Trust Security](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/infrastructure)
 [![Local AI](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20NVIDIA%20GTX%201050%20Ti-violet?style=flat&logo=nvidia)](https://github.com/stefanutc1/infrastructure)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
 
 <br/>
 
-**Hybrid infrastructure platform with Proxmox VE virtualization across x86_64 and ARM64, enterprise firewall routing (OPNsense perimeter NGFW + Proxmox VE defense-in-depth), ZFS storage arrays, declarative Terraform/Ansible automation, and eBPF runtime observability.**
+**Hybrid infrastructure platform with Proxmox VE virtualization on x86_64, enterprise firewall routing (OPNsense perimeter NGFW + Proxmox VE defense-in-depth), ZFS storage arrays, declarative Terraform/Ansible automation, and eBPF runtime observability.**
 
 [Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
@@ -89,7 +89,6 @@ flowchart TB
     subgraph Compute_Layer["Hybrid Multi-Node Virtualization Fleet"]
         Node1["Node 1: Proxmox Primary (x86_64)<br/>Intel Core i3-10100F · 12GB RAM<br/>NVIDIA GTX 1050 Ti GPU (Passthrough)"]
         Node2["Node 2: OMV NAS Storage<br/>ASUS Laptop · Celeron N2830 · 2GB RAM<br/>500GB ZFS Pool · Kiwix Wikipedia"]
-        Node3["Node 3: Proxmox Secondary (ARM64)<br/>Apple MacBook Air M1 · 8-Core<br/>LGTM Telemetry · Gitea · Woodpecker CI"]
         Node4["Node 4: Talos Linux Worker<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · eBPF Tetragon Sensor"]
     end
 
@@ -101,10 +100,8 @@ flowchart TB
 
     V10 -.-> Node1
     V10 -.-> Node2
-    V10 -.-> Node3
     V10 -.-> Node4
     V20 -.-> Node1
-    V20 -.-> Node3
     V30 -.-> Node1
     V40 -.-> Node1
     V50 -.-> Node1
@@ -144,13 +141,7 @@ flowchart TB
  end
 ```
 
-| Strategic Pillar | Technology & Module | Cluster Role & Functionality | Port / Protocol |
-| :--- | :--- | :--- | :--- |
-| **Threat Intel** | Suricata 8.0 + CrowdSec + GeoIP | Deep packet inspection, collaborative IP reputation, and GeoIP drop | WAN / VLAN Promisc |
-| **Observability** | Telegraf + Monit Auto-Healing | Live Prometheus telemetry in Grafana and watchdog daemon recovery | `:9273 TCP` / 30s Poll |
-| **GitOps & DR** | `os-git-backup` (GPG Encrypted) | Automatic Git versioning of `config.xml` on every administrative change | Git SSH Hook |
-| **Privacy & DNS** | Unbound DoT + Kea DynDNS | Encrypted DNS over TLS (Port 853) to Quad9 and dynamic host naming | `:853 TLS` / `:53 UDP` |
-| **Zero-Trust Mesh** | FRRouting BGP + Tailscale Subnet | Dynamic K8s MetalLB routing and remote mesh access without open ports | `:179 BGP` / Mesh |
+| Strategic Pillar | Technology & Module | Cluster Role & Functionality | Port / Protocol | **Threat Intel** | Suricata 8.0 + CrowdSec + GeoIP | Deep packet inspection, collaborative IP reputation, and GeoIP drop | WAN / VLAN Promisc | **GitOps & DR** | `os-git-backup` (GPG Encrypted) | Automatic Git versioning of `config.xml` on every administrative change | Git SSH Hook | **Zero-Trust Mesh** | FRRouting BGP + Tailscale Subnet | Dynamic K8s MetalLB routing and remote mesh access without open ports | `:179 BGP` / Mesh |
 
 ### 2.4 OPNsense 802.1Q VLAN Micro-Segmentation & Security Policies
 
@@ -158,13 +149,7 @@ The perimeter firewall OPNsense (VM 200 · 192.168.1.134) enforces zero-trust 80
 
 ![OPNsense 802.1Q VLAN Micro-Segmentation](photos/opnsense_vlan_segmentation.png)
 
-| VLAN ID | Network Segment | Subnet CIDR | Gateway | Attached Workloads | Security Policy |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **VLAN 10** | Management & Storage Subnet | `192.168.1.0/24` | `192.168.1.1` | Proxmox Core (x86_64), OMV NAS, Managed Switches | Isolated from IoT & Guest subnets |
-| **VLAN 20** | Core Microservices & Applications | `192.168.1.0/24` & `192.168.64.0/24` | `192.168.1.134` (OPNsense) | NPM Ingress, Vaultwarden, Immich, Nextcloud, Home Assistant, Gitea, Ollama (CT 110) | Strict forward authentication via Authentik (CT 108) |
-| **VLAN 30** | Cyber Security & Sandboxes (CyberLab) | `192.168.30.0/24` | `192.168.1.134:8443` | Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim) | Promiscuous SPAN mirror port, no outbound WAN access for sandboxes |
-| **VLAN 40** | DMZ Deception & Honeypots | `192.168.40.0/24` | `192.168.1.134` (OPNsense) | T-Pot Cluster (Cowrie SSH, Dionaea, RDP honeypot, Honeytrap) | Completely isolated DMZ; automated AbuseIPDB firewall blocking |
-| **VLAN 50** | IoT & Physical Edge Devices | `192.168.50.0/24` | `192.168.1.134 (OPNsense)` | ESP32 mmWave Radar, ESP32 Irrigation Relays, Zigbee Gateway | MQTT communication strictly restricted to Home Assistant (CT 106) |
+| VLAN ID | Network Segment | Subnet CIDR | Gateway | Attached Workloads | Security Policy | **VLAN 10** | Management & Storage Subnet | `192.168.1.0/24` | `192.168.1.1` | Proxmox Core (x86_64), OMV NAS, Managed Switches | Isolated from IoT & Guest subnets | **VLAN 30** | Cyber Security & Sandboxes (CyberLab) | `192.168.30.0/24` | `192.168.1.134:8443` | Wazuh XDR SIEM (1514), Suricata IDS, Atomic Red Team, CAPEv2 / Cuckoo Sandbox (Win10 + INetSim) | Promiscuous SPAN mirror port, no outbound WAN access for sandboxes | **VLAN 50** | IoT & Physical Edge Devices | `192.168.50.0/24` | `192.168.1.134 (OPNsense)` | ESP32 mmWave Radar, ESP32 Irrigation Relays, Zigbee Gateway | MQTT communication strictly restricted to Home Assistant (CT 106) |
 
 ---
 
@@ -177,7 +162,7 @@ flowchart TB
  subgraph OnPrem["ON-PREMISE HYBRID HOMELAB"]
  direction TB
  OPN["OPNsense Firewall (192.168.1.134:8443)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
- PVE["Proxmox VE Nodes (x86_64 & ARM64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
+ PVE["Proxmox VE Primary (x86_64)<br/>ZRAM lz4 · Dynamic VirtIO Ballooning"]
  ZFS["ZFS Storage Mirror & Local Backups<br/>NFS / SMB Shares · PBS Target"]
  OPN --- PVE --- ZFS
  end
@@ -212,11 +197,7 @@ flowchart TB
 
 ### Cloud Integration & Zero-Cost Tiering Matrix
 
-| Cloud Provider | IaC Directory | Core Declarative Resources | Cost Optimization Tier |
-| :--- | :--- | :--- | :--- |
-| **Microsoft Azure** | [`cloud/azure/`](cloud/azure/) | `azurerm_key_vault` (Cloud HSM Root CA & LUKS), `azurerm_storage_blob` (Archive Tier DR), `azuread_application` (SSO Authentik), `azurerm_arc_machine` (Defender for Cloud) | Archive Tier + Free Tier HSM |
-| **Google Cloud (GCP)** | [`cloud/gcp/`](cloud/gcp/) | `google_storage_bucket` (WORM Object Lock PBS/Restic), `google_iam_workload_identity_pool` (Keyless OIDC), `google_dns_managed_zone` (DNSSEC fallback), `google_logging_project_sink` (BigQuery SIEM) | Coldline / Archive + BigQuery Free |
-| **Amazon Web Services** | [`cloud/aws/`](cloud/aws/) | `aws_s3_bucket` (Glacier Deep Archive 365d), `aws_iam_openid_connect_provider` (Keyless CI/CD AssumeRole), `aws_vpn_connection` (Site-to-Site IPsec OPNsense) | Glacier Deep Archive + Free STS |
+| Cloud Provider | IaC Directory | Core Declarative Resources | Cost Optimization Tier | **Microsoft Azure** | [`cloud/azure/`](cloud/azure/) | `azurerm_key_vault` (Cloud HSM Root CA & LUKS), `azurerm_storage_blob` (Archive Tier DR), `azuread_application` (SSO Authentik), `azurerm_arc_machine` (Defender for Cloud) | Archive Tier + Free Tier HSM | **Amazon Web Services** | [`cloud/aws/`](cloud/aws/) | `aws_s3_bucket` (Glacier Deep Archive 365d), `aws_iam_openid_connect_provider` (Keyless CI/CD AssumeRole), `aws_vpn_connection` (Site-to-Site IPsec OPNsense) | Glacier Deep Archive + Free STS |
 
 ---
 
@@ -224,17 +205,7 @@ flowchart TB
 
 Infrastructure and application code are validated continuously across **9 GitHub Actions CI/CD workflows** running **36+ parallel automated quality gates**:
 
-| # | Workflow File | Pipeline Name | Automated Quality Guarantees & Checks |
-| :---: | :--- | :--- | :--- |
-| 1 | [`.github/workflows/homelab-ci-cd-matrix.yml`](.github/workflows/homelab-ci-cd-matrix.yml) | **Enterprise Quality Matrix** | `terraform fmt` & `validate` (on-prem + multi-cloud), Checkov IaC Security, Trivy Misconfig, Docker Compose validation, ShellCheck, Secret Leakage, ELO Matrix (Python 3.9-3.13) |
-| 2 | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | **Core CI Pipeline** | Gitleaks & TruffleHog (Secrets Scan), Ruff Lint, MyPy Static Types, Bandit SAST, Semgrep, Ansible Syntax Check on all playbooks, Kubeconform Kubernetes validation |
-| 3 | [`.github/workflows/cd.yml`](.github/workflows/cd.yml) | **Continuous Deployment** | GitOps Reconciliation, Container Image Packaging on GHCR, Automated Rollback Verification |
-| 4 | [`.github/workflows/container-scan.yml`](.github/workflows/container-scan.yml) | **Container Security** | Trivy Container Image Scanner & Dockle CIS Docker Benchmark compliance |
-| 5 | [`.github/workflows/security-scan.yml`](.github/workflows/security-scan.yml) | **CodeQL SAST Analysis** | GitHub Advanced Security CodeQL engine for deep static vulnerability scanning (Python & TypeScript) |
-| 6 | [`.github/workflows/security-scheduled.yml`](.github/workflows/security-scheduled.yml) | **Nightly Security Audit** | Scheduled nightly audit (02:00 UTC) for dependency CVEs (Pip-Audit, NPM Audit, Trivy FS) |
-| 7 | [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) | **Deploy GitHub Pages** | Angular 19 production build & zero-downtime deployment to GitHub Pages |
-| 8 | [`.github/workflows/desktop-macos-release.yml`](.github/workflows/desktop-macos-release.yml) | **macOS Native Release** | C# .NET 10 universal binary compilation, signing, and DMG artifact distribution for ELO desktop |
-| 9 | [`.github/workflows/readme-sync.yml`](.github/workflows/readme-sync.yml) | **Documentation Sync** | Automated documentation sync and badge validation across all 5 supported languages |
+| # | Workflow File | Pipeline Name | Automated Quality Guarantees & Checks | 1 | [`.github/workflows/homelab-ci-cd-matrix.yml`](.github/workflows/homelab-ci-cd-matrix.yml) | **Enterprise Quality Matrix** | `terraform fmt` & `validate` (on-prem + multi-cloud), Checkov IaC Security, Trivy Misconfig, Docker Compose validation, ShellCheck, Secret Leakage, ELO Matrix (Python 3.9-3.13) | 3 | [`.github/workflows/cd.yml`](.github/workflows/cd.yml) | **Continuous Deployment** | GitOps Reconciliation, Container Image Packaging on GHCR, Automated Rollback Verification | 5 | [`.github/workflows/security-scan.yml`](.github/workflows/security-scan.yml) | **CodeQL SAST Analysis** | GitHub Advanced Security CodeQL engine for deep static vulnerability scanning (Python & TypeScript) | 7 | [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) | **Deploy GitHub Pages** | Angular 19 production build & zero-downtime deployment to GitHub Pages | 9 | [`.github/workflows/readme-sync.yml`](.github/workflows/readme-sync.yml) | **Documentation Sync** | Automated documentation sync and badge validation across all 5 supported languages |
 
 ---
 
@@ -242,12 +213,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 
 ### Hardware Specifications Matrix
 
-| Node Identifier | Form Factor / Chassis | CPU Architecture | Accelerator / GPU | RAM Allocation | Storage Configuration | Primary Purpose |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`pve` (Node 1)** | Custom ATX Tower | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 12 GB DDR4-2133 (12,288 MB) | 512 GB NVMe SSD (`local-lvm`) | Primary Hypervisor: Windows Server 2025 Datacenter AD, OPNsense, Ollama GPU (CT 110), Immich AI |
-| **`openmediavault` (Node 2)** | ASUS X451MA Laptop | Intel Celeron N2830 (2C/2T @ 2.16 GHz) | Intel HD Graphics | 2 GB DDR3L | 500 GB SATA HDD (ZFS Mirror) | Centralized NAS: NFS/SMB storage pool, Proxmox vzdump backup target, Kiwix offline Wikipedia |
-| **`pve` (Node 3)** | Apple MacBook Air (2020) | Apple M1 (4P + 4E Cores @ 3.20 GHz) | 16-Core Apple Neural Engine / Metal | 8 GB Unified (4GB dedicated VM) | 256 GB Apple APFS NVMe | Secondary ARM64 Hypervisor (UTM): Grafana/Prometheus/Tempo telemetry, Gitea, Woodpecker CI |
-| **`kubernetes` (Node 4)** | Custom ATX Chassis | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Immutable Talos Linux / k3s worker, batch cron workloads, eBPF security probing |
+| Node Identifier | Form Factor / Chassis | CPU Architecture | Accelerator / GPU | RAM Allocation | Storage Configuration | Primary Purpose | **`pve` (Node 1)** | Custom ATX Tower | Intel Core i3-10100F (4C/8T @ 4.30 GHz) | NVIDIA GeForce GTX 1050 Ti (4GB VRAM) | 12 GB DDR4-2133 (12,288 MB) | 512 GB NVMe SSD (`local-lvm`) | Primary Hypervisor: Windows Server 2025 Datacenter AD, OPNsense, Ollama GPU (CT 110), Immich AI | **`kubernetes` (Node 4)** | Custom ATX Chassis | AMD Athlon II X2 220 (2C/2T @ 2.80 GHz) | NVIDIA GeForce GTS 250 (1GB) | 4 GB DDR3-1333 | 80 GB HDD (NFS Root) | Immutable Talos Linux / k3s worker, batch cron workloads, eBPF security probing |
 
 ### Power Delivery & NUT Controlled Shutdown Sequence
 
@@ -255,7 +221,7 @@ Infrastructure and application code are validated continuously across **9 GitHub
 flowchart TD
  Mains["Mains Utility Power 230V AC"] --> UPS["Coldex Pure Sine Wave 1200VA UPS<br/>+ External 100Ah Deep-Cycle Battery"]
  UPS --> PDU["Smart Energy Metered PDU"]
- PDU --> Node1 & Node2 & Node3 & Node4 & Switch["Managed PoE+ Switch"]
+ PDU --> Node1 & Node2 & Node4 & Switch["Managed PoE+ Switch"]
 
  UPS -.->|"USB HID Telemetry"| NUT_Master["NUT Server (Network UPS Tools)<br/>Node 1 (192.168.1.132)"]
  NUT_Master -->|"Power Outage Event"| Timer{"On Battery > 15 Mins OR<br/>Battery Charge < 25%"}
@@ -271,148 +237,24 @@ flowchart TD
 
 ## 10. LXC Containers & VM Workloads Resource Matrix
 
-### Granular LXC Container Roster (Node 1 — x86_64 Primary)
+### Granular LXC Container Roster (Node 1 — x86_64 Primary: CT 100 - CT 174)
 
-| VMID | Hostname | Base OS | vCPU | RAM Allocation | Storage Pool | Static IP | Subsystem Category | Primary Workload |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Storage / AI | Photo Library + Machine Learning Face Recognition |
-| **101** | `nextcloud` | Alpine 3.24 | 2 | 256 MB | `local-lvm:50G` | `192.168.1.8` | Storage | Enterprise File Cloud & WebDAV Sync |
-| **102** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Hub, Zigbee & ESP32 Telemetry |
-| **103** | `n8n` | Alpine 3.24 | 2 | 256 MB | `local-lvm:8G` | `192.168.1.13` | Automation | Workflow Orchestration & Incident Playbooks |
-| **104** | `scrutiny` | Alpine 3.24 | 1 | 96 MB | `local-lvm:3G` | `192.168.1.18` | Monitoring | Scrutiny S.M.A.R.T. Drive Health Agent |
-| **105** | `media-suite` | Alpine 3.24 | 2 | 896 MB | `local-lvm:50G` | `192.168.1.21` | Media | Jellyfin Media Processing Ingress |
-| **106** | `ollama` | Debian 13 | 4 | 2,048 MB | `local-lvm:16G` | `192.168.1.110` | Local AI | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) |
-| **107** | `openwebui` | Debian 13 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.111` | Local AI | Self-Hosted ChatGPT / Claude Interface |
-| **108** | `whisper` | Debian 13 | 2 | 1,024 MB | `local-lvm:8G` | `192.168.1.112` | Local AI | Faster-Whisper Speech-to-Text CUDA API |
-| **109** | `flowise` | Alpine 3.24 | 2 | 512 MB | `local-lvm:1G` | `192.168.1.26` | Local AI | Flowise Multi-Agent LLM Orchestrator |
-| **110** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.56` | Local AI | Paperless-AI Automated OCR & DeepSeek Document Tagging |
-| **111** | `codeserver` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.115` | Dev | Code-Server Cloud IDE Web Workspace |
-| **112** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Storage / Backup | Proxmox Backup Server (PBS Enterprise Deduplication & Verification) |
-| **113** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.117` | Management | Proxmox Datacenter Manager (Multi-Cluster Fleet Orchestration) |
-| **114** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner on Alpine Linux with k0s Kubernetes Engine |
-
-### Granular LXC Container Roster (Node 3 — Apple M1 ARM64 UTM)
-
-| VMID | Hostname | Base OS | vCPU | RAM Allocation | Storage Pool | Static IP | Subsystem Category | Primary Workload |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **100** | `it-tools` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.100` | Utilities | IT-Tools Handy Web Tools for Developers |
-| **101** | `actualbudget` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.101` | Finance | Actual Budget Local-First Personal Finance |
-| **102** | `trilium` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.102` | Notes | Trilium Hierarchical Note Taking Knowledge Base |
-| **103** | `changedetection` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.103` | Automation | ChangeDetection Website Change Monitoring & Alerting |
-| **104** | `scrutiny` | Debian 13 | 1 | 128 MB | `local:2G` | `192.168.64.104` | Monitoring | Scrutiny Hard Drive S.M.A.R.T. Health Telemetry |
-| **105** | `uptimekuma` | Debian 13 | 1 | 128 MB | `local:2G` | `192.168.64.105` | Monitoring | Uptime Kuma Service Availability & SLA Monitoring |
-| **106** | `vaultwarden` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.106` | Security | Vaultwarden Lightweight Bitwarden Compatible Server |
-| **107** | `monitoring` | Debian 13 | 2 | 384 MB | `local:2G` | `192.168.64.107` | Monitoring | Prometheus TSDB & Grafana Central Dashboards |
-| **108** | `authelia` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.108` | Security | Authelia 2FA & SSO Portal (FIDO2 / WebAuthn) |
-| **109** | `gitea` | Debian 13 | 2 | 160 MB | `local:2G` | `192.168.64.109` | Dev | Gitea Git Forge & Code Review Platform |
-| **110** | `woodpecker` | Alpine 3.24 | 2 | 192 MB | `local:2G` | `192.168.64.110` | CI/CD | Woodpecker CI Build Engine & Pipeline Runner |
-| **111** | `gatus` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.111` | Monitoring | Gatus Automated Health Dashboard in Go |
-| **112** | `ntfy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.112` | Alerts | Ntfy.sh Private Push Notifications Hub |
-| **113** | `linkding` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.113` | Automation | Linkding Bookmark & Technical Search Manager |
-| **114** | `stepca` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.114` | Security | Step-CA Private Automated TLS PKI Authority |
-| **115** | `tailscale-arm` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.115` | VPN | Tailscale Subnet Router (ARM64 Subnet) |
-| **116** | `beszel` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.116` | Monitoring | Beszel High-Resolution System Telemetry (1s) |
-| **117** | `pocketbase` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.117` | Backend | PocketBase Realtime Backend in 1 File (SQLite) |
-| **118** | `homepage` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.118` | Dashboard | Homepage Unified Homelab Command Dashboard |
-| **119** | `speedtest` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.119` | Monitoring | Speedtest-Tracker Automated Bandwidth Telemetry |
-| **120** | `memos` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.120` | Notes | Memos Privacy-First Fast Knowledge Capture |
-| **121** | `wallos` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.121` | Finance | Wallos Recurring Expense & Subscription Tracker |
-| **122** | `syncthing` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.122` | Storage | SyncThing P2P Bidirectional File Synchronization |
-| **123** | `microbin` | Alpine 3.24 | 1 | 16 MB | `local:2G` | `192.168.64.123` | Security | Microbin Encrypted Self-Destructing Rust Pastebin |
-| **124** | `vikunja` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.124` | Tasks | Vikunja Project & Task Management Platform |
-| **125** | `blackbox` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.125` | Monitoring | Prometheus Blackbox Exporter (ICMP / TLS Expiry) |
-| **126** | `yourspotify` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.126` | Analytics | YourSpotify Private Listening History & Insights |
-| **127** | `webcheck` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.127` | OSINT | Web-Check OSINT Security & Domain Scanner |
-| **128** | `opengist` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.128` | Dev | Opengist Self-Hosted Code Paste & Snippets |
-| **129** | `flatnotes` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.129` | Notes | Flatnotes Flat-File Markdown Note Storage |
-| **130** | `bark` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.130` | Alerts | Bark Apple Push Notification Relay Hub |
-| **131** | `shiori` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.131` | Storage | Shiori Simple Clean Web Page Archiver |
-| **132** | `whoogle` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.132` | Privacy | Whoogle Private Anonymized Google Proxy |
-| **133** | `flame` | Alpine 3.24 | 1 | 32 MB | `local:2G` | `192.168.64.133` | Dashboard | Flame Minimalist Fast Startpage |
-| **134** | `dashy` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.134` | Dashboard | Dashy Highly Customizable Homelab Dashboard |
-| **135** | `shlink` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.135` | Productivity | Shlink Self-Hosted URL Shortener with Geolocation Analytics |
-| **136** | `pastefy` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.136` | Productivity | Pastefy Secure & Beautiful Open-Source Pastebin |
-| **137** | `pingvin` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.137` | Storage | Pingvin Share Privacy-Focused File Sharing Platform |
-| **138** | `rssbridge` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.138` | Feed | RSS-Bridge Feed Generator for Sites Without Native Feeds |
-| **139** | `playwright` | Alpine 3.24 | 2 | 192 MB | `local:2G` | `192.168.64.139` | Probe | Playwright Headless Browser Worker for Dynamic Web Checks |
-| **140** | `uptimechk` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.140` | Monitoring | Distributed Secondary Uptime Verification Probe |
-| **141** | `dnsbench` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.141` | Network | DNS Benchmark & Latency Analytics Collector |
-| **142** | `excalidraw` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.142` | Productivity | Excalidraw Infinite Canvas Collaborative Virtual Whiteboard |
-| **143** | `snagim` | Alpine 3.24 | 1 | 48 MB | `local:2G` | `192.168.64.143` | Media | Snagim Fast Screenshot & Image Hosting Server |
-| **144** | `whoogletor` | Alpine 3.24 | 1 | 96 MB | `local:2G` | `192.168.64.144` | Privacy | Whoogle Search Routed via Encrypted Tor Circuit |
-| **145** | `heimdall` | Alpine 3.24 | 1 | 64 MB | `local:2G` | `192.168.64.145` | Dashboard | Heimdall Application Dashboard with Live Service Indicators |
-| **146** | `pbs` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.146` | Storage / Backup | Proxmox Backup Server (PBS Deduplication & Verification) |
-| **147** | `pdm` | Alpine 3.24 | 2 | 512 MB | `local:2G` | `192.168.64.147` | Management | Proxmox Datacenter Manager (Multi-Cluster Management) |
-| **148** | `renovate` | Alpine 3.24 | 2 | 256 MB | `local:1G` | `192.168.64.148` | GitOps | RenovateBot Automated Dependency PR Engine |
-| **149** | `transmission` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.149` | Media | Isolated BitTorrent Download Gateway |
-| **150** | `kavita` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.150` | Media | E-book, Manga & Comic Web Reader |
-| **151** | `stirling` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.151` | Productivity | Stirling-PDF Offline PDF Toolset |
-| **152** | `audiobookshelf` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.152` | Media | Audiobook & Podcast Streaming Server |
-| **153** | `tubearchivist` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.153` | Media | Private YouTube Channel Archiver |
-| **154** | `calibreweb` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.154` | Media | Calibre-Web Digital Book Manager |
-| **155** | `cyberchef` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.155` | Security | CyberChef Swiss Army Knife |
-| **156** | `drawio` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.156` | Architecture | Draw.io Offline Diagramming Suite |
-| **157** | `romm` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.157` | Gaming | RomM Retro Games Collection Manager |
-| **158** | `emulatorjs` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.158` | Gaming | EmulatorJS WebAssembly Retro Gaming |
-| **159** | `vscode-server` | Alpine 3.24 | 2 | 512 MB | `local:1G` | `192.168.64.159` | Dev | VS Code Server Cloud IDE ARM64 |
-| **160** | `paperless` | Alpine 3.24 | 2 | 512 MB | `local:1G` | `192.168.64.160` | DMS | Paperless-ngx Document Management |
-| **161** | `minio` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.161` | Storage | MinIO S3 Object Storage Server |
-| **162** | `meilisearch` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.162` | Search | Typo-Tolerant Full-Text Search Engine |
-| **163** | `vector` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.163` | Telemetry | Vector High-Performance Log Aggregator |
-| **164** | `searxng` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.164` | Privacy | SearXNG Privacy Metasearch Engine |
-| **165** | `netalertx` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.165` | Security | NetAlertX Network Intruder Detector |
-| **166** | `rustdesk` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.167` | Remote | RustDesk Self-Hosted Remote Desktop Relay |
-| **167** | `kopia` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.167` | Backup | Fast Encrypted Snapshot Backup Server |
-| **168** | `wgeasy` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.168` | VPN | WireGuard-Easy Management Portal |
-| **169** | `pgadmin` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.169` | Database | pgAdmin 4 PostgreSQL Web Administration |
-| **170** | `dozzle` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.170` | Monitoring | Dozzle Live Container Log Viewer |
-| **171** | `kiwix` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.171` | Knowledge | Kiwix Offline Wikipedia & Docs Server |
-| **172** | `hedgedoc` | Alpine 3.24 | 1 | 256 MB | `local:1G` | `192.168.64.172` | Notes | HedgeDoc Collaborative Markdown Notes |
-| **173** | `glances` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.173` | Monitoring | Glances System Telemetry & Process Monitor |
-| **174** | `dufs` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.174` | Storage | Dufs Lightweight Static File Server |
-| **175** | `gotify` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.175` | Alerts | Gotify Self-Hosted Push Notification Server |
-| **176** | `miniflux` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.176` | Feed | Miniflux Minimalist RSS Feed Reader |
-| **177** | `grocy` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.177` | ERP | Grocy Self-Hosted ERP & Household Tracker |
-| **178** | `chrony` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.178` | Network | Chrony Local Stratum-1 Precision NTP Server |
-| **179** | `linkwarden` | Alpine 3.24 | 1 | 128 MB | `local:1G` | `192.168.64.179` | Bookmarks | Linkwarden Webpage Archiver & Bookmark Hub |
-| **180** | `snmp-collector` | Alpine 3.24 | 1 | 64 MB | `local:1G` | `192.168.64.180` | Monitoring | SNMP Metric Collector & Network Prober |
-| **181** | `searxng-redis` | Alpine 3.24 | 1 | 32 MB | `local:1G` | `192.168.64.181` | Cache | Redis In-Memory Cache for SearXNG |
+| VMID | Hostname | Base OS | vCPU | RAM Allocation | Storage Pool | Static IP | Subsystem Category | Primary Workload | **100** | `immich` | Alpine 3.24 | 2 | 256 MB | `local-lvm:40G` | `192.168.1.15` | Storage / AI | Photo Library + Machine Learning Face Recognition | **102** | `homeassistant` | Alpine 3.24 | 2 | 128 MB | `local-lvm:16G` | `192.168.1.10` | Automation | Smart Home Hub, Zigbee & ESP32 Telemetry | **104** | `scrutiny` | Alpine 3.24 | 1 | 96 MB | `local-lvm:3G` | `192.168.1.18` | Monitoring | Scrutiny S.M.A.R.T. Drive Health Agent | **106** | `ollama` | Debian 13 | 4 | 2048 MB | `local-lvm:16G` | `192.168.1.110` | Local AI | Ollama GPU LLM Runtime (Qwen2.5-Coder & DeepSeek-R1) | **108** | `whisper` | Debian 13 | 2 | 1024 MB | `local-lvm:8G` | `192.168.1.112` | Local AI | Faster-Whisper Speech-to-Text CUDA API | **110** | `paperless-ai` | Alpine 3.24 | 1 | 64 MB | `local-lvm:1G` | `192.168.1.56` | Local AI | Paperless-AI Automated OCR & DeepSeek Document Tagging | **112** | `proxmox-backup-server` | Alpine 3.24 | 2 | 512 MB | `local-lvm:4G` | `192.168.1.116` | Storage / Backup | Proxmox Backup Server (PBS Enterprise Deduplication & Verification) | **114** | `woodpecker-k0s` | Alpine 3.24 | 2 | 512 MB | `local-lvm:8G` | `192.168.1.118` | CI/CD | Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine | **116** | `actualbudget` | Alpine 3.24 | 1 | 256 MB | `local-lvm:4G` | `192.168.1.116` | Finance / Budgeting | Zero-based personal budgeting application with real-time transaction tracking. | **118** | `changedetection` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.118` | Monitoring / Web-Watch | Monitors targeted web pages and APIs for structural changes and triggers alerts. | **120** | `vaultwarden` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.120` | Security / Vault / Passwords | Self-hosted zero-knowledge password vault providing cross-device synchronization. | **122** | `authelia` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.122` | Security / Sso / 2Fa | Identity provider enforcing two-factor authentication and single sign-on (SSO). | **124** | `gatus` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.124` | Monitoring / Status | Health dashboard actively probing HTTP endpoints and TLS certificates. | **126** | `linkding` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.126` | Bookmarks / Search | Fast bookmark manager with automatic title scraping and tag indexing. | **128** | `beszel` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.128` | Monitoring / Metrics | Aggregates microsecond-resolution system resource metrics across the fleet. | **130** | `homepage` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.130` | Dashboard / Portal | Centralized service portal and dashboard displaying real-time server health. | **132** | `memos` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.132` | Notes / Microblog | Privacy-first micro-note platform for instant thought capturing and journaling. | **134** | `syncthing` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.134` | Storage / Sync | Continuous file synchronization service replicating document folders securely. | **136** | `vikunja` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.136` | Productivity / Kanban / Tasks | Collaborative project and task management application with Kanban boards. | **138** | `yourspotify` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.138` | Analytics / Music | Self-hosted music analytics platform recording personal Spotify history. | **140** | `opengist` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.140` | Pastebin / Git / Snippets | Self-hosted pastebin and code snippet repository powered by Git version control. | **142** | `whoogle` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.142` | Search / Privacy | Privacy-preserving search gateway proxying Google search queries anonymously. | **144** | `pingvin-share` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.144` | File-Share / Privacy | Privacy-focused file sharing platform enabling secure link-based transfers. | **146** | `excalidraw` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.146` | Diagrams / Whiteboard | Collaborative whiteboard drawing tool for sketching system architectures. | **148** | `transmission` | Alpine 3.24 | 1 | 256 MB | `local-lvm:4G` | `192.168.1.148` | Media / Bittorrent | Isolated BitTorrent download gateway and management interface. | **150** | `stirling-pdf` | Alpine 3.24 | 1 | 256 MB | `local-lvm:2G` | `192.168.1.150` | Documents / Pdf | Powerful local web application for performing PDF merging, splitting, and OCR. | **152** | `tubearchivist` | Alpine 3.24 | 1 | 256 MB | `local-lvm:4G` | `192.168.1.152` | Media / Youtube / Archive | Self-hosted YouTube media archiver with semantic indexing. | **154** | `cyberchef` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.154` | Cyber / Tools / Crypto | Web app for encryption, encoding, compression, and data analysis. | **156** | `romm` | Alpine 3.24 | 1 | 256 MB | `local-lvm:4G` | `192.168.1.156` | Gaming / Retro / Roms | Retro gaming ROM manager with metadata enrichment and game covers. | **158** | `paperless-ngx` | Alpine 3.24 | 1 | 256 MB | `local-lvm:4G` | `192.168.1.158` | Documents / Dms / Ocr | Document management system transforming physical documents into searchable archives. | **160** | `meilisearch` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.160` | Search / Indexing | Lightning-fast, hyper-relevant search engine for documents and logs. | **162** | `searxng` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.162` | Search / Metasearch | Privacy-respecting, hackable metasearch engine aggregating 70+ search engines. | **164** | `rustdesk` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.164` | Remote-Desktop / Relay | Open-source virtual/remote desktop infrastructure and signal relay. | **166** | `wg-easy` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.166` | Vpn / Wireguard / Gui | WireGuard VPN management dashboard with automated QR client profiles. | **168** | `dozzle` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.168` | Logging / Containers | Real-time log viewer for Docker and Podman container workloads. | **170** | `hedgedoc` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.170` | Collaboration / Markdown | Collaborative markdown editor for real-time document authoring. | **172** | `gotify` | Alpine 3.24 | 1 | 128 MB | `local-lvm:1G` | `192.168.1.172` | Notifications / Push | Simple server for sending and receiving push notifications over WebSockets. | **174** | `grocy` | Alpine 3.24 | 1 | 128 MB | `local-lvm:2G` | `192.168.1.174` | Inventory / Groceries / Erp | Enterprise resource planning (ERP) system for household grocery and pantry tracking. |
 
 ### Kubernetes Cloud-Native Platform & OpenStack Private Cloud
 
-| Platform Component | Technology & Distribution | Node / Host Target | Port / Exposure | Primary Capability |
-| :--- | :--- | :--- | :--- | :--- |
-| **ArgoCD GitOps** | ArgoCD v2.12.3 Operator | Hybrid Cluster (Node 1 & Node 3) | `:8080` (HTTPS) | Declarative continuous delivery, auto-sync and self-healing directly from Git repository |
-| **CoreDNS** | CoreDNS v1.11.3 DaemonSet | In-Cluster (`kube-system`) | `:53` (UDP/TCP) | Cluster DNS service discovery, split-horizon internal resolution & upstream AdGuard Home / OPNsense routing |
-| **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | High-performance CNI replacing kube-proxy, WireGuard transparent encryption & L3-L7 security |
-| **Rook Ceph** | Rook Ceph v1.15.2 Orchestrator | Storage Pool (Node 1 & Node 3) | `:8443` (Ceph Dashboard) | Cloud-native Ceph distributed block storage (RBD), CephFS shared filesystem & S3 object gateways |
-| **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes |
-| **Woodpecker CI (k0s)** | Woodpecker v2.7.2 + k0s | Node 1 (CT 115 · Alpine 3.24) | `:8000` / `:9000` (gRPC) | Container-native CI/CD pipeline runner executed in a lightweight k0s Kubernetes micro-cluster |
-| **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 205 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
+| Platform Component | Technology & Distribution | Node / Host Target | Port / Exposure | Primary Capability | **ArgoCD GitOps** | ArgoCD v2.12.3 Operator | Hybrid Cluster (Node 1 & Node 4) | `:8080` (HTTPS) | Declarative continuous delivery, auto-sync and self-healing directly from Git repository | **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | High-performance CNI replacing kube-proxy, WireGuard transparent encryption & L3-L7 security | **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes | **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 205 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
 
 ### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning
 
-| VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7 Shun-Tuned), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, LLDP Discovery, iperf3, Encrypted Git/Nextcloud Backup |
-| **201** | `windows` | Windows Server 2025 Datacenter | 2 Cores | 7,168 MB (7 GB) | **4,096 MB (4 GB)** | **GTX 1050 Ti PCIe Passthrough** | Active Directory DS, GPO, DNS, Sysmon Forwarder (Ballooning: 4-7 GB) |
-| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) |
-| **203** | `macOS` | macOS Monterey 12.7 | 4 Cores | 7,168 MB (7 GB) | **2,048 MB (2 GB)** | [OpenCore EFI](mac/EFI) + AppleSMC | OpenCore KVM Hackintosh, Xcode CI/CD Build Runner, Apple Ecosystem Testing |
-| **204** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Declarative Immutable Linux, Flakes Reproducible Builds, Atomic Rollbacks |
-| **205** | `openstack` | Ubuntu 24.04 LTS / Kolla | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO SCSI Single + OVN SDN | OpenStack Enterprise Private Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
-| **206** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning |
-| **207** | `tpot-honeypot` | Debian 12 / T-Pot 24.04 | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (60 GB) | Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata) |
-| **208** | `securityonion` | Security Onion 3.2 / Wazuh SIEM | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic, Kibana) |
-| **209** | `remnux` | REMnux v7 / Noble | 2 Cores | 4,096 MB (4 GB) | **2,048 MB (2 GB)** | VirtIO Net + SCSI (40 GB) | Dedicated Linux Toolkit for Reverse Engineering, Malware Analysis, Memory Forensics & DFIR |
+| VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role | **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7 Shun-Tuned), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, LLDP Discovery, iperf3, Encrypted Git/Nextcloud Backup | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) | **204** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Declarative Immutable Linux, Flakes Reproducible Builds, Atomic Rollbacks | **206** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning | **208** | `securityonion` | Security Onion 3.2 / Wazuh SIEM | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic, Kibana) 
 
-
-> **Architecture Rebalancing: Full Non-AI Migration to ARM64**: All non-AI container workloads from CT 112 onwards (including Paperless-ngx, MinIO S3, Meilisearch, Vector, SearXNG, NetAlertX, RustDesk, Kopia, WG-Easy, Code-Server, pgAdmin4, Dozzle, Kiwix, Transmission, Kavita, Stirling-PDF, Audiobookshelf, TubeArchivist, Calibre-Web, CyberChef, Draw.io, RomM, EmulatorJS, and VS Code Server ARM64) have been relocated to Node 3 (Apple Silicon M1 ARM64 via UTM), backed by ZRAM lz4 high-speed memory compression. Node 1 (x86_64) is now strictly dedicated to the CUDA GPU-accelerated AI cluster (Ollama LLM, Open-WebUI, Faster-Whisper STT, Flowise, Paperless-AI), core ingress, and enterprise KVM virtual machines (Windows Server 2025 Datacenter, RHEL 9.8, macOS Monterey, NixOS 24.11, OpenStack 2024.1 Caracal, Metasploitable 2, T-Pot Honeypot, Security Onion, REMnux).
+> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–209) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM.
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
 * **Compression Algorithm**: Ultra-fast `lz4` with < 1% CPU overhead.
 * **Node 1 (x86_64) ZRAM**: `/dev/zram0` (6.0 GB RAM compressed swap, priority 100, `vm.swappiness = 60`, `vm.vfs_cache_pressure = 50`).
-* **Node 3 (ARM64) ZRAM**: `/dev/zram0` (1.9 GB RAM compressed swap, priority 100, `vm.swappiness = 20`, `vm.vfs_cache_pressure = 50`).
 * **NVMe Lifespan Protection**: High-frequency memory pages are compressed directly in RAM before touching NVMe storage, eliminating SSD wear and IO blocking.
 
 ### Zero-Trust Security & Enterprise Test Environment
@@ -484,17 +326,7 @@ flowchart LR
 
 ### Inter-VLAN Firewall Policy Table (Default-Deny)
 
-| Source VLAN | Destination VLAN | Allowed Destination Ports | Protocol | Firewall Action |
-| :--- | :--- | :--- | :--- | :--- |
-| **VLAN 10 (Management)** | ALL VLANs | ANY | ANY | **PASS (Stateful)** |
-| **VLAN 20 (Core Services)** | VLAN 10 (Storage) | `2049` (NFS), `445` (SMB), `53` (DNS) | TCP/UDP | **PASS** |
-| **VLAN 20 (Core Services)** | VLAN 50 (IoT) | `1883` (MQTT Broker) | TCP | **PASS** |
-| **VLAN 30 (CyberLab)** | ANY Internal VLAN | NONE | ANY | **DROP & LOG** |
-| **VLAN 30 (CyberLab)** | WAN | HTTP `:8080` via INetSim Fake Gateway | TCP | **PASS (Simulated)** |
-| **VLAN 40 (DMZ Honeypots)** | ALL Internal VLANs | NONE | ANY | **DROP & ALARM** |
-| **VLAN 50 (IoT)** | ANY Internal VLAN | `1883` (Home Assistant MQTT Only) | TCP | **PASS** |
-| **VLAN 50 (IoT)** | WAN | NTP `:123` | UDP | **PASS** |
-
+| Source VLAN | Destination VLAN | Allowed Destination Ports | Protocol | Firewall Action | **VLAN 10 (Management)** | ALL VLANs | ANY | ANY | **PASS (Stateful)** | **VLAN 20 (Core Services)** | VLAN 50 (IoT) | `1883` (MQTT Broker) | TCP | **PASS** | **VLAN 30 (CyberLab)** | WAN | HTTP `:8080` via INetSim Fake Gateway | TCP | **PASS (Simulated)** | **VLAN 50 (IoT)** | ANY Internal VLAN | `1883` (Home Assistant MQTT Only) | TCP | **PASS** 
 ---
 
 ## 9. Ingress Traffic, Zero-Trust Authentication & Split-Horizon DNS
@@ -761,17 +593,7 @@ The [`cyber/`](cyber/) directory contains four end-to-end investigative case stu
 
 Findings from these four forensic investigations directly inform the proactive defense configurations across the Datacenter:
 
-| Security Layer | Host / Virtual Machine | Engine & Role | Defensive Functionality |
-| :--- | :--- | :--- | :--- |
-| **Perimeter IDS/IPS** | `VM 200` (OPNsense) | Suricata 8.0.3 + CrowdSec | Drops active BitM synthetic popup URLs and blocks malicious IP lists via threat feeds. |
-| **Defense-in-Depth** | Node 1 / Cluster | Proxmox VE Firewall + eBPF | Deep packet filtering, rate-limited ICMP, SYN-flood guards, IPset bastion access control. |
-| **Deception Honeynet**| `VM 207` (T-Pot) | Cowrie, Dionaea, Honeytrap | Exposes decoy honeypots in isolated DMZ (`vmbr3`) to harvest live scanner payloads. |
-| **Malware Sandbox** | `VM 209` (REMnux) | Volatility, Ghidra, YARA | Isolated offline analysis environment for binary disassembly and memory forensics. |
-| **Enterprise SIEM/XDR**| `CT 100` (Wazuh) | Wazuh Manager + Elastic Stack | Centralized syslog/FIM correlation across all 95 services with automated active response. |
-| **Network Forensics** | `VM 208` (Security Onion) | Zeek + Arkime Full PCAP | Continuous packet indexing and protocol inspection for post-incident threat hunting. |
-| **Host Zero-Trust FW** | Node 1 (`192.168.1.132`)| Proxmox VE Cluster Firewall | Global DROP policy, rate-limited ICMP, SYN-flood guards, IPset bastion access control. |
-| **Runtime Sensor** | All Nodes & K8s Workers | Cilium Tetragon eBPF | Kernel-level syscall intercept (`execve`, `socket`, `openat`) triggering instant container isolation. |
-
+| Security Layer | Host / Virtual Machine | Engine & Role | Defensive Functionality | **Perimeter IDS/IPS** | `VM 200` (OPNsense) | Suricata 8.0.3 + CrowdSec | Drops active BitM synthetic popup URLs and blocks malicious IP lists via threat feeds. | **Deception Honeynet**| `VM 207` (T-Pot) | Cowrie, Dionaea, Honeytrap | Exposes decoy honeypots in isolated DMZ (`vmbr3`) to harvest live scanner payloads. | **Enterprise SIEM/XDR**| `CT 100` (Wazuh) | Wazuh Manager + Elastic Stack | Centralized syslog/FIM correlation across all 95 services with automated active response. | **Host Zero-Trust FW** | Node 1 (`192.168.1.132`)| Proxmox VE Cluster Firewall | Global DROP policy, rate-limited ICMP, SYN-flood guards, IPset bastion access control. 
 ---
 
 ### 12.3 Security Auditing & Detection Tests (`cyber/red-team/`)
@@ -862,17 +684,7 @@ flowchart LR
 
 ## 17. Static IP & Ports Directory
 
-| IP Address | Hostname / Resource | Exposed Ports | Subsystem Role |
-| :--- | :--- | :--- | :--- |
-| `192.168.1.1` | Gateway Router | `80`, `443` | Default LAN Gateway |
-| `192.168.1.134` | `opnsense` (VM 200) | `53`, `80`, `443`, `3000` | OPNsense Gateway, AdGuard Home DNS & Zenarmor |
-| `192.168.1.9` | `homeassistant` (CT 106) | `8123`, `1883` | Home Automation & MQTT Broker |
-| `192.168.1.110` | `ollama` (CT 110) | `11434` | Local GPU LLM Runtime |
-| `192.168.1.134 (OPNsense)` | `pve` (Node 1 Host) | `8006`, `22` | Proxmox VE Web Management |
-| `192.168.20.201` | `win-server-2025` (VM 201) | `53`, `88`, `389`, `445`, `3389` | Active Directory Domain Services |
-| `192.168.64.14` | `pve` (Node 3 Host) | `8006`, `22` | ARM64 Hypervisor Management |
-| `192.168.64.118` | `tempo` (CT 118) | `3200`, `4317`, `4318` | Distributed Tracing Backend |
-
+| IP Address | Hostname / Resource | Exposed Ports | Subsystem Role | `192.168.1.1` | Gateway Router | `80`, `443` | Default LAN Gateway | `192.168.1.9` | `homeassistant` (CT 106) | `8123`, `1883` | Home Automation & MQTT Broker | `192.168.1.134 (OPNsense)` | `pve` (Node 1 Host) | `8006`, `22` | Proxmox VE Web Management 
 ---
 
 ## 18. Cold-Start Runbook & Operational Cheat Sheet
@@ -881,7 +693,7 @@ flowchart LR
 
 1. **Phase 1 (Power & Networking)**: Turn on Coldex UPS $\to$ Power on Managed Switch $\to$ Verify OPNsense Firewall (VM 200) WAN connectivity.
 2. **Phase 2 (Storage & DNS)**: Power on OMV NAS (Node 2) $\to$ Wait for NFS mounts $\to$ Verify AdGuard Home & Unbound DNS on OPNsense (VM 200).
-3. **Phase 3 (Core Hypervisors)**: Power on Node 1 (x86_64) & Node 3 (ARM64) $\to$ Verify ZFS pool status (`zpool status`).
+3. **Phase 3 (Core Hypervisors)**: Power on Node 1 (x86_64) $\to$ Verify ZFS pool status (`zpool status`).
 4. **Phase 4 (Security & Authentication)**: Start Authentik (CT 108) $\to$ Start Wazuh SIEM (CT 105) $\to$ Ingress Reverse Proxy active on OPNsense (VM 200).
 5. **Phase 5 (Workloads & AI)**: Start Ollama (CT 110), Home Assistant (CT 106), and user microservices.
 
@@ -957,223 +769,64 @@ Released under the **MIT License**.
 All hardware nodes, virtual machines, and containers execute live on physical infrastructure. Below are direct interface captures of core control planes, running microservices, and centralized Grafana Loki log aggregation streams.
 
 ### Core Management Panels
-| Grafana: Homelab Nodes (12GB x64 & ARM64) | Grafana: OPNsense Perimeter Defense |
-| :---: | :---: |
-| ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) |
-
-| Proxmox VE 9.2 x86_64 (12GB RAM · 192.168.1.132:8006) | Proxmox VE 9.2 ARM64 Apple M1 (192.168.64.14:8006) |
-| :---: | :---: |
-| ![Proxmox VE x64](photos/proxmox_ve_dashboard.png) | ![Proxmox VE ARM64](photos/proxmox_arm64_dashboard.png) |
-
-| Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | Home Assistant Automation Hub (192.168.1.10:8123) |
-| :---: | :---: |
-| ![Pi-hole Admin](photos/pihole_admin_dashboard.png) | ![Home Assistant](photos/homeassistant_dashboard.png) |
-
-| OPNsense Suricata 8 NIDS/IPS (192.168.1.134:8443) | OPNsense: VLAN Filtering Policies (pf rules) |
-| :---: | :---: |
-| ![OPNsense Suricata Defense](photos/opnsense_suricata_defense.png) | ![OPNsense Firewall Rules](photos/opnsense_firewall_rules.png) |
-
-| OPNsense: WireGuard Kernel VPN Mesh | OPNsense: Unbound DNS-over-TLS (DoT) |
-| :---: | :---: |
-| ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
+| Grafana: Homelab Nodes (12GB x64) | Grafana: OPNsense Perimeter Defense | ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) | :---: | :---: 
+| Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | Home Assistant Automation Hub (192.168.1.10:8123) | ![Pi-hole Admin](photos/pihole_admin_dashboard.png) | ![Home Assistant](photos/homeassistant_dashboard.png) | :---: | :---: 
+| OPNsense: WireGuard Kernel VPN Mesh | OPNsense: Unbound DNS-over-TLS (DoT) | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
 
 ---
 
 ### Core & Networking
-| Nginx Proxy Manager | Pi-hole DNS Sinkhole |
-| :---: | :---: |
-| ![Nginx Proxy Manager](photos/services/npm.png) | ![Pi-hole DNS](photos/services/pihole.png) |
-
-| Tailscale Mesh | WireGuard Easy |
-| :---: | :---: |
-| ![Tailscale Mesh](photos/services/tailscale-x64.png) | ![WireGuard Easy](photos/services/wgeasy.png) |
-
-| OPNsense Core Gateway | OPNsense Unbound DoT |
-| :---: | :---: |
-| ![OPNsense Core Gateway](photos/services/opnsense-core.png) | ![OPNsense Unbound DoT](photos/services/opnsense-unbound.png) |
-
-| OPNsense FRR Dynamic Routing | Caddy Ingress mTLS |
-| :---: | :---: |
-| ![OPNsense FRR](photos/services/opnsense-frr.png) | ![Caddy mTLS](photos/services/caddy-mtls.png) |
-
+| Nginx Proxy Manager | Pi-hole DNS Sinkhole | ![Nginx Proxy Manager](photos/services/npm.png) | ![Pi-hole DNS](photos/services/pihole.png) | :---: | :---: 
+| OPNsense Core Gateway | OPNsense Unbound DoT | ![OPNsense Core Gateway](photos/services/opnsense-core.png) | ![OPNsense Unbound DoT](photos/services/opnsense-unbound.png) | :---: | :---: 
 ---
 
 ### Storage & Backup
-| Nextcloud Hub | Paperless-ngx Document OCR |
-| :---: | :---: |
-| ![Nextcloud Hub](photos/services/nextcloud.png) | ![Paperless-ngx](photos/services/paperless.png) |
-
-| MinIO S3 Object Storage | Kopia Snapshot Backup |
-| :---: | :---: |
-| ![MinIO S3](photos/services/minio.png) | ![Kopia Backup](photos/services/kopia.png) |
-
-| Syncthing File Sync | Proxmox Backup Server (PBS) |
-| :---: | :---: |
-| ![Syncthing](photos/services/syncthing.png) | ![Proxmox Backup Server](photos/services/proxmox-backup-server.png) |
+| Nextcloud Hub | Paperless-ngx Document OCR | ![Nextcloud Hub](photos/services/nextcloud.png) | ![Paperless-ngx](photos/services/paperless.png) | :---: | :---: 
+| Syncthing File Sync | Proxmox Backup Server (PBS) | ![Syncthing](photos/services/syncthing.png) | ![Proxmox Backup Server](photos/services/proxmox-backup-server.png) |
 
 ---
 
 ### Automation & AI
-| Ollama LLM Runtime | Open-WebUI AI Interface |
-| :---: | :---: |
-| ![Ollama LLM](photos/services/ollama.png) | ![Open-WebUI](photos/services/openwebui.png) |
-
-| Faster-Whisper Voice Transcription | Flowise LLM Orchestrator |
-| :---: | :---: |
-| ![Faster-Whisper](photos/services/whisper.png) | ![Flowise Orchestrator](photos/services/flowise.png) |
-
-| Home Assistant Automation Hub | RenovateBot GitOps Engine |
-| :---: | :---: |
-| ![Home Assistant](photos/services/homeassistant.png) | ![RenovateBot](photos/services/renovate.png) |
+| Ollama LLM Runtime | Open-WebUI AI Interface | ![Ollama LLM](photos/services/ollama.png) | ![Open-WebUI](photos/services/openwebui.png) | :---: | :---: 
+| Home Assistant Automation Hub | RenovateBot GitOps Engine | ![Home Assistant](photos/services/homeassistant.png) | ![RenovateBot](photos/services/renovate.png) |
 
 ---
 
 ### Observability & Monitoring
-| Grafana Enterprise Dashboard | Prometheus Metrics Engine |
-| :---: | :---: |
-| ![Grafana Enterprise](photos/services/grafana.png) | ![Prometheus Metrics](photos/services/prometheus.png) |
-
-| Loki Distributed Log Aggregator | Uptime Kuma SLA Monitor |
-| :---: | :---: |
-| ![Loki Log Aggregator](photos/services/loki.png) | ![Uptime Kuma Monitor](photos/services/uptimekuma.png) |
-
-| Gatus Status Healthchecker | Beszel Lightweight Metrics |
-| :---: | :---: |
-| ![Gatus Status](photos/services/gatus.png) | ![Beszel Metrics](photos/services/beszel.png) |
-
-| Blackbox Network Exporter | Vector High-Throughput Aggregator |
-| :---: | :---: |
-| ![Blackbox Exporter](photos/services/blackbox.png) | ![Vector Aggregator](photos/services/vector.png) |
-
-| Dozzle Real-Time Log Viewer | NetAlertX Network Scanner & Intrusion Monitor |
-| :---: | :---: |
-| ![Dozzle Log Viewer](photos/services/dozzle.png) | ![NetAlertX](photos/services/netalertx.png) |
+| Grafana Enterprise Dashboard | Prometheus Metrics Engine | ![Grafana Enterprise](photos/services/grafana.png) | ![Prometheus Metrics](photos/services/prometheus.png) | :---: | :---: 
+| Gatus Status Healthchecker | Beszel Lightweight Metrics | ![Gatus Status](photos/services/gatus.png) | ![Beszel Metrics](photos/services/beszel.png) | :---: | :---: 
+| Dozzle Real-Time Log Viewer | NetAlertX Network Scanner & Intrusion Monitor | ![Dozzle Log Viewer](photos/services/dozzle.png) | ![NetAlertX](photos/services/netalertx.png) |
 
 ---
 
 ### Security & Cyber Lab
-| OPNsense Suricata 8 NIDS/IPS | OPNsense CrowdSec LAPI Bouncer |
-| :---: | :---: |
-| ![Suricata IDS/IPS](photos/services/opnsense-suricata.png) | ![CrowdSec Bouncer](photos/services/opnsense-crowdsec.png) |
-
-| Wazuh SIEM / XDR Manager | T-Pot Honeypot Multi-Sensor |
-| :---: | :---: |
-| ![Wazuh SIEM](photos/services/wazuh.png) | ![T-Pot Honeypots](photos/services/tpot-honeypot.png) |
-
-| CyberChef Cryptographic Utility | DFIR Dynamic Malware Sandbox |
-| :---: | :---: |
-| ![CyberChef](photos/services/cyberchef.png) | ![DFIR Sandbox](photos/services/dfir-sandbox.png) |
-
-| HashiCorp Vault Secrets Engine | Deception Canary Tokens & Decoys |
-| :---: | :---: |
-| ![HashiCorp Vault](photos/services/vault.png) | ![Canary Decoys](photos/services/canary-decoys.png) |
-
+| OPNsense Suricata 8 NIDS/IPS | OPNsense CrowdSec LAPI Bouncer | ![Suricata IDS/IPS](photos/services/opnsense-suricata.png) | ![CrowdSec Bouncer](photos/services/opnsense-crowdsec.png) | :---: | :---: 
+| CyberChef Cryptographic Utility | DFIR Dynamic Malware Sandbox | ![CyberChef](photos/services/cyberchef.png) | ![DFIR Sandbox](photos/services/dfir-sandbox.png) | :---: | :---: 
 ---
 
 ### Media & Utilities
-| Stirling-PDF Manipulation Suite | Kavita Digital Library |
-| :---: | :---: |
-| ![Stirling-PDF](photos/services/stirling.png) | ![Kavita Library](photos/services/kavita.png) |
-
-| Audiobookshelf Streaming Server | TubeArchivist YouTube Archive |
-| :---: | :---: |
-| ![Audiobookshelf](photos/services/audiobookshelf.png) | ![TubeArchivist](photos/services/tubearchivist.png) |
-
-| Transmission BitTorrent Client | Calibre-Web E-Book Manager |
-| :---: | :---: |
-| ![Transmission](photos/services/transmission.png) | ![Calibre-Web](photos/services/calibreweb.png) |
-
-| RomM Retro Game Rom Manager | EmulatorJS Browser Arcade |
-| :---: | :---: |
-| ![RomM Game Manager](photos/services/romm.png) | ![EmulatorJS](photos/services/emulatorjs.png) |
-
-| Code-Server VS Code Cloud IDE | Draw.io Architecture Designer |
-| :---: | :---: |
-| ![Code-Server](photos/services/codeserver.png) | ![Draw.io Designer](photos/services/drawio.png) |
-
-| IT-Tools Network & Developer Toolkit | Actual Budget Local Accounting |
-| :---: | :---: |
-| ![IT-Tools Suite](photos/services/it-tools.png) | ![Actual Budget](photos/services/actualbudget.png) |
-
-| Trillium Structured Knowledge Base | ChangeDetection Web Monitor |
-| :---: | :---: |
-| ![Trillium Knowledge Base](photos/services/trillium.png) | ![ChangeDetection](photos/services/changedetection.png) |
-
-| MicroBin Encrypted Pastebin | Vikunja Task Management |
-| :---: | :---: |
-| ![MicroBin Pastebin](photos/services/microbin.png) | ![Vikunja Tasks](photos/services/vikunja.png) |
-
-| Memos Lightweight Note Stream | Wallos Subscription Tracker |
-| :---: | :---: |
-| ![Memos Note Stream](photos/services/memos.png) | ![Wallos Subscriptions](photos/services/wallos.png) |
-
-| Speedtest Tracker Continuous Bench | Homepage Dashboard |
-| :---: | :---: |
-| ![Speedtest Tracker](photos/services/speedtest.png) | ![Homepage Dashboard](photos/services/homepage.png) |
-
-| Flame Application Launcher | RustDesk Self-Hosted Remote Desktop |
-| :---: | :---: |
-| ![Flame Launcher](photos/services/flame.png) | ![RustDesk](photos/services/rustdesk.png) |
-
-| Step-CA Automated Root PKI / X.509 | Web-Check OSINT Security Scanner |
-| :---: | :---: |
-| ![Step-CA PKI](photos/services/stepca.png) | ![Web-Check](photos/services/webcheck.png) |
-
-| Kiwix Offline Wikipedia & Archive | Flatnotes Headless Wiki |
-| :---: | :---: |
-| ![Kiwix Archive](photos/services/kiwix.png) | ![Flatnotes](photos/services/flatnotes.png) |
-
-| Linkding Bookmarks Manager | Shiori Read-Later Bookmarks |
-| :---: | :---: |
-| ![Linkding Bookmarks](photos/services/linkding.png) | ![Shiori Bookmarks](photos/services/shiori.png) |
-
-| Ntfy Real-Time Push Notifications | Bark iOS Alert Gateway |
-| :---: | :---: |
-| ![Ntfy Notifications](photos/services/ntfy.png) | ![Bark Push](photos/services/bark.png) |
-
-| YourSpotify Privacy Music Analytics | Whoogle Privacy Search Engine |
-| :---: | :---: |
-| ![YourSpotify](photos/services/yourspotify.png) | ![Whoogle Search](photos/services/whoogle.png) |
-
-| OpenGist Self-Hosted Pastebin | pgAdmin 4 PostgreSQL Manager |
-| :---: | :---: |
-| ![OpenGist Pastebin](photos/services/opengist.png) | ![pgAdmin](photos/services/pgadmin.png) |
+| Stirling-PDF Manipulation Suite | Kavita Digital Library | ![Stirling-PDF](photos/services/stirling.png) | ![Kavita Library](photos/services/kavita.png) | :---: | :---: 
+| Transmission BitTorrent Client | Calibre-Web E-Book Manager | ![Transmission](photos/services/transmission.png) | ![Calibre-Web](photos/services/calibreweb.png) | :---: | :---: 
+| Code-Server VS Code Cloud IDE | Draw.io Architecture Designer | ![Code-Server](photos/services/codeserver.png) | ![Draw.io Designer](photos/services/drawio.png) | :---: | :---: 
+| Trillium Structured Knowledge Base | ChangeDetection Web Monitor | ![Trillium Knowledge Base](photos/services/trillium.png) | ![ChangeDetection](photos/services/changedetection.png) | :---: | :---: 
+| Memos Lightweight Note Stream | Wallos Subscription Tracker | ![Memos Note Stream](photos/services/memos.png) | ![Wallos Subscriptions](photos/services/wallos.png) | :---: | :---: 
+| Flame Application Launcher | RustDesk Self-Hosted Remote Desktop | ![Flame Launcher](photos/services/flame.png) | ![RustDesk](photos/services/rustdesk.png) | :---: | :---: 
+| Kiwix Offline Wikipedia & Archive | Flatnotes Headless Wiki | ![Kiwix Archive](photos/services/kiwix.png) | ![Flatnotes](photos/services/flatnotes.png) | :---: | :---: 
+| Ntfy Real-Time Push Notifications | Bark iOS Alert Gateway | ![Ntfy Notifications](photos/services/ntfy.png) | ![Bark Push](photos/services/bark.png) | :---: | :---: 
+| OpenGist Self-Hosted Pastebin | pgAdmin 4 PostgreSQL Manager | ![OpenGist Pastebin](photos/services/opengist.png) | ![pgAdmin](photos/services/pgadmin.png) |
 
 ---
 
 ### Specialized Operating Systems & Telemetry (Loki Telemetry & Runtime Logs)
-| Windows Server 2025 Datacenter (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) |
-| :---: | :---: |
-| ![Windows Server 2025 Datacenter Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) |
-
-| macOS Monterey 12.7 (VM 203 · OpenCore KVM) | NixOS 24.11 (VM 204 · Declarative Linux) |
-| :---: | :---: |
-| ![macOS Monterey](photos/services/vm-macos-monterey.png) | ![NixOS 24.11](photos/services/vm-nixos.png) |
-
-| OpenStack 2024.1 Caracal (VM 205 · Cloud Horizon) | Metasploitable 2 (VM 206 · Vulnerable Target) |
-| :---: | :---: |
-| ![OpenStack Cloud Horizon](photos/services/openstack.png) | ![Metasploitable 2](photos/services/metasploitable2.png) |
-
-| T-Pot 24.04 Multi-Honeypot (VM 207 · Decoy Platform) | Security Onion 3.2 (VM 208 · SOC & SIEM Console) |
-| :---: | :---: |
-| ![T-Pot Honeypots](photos/services/tpot-honeypot.png) | ![Security Onion SOC](photos/services/securityonion.png) |
-
-| REMnux v7 Noble (VM 209 · Reverse Engineering) | OPNsense Core Gateway & Firewall (VM 200) |
-| :---: | :---: |
-| ![REMnux Malware Analysis](photos/services/remnux.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) |
-
-| Proxmox Datacenter Manager (CT 147 · Loki Telemetry) | Proxmox Mail Gateway 8.1 (CT 151 · Security Appliance) |
-| :---: | :---: |
-| ![Proxmox Datacenter Manager](photos/services/proxmox-datacenter-manager.png) | ![Proxmox Mail Gateway](photos/services/proxmox-mail-gateway.png) |
-
-| Proxmox VE 9.2 Primary (Node 1 · x86_64 Hypervisor) | Proxmox VE 9.2 Secondary (Node 3 · Apple Silicon ARM64) |
-| :---: | :---: |
-| ![Proxmox VE Primary x86_64](photos/services/proxmox-x64.png) | ![Proxmox VE Secondary ARM64](photos/services/proxmox-arm64.png) |
+| Windows Server 2025 Datacenter (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) | ![Windows Server 2025 Datacenter Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) | :---: | :---: 
+| OpenStack 2024.1 Caracal (VM 205 · Cloud Horizon) | Metasploitable 2 (VM 206 · Vulnerable Target) | ![OpenStack Cloud Horizon](photos/services/openstack.png) | ![Metasploitable 2](photos/services/metasploitable2.png) | :---: | :---: 
+| REMnux v7 Noble (VM 209 · Reverse Engineering) | OPNsense Core Gateway & Firewall (VM 200) | ![REMnux Malware Analysis](photos/services/remnux.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) | :---: | :---: 
+| Proxmox VE 9.2 Primary (Node 1 · x86_64 Hypervisor) | ![Proxmox VE Primary x86_64](photos/services/proxmox-x64.png) |
 
 ---
 
 ## About the Author
 
 Designed, engineered, and operated by **[@stefanutc1](https://github.com/stefanutc1)**.
-* **Focus**: Infrastructure Engineering, Multi-Architecture Virtualization (Proxmox VE x86_64 12GB DDR4-2133 & Apple Silicon ARM64), Zero-Trust Network Defense (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
+* **Focus**: Infrastructure Engineering, Enterprise Virtualization (Proxmox VE x86_64 12GB DDR4-2133), Zero-Trust Network Defense (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
 * **Purpose**: Production-grade engineering portfolio showcasing on-premise and hybrid systems architecture.

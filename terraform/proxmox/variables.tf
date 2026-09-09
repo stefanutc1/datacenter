@@ -22,9 +22,3 @@ variable "primary_node" {
   description = "Primary x86_64 Proxmox node name"
   default     = "proxmox"
 }
-
-variable "secondary_node" {
-  type        = string
-  description = "Secondary ARM64 Apple M1 Proxmox node name"
-  default     = "proxmox2"
-}
