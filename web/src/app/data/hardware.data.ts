@@ -81,8 +81,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
         os: 'macOS Monterey 12.7', 
         allocatedMb: 6144, 
         balloonMinMb: 2048, 
-        purpose: 'OpenCore KVM Hackintosh (Sanitized bootloader in /mac/EFI), Xcode CI/CD Build Runner & Apple GUI Testing (Ballooning: 2 GB - 6 GB)',
-        purposeRo: 'OpenCore KVM Hackintosh (Bootloader anonimizat în /mac/EFI), Runner Build CI/CD Xcode & Mediu Testare Apple (Balonare: 2 GB - 6 GB)'
+        purpose: 'OpenCore KVM Hackintosh (Sanitized bootloader in /opencore/EFI), Xcode CI/CD Build Runner & Apple GUI Testing (Ballooning: 2 GB - 6 GB)',
+        purposeRo: 'OpenCore KVM Hackintosh (Bootloader anonimizat în /opencore/EFI), Runner Build CI/CD Xcode & Mediu Testare Apple (Balonare: 2 GB - 6 GB)'
       },
       { 
         vmid: 204, 

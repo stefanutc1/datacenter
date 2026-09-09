@@ -743,7 +743,7 @@ Execute the automated Disaster Recovery script: <code>./scripts/disaster-recover
 ├── elo/ # Autonomous AI Agent Control Plane & Tools
 ├── hypervisors/ # Proxmox sysctl hardening & kernel profiles
 ├── kubernetes/ # Talos Linux & K3s manifests
-├── mac/ # OpenCore EFI bootloader for macOS Monterey KVM (/mac/EFI)
+├── opencore/ # OpenCore EFI bootloader for macOS Monterey KVM (/opencore/EFI)
 ├── scripts/ # Disaster Recovery & Chaos Engineering runners
 ├── services/ # Docker Compose & container configurations
 ├── terraform/ # Declarative Proxmox LXC & VM IaC modules

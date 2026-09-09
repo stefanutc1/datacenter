@@ -1867,8 +1867,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     "port": 5900,
     "domain": "macos.homelab.local",
     "status": "ONLINE",
-    "description": "Virtual macOS Monterey 12.7 instance booted via sanitized OpenCore EFI (/mac/EFI) on Proxmox VE KVM with AppleSMC for Xcode CI/CD build runner, Apple GUI testing, and native VNC screen sharing.",
-    "descriptionRo": "Instanță virtuală macOS Monterey 12.7 pornită prin bootloader OpenCore anonimizat (/mac/EFI) pe Proxmox VE KVM cu AppleSMC pentru runner build CI/CD Xcode, testare Apple și partajare ecran VNC.",
+    "description": "Virtual macOS Monterey 12.7 instance booted via sanitized OpenCore EFI (/opencore/EFI) on Proxmox VE KVM with AppleSMC for Xcode CI/CD build runner, Apple GUI testing, and native VNC screen sharing.",
+    "descriptionRo": "Instanță virtuală macOS Monterey 12.7 pornită prin bootloader OpenCore anonimizat (/opencore/EFI) pe Proxmox VE KVM cu AppleSMC pentru runner build CI/CD Xcode, testare Apple și partajare ecran VNC.",
     "tags": [
       "macOS Monterey",
       "OpenCore EFI",
@@ -1878,7 +1878,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#a855f7",
     "icon": "apple",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 203)\n# Bootloader: OpenCore EFI (/mac/EFI) · SMBIOS: iMacPro1,1\n# OS: macOS Monterey 12.7 · Dynamic Ballooning: 2048 MB - 6144 MB\nargs: -device isa-applesmc,osk=\"...\" -smbios type=2\ncpu: Skylake-Client-v4,kvm=on,vendor=GenuineIntel,+invtsc,+hypervisor\ncores: 4\nsockets: 1\nmemory: 6144\nballoon: 2048\nboot: order=sata0;virtio0\nvirtio0: local-lvm:vm-203-disk-1,size=120G"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 203)\n# Bootloader: OpenCore EFI (/opencore/EFI) · SMBIOS: iMacPro1,1\n# OS: macOS Monterey 12.7 · Dynamic Ballooning: 2048 MB - 6144 MB\nargs: -device isa-applesmc,osk=\"...\" -smbios type=2\ncpu: Skylake-Client-v4,kvm=on,vendor=GenuineIntel,+invtsc,+hypervisor\ncores: 4\nsockets: 1\nmemory: 6144\nballoon: 2048\nboot: order=sata0;virtio0\nvirtio0: local-lvm:vm-203-disk-1,size=120G"
   },
   {
     "id": "vm-nixos",
