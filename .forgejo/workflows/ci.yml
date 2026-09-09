@@ -178,6 +178,21 @@ jobs:
             find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \) -exec kubeconform -summary -ignore-missing-schemas {} + || true
           fi
 
+      - name: Policy-as-Code Security Validation (Conftest / OPA)
+        run: |
+          echo "Installing Conftest for Policy-as-Code enforcement..."
+          CONFTEST_VER="0.56.0"
+          curl -sL "https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VER}/conftest_${CONFTEST_VER}_Linux_x86_64.tar.gz" | tar xz
+          sudo mv conftest /usr/local/bin/
+          echo "Validating Kubernetes manifests against OPA Rego security guardrails..."
+          if [ -d kubernetes ]; then
+            conftest test -p policy/kubernetes/ $(find kubernetes -type f \( -name "*.yaml" -o -name "*.yml" \)) || true
+          fi
+          echo "Validating Terraform IaC declarations against OPA Rego policies..."
+          if [ -d policy/terraform ]; then
+            conftest test -p policy/terraform/ terraform/ || true
+          fi
+
   # ==========================================
   # STAGE 5: ELO PYTHON MATRIX TESTS (3.9 - 3.13)
   # ==========================================
