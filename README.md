@@ -1,13 +1,13 @@
 <div align="center">
 
 
-[![CI/CD Status](https://github.com/stefanutc1/datacenter/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/datacenter/actions)
-[![Security & Trivy Scan](https://github.com/stefanutc1/datacenter/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/datacenter/actions/workflows/security-scan.yml)
-[![IaC Lint & Test Coverage](https://img.shields.io/badge/IaC%20Test%20Coverage-98.4%25%20(Terraform%20%2B%20Ansible)-emerald?style=flat&logo=terraform)](https://github.com/stefanutc1/datacenter/tree/main/terraform)
+[![CI/CD Status](https://github.com/stefanutc1/infrastructure/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/infrastructure/actions)
+[![Security & Trivy Scan](https://github.com/stefanutc1/infrastructure/actions/workflows/security-scan.yml/badge.svg)](https://github.com/stefanutc1/infrastructure/actions/workflows/security-scan.yml)
+[![IaC Lint & Test Coverage](https://img.shields.io/badge/IaC%20Test%20Coverage-98.4%25%20(Terraform%20%2B%20Ansible)-emerald?style=flat&logo=terraform)](https://github.com/stefanutc1/infrastructure/tree/main/terraform)
 [![Infrastructure Uptime](https://img.shields.io/badge/Uptime%20Kuma-99.98%25%20SLA-brightgreen?style=flat&logo=uptimekuma)](https://status.homelab.local)
-[![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64%20%26%20ARM64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/datacenter)
-[![Zero-Trust Security](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/datacenter)
-[![Local AI](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20NVIDIA%20GTX%201050%20Ti-violet?style=flat&logo=nvidia)](https://github.com/stefanutc1/datacenter)
+[![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64%20%26%20ARM64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/infrastructure)
+[![Zero-Trust Security](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/infrastructure)
+[![Local AI](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20NVIDIA%20GTX%201050%20Ti-violet?style=flat&logo=nvidia)](https://github.com/stefanutc1/infrastructure)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
 
 <br/>
@@ -15,7 +15,7 @@
 **Production-grade hybrid cloud platform, cybersecurity test environment, and autonomous multi-agent orchestration infrastructure.**
 Built on bare-metal x86_64 and Apple Silicon ARM64 compute, dual-tier enterprise firewall architecture (OPNsense + FortiGate-VM), ZFS storage arrays, declarative Terraform/Ansible automation, and real-time eBPF runtime observability.
 
-[Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/datacenter/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/datacenter/#cyber) • [Security Policy](SECURITY.md)
+[Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
 <!-- AUTO-METRICS-START -->
 [![Active Workloads](https://img.shields.io/badge/Workloads-31%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
@@ -553,30 +553,59 @@ All infrastructure is provisioned declaratively using Terraform with the `bpg/pr
 
 ```
 terraform/
-├── main.tf # Root composition
-├── providers.tf # Proxmox VE provider configuration
-├── variables.tf # Cluster endpoints & credentials
-├── terraform.tfvars.example # Template variables
-├── lxc_services.tf # Declarative LXC container definitions
-├── vm_workloads.tf # Declarative VM definitions
+├── main.tf                    # Root composition
+├── providers.tf               # Proxmox VE provider & Remote S3 backend
+├── backend-config.hcl.example # Remote MinIO S3 backend template
+├── variables.tf               # Cluster endpoints & credentials
+├── terraform.tfvars.example   # Template variables
+├── lxc_services.tf            # Declarative LXC container definitions
+├── vm_workloads.tf            # Declarative VM definitions
 └── modules/
- ├── proxmox_lxc/ # Reusable LXC container module
- └── proxmox_vm/ # Reusable QEMU VM module
+    ├── proxmox_lxc/           # Reusable LXC container module
+    └── proxmox_vm/            # Reusable QEMU VM module
 ```
+
+### Centralized & Encrypted Remote State with DynamoDB Locking
+
+To prevent race conditions during concurrent CI/CD executions and guarantee enterprise reproducibility, Terraform state is stored on an internal MinIO S3 bucket (CT 161) with AES-256 encryption and state locking:
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket                      = "terraform-state"
+    key                         = "infrastructure/terraform.tfstate"
+    region                      = "us-east-1"
+    endpoint                    = "http://192.168.1.161:9000" # MinIO CT 161
+    dynamodb_endpoint           = "http://192.168.1.161:9000" # Lock table
+    dynamodb_table              = "terraform-locks"
+    encrypt                     = true
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    skip_region_validation      = true
+    use_path_style              = true
+  }
+}
+```
+
+### Policy-as-Code Guardrails (OPA & Conftest)
+
+All Terraform declarations and Kubernetes manifests undergo mandatory pre-flight policy evaluation via Open Policy Agent (`conftest`):
+
+* **Rootless Containment**: Blocs any workload with `runAsNonRoot: false` or `runAsUser: 0` (`policy/kubernetes/security.rego`).
+* **Immutable Version Pinning**: Forbids mutable tags (`:latest`) or untagged images.
+* **Network Isolation**: Prohibits unauthorized `hostPort`, `hostNetwork: true`, or host namespace leaks.
 
 ### Quick Bootstrap Runbook
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/stefanutc1/homelab.git
-cd homelab/terraform/proxmox
+git clone https://github.com/stefanutc1/infrastructure.git
+cd infrastructure/terraform
 
-# 2. Configure variables
-cp terraform.tfvars.example terraform.tfvars
-nano terraform.tfvars
+# 2. Initialize with remote backend
+terraform init -backend-config=backend-config.hcl
 
-# 3. Initialize & Deploy Cluster
-terraform init
+# 3. Plan & Apply
 terraform plan -out=tfplan.binary
 terraform apply tfplan.binary
 ```
@@ -587,15 +616,17 @@ terraform apply tfplan.binary
 
 ```mermaid
 flowchart LR
- Dev["Engineer Commit"] -->|"Push to main"| GH["GitHub Repository"]
- GH -->|"Trigger"| CI["GitHub Actions / Woodpecker CI<br/>Trivy · Gitleaks · Hadolint · tfsec"]
- CI -->|"Pass Quality Gates"| Argo["ArgoCD / Flux GitOps Operator"]
- Argo -->|"Continuous Reconciliation"| K3s["Talos Linux / K3s Cluster"]
- K3s -->|"Deploy Pods"| Workloads["Distroless Microservices & Agents"]
+    Dev["Engineer Commit"] -->|"Push to main"| GH["GitHub Repository"]
+    GH -->|"Trigger"| CI["GitHub Actions / Conftest OPA<br/>Trivy · Gitleaks · Hadolint · OPA"]
+    CI -->|"Pass Quality Gates"| Argo["ArgoCD / Flux GitOps Operator"]
+    Argo -->|"Continuous Reconciliation"| K3s["Talos Linux / K3s Cluster"]
+    K3s -->|"Strict mTLS L7"| Workloads["Distroless Microservices & Agents"]
 ```
 
 * **Talos Linux OS (`kubernetes/talos/cluster.yaml`)**: Immutable, zero-SSH operating system managed strictly via gRPC APIs.
-* **Lightweight K3s**: Flannel CNI replaced with Cilium eBPF for lightning-fast container routing and kernel-level network policies.
+* **Cilium eBPF CNI & Strict mTLS Service Mesh**:
+  * Seamless SPIFFE/SPIRE mutual TLS authentication enforced on all inter-workload traffic (`kubernetes/apps/cilium/cilium-strict-mtls-vlan20.yaml`).
+  * Enforces `authentication.mode: required` between Talos pods and critical VLAN 20 microservices (NPM, Authentik, Vaultwarden), completely eliminating cleartext inter-container communication.
 
 ---
 
@@ -757,6 +788,22 @@ Findings from these four forensic investigations directly inform the proactive d
 
 ---
 
+### 12.3 Offensive Security, Red Teaming & Container Escape Suite (`cyber/red-team/`)
+
+Complementing blue team detection, the infrastructure includes a dedicated offensive auditing and adversary simulation harness:
+
+* **Container Escape Auditor (`cyber/red-team/container_escape_audit.py`)**:
+  * Audits dangerous Linux capabilities (`CAP_SYS_ADMIN`, `CAP_SYS_PTRACE`, `CAP_SYS_MODULE`, `CAP_DAC_OVERRIDE`).
+  * Scans for mounted Docker/containerd UNIX control sockets (`/var/run/docker.sock`).
+  * Validates cgroup isolation (`release_agent`), host namespace leakage (`hostPID`, `hostNetwork`), and Seccomp/AppArmor enforcement.
+* **Atomic Red Team Runner (`cyber/red-team/atomic_red_team_runner.py`)**:
+  * Simulates controlled MITRE ATT&CK techniques (T1059.004 Unix Shell, T1082 System Discovery, T1046 Network Service Discovery, T1552 Canary Token Search).
+  * Measures alert ingestion latency in Wazuh SIEM (Rule 80710) and CrowdSec portscan decisions.
+* **Post-Exploitation Toolkit (`cyber/red-team/post_exploitation.py`)**:
+  * Assesses lateral movement paths, evaluates writable system `PATH` directories, verifies private key permissions, and scans environment variables for plaintext secrets.
+
+---
+
 ## 13. Local GPU AI LLM Runtime (Ollama CT 110)
 
 Ollama is running inside container **`CT 110`** on Proxmox Node 1 (`192.168.1.110:11434`), utilizing direct NVIDIA GeForce GTX 1050 Ti GPU acceleration:
@@ -781,17 +828,23 @@ curl -s http://192.168.1.110:11434/api/generate -d '{"model": "qwen2.5-coder:1.5
 
 ## 14. Chaos Engineering & Resiliency Validation
 
-The automated Chaos Runner (`scripts/chaos/chaos_runner.sh`) validates system alerting and self-healing under extreme conditions:
+Automated continuous resiliency testing is enforced both locally and via a dedicated CI/CD pipeline (`.github/workflows/chaos-scheduled.yml`) scheduled via cron `0 3 * * 0` (Sunday nights at 03:00 UTC).
 
 ```bash
-# Inject 100% CPU stress across all cores for 60 seconds
-./scripts/chaos/chaos_runner.sh cpu-stress 60
+# 1. Inject 100% CPU stress & 80% RAM pressure
+./scripts/chaos/chaos_runner.sh cpu-stress 30
+./scripts/chaos/chaos_runner.sh ram-pressure 30
 
-# Inject 150ms network latency to test distributed tracing
+# 2. Inject service fault (SIGKILL) & verify automated self-healing without human intervention
+./scripts/chaos/chaos_runner.sh service-kill 5 staging-workload
+./scripts/chaos/chaos_runner.sh auto-healing-check 30 staging-workload
+
+# 3. Simulate network latency (150ms) and packet loss (15%) via kernel netem
 ./scripts/chaos/chaos_runner.sh network-latency 30 eth0 150ms
-
-# Inject 15% artificial packet loss to verify TCP retry logic
 ./scripts/chaos/chaos_runner.sh packet-loss 30 eth0 15%
+
+# 4. Validate incident alerting pipeline across Uptime Kuma, Ntfy, and Telegram
+./scripts/chaos/chaos_runner.sh alert-webhook-validate
 ```
 
 ---

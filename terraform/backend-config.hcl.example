@@ -1,0 +1,23 @@
+# ==============================================================================
+# Terraform Remote State S3 Backend Configuration (MinIO CT 161 / PBS)
+# ==============================================================================
+# Usage:
+#   terraform init -backend-config=backend-config.hcl
+#
+# Environment variables alternative:
+#   export AWS_ACCESS_KEY_ID="your-minio-root-user"
+#   export AWS_SECRET_ACCESS_KEY="your-minio-secret-key"
+
+bucket                      = "terraform-state"
+key                         = "infrastructure/terraform.tfstate"
+region                      = "us-east-1"
+endpoint                    = "http://192.168.1.161:9000"
+dynamodb_endpoint           = "http://192.168.1.161:9000"
+dynamodb_table              = "terraform-locks"
+access_key                  = "minioadmin"
+secret_key                  = "minioadmin_secure_change_me"
+encrypt                     = true
+skip_credentials_validation = true
+skip_metadata_api_check     = true
+skip_region_validation      = true
+use_path_style              = true

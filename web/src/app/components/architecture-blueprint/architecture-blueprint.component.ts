@@ -819,6 +819,79 @@ export interface ForensicCase {
                 }
               </div>
             </div>
+
+            <!-- 4. Offensive Security, Red Teaming & Container Escape Audit -->
+            <div class="space-y-4 pt-6 border-t border-obsidian-750">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 class="text-base font-sans font-bold text-slate-100 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                    <span>{{ ts.isRomanian ? '4. Securitate Ofensivă, Red Teaming & Audit Container Escape' : '4. Offensive Security, Red Teaming & Container Escape Audit' }}</span>
+                  </h3>
+                  <p class="text-xs text-slate-400 font-sans mt-0.5">
+                    {{ ts.isRomanian 
+                      ? 'Simulare automată adversară MITRE ATT&CK, evaluare vectori de evadare din container și măsurare latență detecție în Wazuh SIEM și CrowdSec.' 
+                      : 'Automated MITRE ATT&CK adversary simulation, container breakout vector auditing, and defensive detection latency validation in Wazuh SIEM & CrowdSec.' }}
+                  </p>
+                </div>
+                <span class="px-2.5 py-1 rounded bg-rose-500/10 text-rose-300 text-[11px] font-bold self-start sm:self-auto">RED TEAM SUITE</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+                
+                <!-- 1. Container Escape Auditor -->
+                <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+                  <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                    <span class="text-rose-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Audit Kernel & Izolare' : 'Kernel & Isolation Audit' }}</span>
+                    <span class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 text-[10px] font-bold">PYTHON 3</span>
+                  </div>
+                  <h4 class="font-bold text-slate-100 text-sm">Container Escape Auditor</h4>
+                  <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                    {{ ts.isRomanian 
+                      ? 'Scanează capabilitățile periculoase (CAP_SYS_ADMIN, CAP_SYS_PTRACE), socket-urile docker.sock expuse, cgroup release_agent și namespaces partajate (hostPID).' 
+                      : 'Audits dangerous capabilities (CAP_SYS_ADMIN, CAP_SYS_PTRACE), exposed docker.sock sockets, cgroup release_agent, and shared namespaces (hostPID).' }}
+                  </p>
+                  <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
+                    <code>python3 cyber/red-team/container_escape_audit.py</code>
+                  </div>
+                </div>
+
+                <!-- 2. Atomic Red Team Runner -->
+                <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+                  <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                    <span class="text-amber-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Simulare Atacator' : 'Adversary Simulation' }}</span>
+                    <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 text-[10px] font-bold">MITRE ATT&CK</span>
+                  </div>
+                  <h4 class="font-bold text-slate-100 text-sm">Atomic Red Team Runner</h4>
+                  <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                    {{ ts.isRomanian 
+                      ? 'Execută tehnici atomice (T1059.004 shell obfuscated, T1046 port discovery, T1552 canary hunt) pentru a măsura timpii de reacție ai alertelor Wazuh SIEM.' 
+                      : 'Executes atomic techniques (T1059.004 obfuscated shell, T1046 port discovery, T1552 canary hunt) measuring alert reaction latency in Wazuh SIEM.' }}
+                  </p>
+                  <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
+                    <code>python3 cyber/red-team/atomic_red_team_runner.py</code>
+                  </div>
+                </div>
+
+                <!-- 3. Post-Exploitation Toolkit -->
+                <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+                  <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                    <span class="text-sky-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Audit Privilegii & Secrete' : 'Privilege & Secrets Audit' }}</span>
+                    <span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 text-[10px] font-bold">ZERO-TRUST</span>
+                  </div>
+                  <h4 class="font-bold text-slate-100 text-sm">Post-Exploitation Toolkit</h4>
+                  <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                    {{ ts.isRomanian 
+                      ? 'Evaluează vectorii de escaladare locală de privilegii (directoare PATH perisabile, chei SSH cu permisiuni laxe, secrete expuse în variabile de mediu).' 
+                      : 'Evaluates local privilege escalation vectors (writable PATH dirs, loose SSH key permissions, unvaulted environment variables).' }}
+                  </p>
+                  <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
+                    <code>python3 cyber/red-team/post_exploitation.py</code>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           }
 
         </div>
@@ -986,6 +1059,62 @@ export interface ForensicCase {
             </div>
           </div>
 
+          <!-- Grid 4: Cilium Strict mTLS, OPA Policy-as-Code & Remote Encrypted Terraform S3 State -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Cilium Strict mTLS -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                <span class="text-cyan-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Service Mesh eBPF' : 'eBPF Service Mesh' }}</span>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 text-[10px] font-bold">mTLS L7</span>
+              </div>
+              <h4 class="font-bold text-slate-100 text-sm">Cilium SPIFFE / SPIRE mTLS</h4>
+              <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                {{ ts.isRomanian 
+                  ? 'Forțează criptarea mutuală L7 (CiliumNetworkPolicy) între podurile Talos K8s și microserviciile din VLAN 20, blocând traficul text-clar inter-container.' 
+                  : 'Enforces strict L7 mutual TLS (CiliumNetworkPolicy) between Talos K8s pods and VLAN 20 microservices, eliminating cleartext inter-container traffic.' }}
+              </p>
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
+                <code>authentication.mode: required</code>
+              </div>
+            </div>
+
+            <!-- OPA / Conftest Policy-as-Code -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                <span class="text-emerald-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Securitate Declarativă' : 'Declarative Security' }}</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 text-[10px] font-bold">OPA / REGO</span>
+              </div>
+              <h4 class="font-bold text-slate-100 text-sm">Policy-as-Code (Conftest)</h4>
+              <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                {{ ts.isRomanian 
+                  ? 'Porți de validare în CI/CD ce blochează automat containerele cu runAsNonRoot: false, tag-uri unpinned :latest și porturi host-mapped neautorizate.' 
+                  : 'CI/CD policy gate blocking workloads with runAsNonRoot: false, unpinned :latest image tags, and unauthorized host-mapped network ports.' }}
+              </p>
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
+                <code>conftest test -p policy/ ...</code>
+              </div>
+            </div>
+
+            <!-- Terraform Remote Encrypted S3 Backend -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <div class="flex items-center justify-between border-b border-obsidian-750 pb-2">
+                <span class="text-amber-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Stare Imutabilă & Locking' : 'Immutable State & Locking' }}</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 text-[10px] font-bold">S3 + DYNAMODB</span>
+              </div>
+              <h4 class="font-bold text-slate-100 text-sm">Remote Encrypted Terraform State</h4>
+              <p class="text-slate-300 font-sans text-xs leading-relaxed">
+                {{ ts.isRomanian 
+                  ? 'Stare centralizată pe bucket MinIO S3 intern (CT 161) cu criptare AES-256 și blocare concurențială prin DynamoDB API compatibil.' 
+                  : 'Centralized state on internal MinIO S3 bucket (CT 161) with AES-256 encryption and concurrent state locking via DynamoDB-compatible API.' }}
+              </p>
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
+                <code>backend "s3" + dynamodb_locks</code>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       }
 
@@ -1030,27 +1159,71 @@ export interface ForensicCase {
 
       <!-- TAB 6: CHAOS ENGINEERING & RESILIENCY -->
       @if (activeTab === 'chaos') {
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
-          <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
-            <span class="text-rose-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? '1. Stress CPU 100% (Simulare Încărcare Maximă)' : '1. CPU 100% Stress (Max Load Sim)' }}</span>
-            <h4 class="font-bold text-slate-100">{{ ts.isRomanian ? 'Validare Limite Cgroup & Izolare Resurse' : 'Cgroup Limits & Resource Throttling' }}</h4>
-            <p class="text-slate-300 font-sans text-xs">
-              {{ ts.isRomanian ? 'Injectare încărcare pe 8 fire de execuție timp de 60 secunde pentru validarea mecanismului de limitare cgroup.' : 'Injecting full 8-thread load for 60 seconds to ensure container throttling prevents hypervisor starvation.' }}
-            </p>
-            <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
-              <code>./scripts/chaos/chaos_runner.sh cpu-stress 60</code>
+        <div class="space-y-6 font-mono text-xs">
+          
+          <!-- Banner: Scheduled CI/CD Automation -->
+          <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+              <div>
+                <span class="font-bold text-slate-100 text-sm">{{ ts.isRomanian ? 'Automatizare Chaos Engineering în CI/CD' : 'Automated CI/CD Chaos Engineering' }}</span>
+                <span class="text-slate-400 text-xs block font-sans">{{ ts.isRomanian ? 'Programat săptămânal prin cron: "0 3 * * 0" (duminică noaptea la 03:00 UTC) în .github/workflows/chaos-scheduled.yml' : 'Scheduled weekly via cron: "0 3 * * 0" (Sunday night 03:00 UTC) in .github/workflows/chaos-scheduled.yml' }}</span>
+              </div>
             </div>
+            <span class="px-2.5 py-1 rounded bg-slate-400/15 text-slate-200 text-[11px] font-bold whitespace-nowrap">CRON 0 3 * * 0</span>
           </div>
 
-          <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
-            <span class="text-amber-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? '2. Cădere Gateway Ingress' : '2. Ingress Gateway Blackhole' }}</span>
-            <h4 class="font-bold text-slate-100">{{ ts.isRomanian ? 'Re-Rutare BGP & Failover DNS Split-Horizon' : 'BGP Re-Routing & Split-Horizon Failover' }}</h4>
-            <p class="text-slate-300 font-sans text-xs">
-              {{ ts.isRomanian ? 'Deconectare forțată a interfeței de rețea pentru testarea re-rutării automate prin BGP și fallback DNS.' : 'Forced network drop on primary router interface to verify automated BGP path redirection.' }}
-            </p>
-            <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
-              <code>./scripts/chaos/chaos_runner.sh network-blackhole 30</code>
+          <!-- 4-Grid Chaos Actions -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- 1. CPU & RAM Stress -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <span class="text-rose-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? '1. Saturație CPU & RAM' : '1. CPU & RAM Saturation' }}</span>
+              <h4 class="font-bold text-slate-100">{{ ts.isRomanian ? 'Validare Limite Cgroup & Izolare Resurse' : 'Cgroup Limits & Resource Throttling' }}</h4>
+              <p class="text-slate-300 font-sans text-xs">
+                {{ ts.isRomanian ? 'Injectare încărcare 100% CPU și 80% RAM pentru validarea mecanismului de limitare cgroup și prevenirea epuizării resurselor hypervisor-ului.' : 'Injecting 100% CPU and 80% RAM load to ensure cgroup limits prevent hypervisor starvation.' }}
+              </p>
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+                <code>./scripts/chaos/chaos_runner.sh cpu-stress 30 && ./scripts/chaos/chaos_runner.sh ram-pressure 30</code>
+              </div>
             </div>
+
+            <!-- 2. Service Kill & Auto-Healing -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <span class="text-amber-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? '2. Injectare Pană Serviciu (SIGKILL)' : '2. Service Fault Injection (SIGKILL)' }}</span>
+              <h4 class="font-bold text-slate-100">{{ ts.isRomanian ? 'Validare Auto-Healing fără Intervenție Umană' : 'Automated Self-Healing Validation' }}</h4>
+              <p class="text-slate-300 font-sans text-xs">
+                {{ ts.isRomanian ? 'Terminare forțată a containerului/pod-ului țintă și monitorizare activă până la auto-restart complet și revenire la starea Healthy în sub 15 secunde.' : 'Force-terminating target container/pod and verifying automatic container restart to Healthy status in under 15s without human intervention.' }}
+              </p>
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+                <code>./scripts/chaos/chaos_runner.sh service-kill 5 staging-workload && ./scripts/chaos/chaos_runner.sh auto-healing-check 30</code>
+              </div>
+            </div>
+
+            <!-- 3. Network Latency & Packet Loss -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <span class="text-sky-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? '3. Degradare Rețea & Jitter' : '3. Network Latency & Packet Loss' }}</span>
+              <h4 class="font-bold text-slate-100">{{ ts.isRomanian ? 'Simulare Latență Artificială (tc netem)' : 'Traffic Control Netem Emulation' }}</h4>
+              <p class="text-slate-300 font-sans text-xs">
+                {{ ts.isRomanian ? 'Injectare latență de 150ms și pierdere 15% pachete la nivel de kernel pe interfața de ingress pentru testarea retransmisiilor TCP și timeout-urilor gRPC.' : 'Injecting 150ms artificial delay and 15% packet drop to stress TCP retransmissions, gRPC deadlines, and split-horizon DNS failover.' }}
+              </p>
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+                <code>./scripts/chaos/chaos_runner.sh network-latency 30 eth0 150ms</code>
+              </div>
+            </div>
+
+            <!-- 4. Uptime Kuma & Ntfy/Telegram Alerts -->
+            <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
+              <span class="text-emerald-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? '4. Validare Notificări & Alerte' : '4. Uptime Kuma & Alerting Pipeline' }}</span>
+              <h4 class="font-bold text-slate-100">{{ ts.isRomanian ? 'Verificare Alertare Automată (Uptime Kuma, Ntfy, Telegram)' : 'Incident Webhooks & Automated Dispatch' }}</h4>
+              <p class="text-slate-300 font-sans text-xs">
+                {{ ts.isRomanian ? 'Validare automată a receptorilor de incidente: heartbeat către Uptime Kuma, notificare instantanee pe canalul Ntfy dedicat și dispatch Telegram bot.' : 'Validating automated incident alert channels: Uptime Kuma push monitor heartbeat, Ntfy topic notification, and Telegram Bot dispatch.' }}
+              </p>
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+                <code>./scripts/chaos/chaos_runner.sh alert-webhook-validate</code>
+              </div>
+            </div>
+
           </div>
         </div>
       }

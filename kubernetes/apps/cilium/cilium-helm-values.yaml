@@ -30,6 +30,15 @@ ipam:
 # L7 Network Security Policy Enforcement
 policyEnforcementMode: default
 
+# Cilium Service Mesh & Mutual TLS (mTLS via SPIFFE/SPIRE)
+authentication:
+  enabled: true
+  mutual:
+    spire:
+      enabled: true
+      install:
+        enabled: true
+
 # Hubble Observability & Telemetry
 hubble:
   enabled: true
