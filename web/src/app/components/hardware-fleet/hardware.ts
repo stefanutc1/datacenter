@@ -147,7 +147,7 @@ import { TranslationService } from '../../services/translation.service';
 
       <!-- Bottom Row: IP & 3D Focus Link -->
       <div class="pt-5 mt-4 border-t border-obsidian-750 flex items-center justify-between font-sans">
-       <span class="text-xs text-slate-400 font-mono">{{ hw.ip }}</span>
+       <span class="text-xs text-slate-400 font-sans">{{ hw.ip }}</span>
        <button
         (click)="focusHardwareNode(hw)"
         class="text-xs text-slate-300 hover:text-slate-100 font-medium flex items-center gap-1.5 transition-colors"

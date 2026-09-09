@@ -78,7 +78,7 @@ import { TranslationService } from '../../services/translation.service';
          (error)="onScreenshotError($event)"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950/80 via-transparent to-transparent"></div>
-        <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian-900/90 border border-obsidian-700 font-mono text-[10px] text-slate-200 font-semibold flex items-center gap-1 shadow">
+        <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-obsidian-900/90 border border-obsidian-700 font-sans text-[10px] text-slate-200 font-semibold flex items-center gap-1 shadow">
          <span>Screenshot HD</span>
          <span>↗</span>
         </div>
@@ -94,7 +94,7 @@ import { TranslationService } from '../../services/translation.service';
           <h3 class="font-sans font-bold text-slate-50 text-base group-hover:text-slate-200 transition-colors">
            {{ srv.name }}
           </h3>
-          <div class="text-[11px] font-mono text-slate-400">
+          <div class="text-[11px] font-sans text-slate-400">
            {{ srv.domain }}
           </div>
          </div>
@@ -160,7 +160,7 @@ import { TranslationService } from '../../services/translation.service';
          <img [src]="'icons/' + s.icon + '.svg'" [alt]="s.name" class="w-full h-full object-contain" (error)="onImgError($event)" />
         </div>
         <div>
-         <span class="text-[10px] font-mono text-slate-300 uppercase tracking-wider">{{ s.category }} · {{ s.node }}</span>
+         <span class="text-[10px] font-sans text-slate-300 uppercase tracking-wider">{{ s.category }} · {{ s.node }}</span>
          <h3 class="text-lg font-bold text-slate-100">{{ s.name }}</h3>
         </div>
        </div>
@@ -179,7 +179,7 @@ import { TranslationService } from '../../services/translation.service';
       <!-- Modal Footer Details -->
       <div class="p-4 sm:p-5 border-t border-obsidian-750 bg-obsidian-950 font-sans text-xs text-slate-300 flex flex-col sm:flex-row justify-between gap-3">
        <p class="leading-relaxed max-w-2xl">{{ (ts.isRomanian && s.descriptionRo) ? s.descriptionRo : s.description }}</p>
-       <div class="font-mono text-slate-300 self-start sm:self-auto flex items-center gap-2">
+       <div class="font-sans text-slate-300 self-start sm:self-auto flex items-center gap-2">
         <span>{{ s.ip }}:{{ s.port }}</span>
         <span class="text-slate-500">|</span>
         <span class="text-slate-400">{{ s.domain }}</span>

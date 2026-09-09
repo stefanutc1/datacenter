@@ -44,12 +44,12 @@ interface PhotoItem {
      
      <div class="lg:col-span-2 space-y-4">
       <div class="flex items-center gap-3">
-       <div class="w-12 h-12 rounded-2xl bg-obsidian-800 border border-obsidian-700 flex items-center justify-center font-mono font-bold text-slate-300 text-xl shadow-inner">
+       <div class="w-12 h-12 rounded-2xl bg-obsidian-800 border border-obsidian-700 flex items-center justify-center font-sans font-bold text-slate-300 text-xl shadow-inner">
         SN
        </div>
        <div>
         <h3 class="text-lg sm:text-xl font-bold text-slate-100">@stefanutc1</h3>
-        <p class="text-xs font-mono text-slate-300">DevOps & Infrastructure Architect · Datacenter Engineering</p>
+        <p class="text-xs font-sans text-slate-300">DevOps & Infrastructure Architect · Datacenter Engineering</p>
        </div>
       </div>
       <p class="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
@@ -58,19 +58,19 @@ interface PhotoItem {
         : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 with 12 GB DDR4-2133 and Apple Silicon ARM64), and GitOps automation. This datacenter powers live microservices, bare-metal telemetry, and real-time observability.' }}
       </p>
       <div class="flex flex-wrap gap-2 pt-2">
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Proxmox VE 9.2 (12GB x64 & ARM64)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">OPNsense 24.7 Hardened</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Grafana Enterprise & Prometheus</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Windows Server 2025 Datacenter (VM 201)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">RHEL 9.8 Enterprise (VM 202)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">FreeBSD 15.1 ZFS (VM 203)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">OpenBSD 7.9 Bastion (VM 204)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-mono text-[11px] border border-obsidian-700">Talos Linux K8s (VM 205)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Proxmox VE 9.2 (12GB x64 & ARM64)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OPNsense 24.7 Hardened</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Grafana Enterprise & Prometheus</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Windows Server 2025 Datacenter (VM 201)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">RHEL 9.8 Enterprise (VM 202)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">FreeBSD 15.1 ZFS (VM 203)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OpenBSD 7.9 Bastion (VM 204)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Talos Linux K8s (VM 205)</span>
       </div>
      </div>
 
      <!-- Quick Access Endpoints Box -->
-     <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-750 font-mono text-xs space-y-2.5">
+     <div class="p-5 rounded-2xl bg-obsidian-900 border border-obsidian-750 font-sans text-xs space-y-2.5">
       <div class="text-[10px] text-slate-300 font-bold uppercase tracking-wider pb-1 border-b border-obsidian-800">
        {{ ts.isRomanian ? 'Acces Rapid Panouri Web' : 'Quick Access Web Dashboards' }}
       </div>
@@ -105,7 +105,7 @@ interface PhotoItem {
 
    <!-- Tab Switcher: Core Panels (17) vs All Services (83) -->
    <div class="flex items-center justify-between gap-4 mb-8">
-    <div class="flex items-center gap-2 font-mono text-xs">
+    <div class="flex items-center gap-2 font-sans text-xs">
      <button
       (click)="galleryTab.set('core')"
       [class.bg-obsidian-750]="galleryTab() === 'core'"
@@ -131,7 +131,7 @@ interface PhotoItem {
      </button>
     </div>
     
-    <div class="hidden sm:block text-xs font-mono text-slate-400">
+    <div class="hidden sm:block text-xs font-sans text-slate-400">
      {{ galleryTab() === 'core' 
       ? (photos.length + (ts.isRomanian ? ' Capturi Live (Hypervisori, VM-uri, Securitate)' : ' Live Captures (Hypervisors, Enterprise VMs, Security)')) 
       : (allServices.length + (ts.isRomanian ? ' Servicii Documentate & Capturate' : ' Services Documented & Screened')) }}
@@ -153,14 +153,14 @@ interface PhotoItem {
          class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
-        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-slate-300 shadow">
+        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-sans font-bold bg-obsidian-900/90 border border-obsidian-700 text-slate-300 shadow">
          {{ ts.isRomanian ? photo.badgeRo : photo.badge }}
         </span>
        </div>
 
        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
-         <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">{{ ts.isRomanian ? photo.categoryRo : photo.category }}</span>
+         <span class="text-[10px] font-sans uppercase tracking-wider text-slate-400">{{ ts.isRomanian ? photo.categoryRo : photo.category }}</span>
          <h4 class="text-base font-bold text-slate-100 group-hover:text-slate-100 transition-colors mt-0.5">
           {{ ts.isRomanian ? photo.titleRo : photo.title }}
          </h4>
@@ -168,7 +168,7 @@ interface PhotoItem {
           {{ ts.isRomanian ? photo.descriptionRo : photo.description }}
          </p>
         </div>
-        <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
+        <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-sans text-[11px] text-slate-400">
          <span>{{ photo.endpoint }}</span>
          <span class="text-slate-300 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
         </div>
@@ -193,14 +193,14 @@ interface PhotoItem {
          class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-[#0c0e11] via-transparent to-transparent opacity-80"></div>
-        <span class="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-obsidian-900/90 border border-obsidian-700 text-slate-300 shadow">
+        <span class="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-sans font-bold bg-obsidian-900/90 border border-obsidian-700 text-slate-300 shadow">
          {{ s.category.toUpperCase() }}
         </span>
        </div>
 
        <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
-         <span class="text-[10px] font-mono text-slate-400">{{ s.node }}</span>
+         <span class="text-[10px] font-sans text-slate-400">{{ s.node }}</span>
          <h4 class="text-base font-bold text-slate-100 group-hover:text-slate-100 transition-colors mt-0.5">
           {{ s.name }}
          </h4>
@@ -208,7 +208,7 @@ interface PhotoItem {
           {{ s.description }}
          </p>
         </div>
-        <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-mono text-[11px] text-slate-400">
+        <div class="pt-2 border-t border-obsidian-800 flex items-center justify-between font-sans text-[11px] text-slate-400">
          <span>{{ s.ip }}:{{ s.port }}</span>
          <span class="text-slate-300 group-hover:translate-x-1 transition-transform">Zoom ↗</span>
         </div>
@@ -231,7 +231,7 @@ interface PhotoItem {
       <!-- Modal Header -->
       <div class="p-4 sm:p-5 border-b border-obsidian-750 flex items-center justify-between bg-obsidian-950 font-sans">
        <div>
-        <span class="text-[10px] font-mono text-slate-300 uppercase tracking-wider">{{ ts.isRomanian ? p.categoryRo : p.category }}</span>
+        <span class="text-[10px] font-sans text-slate-300 uppercase tracking-wider">{{ ts.isRomanian ? p.categoryRo : p.category }}</span>
         <h3 class="text-lg font-bold text-slate-100">{{ ts.isRomanian ? p.titleRo : p.title }}</h3>
        </div>
        <button 
@@ -249,7 +249,7 @@ interface PhotoItem {
       <!-- Modal Footer -->
       <div class="p-4 sm:p-5 border-t border-obsidian-750 bg-obsidian-950 font-sans text-xs text-slate-300 flex flex-col sm:flex-row justify-between gap-3">
        <p class="leading-relaxed max-w-3xl">{{ ts.isRomanian ? p.descriptionRo : p.description }}</p>
-       <div class="font-mono text-slate-300 self-start sm:self-auto flex items-center gap-2">
+       <div class="font-sans text-slate-300 self-start sm:self-auto flex items-center gap-2">
         <span>{{ p.endpoint }}</span>
         <span class="px-2 py-0.5 rounded bg-obsidian-800 border border-obsidian-700 text-[10px]">{{ ts.isRomanian ? p.badgeRo : p.badge }}</span>
        </div>

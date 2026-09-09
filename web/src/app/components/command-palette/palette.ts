@@ -26,7 +26,7 @@ interface SearchResultItem {
           
           <!-- Search Header -->
           <div class="p-4 border-b border-obsidian-750 flex items-center gap-3 bg-obsidian-950">
-            <span class="text-slate-300 font-mono text-base">⌘</span>
+            <span class="text-slate-300 font-sans text-base">⌘</span>
             <input
               #searchInput
               type="text"
@@ -35,11 +35,11 @@ interface SearchResultItem {
               [placeholder]="ts.isRomanian ? 'Caută servicii, noduri, porturi, comenzi CLI (ex: ollama, zfs, vlan, npm)...' : 'Search services, nodes, ports, CLI commands (e.g. ollama, zfs, vlan, npm)...'"
               class="w-full bg-transparent text-slate-100 placeholder:text-slate-500 font-sans text-sm outline-none"
             />
-            <button (click)="close()" class="text-xs font-mono text-slate-400 hover:text-slate-200 px-2 py-1 rounded bg-obsidian-800 border border-obsidian-700">ESC</button>
+            <button (click)="close()" class="text-xs font-sans text-slate-400 hover:text-slate-200 px-2 py-1 rounded bg-obsidian-800 border border-obsidian-700">ESC</button>
           </div>
 
           <!-- Quick Filters -->
-          <div class="flex items-center gap-1.5 px-4 py-2 bg-obsidian-950/60 border-b border-obsidian-750 text-xs font-mono overflow-x-auto no-scrollbar">
+          <div class="flex items-center gap-1.5 px-4 py-2 bg-obsidian-950/60 border-b border-obsidian-750 text-xs font-sans overflow-x-auto no-scrollbar">
             <button (click)="activeFilter = 'all'" [class.text-slate-300]="activeFilter === 'all'" [class.bg-slate-400/10]="activeFilter === 'all'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">{{ ts.isRomanian ? "Toate" : "All" }}</button>
             <button (click)="activeFilter = 'service'" [class.text-slate-300]="activeFilter === 'service'" [class.bg-slate-400/10]="activeFilter === 'service'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">{{ ts.isRomanian ? "Servicii" : "Services" }} ({{ services.length }})</button>
             <button (click)="activeFilter = 'hardware'" [class.text-slate-300]="activeFilter === 'hardware'" [class.bg-slate-400/10]="activeFilter === 'hardware'" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-colors">Hardware ({{ hardware.length }})</button>
@@ -50,7 +50,7 @@ interface SearchResultItem {
           <div class="flex-1 overflow-y-auto p-3 space-y-1 text-xs font-sans max-h-[55vh]">
             @if (filteredResults.length === 0) {
               <div class="p-8 text-center text-slate-400 font-sans text-xs">
-                {{ ts.isRomanian ? 'Niciun rezultat găsit pentru: ' : 'No results found for: ' }} <span class="text-slate-300 font-mono">"{{ query }}"</span>
+                {{ ts.isRomanian ? 'Niciun rezultat găsit pentru: ' : 'No results found for: ' }} <span class="text-slate-300 font-sans">"{{ query }}"</span>
               </div>
             }
 
@@ -60,21 +60,21 @@ interface SearchResultItem {
                 class="flex items-center justify-between p-3 rounded-xl hover:bg-obsidian-800/80 border border-transparent hover:border-obsidian-700 transition-all cursor-pointer group"
               >
                 <div class="flex items-center gap-3">
-                  <div class="w-7 h-7 rounded-lg bg-obsidian-950 border border-obsidian-750 flex items-center justify-center font-mono font-bold text-[10px] text-slate-300">
+                  <div class="w-7 h-7 rounded-lg bg-obsidian-950 border border-obsidian-750 flex items-center justify-center font-sans font-bold text-[10px] text-slate-300">
                     {{ item.type === 'service' ? 'SRV' : item.type === 'hardware' ? 'HW' : item.type === 'command' ? 'CLI' : 'DOC' }}
                   </div>
                   <div>
                     <div class="font-bold text-slate-100 group-hover:text-slate-300 transition-colors text-xs flex items-center gap-2">
                       <span>{{ item.title }}</span>
-                      <span class="text-[10px] font-mono text-slate-400 font-normal px-1.5 py-0.2 rounded bg-obsidian-950 border border-obsidian-750">{{ item.category }}</span>
+                      <span class="text-[10px] font-sans text-slate-400 font-normal px-1.5 py-0.2 rounded bg-obsidian-950 border border-obsidian-750">{{ item.category }}</span>
                     </div>
-                    <div class="text-[11px] text-slate-400 font-mono mt-0.5 truncate max-w-md">
+                    <div class="text-[11px] text-slate-400 font-sans mt-0.5 truncate max-w-md">
                       {{ item.subtext }}
                     </div>
                   </div>
                 </div>
 
-                <div class="text-right font-mono text-[11px] text-slate-500 group-hover:text-slate-300 flex items-center gap-1">
+                <div class="text-right font-sans text-[11px] text-slate-500 group-hover:text-slate-300 flex items-center gap-1">
                   <span>{{ ts.isRomanian ? 'Accesează' : 'Jump' }}</span>
                   <span>→</span>
                 </div>
@@ -83,7 +83,7 @@ interface SearchResultItem {
           </div>
 
           <!-- Palette Footer -->
-          <div class="p-3 bg-obsidian-950 border-t border-obsidian-750 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+          <div class="p-3 bg-obsidian-950 border-t border-obsidian-750 text-[11px] font-sans text-slate-400 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↑↓</kbd> {{ ts.isRomanian ? "Navighează" : "Navigate" }}</span>
               <span><kbd class="px-1.5 py-0.5 rounded bg-obsidian-850 border border-obsidian-700 text-slate-300">↵</kbd> {{ ts.isRomanian ? "Selectează" : "Select" }}</span>

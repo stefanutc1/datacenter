@@ -16,7 +16,7 @@ import { TranslationService } from '../../services/translation.service';
     <div class="p-5 border-b border-obsidian-750 flex items-start justify-between gap-4 bg-obsidian-950/80">
      <div class="flex items-center gap-3.5">
       <div
-       class="w-11 h-11 rounded-xl flex items-center justify-center font-mono font-bold text-sm border border-obsidian-700 shadow-md"
+       class="w-11 h-11 rounded-xl flex items-center justify-center font-sans font-bold text-sm border border-obsidian-700 shadow-md"
        [style.background-color]="node.color + '20'"
        [style.color]="node.color"
       >
@@ -26,7 +26,7 @@ import { TranslationService } from '../../services/translation.service';
         <h2 class="font-sans font-bold text-xl text-slate-50 leading-tight">
          {{ node.name }}
         </h2>
-        <div class="text-xs text-slate-400 font-mono mt-0.5">
+        <div class="text-xs text-slate-400 font-sans mt-0.5">
          {{ node.sublabel || node.ip }}
         </div>
        </div>
@@ -40,7 +40,7 @@ import { TranslationService } from '../../services/translation.service';
     </div>
 
     <!-- Tab Selector -->
-    <div class="flex items-center px-4 border-b border-obsidian-750 bg-obsidian-950/50 gap-2 font-mono text-xs">
+    <div class="flex items-center px-4 border-b border-obsidian-750 bg-obsidian-950/50 gap-2 font-sans text-xs">
      <button
       (click)="activeTab = 'spec'"
       [class.border-slate-500]="activeTab === 'spec'"
@@ -84,7 +84,7 @@ import { TranslationService } from '../../services/translation.service';
       <div class="space-y-4 font-sans">
        <!-- System Role -->
        <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-2">
-        <div class="text-[10px] font-mono uppercase tracking-widest text-slate-300 font-bold">
+        <div class="text-[10px] font-sans uppercase tracking-widest text-slate-300 font-bold">
          {{ ts.t.inspectorRole }}
         </div>
         <p class="text-xs text-slate-200 leading-relaxed font-normal">
@@ -93,7 +93,7 @@ import { TranslationService } from '../../services/translation.service';
         @if (node.tags && node.tags.length > 0) {
          <div class="flex flex-wrap gap-1.5 pt-1 border-t border-obsidian-750/60">
           @for (tag of node.tags; track tag) {
-           <span class="text-[10px] font-mono px-2 py-0.5 rounded-md bg-obsidian-900 border border-obsidian-700 text-slate-300">
+           <span class="text-[10px] font-sans px-2 py-0.5 rounded-md bg-obsidian-900 border border-obsidian-700 text-slate-300">
             #{{ tag }}
            </span>
           }
@@ -101,9 +101,9 @@ import { TranslationService } from '../../services/translation.service';
         }
        </div>
 
-       <!-- Hardware Allocations -->
+        <!-- Hardware Allocations -->
        @if (node.hardware) {
-        <div class="space-y-2 font-mono">
+        <div class="space-y-2 font-sans">
          <div class="text-xs uppercase tracking-wider text-slate-400">
           {{ ts.t.inspectorHostAllocation }}
          </div>
@@ -129,7 +129,7 @@ import { TranslationService } from '../../services/translation.service';
        }
 
        <!-- Network Endpoints -->
-       <div class="space-y-2 font-mono">
+       <div class="space-y-2 font-sans">
         <div class="text-xs uppercase tracking-wider text-slate-400">
          {{ ts.t.inspectorNetworkConfig }}
         </div>
@@ -156,11 +156,11 @@ import { TranslationService } from '../../services/translation.service';
      <!-- TAB 2: RELATIONSHIP CASCADE -->
      @if (activeTab === 'cascade') {
       <div class="space-y-5">
-       <div class="text-xs font-mono uppercase tracking-wider text-slate-400">
+       <div class="text-xs font-sans uppercase tracking-wider text-slate-400">
         {{ ts.t.inspectorRelationshipChain }}
        </div>
 
-       <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-3 font-mono text-xs">
+       <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-3 font-sans text-xs">
         <!-- 1. Workload -->
         <div class="flex items-center gap-3">
          <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
@@ -205,7 +205,7 @@ import { TranslationService } from '../../services/translation.service';
        </div>
 
        <!-- Connected Mesh Nodes -->
-       <div class="space-y-2 font-mono">
+       <div class="space-y-2 font-sans">
         <div class="text-xs uppercase tracking-wider text-slate-400 flex items-center justify-between">
          <span>{{ ts.t.inspectorConnectedNodes }} ({{ connectedNodes.length }})</span>
          <span class="text-[10px] text-slate-300">CLICK TO JUMP</span>
@@ -220,15 +220,15 @@ import { TranslationService } from '../../services/translation.service';
            <div class="flex items-center gap-2.5 truncate">
             <span class="w-2 h-2 rounded-full" [style.background-color]="conn.color"></span>
             <div class="truncate">
-             <div class="font-mono text-xs font-bold text-slate-100 group-hover:text-slate-100 truncate">
+             <div class="font-sans text-xs font-bold text-slate-100 group-hover:text-slate-100 truncate">
               {{ conn.name }}
              </div>
-             <div class="font-mono text-[10px] text-slate-400 truncate">
+             <div class="font-sans text-[10px] text-slate-400 truncate">
               {{ conn.sublabel || conn.ip }}
              </div>
             </div>
            </div>
-           <span class="font-mono text-xs text-slate-500 group-hover:text-slate-100">→</span>
+           <span class="font-sans text-xs text-slate-500 group-hover:text-slate-100">→</span>
           </button>
          }
         </div>
@@ -238,7 +238,7 @@ import { TranslationService } from '../../services/translation.service';
 
      <!-- TAB 3: MANIFEST -->
      @if (activeTab === 'manifest') {
-      <div class="space-y-3 font-mono">
+      <div class="space-y-3 font-sans">
        <div class="flex items-center justify-between">
         <span class="text-xs uppercase tracking-wider text-slate-400">
          Container Manifest Spec

@@ -33,7 +33,7 @@ export interface ForensicCase {
       
       <!-- Section Header -->
       <div class="space-y-2 mb-8">
-        <div class="text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">
+        <div class="text-xs font-sans font-bold tracking-widest text-slate-300 uppercase">
           {{ ts.t.bpTag }}
         </div>
         <h2 class="text-3xl sm:text-4xl font-serif font-normal text-slate-50 tracking-tight">
@@ -343,7 +343,7 @@ export interface ForensicCase {
       <!-- TAB 1: VLAN MATRIX -->
       @if (activeTab === 'vlan') {
         <div class="space-y-6">
-          <div class="rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl overflow-hidden font-mono text-xs">
+          <div class="rounded-2xl bg-obsidian-850/90 border border-obsidian-750 shadow-xl overflow-hidden font-sans text-xs">
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse">
                 <thead>
@@ -378,7 +378,7 @@ export interface ForensicCase {
       @if (activeTab === 'power') {
         <div class="space-y-6">
           <!-- Live Telemetry KPI Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans text-xs">
             <div class="p-5 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-lg space-y-2">
               <div class="text-[10px] text-slate-400 uppercase">{{ ts.isRomanian ? 'Tensiune de Intrare' : 'Input Voltage' }}</div>
               <div class="text-2xl font-bold text-slate-300">231.4 V AC</div>
@@ -406,7 +406,7 @@ export interface ForensicCase {
             <h3 class="font-sans font-bold text-slate-50 text-base">
               {{ ts.isRomanian ? 'Oprire Secvențială Controlată prin Network UPS Tools (NUT)' : 'Network UPS Tools (NUT) Graceful Sequential Shutdown' }}
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 font-mono text-xs">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 font-sans text-xs">
               <div class="p-3.5 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-1">
                 <span class="text-slate-300 font-bold">{{ ts.isRomanian ? 'Pasul 1: Non-Critic' : 'Step 1: Non-Critical' }}</span>
                 <p class="text-slate-300 text-[11px] font-sans">{{ ts.isRomanian ? 'Oprire Media (Jellyfin CT 109) & Nextcloud' : 'Stop Media (Jellyfin CT 109) & Nextcloud' }}</p>
@@ -430,7 +430,7 @@ export interface ForensicCase {
 
       <!-- TAB 3: ZFS STORAGE -->
       @if (activeTab === 'storage') {
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans text-xs">
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
             <div class="flex items-center justify-between border-b border-obsidian-750 pb-3">
               <h3 class="font-bold text-sm text-slate-50">{{ ts.isRomanian ? 'rpool (SSD NVMe Local)' : 'rpool (Local NVMe SSD)' }}</h3>
@@ -492,7 +492,7 @@ export interface ForensicCase {
             <div class="space-y-1">
               <div class="flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-slate-400"></span>
-                <span class="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                <span class="text-[10px] font-sans font-bold tracking-widest text-slate-400 uppercase">
                   TLP:CLEAR · THREAT INTEL & DFIR SUITE
                 </span>
               </div>
@@ -570,7 +570,7 @@ export interface ForensicCase {
                     {{ ts.isRomanian ? 'Selectează un dosar pentru a citi analiza tehnică completă, decompilarea API și regulile de detecție.' : 'Select any investigation to inspect full technical analysis, API decompilation, and detection signatures.' }}
                   </p>
                 </div>
-                <span class="text-xs font-mono text-slate-400">4 {{ ts.isRomanian ? 'Cazuri Finalizate' : 'Completed Cases' }}</span>
+                <span class="text-xs font-sans text-slate-400">4 {{ ts.isRomanian ? 'Cazuri Finalizate' : 'Completed Cases' }}</span>
               </div>
 
               <!-- 4 Cases Grid -->
@@ -584,19 +584,19 @@ export interface ForensicCase {
                       <!-- Top Metadata Badges -->
                       <div class="flex items-center justify-between gap-2 border-b border-obsidian-750 pb-3">
                         <div class="flex items-center gap-2">
-                          <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-obsidian-800 text-slate-200 border border-obsidian-700 uppercase tracking-wide">
+                          <span class="text-[10px] font-sans font-bold px-2 py-0.5 rounded bg-obsidian-800 text-slate-200 border border-obsidian-700 uppercase tracking-wide">
                             {{ c.caseId }}
                           </span>
-                          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-obsidian-900 text-slate-400 border border-obsidian-750 uppercase">
+                          <span class="text-[10px] font-sans px-2 py-0.5 rounded bg-obsidian-900 text-slate-400 border border-obsidian-750 uppercase">
                             {{ c.classification }}
                           </span>
                         </div>
-                        <span class="text-[10px] font-mono text-slate-400">{{ c.date }}</span>
+                        <span class="text-[10px] font-sans text-slate-400">{{ c.date }}</span>
                       </div>
 
                       <!-- Case Title & Badge -->
                       <div>
-                        <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">
+                        <div class="text-[10px] font-sans font-bold uppercase tracking-wider text-slate-400 mb-1">
                           {{ c.badge }}
                         </div>
                         <h4 class="text-base font-sans font-bold text-slate-50 group-hover:text-slate-200 transition-colors leading-snug">
@@ -611,16 +611,16 @@ export interface ForensicCase {
 
                       <!-- Key Technical Discovery Highlight -->
                       <div class="p-3.5 rounded-xl bg-obsidian-900/90 border border-obsidian-750 space-y-1">
-                        <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                        <div class="text-[10px] font-sans text-slate-400 uppercase tracking-wider font-semibold">
                           {{ ts.isRomanian ? 'Descoperire Tehnică Cheie' : 'Key Technical Discovery' }}
                         </div>
-                        <div class="text-xs font-mono text-slate-300 truncate">
+                        <div class="text-xs font-sans text-slate-300 truncate">
                           {{ c.reverseFindings[1] || c.reverseFindings[0] }}
                         </div>
                       </div>
 
                       <!-- MITRE ATT&CK Badges -->
-                      <div class="flex flex-wrap gap-1.5 font-mono text-[10px]">
+                      <div class="flex flex-wrap gap-1.5 font-sans text-[10px]">
                         @for (m of c.mitreAttack; track m) {
                           <span class="px-2 py-0.5 rounded bg-obsidian-900 border border-obsidian-750 text-slate-400">
                             {{ m }}
@@ -631,7 +631,7 @@ export interface ForensicCase {
 
                     <!-- Footer Action -->
                     <div class="mt-5 pt-3 border-t border-obsidian-750 flex items-center justify-between text-xs">
-                      <span class="text-slate-400 text-[11px] font-mono">{{ c.status }}</span>
+                      <span class="text-slate-400 text-[11px] font-sans">{{ c.status }}</span>
                       <span class="font-sans text-xs font-semibold text-slate-300 group-hover:text-slate-100 flex items-center gap-1 transition-colors">
                         {{ ts.isRomanian ? 'Deschide Dosarul Criminalistic →' : 'Open Forensic Dossier →' }}
                       </span>
@@ -663,16 +663,16 @@ export interface ForensicCase {
                   <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between hover:border-slate-500/50 transition-all">
                     <div>
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold font-mono text-slate-400 uppercase tracking-wider">TIER 1 · PERIMETRU EDGE</span>
+                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">TIER 1 · PERIMETRU EDGE</span>
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
                       <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">OPNsense Gateway</h5>
-                      <div class="text-[11px] text-slate-400 font-mono mt-0.5">VM 200 · FreeBSD pf</div>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">VM 200 · FreeBSD pf</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
                         {{ ts.isRomanian ? 'Filtrare stateful L3/L4, Suricata IDS/IPS activ, CrowdSec bouncer L7 și terminare tunel hibrid WireGuard (wg-cloud0).' : 'Stateful L3/L4 filtering, Suricata IDS/IPS, CrowdSec L7 bouncer, and hybrid WireGuard tunnel termination (wg-cloud0).' }}
                       </p>
                     </div>
-                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-mono">
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">
                       IP: 192.168.1.134 / WAN 1.0/24
                     </div>
                   </div>
@@ -681,16 +681,16 @@ export interface ForensicCase {
                   <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between hover:border-slate-500/50 transition-all">
                     <div>
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold font-mono text-slate-400 uppercase tracking-wider">BUS DE TRANZIT L3</span>
+                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">BUS DE TRANZIT L3</span>
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
                       <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">vmbr2 Transit Subnet</h5>
-                      <div class="text-[11px] text-slate-400 font-mono mt-0.5">10.10.20.0/30 · BGP / OSPF</div>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">10.10.20.0/30 · BGP / OSPF</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
                         {{ ts.isRomanian ? 'Interconectare dedicată punct-la-punct fără interferențe L2. Sesiune BGP între AS 64512 (OPNsense) și AS 64513 (FortiGate).' : 'Dedicated point-to-point interconnect without L2 broadcast noise. BGP peering between AS 64512 (OPNsense) and AS 64513 (FortiGate).' }}
                       </p>
                     </div>
-                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-mono">
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">
                       Transit IP: 10.10.20.1 &lt;-&gt; 10.10.20.2
                     </div>
                   </div>
@@ -699,16 +699,16 @@ export interface ForensicCase {
                   <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between hover:border-slate-500/50 transition-all">
                     <div>
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold font-mono text-slate-400 uppercase tracking-wider">TIER 2 · ENTERPRISE NGFW</span>
+                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">TIER 2 · ENTERPRISE NGFW</span>
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
                       <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">Fortinet FortiGate-VM</h5>
-                      <div class="text-[11px] text-slate-400 font-mono mt-0.5">VM 221 · FortiOS / Cisco ASAv</div>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">VM 221 · FortiOS / Cisco ASAv</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
                         {{ ts.isRomanian ? 'Inspecție profundă SSL/TLS DPI, Application Control L7, scanare Antivirus de rețea și protecție specifică pentru fluxurile interne.' : 'SSL/TLS Deep Packet Inspection, L7 Application Control, inline Antivirus scanning, and internal east-west traffic policing.' }}
                       </p>
                     </div>
-                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-mono">
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">
                       Politică Zero-Trust Inter-VLAN
                     </div>
                   </div>
@@ -717,16 +717,16 @@ export interface ForensicCase {
                   <div class="p-4 rounded-xl bg-obsidian-900 border border-obsidian-750 space-y-2 flex flex-col justify-between hover:border-slate-500/50 transition-all">
                     <div>
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-bold font-mono text-slate-400 uppercase tracking-wider">SOC & DECEPȚIE DMZ</span>
+                        <span class="text-[10px] font-bold font-sans text-slate-400 uppercase tracking-wider">SOC & DECEPȚIE DMZ</span>
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
                       <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">Wazuh SIEM & T-Pot</h5>
-                      <div class="text-[11px] text-slate-400 font-mono mt-0.5">CT 100 & VM 213 (VLAN 40)</div>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">CT 100 & VM 213 (VLAN 40)</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
                         {{ ts.isRomanian ? 'Cluster de capcane Cowrie SSH & Dionaea în DMZ izolat; corelare evenimente în Wazuh XDR și analiză dinamică pe REMnux (VM 218).' : 'Cowrie SSH & Dionaea deception cluster in isolated DMZ; event correlation via Wazuh XDR and dynamic triage on REMnux (VM 218).' }}
                       </p>
                     </div>
-                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-mono">
+                    <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">
                       Wazuh Manager: 192.168.1.132:1514
                     </div>
                   </div>
@@ -735,33 +735,33 @@ export interface ForensicCase {
 
                 <!-- Live Correlation Matrix with the 4 Forensics Investigations -->
                 <div class="p-5 rounded-xl bg-obsidian-900/80 border border-obsidian-750 space-y-4">
-                  <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider font-semibold">
+                  <div class="text-[11px] font-sans text-slate-400 uppercase tracking-wider font-semibold">
                     {{ ts.isRomanian ? 'Cum Alimentează Cele 4 Investigații Apărarea Datacenter-ului' : 'How the 4 Forensic Investigations Directly Feed Datacenter Defense' }}
                   </div>
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
                     <div class="flex items-start gap-3">
-                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-mono text-slate-300 font-bold shrink-0 mt-0.5">1</span>
+                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-sans text-slate-300 font-bold shrink-0 mt-0.5">1</span>
                       <span class="text-slate-300 leading-relaxed">
                         <strong class="text-slate-100 font-semibold">Task Scam (USDT TRC-20):</strong>
                         {{ ts.isRomanian ? 'Regulile Suricata inspectează JSON-urile ce conțin chei de kill-switch; IP-urile de C2 sunt blocate automat pe OPNsense prin CrowdSec.' : 'Suricata rules inspect JSON bodies for kill-switch attributes; C2 IPs are blacklisted via CrowdSec on OPNsense.' }}
                       </span>
                     </div>
                     <div class="flex items-start gap-3">
-                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-mono text-slate-300 font-bold shrink-0 mt-0.5">2</span>
+                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-sans text-slate-300 font-bold shrink-0 mt-0.5">2</span>
                       <span class="text-slate-300 leading-relaxed">
                         <strong class="text-slate-100 font-semibold">Revolut Vishing:</strong>
                         {{ ts.isRomanian ? 'Filtrare antete SIP nesecurizate pe Asterisk PBX și blocare directă la nivel DNS a domeniilor nou apărute (NRD &lt; 30 zile).' : 'Unauthenticated SIP header filtering on Asterisk PBX and automated DNS sinkholing of newly registered domains (NRD &lt; 30 days).' }}
                       </span>
                     </div>
                     <div class="flex items-start gap-3">
-                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-mono text-slate-300 font-bold shrink-0 mt-0.5">3</span>
+                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-sans text-slate-300 font-bold shrink-0 mt-0.5">3</span>
                       <span class="text-slate-300 leading-relaxed">
                         <strong class="text-slate-100 font-semibold">TikTok MRR Pyramids:</strong>
                         {{ ts.isRomanian ? 'Crawler OSINT pe Proxmox pentru identificarea rutelor scurtate de phishing și scoring de reputație al portilor de plată.' : 'Proxmox-hosted OSINT crawler resolving short URL redirects and monitoring high-risk merchant gateway domains.' }}
                       </span>
                     </div>
                     <div class="flex items-start gap-3">
-                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-mono text-slate-300 font-bold shrink-0 mt-0.5">4</span>
+                      <span class="w-5 h-5 rounded bg-obsidian-800 border border-obsidian-700 flex items-center justify-center text-[10px] font-sans text-slate-300 font-bold shrink-0 mt-0.5">4</span>
                       <span class="text-slate-300 leading-relaxed">
                         <strong class="text-slate-100 font-semibold">Steam OpenID BitM:</strong>
                         {{ ts.isRomanian ? 'Detecție a structurilor sintetice de ferestre BitM în traficul HTTP și reguli de alertare Wazuh pentru crearea suspectă de chei Web API.' : 'Identification of synthetic BitM in-DOM frames via Suricata and Wazuh alerting on unusual Web API token provisions.' }}
@@ -795,7 +795,7 @@ export interface ForensicCase {
                         <h3 class="font-sans font-bold text-slate-50 text-base tracking-wide group-hover:text-slate-200 transition-colors">
                           {{ pillar.title }}
                         </h3>
-                        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700 uppercase">
+                        <span class="text-[10px] font-sans font-bold px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700 uppercase">
                           {{ pillar.badge }}
                         </span>
                       </div>
@@ -805,8 +805,8 @@ export interface ForensicCase {
                       </p>
 
                       <div class="space-y-1.5 pt-1">
-                        <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">{{ ts.isRomanian ? 'Tehnologii & Unelte' : 'Technologies & Tooling' }}</div>
-                        <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                        <div class="text-[10px] font-sans text-slate-400 uppercase tracking-wider">{{ ts.isRomanian ? 'Tehnologii & Unelte' : 'Technologies & Tooling' }}</div>
+                        <div class="flex flex-wrap gap-1.5 font-sans text-[11px]">
                           @for (tool of pillar.tools; track tool) {
                             <span class="px-2 py-0.5 rounded bg-obsidian-900 border border-obsidian-750 text-slate-300">
                               {{ tool }}
@@ -834,10 +834,10 @@ export interface ForensicCase {
                       : 'Automated MITRE ATT&CK adversary simulation, container breakout vector auditing, and defensive detection latency validation in Wazuh SIEM & CrowdSec.' }}
                   </p>
                 </div>
-                <span class="px-2.5 py-1 rounded bg-rose-500/10 text-rose-300 text-[11px] font-bold self-start sm:self-auto">RED TEAM SUITE</span>
+                <span class="px-2.5 py-1 rounded bg-rose-500/10 text-rose-300 text-[11px] font-bold self-start sm:self-auto font-sans">RED TEAM SUITE</span>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-sans text-xs">
                 
                 <!-- 1. Container Audit -->
                 <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-3">
@@ -845,7 +845,7 @@ export interface ForensicCase {
                     <span class="text-rose-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Audit Kernel & Izolare' : 'Kernel & Isolation Audit' }}</span>
                     <span class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 text-[10px] font-bold">PYTHON 3</span>
                   </div>
-                  <h4 class="font-bold text-slate-100 text-sm">Container Audit</h4>
+                  <h4 class="font-bold text-slate-100 text-sm font-sans">Container Audit</h4>
                   <p class="text-slate-300 font-sans text-xs leading-relaxed">
                     {{ ts.isRomanian 
                       ? 'Scanează capabilitățile (CAP_SYS_ADMIN, CAP_SYS_PTRACE), socket-urile docker.sock expuse, cgroups și namespaces partajate (hostPID).' 
@@ -862,7 +862,7 @@ export interface ForensicCase {
                     <span class="text-amber-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Validare Detecție' : 'Detection Tests' }}</span>
                     <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 text-[10px] font-bold">MITRE ATT&CK</span>
                   </div>
-                  <h4 class="font-bold text-slate-100 text-sm">Security Detection Tests</h4>
+                  <h4 class="font-bold text-slate-100 text-sm font-sans">Security Detection Tests</h4>
                   <p class="text-slate-300 font-sans text-xs leading-relaxed">
                     {{ ts.isRomanian 
                       ? 'Execută tehnici atomice (T1059.004 shell, T1046 port discovery, T1552 canary hunt) pentru a măsura timpii de reacție ai alertelor Wazuh SIEM.' 
@@ -879,7 +879,7 @@ export interface ForensicCase {
                     <span class="text-sky-400 font-bold uppercase text-[10px]">{{ ts.isRomanian ? 'Audit Privilegii & Secrete' : 'Privilege & Secrets Audit' }}</span>
                     <span class="px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 text-[10px] font-bold">ZERO-TRUST</span>
                   </div>
-                  <h4 class="font-bold text-slate-100 text-sm">Privilege Boundary Audit</h4>
+                  <h4 class="font-bold text-slate-100 text-sm font-sans">Privilege Boundary Audit</h4>
                   <p class="text-slate-300 font-sans text-xs leading-relaxed">
                     {{ ts.isRomanian 
                       ? 'Evaluează vectorii de escaladare locală de privilegii (directoare PATH perisabile, chei SSH cu permisiuni laxe, secrete expuse în variabile de mediu).' 
@@ -899,7 +899,7 @@ export interface ForensicCase {
 
       <!-- TAB: ZERO-TRUST & GITOPS PROVING GROUND -->
       @if (activeTab === 'zerotrust') {
-        <div class="space-y-6 font-mono text-xs">
+        <div class="space-y-6 font-sans text-xs">
           
           <!-- Grid 1: Vault / OpenBao & WireGuard Key Rotation -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1120,7 +1120,7 @@ export interface ForensicCase {
 
       <!-- TAB 5: IAC GENERATOR & RUNBOOKS -->
       @if (activeTab === 'generator') {
-        <div class="space-y-6 font-mono text-xs">
+        <div class="space-y-6 font-sans text-xs">
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
             <h3 class="font-bold text-sm text-slate-50 font-sans">
               {{ ts.isRomanian ? 'Generator Declarativ Module Terraform & Proxmox LXC' : 'Declarative Terraform & Proxmox LXC Module Generator' }}
@@ -1145,7 +1145,7 @@ export interface ForensicCase {
             </div>
 
             <div class="relative mt-4">
-              <pre class="p-4 rounded-xl bg-obsidian-950 border border-obsidian-750 text-slate-300 overflow-x-auto text-[11px] leading-relaxed"><code>{{ generatedTerraformCode }}</code></pre>
+              <pre class="p-4 rounded-xl bg-obsidian-950 border border-obsidian-750 text-slate-300 overflow-x-auto text-[11px] leading-relaxed font-mono"><code>{{ generatedTerraformCode }}</code></pre>
               <button
                 (click)="copyGen()"
                 class="absolute top-3 right-3 px-3 py-1.5 rounded-lg bg-slate-400 text-slate-950 font-bold text-xs hover:bg-slate-400 transition-colors shadow"
@@ -1159,7 +1159,7 @@ export interface ForensicCase {
 
       <!-- TAB 6: CHAOS ENGINEERING & RESILIENCY -->
       @if (activeTab === 'chaos') {
-        <div class="space-y-6 font-mono text-xs">
+        <div class="space-y-6 font-sans text-xs">
           
           <!-- Banner: Scheduled CI/CD Automation -->
           <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -1183,7 +1183,7 @@ export interface ForensicCase {
               <p class="text-slate-300 font-sans text-xs">
                 {{ ts.isRomanian ? 'Injectare încărcare 100% CPU și 80% RAM pentru validarea mecanismului de limitare cgroup și prevenirea epuizării resurselor hypervisor-ului.' : 'Injecting 100% CPU and 80% RAM load to ensure cgroup limits prevent hypervisor starvation.' }}
               </p>
-              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
                 <code>./scripts/chaos/chaos_runner.sh cpu-stress 30 && ./scripts/chaos/chaos_runner.sh ram-pressure 30</code>
               </div>
             </div>
@@ -1195,7 +1195,7 @@ export interface ForensicCase {
               <p class="text-slate-300 font-sans text-xs">
                 {{ ts.isRomanian ? 'Terminare forțată a containerului/pod-ului țintă și monitorizare activă până la auto-restart complet și revenire la starea Healthy în sub 15 secunde.' : 'Force-terminating target container/pod and verifying automatic container restart to Healthy status in under 15s without human intervention.' }}
               </p>
-              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
                 <code>./scripts/chaos/chaos_runner.sh service-kill 5 staging-workload && ./scripts/chaos/chaos_runner.sh auto-healing-check 30</code>
               </div>
             </div>
@@ -1207,7 +1207,7 @@ export interface ForensicCase {
               <p class="text-slate-300 font-sans text-xs">
                 {{ ts.isRomanian ? 'Injectare latență de 150ms și pierdere 15% pachete la nivel de kernel pe interfața de ingress pentru testarea retransmisiilor TCP și timeout-urilor gRPC.' : 'Injecting 150ms artificial delay and 15% packet drop to stress TCP retransmissions, gRPC deadlines, and split-horizon DNS failover.' }}
               </p>
-              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
                 <code>./scripts/chaos/chaos_runner.sh network-latency 30 eth0 150ms</code>
               </div>
             </div>
@@ -1219,7 +1219,7 @@ export interface ForensicCase {
               <p class="text-slate-300 font-sans text-xs">
                 {{ ts.isRomanian ? 'Validare automată a receptorilor de incidente: heartbeat către Uptime Kuma, notificare instantanee pe canalul Ntfy dedicat și dispatch Telegram bot.' : 'Validating automated incident alert channels: Uptime Kuma push monitor heartbeat, Ntfy topic notification, and Telegram Bot dispatch.' }}
               </p>
-              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300">
+              <div class="p-2 rounded bg-obsidian-900 border border-obsidian-750 text-[11px] text-slate-300 font-mono">
                 <code>./scripts/chaos/chaos_runner.sh alert-webhook-validate</code>
               </div>
             </div>
@@ -1230,7 +1230,7 @@ export interface ForensicCase {
 
       <!-- TAB 7: OBSERVABILITY & SLO METRICS -->
       @if (activeTab === 'observability') {
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans text-xs">
           <div class="p-6 rounded-2xl bg-obsidian-850 border border-obsidian-750 shadow-xl space-y-4">
             <h3 class="font-bold text-sm text-slate-50">{{ ts.isRomanian ? 'Obiective la Nivel de Serviciu (SLO Cluster)' : 'Cluster Service Level Objectives (SLO)' }}</h3>
             <div class="space-y-2 text-slate-300">
@@ -1282,7 +1282,7 @@ export interface ForensicCase {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @for (g of (ts.isRomanian ? filteredGlossaryRo : filteredGlossaryEn); track g.term) {
               <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 space-y-1.5 shadow-md">
-                <div class="font-bold text-slate-50 font-mono text-sm text-slate-300">{{ g.term }}</div>
+                <div class="font-bold text-slate-50 font-sans text-sm text-slate-300">{{ g.term }}</div>
                 <p class="text-slate-300 font-sans leading-relaxed">{{ g.def }}</p>
               </div>
             }
@@ -1301,16 +1301,16 @@ export interface ForensicCase {
             <div class="flex items-start justify-between border-b border-obsidian-750 pb-4 gap-4">
               <div class="space-y-2">
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-obsidian-800 text-slate-200 border border-obsidian-700">
+                  <span class="text-xs font-sans font-bold px-2.5 py-0.5 rounded bg-obsidian-800 text-slate-200 border border-obsidian-700">
                     {{ selectedCase.caseId }}
                   </span>
-                  <span class="text-xs font-mono px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700">
+                  <span class="text-xs font-sans px-2 py-0.5 rounded bg-obsidian-800 text-slate-300 border border-obsidian-700">
                     {{ selectedCase.classification }}
                   </span>
-                  <span class="text-xs font-mono px-2 py-0.5 rounded bg-obsidian-850 text-slate-400 border border-obsidian-800">
+                  <span class="text-xs font-sans px-2 py-0.5 rounded bg-obsidian-850 text-slate-400 border border-obsidian-800">
                     {{ selectedCase.date }} · {{ selectedCase.author }}
                   </span>
-                  <span class="text-xs font-mono px-2 py-0.5 rounded bg-obsidian-800 text-slate-200 border border-obsidian-700 flex items-center gap-1.5">
+                  <span class="text-xs font-sans px-2 py-0.5 rounded bg-obsidian-800 text-slate-200 border border-obsidian-700 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                     {{ selectedCase.status }}
                   </span>
@@ -1318,7 +1318,7 @@ export interface ForensicCase {
                 <h3 class="text-xl sm:text-2xl font-serif font-normal text-slate-50 leading-tight tracking-tight">
                   {{ selectedCase.title }}
                 </h3>
-                <div class="text-xs font-mono text-slate-400">
+                <div class="text-xs font-sans text-slate-400">
                   {{ ts.isRomanian ? 'Director Proiect:' : 'Project Directory:' }} <span class="text-slate-300">{{ selectedCase.repoPath }}</span>
                 </div>
               </div>
@@ -1340,7 +1340,7 @@ export interface ForensicCase {
 
               <!-- 1. Executive Summary -->
               <div class="space-y-2">
-                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <h5 class="text-xs font-sans font-bold uppercase tracking-wider text-slate-400">
                   {{ ts.isRomanian ? '1. Rezumat Executiv & Context Incident' : '1. Executive Summary & Incident Context' }}
                 </h5>
                 <p class="text-slate-300 leading-relaxed bg-obsidian-850 p-4 rounded-xl border border-obsidian-750 font-sans font-normal">
@@ -1350,7 +1350,7 @@ export interface ForensicCase {
 
               <!-- 2. Attack Vector & Pretext -->
               <div class="space-y-2">
-                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <h5 class="text-xs font-sans font-bold uppercase tracking-wider text-slate-400">
                   {{ ts.isRomanian ? '2. Vector de Atac & Psihologie / Pretext' : '2. Attack Vector & Pretext Engineering' }}
                 </h5>
                 <div class="bg-obsidian-850 p-4 rounded-xl border border-obsidian-750 text-slate-300 leading-relaxed font-sans text-xs sm:text-sm font-normal">
@@ -1360,13 +1360,13 @@ export interface ForensicCase {
 
               <!-- 3. Reverse Engineering Findings -->
               <div class="space-y-2">
-                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <h5 class="text-xs font-sans font-bold uppercase tracking-wider text-slate-400">
                   {{ ts.isRomanian ? '3. Descoperiri Criminalistice & Decompilare Backend' : '3. Forensic Discoveries & Backend Decompilation' }}
                 </h5>
                 <div class="space-y-2 bg-obsidian-850 p-4 rounded-xl border border-obsidian-750">
                   @for (finding of selectedCase.reverseFindings; track finding) {
                     <div class="flex items-start gap-2.5">
-                      <span class="text-slate-400 font-mono mt-0.5 font-bold">›</span>
+                      <span class="text-slate-400 font-sans mt-0.5 font-bold">›</span>
                       <span class="text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">{{ finding }}</span>
                     </div>
                   }
@@ -1375,7 +1375,7 @@ export interface ForensicCase {
 
               <!-- 4. Financial Trapping & Post-Exploitation -->
               <div class="space-y-2">
-                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <h5 class="text-xs font-sans font-bold uppercase tracking-wider text-slate-400">
                   {{ ts.isRomanian ? '4. Drenaj Financiar & Post-Exploatare' : '4. Financial Drain & Post-Exploitation Mechanics' }}
                 </h5>
                 <p class="text-slate-300 leading-relaxed bg-obsidian-850 p-4 rounded-xl border border-obsidian-750 text-xs sm:text-sm font-sans font-normal">
@@ -1385,11 +1385,11 @@ export interface ForensicCase {
 
               <!-- 5. Indicators of Compromise (IoCs) -->
               <div class="space-y-2">
-                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <h5 class="text-xs font-sans font-bold uppercase tracking-wider text-slate-400">
                   {{ ts.isRomanian ? '5. Indicatori Tehnici de Compromitere (IoCs)' : '5. Technical Indicators of Compromise (IoCs)' }}
                 </h5>
                 <div class="overflow-x-auto rounded-xl border border-obsidian-750">
-                  <table class="w-full font-mono text-xs text-left bg-obsidian-850">
+                  <table class="w-full font-sans text-xs text-left bg-obsidian-850">
                     <thead class="bg-obsidian-900 text-slate-400 border-b border-obsidian-750 text-[11px] uppercase">
                       <tr>
                         <th class="py-2.5 px-4">{{ ts.isRomanian ? 'Tip Indicator' : 'Indicator Type' }}</th>
@@ -1410,7 +1410,7 @@ export interface ForensicCase {
 
               <!-- 6. Datacenter Defense & Detection -->
               <div class="space-y-2">
-                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <h5 class="text-xs font-sans font-bold uppercase tracking-wider text-slate-400">
                   {{ ts.isRomanian ? '6. Implementare în Datacenter & Detecție Runtime' : '6. Datacenter Implementation & Runtime Detection' }}
                 </h5>
                 <div class="p-4 rounded-xl bg-obsidian-850 border border-obsidian-750 text-slate-300 text-xs sm:text-sm leading-relaxed font-sans font-normal">
@@ -1420,10 +1420,10 @@ export interface ForensicCase {
 
               <!-- 7. MITRE ATT&CK Mapping -->
               <div class="space-y-2">
-                <h5 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-400">
+                <h5 class="text-xs font-sans font-bold uppercase tracking-wider text-slate-400">
                   {{ ts.isRomanian ? '7. Mapare MITRE ATT&CK' : '7. MITRE ATT&CK Framework Mapping' }}
                 </h5>
-                <div class="flex flex-wrap gap-2 font-mono text-xs">
+                <div class="flex flex-wrap gap-2 font-sans text-xs">
                   @for (m of selectedCase.mitreAttack; track m) {
                     <span class="px-3 py-1 rounded-lg bg-obsidian-800 border border-obsidian-700 text-slate-300">
                       {{ m }}
@@ -1436,9 +1436,9 @@ export interface ForensicCase {
 
             <!-- Modal Footer -->
             <div class="border-t border-obsidian-750 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div class="text-xs font-mono text-slate-400">
+              <div class="text-xs font-sans text-slate-400">
                 {{ ts.isRomanian ? 'Dosar arhivat în repozitoriu: ' : 'Case archived in repo: ' }}
-                <code class="text-slate-300 bg-obsidian-800 px-2 py-0.5 rounded border border-obsidian-750">{{ selectedCase.repoPath }}/case_study.md</code>
+                <code class="text-slate-300 bg-obsidian-800 px-2 py-0.5 rounded border border-obsidian-750 font-mono">{{ selectedCase.repoPath }}/case_study.md</code>
               </div>
               <div class="flex items-center gap-3 w-full sm:w-auto">
                 <a
