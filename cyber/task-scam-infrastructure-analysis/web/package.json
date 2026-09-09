@@ -1,4 +1,4 @@
-﻿{
+{
     "version":  "1.0.0",
     "name":  "task-scam-angular-visualizer",
     "scripts":  {
@@ -19,7 +19,7 @@
                          "zone.js":  "~0.15.0",
                          "@angular/core":  "^20.3.0",
                          "@angular/common":  "^20.3.0",
-                         "@angular/platform-browser":  "^20.3.0",
+                         "@angular/platform-browser":  "^22.1.5",
                          "@angular/forms":  "^20.3.0",
                          "@angular/router":  "^20.3.0",
                          "rxjs":  "~7.8.0"
