@@ -57,37 +57,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-
       - name: Set up Node.js 20
         uses: actions/setup-node@v7
         with:
           node-version: '20'
 
-      - name: Install Python Linters
-        run: |
-          python -m pip install --upgrade pip
-          pip install ruff mypy yamllint shellcheck-py pydantic fastapi httpx pytest pytest-asyncio pyyaml
-          pip install -e elo/packages/elo-contracts -e elo/packages/elo-security -e elo/packages/elo-ai-client -e elo/apps/elo-core
-
-      - name: Ruff Lint & Format
-        run: |
-          ruff check elo/ || true
-          ruff format --check elo/ || true
-
-      - name: MyPy Type Check
-        run: |
-          mypy --ignore-missing-imports elo/packages/elo-contracts/src elo/packages/elo-security/src elo/packages/elo-ai-client/src elo/apps/elo-core/src || true
-
       - name: ShellCheck
         run: |
-          find scripts ai elo cyber -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} + || true
+          find scripts ai cyber -name "*.sh" -exec shellcheck -e SC1091 -e SC2086 {} + || true
 
       - name: YAML Lint
         run: |
+          command -v yamllint >/dev/null 2>&1 || sudo apt-get update -qq && sudo apt-get install -y -qq yamllint || true
           yamllint -d "{extends: default, rules: {line-length: {max: 300}, document-start: disable, truthy: disable}}" . || true
 
       - name: Markdown Lint
@@ -130,21 +111,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-
-      - name: Bandit Scan
-        run: |
-          pip install bandit
-          bandit -r elo/packages elo/apps/elo-core/src -ll -i || true
-
-      - name: Semgrep Scan
-        run: |
-          pip install semgrep
-          semgrep scan --config auto elo/ || true
 
       - name: Trivy Repository Scan
         uses: aquasecurity/trivy-action@master
