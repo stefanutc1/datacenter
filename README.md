@@ -823,10 +823,3 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 | REMnux v7 Noble (VM 209 · Reverse Engineering) | OPNsense Core Gateway & Firewall (VM 200) | ![REMnux Malware Analysis](photos/services/remnux.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) | :---: | :---: 
 | Proxmox VE 9.2 Primary (Node 1 · x86_64 Hypervisor) | ![Proxmox VE Primary x86_64](photos/services/proxmox-x64.png) |
 
----
-
-## About the Author
-
-Designed, engineered, and operated by **[@stefanutc1](https://github.com/stefanutc1)**.
-* **Focus**: Infrastructure Engineering, Enterprise Virtualization (Proxmox VE x86_64 12GB DDR4-2133), Zero-Trust Network Defense (OPNsense, Suricata, CrowdSec, WireGuard), Smart Home (Home Assistant), DNS Filtering (Pi-hole), GitOps & IaC (Terraform, Ansible, CI/CD).
-* **Purpose**: Production-grade engineering portfolio showcasing on-premise and hybrid systems architecture.
