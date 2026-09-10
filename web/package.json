@@ -22,22 +22,22 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^22.1.5",
-    "@angular/compiler": "^22.1.5",
+    "@angular/common": "^20.3.0",
+    "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
-    "@angular/forms": "^22.1.5",
+    "@angular/forms": "^20.3.0",
     "@angular/platform-browser": "^20.3.0",
-    "@angular/router": "^22.1.5",
+    "@angular/router": "^20.3.0",
     "lucide": "^1.42.0",
     "lucide-angular": "^1.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.16.3"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^22.1.7",
+    "@angular/build": "^20.3.35",
     "@angular/cli": "^20.3.35",
-    "@angular/compiler-cli": "^22.1.5",
+    "@angular/compiler-cli": "^20.3.0",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.5.4",
     "jasmine-core": "~5.9.0",
@@ -47,7 +47,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.3.0",
     "postcss": "^8.5.28",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^3.4.17",
     "typescript": "~5.9.2"
   }
 }
