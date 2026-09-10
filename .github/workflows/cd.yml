@@ -6,6 +6,19 @@ on:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      run_deploy:
+        description: 'Run deployment jobs'
+        required: false
+        default: true
+        type: boolean
+      run_automerge:
+        description: 'Run Dependabot PR auto-merge'
+        required: false
+        default: true
+        type: boolean
+  schedule:
+    - cron: '0 2,3 * * *' # Daily at 05:00 AM Europe/Bucharest (02:00 UTC EEST / 03:00 UTC EET)
 
 concurrency:
   group: cd-${{ github.workflow }}-${{ github.ref }}
@@ -16,10 +29,64 @@ permissions:
   packages: write
   pages: write
   id-token: write
+  pull-requests: write
 
 jobs:
+  merge-dependabot:
+    name: Merge Dependabot PRs
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.run_automerge != false)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Auto-Merge Dependabot Pull Requests
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BUCHAREST_TIME=$(TZ="Europe/Bucharest" date '+%Y-%m-%d %H:%M:%S %Z')
+          BUCHAREST_HOUR=$(TZ="Europe/Bucharest" date +%H)
+          echo "Current time in Europe/Bucharest: ${BUCHAREST_TIME} (hour: ${BUCHAREST_HOUR})"
+
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$BUCHAREST_HOUR" != "05" ]; then
+            echo "Skipping run: scheduled trigger received at hour ${BUCHAREST_HOUR}, waiting for 05:00 Europe/Bucharest."
+            exit 0
+          fi
+
+          echo "Querying open Dependabot pull requests..."
+          OPEN_PRS=$(gh pr list --state open --json number,title,author --jq '.[] | select(.author.login == "dependabot[bot]" or .author.login == "app/dependabot") | .number')
+
+          if [ -z "$OPEN_PRS" ]; then
+            echo "No open pull requests from Dependabot found."
+            exit 0
+          fi
+
+          echo "Open Dependabot pull requests to merge: $OPEN_PRS"
+          for PR in $OPEN_PRS; do
+            echo "=========================================="
+            echo "Processing Dependabot PR #${PR}..."
+
+            # Submit approval if possible
+            gh pr review "${PR}" --approve || echo "Review submission skipped or already approved for PR #${PR}."
+
+            # Merge PR
+            if gh pr merge "${PR}" --merge --delete-branch; then
+              echo "PR #${PR} merged successfully using merge commit."
+            elif gh pr merge "${PR}" --squash --delete-branch; then
+              echo "PR #${PR} merged successfully using squash."
+            elif gh api -X PUT "repos/${{ github.repository }}/pulls/${PR}/merge" -f merge_method=merge; then
+              echo "PR #${PR} merged via GitHub API."
+            else
+              echo "Warning: Unable to automatically merge PR #${PR}."
+            fi
+
+            sleep 3
+          done
+          echo "Finished processing Dependabot pull requests."
+
   build-and-deploy-web:
     name: Build & Deploy Web
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.run_deploy != false)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -74,6 +141,7 @@ jobs:
 
   publish-containers:
     name: Publish Containers
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.run_deploy != false)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -126,6 +194,7 @@ jobs:
 
   sync-readme:
     name: Sync README
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.run_deploy != false)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
