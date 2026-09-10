@@ -231,22 +231,3 @@ jobs:
         run: |
           test -f web/dist/index.html
           echo "Frontend build completed."
-
-  ci-summary:
-    name: CI Summary
-    needs:
-      - secrets-audit
-      - lint
-      - security-scan
-      - iac-validate
-      - web-build
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Status Check
-        run: |
-          if [ "${{ contains(needs.*.result, 'failure') }}" = "true" ]; then
-            echo "CI checks failed."
-            exit 1
-          fi
-          echo "All CI checks completed successfully."
