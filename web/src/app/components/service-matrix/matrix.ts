@@ -72,7 +72,7 @@ import { TranslationService } from '../../services/translation.service';
         class="relative aspect-video w-full rounded-xl overflow-hidden bg-obsidian-950 border border-obsidian-750 cursor-pointer group-hover:border-obsidian-600 transition-all shadow-inner"
        >
         <img 
-         [src]="'photos/services/' + srv.id + '.png'" 
+         [src]="srv.photo || ('photos/services/' + srv.id + '.png')" 
          [alt]="srv.name" 
          class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
          (error)="onScreenshotError($event)"
@@ -173,7 +173,7 @@ import { TranslationService } from '../../services/translation.service';
 
       <!-- Modal Image -->
       <div class="flex-1 overflow-auto p-2 bg-black flex items-center justify-center">
-       <img [src]="'photos/services/' + s.id + '.png'" [alt]="s.name" class="max-w-full max-h-[65vh] object-contain rounded-lg" />
+       <img [src]="s.photo || ('photos/services/' + s.id + '.png')" [alt]="s.name" class="max-w-full max-h-[65vh] object-contain rounded-lg" />
       </div>
 
       <!-- Modal Footer Details -->

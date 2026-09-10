@@ -771,12 +771,12 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 ### Core Management Panels
 | Grafana: Homelab Nodes (12GB x64) | Grafana: OPNsense Perimeter Defense | ![Grafana Nodes Dashboard](photos/grafana_nodes_dashboard.png) | ![Grafana OPNsense Dashboard](photos/grafana_opnsense_dashboard.png) | :---: | :---: 
 | Pi-hole DNS Sinkhole & FTL (192.168.1.4:8080) | Home Assistant Automation Hub (192.168.1.10:8123) | ![Pi-hole Admin](photos/pihole_admin_dashboard.png) | ![Home Assistant](photos/homeassistant_dashboard.png) | :---: | :---: 
-| OPNsense: WireGuard Kernel VPN Mesh | OPNsense: Unbound DNS-over-TLS (DoT) | ![OPNsense WireGuard VPN](photos/opnsense_wireguard_vpn.png) | ![OPNsense Unbound DNS](photos/opnsense_unbound_dns.png) |
+| OPNsense: WireGuard Kernel VPN Mesh | OPNsense: Unbound DNS-over-TLS (DoT) | ![OPNsense WireGuard VPN](photos/services/opnsense-wireguard.png) | ![OPNsense Unbound DNS](photos/services/opnsense-unbound.png) |
 
 ---
 
 ### Core & Networking
-| Nginx Proxy Manager | Pi-hole DNS Sinkhole | ![Nginx Proxy Manager](photos/services/npm.png) | ![Pi-hole DNS](photos/services/pihole.png) | :---: | :---: 
+| Nginx Proxy Manager | Pi-hole DNS Sinkhole | ![Nginx Proxy Manager](photos/services/nginx-ingress.png) | ![Pi-hole DNS](photos/pihole_admin_dashboard.png) | :---: | :---: 
 | OPNsense Core Gateway | OPNsense Unbound DoT | ![OPNsense Core Gateway](photos/services/opnsense-core.png) | ![OPNsense Unbound DoT](photos/services/opnsense-unbound.png) | :---: | :---: 
 ---
 

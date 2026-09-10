@@ -15,6 +15,7 @@ export interface ServiceItem {
   tags: string[];
   color: string;
   icon: string;
+  photo?: string;
   composeCode: string;
 }
 
@@ -302,29 +303,6 @@ export const SERVICES_DATA: ServiceItem[] = [
     "color": "#06b6d4",
     "icon": "kubernetes",
     "composeCode": "# FRRouting BGP AS 64512 peering with Kubernetes Bare-Metal Worker AS 64513"
-  },
-  {
-    "id": "opnsense-tailscale",
-    "name": "Tailscale Zero-Trust Subnet Router",
-    "category": "security",
-    "containerName": "tailscale-router",
-    "node": "OPNsense Firewall (VM 200 · 192.168.1.134)",
-    "ram": "64 MB",
-    "storage": "Internal Pool",
-    "ip": "192.168.1.134",
-    "port": 41641,
-    "domain": "tailscale-router.homelab.local",
-    "status": "ONLINE",
-    "description": "Encrypted WireGuard mesh subnet router advertising all 5 homelab VLANs to authenticated devices without opening WAN ports.",
-    "tags": [
-      "Tailscale",
-      "Subnet Router",
-      "Zero-Trust Mesh",
-      "WireGuard"
-    ],
-    "color": "#3b82f6",
-    "icon": "wireguard",
-    "composeCode": "# os-tailscale plugin advertising 192.168.1.0/24, 192.168.10-50.0/24"
   },
   {
     "id": "opnsense-zenarmor",
@@ -1829,6 +1807,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#14b8a6",
     "icon": "shield",
+    "photo": "photos/services/opnsense-caddy.png",
     "composeCode": "https://backend.internal:8443 {\n  tls {\n    client_auth {\n      mode require_and_verify\n    }\n  }\n}"
   },
   {

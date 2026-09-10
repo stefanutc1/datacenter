@@ -188,7 +188,7 @@ interface PhotoItem {
       >
        <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
         <img 
-         [src]="'photos/services/' + s.id + '.png'" 
+         [src]="s.photo || ('photos/services/' + s.id + '.png')" 
          [alt]="s.name"
          class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
@@ -329,7 +329,7 @@ export class AboutGalleryComponent {
    badgeRo: 'RHEL 9.8'
   },
   {
-   src: 'photos/services/vm-macos-monterey.png',
+   src: 'photos/services/vm-macos.png',
    title: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 203)',
    titleRo: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 203)',
    category: 'APPLE ECOSYSTEM & HACKINTOSH VIRTUALIZATION',
@@ -401,7 +401,7 @@ export class AboutGalleryComponent {
    badgeRo: 'REMNUX NOBLE'
   },
   {
-   src: 'photos/services/opnsense.png',
+   src: 'photos/services/opnsense-core.png',
    title: 'OPNsense 26.1 Hardened · Core Firewall Console (VM 200)',
    titleRo: 'OPNsense 26.1 Hardened · Consolă Firewall Central (VM 200)',
    category: 'FIREWALL & CORE GATEWAY',
@@ -449,7 +449,7 @@ export class AboutGalleryComponent {
    badgeRo: '802.1Q VLANS'
   },
   {
-   src: 'photos/opnsense_suricata_defense.png',
+   src: 'photos/services/opnsense-suricata.png',
    title: 'OPNsense · Suricata 8.0 NIDS/IPS Engine',
    titleRo: 'OPNsense · Motor NIDS/IPS Suricata 8.0',
    category: 'CYBERSECURITY & THREAT DETECTION',
@@ -473,7 +473,7 @@ export class AboutGalleryComponent {
    badgeRo: 'REGULI PF'
   },
   {
-   src: 'photos/opnsense_wireguard_vpn.png',
+   src: 'photos/services/opnsense-wireguard.png',
    title: 'OPNsense · WireGuard Kernel VPN Mesh',
    titleRo: 'OPNsense · Tunel Criptografic WireGuard Kernel Mesh',
    category: 'ZERO-TRUST NETWORKING',
@@ -485,7 +485,7 @@ export class AboutGalleryComponent {
    badgeRo: 'WIREGUARD VPN'
   },
   {
-   src: 'photos/opnsense_unbound_dns.png',
+   src: 'photos/services/opnsense-unbound.png',
    title: 'OPNsense · Unbound DNS-over-TLS (DoT)',
    titleRo: 'OPNsense · Unbound DNS-over-TLS (DoT)',
    category: 'PRIVACY & DNSSEC',
@@ -500,7 +500,7 @@ export class AboutGalleryComponent {
 
  openServiceModal(s: ServiceItem) {
   this.selectedPhoto.set({
-   src: 'photos/services/' + s.id + '.png',
+   src: s.photo || ('photos/services/' + s.id + '.png'),
    title: s.name,
    titleRo: s.name,
    category: s.category.toUpperCase() + ' · ' + s.node,

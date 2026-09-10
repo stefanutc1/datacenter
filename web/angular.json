@@ -54,6 +54,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "../photos",
+                "output": "photos"
               }
             ],
             "styles": [
