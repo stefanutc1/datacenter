@@ -47,13 +47,13 @@ declare -A VM_TAGS=(
     [200]="firewall;freebsd;kvm;router;stefanut"
     [201]="microsoft;server;windows"
     [202]="linux;redhat;rhel"
-    [205]="cloud;horizon;iaas;neutron;node1;nova;openstack"
-    [206]="cyber;metasploit;metasploitable2;penetration-testing;red-team;vm206"
-    [207]="cyber;honeypot;tpot;vm207"
-    [208]="blue-team;hids;log-analysis;security-onion;siem;vm208;wazuh"
-    [209]="cyber;dfir;malware-analysis;remnux;reverse-engineering;vm209"
-    [300]="microsoft;server;windows;windows-server-2019;licenta;vm300"
-    [301]="cyber;licenta;metasploit;metasploitable;pentest;red-team;vm301"
+    [203]="cloud;horizon;iaas;neutron;node1;nova;openstack;vm203"
+    [204]="cyber;metasploit;metasploitable2;penetration-testing;red-team;vm204"
+    [205]="cyber;honeypot;tpot;vm205"
+    [206]="blue-team;hids;log-analysis;security-onion;siem;vm206;wazuh"
+    [207]="cyber;dfir;malware-analysis;remnux;reverse-engineering;vm207"
+    [300]="microsoft;server;windows;windows-server-2019;licenta;bachelor-thesis;vm300"
+    [301]="cyber;licenta;bachelor-thesis;metasploit;metasploitable;pentest;red-team;vm301"
 )
 
 

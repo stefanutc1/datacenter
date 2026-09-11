@@ -101,10 +101,10 @@ module "vm_rhel_202" {
   tags         = ["rhel", "redhat", "enterprise", "selinux", "podman", "terraform"]
 }
 
-module "vm_openstack_205" {
+module "vm_openstack_203" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 205
+  vmid         = 203
   name         = "openstack"
   description  = "OpenStack Enterprise Private Cloud Controller & Compute (Nova, Neutron, Keystone, Glance, Horizon Dashboard)"
   cores        = 2
@@ -116,10 +116,10 @@ module "vm_openstack_205" {
   tags         = ["openstack", "cloud", "iaas", "nova", "neutron", "horizon", "terraform"]
 }
 
-module "vm_metasploitable2_206" {
+module "vm_metasploitable2_204" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 206
+  vmid         = 204
   name         = "metasploitable2"
   description  = "Metasploitable 2 (Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning)"
   cores        = 1
@@ -130,10 +130,10 @@ module "vm_metasploitable2_206" {
   tags         = ["cyber", "metasploit", "metasploitable2", "penetration-testing", "red-team", "terraform"]
 }
 
-module "vm_tpot_207" {
+module "vm_tpot_205" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 207
+  vmid         = 205
   name         = "tpot-honeypot"
   description  = "T-Pot Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata)"
   cores        = 4
@@ -145,10 +145,10 @@ module "vm_tpot_207" {
   tags         = ["cyber", "honeypot", "tpot", "threat-intel", "elastic", "suricata", "terraform"]
 }
 
-module "vm_securityonion_208" {
+module "vm_securityonion_206" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 208
+  vmid         = 206
   name         = "securityonion"
   description  = "Security Onion / Wazuh SIEM Platform (Zeek, Suricata, Elastic, Kibana & HIDS Monitoring)"
   cores        = 4
@@ -160,10 +160,10 @@ module "vm_securityonion_208" {
   tags         = ["blue-team", "hids", "log-analysis", "security-onion", "siem", "wazuh", "terraform"]
 }
 
-module "vm_remnux_209" {
+module "vm_remnux_207" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 209
+  vmid         = 207
   name         = "remnux"
   description  = "REMnux Linux Toolkit (Malware Analysis, Reverse Engineering, Memory Forensics & DFIR)"
   cores        = 2
@@ -180,14 +180,14 @@ module "vm_windows_server_licenta_300" {
   target_node  = var.primary_node
   vmid         = 300
   name         = "windows-server-licenta"
-  description  = "Windows Server 2019 Standard (Enterprise Licensed Workload, Massgrave GVLK / KMS Activation)"
+  description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Windows Server 2019 Standard (Massgrave GVLK / KMS Activation, Active Directory DS & Domain Security Lab)"
   cores        = 4
   memory       = 8192
   balloon      = 4096
   disk_size    = 64
   storage_pool = "local-lvm"
   vlan_tag     = 20
-  tags         = ["microsoft", "server", "windows", "windows-server-2019", "licenta", "terraform"]
+  tags         = ["microsoft", "server", "windows", "windows-server-2019", "licenta", "bachelor-thesis", "terraform"]
 }
 
 module "vm_metasploitable_licenta_301" {
@@ -195,14 +195,14 @@ module "vm_metasploitable_licenta_301" {
   target_node  = var.primary_node
   vmid         = 301
   name         = "metasploitable-licenta"
-  description  = "Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)"
+  description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)"
   cores        = 2
   memory       = 2048
   balloon      = 1024
   disk_size    = 20
   storage_pool = "local-lvm"
   vlan_tag     = 40
-  tags         = ["cyber", "licenta", "metasploit", "metasploitable", "pentest", "red-team", "terraform"]
+  tags         = ["cyber", "licenta", "bachelor-thesis", "metasploit", "metasploitable", "pentest", "red-team", "terraform"]
 }
 
 

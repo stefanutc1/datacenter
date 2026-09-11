@@ -495,7 +495,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'windows-server-licenta',
     name: 'Win Server 2019',
-    sublabel: 'VM 300 · Licensed Standard',
+    sublabel: 'VM 300 · Bachelor Thesis Lab',
     ip: '192.168.1.210',
     port: 3389,
     category: 'compute',
@@ -507,14 +507,14 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#0078d4',
     icon: 'windows',
     hardware: { node: 'Node 1 (x86_64)', ram: '8,192 MB (Balloon: 4096 MB)', storage: '64 GB' },
-    tags: ['Windows Server 2019', 'Massgrave GVLK', 'Active Directory', 'Enterprise'],
-    role: 'Windows Server 2019 Standard enterprise virtual machine provisioned on Proxmox VE KVM with Massgrave KMS/GVLK licensing.',
+    tags: ['Bachelor Thesis', 'Lucrare de Licență', 'Windows Server 2019', 'Massgrave GVLK', 'Active Directory', 'Enterprise'],
+    role: 'Windows Server 2019 Standard enterprise virtual machine dedicated to Bachelor Thesis (Lucrare de Licență) research with Massgrave KMS/GVLK licensing.',
     connections: ['node1-pve']
   },
   {
     id: 'metasploitable-licenta',
     name: 'Metasploitable Lab',
-    sublabel: 'VM 301 · Pentest Target',
+    sublabel: 'VM 301 · Bachelor Thesis Pentest',
     ip: '192.168.1.211',
     port: 22,
     category: 'compute',
@@ -526,8 +526,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#dc2626',
     icon: 'shield',
     hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '20 GB' },
-    tags: ['Metasploitable', 'Pentest Target', 'Red Team', 'Wazuh Lab'],
-    role: 'Dedicated vulnerable target virtual machine for penetration testing, red teaming, and calibrating Wazuh SIEM detection.',
+    tags: ['Bachelor Thesis', 'Lucrare de Licență', 'Metasploitable', 'Pentest Target', 'Red Team', 'Wazuh Lab'],
+    role: 'Dedicated vulnerable target virtual machine for Bachelor Thesis (Lucrare de Licență) penetration testing, red teaming, and calibrating Wazuh SIEM detection.',
     connections: ['node1-pve', 'wazuh-siem']
   },
   {
@@ -796,8 +796,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'openstack-cloud',
     name: 'OpenStack Cloud',
-    sublabel: 'VM 205 · Enterprise IaaS Fabric',
-    ip: '192.168.1.205',
+    sublabel: 'VM 203 · Enterprise IaaS Fabric',
+    ip: '192.168.1.203',
     port: 80,
     category: 'compute',
     tier: 3,
@@ -815,8 +815,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'metasploitable2-target',
     name: 'Metasploitable 2',
-    sublabel: 'VM 206 · Vulnerable Target',
-    ip: '192.168.1.206',
+    sublabel: 'VM 204 · Vulnerable Target',
+    ip: '192.168.1.204',
     port: 80,
     category: 'security',
     tier: 3,
@@ -834,8 +834,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'tpot-honeypot-node',
     name: 'T-Pot Honeypot',
-    sublabel: 'VM 207 · Multi-Honeypot Decoy',
-    ip: '192.168.1.207',
+    sublabel: 'VM 205 · Multi-Honeypot Decoy',
+    ip: '192.168.1.205',
     port: 64297,
     category: 'security',
     tier: 3,
@@ -853,8 +853,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'securityonion-siem-node',
     name: 'Security Onion',
-    sublabel: 'VM 208 · SIEM & SOC Platform',
-    ip: '192.168.1.208',
+    sublabel: 'VM 206 · SIEM & SOC Platform',
+    ip: '192.168.1.206',
     port: 443,
     category: 'security',
     tier: 4,
@@ -872,8 +872,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'remnux-dfir-node',
     name: 'REMnux',
-    sublabel: 'VM 209 · Malware Analysis & DFIR',
-    ip: '192.168.1.209',
+    sublabel: 'VM 207 · Malware Analysis & DFIR',
+    ip: '192.168.1.207',
     port: 22,
     category: 'security',
     tier: 4,

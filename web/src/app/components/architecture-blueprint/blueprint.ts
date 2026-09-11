@@ -721,9 +721,9 @@ export interface ForensicCase {
                         <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                       </div>
                       <h5 class="font-bold text-sm text-slate-100 mt-1 font-sans">Wazuh SIEM & T-Pot</h5>
-                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">CT 100 & VM 207 (VLAN 40)</div>
+                      <div class="text-[11px] text-slate-400 font-sans mt-0.5">CT 100 & VM 205 (VLAN 40)</div>
                       <p class="text-xs text-slate-300 font-sans font-normal mt-2 leading-relaxed">
-                        {{ ts.isRomanian ? 'Cluster de capcane Cowrie SSH & Dionaea în DMZ izolat; corelare evenimente în Wazuh XDR și analiză dinamică pe REMnux (VM 209).' : 'Cowrie SSH & Dionaea deception cluster in isolated DMZ; event correlation via Wazuh XDR and dynamic triage on REMnux (VM 209).' }}
+                        {{ ts.isRomanian ? 'Cluster de capcane Cowrie SSH & Dionaea în DMZ izolat; corelare evenimente în Wazuh XDR și analiză dinamică pe REMnux (VM 207).' : 'Cowrie SSH & Dionaea deception cluster in isolated DMZ; event correlation via Wazuh XDR and dynamic triage on REMnux (VM 207).' }}
                       </p>
                     </div>
                     <div class="mt-3 pt-2 border-t border-obsidian-750 text-[11px] text-slate-400 font-sans">

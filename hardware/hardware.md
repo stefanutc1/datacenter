@@ -36,27 +36,18 @@ This file describes hardware and host-level virtualization only. Service definit
 
 ### Usage Profile
 
-This host currently serves nineteen primary roles:
+This host currently serves ten primary virtualization roles:
 
-1. **Development environment** — Debian + XFCE, used as a general-purpose dev workspace.
-2. **Machine learning experimentation** — CUDA/PyTorch, GPU-passthrough dependent on the GTX 1050 Ti above.
-3. **Backup Server (NAS)** — backup target for this host's own VMs/containers.
-4. **Home surveillance** — Frigate NVR, GPU acceleration shared with the ML role where applicable.
-5. **Windows Server 2019 Licență & AD DS Lab** — Windows Server 2019 (VM 300) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 64 GB NVMe with Massgrave KMS licensing integration for domain trust, GPO testing, and academic thesis research.
-6. **Solaris & illumos ZFS reference lab** — OpenIndiana Hipster (VM 207) with 3 GB RAM (VirtIO ballooning: 1.5–3 GB) and 50 GB NVMe for reference OpenZFS storage pools, Solaris Zones, and DTrace dynamic tracing.
-7. **Clean Unix & Rump kernel testing** — NetBSD 10.0 (VM 208) with 512 MB RAM (VirtIO ballooning: 256–512 MB) and 12 GB NVMe for componentized Rump kernel research and pkgsrc multi-platform packaging.
-8. **Cybersecurity Proving Ground (Metasploitable Licență)** — Metasploitable Linux Target (VM 301) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for automated offensive testing and Wazuh/Suricata detection validation.
-9. **HAMMER2 journaling storage & microkernel concurrency** — DragonFly BSD 6.4 (VM 210) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 15 GB NVMe for lockless multi-core scaling and HAMMER2 cluster filesystem research.
-10. **Enterprise private cloud virtualization** — OpenStack 2024.1 Caracal (VM 211) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 32 GB NVMe for IaaS compute (Nova), SDN networking (Neutron), and Horizon Web Dashboard.
-11. **Cybersecurity vulnerability & exploit lab** — Metasploitable 2 (VM 212) with 512 MB RAM and 8 GB NVMe for penetration testing, red teaming with Metasploit Framework, and Suricata/Wazuh detection signature calibration.
-12. **Multi-honeypot threat intelligence & attack telemetry** — T-Pot 24.04 (VM 213) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 60 GB NVMe for decoy sensor emulation (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata).
-13. **BeOS-inspired modular C++ desktop architecture** — Haiku R1/beta5 (VM 214) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for C++ object-oriented OS research, modular application kits, and OpenBFS indexed filesystem validation.
-14. **Distributed computing & 9P filesystem research** — Plan 9 from Bell Labs / 9front (VM 215) with 512 MB RAM and 12 GB IDE for per-process namespaces, synthetic file interfaces, and 9P remote resource mapping.
-15. **Windows NT clean-room binary compatibility** — ReactOS 0.4.16 (VM 216) with 1 GB RAM and 32 GB IDE for reverse-engineered NT kernel architecture, native Win32 subsystem testing, and PE executable execution without Microsoft licensing.
-16. **Enterprise SIEM, HIDS & network security monitoring** — Security Onion 3.2 / Wazuh SIEM (VM 217) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 50 GB NVMe for Zeek, Suricata, Elastic, and Kibana SOC alerting.
-17. **Malware analysis & reverse engineering toolkit** — REMnux v7 / Noble (VM 218) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 40 GB NVMe for dynamic malware analysis, memory forensics (Volatility), and Ghidra reverse engineering.
-18. **Rust-based microkernel & memory safety architecture** — Redox OS 0.9.0 (VM 219) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 10 GB NVMe for RedoxFS, user-space drivers, and Minix/Plan 9-inspired design.
-19. **Real-mode x86 Assembly & legacy computing lab** — FreeDOS 1.3 (VM 220) with 512 MB RAM (VirtIO ballooning: 256–512 MB) and 2 GB IDE for 16-bit real-mode x86 Assembly execution and legacy industrial system testing.
+1. **Perimeter Firewall & NGFW** — OPNsense (VM 200) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and VirtIO multi-VLAN networking for boundary defense, Zenarmor L7, CrowdSec IPS, and Unbound DNS.
+2. **Enterprise Identity & Active Directory** — Windows Server 2025 Datacenter (VM 201) with 8 GB RAM (VirtIO ballooning: 4–8 GB), GTX 1050 Ti PCIe passthrough, and domain controller services.
+3. **Enterprise Linux & Containerization** — Red Hat Enterprise Linux 9.8 (VM 202) with 2 GB RAM (VirtIO ballooning: 1–2 GB), SELinux Enforcing, and rootless Podman quadlets.
+4. **Enterprise Private Cloud Virtualization** — OpenStack 2024.1 Caracal (VM 203) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 32 GB NVMe for IaaS compute (Nova), SDN networking (Neutron), and Horizon Web Dashboard.
+5. **Cybersecurity Vulnerability & Exploit Lab** — Metasploitable 2 (VM 204) with 512 MB RAM and 8 GB NVMe for penetration testing, red teaming with Metasploit Framework, and Suricata/Wazuh detection signature calibration.
+6. **Multi-Honeypot Threat Intelligence & Telemetry** — T-Pot 24.04 (VM 205) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 60 GB NVMe for decoy sensor emulation (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata).
+7. **Enterprise SIEM, HIDS & SOC Platform** — Security Onion 3.2 (VM 206) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 50 GB NVMe for Zeek, Suricata, Elastic, and Kibana SOC alerting.
+8. **Malware Analysis & Reverse Engineering Toolkit** — REMnux v7 Noble (VM 207) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 40 GB NVMe for dynamic malware analysis, memory forensics (Volatility), and Ghidra reverse engineering.
+9. **Bachelor's Thesis (Lucrare de Licență) · Active Directory & Security Lab** — Windows Server 2019 Standard (VM 300) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 64 GB NVMe with Massgrave KMS/GVLK licensing integration for domain trust, GPO testing, and academic thesis research.
+10. **Bachelor's Thesis (Lucrare de Licență) · Cybersecurity Pentest Proving Ground** — Metasploitable Linux Target (VM 301) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for dedicated offensive testing, red teaming, and Wazuh/Suricata detection rule calibration.
 
 ---
 

@@ -62,20 +62,20 @@ module "vm_tpot_honeypot" {
   tags         = ["cyber", "honeypot", "tpot", "dmz", "terraform"]
 }
 
-# VM 300: Windows Server 2019 Licență (Active Directory & Security Research)
+# VM 300: Bachelor Thesis Lab (Lucrare de Licență) - Windows Server 2019 Standard
 module "vm_windows_server_licenta" {
   source       = "../modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 300
   name         = "windows-server-licenta"
-  description  = "Windows Server 2019 Datacenter/Standard (Massgrave KMS Activation, AD DS & Security Lab)"
+  description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Windows Server 2019 Standard (Massgrave GVLK / KMS Activation, Active Directory DS & Domain Security Lab)"
   cores        = 4
   memory       = 8192
   balloon      = 4096
   disk_size    = 64
   storage_pool = "local-lvm"
   vlan_tag     = 20
-  tags         = ["windows", "server", "active-directory", "licenta", "terraform"]
+  tags         = ["windows", "server", "active-directory", "licenta", "bachelor-thesis", "terraform"]
 }
 
 # VM 207: OpenIndiana Hipster (Enterprise ZFS Reference, Zones & DTrace)
@@ -110,20 +110,20 @@ module "vm_netbsd" {
   tags         = ["netbsd", "bsd", "rump", "pkgsrc", "portable-unix", "terraform"]
 }
 
-# VM 301: Metasploitable Licență (Penetration Testing & Vulnerability Proving Ground)
+# VM 301: Bachelor Thesis Lab (Lucrare de Licență) - Metasploitable Target
 module "vm_metasploitable_licenta" {
   source       = "../modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 301
   name         = "metasploitable-licenta"
-  description  = "Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)"
+  description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)"
   cores        = 2
   memory       = 2048
   balloon      = 1024
   disk_size    = 20
   storage_pool = "local-lvm"
   vlan_tag     = 40
-  tags         = ["cyber", "licenta", "metasploit", "metasploitable", "pentest", "red-team", "terraform"]
+  tags         = ["cyber", "licenta", "bachelor-thesis", "metasploit", "metasploitable", "pentest", "red-team", "terraform"]
 }
 
 # VM 210: DragonFly BSD 6.4 (HAMMER2 Journaling FS & Hybrid Microkernel)

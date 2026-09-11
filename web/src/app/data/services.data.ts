@@ -1858,7 +1858,7 @@ export const SERVICES_DATA: ServiceItem[] = [
   },
   {
     "id": "vm-windows-server-licenta",
-    "name": "Windows Server 2019 Standard (Licență GVLK)",
+    "name": "Windows Server 2019 Standard (Licență / Bachelor Thesis)",
     "category": "core",
     "containerName": "windows-server-licenta",
     "node": "Node 1 (Intel i3-10100F) · VM 300",
@@ -1868,9 +1868,11 @@ export const SERVICES_DATA: ServiceItem[] = [
     "port": 3389,
     "domain": "win2019.homelab.local",
     "status": "STANDBY",
-    "description": "Windows Server 2019 Standard enterprise virtual machine provisioned on Proxmox VE KVM with Massgrave KMS/GVLK activation, Active Directory Domain Services, and licensed workload isolation.",
-    "descriptionRo": "Mașină virtuală Windows Server 2019 Standard enterprise provizionată pe Proxmox VE KVM cu activare Massgrave KMS/GVLK, servicii Active Directory și izolare a sarcinilor licențiate.",
+    "description": "Dedicated Bachelor's Thesis (Lucrare de Licență) research environment. Windows Server 2019 Standard enterprise virtual machine provisioned on Proxmox VE KVM with Massgrave KMS/GVLK activation, Active Directory Domain Services, and licensed workload isolation.",
+    "descriptionRo": "Mediu de cercetare dedicat pentru Lucrarea de Licență (Bachelor's Thesis). Mașină virtuală Windows Server 2019 Standard enterprise provizionată pe Proxmox VE KVM cu activare Massgrave KMS/GVLK, servicii Active Directory și izolare a sarcinilor licențiate.",
     "tags": [
+      "Bachelor Thesis",
+      "Lucrare de Licență",
       "Windows Server 2019",
       "Massgrave KMS",
       "GVLK License",
@@ -1879,11 +1881,11 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#0078d4",
     "icon": "windows",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 300)\n# OS: Windows Server 2019 Standard · Dynamic Ballooning: 4096 MB - 8192 MB\ncores: 4\nmemory: 8192\nballoon: 4096\nscsi0: local-lvm:vm-300-disk-0,discard=on,size=64G,ssd=1\nide2: local:iso/windows_server_2019_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:7C:2A:10,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 300) · Bachelor's Thesis Lab\n# OS: Windows Server 2019 Standard · Dynamic Ballooning: 4096 MB - 8192 MB\ncores: 4\nmemory: 8192\nballoon: 4096\nscsi0: local-lvm:vm-300-disk-0,discard=on,size=64G,ssd=1\nide2: local:iso/windows_server_2019_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:7C:2A:10,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-metasploitable-licenta",
-    "name": "Metasploitable Licențiat (Pentest Lab)",
+    "name": "Metasploitable Licență (Bachelor Thesis Pentest Target)",
     "category": "cyber",
     "containerName": "metasploitable-licenta",
     "node": "Node 1 (Intel i3-10100F) · VM 301",
@@ -1893,9 +1895,11 @@ export const SERVICES_DATA: ServiceItem[] = [
     "port": 22,
     "domain": "metasploitable.homelab.local",
     "status": "STANDBY",
-    "description": "Dedicated vulnerable target virtual machine for penetration testing, red team exercises, exploit validation, and calibration of Wazuh SIEM detection rules.",
-    "descriptionRo": "Mașină virtuală țintă vulnerabilă dedicată pentru teste de penetrare, exerciții red team, validare exploit-uri și calibrarea regulilor de detecție din Wazuh SIEM.",
+    "description": "Dedicated Bachelor's Thesis (Lucrare de Licență) research target. Vulnerable target virtual machine for penetration testing, red team exercises, exploit validation, and calibration of Wazuh SIEM detection rules.",
+    "descriptionRo": "Țintă de cercetare dedicată pentru Lucrarea de Licență (Bachelor's Thesis). Mașină virtuală vulnerabilă dedicată pentru teste de penetrare, exerciții red team, validare exploit-uri și calibrarea regulilor de detecție din Wazuh SIEM.",
     "tags": [
+      "Bachelor Thesis",
+      "Lucrare de Licență",
       "Metasploitable",
       "Penetration Testing",
       "Red Team",
@@ -1904,7 +1908,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#dc2626",
     "icon": "shield",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 301)\n# OS: Metasploitable Linux Target · Dynamic Ballooning: 1024 MB - 2048 MB\ncores: 2\nmemory: 2048\nballoon: 1024\nscsi0: local-lvm:vm-301-disk-0,discard=on,size=20G,ssd=1\nnet0: virtio=BC:24:11:A4:6B:8E,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 301) · Bachelor's Thesis Lab\n# OS: Metasploitable Linux Target · Dynamic Ballooning: 1024 MB - 2048 MB\ncores: 2\nmemory: 2048\nballoon: 1024\nscsi0: local-lvm:vm-301-disk-0,discard=on,size=20G,ssd=1\nnet0: virtio=BC:24:11:A4:6B:8E,bridge=vmbr0,firewall=1"
   },
   {
     "id": "argocd",
@@ -2064,10 +2068,10 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "OpenStack Enterprise Private Cloud",
     "category": "core",
     "containerName": "openstack-cloud",
-    "node": "Node 1 (Intel i3-10100F) · VM 205",
+    "node": "Node 1 (Intel i3-10100F) · VM 203",
     "ram": "4,096 MB (Balloon: 2,048 MB)",
     "storage": "32 GB NVMe Pool",
-    "ip": "192.168.1.205",
+    "ip": "192.168.1.203",
     "port": 80,
     "domain": "openstack.homelab.local",
     "status": "ONLINE",
@@ -2080,21 +2084,22 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Nova",
       "Neutron",
       "Keystone",
-      "Horizon"
+      "Horizon",
+      "VM 203"
     ],
     "color": "#f43f5e",
     "icon": "compute",
-    "composeCode": "# OpenStack 2024.1 Caracal Cloud Controller (VM 205)\n# Web Horizon Dashboard: http://192.168.1.205:80\n# Identity Keystone v3: http://192.168.1.205:5000/v3"
+    "composeCode": "# OpenStack 2024.1 Caracal Cloud Controller (VM 203)\n# Web Horizon Dashboard: http://192.168.1.203:80\n# Identity Keystone v3: http://192.168.1.203:5000/v3"
   },
   {
     "id": "metasploitable2",
     "name": "Metasploitable 2 Vulnerable Target",
     "category": "cyber",
-    "containerName": "metasploitable2-vm206",
-    "node": "Node 1 (Intel i3-10100F) · VM 206",
+    "containerName": "metasploitable2-vm204",
+    "node": "Node 1 (Intel i3-10100F) · VM 204",
     "ram": "512 MB",
     "storage": "8 GB NVMe Pool",
-    "ip": "192.168.1.206",
+    "ip": "192.168.1.204",
     "port": 80,
     "domain": "metasploitable.homelab.local",
     "status": "ONLINE",
@@ -2106,21 +2111,21 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Red Team",
       "Cybersecurity",
       "Vulnerability Lab",
-      "VM 206"
+      "VM 204"
     ],
     "color": "#dc2626",
     "icon": "security",
-    "composeCode": "# Metasploitable 2 (VM 206 · QEMU KVM Target)\n# Vulnerable Stack: vsftpd, Apache, Samba, MySQL, PostgreSQL, Tomcat\n# IP: 192.168.1.206\n# Cores: 1 · RAM: 512 MB · Disk: 8 GB"
+    "composeCode": "# Metasploitable 2 (VM 204 · QEMU KVM Target)\n# Vulnerable Stack: vsftpd, Apache, Samba, MySQL, PostgreSQL, Tomcat\n# IP: 192.168.1.204\n# Cores: 1 · RAM: 512 MB · Disk: 8 GB"
   },
   {
     "id": "tpot-honeypot",
     "name": "T-Pot Multi-Honeypot Decoy Platform",
     "category": "cyber",
-    "containerName": "tpot-platform-vm207",
-    "node": "Node 1 (Intel i3-10100F) · VM 207",
+    "containerName": "tpot-platform-vm205",
+    "node": "Node 1 (Intel i3-10100F) · VM 205",
     "ram": "8,192 MB (Balloon: 4,096 MB)",
     "storage": "60 GB NVMe Pool",
-    "ip": "192.168.1.207",
+    "ip": "192.168.1.205",
     "port": 64297,
     "domain": "tpot.homelab.local",
     "status": "ONLINE",
@@ -2133,21 +2138,21 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Threat Intelligence",
       "Elasticsearch",
       "Kibana",
-      "VM 207"
+      "VM 205"
     ],
     "color": "#3b82f6",
     "icon": "security",
-    "composeCode": "# T-Pot Multi-Honeypot Decoy Engine (VM 207)\n# Web Command Center: https://192.168.1.207:64297\n# Monitored: SSH, Telnet, SMB, RDP, HTTP, SCADA"
+    "composeCode": "# T-Pot Multi-Honeypot Decoy Engine (VM 205)\n# Web Command Center: https://192.168.1.205:64297\n# Monitored: SSH, Telnet, SMB, RDP, HTTP, SCADA"
   },
   {
     "id": "securityonion",
     "name": "Security Onion SIEM & SOC Platform",
     "category": "cyber",
-    "containerName": "securityonion-vm208",
-    "node": "Node 1 (Intel i3-10100F) · VM 208",
+    "containerName": "securityonion-vm206",
+    "node": "Node 1 (Intel i3-10100F) · VM 206",
     "ram": "8,192 MB (Balloon: 4,096 MB)",
     "storage": "50 GB NVMe Pool",
-    "ip": "192.168.1.208",
+    "ip": "192.168.1.206",
     "port": 443,
     "domain": "securityonion.homelab.local",
     "status": "ONLINE",
@@ -2162,21 +2167,21 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Zeek",
       "Suricata",
       "Kibana",
-      "VM 208"
+      "VM 206"
     ],
     "color": "#0ea5e9",
     "icon": "shield",
-    "composeCode": "# Security Onion 3.2 on QEMU KVM (VM 208)\n# vCPU: 4 · RAM: 8192 MB (Balloon: 4096 MB) · Disk: 50 GB · Port: 443"
+    "composeCode": "# Security Onion 3.2 on QEMU KVM (VM 206)\n# vCPU: 4 · RAM: 8192 MB (Balloon: 4096 MB) · Disk: 50 GB · Port: 443"
   },
   {
     "id": "remnux",
     "name": "REMnux Malware Analysis & DFIR Toolkit",
     "category": "cyber",
-    "containerName": "remnux-vm209",
-    "node": "Node 1 (Intel i3-10100F) · VM 209",
+    "containerName": "remnux-vm207",
+    "node": "Node 1 (Intel i3-10100F) · VM 207",
     "ram": "4,096 MB (Balloon: 2,048 MB)",
     "storage": "40 GB NVMe Pool",
-    "ip": "192.168.1.209",
+    "ip": "192.168.1.207",
     "port": 22,
     "domain": "remnux.homelab.local",
     "status": "ONLINE",
@@ -2190,10 +2195,10 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Ghidra",
       "Volatility",
       "CyberSecurity",
-      "VM 209"
+      "VM 207"
     ],
     "color": "#f43f5e",
     "icon": "shield",
-    "composeCode": "# REMnux Noble Appliance on QEMU KVM (VM 209)\n# vCPU: 2 · RAM: 4096 MB (Balloon: 2048 MB) · Disk: 40 GB · SSH: :22"
+    "composeCode": "# REMnux Noble Appliance on QEMU KVM (VM 207)\n# vCPU: 2 · RAM: 4096 MB (Balloon: 2048 MB) · Disk: 40 GB · SSH: :22"
   }
 ];

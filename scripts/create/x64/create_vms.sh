@@ -125,9 +125,9 @@ create_or_skip_vm 202 "rhel" \
 
 
 # ------------------------------------------------------------------------------
-# VM 205: openstack
+# VM 203: openstack
 # ------------------------------------------------------------------------------
-create_or_skip_vm 205 "openstack" \
+create_or_skip_vm 203 "openstack" \
   --name "openstack" \
   --memory 4096 \
   --balloon 2048 \
@@ -138,12 +138,12 @@ create_or_skip_vm 205 "openstack" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=scsi0;net0" \
   --ostype l26 \
-  --tags "cloud;horizon;iaas;neutron;node1;nova;openstack"
+  --tags "cloud;horizon;iaas;neutron;node1;nova;openstack;vm203"
 
 # ------------------------------------------------------------------------------
-# VM 206: Metasploitable2
+# VM 204: Metasploitable2
 # ------------------------------------------------------------------------------
-create_or_skip_vm 206 "Metasploitable2" \
+create_or_skip_vm 204 "Metasploitable2" \
   --name "Metasploitable2" \
   --memory 512 \
   --cores 1 \
@@ -152,12 +152,12 @@ create_or_skip_vm 206 "Metasploitable2" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=ide0;net0" \
   --ostype l26 \
-  --tags "cyber;metasploit;metasploitable2;penetration-testing;red-team;vm206"
+  --tags "cyber;metasploit;metasploitable2;penetration-testing;red-team;vm204"
 
 # ------------------------------------------------------------------------------
-# VM 207: tpot-honeypot
+# VM 205: tpot-honeypot
 # ------------------------------------------------------------------------------
-create_or_skip_vm 207 "tpot-honeypot" \
+create_or_skip_vm 205 "tpot-honeypot" \
   --name "tpot-honeypot" \
   --memory 8192 \
   --balloon 4096 \
@@ -168,12 +168,12 @@ create_or_skip_vm 207 "tpot-honeypot" \
   --ide2 "$ISO_STORAGE/debian-netinst.iso,media=cdrom" \
   --boot "order=scsi0;ide2" \
   --ostype l26 \
-  --tags "cyber;honeypot;tpot;vm207"
+  --tags "cyber;honeypot;tpot;vm205"
 
 # ------------------------------------------------------------------------------
-# VM 208: securityonion
+# VM 206: securityonion
 # ------------------------------------------------------------------------------
-create_or_skip_vm 208 "securityonion" \
+create_or_skip_vm 206 "securityonion" \
   --name "securityonion" \
   --memory 8192 \
   --balloon 4096 \
@@ -185,12 +185,12 @@ create_or_skip_vm 208 "securityonion" \
   --ide2 "$ISO_STORAGE/securityonion.iso,media=cdrom" \
   --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
-  --tags "blue-team;hids;log-analysis;security-onion;siem;vm208;wazuh"
+  --tags "blue-team;hids;log-analysis;security-onion;siem;vm206;wazuh"
 
 # ------------------------------------------------------------------------------
-# VM 209: remnux
+# VM 207: remnux
 # ------------------------------------------------------------------------------
-create_or_skip_vm 209 "remnux" \
+create_or_skip_vm 207 "remnux" \
   --name "remnux" \
   --memory 4096 \
   --balloon 2048 \
@@ -202,13 +202,14 @@ create_or_skip_vm 209 "remnux" \
   --ide2 "$ISO_STORAGE/remnux-installer.iso,media=cdrom" \
   --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
-  --tags "cyber;dfir;malware-analysis;remnux;reverse-engineering;vm209"
+  --tags "cyber;dfir;malware-analysis;remnux;reverse-engineering;vm207"
 
 # ------------------------------------------------------------------------------
-# VM 300: windows-server-licenta
+# VM 300: windows-server-licenta (Bachelor Thesis / Lucrare de Licenta)
 # ------------------------------------------------------------------------------
 create_or_skip_vm 300 "windows-server-licenta" \
   --name "windows-server-licenta" \
+  --description "Bachelor Thesis Lab (Lucrare de Licenta) - Windows Server 2019 Standard (Massgrave GVLK / KMS Activation, Active Directory DS & Domain Security Lab)" \
   --memory 8192 \
   --balloon 4096 \
   --cores 4 \
@@ -219,13 +220,14 @@ create_or_skip_vm 300 "windows-server-licenta" \
   --ide2 "$ISO_STORAGE/windows_server_2019_x64.iso,media=cdrom" \
   --boot "order=scsi0;ide2;net0" \
   --ostype win11 \
-  --tags "microsoft;server;windows;windows-server-2019;licenta;vm300"
+  --tags "microsoft;server;windows;windows-server-2019;licenta;bachelor-thesis;vm300"
 
 # ------------------------------------------------------------------------------
-# VM 301: metasploitable-licenta
+# VM 301: metasploitable-licenta (Bachelor Thesis / Lucrare de Licenta)
 # ------------------------------------------------------------------------------
 create_or_skip_vm 301 "metasploitable-licenta" \
   --name "metasploitable-licenta" \
+  --description "Bachelor Thesis Lab (Lucrare de Licenta) - Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)" \
   --memory 2048 \
   --balloon 1024 \
   --cores 2 \
@@ -235,7 +237,7 @@ create_or_skip_vm 301 "metasploitable-licenta" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=scsi0;net0" \
   --ostype l26 \
-  --tags "cyber;licenta;metasploit;metasploitable;pentest;red-team;vm301"
+  --tags "cyber;licenta;bachelor-thesis;metasploit;metasploitable;pentest;red-team;vm301"
 
 echo ""
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"

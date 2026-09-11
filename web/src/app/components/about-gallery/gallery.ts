@@ -63,13 +63,13 @@ interface PhotoItem {
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Grafana Enterprise & Prometheus</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Windows Server 2025 Datacenter (VM 201)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">RHEL 9.8 Enterprise (VM 202)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Windows Server 2019 (VM 300)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Metasploitable Lab (VM 301)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OpenStack Cloud (VM 205)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Metasploitable 2 (VM 206)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">T-Pot Honeypot (VM 207)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Security Onion SIEM (VM 208)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">REMnux DFIR (VM 209)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OpenStack Cloud (VM 203)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Metasploitable 2 (VM 204)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">T-Pot Honeypot (VM 205)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Security Onion SIEM (VM 206)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">REMnux DFIR (VM 207)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Bachelor Thesis: Windows Server 2019 (VM 300)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Bachelor Thesis: Metasploitable Lab (VM 301)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Wazuh SIEM / XDR (Native PVE)</span>
       </div>
      </div>
@@ -342,76 +342,88 @@ export class AboutGalleryComponent {
    badgeRo: 'WAZUH SIEM / XDR'
   },
   {
-   src: 'photos/services/vm-windows.png',
-   title: 'Windows Server 2019 · Active Directory & Security Lab (VM 300)',
-   titleRo: 'Windows Server 2019 · Active Directory & Lab Securitate (VM 300)',
-   category: 'ENTERPRISE VIRTUALIZATION & LAB',
-   categoryRo: 'VIRTUALIZARE ENTERPRISE & LAB',
-   description: 'Windows Server 2019 Datacenter / Standard evaluation with Massgrave KMS activation capability, provisioned for Active Directory penetration testing and academic thesis research (Ballooning: 4-8 GB).',
-   descriptionRo: 'Windows Server 2019 Datacenter / Standard cu suport activare KMS Massgrave, configurat pentru testare Active Directory, atacuri de domeniu și cercetare licență (Ballooning: 4-8 GB).',
-   endpoint: '192.168.1.300 (RDP 3389 / KVM)',
-   badge: 'WIN SERVER 2019',
-   badgeRo: 'WIN SERVER 2019'
+    src: 'photos/services/vm-windows.png',
+    title: 'Bachelor Thesis · Windows Server 2019 · Security Lab (VM 300)',
+    titleRo: 'Lucrare de Licență · Windows Server 2019 · Lab Securitate (VM 300)',
+    category: 'BACHELOR THESIS & ENTERPRISE LAB',
+    categoryRo: 'LUCRARE DE LICENȚĂ & LAB ENTERPRISE',
+    description: 'Dedicated Bachelor Thesis (Lucrare de Licență) research environment. Windows Server 2019 Standard evaluation with Massgrave KMS activation capability, provisioned for Active Directory penetration testing and thesis research (Ballooning: 4-8 GB).',
+    descriptionRo: 'Mediu dedicat pentru Lucrarea de Licență (Bachelor Thesis). Windows Server 2019 Standard cu suport activare KMS Massgrave, configurat pentru testare Active Directory, atacuri de domeniu și cercetare academică (Ballooning: 4-8 GB).',
+    endpoint: '192.168.1.210 (RDP 3389 / KVM)',
+    badge: 'THESIS: WIN SERVER 2019',
+    badgeRo: 'LICENȚĂ: WIN SERVER 2019'
   },
   {
-   src: 'photos/services/metasploitable2.png',
-   title: 'Metasploitable Lab · Vulnerable Target & Red Team (VM 301)',
-   titleRo: 'Metasploitable Lab · Țintă Vulnerabilă & Red Team (VM 301)',
-   category: 'CYBERSECURITY & PROVING GROUND',
-   categoryRo: 'SECURITATE CIBERNETICĂ & POLIGON DE TEST',
-   description: 'Dedicated Metasploitable virtual proving ground (VM 301) for penetration testing, automated exploitation workflows, and Wazuh/Suricata detection rule validation.',
-   descriptionRo: 'Mediu dedicat Metasploitable (VM 301) pentru teste de securitate ofensivă, exploit-uri automate și validarea regulilor de detecție Wazuh și Suricata.',
-   endpoint: '192.168.1.301 (Console / SSH / HTTP)',
-   badge: 'METASPLOITABLE LAB',
-   badgeRo: 'METASPLOITABLE LAB'
+    src: 'photos/services/metasploitable2.png',
+    title: 'Bachelor Thesis · Metasploitable Lab · Vulnerable Target (VM 301)',
+    titleRo: 'Lucrare de Licență · Metasploitable Lab · Țintă Vulnerabilă (VM 301)',
+    category: 'BACHELOR THESIS & CYBERSECURITY',
+    categoryRo: 'LUCRARE DE LICENȚĂ & SECURITATE CIBERNETICĂ',
+    description: 'Dedicated Bachelor Thesis (Lucrare de Licență) proving ground (VM 301) for penetration testing, automated exploitation workflows, and Wazuh/Suricata detection rule validation.',
+    descriptionRo: 'Poligon de testare dedicat pentru Lucrarea de Licență (Bachelor Thesis, VM 301) pentru teste de securitate ofensivă, exploit-uri automate și validarea regulilor de detecție Wazuh și Suricata.',
+    endpoint: '192.168.1.211 (Console / SSH / HTTP)',
+    badge: 'THESIS: METASPLOITABLE',
+    badgeRo: 'LICENȚĂ: METASPLOITABLE'
   },
   {
-   src: 'photos/services/openstack.png',
-   title: 'OpenStack 2024.1 Caracal · Private Cloud Horizon (VM 205)',
-   titleRo: 'OpenStack 2024.1 Caracal · Panou Cloud Privat Horizon (VM 205)',
-   category: 'CLOUD INFRASTRUCTURE & IAAS',
-   categoryRo: 'INFRASTRUCTURĂ CLOUD & IAAS',
-   description: 'Enterprise IaaS cloud controller orchestrating Nova compute virtual machines, Neutron SDN, Glance image services, and Horizon dashboard.',
-   descriptionRo: 'Controler cloud enterprise IaaS ce orchestrează instanțe de calcul Nova, rețele definite software Neutron, catalog de imagini Glance și panou de control Horizon.',
-   endpoint: '192.168.1.205 (HTTP 80 / Keystone 5000)',
-   badge: 'OPENSTACK IAAS',
-   badgeRo: 'OPENSTACK IAAS'
+    src: 'photos/services/openstack.png',
+    title: 'OpenStack 2024.1 Caracal · Private Cloud Horizon (VM 203)',
+    titleRo: 'OpenStack 2024.1 Caracal · Panou Cloud Privat Horizon (VM 203)',
+    category: 'CLOUD INFRASTRUCTURE & IAAS',
+    categoryRo: 'INFRASTRUCTURĂ CLOUD & IAAS',
+    description: 'Enterprise IaaS cloud controller orchestrating Nova compute virtual machines, Neutron SDN, Glance image services, and Horizon dashboard.',
+    descriptionRo: 'Controler cloud enterprise IaaS ce orchestrează instanțe de calcul Nova, rețele definite software Neutron, catalog de imagini Glance și panou de control Horizon.',
+    endpoint: '192.168.1.203 (HTTP 80 / Keystone 5000)',
+    badge: 'OPENSTACK IAAS',
+    badgeRo: 'OPENSTACK IAAS'
   },
   {
-   src: 'photos/services/metasploitable2.png',
-   title: 'Metasploitable 2 · Vulnerable Target & Red Team Lab (VM 206)',
-   titleRo: 'Metasploitable 2 · Țintă Vulnerabilă & Laborator Red Team (VM 206)',
-   category: 'CYBERSECURITY & PROVING GROUND',
-   categoryRo: 'SECURITATE CIBERNETICĂ & POLIGON DE TEST',
-   description: 'Intentionally vulnerable Ubuntu Linux virtual machine configured for penetration testing, Metasploit exploitation, and IDS/IPS signature tuning.',
-   descriptionRo: 'Mașină virtuală Linux vulnerabilă intenționat pentru teste de penetrare, exploatare cu Metasploit Framework și calibrarea detecțiilor Suricata / Wazuh.',
-   endpoint: '192.168.1.206 (Console / 22 / 80)',
-   badge: 'METASPLOITABLE',
-   badgeRo: 'METASPLOITABLE'
+    src: 'photos/services/metasploitable2.png',
+    title: 'Metasploitable 2 · Vulnerable Target & Red Team Lab (VM 204)',
+    titleRo: 'Metasploitable 2 · Țintă Vulnerabilă & Laborator Red Team (VM 204)',
+    category: 'CYBERSECURITY & PROVING GROUND',
+    categoryRo: 'SECURITATE CIBERNETICĂ & POLIGON DE TEST',
+    description: 'Intentionally vulnerable Ubuntu Linux virtual machine configured for penetration testing, Metasploit exploitation, and IDS/IPS signature tuning.',
+    descriptionRo: 'Mașină virtuală Linux vulnerabilă intenționat pentru teste de penetrare, exploatare cu Metasploit Framework și calibrarea detecțiilor Suricata / Wazuh.',
+    endpoint: '192.168.1.204 (Console / 22 / 80)',
+    badge: 'METASPLOITABLE',
+    badgeRo: 'METASPLOITABLE'
   },
   {
-   src: 'photos/services/securityonion.png',
-   title: 'Security Onion 3.2 · Enterprise SIEM & SOC Platform (VM 208)',
-   titleRo: 'Security Onion 3.2 · Platformă Enterprise SIEM & SOC (VM 208)',
-   category: 'CYBERSECURITY & NETWORK DEFENSE',
-   categoryRo: 'SECURITATE CIBERNETICĂ & APĂRARE REȚEA',
-   description: 'Enterprise NSM, HIDS, Zeek network telemetry, Suricata alerts, Elasticsearch, and centralized SOC investigation console.',
-   descriptionRo: 'Platformă Enterprise de securitate cibernetică cu monitorizare de rețea, telemetrie Zeek, alerte Suricata, Elasticsearch și consolă centralizată SOC.',
-   endpoint: '192.168.1.208 (HTTPS 443 / SOC)',
-   badge: 'SECURITY ONION',
-   badgeRo: 'SECURITY ONION'
+    src: 'photos/services/tpot-honeypot.png',
+    title: 'T-Pot · Multi-Honeypot Decoy Platform (VM 205)',
+    titleRo: 'T-Pot · Platformă Multi-Honeypot & Capcane (VM 205)',
+    category: 'CYBERSECURITY & THREAT INTEL',
+    categoryRo: 'SECURITATE CIBERNETICĂ & THREAT INTEL',
+    description: 'Multi-honeypot decoy platform running 20+ specialized honeypot daemons (Cowrie, Dionaea, Conpot) capturing live attack telemetry and brute-force attempts.',
+    descriptionRo: 'Platformă multi-honeypot cu peste 20 de servicii capcană (Cowrie, Dionaea, Conpot) ce capturează telemetrie de atac în timp real și tentative brute-force.',
+    endpoint: '192.168.1.205:64297 (Web Center / Kibana)',
+    badge: 'T-POT HONEYPOT',
+    badgeRo: 'T-POT HONEYPOT'
   },
   {
-   src: 'photos/services/remnux.png',
-   title: 'REMnux v7 Noble · Reverse Engineering & Malware Analysis (VM 209)',
-   titleRo: 'REMnux v7 Noble · Inginerie Inversă & Analiză Malware (VM 209)',
-   category: 'DIGITAL FORENSICS & REVERSE ENGINEERING',
-   categoryRo: 'CRIMINALISTICĂ DIGITALĂ & INGINERIE INVERSĂ',
-   description: 'Specialized Linux distribution for malware analysis, memory forensics, Ghidra disassembly, YARA hunting, and Wireshark C2 investigation.',
-   descriptionRo: 'Distribuție Linux specializată pentru analiză malware, investigații criminalistice de memorie, dezasamblare Ghidra, YARA și analiză trafic C2.',
-   endpoint: '192.168.1.209 (SSH 22 / Console)',
-   badge: 'REMNUX NOBLE',
-   badgeRo: 'REMNUX NOBLE'
+    src: 'photos/services/securityonion.png',
+    title: 'Security Onion 3.2 · Enterprise SIEM & SOC Platform (VM 206)',
+    titleRo: 'Security Onion 3.2 · Platformă Enterprise SIEM & SOC (VM 206)',
+    category: 'CYBERSECURITY & NETWORK DEFENSE',
+    categoryRo: 'SECURITATE CIBERNETICĂ & APĂRARE REȚEA',
+    description: 'Enterprise NSM, HIDS, Zeek network telemetry, Suricata alerts, Elasticsearch, and centralized SOC investigation console.',
+    descriptionRo: 'Platformă Enterprise de securitate cibernetică cu monitorizare de rețea, telemetrie Zeek, alerte Suricata, Elasticsearch și consolă centralizată SOC.',
+    endpoint: '192.168.1.206 (HTTPS 443 / SOC)',
+    badge: 'SECURITY ONION',
+    badgeRo: 'SECURITY ONION'
+  },
+  {
+    src: 'photos/services/remnux.png',
+    title: 'REMnux v7 Noble · Reverse Engineering & Malware Analysis (VM 207)',
+    titleRo: 'REMnux v7 Noble · Inginerie Inversă & Analiză Malware (VM 207)',
+    category: 'DIGITAL FORENSICS & REVERSE ENGINEERING',
+    categoryRo: 'CRIMINALISTICĂ DIGITALĂ & INGINERIE INVERSĂ',
+    description: 'Specialized Linux distribution for malware analysis, memory forensics, Ghidra disassembly, YARA hunting, and Wireshark C2 investigation.',
+    descriptionRo: 'Distribuție Linux specializată pentru analiză malware, investigații criminalistice de memorie, dezasamblare Ghidra, YARA și analiză trafic C2.',
+    endpoint: '192.168.1.207 (SSH 22 / Console)',
+    badge: 'REMNUX NOBLE',
+    badgeRo: 'REMNUX NOBLE'
   },
   {
    src: 'photos/services/opnsense.png',
