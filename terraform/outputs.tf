@@ -1,9 +1,9 @@
 output "vm_inventory" {
   description = "Machine-readable map of all provisioned Virtual Machines"
   value = {
-    opnsense          = { vmid = module.vm_opnsense_200.vm_id, name = module.vm_opnsense_200.name, node = module.vm_opnsense_200.node }
-    windows_server_ad = { vmid = module.vm_win_server_201.vm_id, name = module.vm_win_server_201.name, node = module.vm_win_server_201.node }
-    rhel_enterprise   = { vmid = module.vm_rhel_202.vm_id, name = module.vm_rhel_202.name, node = module.vm_rhel_202.node }
+    opnsense               = { vmid = module.vm_opnsense_200.vm_id, name = module.vm_opnsense_200.name, node = module.vm_opnsense_200.node }
+    windows_server_ad      = { vmid = module.vm_win_server_201.vm_id, name = module.vm_win_server_201.name, node = module.vm_win_server_201.node }
+    rhel_enterprise        = { vmid = module.vm_rhel_202.vm_id, name = module.vm_rhel_202.name, node = module.vm_rhel_202.node }
     openstack              = { vmid = module.vm_openstack_203.vm_id, name = module.vm_openstack_203.name, node = module.vm_openstack_203.node }
     metasploitable2        = { vmid = module.vm_metasploitable2_204.vm_id, name = module.vm_metasploitable2_204.name, node = module.vm_metasploitable2_204.node }
     tpot_honeypot          = { vmid = module.vm_tpot_205.vm_id, name = module.vm_tpot_205.name, node = module.vm_tpot_205.node }
