@@ -16,10 +16,9 @@
 [Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
 <!-- AUTO-METRICS-START -->
-[![Active Workloads](https://img.shields.io/badge/Workloads-28%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
-[![Automated Tests](https://img.shields.io/badge/Tests-26%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
-[![ELO Tools](https://img.shields.io/badge/ELO%20Tools-21%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
-[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--11-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
+[![Active Workloads](https://img.shields.io/badge/Workloads-28%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/infrastructure#workload-catalog--pinned-favorites)
+[![Automated Tests](https://img.shields.io/badge/Tests-26%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/infrastructure/actions/workflows/ci.yml)
+[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--11-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions)
 <!-- AUTO-METRICS-END -->
 </div>
 
