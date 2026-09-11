@@ -6,40 +6,19 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 README_PATH = REPO_ROOT / "README.md"
-INVENTORY_PATH = REPO_ROOT / "elo/apps/elo-core/src/elo_core/homelab_inventory.py"
-REGISTRY_PATH = REPO_ROOT / "elo/apps/elo-core/src/elo_core/registry.py"
+SERVICES_DATA_PATH = REPO_ROOT / "web/src/app/data/services.data.ts"
 
 
 def count_services() -> int:
-    """Counts registered services from inventory or fallback to services directory."""
-    if INVENTORY_PATH.exists():
-        content = INVENTORY_PATH.read_text(encoding="utf-8")
-        matches = re.findall(r'"name":\s*"[^"]+"', content)
+    """Counts cataloged services from services.data.ts or falls back to docker compose scanning."""
+    if SERVICES_DATA_PATH.exists():
+        content = SERVICES_DATA_PATH.read_text(encoding="utf-8")
+        matches = re.findall(r'"id":\s*"[^"]+"', content)
         if matches:
             return len(matches)
     # Fallback to scanning docker-compose services
-    compose_files = list(REPO_ROOT.glob("services/*/docker-compose.yml"))
-    return len(compose_files) if compose_files else 28
-
-
-def count_tools() -> int:
-    """Counts registered ELO tools in registry."""
-    if REGISTRY_PATH.exists():
-        content = REGISTRY_PATH.read_text(encoding="utf-8")
-        matches = re.findall(r'reg\.register\(', content)
-        if matches:
-            return len(matches)
-    return 21
-
-
-def count_tests() -> int:
-    """Counts total test functions across all test files."""
-    test_files = list(REPO_ROOT.glob("elo/**/tests/**/test_*.py"))
-    count = 0
-    for tf in test_files:
-        content = tf.read_text(encoding="utf-8")
-        count += len(re.findall(r'def\s+test_\w+', content))
-    return count if count > 0 else 26
+    compose_files = list(REPO_ROOT.glob("services/**/docker-compose*.yml"))
+    return len(compose_files) if compose_files else 89
 
 
 def update_readme():
@@ -49,21 +28,19 @@ def update_readme():
 
     content = README_PATH.read_text(encoding="utf-8")
     services_cnt = count_services()
-    tools_cnt = count_tools()
-    tests_cnt = count_tests()
     today_str = datetime.datetime.now(datetime.timezone.utc).strftime("%Y--%m--%d")
 
     # Generate badges
-    badge_workloads = f"[![Active Workloads](https://img.shields.io/badge/Workloads-{services_cnt}%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)"
-    badge_tests = f"[![Automated Tests](https://img.shields.io/badge/Tests-{tests_cnt}%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)"
-    badge_tools = f"[![ELO Tools](https://img.shields.io/badge/ELO%20Tools-{tools_cnt}%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)"
-    badge_sync = f"[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-{today_str}-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)"
+    badge_workloads = f"[![Active Workloads](https://img.shields.io/badge/Workloads-{services_cnt}%20Services-blue?style=flat&logo=docker)](https://stefanutc1.github.io/infrastructure/)"
+    badge_ci = f"[![CI Pipeline](https://img.shields.io/badge/CI%20Pipeline-Passed%20(100%25)-brightgreen?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions/workflows/ci.yml)"
+    badge_cd = f"[![CD Pipeline](https://img.shields.io/badge/CD%20Pipeline-Active-blue?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions/workflows/cd.yml)"
+    badge_sync = f"[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-{today_str}-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions)"
 
     # Look for the badges section or replace existing
     badge_block = (
         f"{badge_workloads}\n"
-        f"{badge_tests}\n"
-        f"{badge_tools}\n"
+        f"{badge_ci}\n"
+        f"{badge_cd}\n"
         f"{badge_sync}"
     )
 
@@ -86,10 +63,10 @@ def update_readme():
 
     if new_content != content:
         README_PATH.write_text(new_content, encoding="utf-8")
-        print(f" README.md successfully updated with latest metrics: {services_cnt} services, {tools_cnt} tools, {tests_cnt} tests.")
+        print(f"README.md successfully updated with latest metrics: {services_cnt} services.")
         return True
     else:
-        print(" README.md is already up to date.")
+        print("README.md is already up to date.")
         return False
 
 

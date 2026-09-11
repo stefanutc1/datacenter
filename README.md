@@ -7,7 +7,7 @@
 [![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/infrastructure)
 [![Zero-Trust Security](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/infrastructure)
 [![Local AI](https://img.shields.io/badge/Local%20LLM-Ollama%20%7C%20NVIDIA%20GTX%201050%20Ti-violet?style=flat&logo=nvidia)](https://github.com/stefanutc1/infrastructure)
-[![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-GNU%20AGPLv3-blue.svg)](LICENSE)
 
 <br/>
 
@@ -16,10 +16,10 @@
 [Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
 <!-- AUTO-METRICS-START -->
-[![Active Workloads](https://img.shields.io/badge/Workloads-28%20Services-blue?style=flat&logo=docker)](https://github.com/stefanutc1/homelab#workload-catalog--pinned-favorites)
-[![Automated Tests](https://img.shields.io/badge/Tests-26%20Passed%20(100%25)-brightgreen?style=flat&logo=pytest)](https://github.com/stefanutc1/homelab/actions/workflows/ci.yml)
-[![ELO Tools](https://img.shields.io/badge/ELO%20Tools-21%20Active-orange?style=flat&logo=fastapi)](https://github.com/stefanutc1/homelab/tree/main/elo)
-[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--11-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/homelab/actions)
+[![Active Workloads](https://img.shields.io/badge/Workloads-90%20Services-blue?style=flat&logo=docker)](https://stefanutc1.github.io/infrastructure/)
+[![CI Pipeline](https://img.shields.io/badge/CI%20Pipeline-Passed%20(100%25)-brightgreen?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions/workflows/ci.yml)
+[![CD Pipeline](https://img.shields.io/badge/CD%20Pipeline-Active-blue?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions/workflows/cd.yml)
+[![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--11-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions)
 <!-- AUTO-METRICS-END -->
 </div>
 
@@ -201,11 +201,15 @@ flowchart TB
 
 ---
 
-## 4. Enterprise CI/CD Quality Matrix (9 Automated Workflows)
+## 4. Enterprise CI/CD Quality Matrix
 
-Infrastructure and application code are validated continuously across **9 GitHub Actions CI/CD workflows** running **36+ parallel automated quality gates**:
+Infrastructure and application code are validated and deployed continuously across automated GitHub Actions CI/CD workflows:
 
-| # | Workflow File | Pipeline Name | Automated Quality Guarantees & Checks | 1 | [`.github/workflows/homelab-ci-cd-matrix.yml`](.github/workflows/homelab-ci-cd-matrix.yml) | **Enterprise Quality Matrix** | `terraform fmt` & `validate` (on-prem + multi-cloud), Checkov IaC Security, Trivy Misconfig, Docker Compose validation, ShellCheck, Secret Leakage, ELO Matrix (Python 3.9-3.13) | 3 | [`.github/workflows/cd.yml`](.github/workflows/cd.yml) | **Continuous Deployment** | GitOps Reconciliation, Container Image Packaging on GHCR, Automated Rollback Verification | 5 | [`.github/workflows/security-scan.yml`](.github/workflows/security-scan.yml) | **CodeQL SAST Analysis** | GitHub Advanced Security CodeQL engine for deep static vulnerability scanning (Python & TypeScript) | 7 | [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) | **Deploy GitHub Pages** | Angular 19 production build & zero-downtime deployment to GitHub Pages | 9 | [`.github/workflows/readme-sync.yml`](.github/workflows/readme-sync.yml) | **Documentation Sync** | Automated documentation sync and badge validation across all 5 supported languages |
+| # | Workflow File | Pipeline Name | Automated Quality Guarantees & Checks |
+|---|---|---|---|
+| 1 | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | **Continuous Integration** | IaC validation (`terraform fmt` & `validate`), Web Frontend build & test (Angular 20), Dockerfile & policy linting, Secret & security scanning |
+| 2 | [`.github/workflows/cd.yml`](.github/workflows/cd.yml) | **Continuous Deployment** | Automated Dependabot PR merge (daily 05:00 AM Europe/Bucharest), Angular Web production build & GitHub Pages deployment, README metrics auto-sync |
+| 3 | [`.github/workflows/chaos.yml`](.github/workflows/chaos.yml) | **Chaos Engineering** | Automated chaos injection, network partition resilience, service health probing |
 
 ---
 
@@ -749,16 +753,24 @@ Execute the automated Disaster Recovery script: <code>./scripts/disaster-recover
 
 ```
 .
-├── .github/workflows/ # CI/CD pipelines (Trivy, Gitleaks, Shellcheck, CD)
-├── cyber/ # SOC, SIEM, Honeypots (T-Pot), eBPF & Sandbox
-├── elo/ # Autonomous AI Agent Control Plane & Tools
-├── hypervisors/ # Proxmox sysctl hardening & kernel profiles
-├── kubernetes/ # Talos Linux & K3s manifests
-├── scripts/ # Disaster Recovery & Chaos Engineering runners
-├── services/ # Docker Compose & container configurations (including native Wazuh & VM configs)
-├── terraform/ # Declarative Proxmox LXC & VM IaC modules
-├── vms/ # Windows Server & Linux VM configurations
-└── web/ # Angular 20 Standalone Interactive Web App
+├── .github/workflows/ # CI/CD pipelines & automation workflows
+├── ai/                # Local AI models, Ollama manifests & LLM inference runbooks
+├── ansible/           # Configuration management, playbooks & server orchestration
+├── cloud/             # Multi-cloud IaC integrations (AWS Glacier & Azure HSM/DR)
+├── cyber/             # SOC, SIEM, Honeypots (T-Pot), eBPF & Sandbox forensics
+├── esp32/             # IoT microcontrollers & environmental telemetry firmware
+├── hardware/          # Physical hardware specs, NUT UPS power delivery & rack topology
+├── hypervisors/       # Proxmox VE sysctl hardening, kernel profiles & network bridges
+├── inventory/         # Fleet inventory, static IP assignments & MAC mappings
+├── kubernetes/        # Talos Linux & K3s declarative manifests
+├── nix/               # Declarative NixOS system configurations and flakes
+├── opencore/          # OpenCore EFI bootloader for macOS Monterey KVM (/opencore/EFI)
+├── photos/            # Live dashboard screenshots, telemetry captures & topology visuals
+├── policy/            # Security policies, compliance benchmarks & governance rules
+├── scripts/           # Disaster Recovery, metrics sync & automation tooling
+├── services/          # Docker Compose workload catalog & microservice stacks
+├── terraform/         # Declarative Proxmox LXC & VM IaC modules
+└── web/               # Angular 20 Standalone Interactive Web Architecture Viewer
 ```
 
 This repository serves as a **production-grade engineering portfolio and personal infrastructure lab**, designed and maintained by [@stefanutc1](https://github.com/stefanutc1) to showcase hybrid cloud architecture, SecOps, GitOps, and resilient self-hosted platforms.
@@ -768,7 +780,7 @@ This repository serves as a **production-grade engineering portfolio and persona
 <div align="center">
 
 **Author**: [@stefanutc1](https://github.com/stefanutc1) 
-Released under the **MIT License**.
+Released under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
 
 </div>
 

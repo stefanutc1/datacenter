@@ -279,7 +279,7 @@ export interface ForensicCase {
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
                       <td class="p-4 font-bold text-slate-300 whitespace-nowrap">homelab-ci-cd-matrix.yml</td>
                       <td class="p-4 text-slate-200">{{ ts.isRomanian ? 'Matrice Calitate' : 'Quality Matrix' }}</td>
-                      <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Terraform Fmt & Validate, Checkov IaC, Trivy, Docker Compose, ShellCheck, Secret Leakage, ELO Matrix (3.9-3.13)' : 'Terraform Fmt & Validate, Checkov IaC, Trivy, Docker Compose, ShellCheck, Secret Leakage, ELO Matrix (3.9-3.13)' }}</td>
+                      <td class="p-4 text-slate-300">{{ ts.isRomanian ? 'Terraform Fmt & Validate, Checkov IaC, Trivy, Docker Compose, ShellCheck, Secret Leakage, Angular Build' : 'Terraform Fmt & Validate, Checkov IaC, Trivy, Docker Compose, ShellCheck, Secret Leakage, Angular Build' }}</td>
                       <td class="p-4 text-slate-400">Push / PR / Dispatch</td>
                     </tr>
                     <tr class="hover:bg-obsidian-750/40 transition-colors">
