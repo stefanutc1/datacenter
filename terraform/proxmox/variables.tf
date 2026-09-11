@@ -22,3 +22,27 @@ variable "primary_node" {
   description = "Primary x86_64 Proxmox node name"
   default     = "proxmox"
 }
+
+variable "gateway_ip" {
+  type        = string
+  description = "Default LAN gateway IP"
+  default     = "192.168.1.1"
+}
+
+variable "nameserver_ip" {
+  type        = string
+  description = "Default DNS nameserver IP"
+  default     = "192.168.1.1"
+}
+
+variable "debian_template" {
+  type        = string
+  description = "Debian 13 x86_64 OS template"
+  default     = "local:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst"
+}
+
+variable "alpine_template" {
+  type        = string
+  description = "Alpine 3.24 x86_64 OS template"
+  default     = "local:vztmpl/alpine-3.24-default_20260714_amd64.tar.xz"
+}

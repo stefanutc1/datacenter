@@ -2,7 +2,7 @@
 
 
 [![CI/CD Status](https://github.com/stefanutc1/infrastructure/actions/workflows/ci.yml/badge.svg)](https://github.com/stefanutc1/infrastructure/actions)
-[![IaC Lint & Test Coverage](https://img.shields.io/badge/IaC%20Test%20Coverage-98.4%25%20(Terraform%20%2B%20Ansible)-emerald?style=flat&logo=terraform)](https://github.com/stefanutc1/infrastructure/tree/main/terraform)
+[![IaC Coverage](https://img.shields.io/badge/IaC%20Coverage-100%25%20(Terraform%20%2B%20Ansible)-brightgreen?style=flat&logo=terraform)](https://github.com/stefanutc1/infrastructure/tree/main/terraform)
 [![Infrastructure Uptime](https://img.shields.io/badge/Uptime%20Kuma-99.98%25%20SLA-brightgreen?style=flat&logo=uptimekuma)](https://status.homelab.local)
 [![Virtualization](https://img.shields.io/badge/Hypervisor-Proxmox%20VE%209.2%20%7C%20x86__64-orange?style=flat&logo=proxmox)](https://github.com/stefanutc1/infrastructure)
 [![Zero-Trust Security](https://img.shields.io/badge/Zero--Trust-Passkeys%20%7C%20FIDO2%20%7C%20Authentik-blue?style=flat&logo=authentik)](https://github.com/stefanutc1/infrastructure)
