@@ -62,20 +62,20 @@ module "vm_tpot_honeypot" {
   tags         = ["cyber", "honeypot", "tpot", "dmz", "terraform"]
 }
 
-# VM 206: macOS Monterey 12.7 (OpenCore KVM Hackintosh on Proxmox VE)
-module "vm_macos_monterey" {
+# VM 300: Windows Server 2019 Licență (Active Directory & Security Research)
+module "vm_windows_server_licenta" {
   source       = "../modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 206
-  name         = "macos-monterey"
-  description  = "macOS Monterey 12.7 (OpenCore KVM Hackintosh, Xcode Build Runner & Apple GUI Testing)"
+  vmid         = 300
+  name         = "windows-server-licenta"
+  description  = "Windows Server 2019 Datacenter/Standard (Massgrave KMS Activation, AD DS & Security Lab)"
   cores        = 4
-  memory       = 7168
-  balloon      = 2048
+  memory       = 8192
+  balloon      = 4096
   disk_size    = 64
   storage_pool = "local-lvm"
   vlan_tag     = 20
-  tags         = ["macos", "monterey", "hackintosh", "opencore", "apple", "terraform"]
+  tags         = ["windows", "server", "active-directory", "licenta", "terraform"]
 }
 
 # VM 207: OpenIndiana Hipster (Enterprise ZFS Reference, Zones & DTrace)
@@ -110,20 +110,20 @@ module "vm_netbsd" {
   tags         = ["netbsd", "bsd", "rump", "pkgsrc", "portable-unix", "terraform"]
 }
 
-# VM 209: NixOS 24.11 Minimal (Declarative Immutable Linux & Flakes)
-module "vm_nixos" {
+# VM 301: Metasploitable Licență (Penetration Testing & Vulnerability Proving Ground)
+module "vm_metasploitable_licenta" {
   source       = "../modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 209
-  name         = "nixos-minimal"
-  description  = "NixOS 24.11 Minimal (Declarative Immutable Linux, Flakes Reproducible Builds & Atomic Rollbacks)"
+  vmid         = 301
+  name         = "metasploitable-licenta"
+  description  = "Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)"
   cores        = 2
-  memory       = 1024
-  balloon      = 512
-  disk_size    = 22
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 20
   storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["nixos", "declarative", "immutable", "flakes", "reproducible", "terraform"]
+  vlan_tag     = 40
+  tags         = ["cyber", "licenta", "metasploit", "metasploitable", "pentest", "red-team", "terraform"]
 }
 
 # VM 210: DragonFly BSD 6.4 (HAMMER2 Journaling FS & Hybrid Microkernel)

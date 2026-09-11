@@ -15,8 +15,8 @@ export interface ServiceItem {
   tags: string[];
   color: string;
   icon: string;
-  photo?: string;
   composeCode: string;
+  photo?: string;
 }
 
 export const SERVICES_DATA: ServiceItem[] = [
@@ -303,6 +303,29 @@ export const SERVICES_DATA: ServiceItem[] = [
     "color": "#06b6d4",
     "icon": "kubernetes",
     "composeCode": "# FRRouting BGP AS 64512 peering with Kubernetes Bare-Metal Worker AS 64513"
+  },
+  {
+    "id": "opnsense-tailscale",
+    "name": "Tailscale Zero-Trust Subnet Router",
+    "category": "security",
+    "containerName": "tailscale-router",
+    "node": "OPNsense Firewall (VM 200 · 192.168.1.134)",
+    "ram": "64 MB",
+    "storage": "Internal Pool",
+    "ip": "192.168.1.134",
+    "port": 41641,
+    "domain": "tailscale-router.homelab.local",
+    "status": "ONLINE",
+    "description": "Encrypted WireGuard mesh subnet router advertising all 5 homelab VLANs to authenticated devices without opening WAN ports.",
+    "tags": [
+      "Tailscale",
+      "Subnet Router",
+      "Zero-Trust Mesh",
+      "WireGuard"
+    ],
+    "color": "#3b82f6",
+    "icon": "wireguard",
+    "composeCode": "# os-tailscale plugin advertising 192.168.1.0/24, 192.168.10-50.0/24"
   },
   {
     "id": "opnsense-zenarmor",
@@ -1577,15 +1600,15 @@ export const SERVICES_DATA: ServiceItem[] = [
     "name": "Wazuh SIEM / XDR Manager",
     "category": "cyber",
     "containerName": "wazuh-manager",
-    "node": "Isolated VLAN 30 Subnet",
-    "ram": "2,048 MB",
-    "storage": "40 GB Log Pool",
-    "ip": "192.168.30.10",
-    "port": 443,
+    "node": "Node 1 (Intel i3-10100F) · Native Hypervisor",
+    "ram": "558 MB (Active)",
+    "storage": "Host NVMe Pool",
+    "ip": "192.168.1.132",
+    "port": 55000,
     "domain": "wazuh.homelab.local",
     "status": "ONLINE",
-    "description": "Collects security telemetry across all endpoints to perform real-time log analysis, file integrity monitoring (FIM), and automated threat containment.",
-    "descriptionRo": "Platformă unificată XDR & SIEM pentru monitorizarea securității endpoint-urilor, detectarea amenințărilor și conformitate.",
+    "description": "Enterprise unified XDR & SIEM platform executing natively on Proxmox VE Node 1. Ingests endpoint telemetry, Suricata intrusion events, and performs real-time log analysis and file integrity monitoring (FIM).",
+    "descriptionRo": "Platformă unificată XDR & SIEM rulând nativ pe hypervisorul Proxmox VE Node 1. Colectează telemetrie, evenimente Suricata și efectuează monitorizare FIM și detecție amenințări în timp real.",
     "tags": [
       "SIEM / XDR",
       "Threat Detection",
@@ -1594,7 +1617,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#3b82f6",
     "icon": "wazuh",
-    "composeCode": "services:\n  wazuh.manager:\n    image: wazuh/wazuh-manager:latest\n    ports:\n      - \"1514:1514\"\n      - \"1515:1515\"\n      - \"55000:55000\""
+    "composeCode": "# Wazuh SIEM Manager Native Service on Proxmox VE (Node 1)\nsystemctl status wazuh-manager\n# Listening Ports: 1514 (Agent Event Bus), 1515 (Auth Registration), 55000 (REST API)"
   },
   {
     "id": "cyberchef",
@@ -1807,7 +1830,6 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#14b8a6",
     "icon": "shield",
-    "photo": "photos/services/opnsense-caddy.png",
     "composeCode": "https://backend.internal:8443 {\n  tls {\n    client_auth {\n      mode require_and_verify\n    }\n  }\n}"
   },
   {
@@ -1835,56 +1857,54 @@ export const SERVICES_DATA: ServiceItem[] = [
     "composeCode": "# Deception Decoy Mesh: Inotify triggers -> ntfy / Telegram instant webhooks"
   },
   {
-    "id": "vm-macos",
-    "name": "macOS Monterey 12.7 (OpenCore KVM)",
+    "id": "vm-windows-server-licenta",
+    "name": "Windows Server 2019 Standard (Licență GVLK)",
     "category": "core",
-    "containerName": "macos-monterey",
-    "node": "Node 1 (Intel i3-10100F) · VM 203",
-    "ram": "6,144 MB",
-    "storage": "120 GB NVMe",
-    "ip": "192.168.1.203",
-    "port": 5900,
-    "domain": "macos.homelab.local",
-    "status": "ONLINE",
-    "description": "Virtual macOS Monterey 12.7 instance booted via sanitized OpenCore EFI (/opencore/EFI) on Proxmox VE KVM with AppleSMC for Xcode CI/CD build runner, Apple GUI testing, and native VNC screen sharing.",
-    "descriptionRo": "Instanță virtuală macOS Monterey 12.7 pornită prin bootloader OpenCore anonimizat (/opencore/EFI) pe Proxmox VE KVM cu AppleSMC pentru runner build CI/CD Xcode, testare Apple și partajare ecran VNC.",
+    "containerName": "windows-server-licenta",
+    "node": "Node 1 (Intel i3-10100F) · VM 300",
+    "ram": "8,192 MB",
+    "storage": "64 GB NVMe",
+    "ip": "192.168.1.210",
+    "port": 3389,
+    "domain": "win2019.homelab.local",
+    "status": "STANDBY",
+    "description": "Windows Server 2019 Standard enterprise virtual machine provisioned on Proxmox VE KVM with Massgrave KMS/GVLK activation, Active Directory Domain Services, and licensed workload isolation.",
+    "descriptionRo": "Mașină virtuală Windows Server 2019 Standard enterprise provizionată pe Proxmox VE KVM cu activare Massgrave KMS/GVLK, servicii Active Directory și izolare a sarcinilor licențiate.",
     "tags": [
-      "macOS Monterey",
-      "OpenCore EFI",
-      "Hackintosh KVM",
-      "Xcode CI/CD",
-      "Apple Ecosystem"
+      "Windows Server 2019",
+      "Massgrave KMS",
+      "GVLK License",
+      "Active Directory",
+      "VM 300"
     ],
-    "color": "#a855f7",
-    "icon": "apple",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 203)\n# Bootloader: OpenCore EFI (/opencore/EFI) · SMBIOS: iMacPro1,1\n# OS: macOS Monterey 12.7 · Dynamic Ballooning: 2048 MB - 6144 MB\nargs: -device isa-applesmc,osk=\"...\" -smbios type=2\ncpu: Skylake-Client-v4,kvm=on,vendor=GenuineIntel,+invtsc,+hypervisor\ncores: 4\nsockets: 1\nmemory: 6144\nballoon: 2048\nboot: order=sata0;virtio0\nvirtio0: local-lvm:vm-203-disk-1,size=120G"
+    "color": "#0078d4",
+    "icon": "windows",
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 300)\n# OS: Windows Server 2019 Standard · Dynamic Ballooning: 4096 MB - 8192 MB\ncores: 4\nmemory: 8192\nballoon: 4096\nscsi0: local-lvm:vm-300-disk-0,discard=on,size=64G,ssd=1\nide2: local:iso/windows_server_2019_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:7C:2A:10,bridge=vmbr0,firewall=1"
   },
   {
-    "id": "vm-nixos",
-    "name": "NixOS 24.11 (Minimal Declarative Linux)",
-    "category": "automation",
-    "containerName": "nixos",
-    "node": "Node 1 (Intel i3-10100F) · VM 204",
-    "ram": "1,024 MB",
-    "storage": "22 GB NVMe",
-    "ip": "192.168.1.204",
+    "id": "vm-metasploitable-licenta",
+    "name": "Metasploitable Licențiat (Pentest Lab)",
+    "category": "cyber",
+    "containerName": "metasploitable-licenta",
+    "node": "Node 1 (Intel i3-10100F) · VM 301",
+    "ram": "2,048 MB",
+    "storage": "20 GB NVMe",
+    "ip": "192.168.1.211",
     "port": 22,
-    "domain": "nixos.homelab.local",
-    "status": "ONLINE",
-    "description": "Purely functional minimal Linux distribution built on declarative configuration, Nix Flakes, hermetic builds, atomic upgrades, and instant rollback safety.",
-    "descriptionRo": "Distribuție Linux minimalistă pur funcțională și declarativă bazată pe Nix Flakes, build-uri hermetice reproductibile, actualizări atomice și rollback instantaneu.",
+    "domain": "metasploitable.homelab.local",
+    "status": "STANDBY",
+    "description": "Dedicated vulnerable target virtual machine for penetration testing, red team exercises, exploit validation, and calibration of Wazuh SIEM detection rules.",
+    "descriptionRo": "Mașină virtuală țintă vulnerabilă dedicată pentru teste de penetrare, exerciții red team, validare exploit-uri și calibrarea regulilor de detecție din Wazuh SIEM.",
     "tags": [
-      "NixOS 24.11",
-      "Minimal Linux",
-      "Nix Flakes",
-      "Declarative OS",
-      "Atomic Rollback",
-      "Immutable Linux",
-      "VM 204"
+      "Metasploitable",
+      "Penetration Testing",
+      "Red Team",
+      "Vulnerability Lab",
+      "VM 301"
     ],
-    "color": "#5277c3",
-    "icon": "nixos",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 204)\n# OS: NixOS 24.11 Minimal · Dynamic Ballooning: 512 MB - 1024 MB\ncores: 2\nmemory: 1024\nballoon: 512\nscsi0: local-lvm:vm-204-disk-0,discard=on,size=22G,ssd=1\nscsihw: virtio-scsi-single\nnet0: virtio=BC:24:11:6B:4E:EC,bridge=vmbr0,firewall=1"
+    "color": "#dc2626",
+    "icon": "shield",
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 301)\n# OS: Metasploitable Linux Target · Dynamic Ballooning: 1024 MB - 2048 MB\ncores: 2\nmemory: 2048\nballoon: 1024\nscsi0: local-lvm:vm-301-disk-0,discard=on,size=20G,ssd=1\nnet0: virtio=BC:24:11:A4:6B:8E,bridge=vmbr0,firewall=1"
   },
   {
     "id": "argocd",

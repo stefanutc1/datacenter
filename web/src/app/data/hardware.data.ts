@@ -76,22 +76,22 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'SELinux Enforcing, Servicii Enterprise & Podman Engine (Balonare: 1 GB - 2 GB)'
       },
       { 
-        vmid: 203, 
-        name: 'macos', 
-        os: 'macOS Monterey 12.7', 
-        allocatedMb: 6144, 
-        balloonMinMb: 2048, 
-        purpose: 'OpenCore KVM Hackintosh (Sanitized bootloader in /opencore/EFI), Xcode CI/CD Build Runner & Apple GUI Testing (Ballooning: 2 GB - 6 GB)',
-        purposeRo: 'OpenCore KVM Hackintosh (Bootloader anonimizat în /opencore/EFI), Runner Build CI/CD Xcode & Mediu Testare Apple (Balonare: 2 GB - 6 GB)'
+        vmid: 300, 
+        name: 'windows-server-licenta', 
+        os: 'Windows Server 2019 Standard', 
+        allocatedMb: 8192, 
+        balloonMinMb: 4096, 
+        purpose: 'Enterprise Windows Server 2019 Standard (Massgrave GVLK / KMS Activation), Active Directory & Enterprise Services (Ballooning: 4 GB - 8 GB)',
+        purposeRo: 'Windows Server 2019 Standard Enterprise (Activare Massgrave GVLK / KMS), Active Directory & Servicii Enterprise (Balonare: 4 GB - 8 GB)'
       },
       { 
-        vmid: 204, 
-        name: 'nixos', 
-        os: 'NixOS 24.11 (Minimal)', 
-        allocatedMb: 1024, 
-        balloonMinMb: 512, 
-        purpose: 'Minimal Declarative Linux, Flakes Reproducible Builds & Atomic Rollback Lab (Ballooning: 512 MB - 1 GB)',
-        purposeRo: 'Linux Declarativ Minimal, Build-uri Reproductibile prin Flakes & Laborator Rollback Atomic (Balonare: 512 MB - 1 GB)'
+        vmid: 301, 
+        name: 'metasploitable-licenta', 
+        os: 'Metasploitable Linux Target', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Intentionally Vulnerable Linux Target, Penetration Testing & Suricata/Wazuh IDS Tuning (Ballooning: 1 GB - 2 GB)',
+        purposeRo: 'Țintă Linux Vulnerabilă Intenționat, Teste de Penetrare & Calibrare IDS/IPS Suricata/Wazuh (Balonare: 1 GB - 2 GB)'
       },
       { 
         vmid: 205, 
@@ -143,8 +143,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB · Suricata IDS/IPS, CrowdSec Bouncer, GeoIP Drop, DoT Quad9, Telegraf, Monit, GitOps, FRR BGP, Tailscale, NetFlow)',
       'VM 201: Windows Server 2025 Datacenter (8192 MB / Balloon: 4096 MB [4-8 GB] · GPU Passthrough)',
       'VM 202: Red Hat Enterprise Linux 9.8 (2048 MB / Balloon: 1024 MB [1-2 GB])',
-      'VM 203: macOS Monterey 12.7 (6144 MB / Balloon: 2048 MB [2-6 GB] · OpenCore EFI Bootloader & Xcode CI/CD)',
-      'VM 204: NixOS 24.11 Minimal (1024 MB / Balloon: 512 MB · 22 GB NVMe · Declarative Reproducible Linux)',
+      'VM 300: Windows Server 2019 Standard Licențiat (8192 MB / Balloon: 4096 MB · 64 GB NVMe · Massgrave GVLK / KMS)',
+      'VM 301: Metasploitable Licențiat Lab (2048 MB / Balloon: 1024 MB · 20 GB NVMe · Pentest & Red Team)',
       'VM 205: OpenStack 2024.1 Caracal (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Enterprise Cloud Controller & Horizon)',
       'VM 206: Metasploitable 2 (512 MB · 8 GB NVMe · Penetration Testing, Red Teaming & Exploit Vulnerability Lab)',
       'VM 207: T-Pot 24.04 Multi-Honeypot Platform (8192 MB / Balloon: 4096 MB · 60 GB NVMe · Cowrie, Dionaea, Elastic, Kibana, Suricata)',

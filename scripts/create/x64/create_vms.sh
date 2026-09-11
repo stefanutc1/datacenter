@@ -2,7 +2,7 @@
 # ==============================================================================
 # Datacenter Fleet Automation: Provision all Virtual Machines on Node 1 (x86_64)
 # Target Host: Node 1 Primary Proxmox VE (x86_64 / amd64)
-# Inventory: VMs 200 through 209 (10 Enterprise & Research Virtual Machines)
+# Inventory: Enterprise Virtual Machines (VMs 200-202, 205-209, 300, 301)
 # ==============================================================================
 set -euo pipefail
 
@@ -41,7 +41,7 @@ fi
 
 echo -e "${C_CYAN}${C_BOLD}"
 echo "======================================================================"
-echo "    PROXMOX VE NODE 1 (x86_64): VIRTUAL MACHINE PROVISIONER (200-209)"
+echo "    PROXMOX VE NODE 1 (x86_64): VIRTUAL MACHINE PROVISIONER           "
 echo "======================================================================"
 echo -e "${C_RESET}"
 log_info "Storage Pool : $STORAGE"
@@ -123,40 +123,6 @@ create_or_skip_vm 202 "rhel" \
   --ostype l26 \
   --tags "linux;redhat;rhel"
 
-# ------------------------------------------------------------------------------
-# VM 203: macOS (OpenCore Hackintosh Monterey)
-# ------------------------------------------------------------------------------
-create_or_skip_vm 203 "macOS" \
-  --name "macOS" \
-  --memory 6144 \
-  --balloon 2048 \
-  --cores 4 \
-  --cpu Haswell-noTSX \
-  --args "-device isa-applesmc,osk=\"ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc\"" \
-  --sata0 "$ISO_STORAGE/opencore-osx-proxmox-vm.iso,cache=unsafe,media=disk" \
-  --virtio0 "$STORAGE:120,cache=none,discard=on" \
-  --net0 "vmxnet3,bridge=$BRIDGE,firewall=0" \
-  --ide2 "$ISO_STORAGE/recovery-monterey.iso,media=cdrom" \
-  --boot "order=sata0;virtio0;ide2" \
-  --ostype other \
-  --tags "apple;hackintosh;macos"
-
-# ------------------------------------------------------------------------------
-# VM 204: nixos
-# ------------------------------------------------------------------------------
-create_or_skip_vm 204 "nixos" \
-  --name "nixos" \
-  --memory 1024 \
-  --balloon 512 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:22,iothread=1" \
-  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/nixos-minimal-26.05.8846.a3116115851d-x86_64-linux.iso,media=cdrom" \
-  --boot "order=scsi0;ide2;net0" \
-  --ostype l26 \
-  --tags "linux;nixos"
 
 # ------------------------------------------------------------------------------
 # VM 205: openstack
@@ -238,9 +204,43 @@ create_or_skip_vm 209 "remnux" \
   --ostype l26 \
   --tags "cyber;dfir;malware-analysis;remnux;reverse-engineering;vm209"
 
+# ------------------------------------------------------------------------------
+# VM 300: windows-server-licenta
+# ------------------------------------------------------------------------------
+create_or_skip_vm 300 "windows-server-licenta" \
+  --name "windows-server-licenta" \
+  --memory 8192 \
+  --balloon 4096 \
+  --cores 4 \
+  --cpu host \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:64,discard=on,ssd=1" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --ide2 "$ISO_STORAGE/windows_server_2019_x64.iso,media=cdrom" \
+  --boot "order=scsi0;ide2;net0" \
+  --ostype win11 \
+  --tags "microsoft;server;windows;windows-server-2019;licenta;vm300"
+
+# ------------------------------------------------------------------------------
+# VM 301: metasploitable-licenta
+# ------------------------------------------------------------------------------
+create_or_skip_vm 301 "metasploitable-licenta" \
+  --name "metasploitable-licenta" \
+  --memory 2048 \
+  --balloon 1024 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:20,discard=on,ssd=1" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;net0" \
+  --ostype l26 \
+  --tags "cyber;licenta;metasploit;metasploitable;pentest;red-team;vm301"
+
 echo ""
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
-echo -e "${C_GREEN}${C_BOLD}    All 10 VMs (200-209) Processed Successfully on Node 1 (x86_64)!   ${C_RESET}"
+echo -e "${C_GREEN}${C_BOLD}    Virtual Machines Processed Successfully on Node 1 (x86_64)!       ${C_RESET}"
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
 echo ""
 qm list
+

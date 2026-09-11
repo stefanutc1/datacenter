@@ -101,36 +101,6 @@ module "vm_rhel_202" {
   tags         = ["rhel", "redhat", "enterprise", "selinux", "podman", "terraform"]
 }
 
-module "vm_macos_monterey_203" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 203
-  name         = "macos-monterey"
-  description  = "macOS Monterey 12.7 (OpenCore KVM Hackintosh, Xcode Build Runner & Apple GUI Testing)"
-  cores        = 4
-  memory       = 6144
-  balloon      = 2048
-  disk_size    = 120
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["macos", "monterey", "hackintosh", "opencore", "apple", "terraform"]
-}
-
-module "vm_nixos_204" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 204
-  name         = "nixos-minimal"
-  description  = "NixOS 24.11 Minimal (Declarative Immutable Linux, Flakes Reproducible Builds & Atomic Rollbacks)"
-  cores        = 2
-  memory       = 1024
-  balloon      = 512
-  disk_size    = 22
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["nixos", "declarative", "immutable", "flakes", "reproducible", "terraform"]
-}
-
 module "vm_openstack_205" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
@@ -203,6 +173,36 @@ module "vm_remnux_209" {
   storage_pool = "local-lvm"
   vlan_tag     = 35
   tags         = ["cyber", "dfir", "malware-analysis", "remnux", "reverse-engineering", "terraform"]
+}
+
+module "vm_windows_server_licenta_300" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 300
+  name         = "windows-server-licenta"
+  description  = "Windows Server 2019 Standard (Enterprise Licensed Workload, Massgrave GVLK / KMS Activation)"
+  cores        = 4
+  memory       = 8192
+  balloon      = 4096
+  disk_size    = 64
+  storage_pool = "local-lvm"
+  vlan_tag     = 20
+  tags         = ["microsoft", "server", "windows", "windows-server-2019", "licenta", "terraform"]
+}
+
+module "vm_metasploitable_licenta_301" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 301
+  name         = "metasploitable-licenta"
+  description  = "Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)"
+  cores        = 2
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 20
+  storage_pool = "local-lvm"
+  vlan_tag     = 40
+  tags         = ["cyber", "licenta", "metasploit", "metasploitable", "pentest", "red-team", "terraform"]
 }
 
 

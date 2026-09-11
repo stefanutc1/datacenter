@@ -4,13 +4,13 @@ output "vm_inventory" {
     opnsense          = { vmid = module.vm_opnsense_200.vm_id, name = module.vm_opnsense_200.name, node = module.vm_opnsense_200.node }
     windows_server_ad = { vmid = module.vm_win_server_201.vm_id, name = module.vm_win_server_201.name, node = module.vm_win_server_201.node }
     rhel_enterprise   = { vmid = module.vm_rhel_202.vm_id, name = module.vm_rhel_202.name, node = module.vm_rhel_202.node }
-    macos_monterey    = { vmid = module.vm_macos_monterey_203.vm_id, name = module.vm_macos_monterey_203.name, node = module.vm_macos_monterey_203.node }
-    nixos             = { vmid = module.vm_nixos_204.vm_id, name = module.vm_nixos_204.name, node = module.vm_nixos_204.node }
-    openstack         = { vmid = module.vm_openstack_205.vm_id, name = module.vm_openstack_205.name, node = module.vm_openstack_205.node }
-    metasploitable2   = { vmid = module.vm_metasploitable2_206.vm_id, name = module.vm_metasploitable2_206.name, node = module.vm_metasploitable2_206.node }
-    tpot_honeypot     = { vmid = module.vm_tpot_207.vm_id, name = module.vm_tpot_207.name, node = module.vm_tpot_207.node }
-    securityonion     = { vmid = module.vm_securityonion_208.vm_id, name = module.vm_securityonion_208.name, node = module.vm_securityonion_208.node }
-    remnux            = { vmid = module.vm_remnux_209.vm_id, name = module.vm_remnux_209.name, node = module.vm_remnux_209.node }
+    openstack              = { vmid = module.vm_openstack_205.vm_id, name = module.vm_openstack_205.name, node = module.vm_openstack_205.node }
+    metasploitable2        = { vmid = module.vm_metasploitable2_206.vm_id, name = module.vm_metasploitable2_206.name, node = module.vm_metasploitable2_206.node }
+    tpot_honeypot          = { vmid = module.vm_tpot_207.vm_id, name = module.vm_tpot_207.name, node = module.vm_tpot_207.node }
+    securityonion          = { vmid = module.vm_securityonion_208.vm_id, name = module.vm_securityonion_208.name, node = module.vm_securityonion_208.node }
+    remnux                 = { vmid = module.vm_remnux_209.vm_id, name = module.vm_remnux_209.name, node = module.vm_remnux_209.node }
+    windows_server_licenta = { vmid = module.vm_windows_server_licenta_300.vm_id, name = module.vm_windows_server_licenta_300.name, node = module.vm_windows_server_licenta_300.node }
+    metasploitable_licenta = { vmid = module.vm_metasploitable_licenta_301.vm_id, name = module.vm_metasploitable_licenta_301.name, node = module.vm_metasploitable_licenta_301.node }
   }
 }
 

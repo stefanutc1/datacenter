@@ -247,9 +247,20 @@ flowchart TD
 
 ### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning
 
-| VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role | **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7 Shun-Tuned), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, LLDP Discovery, iperf3, Encrypted Git/Nextcloud Backup | **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB (2 GB) | **1,024 MB (1 GB)** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload (1-2 GB) | **204** | `nixos` | NixOS 24.11 Minimal | 2 Cores | 1,024 MB (1 GB) | **512 MB** | VirtIO SCSI Single (22 GB) | Declarative Immutable Linux, Flakes Reproducible Builds, Atomic Rollbacks | **206** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning | **208** | `securityonion` | Security Onion 3.2 / Wazuh SIEM | 4 Cores | 8,192 MB (8 GB) | **4,096 MB (4 GB)** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic, Kibana) 
+| VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7 Shun-Tuned), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, LLDP Discovery, iperf3, Encrypted Git/Nextcloud Backup |
+| **201** | `windows-server-2025` | Windows Server 2025 Datacenter | 4 Cores | 8,192 MB | **4,096 MB** | GTX 1050 Ti PCIe Passthrough | Active Directory Domain Services, GPO Lab, Sysmon & Windows Event Forwarding |
+| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload Isolation |
+| **205** | `openstack` | OpenStack 2024.1 Caracal | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (32 GB) | Enterprise IaaS Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon) |
+| **206** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning |
+| **207** | `tpot-honeypot` | T-Pot 24.04 Multi-Honeypot | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO SCSI (60 GB) | Multi-Honeypot Sensor Cluster (Cowrie, Dionaea, Honeytrap, Elastic, Kibana) |
+| **208** | `securityonion` | Security Onion 3.2 | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic) |
+| **209** | `remnux` | REMnux v7 Noble | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (40 GB) | Malware Analysis, Memory Forensics (Volatility), Ghidra & YARA Hunting |
+| **300** | `windows-server-licenta` | Windows Server 2019 Datacenter/Std | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO SCSI (64 GB) | Windows Server 2019 Lab with Massgrave KMS Activation, AD Testing & Thesis Research |
+| **301** | `metasploitable-licenta` | Metasploitable Linux Target | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (20 GB) | Dedicated Penetration Testing Proving Ground, Vulnerability Assessment & Wazuh Tuning |
 
-> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–209) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM.
+> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–301) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174) and research VMs (VM 300, 301) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
@@ -743,11 +754,10 @@ Execute the automated Disaster Recovery script: <code>./scripts/disaster-recover
 ├── elo/ # Autonomous AI Agent Control Plane & Tools
 ├── hypervisors/ # Proxmox sysctl hardening & kernel profiles
 ├── kubernetes/ # Talos Linux & K3s manifests
-├── opencore/ # OpenCore EFI bootloader for macOS Monterey KVM (/opencore/EFI)
 ├── scripts/ # Disaster Recovery & Chaos Engineering runners
-├── services/ # Docker Compose & container configurations
+├── services/ # Docker Compose & container configurations (including native Wazuh & VM configs)
 ├── terraform/ # Declarative Proxmox LXC & VM IaC modules
-├── vms/ # NixOS & Windows Server configurations
+├── vms/ # Windows Server & Linux VM configurations
 └── web/ # Angular 20 Standalone Interactive Web App
 ```
 

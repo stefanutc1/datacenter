@@ -58,18 +58,19 @@ interface PhotoItem {
         : 'Passionate about distributed systems, zero-trust perimeter defense, multi-architecture virtualization (x86_64 with 12 GB DDR4-2133 and Apple Silicon ARM64), and GitOps automation. This datacenter powers live microservices, bare-metal telemetry, and real-time observability.' }}
       </p>
       <div class="flex flex-wrap gap-2 pt-2">
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Proxmox VE 9.2 (12GB x64 & ARM64)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Proxmox VE 9.2 (12GB x64)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OPNsense 24.7 Hardened</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Grafana Enterprise & Prometheus</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Windows Server 2025 Datacenter (VM 201)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">RHEL 9.8 Enterprise (VM 202)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">macOS Monterey (VM 203)</span>
-       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">NixOS Flakes (VM 204)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Windows Server 2019 (VM 300)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Metasploitable Lab (VM 301)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">OpenStack Cloud (VM 205)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Metasploitable 2 (VM 206)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">T-Pot Honeypot (VM 207)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Security Onion SIEM (VM 208)</span>
        <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">REMnux DFIR (VM 209)</span>
+       <span class="px-2.5 py-1 rounded-lg bg-obsidian-800 text-slate-300 font-sans text-[11px] border border-obsidian-700">Wazuh SIEM / XDR (Native PVE)</span>
       </div>
      </div>
 
@@ -188,7 +189,7 @@ interface PhotoItem {
       >
        <div class="relative aspect-video w-full overflow-hidden bg-obsidian-950">
         <img 
-         [src]="s.photo || ('photos/services/' + s.id + '.png')" 
+         [src]="'photos/services/' + s.id + '.png'" 
          [alt]="s.name"
          class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
         />
@@ -329,28 +330,40 @@ export class AboutGalleryComponent {
    badgeRo: 'RHEL 9.8'
   },
   {
-   src: 'photos/services/vm-macos.png',
-   title: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 203)',
-   titleRo: 'macOS Monterey 12.7 · OpenCore KVM Hackintosh (VM 203)',
-   category: 'APPLE ECOSYSTEM & HACKINTOSH VIRTUALIZATION',
-   categoryRo: 'ECOSISTEM APPLE & VIRTUALIZARE HACKINTOSH',
-   description: 'macOS Monterey 12.7 running on Proxmox VE via sanitized OpenCore bootloader (/opencore/EFI) with full Apple services, Xcode CI/CD build runner, and native VNC screen sharing (Ballooning: 2-7 GB).',
-   descriptionRo: 'macOS Monterey 12.7 rulat pe Proxmox VE prin bootloader-ul OpenCore anonimizat (/opencore/EFI) cu servicii native Apple, runner CI/CD Xcode și partajare ecran VNC (Ballooning: 2-7 GB).',
-   endpoint: '192.168.1.203 (VNC 5900 / SSH 22 / KVM)',
-   badge: 'MACOS MONTEREY',
-   badgeRo: 'MACOS MONTEREY'
+   src: 'photos/services/wazuh.png',
+   title: 'Wazuh 4.14 · Enterprise SIEM & XDR Security Platform',
+   titleRo: 'Wazuh 4.14 · Platformă Enterprise SIEM & XDR',
+   category: 'CYBERSECURITY & SIEM PLATFORM',
+   categoryRo: 'SECURITATE CIBERNETICĂ & PLATFORMĂ SIEM',
+   description: 'Wazuh Manager running natively on Proxmox VE hypervisor host providing real-time log analysis, file integrity monitoring (FIM), rootkit detection, vulnerability assessment, and active response.',
+   descriptionRo: 'Wazuh Manager rulat nativ pe host-ul hypervisor Proxmox VE asigurând analiză de loguri în timp real, monitorizare a integrității fișierelor (FIM), detecție de rootkit-uri și răspuns activ la incidente.',
+   endpoint: '192.168.1.132:55000 / 1514 (Wazuh API & Agent Listener)',
+   badge: 'WAZUH SIEM / XDR',
+   badgeRo: 'WAZUH SIEM / XDR'
   },
   {
-   src: 'photos/services/vm-nixos.png',
-   title: 'NixOS 24.11 Minimal · Declarative Immutable Linux & Flakes (VM 204)',
-   titleRo: 'NixOS 24.11 Minimal · Linux Declarativ Imutabil & Flakes (VM 204)',
-   category: 'DECLARATIVE LINUX & REPRODUCIBILITY',
-   categoryRo: 'LINUX DECLARATIV & REPRODUCTIBILITATE',
-   description: 'NixOS 24.11 Minimal (Vicuna) on Proxmox VE KVM with GNOME desktop, Nix Flakes declarative build pipelines, and atomic instant rollbacks.',
-   descriptionRo: 'NixOS 24.11 Minimal (Vicuna) pe Proxmox VE KVM cu desktop GNOME, pipeline-uri declarative de build prin Nix Flakes și revenire atomică la stări anterioare.',
-   endpoint: '192.168.1.204 (SSH 22 / Console)',
-   badge: 'NIXOS MINIMAL',
-   badgeRo: 'NIXOS MINIMAL'
+   src: 'photos/services/vm-windows.png',
+   title: 'Windows Server 2019 · Active Directory & Security Lab (VM 300)',
+   titleRo: 'Windows Server 2019 · Active Directory & Lab Securitate (VM 300)',
+   category: 'ENTERPRISE VIRTUALIZATION & LAB',
+   categoryRo: 'VIRTUALIZARE ENTERPRISE & LAB',
+   description: 'Windows Server 2019 Datacenter / Standard evaluation with Massgrave KMS activation capability, provisioned for Active Directory penetration testing and academic thesis research (Ballooning: 4-8 GB).',
+   descriptionRo: 'Windows Server 2019 Datacenter / Standard cu suport activare KMS Massgrave, configurat pentru testare Active Directory, atacuri de domeniu și cercetare licență (Ballooning: 4-8 GB).',
+   endpoint: '192.168.1.300 (RDP 3389 / KVM)',
+   badge: 'WIN SERVER 2019',
+   badgeRo: 'WIN SERVER 2019'
+  },
+  {
+   src: 'photos/services/metasploitable2.png',
+   title: 'Metasploitable Lab · Vulnerable Target & Red Team (VM 301)',
+   titleRo: 'Metasploitable Lab · Țintă Vulnerabilă & Red Team (VM 301)',
+   category: 'CYBERSECURITY & PROVING GROUND',
+   categoryRo: 'SECURITATE CIBERNETICĂ & POLIGON DE TEST',
+   description: 'Dedicated Metasploitable virtual proving ground (VM 301) for penetration testing, automated exploitation workflows, and Wazuh/Suricata detection rule validation.',
+   descriptionRo: 'Mediu dedicat Metasploitable (VM 301) pentru teste de securitate ofensivă, exploit-uri automate și validarea regulilor de detecție Wazuh și Suricata.',
+   endpoint: '192.168.1.301 (Console / SSH / HTTP)',
+   badge: 'METASPLOITABLE LAB',
+   badgeRo: 'METASPLOITABLE LAB'
   },
   {
    src: 'photos/services/openstack.png',
@@ -401,7 +414,7 @@ export class AboutGalleryComponent {
    badgeRo: 'REMNUX NOBLE'
   },
   {
-   src: 'photos/services/opnsense-core.png',
+   src: 'photos/services/opnsense.png',
    title: 'OPNsense 26.1 Hardened · Core Firewall Console (VM 200)',
    titleRo: 'OPNsense 26.1 Hardened · Consolă Firewall Central (VM 200)',
    category: 'FIREWALL & CORE GATEWAY',
@@ -449,7 +462,7 @@ export class AboutGalleryComponent {
    badgeRo: '802.1Q VLANS'
   },
   {
-   src: 'photos/services/opnsense-suricata.png',
+   src: 'photos/opnsense_suricata_defense.png',
    title: 'OPNsense · Suricata 8.0 NIDS/IPS Engine',
    titleRo: 'OPNsense · Motor NIDS/IPS Suricata 8.0',
    category: 'CYBERSECURITY & THREAT DETECTION',
@@ -473,7 +486,7 @@ export class AboutGalleryComponent {
    badgeRo: 'REGULI PF'
   },
   {
-   src: 'photos/services/opnsense-wireguard.png',
+   src: 'photos/opnsense_wireguard_vpn.png',
    title: 'OPNsense · WireGuard Kernel VPN Mesh',
    titleRo: 'OPNsense · Tunel Criptografic WireGuard Kernel Mesh',
    category: 'ZERO-TRUST NETWORKING',
@@ -485,7 +498,7 @@ export class AboutGalleryComponent {
    badgeRo: 'WIREGUARD VPN'
   },
   {
-   src: 'photos/services/opnsense-unbound.png',
+   src: 'photos/opnsense_unbound_dns.png',
    title: 'OPNsense · Unbound DNS-over-TLS (DoT)',
    titleRo: 'OPNsense · Unbound DNS-over-TLS (DoT)',
    category: 'PRIVACY & DNSSEC',
@@ -500,7 +513,7 @@ export class AboutGalleryComponent {
 
  openServiceModal(s: ServiceItem) {
   this.selectedPhoto.set({
-   src: s.photo || ('photos/services/' + s.id + '.png'),
+   src: 'photos/services/' + s.id + '.png',
    title: s.name,
    titleRo: s.name,
    category: s.category.toUpperCase() + ' · ' + s.node,

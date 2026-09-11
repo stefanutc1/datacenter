@@ -20,7 +20,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 **Capacity notes:**
 
-* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, macOS Monterey, OpenIndiana, NetBSD, NixOS, DragonFly BSD, OpenStack, Metasploitable 2, T-Pot Honeypot, Haiku, Plan 9, ReactOS, Security Onion, REMnux, Redox OS, FreeDOS, RHEL, FreeBSD, OpenBSD, Talos) alongside GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, Windows Server 2019 Licență, Metasploitable Licență, RHEL 9.8, OpenStack, Metasploitable 2, T-Pot Honeypot, Security Onion, REMnux, OPNsense) alongside native Wazuh 4.14 SIEM/XDR and GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
 * The GTX 1050 Ti's 4 GB VRAM limits model size/batch size for ML experimentation and is shared with Frigate if GPU-accelerated detection is enabled for the NVR — these two workloads compete for the same VRAM budget and shouldn't be assumed to coexist at full load without checking.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 
@@ -28,8 +28,9 @@ This file describes hardware and host-level virtualization only. Service definit
 
 | Layer | Detail |
 | --- | --- |
-| Hypervisor OS | Proxmox VE 9.2 |
+| Hypervisor OS | Proxmox VE 9.2 (Debian 13 Trixie base) |
 | Kernel | Linux 7.0 version pve |
+| Native Host Security | Wazuh Manager 4.14 SIEM / XDR (Ports 1514, 1515, 55000) |
 | Networking | Tailscale (mesh VPN) |
 | Virtualization | LXC containers & QEMU VMs |
 
@@ -41,10 +42,10 @@ This host currently serves nineteen primary roles:
 2. **Machine learning experimentation** — CUDA/PyTorch, GPU-passthrough dependent on the GTX 1050 Ti above.
 3. **Backup Server (NAS)** — backup target for this host's own VMs/containers.
 4. **Home surveillance** — Frigate NVR, GPU acceleration shared with the ML role where applicable.
-5. **Apple ecosystem & CI/CD testing** — macOS Monterey 12.7 (VM 206) booted via sanitized OpenCore EFI (`/opencore/EFI`) with VirtIO memory ballooning (2–7 GB) and native Xcode build runner capabilities.
+5. **Windows Server 2019 Licență & AD DS Lab** — Windows Server 2019 (VM 300) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 64 GB NVMe with Massgrave KMS licensing integration for domain trust, GPO testing, and academic thesis research.
 6. **Solaris & illumos ZFS reference lab** — OpenIndiana Hipster (VM 207) with 3 GB RAM (VirtIO ballooning: 1.5–3 GB) and 50 GB NVMe for reference OpenZFS storage pools, Solaris Zones, and DTrace dynamic tracing.
 7. **Clean Unix & Rump kernel testing** — NetBSD 10.0 (VM 208) with 512 MB RAM (VirtIO ballooning: 256–512 MB) and 12 GB NVMe for componentized Rump kernel research and pkgsrc multi-platform packaging.
-8. **Declarative Linux & reproducible infrastructure** — NixOS 24.11 Minimal (VM 209) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 22 GB NVMe for Nix Flakes hermetic pipelines and atomic rollback verification.
+8. **Cybersecurity Proving Ground (Metasploitable Licență)** — Metasploitable Linux Target (VM 301) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for automated offensive testing and Wazuh/Suricata detection validation.
 9. **HAMMER2 journaling storage & microkernel concurrency** — DragonFly BSD 6.4 (VM 210) with 1 GB RAM (VirtIO ballooning: 512 MB - 1 GB) and 15 GB NVMe for lockless multi-core scaling and HAMMER2 cluster filesystem research.
 10. **Enterprise private cloud virtualization** — OpenStack 2024.1 Caracal (VM 211) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 32 GB NVMe for IaaS compute (Nova), SDN networking (Neutron), and Horizon Web Dashboard.
 11. **Cybersecurity vulnerability & exploit lab** — Metasploitable 2 (VM 212) with 512 MB RAM and 8 GB NVMe for penetration testing, red teaming with Metasploit Framework, and Suricata/Wazuh detection signature calibration.

@@ -42,18 +42,18 @@ for ctid in "${!LXC_TAGS[@]}"; do
     fi
 done
 
-# KVM Virtual Machines Tags Map (200 to 209)
+# KVM Virtual Machines Tags Map
 declare -A VM_TAGS=(
     [200]="firewall;freebsd;kvm;router;stefanut"
     [201]="microsoft;server;windows"
     [202]="linux;redhat;rhel"
-    [203]="apple;hackintosh;macos"
-    [204]="linux;nixos"
     [205]="cloud;horizon;iaas;neutron;node1;nova;openstack"
     [206]="cyber;metasploit;metasploitable2;penetration-testing;red-team;vm206"
     [207]="cyber;honeypot;tpot;vm207"
     [208]="blue-team;hids;log-analysis;security-onion;siem;vm208;wazuh"
     [209]="cyber;dfir;malware-analysis;remnux;reverse-engineering;vm209"
+    [300]="microsoft;server;windows;windows-server-2019;licenta;vm300"
+    [301]="cyber;licenta;metasploit;metasploitable;pentest;red-team;vm301"
 )
 
 
