@@ -50,7 +50,7 @@ Mandatory 'VIP Task Level Unlock'"]
 'Compliance Tax / Security Audit Fee Required'"]
  end
 
- Victim -->|Registers with invite_code: 888888| UI
+ Victim -->|"Registers with invite_code: 888888"| UI
  UI <--> API_CONFIG
  UI <--> API_AUTH
  API_AUTH <--> DB

@@ -74,8 +74,8 @@ flowchart LR
 ```mermaid
 flowchart TB
     subgraph WAN_Edge["Perimeter & External Ingress"]
-        CF["Cloudflare WAF / CDN"] -->|Encrypted Tunnel| VPS["VPS WireGuard Gateway"]
-        VPS -->|Dual-Homed VPN| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
+        CF["Cloudflare WAF / CDN"] -->|"Encrypted Tunnel"| VPS["VPS WireGuard Gateway"]
+        VPS -->|"Dual-Homed VPN"| OPN["OPNsense Firewall (VM 200)<br/>Suricata IDS/IPS · WireGuard · Unbound"]
     end
 
     subgraph Network_VLANs["Segmented Virtual Local Area Networks"]
@@ -92,11 +92,11 @@ flowchart TB
         Node4["Node 4: Talos Linux Worker<br/>AMD Athlon II X2 · 4GB RAM<br/>k3s-agent · eBPF Tetragon Sensor"]
     end
 
-    OPN -->|VLAN 10: 192.168.1.0/24| V10
-    OPN -->|VLAN 20: 192.168.20.0/24| V20
-    OPN -->|VLAN 30: 192.168.30.0/24| V30
-    OPN -->|VLAN 40: 192.168.40.0/24| V40
-    OPN -->|VLAN 50: 192.168.50.0/24| V50
+    OPN -->|"VLAN 10: 192.168.1.0/24"| V10
+    OPN -->|"VLAN 20: 192.168.20.0/24"| V20
+    OPN -->|"VLAN 30: 192.168.30.0/24"| V30
+    OPN -->|"VLAN 40: 192.168.40.0/24"| V40
+    OPN -->|"VLAN 50: 192.168.50.0/24"| V50
 
     V10 -.-> Node1
     V10 -.-> Node2
@@ -567,19 +567,19 @@ flowchart TD
         ThreatFeed["AbuseIPDB & Threat Intel Sync"]
     end
 
-    Attacker -->|Probes Port 22, 445, 3389, 5060| TPot
-    Attacker -->|Perimeter Ingress| OPN
-    OPN -->|Defense-in-Depth Inspection| PVEFW
-    ScamNet -.->|Case Studies & IoCs| Remnux
+    Attacker -->|"Probes Port 22, 445, 3389, 5060"| TPot
+    Attacker -->|"Perimeter Ingress"| OPN
+    OPN -->|"Defense-in-Depth Inspection"| PVEFW
+    ScamNet -.->|"Case Studies & IoCs"| Remnux
 
-    TPot -->|Decoy Telemetry| Wazuh
-    Tetra -->|Kernel Anomaly Events| Wazuh
-    PVEFW -->|NetFlow / Syslog| SecOnion
-    OPN -->|Alerts| Wazuh
+    TPot -->|"Decoy Telemetry"| Wazuh
+    Tetra -->|"Kernel Anomaly Events"| Wazuh
+    PVEFW -->|"NetFlow / Syslog"| SecOnion
+    OPN -->|"Alerts"| Wazuh
 
-    Wazuh -->|Correlated High-Severity Alert| SOAR
-    SOAR -->|1. Inject IPset / Null-Route| FirewallAPI
-    SOAR -->|2. Report Malicious Source| ThreatFeed
+    Wazuh -->|"Correlated High-Severity Alert"| SOAR
+    SOAR -->|"1. Inject IPset / Null-Route"| FirewallAPI
+    SOAR -->|"2. Report Malicious Source"| ThreatFeed
 ```
 
 ---
