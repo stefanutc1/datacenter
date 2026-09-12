@@ -1002,6 +1002,26 @@ module "lxc_grocy" {
   tags         = ["inventory", "groceries", "erp", "pantry", "terraform", "node1"]
 }
 
+module "lxc_owasp" {
+  source       = "./modules/proxmox_lxc"
+  target_node  = var.primary_node
+  vmid         = 175
+  hostname     = "owasp"
+  ostemplate   = var.alpine_template
+  ostype       = "alpine"
+  cores        = 2
+  memory       = 512
+  disk_size    = "8G"
+  ip_address   = "192.168.1.175/24"
+  gateway      = var.gateway_ip
+  nameserver   = var.nameserver_ip
+  vlan_tag     = 20
+  unprivileged = true
+  onboot       = false
+  tags         = ["cyber", "docker", "juice-shop", "owasp", "security", "web", "terraform", "node1"]
+}
+
+
 # ------------------------------------------------------------------------------
 # Enterprise Networking, Proxmox SDN, Dual-Firewall & Hybrid Cloud Tunnel
 # ==============================================================================

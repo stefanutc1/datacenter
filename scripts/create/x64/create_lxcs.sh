@@ -665,9 +665,15 @@ create_or_skip_lxc 173 "miniflux"   "$ALPINE_TMPL"   --hostname "miniflux"   --c
 # ------------------------------------------------------------------------------
 create_or_skip_lxc 174 "grocy"   "$ALPINE_TMPL"   --hostname "grocy"   --cores 1   --memory 128   --swap 128   --rootfs "$STORAGE:2G"   --net0 "name=eth0,bridge=$BRIDGE,gw=$GATEWAY,ip=192.168.1.174/24,type=veth"   --features "nesting=1,keyctl=1"   --unprivileged 1   --ostype "alpine"   --onboot 0   --tags "inventory;groceries;erp"   --description "Enterprise resource planning (ERP) system for household grocery and pantry tracking."
 
+# ------------------------------------------------------------------------------
+# CT 175: owasp
+# ------------------------------------------------------------------------------
+create_or_skip_lxc 175 "owasp"   "$ALPINE_TMPL"   --hostname "owasp"   --cores 2   --memory 512   --swap 256   --rootfs "$STORAGE:8G"   --net0 "name=eth0,bridge=$BRIDGE,gw=$GATEWAY,ip=192.168.1.175/24,type=veth"   --features "nesting=1"   --unprivileged 1   --ostype "alpine"   --onboot 0   --tags "alpine;cyber;docker;juice-shop;owasp;security;web"   --description "OWASP Juice Shop Vulnerable Web App Container (Alpine LXC + Docker)"
+
 echo ""
 echo -e "======================================================================"
-echo -e "  All 75 Containers (100-174) Processed Successfully on Node 1 (x86)! "
+echo -e "  All 76 Containers (100-175) Processed Successfully on Node 1 (x86)! "
 echo -e "======================================================================"
 echo ""
 pct list
+

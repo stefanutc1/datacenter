@@ -1,8 +1,8 @@
-# Active Directory Multi-Generation Enterprise Laboratory (VM 400 – 408)
+# Active Directory Multi-Generation Enterprise Laboratory (VM 400 – 409)
 
 ## 1. Executive Summary & Lab Scope
 
-The **Active Directory Multi-Generation Enterprise Laboratory** is a specialized, production-parity identity and domain infrastructure deployed on **Proxmox VE Node 1 (Intel Core i3-10100F · x86_64)**. Spanning six Windows Server releases (2025 down to 2008 R2 SP1), two modern Windows client operating systems (Windows 10 & Windows 11 Enterprise), and enterprise Linux domain integration (Red Hat Enterprise Linux 9.8), this testbed facilitates deep research into:
+The **Active Directory Multi-Generation Enterprise Laboratory** is a specialized, production-parity identity and domain infrastructure deployed on **Proxmox VE Node 1 (Intel Core i3-10100F · x86_64)**. Spanning six Windows Server releases (2025 down to 2008 R2 SP1), three Windows client operating systems (Windows 7 Ultimate SP1, Windows 10 & Windows 11 Enterprise), and enterprise Linux domain integration (Red Hat Enterprise Linux 9.8), this testbed facilitates deep research into:
 
 1. **Cross-Forest & Inter-Domain Trusts**: Transitive two-way trusts, forest federation, and selective authentication.
 2. **Active Directory Domain Services (AD DS) Functional Levels**: Migration pathways from legacy schemas (Windows Server 2008 R2 level) through 2012 R2, 2016, 2019, 2022, and the new Windows Server 2025 functional level.
@@ -27,7 +27,8 @@ All installation media are sourced directly from genuine Microsoft distribution 
 | **405** | `ad2008` | Windows Server 2008 R2 SP1 Standard | 2 vCPU | 2,048 MB / 1,024 MB | 40 GB VirtIO SCSI (`local-lvm`) | `i440fx` · SeaBIOS | `virtio`, `vmbr0` (VLAN 1) | `windows_server_2008_r2_x64.iso` |
 | **406** | `adwin10` | Windows 10 Enterprise | 2 vCPU | 3,072 MB / 2,048 MB | 50 GB VirtIO SCSI (`local-lvm`) | `q35` · SeaBIOS | `virtio`, `vmbr0` (VLAN 1) | `windows_10_x64.iso` |
 | **407** | `adwin11` | Windows 11 Enterprise | 2 vCPU | 4,096 MB / 2,048 MB | 60 GB VirtIO SCSI (`local-lvm`) | `q35` · OVMF UEFI · vTPM 2.0 | `virtio`, `vmbr0` (VLAN 1) | `windows_11_x64.iso` |
-| **408** | `adrhel` | Red Hat Enterprise Linux 9.8 | 2 vCPU | 2,048 MB / 1,024 MB | 50 GB VirtIO SCSI (`local-lvm`) | `q35` · OVMF UEFI | `virtio`, `vmbr0` (VLAN 1) | `rhel-9.8-x86_64-boot.iso` |
+| **408** | `adwin7` | Windows 7 Ultimate SP1 | 2 vCPU | 2,048 MB / 1,024 MB | 50 GB VirtIO SCSI (`local-lvm`) | `pc` (i440fx) · SeaBIOS | `virtio`, `vmbr0` (VLAN 1) | `windows_7_sp1_x64.iso` |
+| **409** | `adrhel` | Red Hat Enterprise Linux 9.8 | 2 vCPU | 2,048 MB / 1,024 MB | 50 GB VirtIO SCSI (`local-lvm`) | `q35` · OVMF UEFI | `virtio`, `vmbr0` (VLAN 1) | `rhel-9.8-x86_64-boot.iso` |
 
 ---
 
@@ -48,9 +49,10 @@ flowchart TD
     end
 
     subgraph CLIENTS_AND_WORKLOADS["Enterprise Member Clients & Linux Workloads"]
+        VM408["VM 408: adwin7<br/><b>Win 7 Ultimate SP1 Client</b><br/>Legacy NTLM / SMBv1 Testing"]
         VM406["VM 406: adwin10<br/><b>Win 10 Enterprise Client</b><br/>GPO Application & AppLocker Target"]
         VM407["VM 407: adwin11<br/><b>Win 11 Enterprise Modern Client</b><br/>vTPM 2.0 · Credential Guard · WHfB"]
-        VM408["VM 408: adrhel<br/><b>RHEL 9.8 Enterprise Domain Workload</b><br/>SSSD · Realmd · Kerberos Keytab Auth"]
+        VM409["VM 409: adrhel<br/><b>RHEL 9.8 Enterprise Domain Workload</b><br/>SSSD · Realmd · Kerberos Keytab Auth"]
     end
 
     VM400 <==>|"Active Directory Replication (DRS RPC)"| VM401
@@ -59,9 +61,10 @@ flowchart TD
     VM403 <==>|"Legacy Replication"| VM404
     VM404 <==>|"RPC / SMBv1 Compatibility"| VM405
 
+    VM408 -.->|"Domain Join / NetBIOS"| VM400
     VM406 -.->|"Domain Join / Group Policy"| VM400
     VM407 -.->|"Domain Join / Hello Authentication"| VM400
-    VM408 -.->|"SSSD Domain Join / PAM Kerberos"| VM400
+    VM409 -.->|"SSSD Domain Join / PAM Kerberos"| VM400
 ```
 
 ---

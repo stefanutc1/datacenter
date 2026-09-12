@@ -194,6 +194,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
       },
       { 
         vmid: 408, 
+        name: 'adwin7', 
+        os: 'Windows 7 Ultimate SP1', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Active Directory Enterprise Lab - Windows 7 Ultimate SP1 Legacy Client (NTLMv2 & SMBv1 Testing)',
+        purposeRo: 'Laborator Enterprise Active Directory - Stație Client Windows 7 Ultimate SP1 Moștenită (Testare NTLMv2 & SMBv1)'
+      },
+      { 
+        vmid: 409, 
         name: 'adrhel', 
         os: 'RHEL 9.8 Enterprise', 
         allocatedMb: 2048, 
@@ -212,7 +221,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 301: Metasploitable Licență (Bachelor Thesis / Lucrare de Licență · 2048 MB / Balloon: 1024 MB · 20 GB NVMe · Pentest & Wazuh Rules Lab)',
       'VM 302: Kali Licență (Bachelor Thesis / Lucrare de Licență · 4096 MB / Balloon: 2048 MB · 30 GB NVMe · Isolated vmbr1 Pentest)',
       'CT 303: OWASP Licență (Bachelor Thesis / Lucrare de Licență · 512 MB · 8 GB NVMe · Alpine LXC Docker Container on vmbr1)',
-      'VM 400-408: Active Directory Lab Fleet: ad2025 (VM 400, GTX 1050 Ti Passthrough, 256 GB), ad2022 (VM 401), ad2019 (VM 402, 128 GB), ad2016 (VM 403), ad2012 (VM 404), ad2008 (VM 405), adwin10 (VM 406), adwin11 (VM 407), adrhel (VM 408) · Multi-Generation Windows & Linux Active Directory Enterprise Lab',
+      'VM 400-409: Active Directory Lab Fleet: ad2025 (VM 400, GTX 1050 Ti Passthrough, 256 GB), ad2022 (VM 401), ad2019 (VM 402, 128 GB), ad2016 (VM 403), ad2012 (VM 404), ad2008 (VM 405), adwin7 (VM 408), adwin10 (VM 406), adwin11 (VM 407), adrhel (VM 409) · Multi-Generation Windows & Linux Active Directory Enterprise Lab',
       'CT 100-105: Core Infrastructure & Media: Immich AI (CT 100), Nextcloud Hub (CT 101), Home Assistant (CT 102), n8n Workflows (CT 103), Scrutiny SMART (CT 104), Media-Suite (CT 105)',
       'CT 106-107: Ollama GPU LLM Server (CT 106) & Open-WebUI Assistant (CT 107) (CUDA GTX 1050 Ti Passthrough)',
       'CT 108: Faster-Whisper GPU Speech-to-Text Transcriber (CT 108 · CUDA Accelerated)',
@@ -222,7 +231,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'CT 112: Proxmox Backup Server (PBS Enterprise Deduplication & Verification · CT 112)',
       'CT 113: Proxmox Datacenter Manager (PDM Multi-Cluster Fleet UI · CT 113)',
       'CT 114: Woodpecker CI Server & Runner on Alpine Linux backed by k0s Kubernetes Engine (CT 114)',
-      'CT 115-174: Consolidated Utilities & Self-Hosted Microservices (onboot: 0 · IT-Tools, Actual Budget, Trilium, ChangeDetection, Uptime Kuma, Vaultwarden, Monitoring, Authelia, Gitea, Gatus, Ntfy, Linkding, Step-CA, Beszel, PocketBase, Homepage, Speedtest, Memos, Wallos, Syncthing, Microbin, Vikunja, Blackbox, YourSpotify, WebCheck, OpenGist, Flatnotes, Whoogle, Shlink, Pingvin-Share, RSS-Bridge, Excalidraw, Renovate, Transmission, Kavita, Stirling-PDF, Audiobookshelf, Calibre-Web, Kiwix, RomM, EmulatorJS, TubeArchivist, Kopia, Paperless-ngx, MinIO, pgAdmin, Meilisearch, Vector, Dozzle, NetAlertX, RustDesk, WG-Easy, Vault, Draw.io, CyberChef, HedgeDoc, Glances, Gotify, Miniflux, Grocy)'
+      'CT 115-175: Consolidated Utilities & Self-Hosted Microservices (onboot: 0 · IT-Tools, Actual Budget, Trilium, ChangeDetection, Uptime Kuma, Vaultwarden, Monitoring, Authelia, Gitea, Gatus, Ntfy, Linkding, Step-CA, Beszel, PocketBase, Homepage, Speedtest, Memos, Wallos, Syncthing, Microbin, Vikunja, Blackbox, YourSpotify, WebCheck, OpenGist, Flatnotes, Whoogle, Shlink, Pingvin-Share, RSS-Bridge, Excalidraw, Renovate, Transmission, Kavita, Stirling-PDF, Audiobookshelf, Calibre-Web, Kiwix, RomM, EmulatorJS, TubeArchivist, Kopia, Paperless-ngx, MinIO, pgAdmin, Meilisearch, Vector, Dozzle, NetAlertX, RustDesk, WG-Easy, Vault, Draw.io, CyberChef, HedgeDoc, Glances, Gotify, Miniflux, Grocy, OWASP Juice Shop)'
     ]
   },
   {

@@ -20,7 +20,7 @@ This file describes hardware and host-level virtualization only. Service definit
 
 **Capacity notes:**
 
-* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (OpenStack, Metasploitable 2, T-Pot Honeypot, Security Onion, REMnux, OPNsense, Bachelor Thesis targets 301-302, and the Active Directory Enterprise Lab 400-408) alongside native Wazuh 4.14 SIEM/XDR and GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (OpenStack, Metasploitable 2, T-Pot Honeypot, Security Onion, REMnux, OPNsense, Bachelor Thesis targets 301-302, and the Active Directory Enterprise Lab 400-409) alongside native Wazuh 4.14 SIEM/XDR and GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
 * The GTX 1050 Ti's 4 GB VRAM is dedicated to Windows Server 2025 Datacenter (VM 400) via PCIe passthrough, providing full GPU acceleration for remote desktop and graphics compute.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 
@@ -49,7 +49,7 @@ This host currently serves three primary virtualization tiers:
    - **VM 301**: Metasploitable Linux Target for thesis offensive testing and detection engineering.
    - **VM 302**: Kali Linux Rolling offensive security and red teaming workstation.
    - **CT 303**: OWASP Juice Shop vulnerable web application container.
-3. **Active Directory Enterprise Lab (VM 400–408)**:
+3. **Active Directory Enterprise Lab (VM 400–409)**:
    - **VM 400**: Windows Server 2025 Datacenter Domain Controller (256 GB NVMe, GTX 1050 Ti PCIe passthrough, OVMF UEFI).
    - **VM 401**: Windows Server 2022 Datacenter Domain Controller.
    - **VM 402**: Windows Server 2019 Standard Domain Controller (128 GB NVMe, Q35, OVMF UEFI).
@@ -58,7 +58,8 @@ This host currently serves three primary virtualization tiers:
    - **VM 405**: Windows Server 2008 R2 SP1 Standard Domain Controller.
    - **VM 406**: Windows 10 Enterprise Domain Member Client.
    - **VM 407**: Windows 11 Enterprise Modern Client (vTPM 2.0, Credential Guard).
-   - **VM 408**: Red Hat Enterprise Linux 9.8 Enterprise Domain Workload (SSSD, Realmd, Kerberos Keytab).
+   - **VM 408**: Windows 7 Ultimate SP1 Domain Member Client.
+   - **VM 409**: Red Hat Enterprise Linux 9.8 Enterprise Domain Workload (SSSD, Realmd, Kerberos Keytab).
 
 ---
 

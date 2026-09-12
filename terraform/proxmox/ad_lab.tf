@@ -1,7 +1,7 @@
 # ==============================================================================
-# ACTIVE DIRECTORY LAB INFRASTRUCTURE (FLEET 400 - 408)
+# ACTIVE DIRECTORY LAB INFRASTRUCTURE (FLEET 400 - 409)
 # Multi-Generation Active Directory Enterprise Laboratory
-# Windows Server 2025, 2022, 2019, 2016, 2012 R2, 2008 R2, Win 10, Win 11, RHEL 9.8
+# Windows Server 2025, 2022, 2019, 2016, 2012 R2, 2008 R2, Win 7, Win 10, Win 11, RHEL 9.8
 # Provider: bpg/proxmox (Proxmox VE REST API)
 # Node: Node 1 (x86_64)
 # ==============================================================================
@@ -135,11 +135,27 @@ module "vm_adwin11" {
   tags         = ["active-directory", "adwin11", "client", "domain-client", "microsoft", "terraform", "windows11"]
 }
 
-# VM 408: Red Hat Enterprise Linux 9.8 Workload (Active Directory Integrated)
-module "vm_adrhel" {
+# VM 408: Windows 7 Ultimate SP1 Domain Member Client
+module "vm_adwin7" {
   source       = "../modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 408
+  name         = "adwin7"
+  description  = "Active Directory Lab - Windows 7 Ultimate SP1 Domain Member Client"
+  cores        = 2
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 50
+  storage_pool = "local-lvm"
+  onboot       = false
+  tags         = ["active-directory", "adwin7", "client", "domain-client", "microsoft", "terraform", "windows7"]
+}
+
+# VM 409: Red Hat Enterprise Linux 9.8 Workload (Active Directory Integrated)
+module "vm_adrhel" {
+  source       = "../modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 409
   name         = "adrhel"
   description  = "Active Directory Lab - Red Hat Enterprise Linux 9.8 Domain Workload (SSSD / Realm Join, Kerberos)"
   cores        = 2
@@ -150,3 +166,4 @@ module "vm_adrhel" {
   onboot       = false
   tags         = ["active-directory", "adrhel", "linux", "redhat", "rhel", "sssd", "terraform"]
 }
+

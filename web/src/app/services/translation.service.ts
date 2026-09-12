@@ -133,7 +133,7 @@ const EN_TRANSLATIONS: Translations = {
   
   metricVirtTitle: 'VIRTUALIZATION',
   metricVirtCount: '1 Hypervisor',
-  metricVirtDesc: 'Proxmox VE x86_64 hosting OPNsense, OpenStack, cyber fleet (VM 200-205), Bachelor Thesis research lab (VM 301-302, CT 303), Active Directory lab fleet (VM 400-408), and 75 LXC containers.',
+  metricVirtDesc: 'Proxmox VE x86_64 hosting OPNsense, OpenStack, cyber fleet (VM 200-205), Bachelor Thesis research lab (VM 301-302, CT 303), Active Directory lab fleet (VM 400-409), and 76 LXC containers.',
   
   metricServicesTitle: 'ACTIVE SERVICES & MULTI-CLOUD',
   metricServicesCount: '90 Services · 3 Clouds',

@@ -1668,11 +1668,38 @@ export const SERVICES_DATA: ServiceItem[] = [
     "composeCode": "# Air-gapped DFIR VM: CAPEv2 · Cuckoo · Autopsy · Volatility · Ghidra · IDA · x64dbg · INetSim"
   },
   {
+    "id": "vm-adwin7",
+    "name": "Windows 7 Ultimate SP1 (AD Domain Client)",
+    "category": "core",
+    "containerName": "adwin7",
+    "node": "Node 1 (Intel i3-10100F) · VM 408",
+    "ram": "2,048 MB",
+    "storage": "50 GB NVMe",
+    "ip": "192.168.1.207",
+    "port": 3389,
+    "domain": "adwin7.homelab.local",
+    "status": "STANDBY",
+    "description": "Active Directory enterprise laboratory legacy workstation. Windows 7 Ultimate SP1 joined to Active Directory domain for legacy NTLMv2 fallback, SMBv1/v2 compatibility testing, and GPO policy evaluation.",
+    "descriptionRo": "Stație client moștenită în laboratorul enterprise Active Directory. Windows 7 Ultimate SP1 integrat în domeniu pentru testarea compatibilității NTLMv2, SMBv1/v2 și evaluarea politicilor GPO.",
+    "tags": [
+      "Active Directory",
+      "Windows 7",
+      "Legacy Client",
+      "NTLMv2",
+      "SMBv1",
+      "GPO",
+      "VM 408"
+    ],
+    "color": "#0078d7",
+    "icon": "windows",
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 408) · Active Directory Lab\n# Machine: i440fx (pc) · BIOS: SeaBIOS · OS: Windows 7 SP1\ncores: 2\nmemory: 2048\nballoon: 1024\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-408-disk-0,iothread=1,size=50G\nnet0: virtio,bridge=vmbr0,firewall=1"
+  },
+  {
     "id": "vm-adrhel",
     "name": "Red Hat Enterprise Linux 9.8 (AD Domain Member)",
     "category": "core",
     "containerName": "adrhel",
-    "node": "Node 1 (Intel i3-10100F) · VM 408",
+    "node": "Node 1 (Intel i3-10100F) · VM 409",
     "ram": "2,048 MB",
     "storage": "50 GB NVMe",
     "ip": "192.168.1.208",
@@ -1688,12 +1715,13 @@ export const SERVICES_DATA: ServiceItem[] = [
       "realmd",
       "SSSD",
       "SELinux",
-      "VM 408"
+      "VM 409"
     ],
     "color": "#ee0000",
     "icon": "rhel",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 408) · Active Directory Lab\n# Machine: Q35 · BIOS: OVMF UEFI · OS: RHEL 9.8\ncores: 2\nmemory: 2048\nballoon: 1024\nmachine: pc-q35-11.0+pve2\nbios: ovmf\nefidisk0: local-lvm:vm-408-disk-1,efitype=4m,ms-cert=2023k,pre-enrolled-keys=1,size=4M\nscsi0: local-lvm:vm-408-disk-0,iothread=1,size=50G\nnet0: virtio=BC:24:11:90:3B:58,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 409) · Active Directory Lab\n# Machine: Q35 · BIOS: OVMF UEFI · OS: RHEL 9.8\ncores: 2\nmemory: 2048\nballoon: 1024\nmachine: pc-q35-11.0+pve2\nbios: ovmf\nefidisk0: local-lvm:vm-409-disk-1,efitype=4m,ms-cert=2023k,pre-enrolled-keys=1,size=4M\nscsi0: local-lvm:vm-409-disk-0,iothread=1,size=50G\nnet0: virtio=BC:24:11:90:3B:58,bridge=vmbr0,firewall=1"
   },
+
   {
     "id": "proxmox-backup-server",
     "name": "Proxmox Backup Server (PBS)",
@@ -1940,6 +1968,32 @@ export const SERVICES_DATA: ServiceItem[] = [
     "icon": "shield",
     "composeCode": "services:\n  juice-shop:\n    image: bkimminich/juice-shop:v17.1.1\n    container_name: owasp-licenta\n    restart: unless-stopped\n    ports:\n      - '3000:3000'"
   },
+  {
+    "id": "lxc-owasp",
+    "name": "OWASP Juice Shop (Security Vulnerability Lab)",
+    "category": "cyber",
+    "containerName": "owasp",
+    "node": "Node 1 (Intel i3-10100F) · CT 175",
+    "ram": "512 MB",
+    "storage": "8 GB NVMe",
+    "ip": "192.168.1.175",
+    "port": 3000,
+    "domain": "owasp-core.homelab.local",
+    "status": "ONLINE",
+    "description": "Standard homelab security vulnerability testing target. Alpine Linux 3.24 LXC container with Docker nesting running OWASP Juice Shop on vmbr0 for web security research and defensive validation.",
+    "descriptionRo": "Țintă standard de testare a vulnerabilităților web în homelab. Container LXC Alpine Linux 3.24 cu suport Docker nesting, rulând OWASP Juice Shop pe vmbr0 pentru cercetare în securitate web și validare defensivă.",
+    "tags": [
+      "CyberLab",
+      "Vulnerability Target",
+      "OWASP Juice Shop",
+      "Docker Nesting",
+      "CT 175"
+    ],
+    "color": "#ef4444",
+    "icon": "shield",
+    "composeCode": "services:\n  juice-shop:\n    image: bkimminich/juice-shop:v17.1.1\n    container_name: owasp\n    restart: unless-stopped\n    ports:\n      - '3000:3000'"
+  },
+
   {
     "id": "vm-ad2025",
     "name": "Windows Server 2025 (Active Directory PDC)",

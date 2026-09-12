@@ -370,9 +370,29 @@ create_or_skip_vm 407 "adwin11" \
   --tags "active-directory;adwin11;client;domain-client;microsoft;vm407;windows11"
 
 # ------------------------------------------------------------------------------
-# VM 408: adrhel (Red Hat Enterprise Linux 9.8 Domain Workload)
+# VM 408: adwin7 (Windows 7 Ultimate SP1 Domain Member Client)
 # ------------------------------------------------------------------------------
-create_or_skip_vm 408 "adrhel" \
+create_or_skip_vm 408 "adwin7" \
+  --name "adwin7" \
+  --description "Active Directory Lab - Windows 7 Ultimate SP1 Domain Member Client" \
+  --memory 2048 \
+  --balloon 1024 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine pc \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:50,iothread=1" \
+  --ide2 "$ISO_STORAGE/windows_7_sp1_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win7 \
+  --tags "activedirectory;adlab;client;microsoft;windows;windows-7"
+
+# ------------------------------------------------------------------------------
+# VM 409: adrhel (Red Hat Enterprise Linux 9.8 Domain Workload)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 409 "adrhel" \
   --name "adrhel" \
   --description "Active Directory Lab - Red Hat Enterprise Linux 9.8 Domain Workload (SSSD / Realm Join, Kerberos)" \
   --memory 2048 \
@@ -388,7 +408,8 @@ create_or_skip_vm 408 "adrhel" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
-  --tags "active-directory;adrhel;linux;redhat;rhel;sssd;vm408"
+  --tags "activedirectory;adlab;linux;redhat;rhel;rhel-9"
+
 
 
 echo ""
