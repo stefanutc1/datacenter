@@ -219,6 +219,8 @@ memory: 2048
 balloon: 1024
 machine: pc-i440fx-11.0+pve2
 scsi0: local-lvm:vm-408-disk-0,iothread=1,size=50G
+ide0: local:iso/virtioVECHI.iso,media=cdrom
+ide2: local:iso/windows_7_sp1_x64.iso,media=cdrom
 net0: virtio,bridge=vmbr0,firewall=1`},{id:"vm-adrhel",name:"Red Hat Enterprise Linux 9.8 (AD Domain Member)",category:"core",containerName:"adrhel",node:"Node 1 (Intel i3-10100F) \xB7 VM 409",ram:"2,048 MB",storage:"50 GB NVMe",ip:"192.168.1.208",port:22,domain:"adrhel.homelab.local",status:"STANDBY",description:"Active Directory enterprise laboratory domain member. Red Hat Enterprise Linux 9.8 joined to AD via realmd/SSSD, Kerberos single sign-on, and strict SELinux Enforcing policies.",descriptionRo:"Membru de domeniu \xEEn laboratorul enterprise Active Directory. Red Hat Enterprise Linux 9.8 integrat prin realmd/SSSD, autentificare unic\u0103 Kerberos (SSO) \u0219i politici stricte SELinux Enforcing.",tags:["Active Directory","RHEL 9.8","Enterprise Linux","realmd","SSSD","SELinux","VM 409"],color:"#ee0000",icon:"rhel",composeCode:`# Proxmox VE QEMU/KVM Configuration (VM 409) \xB7 Active Directory Lab
 # Machine: Q35 \xB7 BIOS: OVMF UEFI \xB7 OS: RHEL 9.8
 cores: 2
@@ -326,8 +328,8 @@ net0: virtio=BC:24:11:48:0E:3F,bridge=vmbr0,firewall=1`},{id:"vm-ad2012",name:"W
 cores: 2
 memory: 2048
 machine: pc-i440fx-11.0+pve2
-scsi0: local-lvm:vm-404-disk-0,iothread=1,size=40G
-ide0: local:iso/virtio-win.iso,media=cdrom
+sata0: local-lvm:vm-404-disk-0,size=40G
+ide0: local:iso/virtioVECHI.iso,media=cdrom
 ide2: local:iso/windows_server_2012_r2_x64.iso,media=cdrom
 net0: virtio=BC:24:11:ED:93:04,bridge=vmbr0,firewall=1`},{id:"vm-ad2008",name:"Windows Server 2008 R2 (Active Directory DC)",category:"core",containerName:"ad2008",node:"Node 1 (Intel i3-10100F) \xB7 VM 405",ram:"2,048 MB",storage:"40 GB NVMe",ip:"192.168.1.208",port:3389,domain:"ad2008.homelab.local",status:"STANDBY",description:"Multi-generation Active Directory enterprise laboratory legacy DC. Windows Server 2008 R2 SP1 Standard for legacy protocol testing (NTLMv1/v2, SMBv1 deprecation, Kerberos RC4-HMAC migration).",descriptionRo:"Controller de domeniu legacy pentru laboratorul enterprise Active Directory. Windows Server 2008 R2 SP1 Standard pentru testarea protocoalelor vechi (NTLMv1/v2, renun\u021Barea la SMBv1, migrare de la Kerberos RC4-HMAC).",tags:["Active Directory","Windows Server 2008 R2","Domain Controller","Legacy Security","Massgrave Genuine","VM 405"],color:"#0078d4",icon:"windows",composeCode:`# Proxmox VE QEMU/KVM Configuration (VM 405) \xB7 Active Directory Lab
 # Machine: i440fx \xB7 OS: Windows Server 2008 R2 SP1 Standard
@@ -335,7 +337,7 @@ cores: 2
 memory: 2048
 machine: pc-i440fx-11.0+pve2
 scsi0: local-lvm:vm-405-disk-0,iothread=1,size=40G
-ide0: local:iso/virtio-win.iso,media=cdrom
+ide0: local:iso/virtioVECHI.iso,media=cdrom
 ide2: local:iso/windows_server_2008_r2_x64.iso,media=cdrom
 net0: virtio=BC:24:11:AE:F2:EA,bridge=vmbr0,firewall=1`},{id:"vm-adwin10",name:"Windows 10 Enterprise (AD Domain Client)",category:"core",containerName:"adwin10",node:"Node 1 (Intel i3-10100F) \xB7 VM 406",ram:"3,072 MB",storage:"50 GB NVMe",ip:"192.168.1.217",port:3389,domain:"adwin10.homelab.local",status:"STANDBY",description:"Active Directory enterprise laboratory workstation client. Windows 10 Enterprise joined to the domain for testing Group Policy Objects (GPO), AppLocker rules, BitLocker recovery, and Sysmon telemetry.",descriptionRo:"Sta\u021Bie client workstation pentru laboratorul enterprise Active Directory. Windows 10 Enterprise integrat \xEEn domeniu pentru testarea obiectelor de politic\u0103 de grup (GPO), reguli AppLocker, BitLocker \u0219i telemetrie Sysmon.",tags:["Active Directory","Windows 10 Enterprise","Domain Client","Workstation","GPO Target","Massgrave Genuine","VM 406"],color:"#0078d4",icon:"windows",composeCode:`# Proxmox VE QEMU/KVM Configuration (VM 406) \xB7 Active Directory Lab
 # Machine: Q35 \xB7 OS: Windows 10 Enterprise Edition
