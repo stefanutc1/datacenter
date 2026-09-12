@@ -1692,7 +1692,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#0078d7",
     "icon": "windows",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 408) · Active Directory Lab\n# Machine: i440fx (pc) · BIOS: SeaBIOS · OS: Windows 7 SP1\ncores: 2\nmemory: 2048\nballoon: 1024\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-408-disk-0,iothread=1,size=50G\nnet0: virtio,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 408) · Active Directory Lab\n# Machine: i440fx (pc) · BIOS: SeaBIOS · OS: Windows 7 SP1\ncores: 2\nmemory: 2048\nballoon: 1024\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-408-disk-0,iothread=1,size=50G\nide0: local:iso/virtioVECHI.iso,media=cdrom\nide2: local:iso/windows_7_sp1_x64.iso,media=cdrom\nnet0: virtio,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-adrhel",
@@ -2127,7 +2127,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#0078d4",
     "icon": "windows",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 404) · Active Directory Lab\n# Machine: i440fx · OS: Windows Server 2012 R2 Standard\ncores: 2\nmemory: 2048\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-404-disk-0,iothread=1,size=40G\nide0: local:iso/virtio-win.iso,media=cdrom\nide2: local:iso/windows_server_2012_r2_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:ED:93:04,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 404) · Active Directory Lab\n# Machine: i440fx · OS: Windows Server 2012 R2 Standard\ncores: 2\nmemory: 2048\nmachine: pc-i440fx-11.0+pve2\nsata0: local-lvm:vm-404-disk-0,size=40G\nide0: local:iso/virtioVECHI.iso,media=cdrom\nide2: local:iso/windows_server_2012_r2_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:ED:93:04,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-ad2008",
@@ -2153,7 +2153,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#0078d4",
     "icon": "windows",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 405) · Active Directory Lab\n# Machine: i440fx · OS: Windows Server 2008 R2 SP1 Standard\ncores: 2\nmemory: 2048\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-405-disk-0,iothread=1,size=40G\nide0: local:iso/virtio-win.iso,media=cdrom\nide2: local:iso/windows_server_2008_r2_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:AE:F2:EA,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 405) · Active Directory Lab\n# Machine: i440fx · OS: Windows Server 2008 R2 SP1 Standard\ncores: 2\nmemory: 2048\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-405-disk-0,iothread=1,size=40G\nide0: local:iso/virtioVECHI.iso,media=cdrom\nide2: local:iso/windows_server_2008_r2_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:AE:F2:EA,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-adwin10",
