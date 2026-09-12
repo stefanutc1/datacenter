@@ -2,7 +2,7 @@
 # ==============================================================================
 # Datacenter Fleet Automation: Provision all Virtual Machines on Node 1 (x86_64)
 # Target Host: Node 1 Primary Proxmox VE (x86_64 / amd64)
-# Inventory: Enterprise Virtual Machines (VMs 200-207, 300, 301)
+# Inventory: Enterprise Virtual Machines (VMs 200-205, 301, 302, 400-408)
 # ==============================================================================
 set -euo pipefail
 
@@ -91,43 +91,9 @@ create_or_skip_vm 200 "opnsense" \
   --tags "firewall;freebsd;kvm;router;stefanut"
 
 # ------------------------------------------------------------------------------
-# VM 201: windows
+# VM 201: openstack
 # ------------------------------------------------------------------------------
-create_or_skip_vm 201 "windows" \
-  --name "windows" \
-  --memory 8192 \
-  --balloon 4096 \
-  --cores 4 \
-  --cpu host \
-  --ide0 "$STORAGE:256" \
-  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/en-us_windows_server_2025_updated_aug_2026_x64_dvd_b0833651.iso,media=cdrom" \
-  --boot "order=ide0;ide2;net0" \
-  --ostype win11 \
-  --tags "microsoft;server;windows"
-
-# ------------------------------------------------------------------------------
-# VM 202: rhel
-# ------------------------------------------------------------------------------
-create_or_skip_vm 202 "rhel" \
-  --name "rhel" \
-  --memory 2048 \
-  --balloon 1024 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
-  --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:50,iothread=1" \
-  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
-  --ide2 "$ISO_STORAGE/rhel-9.8-x86_64-boot.iso,media=cdrom" \
-  --boot "order=scsi0;ide2;net0" \
-  --ostype l26 \
-  --tags "linux;redhat;rhel"
-
-
-# ------------------------------------------------------------------------------
-# VM 203: openstack
-# ------------------------------------------------------------------------------
-create_or_skip_vm 203 "openstack" \
+create_or_skip_vm 201 "openstack" \
   --name "openstack" \
   --memory 4096 \
   --balloon 2048 \
@@ -138,12 +104,12 @@ create_or_skip_vm 203 "openstack" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=scsi0;net0" \
   --ostype l26 \
-  --tags "cloud;horizon;iaas;neutron;node1;nova;openstack;vm203"
+  --tags "cloud;horizon;iaas;neutron;node1;nova;openstack;vm201"
 
 # ------------------------------------------------------------------------------
-# VM 204: Metasploitable2
+# VM 202: Metasploitable2
 # ------------------------------------------------------------------------------
-create_or_skip_vm 204 "Metasploitable2" \
+create_or_skip_vm 202 "Metasploitable2" \
   --name "Metasploitable2" \
   --memory 512 \
   --cores 1 \
@@ -152,12 +118,12 @@ create_or_skip_vm 204 "Metasploitable2" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=ide0;net0" \
   --ostype l26 \
-  --tags "cyber;metasploit;metasploitable2;penetration-testing;red-team;vm204"
+  --tags "cyber;metasploit;metasploitable2;penetration-testing;red-team;vm202"
 
 # ------------------------------------------------------------------------------
-# VM 205: tpot-honeypot
+# VM 203: tpot-honeypot
 # ------------------------------------------------------------------------------
-create_or_skip_vm 205 "tpot-honeypot" \
+create_or_skip_vm 203 "tpot-honeypot" \
   --name "tpot-honeypot" \
   --memory 8192 \
   --balloon 4096 \
@@ -168,12 +134,12 @@ create_or_skip_vm 205 "tpot-honeypot" \
   --ide2 "$ISO_STORAGE/debian-netinst.iso,media=cdrom" \
   --boot "order=scsi0;ide2" \
   --ostype l26 \
-  --tags "cyber;honeypot;tpot;vm205"
+  --tags "cyber;honeypot;tpot;vm203"
 
 # ------------------------------------------------------------------------------
-# VM 206: securityonion
+# VM 204: securityonion
 # ------------------------------------------------------------------------------
-create_or_skip_vm 206 "securityonion" \
+create_or_skip_vm 204 "securityonion" \
   --name "securityonion" \
   --memory 8192 \
   --balloon 4096 \
@@ -185,12 +151,12 @@ create_or_skip_vm 206 "securityonion" \
   --ide2 "$ISO_STORAGE/securityonion.iso,media=cdrom" \
   --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
-  --tags "blue-team;hids;log-analysis;security-onion;siem;vm206;wazuh"
+  --tags "blue-team;hids;log-analysis;security-onion;siem;vm204;wazuh"
 
 # ------------------------------------------------------------------------------
-# VM 207: remnux
+# VM 205: remnux
 # ------------------------------------------------------------------------------
-create_or_skip_vm 207 "remnux" \
+create_or_skip_vm 205 "remnux" \
   --name "remnux" \
   --memory 4096 \
   --balloon 2048 \
@@ -202,31 +168,7 @@ create_or_skip_vm 207 "remnux" \
   --ide2 "$ISO_STORAGE/remnux-installer.iso,media=cdrom" \
   --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
-  --tags "cyber;dfir;malware-analysis;remnux;reverse-engineering;vm207"
-
-# ------------------------------------------------------------------------------
-# VM 300: windows-server-licenta (Bachelor Thesis / Lucrare de Licenta)
-# ------------------------------------------------------------------------------
-create_or_skip_vm 300 "windows-server-licenta" \
-  --name "windows-server-licenta" \
-  --description "Bachelor Thesis Lab (Lucrare de Licenta) - Windows Server 2019 Standard (Massgrave GVLK / KMS Activation, Active Directory DS & Domain Security Lab)" \
-  --memory 8192 \
-  --balloon 4096 \
-  --cores 4 \
-  --cpu host \
-  --machine q35 \
-  --bios ovmf \
-  --efidisk0 "$STORAGE:1,efitype=4m,pre-enrolled-keys=1" \
-  --hostpci0 "mapping=gtx1050ti,pcie=1,x-vga=1" \
-  --args "-cpu host,kvm=off,hv_vendor_id=proxmox" \
-  --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:64,discard=on,ssd=1" \
-  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
-  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
-  --ide2 "$ISO_STORAGE/windows_server_2019_x64.iso,media=cdrom" \
-  --boot "order=scsi0;ide2;net0;ide0" \
-  --ostype win11 \
-  --tags "microsoft;server;windows;windows-server-2019;licenta;bachelor-thesis;vm300"
+  --tags "cyber;dfir;malware-analysis;remnux;reverse-engineering;vm205"
 
 # ------------------------------------------------------------------------------
 # VM 301: metasploitable-licenta (Bachelor Thesis / Lucrare de Licenta)
@@ -264,7 +206,7 @@ create_or_skip_vm 302 "kali-licenta" \
   --tags "cyber;licenta;bachelor-thesis;kali;pentest;red-team;vm302"
 
 # ==============================================================================
-# ACTIVE DIRECTORY ENTERPRISE LAB FLEET (400 - 407)
+# ACTIVE DIRECTORY ENTERPRISE LAB FLEET (400 - 408)
 # Massgrave Genuine Media · Multi-Generation Windows Active Directory Domain Lab
 # ==============================================================================
 
@@ -273,21 +215,22 @@ create_or_skip_vm 302 "kali-licenta" \
 # ------------------------------------------------------------------------------
 create_or_skip_vm 400 "ad2025" \
   --name "ad2025" \
-  --description "Active Directory Lab - Windows Server 2025 Standard/Datacenter Domain Controller" \
-  --memory 4096 \
-  --cores 2 \
-  --cpu x86-64-v2-AES \
+  --description "Active Directory Lab - Windows Server 2025 Standard/Datacenter Domain Controller (GTX 1050 Ti PCIe Passthrough)" \
+  --memory 8192 \
+  --cores 6 \
+  --cpu host \
   --machine q35 \
   --bios ovmf \
   --efidisk0 "$STORAGE:1,efitype=4m,pre-enrolled-keys=1" \
-  --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:60,discard=on,ssd=1" \
+  --hostpci0 "mapping=gtx1050ti,pcie=1,x-vga=1" \
+  --args "-cpu host,kvm=off,hv_vendor_id=proxmox" \
+  --ide0 "$STORAGE:256" \
   --ide2 "$ISO_STORAGE/en-us_windows_server_2025_updated_aug_2026_x64_dvd_b0833651.iso,media=cdrom" \
-  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --ide1 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
-  --boot "order=scsi0;ide2;ide0;net0" \
+  --boot "order=ide0;ide2;net0;ide1" \
   --ostype win11 \
-  --tags "active-directory;ad2025;domain-controller;microsoft;server2025;vm400;windows"
+  --tags "active-directory;ad2025;domain-controller;gtx1050ti;microsoft;server2025;vm400;windows"
 
 # ------------------------------------------------------------------------------
 # VM 401: ad2022 (Windows Server 2022 Domain Controller)
@@ -314,12 +257,14 @@ create_or_skip_vm 401 "ad2022" \
 create_or_skip_vm 402 "ad2019" \
   --name "ad2019" \
   --description "Active Directory Lab - Windows Server 2019 Standard Domain Controller" \
-  --memory 3072 \
+  --memory 2048 \
   --cores 2 \
   --cpu x86-64-v2-AES \
-  --machine pc-i440fx-11.0+pve2 \
+  --machine q35 \
+  --bios ovmf \
+  --efidisk0 "$STORAGE:1,efitype=4m,pre-enrolled-keys=1" \
   --scsihw virtio-scsi-single \
-  --scsi0 "$STORAGE:60,discard=on,ssd=1" \
+  --scsi0 "$STORAGE:128,discard=on,ssd=1" \
   --ide2 "$ISO_STORAGE/windows_server_2019_x64.iso,media=cdrom" \
   --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
@@ -423,6 +368,27 @@ create_or_skip_vm 407 "adwin11" \
   --boot "order=scsi0;ide2;ide0;net0" \
   --ostype win11 \
   --tags "active-directory;adwin11;client;domain-client;microsoft;vm407;windows11"
+
+# ------------------------------------------------------------------------------
+# VM 408: adrhel (Red Hat Enterprise Linux 9.8 Domain Workload)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 408 "adrhel" \
+  --name "adrhel" \
+  --description "Active Directory Lab - Red Hat Enterprise Linux 9.8 Domain Workload (SSSD / Realm Join, Kerberos)" \
+  --memory 2048 \
+  --balloon 1024 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine q35 \
+  --bios ovmf \
+  --efidisk0 "$STORAGE:1,efitype=4m,pre-enrolled-keys=1" \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:50,iothread=1" \
+  --ide2 "$ISO_STORAGE/rhel-9.8-x86_64-boot.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;net0" \
+  --ostype l26 \
+  --tags "active-directory;adrhel;linux;redhat;rhel;sssd;vm408"
 
 
 echo ""

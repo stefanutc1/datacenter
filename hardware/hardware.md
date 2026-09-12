@@ -20,8 +20,8 @@ This file describes hardware and host-level virtualization only. Service definit
 
 **Capacity notes:**
 
-* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (Windows Server 2025 Datacenter, Windows Server 2019 Licență, Metasploitable Licență, RHEL 9.8, OpenStack, Metasploitable 2, T-Pot Honeypot, Security Onion, REMnux, OPNsense) alongside native Wazuh 4.14 SIEM/XDR and GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
-* The GTX 1050 Ti's 4 GB VRAM limits model size/batch size for ML experimentation and is shared with Frigate if GPU-accelerated detection is enabled for the NVR — these two workloads compete for the same VRAM budget and shouldn't be assumed to coexist at full load without checking.
+* 12 GB of RAM provides expanded headroom on this host, allowing concurrent operation of enterprise VMs (OpenStack, Metasploitable 2, T-Pot Honeypot, Security Onion, REMnux, OPNsense, Bachelor Thesis targets 301-302, and the Active Directory Enterprise Lab 400-408) alongside native Wazuh 4.14 SIEM/XDR and GPU-accelerated ML workloads (Ollama, Faster-Whisper) with active VirtIO ballooning and ZRAM swap compression.
+* The GTX 1050 Ti's 4 GB VRAM is dedicated to Windows Server 2025 Datacenter (VM 400) via PCIe passthrough, providing full GPU acceleration for remote desktop and graphics compute.
 * 512 GB SSD is the single storage tier — there is currently no separate fast/slow tier, so backup jobs, Frigate's recording retention, and VM/container disk growth all draw from the same pool. Worth tracking usage per-workload if any one of them starts growing unpredictably (Frigate recordings are the most likely culprit).
 
 ### Software & Infrastructure
@@ -36,18 +36,29 @@ This file describes hardware and host-level virtualization only. Service definit
 
 ### Usage Profile
 
-This host currently serves ten primary virtualization roles:
+This host currently serves three primary virtualization tiers:
 
-1. **Perimeter Firewall & NGFW** — OPNsense (VM 200) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and VirtIO multi-VLAN networking for boundary defense, Zenarmor L7, CrowdSec IPS, and Unbound DNS.
-2. **Enterprise Identity & Active Directory** — Windows Server 2025 Datacenter (VM 201) with 8 GB RAM (VirtIO ballooning: 4–8 GB), GTX 1050 Ti PCIe passthrough, and domain controller services.
-3. **Enterprise Linux & Containerization** — Red Hat Enterprise Linux 9.8 (VM 202) with 2 GB RAM (VirtIO ballooning: 1–2 GB), SELinux Enforcing, and rootless Podman quadlets.
-4. **Enterprise Private Cloud Virtualization** — OpenStack 2024.1 Caracal (VM 203) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 32 GB NVMe for IaaS compute (Nova), SDN networking (Neutron), and Horizon Web Dashboard.
-5. **Cybersecurity Vulnerability & Exploit Lab** — Metasploitable 2 (VM 204) with 512 MB RAM and 8 GB NVMe for penetration testing, red teaming with Metasploit Framework, and Suricata/Wazuh detection signature calibration.
-6. **Multi-Honeypot Threat Intelligence & Telemetry** — T-Pot 24.04 (VM 205) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 60 GB NVMe for decoy sensor emulation (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata).
-7. **Enterprise SIEM, HIDS & SOC Platform** — Security Onion 3.2 (VM 206) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 50 GB NVMe for Zeek, Suricata, Elastic, and Kibana SOC alerting.
-8. **Malware Analysis & Reverse Engineering Toolkit** — REMnux v7 Noble (VM 207) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 40 GB NVMe for dynamic malware analysis, memory forensics (Volatility), and Ghidra reverse engineering.
-9. **Bachelor's Thesis (Lucrare de Licență) · Active Directory & Security Lab** — Windows Server 2019 Standard (VM 300) with 8 GB RAM (VirtIO ballooning: 4–8 GB), Q35 machine architecture, OVMF UEFI, GTX 1050 Ti PCIe passthrough, and 64 GB NVMe with Massgrave KMS/GVLK licensing integration for domain trust, GPO testing, and academic thesis research.
-10. **Bachelor's Thesis (Lucrare de Licență) · Cybersecurity Pentest Proving Ground** — Metasploitable Linux Target (VM 301) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for dedicated offensive testing, red teaming, and Wazuh/Suricata detection rule calibration.
+1. **Perimeter Firewall & Core Workloads (VM 200–205)**:
+   - **VM 200**: OPNsense perimeter firewall, Zenarmor L7, CrowdSec IPS, and Unbound DNS.
+   - **VM 201**: OpenStack 2024.1 Caracal IaaS compute (Nova), SDN (Neutron), and Horizon Web Dashboard.
+   - **VM 202**: Metasploitable 2 intentionally vulnerable Linux target for penetration testing and detection calibration.
+   - **VM 203**: T-Pot 24.04 multi-honeypot threat intelligence decoy platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata).
+   - **VM 204**: Security Onion 3.2 enterprise SIEM, Zeek, Suricata, Elastic, and Wazuh SOC platform.
+   - **VM 205**: REMnux v7 Noble malware analysis, memory forensics (Volatility), and Ghidra reverse engineering.
+2. **Bachelor Thesis CyberLab (VM 301–302 & CT 303)**:
+   - **VM 301**: Metasploitable Linux Target for thesis offensive testing and detection engineering.
+   - **VM 302**: Kali Linux Rolling offensive security and red teaming workstation.
+   - **CT 303**: OWASP Juice Shop vulnerable web application container.
+3. **Active Directory Enterprise Lab (VM 400–408)**:
+   - **VM 400**: Windows Server 2025 Datacenter Domain Controller (256 GB NVMe, GTX 1050 Ti PCIe passthrough, OVMF UEFI).
+   - **VM 401**: Windows Server 2022 Datacenter Domain Controller.
+   - **VM 402**: Windows Server 2019 Standard Domain Controller (128 GB NVMe, Q35, OVMF UEFI).
+   - **VM 403**: Windows Server 2016 Standard Domain Controller.
+   - **VM 404**: Windows Server 2012 R2 Standard Domain Controller.
+   - **VM 405**: Windows Server 2008 R2 SP1 Standard Domain Controller.
+   - **VM 406**: Windows 10 Enterprise Domain Member Client.
+   - **VM 407**: Windows 11 Enterprise Modern Client (vTPM 2.0, Credential Guard).
+   - **VM 408**: Red Hat Enterprise Linux 9.8 Enterprise Domain Workload (SSSD, Realmd, Kerberos Keytab).
 
 ---
 

@@ -247,42 +247,40 @@ flowchart TD
 
 ### Kubernetes Cloud-Native Platform & OpenStack Private Cloud
 
-| Platform Component | Technology & Distribution | Node / Host Target | Port / Exposure | Primary Capability | **ArgoCD GitOps** | ArgoCD v2.12.3 Operator | Hybrid Cluster (Node 1 & Node 4) | `:8080` (HTTPS) | Declarative continuous delivery, auto-sync and self-healing directly from Git repository | **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | High-performance CNI replacing kube-proxy, WireGuard transparent encryption & L3-L7 security | **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes | **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 203 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
+| Platform Component | Technology & Distribution | Node / Host Target | Port / Exposure | Primary Capability | **ArgoCD GitOps** | ArgoCD v2.12.3 Operator | Hybrid Cluster (Node 1 & Node 4) | `:8080` (HTTPS) | Declarative continuous delivery, auto-sync and self-healing directly from Git repository | **Cilium eBPF CNI** | Cilium v1.16.1 eBPF Engine | Kernel-space (`kube-system`) | `:9962` / `:12000` (Hubble) | High-performance CNI replacing kube-proxy, WireGuard transparent encryption & L3-L7 security | **Twingate ZTNA** | Twingate Connector v1 | Remote Access (`twingate`) | Internal P2P Mesh | Enterprise Zero-Trust Network Access for secure remote operations without inbound firewall holes | **OpenStack Cloud** | OpenStack 2024.1 Caracal (Kolla) | Node 1 (VM 201 · QEMU KVM) | `:80` / `:5000` (Keystone) | Enterprise IaaS private cloud virtualization (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
 
 ### QEMU / KVM Virtual Machines & VirtIO Memory Ballooning
 
 | VMID | VM Name | Operating System | vCPU | RAM Max | Balloon Min | Passthrough / Hardware | Primary Role |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | **200** | `opnsense` | Hardened FreeBSD 14 | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO Net Multi-VLAN | Perimeter Firewall, Zenarmor NGFW (L7 Shun-Tuned), AdGuard Home + Unbound Split-DNS (:5335), FQ_CoDel Traffic Shaper, CrowdSec IPS + Threat Feeds, FRR BGP/OSPF, LLDP Discovery, iperf3, Encrypted Git/Nextcloud Backup |
-| **201** | `windows-server-2025` | Windows Server 2025 Datacenter | 4 Cores | 8,192 MB | **4,096 MB** | GTX 1050 Ti PCIe Passthrough | Active Directory Domain Services, GPO Lab, Sysmon & Windows Event Forwarding |
-| **202** | `rhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI Single IOThread | SELinux Enforcing, Podman Rootless, Enterprise Workload Isolation |
-| **203** | `openstack` | OpenStack 2024.1 Caracal | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (32 GB) | Enterprise IaaS Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon) |
-| **204** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning |
-| **205** | `tpot-honeypot` | T-Pot 24.04 Multi-Honeypot | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO SCSI (60 GB) | Multi-Honeypot Sensor Cluster (Cowrie, Dionaea, Honeytrap, Elastic, Kibana) |
-| **206** | `securityonion` | Security Onion 3.2 | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic) |
-| **207** | `remnux` | REMnux v7 Noble | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (40 GB) | Malware Analysis, Memory Forensics (Volatility), Ghidra & YARA Hunting |
-| **300** | `windows-server-licenta` | Windows Server 2019 Standard | 4 Cores | 8,192 MB | **4,096 MB** | GTX 1050 Ti PCIe Passthrough + VirtIO SCSI (64 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Windows Server 2019 Lab with Q35 / OVMF UEFI, GTX 1050 Ti Passthrough, Massgrave KMS Activation, Active Directory DS & Domain Security Lab |
+| **201** | `openstack` | OpenStack 2024.1 Caracal | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (32 GB) | Enterprise IaaS Cloud Controller (Nova, Neutron, Keystone, Glance, Horizon Dashboard) |
+| **202** | `metasploitable2` | Metasploitable 2 (Ubuntu 8.04) | 1 Core | 512 MB | **512 MB** | VirtIO Net + IDE (8 GB) | Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning |
+| **203** | `tpot-honeypot` | T-Pot 24.04 Multi-Honeypot | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO SCSI (60 GB) | Multi-Honeypot Sensor Cluster (Cowrie, Dionaea, Honeytrap, Elastic, Kibana) |
+| **204** | `securityonion` | Security Onion 3.2 | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO Net + SCSI (50 GB) | Enterprise SIEM, HIDS, Log Analysis, Network Security Monitoring (Zeek, Suricata, Elastic) |
+| **205** | `remnux` | REMnux v7 Noble | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (40 GB) | Malware Analysis, Memory Forensics (Volatility), Ghidra & YARA Hunting |
 | **301** | `metasploitable-licenta` | Metasploitable Linux Target | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (20 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Dedicated Penetration Testing Proving Ground, Vulnerability Assessment & Wazuh Tuning |
 | **302** | `kali-licenta` | Kali Linux Rolling (Offensive Security) | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (30 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Offensive Security & Red Team Pentest Workstation, isolated on `vmbr1` / VLAN 30 |
 | **303** | `owasp-licenta` | Alpine Linux 3.24 LXC | 2 Cores | 512 MB | - | Rootfs (8 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Containerized OWASP Juice Shop / DVWA Target with Docker nesting on isolated `vmbr1` |
-| **400** | `ad2025` | Windows Server 2025 Datacenter | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (60 GB) + Q35 OVMF UEFI + vTPM 2.0 | **Active Directory Enterprise Lab** · Primary Domain Controller (PDC) & Forest Root on Windows Server 2025 (Massgrave genuine media) |
+| **400** | `ad2025` | Windows Server 2025 Datacenter | 6 Cores | 8,192 MB | **4,096 MB** | GTX 1050 Ti PCIe Passthrough + VirtIO SCSI (256 GB) + Q35 OVMF UEFI + vTPM 2.0 | **Active Directory Enterprise Lab** · Primary Domain Controller (PDC) & Forest Root, GPO Lab, Sysmon & Windows Event Forwarding |
 | **401** | `ad2022` | Windows Server 2022 Datacenter | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (60 GB) + Q35 | **Active Directory Enterprise Lab** · Windows Server 2022 Domain Controller, DNS/DHCP & GPO replication |
-| **402** | `ad2019` | Windows Server 2019 Standard | 2 Cores | 3,072 MB | **2,048 MB** | VirtIO SCSI (60 GB) + i440fx | **Active Directory Enterprise Lab** · Windows Server 2019 Domain Controller & Kerberos authentication delegation |
+| **402** | `ad2019` | Windows Server 2019 Standard | 2 Cores | 2,048 MB | **2,048 MB** | VirtIO SCSI (128 GB) + Q35 OVMF UEFI | **Active Directory Enterprise Lab** · Windows Server 2019 Domain Controller & Kerberos authentication delegation (128 GB NVMe) |
 | **403** | `ad2016` | Windows Server 2016 Standard | 2 Cores | 3,072 MB | **2,048 MB** | VirtIO SCSI (50 GB) + Q35 | **Active Directory Enterprise Lab** · Windows Server 2016 Domain Controller & Cross-Forest Trust testing |
 | **404** | `ad2012` | Windows Server 2012 R2 Standard | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (40 GB) + i440fx | **Active Directory Enterprise Lab** · Windows Server 2012 R2 Legacy Functional Level Domain Controller |
 | **405** | `ad2008` | Windows Server 2008 R2 SP1 Standard | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (40 GB) + i440fx | **Active Directory Enterprise Lab** · Windows Server 2008 R2 SP1 Legacy DC for Kerberos RC4 & NTLM migration analysis |
 | **406** | `adwin10` | Windows 10 Enterprise | 2 Cores | 3,072 MB | **2,048 MB** | VirtIO SCSI (50 GB) + Q35 | **Active Directory Enterprise Lab** · Windows 10 Enterprise Domain-Joined Workstation Client & GPO policy target |
 | **407** | `adwin11` | Windows 11 Enterprise | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (60 GB) + Q35 OVMF UEFI + vTPM 2.0 | **Active Directory Enterprise Lab** · Windows 11 Enterprise Modern Domain-Joined Client & Credential Guard target |
+| **408** | `adrhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (50 GB) + Q35 OVMF UEFI | **Active Directory Enterprise Lab** · Red Hat Enterprise Linux 9.8 Domain Integration (realmd, SSSD, Kerberos SSO, SELinux Enforcing) |
 
-> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–207) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174), Bachelor Thesis research workloads (VM 300, 301, 302, CT 303), and the Active Directory lab fleet (VM 400–407) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
+> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–205) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174), Bachelor Thesis research workloads (VM 301, 302, CT 303), and the Active Directory lab fleet (VM 400–408) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
 
-### 🏢 Multi-Generation Active Directory Enterprise Laboratory (VM 400–407)
+### 🏢 Multi-Generation Active Directory Enterprise Laboratory (VM 400–408)
 
-The Active Directory enterprise lab spans across eight major Windows Server and client releases, establishing a complete environment for cross-forest trusts, domain upgrades, Kerberos authentication delegation, Group Policy Objects (GPO), and Windows Event Forwarding:
+The Active Directory enterprise lab spans across eight major Windows Server and client releases plus enterprise Linux domain integration, establishing a complete environment for cross-forest trusts, domain upgrades, Kerberos authentication delegation, Group Policy Objects (GPO), and Windows Event Forwarding:
 
 ```mermaid
 flowchart TD
-    subgraph FOREST["Active Directory Forest & Domain Ecosystem (Fleet 400 - 407)"]
+    subgraph FOREST["Active Directory Forest & Domain Ecosystem (Fleet 400 - 408)"]
         PDC["VM 400: ad2025<br/>(Server 2025 PDC / Forest Root)"]
         DC22["VM 401: ad2022<br/>(Server 2022 Replica DC / DNS)"]
         DC19["VM 402: ad2019<br/>(Server 2019 DC / Kerberos)"]
@@ -291,6 +289,7 @@ flowchart TD
         DC08["VM 405: ad2008<br/>(Server 2008 R2 SP1 Legacy DC)"]
         W10["VM 406: adwin10<br/>(Win 10 Enterprise Client)"]
         W11["VM 407: adwin11<br/>(Win 11 Enterprise Modern Client)"]
+        RHEL["VM 408: adrhel<br/>(RHEL 9.8 / SSSD / realmd)"]
     end
 
     PDC <==>|"Active Directory Replication (DRS)"| DC22
@@ -300,26 +299,25 @@ flowchart TD
     DC12 <==>|"NTLM / RC4 Fallback"| DC08
     W10 -.->|"Domain Member / GPO"| PDC
     W11 -.->|"Domain Member / Credential Guard"| PDC
+    RHEL -.->|"SSSD / Kerberos AD Join"| PDC
 ```
 
 * **Genuine Installation Media**: All ISO images are sourced directly from genuine Microsoft distribution channels via [massgrave.dev](https://massgrave.dev), ensuring clean SHA-256 hashes without third-party tampering.
-* **Architecture & Firmwares**: Server 2025 and Windows 11 feature modern Q35 chipset emulation with OVMF UEFI and virtual TPM 2.0 (`v2.0`), while legacy servers (2012 R2, 2008 R2) utilize i440fx chipset for compatibility.
+* **Architecture & Firmwares**: Server 2025, Windows 11, and RHEL 9.8 feature modern Q35 chipset emulation with OVMF UEFI and virtual TPM 2.0 (`v2.0`), while legacy servers (2012 R2, 2008 R2) utilize i440fx chipset for compatibility.
 * **Storage Allocation**: High-speed VirtIO SCSI controllers with `iothread=1` and `local-lvm` thin provisioning for optimal I/O throughput.
 
-### 🎓 Bachelor's Thesis CyberLab Architecture (VM 300–302 & CT 303)
+### 🎓 Bachelor's Thesis CyberLab Architecture (VM 301–302 & CT 303)
 
-The dedicated Bachelor's Thesis (Lucrare de Licență) laboratory establishes an enterprise offensive and defensive cybersecurity proving ground. Full technical specifications, attack scenarios (Kerberoasting, Metasploit CVE exploitation, OWASP Top 10), and detection engineering pipelines are detailed in the [Bachelor's Thesis CyberLab Architecture Guide](docs/LICENTA_ARCHITECTURE.md).
+The dedicated Bachelor's Thesis (Lucrare de Licență) laboratory establishes an enterprise offensive and defensive cybersecurity proving ground. Full technical specifications, attack scenarios (Metasploit CVE exploitation, OWASP Top 10), and detection engineering pipelines are detailed in the [Bachelor's Thesis CyberLab Architecture Guide](docs/LICENTA_ARCHITECTURE.md).
 
 ```mermaid
 flowchart LR
     subgraph THESIS["VLAN 30 (CyberLab) & Isolated Bridge vmbr1"]
         KALI["VM 302: kali-licenta<br/>(Offensive Red Team Workstation)"]
-        WIN["VM 300: windows-server-licenta<br/>(Active Directory DS & Sysmon)"]
         META["VM 301: metasploitable-licenta<br/>(Linux Vulnerability Target)"]
         OWASP["CT 303: owasp-licenta<br/>(OWASP Juice Shop / DVWA)"]
     end
 
-    KALI ==>|"Kerberoast / AD DS"| WIN
     KALI ==>|"Remote Exploitation"| META
     KALI ==>|"OWASP Top 10 Web Fuzzing"| OWASP
 ```
@@ -587,15 +585,15 @@ flowchart TD
     end
 
     subgraph Perimeter_Defense["Perimeter Defense & Deception"]
-        TPot["T-Pot DMZ Multi-Honeypot (VM 205)<br/>Cowrie · Dionaea · Honeytrap · Suricata"]
+        TPot["T-Pot DMZ Multi-Honeypot (VM 203)<br/>Cowrie · Dionaea · Honeytrap · Suricata"]
         OPN["OPNsense Firewall (VM 200)<br/>CrowdSec Bouncer · DoT · Zenarmor L7"]
         PVEFW["Proxmox VE Host Firewall & eBPF<br/>Rate Limiting · SYN-Flood Guards · IPset"]
     end
 
     subgraph Detection_Analysis["Detection, SIEM & Reverse Engineering"]
         Wazuh["Wazuh SIEM / XDR Manager (CT 100)<br/>FIM · Log Anomaly Correlation"]
-        SecOnion["Security Onion Grid (VM 206)<br/>Zeek Network Metadata · Arkime PCAP"]
-        Remnux["REMnux Malware Analysis (VM 207)<br/>Static/Dynamic Deobfuscation · Ghidra"]
+        SecOnion["Security Onion Grid (VM 204)<br/>Zeek Network Metadata · Arkime PCAP"]
+        Remnux["REMnux Malware Analysis (VM 205)<br/>Static/Dynamic Deobfuscation · Ghidra"]
         Tetra["Cilium Tetragon eBPF Runtime Sensor<br/>Syscall Monitoring (execve, openat, tcp_connect)"]
     end
 
@@ -670,7 +668,7 @@ The [`cyber/`](cyber/) directory contains four end-to-end investigative case stu
 
 Findings from these four forensic investigations directly inform the proactive defense configurations across the Datacenter:
 
-| Security Layer | Host / Virtual Machine | Engine & Role | Defensive Functionality | **Perimeter IDS/IPS** | `VM 200` (OPNsense) | Suricata 8.0.3 + CrowdSec | Drops active BitM synthetic popup URLs and blocks malicious IP lists via threat feeds. | **Deception Honeynet**| `VM 205` (T-Pot) | Cowrie, Dionaea, Honeytrap | Exposes decoy honeypots in isolated DMZ (`vmbr3`) to harvest live scanner payloads. | **Enterprise SIEM/XDR**| `CT 100` (Wazuh) | Wazuh Manager + Elastic Stack | Centralized syslog/FIM correlation across all 95 services with automated active response. | **Host Zero-Trust FW** | Node 1 (`192.168.1.132`)| Proxmox VE Cluster Firewall | Global DROP policy, rate-limited ICMP, SYN-flood guards, IPset bastion access control. 
+| Security Layer | Host / Virtual Machine | Engine & Role | Defensive Functionality | **Perimeter IDS/IPS** | `VM 200` (OPNsense) | Suricata 8.0.3 + CrowdSec | Drops active BitM synthetic popup URLs and blocks malicious IP lists via threat feeds. | **Deception Honeynet**| `VM 203` (T-Pot) | Cowrie, Dionaea, Honeytrap | Exposes decoy honeypots in isolated DMZ (`vmbr3`) to harvest live scanner payloads. | **Enterprise SIEM/XDR**| `CT 100` (Wazuh) | Wazuh Manager + Elastic Stack | Centralized syslog/FIM correlation across all 95 services with automated active response. | **Host Zero-Trust FW** | Node 1 (`192.168.1.132`)| Proxmox VE Cluster Firewall | Global DROP policy, rate-limited ICMP, SYN-flood guards, IPset bastion access control. 
 ---
 
 ### 12.3 Security Auditing & Detection Tests (`cyber/red-team/`)
@@ -902,8 +900,8 @@ All hardware nodes, virtual machines, and containers execute live on physical in
 ---
 
 ### Specialized Operating Systems & Telemetry (Loki Telemetry & Runtime Logs)
-| Windows Server 2025 Datacenter (VM 201 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 202 · Loki Telemetry) | ![Windows Server 2025 Datacenter Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) | :---: | :---: 
-| OpenStack 2024.1 Caracal (VM 203 · Cloud Horizon) | Metasploitable 2 (VM 204 · Vulnerable Target) | ![OpenStack Cloud Horizon](photos/services/openstack.png) | ![Metasploitable 2](photos/services/metasploitable2.png) | :---: | :---: 
-| REMnux v7 Noble (VM 207 · Reverse Engineering) | OPNsense Core Gateway & Firewall (VM 200) | ![REMnux Malware Analysis](photos/services/remnux.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) | :---: | :---: 
+| Windows Server 2025 Datacenter (VM 400 · Loki Telemetry) | Red Hat Enterprise Linux 9.8 (VM 408 · Loki Telemetry) | ![Windows Server 2025 Datacenter Telemetry](photos/services/vm-windows.png) | ![RHEL 9.8 Telemetry](photos/services/vm-rhel.png) | :---: | :---: 
+| OpenStack 2024.1 Caracal (VM 201 · Cloud Horizon) | Metasploitable 2 (VM 202 · Vulnerable Target) | ![OpenStack Cloud Horizon](photos/services/openstack.png) | ![Metasploitable 2](photos/services/metasploitable2.png) | :---: | :---: 
+| REMnux v7 Noble (VM 205 · Reverse Engineering) | OPNsense Core Gateway & Firewall (VM 200) | ![REMnux Malware Analysis](photos/services/remnux.png) | ![OPNsense Core Gateway](photos/services/opnsense-core.png) | :---: | :---: 
 | Proxmox VE 9.2 Primary (Node 1 · x86_64 Hypervisor) | ![Proxmox VE Primary x86_64](photos/services/proxmox-x64.png) |
 

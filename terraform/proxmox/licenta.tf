@@ -5,23 +5,6 @@
 # Hardware: Intel Core i3-10100F (Node 1 x86_64)
 # ==============================================================================
 
-# VM 300: Windows Server 2019 Standard (Active Directory Domain Services & Domain Security)
-module "vm_windows_server_licenta" {
-  source       = "../modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 300
-  name         = "windows-server-licenta"
-  description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Windows Server 2019 Standard (Massgrave GVLK / KMS Activation, Active Directory DS & Domain Security Lab)"
-  cores        = 4
-  memory       = 8192
-  balloon      = 4096
-  disk_size    = 64
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  onboot       = false
-  tags         = ["windows", "server", "active-directory", "licenta", "bachelor-thesis", "q35", "gtx1050ti", "terraform"]
-}
-
 # VM 301: Metasploitable Linux Target (Penetration Testing & Detection Tuning)
 module "vm_metasploitable_licenta" {
   source       = "../modules/proxmox_vm"

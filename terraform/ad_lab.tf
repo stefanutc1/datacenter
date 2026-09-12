@@ -1,25 +1,26 @@
 # ==============================================================================
-# ACTIVE DIRECTORY LAB INFRASTRUCTURE (FLEET 400 - 407)
+# ACTIVE DIRECTORY LAB INFRASTRUCTURE (FLEET 400 - 408)
 # Multi-Generation Active Directory Enterprise Laboratory
-# Windows Server 2025, 2022, 2019, 2016, 2012 R2, 2008 R2, Win 10, Win 11
+# Windows Server 2025, 2022, 2019, 2016, 2012 R2, 2008 R2, Win 10, Win 11, RHEL 9.8
 # Provider: bpg/proxmox (Proxmox VE REST API)
 # Node: Node 1 (x86_64)
 # ==============================================================================
 
 # VM 400: Windows Server 2025 Standard/Datacenter Domain Controller
 module "vm_ad2025" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 400
-  name         = "ad2025"
-  description  = "Active Directory Lab - Windows Server 2025 Domain Controller"
-  cores        = 2
-  memory       = 4096
-  balloon      = 2048
-  disk_size    = 60
-  storage_pool = "local-lvm"
-  onboot       = false
-  tags         = ["active-directory", "ad2025", "domain-controller", "microsoft", "server2025", "terraform", "windows"]
+  source                 = "./modules/proxmox_vm"
+  target_node            = var.primary_node
+  vmid                   = 400
+  name                   = "ad2025"
+  description            = "Active Directory Lab - Windows Server 2025 Domain Controller (GTX 1050 Ti PCIe Passthrough)"
+  cores                  = 6
+  memory                 = 8192
+  balloon                = 4096
+  disk_size              = 256
+  storage_pool           = "local-lvm"
+  pci_passthrough_device = "gtx1050ti"
+  onboot                 = false
+  tags                   = ["active-directory", "ad2025", "domain-controller", "gtx1050ti", "microsoft", "server2025", "terraform", "windows"]
 }
 
 # VM 401: Windows Server 2022 Standard/Datacenter Domain Controller
@@ -46,9 +47,9 @@ module "vm_ad2019" {
   name         = "ad2019"
   description  = "Active Directory Lab - Windows Server 2019 Domain Controller"
   cores        = 2
-  memory       = 3072
-  balloon      = 2048
-  disk_size    = 60
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 128
   storage_pool = "local-lvm"
   onboot       = false
   tags         = ["active-directory", "ad2019", "domain-controller", "microsoft", "server2019", "terraform", "windows"]
@@ -132,4 +133,20 @@ module "vm_adwin11" {
   storage_pool = "local-lvm"
   onboot       = false
   tags         = ["active-directory", "adwin11", "client", "domain-client", "microsoft", "terraform", "windows11"]
+}
+
+# VM 408: Red Hat Enterprise Linux 9.8 Workload (Active Directory Integrated)
+module "vm_adrhel" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 408
+  name         = "adrhel"
+  description  = "Active Directory Lab - Red Hat Enterprise Linux 9.8 Domain Workload (SSSD / Realm Join, Kerberos)"
+  cores        = 2
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 50
+  storage_pool = "local-lvm"
+  onboot       = false
+  tags         = ["active-directory", "adrhel", "linux", "redhat", "rhel", "sssd", "terraform"]
 }

@@ -70,41 +70,10 @@ module "vm_opnsense_200" {
   tags         = ["firewall", "security", "opnsense", "suricata", "wireguard", "terraform"]
 }
 
-module "vm_win_server_201" {
-  source                 = "./modules/proxmox_vm"
-  target_node            = var.primary_node
-  vmid                   = 201
-  name                   = "windows"
-  description            = "Windows Server 2025 Datacenter (AD DS, GPO, DNS, Sysmon Forwarder & GTX 1050 Ti Passthrough)"
-  cores                  = 2
-  memory                 = 7168
-  balloon                = 4096
-  disk_size              = 120
-  storage_pool           = "local-lvm"
-  vlan_tag               = 20
-  pci_passthrough_device = "gtx1050ti"
-  tags                   = ["windows", "active-directory", "gpo", "sysmon", "gtx1050ti", "terraform"]
-}
-
-module "vm_rhel_202" {
+module "vm_openstack_201" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 202
-  name         = "rhel"
-  description  = "Red Hat Enterprise Linux 9.8 (SELinux Enforcing, Podman Rootless, Enterprise Workload)"
-  cores        = 2
-  memory       = 2048
-  balloon      = 1024
-  disk_size    = 50
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["rhel", "redhat", "enterprise", "selinux", "podman", "terraform"]
-}
-
-module "vm_openstack_203" {
-  source       = "./modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 203
+  vmid         = 201
   name         = "openstack"
   description  = "OpenStack Enterprise Private Cloud Controller & Compute (Nova, Neutron, Keystone, Glance, Horizon Dashboard)"
   cores        = 2
@@ -116,10 +85,10 @@ module "vm_openstack_203" {
   tags         = ["openstack", "cloud", "iaas", "nova", "neutron", "horizon", "terraform"]
 }
 
-module "vm_metasploitable2_204" {
+module "vm_metasploitable2_202" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 204
+  vmid         = 202
   name         = "metasploitable2"
   description  = "Metasploitable 2 (Intentionally Vulnerable Linux Target, Penetration Testing & IDS/IPS Tuning)"
   cores        = 1
@@ -130,10 +99,10 @@ module "vm_metasploitable2_204" {
   tags         = ["cyber", "metasploit", "metasploitable2", "penetration-testing", "red-team", "terraform"]
 }
 
-module "vm_tpot_205" {
+module "vm_tpot_203" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 205
+  vmid         = 203
   name         = "tpot-honeypot"
   description  = "T-Pot Multi-Honeypot Decoy Platform (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata)"
   cores        = 4
@@ -145,10 +114,10 @@ module "vm_tpot_205" {
   tags         = ["cyber", "honeypot", "tpot", "threat-intel", "elastic", "suricata", "terraform"]
 }
 
-module "vm_securityonion_206" {
+module "vm_securityonion_204" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 206
+  vmid         = 204
   name         = "securityonion"
   description  = "Security Onion / Wazuh SIEM Platform (Zeek, Suricata, Elastic, Kibana & HIDS Monitoring)"
   cores        = 4
@@ -160,10 +129,10 @@ module "vm_securityonion_206" {
   tags         = ["blue-team", "hids", "log-analysis", "security-onion", "siem", "wazuh", "terraform"]
 }
 
-module "vm_remnux_207" {
+module "vm_remnux_205" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
-  vmid         = 207
+  vmid         = 205
   name         = "remnux"
   description  = "REMnux Linux Toolkit (Malware Analysis, Reverse Engineering, Memory Forensics & DFIR)"
   cores        = 2

@@ -2,16 +2,22 @@ output "vm_inventory" {
   description = "Machine-readable map of all provisioned Virtual Machines"
   value = {
     opnsense               = { vmid = module.vm_opnsense_200.vm_id, name = module.vm_opnsense_200.name, node = module.vm_opnsense_200.node }
-    windows_server_ad      = { vmid = module.vm_win_server_201.vm_id, name = module.vm_win_server_201.name, node = module.vm_win_server_201.node }
-    rhel_enterprise        = { vmid = module.vm_rhel_202.vm_id, name = module.vm_rhel_202.name, node = module.vm_rhel_202.node }
-    openstack              = { vmid = module.vm_openstack_203.vm_id, name = module.vm_openstack_203.name, node = module.vm_openstack_203.node }
-    metasploitable2        = { vmid = module.vm_metasploitable2_204.vm_id, name = module.vm_metasploitable2_204.name, node = module.vm_metasploitable2_204.node }
-    tpot_honeypot          = { vmid = module.vm_tpot_205.vm_id, name = module.vm_tpot_205.name, node = module.vm_tpot_205.node }
-    securityonion          = { vmid = module.vm_securityonion_206.vm_id, name = module.vm_securityonion_206.name, node = module.vm_securityonion_206.node }
-    remnux                 = { vmid = module.vm_remnux_207.vm_id, name = module.vm_remnux_207.name, node = module.vm_remnux_207.node }
-    windows_server_licenta = { vmid = module.vm_windows_server_licenta_300.vm_id, name = module.vm_windows_server_licenta_300.name, node = module.vm_windows_server_licenta_300.node }
+    openstack              = { vmid = module.vm_openstack_201.vm_id, name = module.vm_openstack_201.name, node = module.vm_openstack_201.node }
+    metasploitable2        = { vmid = module.vm_metasploitable2_202.vm_id, name = module.vm_metasploitable2_202.name, node = module.vm_metasploitable2_202.node }
+    tpot_honeypot          = { vmid = module.vm_tpot_203.vm_id, name = module.vm_tpot_203.name, node = module.vm_tpot_203.node }
+    securityonion          = { vmid = module.vm_securityonion_204.vm_id, name = module.vm_securityonion_204.name, node = module.vm_securityonion_204.node }
+    remnux                 = { vmid = module.vm_remnux_205.vm_id, name = module.vm_remnux_205.name, node = module.vm_remnux_205.node }
     metasploitable_licenta = { vmid = module.vm_metasploitable_licenta_301.vm_id, name = module.vm_metasploitable_licenta_301.name, node = module.vm_metasploitable_licenta_301.node }
     kali_licenta           = { vmid = module.vm_kali_licenta_302.vm_id, name = module.vm_kali_licenta_302.name, node = module.vm_kali_licenta_302.node }
+    ad2025                 = { vmid = module.vm_ad2025.vm_id, name = module.vm_ad2025.name, node = module.vm_ad2025.node }
+    ad2022                 = { vmid = module.vm_ad2022.vm_id, name = module.vm_ad2022.name, node = module.vm_ad2022.node }
+    ad2019                 = { vmid = module.vm_ad2019.vm_id, name = module.vm_ad2019.name, node = module.vm_ad2019.node }
+    ad2016                 = { vmid = module.vm_ad2016.vm_id, name = module.vm_ad2016.name, node = module.vm_ad2016.node }
+    ad2012                 = { vmid = module.vm_ad2012.vm_id, name = module.vm_ad2012.name, node = module.vm_ad2012.node }
+    ad2008                 = { vmid = module.vm_ad2008.vm_id, name = module.vm_ad2008.name, node = module.vm_ad2008.node }
+    adwin10                = { vmid = module.vm_adwin10.vm_id, name = module.vm_adwin10.name, node = module.vm_adwin10.node }
+    adwin11                = { vmid = module.vm_adwin11.vm_id, name = module.vm_adwin11.name, node = module.vm_adwin11.node }
+    adrhel                 = { vmid = module.vm_adrhel.vm_id, name = module.vm_adrhel.name, node = module.vm_adrhel.node }
   }
 }
 
@@ -75,10 +81,24 @@ output "lxc_consolidated_summary" {
 output "licenta_lab_summary" {
   description = "Summary of Bachelor Thesis (Lucrare de Licență) CyberLab Targets (VLAN 30 & vmbr1)"
   value = {
-    windows_server_licenta = { vmid = module.vm_windows_server_licenta_300.vm_id, name = module.vm_windows_server_licenta_300.name, node = module.vm_windows_server_licenta_300.node }
     metasploitable_licenta = { vmid = module.vm_metasploitable_licenta_301.vm_id, name = module.vm_metasploitable_licenta_301.name, node = module.vm_metasploitable_licenta_301.node }
     kali_linux_licenta     = { vmid = module.vm_kali_licenta_302.vm_id, name = module.vm_kali_licenta_302.name, node = module.vm_kali_licenta_302.node }
     owasp_licenta          = { vmid = module.lxc_juiceshop_licenta_303.vm_id, hostname = module.lxc_juiceshop_licenta_303.hostname, ip = module.lxc_juiceshop_licenta_303.ip_address, node = module.lxc_juiceshop_licenta_303.node }
+  }
+}
+
+output "ad_lab_summary" {
+  description = "Summary of Multi-Generation Active Directory Enterprise Lab (VM 400 - 408)"
+  value = {
+    ad2025  = { vmid = module.vm_ad2025.vm_id, name = module.vm_ad2025.name, node = module.vm_ad2025.node }
+    ad2022  = { vmid = module.vm_ad2022.vm_id, name = module.vm_ad2022.name, node = module.vm_ad2022.node }
+    ad2019  = { vmid = module.vm_ad2019.vm_id, name = module.vm_ad2019.name, node = module.vm_ad2019.node }
+    ad2016  = { vmid = module.vm_ad2016.vm_id, name = module.vm_ad2016.name, node = module.vm_ad2016.node }
+    ad2012  = { vmid = module.vm_ad2012.vm_id, name = module.vm_ad2012.name, node = module.vm_ad2012.node }
+    ad2008  = { vmid = module.vm_ad2008.vm_id, name = module.vm_ad2008.name, node = module.vm_ad2008.node }
+    adwin10 = { vmid = module.vm_adwin10.vm_id, name = module.vm_adwin10.name, node = module.vm_adwin10.node }
+    adwin11 = { vmid = module.vm_adwin11.vm_id, name = module.vm_adwin11.name, node = module.vm_adwin11.node }
+    adrhel  = { vmid = module.vm_adrhel.vm_id, name = module.vm_adrhel.name, node = module.vm_adrhel.node }
   }
 }
 

@@ -351,7 +351,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     hardware: { node: 'Intel Core i3-10100F (GTX 1050 Ti)', ram: '12,288 MB DDR4 (2133 MHz)', storage: '512 GB SSD' },
     tags: ['Primary Hypervisor', 'x86_64 Bare-Metal', 'PCIe GPU Passthrough', 'Enterprise VMs'],
     role: 'Hosts primary x86_64 virtualization workloads including enterprise virtual machines, core containers, and GPU-accelerated local AI inference.',
-    connections: ['win-server', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'ollama-gpu-node']
+    connections: ['ad2025', 'npm-ingress', 'immich-core', 'jellyfin-media', 'homeassistant-core', 'ollama-gpu-node']
   },
   {
     id: 'kubernetes-node',
@@ -473,44 +473,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   },
 
   // 9. IDENTITY, BACKUPS & MULTI-CLOUD (Bottom Plane)
-  {
-    id: 'win-server',
-    name: 'Active Directory',
-    sublabel: 'VM 201 · Windows Server 2025 Datacenter',
-    ip: '192.168.1.201',
-    port: 3389,
-    category: 'compute',
-    tier: 5,
-    status: 'OPERATIONAL',
-    x: -30,
-    y: 115,
-    z: 110,
-    color: '#0284c7',
-    icon: 'proxmox',
-    hardware: { node: 'Node 1 (x86_64)', ram: '7,168 MB (Balloon: 4096 MB)', storage: '64 GB' },
-    tags: ['Active Directory', 'Domain Controller', 'Group Policy', 'Kerberos SSO', 'Datacenter'],
-    role: 'Virtual Windows Server 2025 Datacenter instance managing enterprise centralized identity, domain policies (AD DS / GPO), DNS, and workstation management.',
-    connections: ['node1-pve']
-  },
-  {
-    id: 'windows-server-licenta',
-    name: 'Win Server 2019',
-    sublabel: 'VM 300 · Bachelor Thesis Lab',
-    ip: '192.168.1.210',
-    port: 3389,
-    category: 'compute',
-    tier: 5,
-    status: 'OPERATIONAL',
-    x: -85,
-    y: 110,
-    z: 115,
-    color: '#0078d4',
-    icon: 'windows',
-    hardware: { node: 'Node 1 (x86_64)', ram: '8,192 MB (Balloon: 4096 MB)', storage: '64 GB' },
-    tags: ['Bachelor Thesis', 'Lucrare de Licență', 'Windows Server 2019', 'GTX 1050 Ti Passthrough', 'Q35 UEFI', 'Active Directory', 'Enterprise'],
-    role: 'Windows Server 2019 Standard enterprise virtual machine dedicated to Bachelor Thesis (Lucrare de Licență) research with Q35/OVMF UEFI and GTX 1050 Ti PCIe passthrough.',
-    connections: ['node1-pve']
-  },
+
   {
     id: 'metasploitable-licenta',
     name: 'Metasploitable Lab',
@@ -582,9 +545,9 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#0078d4',
     icon: 'windows',
-    hardware: { node: 'Node 1 (x86_64)', ram: '4,096 MB', storage: '60 GB' },
-    tags: ['Active Directory', 'Server 2025', 'PDC', 'Forest Root', 'Q35 UEFI', 'TPM 2.0'],
-    role: 'Primary Domain Controller & Forest Root for multi-generation Active Directory enterprise laboratory.',
+    hardware: { node: 'Node 1 (x86_64)', ram: '8,192 MB (Balloon: 4096 MB)', storage: '256 GB NVMe' },
+    tags: ['Active Directory', 'Server 2025', 'PDC', 'Forest Root', 'GTX 1050 Ti Passthrough', 'Q35 UEFI', 'TPM 2.0'],
+    role: 'Primary Domain Controller & Forest Root with GTX 1050 Ti PCIe passthrough and 256 GB NVMe.',
     connections: ['node1-pve', 'ad2022', 'adwin11']
   },
   {
@@ -620,9 +583,9 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     z: 110,
     color: '#0078d4',
     icon: 'windows',
-    hardware: { node: 'Node 1 (x86_64)', ram: '3,072 MB', storage: '60 GB' },
-    tags: ['Active Directory', 'Server 2019', 'Domain Controller', 'GPO', 'Kerberos'],
-    role: 'Domain Controller and Kerberos authentication delegation in Active Directory enterprise laboratory.',
+    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB', storage: '128 GB NVMe' },
+    tags: ['Active Directory', 'Server 2019', 'Domain Controller', 'GPO', 'Kerberos', 'Q35 UEFI'],
+    role: 'Domain Controller and Kerberos authentication delegation in Active Directory enterprise laboratory (Q35 OVMF UEFI, 128 GB NVMe).',
     connections: ['node1-pve', 'ad2016']
   },
   {
@@ -718,6 +681,25 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     hardware: { node: 'Node 1 (x86_64)', ram: '4,096 MB', storage: '60 GB' },
     tags: ['Active Directory', 'Windows 11', 'Modern Client', 'TPM 2.0', 'Credential Guard'],
     role: 'Modern domain-joined Windows 11 client workstation with TPM 2.0 and Credential Guard testing.',
+    connections: ['node1-pve', 'ad2025']
+  },
+  {
+    id: 'adrhel',
+    name: 'AD RHEL 9.8',
+    sublabel: 'VM 408 · RHEL 9.8 Enterprise',
+    ip: '192.168.1.208',
+    port: 22,
+    category: 'compute',
+    tier: 5,
+    status: 'OPERATIONAL',
+    x: -115,
+    y: 450,
+    z: 110,
+    color: '#ee0000',
+    icon: 'rhel',
+    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '50 GB' },
+    tags: ['Active Directory', 'RHEL 9.8', 'Enterprise Linux', 'realmd', 'SSSD', 'SELinux'],
+    role: 'Red Hat Enterprise Linux 9.8 domain member with realmd, SSSD, Kerberos SSO, and SELinux Enforcing.',
     connections: ['node1-pve', 'ad2025']
   },
   {
@@ -986,8 +968,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'openstack-cloud',
     name: 'OpenStack Cloud',
-    sublabel: 'VM 203 · Enterprise IaaS Fabric',
-    ip: '192.168.1.203',
+    sublabel: 'VM 201 · Enterprise IaaS Fabric',
+    ip: '192.168.1.201',
     port: 80,
     category: 'compute',
     tier: 3,
@@ -1005,8 +987,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'metasploitable2-target',
     name: 'Metasploitable 2',
-    sublabel: 'VM 204 · Vulnerable Target',
-    ip: '192.168.1.204',
+    sublabel: 'VM 202 · Vulnerable Target',
+    ip: '192.168.1.202',
     port: 80,
     category: 'security',
     tier: 3,
@@ -1024,8 +1006,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'tpot-honeypot-node',
     name: 'T-Pot Honeypot',
-    sublabel: 'VM 205 · Multi-Honeypot Decoy',
-    ip: '192.168.1.205',
+    sublabel: 'VM 203 · Multi-Honeypot Decoy',
+    ip: '192.168.1.203',
     port: 64297,
     category: 'security',
     tier: 3,
@@ -1043,8 +1025,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'securityonion-siem-node',
     name: 'Security Onion',
-    sublabel: 'VM 206 · SIEM & SOC Platform',
-    ip: '192.168.1.206',
+    sublabel: 'VM 204 · SIEM & SOC Platform',
+    ip: '192.168.1.204',
     port: 443,
     category: 'security',
     tier: 4,
@@ -1062,8 +1044,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
   {
     id: 'remnux-dfir-node',
     name: 'REMnux',
-    sublabel: 'VM 207 · Malware Analysis & DFIR',
-    ip: '192.168.1.207',
+    sublabel: 'VM 205 · Malware Analysis & DFIR',
+    ip: '192.168.1.205',
     port: 22,
     category: 'security',
     tier: 4,
@@ -1119,8 +1101,6 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'woodpecker-ci', to: 'kubernetes-node', protocol: 'K8s Deploy', color: 'rgba(56, 189, 248, 0.7)' },
 
   // Hypervisor to VMs & Containers
-  { from: 'node1-pve', to: 'win-server', protocol: 'VirtIO Active Directory', color: 'rgba(2, 132, 199, 0.7)' },
-  { from: 'node1-pve', to: 'windows-server-licenta', protocol: 'PCIe GPU Passthrough & VirtIO', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'metasploitable-licenta', protocol: 'VirtIO Pentest Target', color: 'rgba(220, 38, 38, 0.7)' },
   { from: 'node1-pve', to: 'kali-licenta', protocol: 'VirtIO Offensive VM', color: 'rgba(14, 165, 233, 0.7)' },
   { from: 'node1-pve', to: 'owasp-licenta', protocol: 'LXC Vulnerable Target', color: 'rgba(234, 179, 8, 0.7)' },
@@ -1131,14 +1111,15 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'node1-pve', to: 'vaultwarden-core', protocol: 'LXC Secrets', color: 'rgba(192, 132, 252, 0.7)' },
 
   // Active Directory Multi-Gen Lab Fleet
-  { from: 'node1-pve', to: 'ad2025', protocol: 'QEMU KVM · Q35 UEFI', color: 'rgba(0, 120, 212, 0.7)' },
+  { from: 'node1-pve', to: 'ad2025', protocol: 'PCIe GPU Passthrough · Q35 UEFI', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'ad2022', protocol: 'QEMU KVM · Q35', color: 'rgba(0, 120, 212, 0.7)' },
-  { from: 'node1-pve', to: 'ad2019', protocol: 'QEMU KVM · i440fx', color: 'rgba(0, 120, 212, 0.7)' },
+  { from: 'node1-pve', to: 'ad2019', protocol: 'QEMU KVM · Q35 UEFI', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'ad2016', protocol: 'QEMU KVM · Q35', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'ad2012', protocol: 'QEMU KVM · i440fx', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'ad2008', protocol: 'QEMU KVM · i440fx', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'adwin10', protocol: 'QEMU KVM · Q35 Client', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'adwin11', protocol: 'QEMU KVM · Q35 UEFI TPM', color: 'rgba(0, 120, 212, 0.7)' },
+  { from: 'node1-pve', to: 'adrhel', protocol: 'QEMU KVM · VirtIO SCSI', color: 'rgba(238, 0, 0, 0.7)' },
   { from: 'ad2025', to: 'ad2022', protocol: 'AD DRS Replication', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'ad2022', to: 'ad2019', protocol: 'Kerberos Trust', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'ad2019', to: 'ad2016', protocol: 'Forest Federation', color: 'rgba(0, 120, 212, 0.7)' },
@@ -1146,6 +1127,7 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'ad2012', to: 'ad2008', protocol: 'NTLM / RC4 Fallback', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'adwin10', to: 'ad2025', protocol: 'Domain Member / GPO', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'adwin11', to: 'ad2025', protocol: 'Credential Guard / Hello', color: 'rgba(0, 120, 212, 0.7)' },
+  { from: 'adrhel', to: 'ad2025', protocol: 'realmd / SSSD AD Join', color: 'rgba(238, 0, 0, 0.7)' },
 
   // Cloud Sync
   { from: 'azure-cloud', to: 'opnsense-gw', protocol: 'Site-to-Site IPsec', color: 'rgba(96, 165, 250, 0.6)' },

@@ -52,31 +52,13 @@ export const HARDWARE_NODES: HardwareNode[] = [
         vmid: 200, 
         name: 'opnsense', 
         os: 'Hardened FreeBSD 14', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
+        allocatedMb: 4096, 
+        balloonMinMb: 2048, 
         purpose: 'Core Perimeter Firewall & Suricata IDS/IPS',
         purposeRo: 'Firewall Central Perimetral & IDS/IPS Suricata'
       },
       { 
         vmid: 201, 
-        name: 'windows', 
-        os: 'Windows Server 2025 Datacenter', 
-        allocatedMb: 8192, 
-        balloonMinMb: 4096, 
-        purpose: 'Active Directory DS, GPO & GTX 1050 Ti PCIe Passthrough (Ballooning: 4096 MB - 8192 MB)',
-        purposeRo: 'Active Directory DS, GPO & GPU Passthrough GTX 1050 Ti (Balonare: 4096 MB - 8192 MB)'
-      },
-      { 
-        vmid: 202, 
-        name: 'rhel', 
-        os: 'RHEL 9.8 Enterprise', 
-        allocatedMb: 2048, 
-        balloonMinMb: 1024, 
-        purpose: 'SELinux Enforcing, Enterprise Services & Podman Engine (Ballooning: 1 GB - 2 GB)',
-        purposeRo: 'SELinux Enforcing, Servicii Enterprise & Podman Engine (Balonare: 1 GB - 2 GB)'
-      },
-      { 
-        vmid: 203, 
         name: 'openstack', 
         os: 'Ubuntu 24.04 LTS / Kolla OpenStack 2024.1', 
         allocatedMb: 4096, 
@@ -85,7 +67,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Controller Cloud Privat OpenStack Enterprise (Calcul Nova, Rețele Neutron, Keystone IAM, Panou Horizon)'
       },
       { 
-        vmid: 204, 
+        vmid: 202, 
         name: 'metasploitable2', 
         os: 'Metasploitable 2 (Ubuntu 8.04)', 
         allocatedMb: 512, 
@@ -94,7 +76,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Țintă Linux Vulnerabilă Intenționat, Teste de Penetrare & Calibrare IDS/IPS Suricata/Wazuh'
       },
       { 
-        vmid: 205, 
+        vmid: 203, 
         name: 'tpot-honeypot', 
         os: 'Debian 12 / T-Pot 24.04 Multi-Honeypot Decoy Platform', 
         allocatedMb: 8192, 
@@ -103,7 +85,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Platformă Multi-Honeypot Decoy Telekom Security (Cowrie, Dionaea, Elastic, Kibana, Suricata)'
       },
       { 
-        vmid: 206, 
+        vmid: 204, 
         name: 'securityonion', 
         os: 'Security Onion 3.2 / Wazuh SIEM Platform', 
         allocatedMb: 8192, 
@@ -112,22 +94,13 @@ export const HARDWARE_NODES: HardwareNode[] = [
         purposeRo: 'Platformă Enterprise SIEM, HIDS, Analiză Loguri, Monitorizare Securitate Rețea (Zeek, Suricata, Elastic, Kibana)'
       },
       { 
-        vmid: 207, 
+        vmid: 205, 
         name: 'remnux', 
         os: 'REMnux v7 / Noble', 
         allocatedMb: 4096, 
         balloonMinMb: 2048, 
         purpose: 'Dedicated Linux Toolkit for Reverse Engineering, Malware Analysis & Digital Forensics (DFIR)',
         purposeRo: 'Toolkit Linux Dedicat pentru Reverse Engineering, Analiză Malware și Investigare Digitală (DFIR)'
-      },
-      { 
-        vmid: 300, 
-        name: 'windows-server-licenta', 
-        os: 'Windows Server 2019 Standard', 
-        allocatedMb: 8192, 
-        balloonMinMb: 4096, 
-        purpose: 'Bachelor Thesis Lab (Lucrare de Licență) - Windows Server 2019 Standard (Q35, OVMF UEFI, GTX 1050 Ti PCIe Passthrough, Massgrave GVLK / KMS), Active Directory Domain Services, GPO & Sysmon Audit',
-        purposeRo: 'Laborator Lucrare de Licență (Bachelor Thesis) - Windows Server 2019 Standard (Q35, OVMF UEFI, Passthrough PCIe GTX 1050 Ti, Activare Massgrave GVLK / KMS), Active Directory DS, GPO & Audit Sysmon'
       },
       { 
         vmid: 301, 
@@ -150,11 +123,11 @@ export const HARDWARE_NODES: HardwareNode[] = [
       { 
         vmid: 400, 
         name: 'ad2025', 
-        os: 'Windows Server 2025 Standard / Datacenter', 
-        allocatedMb: 4096, 
-        balloonMinMb: 2048, 
-        purpose: 'Active Directory Enterprise Lab - Windows Server 2025 Primary Domain Controller (PDC) & Forest Root',
-        purposeRo: 'Laborator Enterprise Active Directory - Controller Principal de Domeniu (PDC) și Rădăcină Forest Windows Server 2025'
+        os: 'Windows Server 2025 Datacenter', 
+        allocatedMb: 8192, 
+        balloonMinMb: 4096, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2025 Primary Domain Controller (PDC) & Forest Root with GTX 1050 Ti PCIe Passthrough (256 GB NVMe)',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller Principal de Domeniu (PDC) și Rădăcină Forest Windows Server 2025 cu Passthrough PCIe GTX 1050 Ti (256 GB NVMe)'
       },
       { 
         vmid: 401, 
@@ -169,10 +142,10 @@ export const HARDWARE_NODES: HardwareNode[] = [
         vmid: 402, 
         name: 'ad2019', 
         os: 'Windows Server 2019 Standard', 
-        allocatedMb: 3072, 
+        allocatedMb: 2048, 
         balloonMinMb: 2048, 
-        purpose: 'Active Directory Enterprise Lab - Windows Server 2019 Domain Controller & Group Policy Management',
-        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Windows Server 2019 și Management Group Policy (GPO)'
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2019 Domain Controller & Kerberos Authentication Delegation (128 GB NVMe, Q35 OVMF UEFI)',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Windows Server 2019 și Delegare Autentificare Kerberos (128 GB NVMe, Q35 OVMF UEFI)'
       },
       { 
         vmid: 403, 
@@ -218,22 +191,28 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 2048, 
         purpose: 'Active Directory Enterprise Lab - Windows 11 Enterprise Modern Domain-Joined Client & TPM 2.0 Security Target',
         purposeRo: 'Laborator Enterprise Active Directory - Stație Modernă Client Windows 11 Enterprise Integrată în Domeniu și Securitate TPM 2.0'
+      },
+      { 
+        vmid: 408, 
+        name: 'adrhel', 
+        os: 'RHEL 9.8 Enterprise', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Active Directory Enterprise Lab - Red Hat Enterprise Linux 9.8 Domain Integration (realmd / SSSD / Kerberos, SELinux Enforcing)',
+        purposeRo: 'Laborator Enterprise Active Directory - Integrare în Domeniu Red Hat Enterprise Linux 9.8 (realmd / SSSD / Kerberos, SELinux Enforcing)'
       }
     ],
     workloads: [
-      'VM 200: OPNsense Core Firewall (2048 MB / Balloon: 1024 MB · Suricata IDS/IPS, CrowdSec Bouncer, GeoIP Drop, DoT Quad9, Telegraf, Monit, GitOps, FRR BGP, Tailscale, NetFlow)',
-      'VM 201: Windows Server 2025 Datacenter (8192 MB / Balloon: 4096 MB [4-8 GB] · GPU Passthrough)',
-      'VM 202: Red Hat Enterprise Linux 9.8 (2048 MB / Balloon: 1024 MB [1-2 GB])',
-      'VM 203: OpenStack 2024.1 Caracal (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Enterprise Cloud Controller & Horizon)',
-      'VM 204: Metasploitable 2 (512 MB · 8 GB NVMe · Penetration Testing, Red Teaming & Exploit Vulnerability Lab)',
-      'VM 205: T-Pot 24.04 Multi-Honeypot Platform (8192 MB / Balloon: 4096 MB · 60 GB NVMe · Cowrie, Dionaea, Elastic, Kibana, Suricata)',
-      'VM 206: Security Onion 3.2 / Wazuh SIEM Platform (8192 MB / Balloon: 4096 MB · 50 GB NVMe · Zeek, Suricata, Elastic, Kibana, HIDS)',
-      'VM 207: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
-      'VM 300: Windows Server 2019 Licență (Bachelor Thesis / Lucrare de Licență · 8192 MB / Balloon: 4096 MB · 64 GB NVMe · Q35 UEFI · GTX 1050 Ti Passthrough · Massgrave GVLK / KMS)',
+      'VM 200: OPNsense Core Firewall (4096 MB / Balloon: 2048 MB · Suricata IDS/IPS, CrowdSec Bouncer, GeoIP Drop, DoT Quad9, Telegraf, Monit, GitOps, FRR BGP, Tailscale, NetFlow)',
+      'VM 201: OpenStack 2024.1 Caracal (4096 MB / Balloon: 2048 MB · 32 GB NVMe · Enterprise Cloud Controller & Horizon)',
+      'VM 202: Metasploitable 2 (512 MB · 8 GB NVMe · Penetration Testing, Red Teaming & Exploit Vulnerability Lab)',
+      'VM 203: T-Pot 24.04 Multi-Honeypot Platform (8192 MB / Balloon: 4096 MB · 60 GB NVMe · Cowrie, Dionaea, Elastic, Kibana, Suricata)',
+      'VM 204: Security Onion 3.2 / Wazuh SIEM Platform (8192 MB / Balloon: 4096 MB · 50 GB NVMe · Zeek, Suricata, Elastic, Kibana, HIDS)',
+      'VM 205: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
       'VM 301: Metasploitable Licență (Bachelor Thesis / Lucrare de Licență · 2048 MB / Balloon: 1024 MB · 20 GB NVMe · Pentest & Wazuh Rules Lab)',
       'VM 302: Kali Licență (Bachelor Thesis / Lucrare de Licență · 4096 MB / Balloon: 2048 MB · 30 GB NVMe · Isolated vmbr1 Pentest)',
       'CT 303: OWASP Licență (Bachelor Thesis / Lucrare de Licență · 512 MB · 8 GB NVMe · Alpine LXC Docker Container on vmbr1)',
-      'VM 400-407: Active Directory Lab Fleet: ad2025 (VM 400), ad2022 (VM 401), ad2019 (VM 402), ad2016 (VM 403), ad2012 (VM 404), ad2008 (VM 405), adwin10 (VM 406), adwin11 (VM 407) · Multi-Generation Windows Active Directory Enterprise Lab',
+      'VM 400-408: Active Directory Lab Fleet: ad2025 (VM 400, GTX 1050 Ti Passthrough, 256 GB), ad2022 (VM 401), ad2019 (VM 402, 128 GB), ad2016 (VM 403), ad2012 (VM 404), ad2008 (VM 405), adwin10 (VM 406), adwin11 (VM 407), adrhel (VM 408) · Multi-Generation Windows & Linux Active Directory Enterprise Lab',
       'CT 100-105: Core Infrastructure & Media: Immich AI (CT 100), Nextcloud Hub (CT 101), Home Assistant (CT 102), n8n Workflows (CT 103), Scrutiny SMART (CT 104), Media-Suite (CT 105)',
       'CT 106-107: Ollama GPU LLM Server (CT 106) & Open-WebUI Assistant (CT 107) (CUDA GTX 1050 Ti Passthrough)',
       'CT 108: Faster-Whisper GPU Speech-to-Text Transcriber (CT 108 · CUDA Accelerated)',
