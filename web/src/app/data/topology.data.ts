@@ -531,7 +531,7 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['node1-pve', 'wazuh-siem']
   },
   {
-    id: 'kali-linux-licenta',
+    id: 'kali-licenta',
     name: 'Kali Linux',
     sublabel: 'VM 302 · Bachelor Thesis Pentest',
     ip: '192.168.30.102',
@@ -547,10 +547,10 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     hardware: { node: 'Node 1 (x86_64)', ram: '4,096 MB (Balloon: 2048 MB)', storage: '30 GB' },
     tags: ['Bachelor Thesis', 'Lucrare de Licență', 'Kali Linux', 'Offensive Security', 'Red Team', 'CyberLab'],
     role: 'Dedicated offensive security workstation for Bachelor Thesis (Lucrare de Licență) automated penetration testing in isolated CyberLab VLAN 30 on bridge vmbr1.',
-    connections: ['node1-pve', 'juice-shop-licenta']
+    connections: ['node1-pve', 'owasp-licenta']
   },
   {
-    id: 'juice-shop-licenta',
+    id: 'owasp-licenta',
     name: 'OWASP Juice Shop',
     sublabel: 'CT 303 · Bachelor Thesis Target',
     ip: '192.168.30.103',
@@ -970,9 +970,9 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
   { from: 'node1-pve', to: 'win-server', protocol: 'VirtIO Active Directory', color: 'rgba(2, 132, 199, 0.7)' },
   { from: 'node1-pve', to: 'windows-server-licenta', protocol: 'VirtIO QEMU KVM', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'metasploitable-licenta', protocol: 'VirtIO Pentest Target', color: 'rgba(220, 38, 38, 0.7)' },
-  { from: 'node1-pve', to: 'kali-linux-licenta', protocol: 'VirtIO Offensive VM', color: 'rgba(14, 165, 233, 0.7)' },
-  { from: 'node1-pve', to: 'juice-shop-licenta', protocol: 'LXC Vulnerable Target', color: 'rgba(234, 179, 8, 0.7)' },
-  { from: 'kali-linux-licenta', to: 'juice-shop-licenta', protocol: 'Isolated vmbr1 Pentest', color: 'rgba(234, 179, 8, 0.7)' },
+  { from: 'node1-pve', to: 'kali-licenta', protocol: 'VirtIO Offensive VM', color: 'rgba(14, 165, 233, 0.7)' },
+  { from: 'node1-pve', to: 'owasp-licenta', protocol: 'LXC Vulnerable Target', color: 'rgba(234, 179, 8, 0.7)' },
+  { from: 'kali-licenta', to: 'owasp-licenta', protocol: 'Isolated vmbr1 Pentest', color: 'rgba(234, 179, 8, 0.7)' },
   { from: 'node1-pve', to: 'ollama-gpu-node', protocol: 'PCIe GPU Passthrough', color: 'rgba(244, 63, 94, 0.8)' },
   { from: 'ollama-gpu-node', to: 'whisper-ai-node', protocol: 'Local AI Pipeline', color: 'rgba(236, 72, 153, 0.7)' },
   { from: 'node1-pve', to: 'postgres-ha', protocol: 'LXC Datastore', color: 'rgba(59, 130, 246, 0.7)' },

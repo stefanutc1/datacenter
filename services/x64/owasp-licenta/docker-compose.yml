@@ -1,7 +1,7 @@
 services:
   juice-shop:
     image: bkimminich/juice-shop:v17.1.1
-    container_name: juice-shop-licenta
+    container_name: owasp-licenta
     restart: unless-stopped
     ports:
       - '3000:3000'

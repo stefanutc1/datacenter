@@ -1914,7 +1914,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     "id": "vm-kali-licenta",
     "name": "Kali Linux Rolling (Licență / Bachelor Thesis)",
     "category": "cyber",
-    "containerName": "kali-linux-licenta",
+    "containerName": "kali-licenta",
     "node": "Node 1 (Intel i3-10100F) · VM 302",
     "ram": "4,096 MB",
     "storage": "30 GB NVMe",
@@ -1938,16 +1938,16 @@ export const SERVICES_DATA: ServiceItem[] = [
     "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 302) · Bachelor's Thesis Lab\n# OS: Kali Linux Rolling · Dynamic Ballooning: 2048 MB - 4096 MB\ncores: 2\nmemory: 4096\nballoon: 2048\nscsi0: local-lvm:vm-302-disk-0,discard=on,size=30G,ssd=1\nnet0: virtio=BC:24:11:C3:02:11,bridge=vmbr1,firewall=1,tag=30"
   },
   {
-    "id": "lxc-juice-shop-licenta",
-    "name": "OWASP Juice Shop (Licență / Bachelor Thesis)",
+    "id": "lxc-owasp-licenta",
+    "name": "OWASP Vulnerable Web Target (Licență / Bachelor Thesis)",
     "category": "cyber",
-    "containerName": "juice-shop-licenta",
+    "containerName": "owasp-licenta",
     "node": "Node 1 (Intel i3-10100F) · CT 303",
     "ram": "512 MB",
     "storage": "8 GB NVMe",
     "ip": "192.168.30.103",
     "port": 3000,
-    "domain": "juiceshop.homelab.local",
+    "domain": "owasp.homelab.local",
     "status": "STANDBY",
     "description": "Dedicated Bachelor's Thesis (Lucrare de Licență) intentionally vulnerable web target. Alpine Linux 3.24 unprivileged LXC container with Docker nesting running OWASP Juice Shop in quarantine on isolated bridge vmbr1 / VLAN 30.",
     "descriptionRo": "Țintă web vulnerabilă intenționat pentru Lucrarea de Licență (Bachelor's Thesis). Container LXC unprivileged Alpine Linux 3.24 cu suport Docker nesting, rulând OWASP Juice Shop în carantină pe bridge-ul izolat vmbr1 / VLAN 30.",
@@ -1961,7 +1961,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     "color": "#eab308",
     "icon": "shield",
-    "composeCode": "services:\n  juice-shop:\n    image: bkimminich/juice-shop:v17.1.1\n    container_name: juice-shop-licenta\n    restart: unless-stopped\n    ports:\n      - '3000:3000'"
+    "composeCode": "services:\n  juice-shop:\n    image: bkimminich/juice-shop:v17.1.1\n    container_name: owasp-licenta\n    restart: unless-stopped\n    ports:\n      - '3000:3000'"
   },
   {
     "id": "argocd",

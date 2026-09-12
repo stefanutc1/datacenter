@@ -240,10 +240,10 @@ create_or_skip_vm 301 "metasploitable-licenta" \
   --tags "cyber;licenta;bachelor-thesis;metasploit;metasploitable;pentest;red-team;vm301"
 
 # ------------------------------------------------------------------------------
-# VM 302: kali-linux-licenta (Bachelor Thesis / Lucrare de Licenta)
+# VM 302: kali-licenta (Bachelor Thesis / Lucrare de Licenta)
 # ------------------------------------------------------------------------------
-create_or_skip_vm 302 "kali-linux-licenta" \
-  --name "kali-linux-licenta" \
+create_or_skip_vm 302 "kali-licenta" \
+  --name "kali-licenta" \
   --description "Bachelor Thesis Lab (Lucrare de Licenta) - Kali Linux Offensive Security & Red Team Pentest Workstation" \
   --memory 4096 \
   --balloon 2048 \
@@ -251,8 +251,9 @@ create_or_skip_vm 302 "kali-linux-licenta" \
   --cpu host \
   --scsihw virtio-scsi-single \
   --scsi0 "$STORAGE:30,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/kali-linux-2026.2-installer-netinst-amd64.iso,media=cdrom" \
   --net0 "virtio,bridge=vmbr1,firewall=1,tag=30" \
-  --boot "order=scsi0;net0" \
+  --boot "order=scsi0;ide2;net0" \
   --ostype l26 \
   --tags "cyber;licenta;bachelor-thesis;kali;pentest;red-team;vm302"
 

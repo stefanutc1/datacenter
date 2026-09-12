@@ -44,7 +44,7 @@ module "vm_kali_licenta_302" {
   source       = "./modules/proxmox_vm"
   target_node  = var.primary_node
   vmid         = 302
-  name         = "kali-linux-licenta"
+  name         = "kali-licenta"
   description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Kali Linux Offensive Security & Red Team Pentest Workstation"
   cores        = 2
   memory       = 4096
@@ -62,7 +62,7 @@ module "lxc_juiceshop_licenta_303" {
   source       = "./modules/proxmox_lxc"
   target_node  = var.primary_node
   vmid         = 303
-  hostname     = "juice-shop-licenta"
+  hostname     = "owasp-licenta"
   ostemplate   = var.alpine_template
   ostype       = "alpine"
   cores        = 2
