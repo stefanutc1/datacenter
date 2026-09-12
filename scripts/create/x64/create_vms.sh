@@ -323,7 +323,7 @@ create_or_skip_vm 405 "ad2008" \
   --scsihw virtio-scsi-single \
   --scsi0 "$STORAGE:40,discard=on,ssd=1" \
   --ide2 "$ISO_STORAGE/windows_server_2008_r2_x64.iso,media=cdrom" \
-  --ide0 "$ISO_STORAGE/virtioVECHI.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtioDEOSEAMACUMAMAIE.iso,media=cdrom" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=scsi0;ide2;ide0;net0" \
   --ostype win7 \
@@ -383,7 +383,7 @@ create_or_skip_vm 408 "adwin7" \
   --scsihw virtio-scsi-single \
   --scsi0 "$STORAGE:50,iothread=1" \
   --ide2 "$ISO_STORAGE/windows_7_sp1_x64.iso,media=cdrom" \
-  --ide0 "$ISO_STORAGE/virtioVECHI.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtioDEOSEAMACUMAMAIE.iso,media=cdrom" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
   --boot "order=scsi0;ide2;ide0;net0" \
   --ostype win7 \
