@@ -219,7 +219,7 @@ memory: 2048
 balloon: 1024
 machine: pc-i440fx-11.0+pve2
 scsi0: local-lvm:vm-408-disk-0,iothread=1,size=50G
-ide0: local:iso/virtioDEOSEAMACUMAMAIE.iso,media=cdrom
+ide0: local:iso/virtioVECHI.iso,media=cdrom
 ide2: local:iso/windows_7_sp1_x64.iso,media=cdrom
 net0: virtio,bridge=vmbr0,firewall=1`},{id:"vm-adrhel",name:"Red Hat Enterprise Linux 9.8 (AD Domain Member)",category:"core",containerName:"adrhel",node:"Node 1 (Intel i3-10100F) \xB7 VM 409",ram:"2,048 MB",storage:"50 GB NVMe",ip:"192.168.1.208",port:22,domain:"adrhel.homelab.local",status:"STANDBY",description:"Active Directory enterprise laboratory domain member. Red Hat Enterprise Linux 9.8 joined to AD via realmd/SSSD, Kerberos single sign-on, and strict SELinux Enforcing policies.",descriptionRo:"Membru de domeniu \xEEn laboratorul enterprise Active Directory. Red Hat Enterprise Linux 9.8 integrat prin realmd/SSSD, autentificare unic\u0103 Kerberos (SSO) \u0219i politici stricte SELinux Enforcing.",tags:["Active Directory","RHEL 9.8","Enterprise Linux","realmd","SSSD","SELinux","VM 409"],color:"#ee0000",icon:"rhel",composeCode:`# Proxmox VE QEMU/KVM Configuration (VM 409) \xB7 Active Directory Lab
 # Machine: Q35 \xB7 BIOS: OVMF UEFI \xB7 OS: RHEL 9.8
@@ -337,7 +337,7 @@ cores: 2
 memory: 2048
 machine: pc-i440fx-11.0+pve2
 scsi0: local-lvm:vm-405-disk-0,iothread=1,size=40G
-ide0: local:iso/virtioDEOSEAMACUMAMAIE.iso,media=cdrom
+ide0: local:iso/virtioVECHI.iso,media=cdrom
 ide2: local:iso/windows_server_2008_r2_x64.iso,media=cdrom
 net0: virtio=BC:24:11:AE:F2:EA,bridge=vmbr0,firewall=1`},{id:"vm-ad2003",name:"Windows Server 2003 R2 (Active Directory DC)",category:"core",containerName:"ad2003",node:"Node 1 (Intel i3-10100F) \xB7 VM 410",ram:"2,048 MB",storage:"40 GB NVMe",ip:"192.168.1.209",port:3389,domain:"ad2003.homelab.local",status:"STANDBY",description:"Multi-generation Active Directory enterprise laboratory ultra-legacy DC. Windows Server 2003 R2 SP2 Enterprise Edition for foundational SMBv1, LanMan, and NTLMv1 testing.",descriptionRo:"Controller de domeniu ultra-legacy pentru laboratorul enterprise Active Directory. Windows Server 2003 R2 SP2 Enterprise Edition pentru testarea protocoalelor fundamentale SMBv1, LanMan \u0219i NTLMv1.",tags:["Active Directory","Windows Server 2003 R2","Domain Controller","Ultra-Legacy","Massgrave Genuine","VM 410"],color:"#0078d4",icon:"windows",composeCode:`# Proxmox VE QEMU/KVM Configuration (VM 410) \xB7 Active Directory Lab
 # Machine: i440fx \xB7 OS: Windows Server 2003 R2 SP2 Enterprise
