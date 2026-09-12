@@ -268,6 +268,28 @@ flowchart TD
 
 > **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–207) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174) and Bachelor Thesis research workloads (VM 300, 301, 302, CT 303) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
 
+### 🎓 Bachelor's Thesis CyberLab Architecture (VM 300–302 & CT 303)
+
+The dedicated Bachelor's Thesis (Lucrare de Licență) laboratory establishes an enterprise offensive and defensive cybersecurity proving ground. Full technical specifications, attack scenarios (Kerberoasting, Metasploit CVE exploitation, OWASP Top 10), and detection engineering pipelines are detailed in the [Bachelor's Thesis CyberLab Architecture Guide](docs/LICENTA_ARCHITECTURE.md).
+
+```mermaid
+flowchart LR
+    subgraph THESIS["VLAN 30 (CyberLab) & Isolated Bridge vmbr1"]
+        KALI["VM 302: kali-licenta<br/>(Offensive Red Team Workstation)"]
+        WIN["VM 300: windows-server-licenta<br/>(Active Directory DS & Sysmon)"]
+        META["VM 301: metasploitable-licenta<br/>(Linux Vulnerability Target)"]
+        OWASP["CT 303: owasp-licenta<br/>(OWASP Juice Shop / DVWA)"]
+    end
+
+    KALI ==>|"Kerberoast / AD DS"| WIN
+    KALI ==>|"Remote Exploitation"| META
+    KALI ==>|"OWASP Top 10 Web Fuzzing"| OWASP
+```
+
+* **Network Quarantine**: Workloads reside on the dedicated internal Linux bridge **`vmbr1`** without physical uplink ports, preventing unauthorized broadcast leakage or external traffic escape.
+* **Dynamic VirtIO Memory Ballooning**: All thesis virtual machines dynamically balloon RAM back to Proxmox when idle (saving 7+ GB of host RAM).
+* **Declarative Provisioning**: Fully defined as code in [terraform/licenta.tf](terraform/licenta.tf), with fleet inventory mapped in [ansible/inventories/homelab/hosts.yml](ansible/inventories/homelab/hosts.yml).
+
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 
 * **Compression Algorithm**: Ultra-fast `lz4` with < 1% CPU overhead.
