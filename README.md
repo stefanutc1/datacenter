@@ -265,8 +265,46 @@ flowchart TD
 | **301** | `metasploitable-licenta` | Metasploitable Linux Target | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (20 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Dedicated Penetration Testing Proving Ground, Vulnerability Assessment & Wazuh Tuning |
 | **302** | `kali-licenta` | Kali Linux Rolling (Offensive Security) | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (30 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Offensive Security & Red Team Pentest Workstation, isolated on `vmbr1` / VLAN 30 |
 | **303** | `owasp-licenta` | Alpine Linux 3.24 LXC | 2 Cores | 512 MB | - | Rootfs (8 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Containerized OWASP Juice Shop / DVWA Target with Docker nesting on isolated `vmbr1` |
+| **400** | `ad2025` | Windows Server 2025 Datacenter | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (60 GB) + Q35 OVMF UEFI + vTPM 2.0 | **Active Directory Enterprise Lab** · Primary Domain Controller (PDC) & Forest Root on Windows Server 2025 (Massgrave genuine media) |
+| **401** | `ad2022` | Windows Server 2022 Datacenter | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (60 GB) + Q35 | **Active Directory Enterprise Lab** · Windows Server 2022 Domain Controller, DNS/DHCP & GPO replication |
+| **402** | `ad2019` | Windows Server 2019 Standard | 2 Cores | 3,072 MB | **2,048 MB** | VirtIO SCSI (60 GB) + i440fx | **Active Directory Enterprise Lab** · Windows Server 2019 Domain Controller & Kerberos authentication delegation |
+| **403** | `ad2016` | Windows Server 2016 Standard | 2 Cores | 3,072 MB | **2,048 MB** | VirtIO SCSI (50 GB) + Q35 | **Active Directory Enterprise Lab** · Windows Server 2016 Domain Controller & Cross-Forest Trust testing |
+| **404** | `ad2012` | Windows Server 2012 R2 Standard | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (40 GB) + i440fx | **Active Directory Enterprise Lab** · Windows Server 2012 R2 Legacy Functional Level Domain Controller |
+| **405** | `ad2008` | Windows Server 2008 R2 SP1 Standard | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (40 GB) + i440fx | **Active Directory Enterprise Lab** · Windows Server 2008 R2 SP1 Legacy DC for Kerberos RC4 & NTLM migration analysis |
+| **406** | `adwin10` | Windows 10 Enterprise | 2 Cores | 3,072 MB | **2,048 MB** | VirtIO SCSI (50 GB) + Q35 | **Active Directory Enterprise Lab** · Windows 10 Enterprise Domain-Joined Workstation Client & GPO policy target |
+| **407** | `adwin11` | Windows 11 Enterprise | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (60 GB) + Q35 OVMF UEFI + vTPM 2.0 | **Active Directory Enterprise Lab** · Windows 11 Enterprise Modern Domain-Joined Client & Credential Guard target |
 
-> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–207) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174) and Bachelor Thesis research workloads (VM 300, 301, 302, CT 303) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
+> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–207) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174), Bachelor Thesis research workloads (VM 300, 301, 302, CT 303), and the Active Directory lab fleet (VM 400–407) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
+
+### 🏢 Multi-Generation Active Directory Enterprise Laboratory (VM 400–407)
+
+The Active Directory enterprise lab spans across eight major Windows Server and client releases, establishing a complete environment for cross-forest trusts, domain upgrades, Kerberos authentication delegation, Group Policy Objects (GPO), and Windows Event Forwarding:
+
+```mermaid
+flowchart TD
+    subgraph FOREST["Active Directory Forest & Domain Ecosystem (Fleet 400 - 407)"]
+        PDC["VM 400: ad2025<br/>(Server 2025 PDC / Forest Root)"]
+        DC22["VM 401: ad2022<br/>(Server 2022 Replica DC / DNS)"]
+        DC19["VM 402: ad2019<br/>(Server 2019 DC / Kerberos)"]
+        DC16["VM 403: ad2016<br/>(Server 2016 DC / Trust Lab)"]
+        DC12["VM 404: ad2012<br/>(Server 2012 R2 Legacy DC)"]
+        DC08["VM 405: ad2008<br/>(Server 2008 R2 SP1 Legacy DC)"]
+        W10["VM 406: adwin10<br/>(Win 10 Enterprise Client)"]
+        W11["VM 407: adwin11<br/>(Win 11 Enterprise Modern Client)"]
+    end
+
+    PDC <==>|"Active Directory Replication (DRS)"| DC22
+    DC22 <==>|"Kerberos SSO / Trusts"| DC19
+    DC19 <==>|"Domain Federation"| DC16
+    DC16 <==>|"Legacy Compatibility"| DC12
+    DC12 <==>|"NTLM / RC4 Fallback"| DC08
+    W10 -.->|"Domain Member / GPO"| PDC
+    W11 -.->|"Domain Member / Credential Guard"| PDC
+```
+
+* **Genuine Installation Media**: All ISO images are sourced directly from genuine Microsoft distribution channels via [massgrave.dev](https://massgrave.dev), ensuring clean SHA-256 hashes without third-party tampering.
+* **Architecture & Firmwares**: Server 2025 and Windows 11 feature modern Q35 chipset emulation with OVMF UEFI and virtual TPM 2.0 (`v2.0`), while legacy servers (2012 R2, 2008 R2) utilize i440fx chipset for compatibility.
+* **Storage Allocation**: High-speed VirtIO SCSI controllers with `iothread=1` and `local-lvm` thin provisioning for optimal I/O throughput.
 
 ### 🎓 Bachelor's Thesis CyberLab Architecture (VM 300–302 & CT 303)
 

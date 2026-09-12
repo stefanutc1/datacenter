@@ -263,6 +263,167 @@ create_or_skip_vm 302 "kali-licenta" \
   --ostype l26 \
   --tags "cyber;licenta;bachelor-thesis;kali;pentest;red-team;vm302"
 
+# ==============================================================================
+# ACTIVE DIRECTORY ENTERPRISE LAB FLEET (400 - 407)
+# Massgrave Genuine Media · Multi-Generation Windows Active Directory Domain Lab
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# VM 400: ad2025 (Windows Server 2025 Domain Controller)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 400 "ad2025" \
+  --name "ad2025" \
+  --description "Active Directory Lab - Windows Server 2025 Standard/Datacenter Domain Controller" \
+  --memory 4096 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine q35 \
+  --bios ovmf \
+  --efidisk0 "$STORAGE:1,efitype=4m,pre-enrolled-keys=1" \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:60,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/en-us_windows_server_2025_updated_aug_2026_x64_dvd_b0833651.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win11 \
+  --tags "active-directory;ad2025;domain-controller;microsoft;server2025;vm400;windows"
+
+# ------------------------------------------------------------------------------
+# VM 401: ad2022 (Windows Server 2022 Domain Controller)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 401 "ad2022" \
+  --name "ad2022" \
+  --description "Active Directory Lab - Windows Server 2022 Standard/Datacenter Domain Controller" \
+  --memory 4096 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine q35 \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:60,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/windows_server_2022_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win11 \
+  --tags "active-directory;ad2022;domain-controller;microsoft;server2022;vm401;windows"
+
+# ------------------------------------------------------------------------------
+# VM 402: ad2019 (Windows Server 2019 Domain Controller)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 402 "ad2019" \
+  --name "ad2019" \
+  --description "Active Directory Lab - Windows Server 2019 Standard Domain Controller" \
+  --memory 3072 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine pc-i440fx-11.0+pve2 \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:60,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/windows_server_2019_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win10 \
+  --tags "active-directory;ad2019;domain-controller;microsoft;server2019;vm402;windows"
+
+# ------------------------------------------------------------------------------
+# VM 403: ad2016 (Windows Server 2016 Domain Controller)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 403 "ad2016" \
+  --name "ad2016" \
+  --description "Active Directory Lab - Windows Server 2016 Standard Domain Controller" \
+  --memory 3072 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine q35 \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:50,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/en_windows_server_2016_vl_x64_dvd_11636701.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win10 \
+  --tags "active-directory;ad2016;domain-controller;microsoft;server2016;vm403;windows"
+
+# ------------------------------------------------------------------------------
+# VM 404: ad2012 (Windows Server 2012 R2 Domain Controller)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 404 "ad2012" \
+  --name "ad2012" \
+  --description "Active Directory Lab - Windows Server 2012 R2 Standard Domain Controller" \
+  --memory 2048 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine pc-i440fx-11.0+pve2 \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:40,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/windows_server_2012_r2_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win8 \
+  --tags "active-directory;ad2012;domain-controller;microsoft;server2012r2;vm404;windows"
+
+# ------------------------------------------------------------------------------
+# VM 405: ad2008 (Windows Server 2008 R2 SP1 Domain Controller)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 405 "ad2008" \
+  --name "ad2008" \
+  --description "Active Directory Lab - Windows Server 2008 R2 SP1 Standard Domain Controller" \
+  --memory 2048 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine pc-i440fx-11.0+pve2 \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:40,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/windows_server_2008_r2_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win7 \
+  --tags "active-directory;ad2008;domain-controller;microsoft;server2008r2;vm405;windows"
+
+# ------------------------------------------------------------------------------
+# VM 406: adwin10 (Windows 10 Enterprise Domain Member Client)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 406 "adwin10" \
+  --name "adwin10" \
+  --description "Active Directory Lab - Windows 10 Enterprise Domain Member Client" \
+  --memory 3072 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine q35 \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:50,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/windows_10_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win10 \
+  --tags "active-directory;adwin10;client;domain-client;microsoft;vm406;windows10"
+
+# ------------------------------------------------------------------------------
+# VM 407: adwin11 (Windows 11 Enterprise Domain Member Client)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 407 "adwin11" \
+  --name "adwin11" \
+  --description "Active Directory Lab - Windows 11 Enterprise Domain Member Client" \
+  --memory 4096 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine q35 \
+  --bios ovmf \
+  --efidisk0 "$STORAGE:1,efitype=4m,pre-enrolled-keys=1" \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:60,discard=on,ssd=1" \
+  --ide2 "$ISO_STORAGE/windows_11_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype win11 \
+  --tags "active-directory;adwin11;client;domain-client;microsoft;vm407;windows11"
+
 
 echo ""
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"

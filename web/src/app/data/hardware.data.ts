@@ -146,6 +146,78 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 2048, 
         purpose: 'Bachelor Thesis Lab (Lucrare de Licență) - Kali Linux Offensive Security & Red Team Pentest Workstation (Isolated vmbr1 / VLAN 30)',
         purposeRo: 'Laborator Lucrare de Licență (Bachelor Thesis) - Stație de Lucru Kali Linux pentru Securitate Ofensivă și Teste de Penetrare (Izolat vmbr1 / VLAN 30)'
+      },
+      { 
+        vmid: 400, 
+        name: 'ad2025', 
+        os: 'Windows Server 2025 Standard / Datacenter', 
+        allocatedMb: 4096, 
+        balloonMinMb: 2048, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2025 Primary Domain Controller (PDC) & Forest Root',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller Principal de Domeniu (PDC) și Rădăcină Forest Windows Server 2025'
+      },
+      { 
+        vmid: 401, 
+        name: 'ad2022', 
+        os: 'Windows Server 2022 Standard / Datacenter', 
+        allocatedMb: 4096, 
+        balloonMinMb: 2048, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2022 Domain Controller & DNS / DHCP Infrastructure',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Windows Server 2022 și Infrastructură DNS / DHCP'
+      },
+      { 
+        vmid: 402, 
+        name: 'ad2019', 
+        os: 'Windows Server 2019 Standard', 
+        allocatedMb: 3072, 
+        balloonMinMb: 2048, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2019 Domain Controller & Group Policy Management',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Windows Server 2019 și Management Group Policy (GPO)'
+      },
+      { 
+        vmid: 403, 
+        name: 'ad2016', 
+        os: 'Windows Server 2016 Standard', 
+        allocatedMb: 3072, 
+        balloonMinMb: 2048, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2016 Domain Controller & Cross-Forest Trust Testing',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Windows Server 2016 și Testare Cross-Forest Trust'
+      },
+      { 
+        vmid: 404, 
+        name: 'ad2012', 
+        os: 'Windows Server 2012 R2 Standard', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2012 R2 Domain Controller (Legacy Functional Level Compatibility)',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Windows Server 2012 R2 (Compatibilitate Nivel Funcțional Moștenit)'
+      },
+      { 
+        vmid: 405, 
+        name: 'ad2008', 
+        os: 'Windows Server 2008 R2 SP1 Standard', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2008 R2 SP1 Domain Controller (Legacy Forest Testing & Kerberos Migration)',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Windows Server 2008 R2 SP1 (Testare Forest Moștenit și Migrare Kerberos)'
+      },
+      { 
+        vmid: 406, 
+        name: 'adwin10', 
+        os: 'Windows 10 Enterprise / Pro', 
+        allocatedMb: 3072, 
+        balloonMinMb: 2048, 
+        purpose: 'Active Directory Enterprise Lab - Windows 10 Enterprise Domain-Joined Workstation Client & GPO Policy Target',
+        purposeRo: 'Laborator Enterprise Active Directory - Stație Client Windows 10 Enterprise Integrată în Domeniu și Țintă Politici GPO'
+      },
+      { 
+        vmid: 407, 
+        name: 'adwin11', 
+        os: 'Windows 11 Enterprise / Pro', 
+        allocatedMb: 4096, 
+        balloonMinMb: 2048, 
+        purpose: 'Active Directory Enterprise Lab - Windows 11 Enterprise Modern Domain-Joined Client & TPM 2.0 Security Target',
+        purposeRo: 'Laborator Enterprise Active Directory - Stație Modernă Client Windows 11 Enterprise Integrată în Domeniu și Securitate TPM 2.0'
       }
     ],
     workloads: [
@@ -161,6 +233,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 301: Metasploitable Licență (Bachelor Thesis / Lucrare de Licență · 2048 MB / Balloon: 1024 MB · 20 GB NVMe · Pentest & Wazuh Rules Lab)',
       'VM 302: Kali Licență (Bachelor Thesis / Lucrare de Licență · 4096 MB / Balloon: 2048 MB · 30 GB NVMe · Isolated vmbr1 Pentest)',
       'CT 303: OWASP Licență (Bachelor Thesis / Lucrare de Licență · 512 MB · 8 GB NVMe · Alpine LXC Docker Container on vmbr1)',
+      'VM 400-407: Active Directory Lab Fleet: ad2025 (VM 400), ad2022 (VM 401), ad2019 (VM 402), ad2016 (VM 403), ad2012 (VM 404), ad2008 (VM 405), adwin10 (VM 406), adwin11 (VM 407) · Multi-Generation Windows Active Directory Enterprise Lab',
       'CT 100-105: Core Infrastructure & Media: Immich AI (CT 100), Nextcloud Hub (CT 101), Home Assistant (CT 102), n8n Workflows (CT 103), Scrutiny SMART (CT 104), Media-Suite (CT 105)',
       'CT 106-107: Ollama GPU LLM Server (CT 106) & Open-WebUI Assistant (CT 107) (CUDA GTX 1050 Ti Passthrough)',
       'CT 108: Faster-Whisper GPU Speech-to-Text Transcriber (CT 108 · CUDA Accelerated)',
