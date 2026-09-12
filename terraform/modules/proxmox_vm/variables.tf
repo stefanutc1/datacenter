@@ -92,6 +92,12 @@ variable "iso_file_id" {
   default     = ""
 }
 
+variable "bridge" {
+  type        = string
+  description = "Linux bridge interface on the Proxmox host (e.g. vmbr0, vmbr1)"
+  default     = "vmbr0"
+}
+
 variable "vlan_tag" {
   type        = number
   description = "VLAN ID for network segmentation"

@@ -50,7 +50,7 @@ resource "proxmox_virtual_environment_container" "container" {
 
   network_interface {
     name     = "eth0"
-    bridge   = "vmbr0"
+    bridge   = var.bridge
     vlan_id  = var.vlan_tag
     firewall = true
   }

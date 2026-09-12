@@ -137,6 +137,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 1024, 
         purpose: 'Bachelor Thesis Lab (Lucrare de Licență) - Vulnerable Linux Target Proving Ground for Automated Exploitation & Wazuh SIEM Detection Rule Validation',
         purposeRo: 'Laborator Lucrare de Licență (Bachelor Thesis) - Poligon cu Ținte Linux Vulnerabile pentru Exploatare Automată și Validarea Regulilor de Detecție Wazuh SIEM'
+      },
+      { 
+        vmid: 302, 
+        name: 'kali-linux-licenta', 
+        os: 'Kali Linux Rolling', 
+        allocatedMb: 4096, 
+        balloonMinMb: 2048, 
+        purpose: 'Bachelor Thesis Lab (Lucrare de Licență) - Kali Linux Offensive Security & Red Team Pentest Workstation (Isolated vmbr1 / VLAN 30)',
+        purposeRo: 'Laborator Lucrare de Licență (Bachelor Thesis) - Stație de Lucru Kali Linux pentru Securitate Ofensivă și Teste de Penetrare (Izolat vmbr1 / VLAN 30)'
       }
     ],
     workloads: [
@@ -150,6 +159,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 207: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
       'VM 300: Windows Server 2019 Licență (Bachelor Thesis / Lucrare de Licență · 8192 MB / Balloon: 4096 MB · 64 GB NVMe · Massgrave GVLK / KMS)',
       'VM 301: Metasploitable Licență (Bachelor Thesis / Lucrare de Licență · 2048 MB / Balloon: 1024 MB · 20 GB NVMe · Pentest & Wazuh Rules Lab)',
+      'VM 302: Kali Linux Licență (Bachelor Thesis / Lucrare de Licență · 4096 MB / Balloon: 2048 MB · 30 GB NVMe · Isolated vmbr1 Pentest)',
+      'CT 303: OWASP Juice Shop Licență (Bachelor Thesis / Lucrare de Licență · 512 MB · 8 GB NVMe · Alpine LXC Docker Container on vmbr1)',
       'CT 100-105: Core Infrastructure & Media: Immich AI (CT 100), Nextcloud Hub (CT 101), Home Assistant (CT 102), n8n Workflows (CT 103), Scrutiny SMART (CT 104), Media-Suite (CT 105)',
       'CT 106-107: Ollama GPU LLM Server (CT 106) & Open-WebUI Assistant (CT 107) (CUDA GTX 1050 Ti Passthrough)',
       'CT 108: Faster-Whisper GPU Speech-to-Text Transcriber (CT 108 · CUDA Accelerated)',

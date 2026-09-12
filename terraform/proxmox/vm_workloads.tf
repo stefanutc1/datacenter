@@ -129,35 +129,9 @@ module "vm_remnux" {
   tags         = ["cyber", "dfir", "malware-analysis", "remnux", "reverse-engineering", "terraform"]
 }
 
-# VM 300: Bachelor Thesis Lab (Lucrare de Licență) - Windows Server 2019 Standard
-module "vm_windows_server_licenta" {
-  source       = "../modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 300
-  name         = "windows-server-licenta"
-  description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Windows Server 2019 Standard (Massgrave GVLK / KMS Activation, Active Directory DS & Domain Security Lab)"
-  cores        = 4
-  memory       = 8192
-  balloon      = 4096
-  disk_size    = 64
-  storage_pool = "local-lvm"
-  vlan_tag     = 20
-  tags         = ["windows", "server", "active-directory", "licenta", "bachelor-thesis", "terraform"]
-}
+# ------------------------------------------------------------------------------
+# BACHELOR THESIS / FACULTY LABS (VM 300, 301, 302 & CT 303)
+# Dedicated declarative configuration moved to terraform/proxmox/licenta.tf
+# ------------------------------------------------------------------------------
 
-# VM 301: Bachelor Thesis Lab (Lucrare de Licență) - Metasploitable Target
-module "vm_metasploitable_licenta" {
-  source       = "../modules/proxmox_vm"
-  target_node  = var.primary_node
-  vmid         = 301
-  name         = "metasploitable-licenta"
-  description  = "Bachelor Thesis Lab (Lucrare de Licenta) - Metasploitable Linux Target (Penetration Testing, Red Teaming & Suricata/Wazuh Vulnerability Lab)"
-  cores        = 2
-  memory       = 2048
-  balloon      = 1024
-  disk_size    = 20
-  storage_pool = "local-lvm"
-  vlan_tag     = 40
-  tags         = ["cyber", "licenta", "bachelor-thesis", "metasploit", "metasploitable", "pentest", "red-team", "terraform"]
-}
 

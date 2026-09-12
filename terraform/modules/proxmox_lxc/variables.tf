@@ -118,6 +118,12 @@ variable "nameserver" {
   default     = "192.168.1.1"
 }
 
+variable "bridge" {
+  type        = string
+  description = "Linux bridge interface on the Proxmox host (e.g. vmbr0, vmbr1)"
+  default     = "vmbr0"
+}
+
 variable "vlan_tag" {
   type        = number
   description = "VLAN tag for network segmentation (e.g. 10, 20, 30, 40, 50)"

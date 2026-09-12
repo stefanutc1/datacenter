@@ -43,7 +43,7 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   network_device {
-    bridge      = "vmbr0"
+    bridge      = var.bridge
     vlan_id     = var.vlan_tag
     model       = "virtio"
     mac_address = var.mac_address != "" ? var.mac_address : null

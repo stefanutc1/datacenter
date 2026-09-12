@@ -16,7 +16,7 @@
 [Live Interactive Web Architecture Viewer](https://stefanutc1.github.io/infrastructure/) • [Architecture Blueprint](ARCHITECTURE.md) • [Cyber Forensics Suite](https://stefanutc1.github.io/infrastructure/#cyber) • [Security Policy](SECURITY.md)
 
 <!-- AUTO-METRICS-START -->
-[![Active Workloads](https://img.shields.io/badge/Workloads-90%20Services-blue?style=flat&logo=docker)](https://stefanutc1.github.io/infrastructure/)
+[![Active Workloads](https://img.shields.io/badge/Workloads-92%20Services-blue?style=flat&logo=docker)](https://stefanutc1.github.io/infrastructure/)
 [![CI Pipeline](https://img.shields.io/badge/CI%20Pipeline-Passed%20(100%25)-brightgreen?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions/workflows/ci.yml)
 [![CD Pipeline](https://img.shields.io/badge/CD%20Pipeline-Active-blue?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions/workflows/cd.yml)
 [![Last Sync](https://img.shields.io/badge/Last%20Auto--Sync-2026--09--12-informational?style=flat&logo=githubactions)](https://github.com/stefanutc1/infrastructure/actions)
@@ -263,8 +263,10 @@ flowchart TD
 | **207** | `remnux` | REMnux v7 Noble | 4 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (40 GB) | Malware Analysis, Memory Forensics (Volatility), Ghidra & YARA Hunting |
 | **300** | `windows-server-licenta` | Windows Server 2019 Standard | 4 Cores | 8,192 MB | **4,096 MB** | VirtIO SCSI (64 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Windows Server 2019 Lab with Massgrave KMS Activation, Active Directory DS & Domain Security Lab |
 | **301** | `metasploitable-licenta` | Metasploitable Linux Target | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (20 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Dedicated Penetration Testing Proving Ground, Vulnerability Assessment & Wazuh Tuning |
+| **302** | `kali-linux-licenta` | Kali Linux Rolling (Offensive Security) | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (30 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Offensive Security & Red Team Pentest Workstation, isolated on `vmbr1` / VLAN 30 |
+| **303** | `juice-shop-licenta` | Alpine Linux 3.24 LXC | 2 Cores | 512 MB | - | Rootfs (8 GB) | **Bachelor's Thesis (Lucrare de Licență)** · Containerized OWASP Juice Shop / DVWA Target with Docker nesting on isolated `vmbr1` |
 
-> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–207) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174) and Bachelor Thesis research VMs (VM 300, 301) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
+> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–174, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–207) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–174) and Bachelor Thesis research workloads (VM 300, 301, 302, CT 303) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
 
 ### Host Memory Tuning: ZRAM / ZSWAP Fast RAM Compression
 

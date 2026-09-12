@@ -30,6 +30,7 @@ declare -A LXC_TAGS=(
     [112]="alpine;backup;deduplication;pbs"
     [113]="alpine;cluster;management;pdm"
     [114]="alpine;cd;ci;k0s;kubernetes;node1;woodpecker"
+    [303]="alpine;bachelor-thesis;cyber;docker;juice-shop;licenta;owasp"
 )
 
 for ctid in "${!LXC_TAGS[@]}"; do
@@ -54,6 +55,7 @@ declare -A VM_TAGS=(
     [207]="cyber;dfir;malware-analysis;remnux;reverse-engineering;vm207"
     [300]="microsoft;server;windows;windows-server-2019;licenta;bachelor-thesis;vm300"
     [301]="cyber;licenta;bachelor-thesis;metasploit;metasploitable;pentest;red-team;vm301"
+    [302]="cyber;kali;licenta;bachelor-thesis;pentest;red-team;vm302"
 )
 
 

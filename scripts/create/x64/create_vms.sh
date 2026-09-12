@@ -239,6 +239,24 @@ create_or_skip_vm 301 "metasploitable-licenta" \
   --ostype l26 \
   --tags "cyber;licenta;bachelor-thesis;metasploit;metasploitable;pentest;red-team;vm301"
 
+# ------------------------------------------------------------------------------
+# VM 302: kali-linux-licenta (Bachelor Thesis / Lucrare de Licenta)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 302 "kali-linux-licenta" \
+  --name "kali-linux-licenta" \
+  --description "Bachelor Thesis Lab (Lucrare de Licenta) - Kali Linux Offensive Security & Red Team Pentest Workstation" \
+  --memory 4096 \
+  --balloon 2048 \
+  --cores 2 \
+  --cpu host \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:30,discard=on,ssd=1" \
+  --net0 "virtio,bridge=vmbr1,firewall=1,tag=30" \
+  --boot "order=scsi0;net0" \
+  --ostype l26 \
+  --tags "cyber;licenta;bachelor-thesis;kali;pentest;red-team;vm302"
+
+
 echo ""
 echo -e "${C_GREEN}${C_BOLD}======================================================================${C_RESET}"
 echo -e "${C_GREEN}${C_BOLD}    Virtual Machines Processed Successfully on Node 1 (x86_64)!       ${C_RESET}"
