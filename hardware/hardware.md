@@ -46,7 +46,7 @@ This host currently serves ten primary virtualization roles:
 6. **Multi-Honeypot Threat Intelligence & Telemetry** — T-Pot 24.04 (VM 205) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 60 GB NVMe for decoy sensor emulation (Cowrie, Dionaea, Honeytrap, Elastic, Kibana, Suricata).
 7. **Enterprise SIEM, HIDS & SOC Platform** — Security Onion 3.2 (VM 206) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 50 GB NVMe for Zeek, Suricata, Elastic, and Kibana SOC alerting.
 8. **Malware Analysis & Reverse Engineering Toolkit** — REMnux v7 Noble (VM 207) with 4 GB RAM (VirtIO ballooning: 2–4 GB) and 40 GB NVMe for dynamic malware analysis, memory forensics (Volatility), and Ghidra reverse engineering.
-9. **Bachelor's Thesis (Lucrare de Licență) · Active Directory & Security Lab** — Windows Server 2019 Standard (VM 300) with 8 GB RAM (VirtIO ballooning: 4–8 GB) and 64 GB NVMe with Massgrave KMS/GVLK licensing integration for domain trust, GPO testing, and academic thesis research.
+9. **Bachelor's Thesis (Lucrare de Licență) · Active Directory & Security Lab** — Windows Server 2019 Standard (VM 300) with 8 GB RAM (VirtIO ballooning: 4–8 GB), Q35 machine architecture, OVMF UEFI, GTX 1050 Ti PCIe passthrough, and 64 GB NVMe with Massgrave KMS/GVLK licensing integration for domain trust, GPO testing, and academic thesis research.
 10. **Bachelor's Thesis (Lucrare de Licență) · Cybersecurity Pentest Proving Ground** — Metasploitable Linux Target (VM 301) with 2 GB RAM (VirtIO ballooning: 1–2 GB) and 20 GB NVMe for dedicated offensive testing, red teaming, and Wazuh/Suricata detection rule calibration.
 
 ---

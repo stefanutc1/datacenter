@@ -507,8 +507,8 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     color: '#0078d4',
     icon: 'windows',
     hardware: { node: 'Node 1 (x86_64)', ram: '8,192 MB (Balloon: 4096 MB)', storage: '64 GB' },
-    tags: ['Bachelor Thesis', 'Lucrare de Licență', 'Windows Server 2019', 'Massgrave GVLK', 'Active Directory', 'Enterprise'],
-    role: 'Windows Server 2019 Standard enterprise virtual machine dedicated to Bachelor Thesis (Lucrare de Licență) research with Massgrave KMS/GVLK licensing.',
+    tags: ['Bachelor Thesis', 'Lucrare de Licență', 'Windows Server 2019', 'GTX 1050 Ti Passthrough', 'Q35 UEFI', 'Active Directory', 'Enterprise'],
+    role: 'Windows Server 2019 Standard enterprise virtual machine dedicated to Bachelor Thesis (Lucrare de Licență) research with Q35/OVMF UEFI and GTX 1050 Ti PCIe passthrough.',
     connections: ['node1-pve']
   },
   {
@@ -968,7 +968,7 @@ export const TOPOLOGY_LINKS: TopologyLink[] = [
 
   // Hypervisor to VMs & Containers
   { from: 'node1-pve', to: 'win-server', protocol: 'VirtIO Active Directory', color: 'rgba(2, 132, 199, 0.7)' },
-  { from: 'node1-pve', to: 'windows-server-licenta', protocol: 'VirtIO QEMU KVM', color: 'rgba(0, 120, 212, 0.7)' },
+  { from: 'node1-pve', to: 'windows-server-licenta', protocol: 'PCIe GPU Passthrough & VirtIO', color: 'rgba(0, 120, 212, 0.7)' },
   { from: 'node1-pve', to: 'metasploitable-licenta', protocol: 'VirtIO Pentest Target', color: 'rgba(220, 38, 38, 0.7)' },
   { from: 'node1-pve', to: 'kali-licenta', protocol: 'VirtIO Offensive VM', color: 'rgba(14, 165, 233, 0.7)' },
   { from: 'node1-pve', to: 'owasp-licenta', protocol: 'LXC Vulnerable Target', color: 'rgba(234, 179, 8, 0.7)' },

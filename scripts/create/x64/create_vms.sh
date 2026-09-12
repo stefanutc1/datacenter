@@ -2,7 +2,7 @@
 # ==============================================================================
 # Datacenter Fleet Automation: Provision all Virtual Machines on Node 1 (x86_64)
 # Target Host: Node 1 Primary Proxmox VE (x86_64 / amd64)
-# Inventory: Enterprise Virtual Machines (VMs 200-202, 205-209, 300, 301)
+# Inventory: Enterprise Virtual Machines (VMs 200-207, 300, 301)
 # ==============================================================================
 set -euo pipefail
 
@@ -214,11 +214,17 @@ create_or_skip_vm 300 "windows-server-licenta" \
   --balloon 4096 \
   --cores 4 \
   --cpu host \
+  --machine q35 \
+  --bios ovmf \
+  --efidisk0 "$STORAGE:1,efitype=4m,pre-enrolled-keys=1" \
+  --hostpci0 "mapping=gtx1050ti,pcie=1,x-vga=1" \
+  --args "-cpu host,kvm=off,hv_vendor_id=proxmox" \
   --scsihw virtio-scsi-single \
   --scsi0 "$STORAGE:64,discard=on,ssd=1" \
   --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --ide0 "$ISO_STORAGE/virtio-win.iso,media=cdrom" \
   --ide2 "$ISO_STORAGE/windows_server_2019_x64.iso,media=cdrom" \
-  --boot "order=scsi0;ide2;net0" \
+  --boot "order=scsi0;ide2;net0;ide0" \
   --ostype win11 \
   --tags "microsoft;server;windows;windows-server-2019;licenta;bachelor-thesis;vm300"
 

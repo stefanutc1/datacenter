@@ -1874,14 +1874,15 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Bachelor Thesis",
       "Lucrare de Licență",
       "Windows Server 2019",
+      "GTX 1050 Ti Passthrough",
+      "Q35 / UEFI",
       "Massgrave KMS",
-      "GVLK License",
       "Active Directory",
       "VM 300"
     ],
     "color": "#0078d4",
     "icon": "windows",
-    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 300) · Bachelor's Thesis Lab\n# OS: Windows Server 2019 Standard · Dynamic Ballooning: 4096 MB - 8192 MB\ncores: 4\nmemory: 8192\nballoon: 4096\nscsi0: local-lvm:vm-300-disk-0,discard=on,size=64G,ssd=1\nide2: local:iso/windows_server_2019_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:7C:2A:10,bridge=vmbr0,firewall=1"
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 300) · Bachelor's Thesis Lab\n# Machine: Q35 · BIOS: OVMF UEFI · GPU: GTX 1050 Ti PCIe Passthrough\ncores: 4\nmemory: 8192\nballoon: 4096\nmachine: q35\nbios: ovmf\nefidisk0: local-lvm:vm-300-disk-1,efitype=4m,ms-cert=2023k,pre-enrolled-keys=1,size=4M\nhostpci0: mapping=gtx1050ti,pcie=1,x-vga=1\nargs: -cpu host,kvm=off,hv_vendor_id=proxmox\nscsi0: local-lvm:vm-300-disk-0,discard=on,size=64G,ssd=1\nide0: local:iso/virtio-win.iso,media=cdrom\nide2: local:iso/windows_server_2019_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:D8:DA:9A,bridge=vmbr0,firewall=1"
   },
   {
     "id": "vm-metasploitable-licenta",

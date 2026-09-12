@@ -126,8 +126,8 @@ export const HARDWARE_NODES: HardwareNode[] = [
         os: 'Windows Server 2019 Standard', 
         allocatedMb: 8192, 
         balloonMinMb: 4096, 
-        purpose: 'Bachelor Thesis Lab (Lucrare de Licență) - Windows Server 2019 Standard (Massgrave GVLK / KMS Activation), Active Directory Domain Services, GPO & Sysmon Audit',
-        purposeRo: 'Laborator Lucrare de Licență (Bachelor Thesis) - Windows Server 2019 Standard (Activare Massgrave GVLK / KMS), Active Directory DS, GPO & Audit Sysmon'
+        purpose: 'Bachelor Thesis Lab (Lucrare de Licență) - Windows Server 2019 Standard (Q35, OVMF UEFI, GTX 1050 Ti PCIe Passthrough, Massgrave GVLK / KMS), Active Directory Domain Services, GPO & Sysmon Audit',
+        purposeRo: 'Laborator Lucrare de Licență (Bachelor Thesis) - Windows Server 2019 Standard (Q35, OVMF UEFI, Passthrough PCIe GTX 1050 Ti, Activare Massgrave GVLK / KMS), Active Directory DS, GPO & Audit Sysmon'
       },
       { 
         vmid: 301, 
@@ -157,7 +157,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 205: T-Pot 24.04 Multi-Honeypot Platform (8192 MB / Balloon: 4096 MB · 60 GB NVMe · Cowrie, Dionaea, Elastic, Kibana, Suricata)',
       'VM 206: Security Onion 3.2 / Wazuh SIEM Platform (8192 MB / Balloon: 4096 MB · 50 GB NVMe · Zeek, Suricata, Elastic, Kibana, HIDS)',
       'VM 207: REMnux v7 / Noble (4096 MB / Balloon: 2048 MB · 40 GB NVMe · Reverse Engineering, Malware Analysis & DFIR)',
-      'VM 300: Windows Server 2019 Licență (Bachelor Thesis / Lucrare de Licență · 8192 MB / Balloon: 4096 MB · 64 GB NVMe · Massgrave GVLK / KMS)',
+      'VM 300: Windows Server 2019 Licență (Bachelor Thesis / Lucrare de Licență · 8192 MB / Balloon: 4096 MB · 64 GB NVMe · Q35 UEFI · GTX 1050 Ti Passthrough · Massgrave GVLK / KMS)',
       'VM 301: Metasploitable Licență (Bachelor Thesis / Lucrare de Licență · 2048 MB / Balloon: 1024 MB · 20 GB NVMe · Pentest & Wazuh Rules Lab)',
       'VM 302: Kali Licență (Bachelor Thesis / Lucrare de Licență · 4096 MB / Balloon: 2048 MB · 30 GB NVMe · Isolated vmbr1 Pentest)',
       'CT 303: OWASP Licență (Bachelor Thesis / Lucrare de Licență · 512 MB · 8 GB NVMe · Alpine LXC Docker Container on vmbr1)',

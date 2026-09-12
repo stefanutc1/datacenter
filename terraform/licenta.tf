@@ -19,7 +19,7 @@ module "vm_windows_server_licenta_300" {
   storage_pool = "local-lvm"
   vlan_tag     = 20
   onboot       = false
-  tags         = ["microsoft", "server", "windows", "windows-server-2019", "licenta", "bachelor-thesis", "terraform"]
+  tags         = ["microsoft", "server", "windows", "windows-server-2019", "licenta", "bachelor-thesis", "q35", "gtx1050ti", "terraform"]
 }
 
 # VM 301: Metasploitable Linux Target (Penetration Testing & Detection Tuning)
