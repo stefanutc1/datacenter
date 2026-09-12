@@ -410,6 +410,27 @@ create_or_skip_vm 409 "adrhel" \
   --ostype l26 \
   --tags "activedirectory;adlab;linux;redhat;rhel;rhel-9"
 
+# ------------------------------------------------------------------------------
+# VM 410: ad2003 (Windows Server 2003 R2 SP2 Enterprise Domain Controller)
+# ------------------------------------------------------------------------------
+create_or_skip_vm 410 "ad2003" \
+  --name "ad2003" \
+  --description "Active Directory Lab - Windows Server 2003 R2 SP2 Enterprise Domain Controller" \
+  --memory 2048 \
+  --cores 2 \
+  --cpu x86-64-v2-AES \
+  --machine pc-i440fx-11.0+pve2 \
+  --scsihw virtio-scsi-single \
+  --scsi0 "$STORAGE:40,iothread=1" \
+  --ide2 "$ISO_STORAGE/windows_server_2003_r2_x64.iso,media=cdrom" \
+  --ide0 "$ISO_STORAGE/virtioDINALDOILEARAZBOIMONDIAL.iso,media=cdrom" \
+  --args "-fda $ISO_STORAGE/virtioDINALDOILEARAZBOIMONDIAL.vfd" \
+  --net0 "virtio,bridge=$BRIDGE,firewall=1" \
+  --boot "order=scsi0;ide2;ide0;net0" \
+  --ostype w2k3 \
+  --tags "activedirectory;adlab;legacy;microsoft;server;windows;windows-server-2003"
+
+
 
 
 echo ""

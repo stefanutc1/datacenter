@@ -1,7 +1,7 @@
 # ==============================================================================
-# ACTIVE DIRECTORY LAB INFRASTRUCTURE (FLEET 400 - 409)
+# ACTIVE DIRECTORY LAB INFRASTRUCTURE (FLEET 400 - 410)
 # Multi-Generation Active Directory Enterprise Laboratory
-# Windows Server 2025, 2022, 2019, 2016, 2012 R2, 2008 R2, Win 7, Win 10, Win 11, RHEL 9.8
+# Windows Server 2025, 2022, 2019, 2016, 2012 R2, 2008 R2, 2003 R2, Win 7, Win 10, Win 11, RHEL 9.8
 # Provider: bpg/proxmox (Proxmox VE REST API)
 # Node: Node 1 (x86_64)
 # ==============================================================================
@@ -165,5 +165,21 @@ module "vm_adrhel" {
   storage_pool = "local-lvm"
   onboot       = false
   tags         = ["active-directory", "adrhel", "linux", "redhat", "rhel", "sssd", "terraform"]
+}
+
+# VM 410: Windows Server 2003 R2 SP2 Enterprise Domain Controller
+module "vm_ad2003" {
+  source       = "./modules/proxmox_vm"
+  target_node  = var.primary_node
+  vmid         = 410
+  name         = "ad2003"
+  description  = "Active Directory Lab - Windows Server 2003 R2 SP2 Enterprise Domain Controller"
+  cores        = 2
+  memory       = 2048
+  balloon      = 1024
+  disk_size    = 40
+  storage_pool = "local-lvm"
+  onboot       = false
+  tags         = ["active-directory", "ad2003", "domain-controller", "legacy", "microsoft", "server2003", "terraform"]
 }
 

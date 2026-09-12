@@ -722,6 +722,25 @@ export const TOPOLOGY_NODES: TopologyNode[] = [
     connections: ['node1-pve', 'ad2025']
   },
   {
+    id: 'ad2003',
+    name: 'AD Server 2003',
+    sublabel: 'VM 410 · Windows Server 2003 R2 SP2',
+    ip: '192.168.1.209',
+    port: 3389,
+    category: 'compute',
+    tier: 5,
+    status: 'OPERATIONAL',
+    x: -125,
+    y: 475,
+    z: 110,
+    color: '#0078d4',
+    icon: 'windows',
+    hardware: { node: 'Node 1 (x86_64)', ram: '2,048 MB (Balloon: 1024 MB)', storage: '40 GB' },
+    tags: ['Active Directory', 'Windows Server 2003', 'Ultra-Legacy DC', 'SMBv1', 'NTLMv1'],
+    role: 'Ultra-legacy Windows Server 2003 R2 SP2 Enterprise DC for legacy LanMan and SMBv1 testing.',
+    connections: ['node1-pve', 'ad2025', 'ad2008']
+  },
+  {
     id: 'pbs-backup',
     name: 'Proxmox Backup',
     sublabel: 'PBS · Deduplicated Snapshots',

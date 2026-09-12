@@ -89,7 +89,7 @@ output "licenta_lab_summary" {
 }
 
 output "ad_lab_summary" {
-  description = "Summary of Multi-Generation Active Directory Enterprise Lab (VM 400 - 409)"
+  description = "Summary of Multi-Generation Active Directory Enterprise Lab (VM 400 - 410)"
   value = {
     ad2025  = { vmid = module.vm_ad2025.vm_id, name = module.vm_ad2025.name, node = module.vm_ad2025.node }
     ad2022  = { vmid = module.vm_ad2022.vm_id, name = module.vm_ad2022.name, node = module.vm_ad2022.node }
@@ -97,6 +97,7 @@ output "ad_lab_summary" {
     ad2016  = { vmid = module.vm_ad2016.vm_id, name = module.vm_ad2016.name, node = module.vm_ad2016.node }
     ad2012  = { vmid = module.vm_ad2012.vm_id, name = module.vm_ad2012.name, node = module.vm_ad2012.node }
     ad2008  = { vmid = module.vm_ad2008.vm_id, name = module.vm_ad2008.name, node = module.vm_ad2008.node }
+    ad2003  = { vmid = module.vm_ad2003.vm_id, name = module.vm_ad2003.name, node = module.vm_ad2003.node }
     adwin7  = { vmid = module.vm_adwin7.vm_id, name = module.vm_adwin7.name, node = module.vm_adwin7.node }
     adwin10 = { vmid = module.vm_adwin10.vm_id, name = module.vm_adwin10.name, node = module.vm_adwin10.node }
     adwin11 = { vmid = module.vm_adwin11.vm_id, name = module.vm_adwin11.name, node = module.vm_adwin11.node }

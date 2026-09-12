@@ -272,22 +272,24 @@ flowchart TD
 | **407** | `adwin11` | Windows 11 Enterprise | 2 Cores | 4,096 MB | **2,048 MB** | VirtIO SCSI (60 GB) + Q35 OVMF UEFI + vTPM 2.0 | **Active Directory Enterprise Lab** · Windows 11 Enterprise Modern Domain-Joined Client & Credential Guard target |
 | **408** | `adwin7` | Windows 7 Ultimate SP1 | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (50 GB) + i440fx SeaBIOS | **Active Directory Enterprise Lab** · Windows 7 Ultimate SP1 Legacy Client for NTLMv2 & SMBv1 testing |
 | **409** | `adrhel` | RHEL 9.8 Enterprise | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (50 GB) + Q35 OVMF UEFI | **Active Directory Enterprise Lab** · Red Hat Enterprise Linux 9.8 Domain Integration (realmd, SSSD, Kerberos SSO, SELinux Enforcing) |
+| **410** | `ad2003` | Windows Server 2003 R2 Enterprise | 2 Cores | 2,048 MB | **1,024 MB** | VirtIO SCSI (40 GB) + i440fx SeaBIOS | **Active Directory Enterprise Lab** · Windows Server 2003 R2 SP2 Ultra-Legacy DC for SMBv1 & NTLMv1 testing |
 
-> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–175, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–205) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–175), Bachelor Thesis research workloads (VM 301, 302, CT 303), and the Active Directory lab fleet (VM 400–409) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
+> **Consolidated Enterprise Virtualization on Node 1**: All microservices and utility containers (CT 100–175, CT 303) are unified on Node 1 (x86_64). Active enterprise VMs (VM 200–205) leverage VirtIO dynamic memory ballooning, while consolidated containers (CT 115–175), Bachelor Thesis research workloads (VM 301, 302, CT 303), and the Active Directory lab fleet (VM 400–410) are configured with `onboot: 0` for zero-overhead on-demand activation without consuming baseline RAM. The thesis environment features an isolated CyberLab network on `vmbr1` (VLAN 30) for safe offensive security testing. Wazuh Manager 4.14 SIEM/XDR executes natively on the hypervisor host (Debian 13) listening on ports 1514, 1515, and 55000.
 
-### 🏢 Multi-Generation Active Directory Enterprise Laboratory (VM 400–409)
+### 🏢 Multi-Generation Active Directory Enterprise Laboratory (VM 400–410)
 
-The Active Directory enterprise lab spans across nine major Windows Server and client releases plus enterprise Linux domain integration, establishing a complete environment for cross-forest trusts, domain upgrades, Kerberos authentication delegation, Group Policy Objects (GPO), and Windows Event Forwarding:
+The Active Directory enterprise lab spans across ten major Windows Server and client releases plus enterprise Linux domain integration, establishing a complete environment for cross-forest trusts, domain upgrades, Kerberos authentication delegation, Group Policy Objects (GPO), and Windows Event Forwarding:
 
 ```mermaid
 flowchart TD
-    subgraph FOREST["Active Directory Forest & Domain Ecosystem (Fleet 400 - 409)"]
+    subgraph FOREST["Active Directory Forest & Domain Ecosystem (Fleet 400 - 410)"]
         PDC["VM 400: ad2025<br/>(Server 2025 PDC / Forest Root)"]
         DC22["VM 401: ad2022<br/>(Server 2022 Replica DC / DNS)"]
         DC19["VM 402: ad2019<br/>(Server 2019 DC / Kerberos)"]
         DC16["VM 403: ad2016<br/>(Server 2016 DC / Trust Lab)"]
         DC12["VM 404: ad2012<br/>(Server 2012 R2 Legacy DC)"]
         DC08["VM 405: ad2008<br/>(Server 2008 R2 SP1 Legacy DC)"]
+        DC03["VM 410: ad2003<br/>(Server 2003 R2 SP2 DC)"]
         W07["VM 408: adwin7<br/>(Win 7 Ultimate SP1 Client)"]
         W10["VM 406: adwin10<br/>(Win 10 Enterprise Client)"]
         W11["VM 407: adwin11<br/>(Win 11 Enterprise Modern Client)"]
@@ -299,6 +301,7 @@ flowchart TD
     DC19 <==>|"Domain Federation"| DC16
     DC16 <==>|"Legacy Compatibility"| DC12
     DC12 <==>|"NTLM / RC4 Fallback"| DC08
+    DC08 <==>|"Legacy DRS / LanMan"| DC03
     W07 -.->|"Domain Member / NetBIOS"| PDC
     W10 -.->|"Domain Member / GPO"| PDC
     W11 -.->|"Domain Member / Credential Guard"| PDC

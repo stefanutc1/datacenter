@@ -209,6 +209,15 @@ export const HARDWARE_NODES: HardwareNode[] = [
         balloonMinMb: 1024, 
         purpose: 'Active Directory Enterprise Lab - Red Hat Enterprise Linux 9.8 Domain Integration (realmd / SSSD / Kerberos, SELinux Enforcing)',
         purposeRo: 'Laborator Enterprise Active Directory - Integrare în Domeniu Red Hat Enterprise Linux 9.8 (realmd / SSSD / Kerberos, SELinux Enforcing)'
+      },
+      { 
+        vmid: 410, 
+        name: 'ad2003', 
+        os: 'Windows Server 2003 R2 SP2 Enterprise x64', 
+        allocatedMb: 2048, 
+        balloonMinMb: 1024, 
+        purpose: 'Active Directory Enterprise Lab - Windows Server 2003 R2 SP2 Ultra-Legacy Domain Controller (SMBv1, LanMan, NTLMv1)',
+        purposeRo: 'Laborator Enterprise Active Directory - Controller de Domeniu Ultra-Legacy Windows Server 2003 R2 SP2 (SMBv1, LanMan, NTLMv1)'
       }
     ],
     workloads: [
@@ -221,7 +230,7 @@ export const HARDWARE_NODES: HardwareNode[] = [
       'VM 301: Metasploitable Licență (Bachelor Thesis / Lucrare de Licență · 2048 MB / Balloon: 1024 MB · 20 GB NVMe · Pentest & Wazuh Rules Lab)',
       'VM 302: Kali Licență (Bachelor Thesis / Lucrare de Licență · 4096 MB / Balloon: 2048 MB · 30 GB NVMe · Isolated vmbr1 Pentest)',
       'CT 303: OWASP Licență (Bachelor Thesis / Lucrare de Licență · 512 MB · 8 GB NVMe · Alpine LXC Docker Container on vmbr1)',
-      'VM 400-409: Active Directory Lab Fleet: ad2025 (VM 400, GTX 1050 Ti Passthrough, 256 GB), ad2022 (VM 401), ad2019 (VM 402, 128 GB), ad2016 (VM 403), ad2012 (VM 404), ad2008 (VM 405), adwin7 (VM 408), adwin10 (VM 406), adwin11 (VM 407), adrhel (VM 409) · Multi-Generation Windows & Linux Active Directory Enterprise Lab',
+      'VM 400-410: Active Directory Lab Fleet: ad2025 (VM 400, GTX 1050 Ti Passthrough, 256 GB), ad2022 (VM 401), ad2019 (VM 402, 128 GB), ad2016 (VM 403), ad2012 (VM 404), ad2008 (VM 405), ad2003 (VM 410), adwin7 (VM 408), adwin10 (VM 406), adwin11 (VM 407), adrhel (VM 409) · Multi-Generation Windows & Linux Active Directory Enterprise Lab',
       'CT 100-105: Core Infrastructure & Media: Immich AI (CT 100), Nextcloud Hub (CT 101), Home Assistant (CT 102), n8n Workflows (CT 103), Scrutiny SMART (CT 104), Media-Suite (CT 105)',
       'CT 106-107: Ollama GPU LLM Server (CT 106) & Open-WebUI Assistant (CT 107) (CUDA GTX 1050 Ti Passthrough)',
       'CT 108: Faster-Whisper GPU Speech-to-Text Transcriber (CT 108 · CUDA Accelerated)',

@@ -2156,6 +2156,32 @@ export const SERVICES_DATA: ServiceItem[] = [
     "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 405) · Active Directory Lab\n# Machine: i440fx · OS: Windows Server 2008 R2 SP1 Standard\ncores: 2\nmemory: 2048\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-405-disk-0,iothread=1,size=40G\nide0: local:iso/virtioDEOSEAMACUMAMAIE.iso,media=cdrom\nide2: local:iso/windows_server_2008_r2_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:AE:F2:EA,bridge=vmbr0,firewall=1"
   },
   {
+    "id": "vm-ad2003",
+    "name": "Windows Server 2003 R2 (Active Directory DC)",
+    "category": "core",
+    "containerName": "ad2003",
+    "node": "Node 1 (Intel i3-10100F) · VM 410",
+    "ram": "2,048 MB",
+    "storage": "40 GB NVMe",
+    "ip": "192.168.1.209",
+    "port": 3389,
+    "domain": "ad2003.homelab.local",
+    "status": "STANDBY",
+    "description": "Multi-generation Active Directory enterprise laboratory ultra-legacy DC. Windows Server 2003 R2 SP2 Enterprise Edition for foundational SMBv1, LanMan, and NTLMv1 testing.",
+    "descriptionRo": "Controller de domeniu ultra-legacy pentru laboratorul enterprise Active Directory. Windows Server 2003 R2 SP2 Enterprise Edition pentru testarea protocoalelor fundamentale SMBv1, LanMan și NTLMv1.",
+    "tags": [
+      "Active Directory",
+      "Windows Server 2003 R2",
+      "Domain Controller",
+      "Ultra-Legacy",
+      "Massgrave Genuine",
+      "VM 410"
+    ],
+    "color": "#0078d4",
+    "icon": "windows",
+    "composeCode": "# Proxmox VE QEMU/KVM Configuration (VM 410) · Active Directory Lab\n# Machine: i440fx · OS: Windows Server 2003 R2 SP2 Enterprise\ncores: 2\nmemory: 2048\nmachine: pc-i440fx-11.0+pve2\nscsi0: local-lvm:vm-410-disk-0,iothread=1,size=40G\nide0: local:iso/virtioDINALDOILEARAZBOIMONDIAL.iso,media=cdrom\nide2: local:iso/windows_server_2003_r2_x64.iso,media=cdrom\nnet0: virtio=BC:24:11:F9:7E:68,bridge=vmbr0,firewall=1"
+  },
+  {
     "id": "vm-adwin10",
     "name": "Windows 10 Enterprise (AD Domain Client)",
     "category": "core",

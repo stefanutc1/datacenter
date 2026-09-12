@@ -1,4 +1,4 @@
-# Active Directory Multi-Generation Enterprise Laboratory (VM 400 – 409)
+# Active Directory Multi-Generation Enterprise Laboratory (VM 400 – 410)
 
 ## 1. Executive Summary & Lab Scope
 
@@ -29,6 +29,7 @@ All installation media are sourced directly from genuine Microsoft distribution 
 | **407** | `adwin11` | Windows 11 Enterprise | 2 vCPU | 4,096 MB / 2,048 MB | 60 GB VirtIO SCSI (`local-lvm`) | `q35` · OVMF UEFI · vTPM 2.0 | `virtio`, `vmbr0` (VLAN 1) | `windows_11_x64.iso` |
 | **408** | `adwin7` | Windows 7 Ultimate SP1 | 2 vCPU | 2,048 MB / 1,024 MB | 50 GB VirtIO SCSI (`local-lvm`) | `pc` (i440fx) · SeaBIOS | `virtio`, `vmbr0` (VLAN 1) | `windows_7_sp1_x64.iso` |
 | **409** | `adrhel` | Red Hat Enterprise Linux 9.8 | 2 vCPU | 2,048 MB / 1,024 MB | 50 GB VirtIO SCSI (`local-lvm`) | `q35` · OVMF UEFI | `virtio`, `vmbr0` (VLAN 1) | `rhel-9.8-x86_64-boot.iso` |
+| **410** | `ad2003` | Windows Server 2003 R2 SP2 Enterprise | 2 vCPU | 2,048 MB / 1,024 MB | 40 GB VirtIO SCSI (`local-lvm`) | `pc` (i440fx) · SeaBIOS | `virtio`, `vmbr0` (VLAN 1) | `windows_server_2003_r2_x64.iso` |
 
 ---
 
@@ -46,6 +47,7 @@ flowchart TD
         VM403["VM 403: ad2016<br/><b>Trust Partner DC</b><br/>AD FS Federation & Web Application Proxy"]
         VM404["VM 404: ad2012<br/><b>Legacy DC (2012 R2)</b><br/>Functional Level Migration Sandbox"]
         VM405["VM 405: ad2008<br/><b>Legacy DC (2008 R2)</b><br/>NTLM & RC4 Deprecation Testing"]
+        VM410["VM 410: ad2003<br/><b>Ultra-Legacy DC (2003 R2 SP2)</b><br/>SMBv1 · NTLMv1 · LanMan Testing"]
     end
 
     subgraph CLIENTS_AND_WORKLOADS["Enterprise Member Clients & Linux Workloads"]
@@ -60,6 +62,7 @@ flowchart TD
     VM402 <==>|"Bi-directional Transitive Trust"| VM403
     VM403 <==>|"Legacy Replication"| VM404
     VM404 <==>|"RPC / SMBv1 Compatibility"| VM405
+    VM405 <==>|"Legacy DRS Replication / NetBIOS"| VM410
 
     VM408 -.->|"Domain Join / NetBIOS"| VM400
     VM406 -.->|"Domain Join / Group Policy"| VM400
